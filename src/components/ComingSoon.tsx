@@ -134,57 +134,119 @@ export default function VerticalShortcutComingSoon() {
   };
 
   useEffect(() => {
-    // Remove any existing script to avoid duplicates
-    const existingScript = document.querySelector('script[data-uid="b8e4ad5fd9"]');
-    if (existingScript) {
-      existingScript.remove();
-    }
-
-    // Create and add the ConvertKit script
+    // Add the ConvertKit form script
     const script = document.createElement('script');
+    script.src = 'https://f.convertkit.com/ckjs/ck.5.js';
     script.async = true;
-    script.src = 'https://f.convertkit.com/b8e4ad5fd9/index.js';
-    script.setAttribute('data-uid', 'b8e4ad5fd9');
-    script.setAttribute('data-version', '5');
-    
-    // Add load event listener to ensure script is loaded
-    script.addEventListener('load', () => {
-      console.log('ConvertKit script loaded');
-      // Refresh the KitPopup instance
-      if (window.KitPopup) {
-        console.log('KitPopup found, refreshing...');
-        window.KitPopup = undefined;
-        const event = new Event('ckjs:refresh');
-        window.dispatchEvent(event);
-      } else {
-        console.log('KitPopup not found after script load');
-      }
-    });
-
-    // Add error listener
-    script.addEventListener('error', (error) => {
-      console.error('Error loading ConvertKit script:', error);
-    });
-
     document.body.appendChild(script);
 
-    // Cleanup
     return () => {
-      const script = document.querySelector('script[data-uid="b8e4ad5fd9"]');
-      if (script) {
-        script.remove();
-      }
+      document.body.removeChild(script);
     };
   }, []);
 
   const handleWaitlistClick = () => {
-    console.log('Waitlist button clicked');
-    if (window.KitPopup) {
-      console.log('Opening KitPopup...');
-      window.KitPopup.open();
-    } else {
-      console.log('KitPopup not found');
+    // Find any existing form and remove it
+    const existingForm = document.querySelector('.formkit-form');
+    if (existingForm) {
+      existingForm.remove();
     }
+
+    // Create and inject the ConvertKit form
+    const form = document.createElement('form');
+    form.action = 'https://app.convertkit.com/forms/7770876/subscriptions';
+    form.className = 'seva-form formkit-form';
+    form.method = 'post';
+    form.setAttribute('data-sv-form', '7770876');
+    form.setAttribute('data-uid', 'b8e4ad5fd9');
+    form.setAttribute('data-format', 'modal');
+    form.setAttribute('data-version', '5');
+    form.setAttribute('min-width', '400 500 600 700 800');
+    form.style.backgroundColor = '#09232F';
+    form.style.borderRadius = '16px';
+    form.style.padding = '2.5rem';
+    form.style.maxWidth = '550px';
+    form.style.width = '90%';
+
+    form.innerHTML = `
+      <div class="formkit-background" style="opacity: 0.2;"></div>
+      <div data-style="minimal">
+        <div class="formkit-header" data-element="header" style="color: rgb(255, 255, 255); font-size: 24px; font-weight: 800; margin-bottom: 1.5rem;">
+          <h2 style="text-align:center">The Vertical Shortcut:</h2>
+        </div>
+        <div class="formkit-subheader" data-element="subheader" style="color: rgb(255, 255, 255); font-size: 18px; line-height: 1.6; margin-bottom: 2rem;">
+          <h2 style="text-align:center">A Proven System to Survive, Thrive, and Monetise<br>with Short Form Video.</h2>
+          <p style="margin-top: 1rem; opacity: 0.9; font-size: 16px;">Join the Waiting List to Stay Updated and Secure a Spot.</p>
+        </div>
+        <ul class="formkit-alert formkit-alert-error" data-element="errors" data-group="alert"></ul>
+        <div data-element="fields" data-stacked="true" class="seva-fields formkit-fields" style="gap: 1rem;">
+          <div class="formkit-field">
+            <input class="formkit-input" name="email_address" aria-label="Email Address" placeholder="Email Address" required="" type="email" style="color: rgb(255, 255, 255); background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 1rem 1.5rem; font-size: 1rem; width: 100%; margin-bottom: 1rem;">
+          </div>
+          <div class="formkit-field">
+            <input class="formkit-input" aria-label="First Name" name="fields[first_name]" required="" placeholder="First Name" type="text" style="color: rgb(255, 255, 255); background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 1rem 1.5rem; font-size: 1rem; width: 100%; margin-bottom: 1rem;">
+          </div>
+          <div class="formkit-field">
+            <input class="formkit-input" aria-label="Surname" name="fields[surname]" placeholder="Surname" type="text" style="color: rgb(255, 255, 255); background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 1rem 1.5rem; font-size: 1rem; width: 100%; margin-bottom: 1.5rem;">
+          </div>
+          <button data-element="submit" class="formkit-submit formkit-submit" style="color: rgb(255, 255, 255); background: linear-gradient(90deg, #E76662, #FEAF52); border-radius: 12px; padding: 1rem; font-size: 1rem; font-weight: 600; width: 100%; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.3s ease;">
+            <div class="formkit-spinner"><div></div><div></div><div></div></div>
+            <span class="">Join Waitlist</span>
+          </button>
+        </div>
+        <div class="formkit-guarantee" data-element="guarantee" style="color: rgba(255, 255, 255, 0.6); font-size: 14px; margin-top: 1rem; text-align: center;">
+          <p>We won't send you spam. Unsubscribe at any time.</p>
+        </div>
+      </div>
+    `;
+
+    // Create a modal container
+    const modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100%';
+    modal.style.height = '100%';
+    modal.style.backgroundColor = 'rgba(3, 10, 16, 0.95)';
+    modal.style.display = 'flex';
+    modal.style.justifyContent = 'center';
+    modal.style.alignItems = 'center';
+    modal.style.zIndex = '9999';
+    modal.style.backdropFilter = 'blur(10px)';
+
+    // Add close button
+    const closeButton = document.createElement('button');
+    closeButton.innerHTML = '×';
+    closeButton.style.position = 'absolute';
+    closeButton.style.top = '20px';
+    closeButton.style.right = '20px';
+    closeButton.style.fontSize = '32px';
+    closeButton.style.color = 'white';
+    closeButton.style.background = 'rgba(255, 255, 255, 0.1)';
+    closeButton.style.border = 'none';
+    closeButton.style.borderRadius = '50%';
+    closeButton.style.width = '48px';
+    closeButton.style.height = '48px';
+    closeButton.style.cursor = 'pointer';
+    closeButton.style.display = 'flex';
+    closeButton.style.alignItems = 'center';
+    closeButton.style.justifyContent = 'center';
+    closeButton.style.transition = 'all 0.3s ease';
+    closeButton.onmouseover = () => closeButton.style.background = 'rgba(255, 255, 255, 0.2)';
+    closeButton.onmouseout = () => closeButton.style.background = 'rgba(255, 255, 255, 0.1)';
+    closeButton.onclick = () => modal.remove();
+
+    // Add form to modal
+    modal.appendChild(closeButton);
+    modal.appendChild(form);
+    document.body.appendChild(modal);
+
+    // Close modal on outside click
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.remove();
+      }
+    });
   };
 
   return (
@@ -292,7 +354,7 @@ export default function VerticalShortcutComingSoon() {
           
           <div className="directory-footer">
             <p>Be among the first to access our complete system</p>
-            <button className="waitlist-button" onClick={() => window.KitPopup && window.KitPopup.open()}>
+            <button className="waitlist-button" onClick={handleWaitlistClick}>
               Join the Waitlist
             </button>
           </div>
@@ -323,7 +385,7 @@ export default function VerticalShortcutComingSoon() {
           left: 0;
           width: 100%;
           height: 100%;
-          background: linear-gradient(135deg, #050A0F 0%, #081825 40%, #0A2535 80%);
+          background: linear-gradient(135deg, #09232F 0%, #081825 50%, #0A2535 100%);
           z-index: -2;
         }
         
@@ -343,36 +405,35 @@ export default function VerticalShortcutComingSoon() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: 2rem;
+          padding: 4rem;
           z-index: 1;
-          max-width: 800px;
+          width: 100%;
+          max-width: 1200px;
           margin: 0 auto;
           text-align: center;
+          min-height: 100vh;
         }
         
         .interactive-area {
-          padding: 2rem;
-          margin: -2rem;
+          padding: 0;
+          margin: 0;
           cursor: pointer;
           width: 100%;
           display: flex;
           justify-content: center;
+          margin-bottom: 3rem;
         }
         
         .logo-container {
           display: flex;
           align-items: center;
-          gap: 1.5rem;
+          gap: 2rem;
           transition: transform 0.3s ease;
         }
         
-        .interactive-area:hover .logo-container {
-          transform: translateY(-3px);
-        }
-        
         .eye-container {
-          width: 60px;
-          height: 60px;
+          width: 80px;
+          height: 80px;
           position: relative;
         }
         
@@ -449,21 +510,20 @@ export default function VerticalShortcutComingSoon() {
           -webkit-background-clip: text;
           background-clip: text;
           color: transparent;
-          text-shadow: 0 0 15px rgba(254, 175, 82, 0.4);
+          text-shadow: 0 0 20px rgba(254, 175, 82, 0.4);
         }
         
         .details {
           opacity: 0;
-          transform: translateY(10px);
-          transition: opacity 0.5s ease, transform 0.5s ease;
+          transform: translateY(20px);
+          transition: all 0.5s ease;
           text-align: center;
           pointer-events: none;
           position: absolute;
           width: 100%;
           visibility: hidden;
-          max-width: 600px;
+          max-width: 800px;
           margin: 0 auto;
-          margin-top: 3rem;
         }
         
         .details.visible {
@@ -476,8 +536,8 @@ export default function VerticalShortcutComingSoon() {
         
         .cta-container {
           display: flex;
-          gap: 1.5rem;
-          margin: 1.5rem 0 2rem;
+          gap: 2rem;
+          margin: 0 0 4rem;
           justify-content: center;
         }
         
@@ -485,20 +545,89 @@ export default function VerticalShortcutComingSoon() {
           background: linear-gradient(90deg, #E76662, #FEAF52);
           color: white;
           border: none;
-          padding: 0.75rem 1.75rem;
-          font-size: 0.9rem;
+          padding: 1rem 2.5rem;
+          font-size: 1rem;
           font-weight: 600;
-          border-radius: 8px;
+          border-radius: 12px;
           cursor: pointer;
           text-transform: uppercase;
           letter-spacing: 0.05em;
           transition: all 0.3s ease;
           position: relative;
-          box-shadow: 0 6px 15px rgba(231, 102, 98, 0.3);
-          white-space: nowrap;
+          box-shadow: 0 8px 20px rgba(231, 102, 98, 0.3);
         }
         
-        .waitlist-button-main::before {
+        .preview-button {
+          background: rgba(254, 175, 82, 0.1);
+          border: 1px solid #FEAF52;
+          color: #FEAF52;
+          border-radius: 12px;
+          padding: 1rem 2.5rem;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          transition: all 0.3s ease;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          box-shadow: 0 0 20px rgba(254, 175, 82, 0.15);
+        }
+        
+        .stats-row {
+          display: flex;
+          justify-content: center;
+          gap: 5rem;
+          margin-bottom: 2rem;
+        }
+        
+        .stat {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        
+        .stat-value {
+          font-size: 3.5rem;
+          font-weight: 800;
+          background: linear-gradient(90deg, #E76662, #FEAF52);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          text-shadow: 0 0 15px rgba(254, 175, 82, 0.3);
+        }
+        
+        .stat-label {
+          font-size: 1.1rem;
+          color: rgba(255, 255, 255, 0.8);
+          font-weight: 500;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+        
+        .coming-soon {
+          font-size: 1.75rem;
+          font-weight: 700;
+          color: #FEAF52;
+          margin-bottom: 1.5rem;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          text-shadow: 0 0 15px rgba(254, 175, 82, 0.5);
+          animation: pulseGlow 3s infinite;
+        }
+        
+        .tagline {
+          font-size: 1.5rem;
+          color: rgba(255, 255, 255, 0.95);
+          max-width: 700px;
+          line-height: 1.6;
+          margin: 0 auto 3rem;
+          font-weight: 500;
+        }
+        
+        .preview-button::before {
           content: '';
           position: absolute;
           inset: -2px;
@@ -510,117 +639,12 @@ export default function VerticalShortcutComingSoon() {
           transition: opacity 0.3s ease;
         }
         
-        .waitlist-button-main:hover {
-          transform: translateY(-3px);
-        }
-        
-        .waitlist-button-main:hover::before {
-          opacity: 0.7;
-        }
-        
-        .coming-soon {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: #F49272;
-          margin-bottom: 0.75rem;
-          letter-spacing: 0.05em;
-          text-transform: uppercase;
-          text-shadow: 0 0 12px rgba(244, 146, 114, 0.5);
-          animation: pulseGlow 3s infinite;
-        }
-        
-        @keyframes pulseGlow {
-          0%, 100% {
-            text-shadow: 0 0 12px rgba(244, 146, 114, 0.5);
-          }
-          50% {
-            text-shadow: 0 0 20px rgba(244, 146, 114, 0.8);
-          }
-        }
-        
-        .tagline {
-          font-size: 1.25rem;
-          color: rgba(255, 255, 255, 0.9);
-          max-width: 500px;
-          line-height: 1.5;
-          margin: 0 auto 2rem;
-        }
-        
-        .stats-row {
-          display: flex;
-          justify-content: center;
-          gap: 2.5rem;
-          margin-bottom: 2rem;
-        }
-        
-        .stat {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-        
-        .stat-value {
-          font-size: 2rem;
-          font-weight: 800;
-          background: linear-gradient(90deg, #E76662, #F49272);
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
-          text-shadow: 0 0 10px rgba(244, 146, 114, 0.3);
-        }
-        
-        .stat-label {
-          font-size: 0.9rem;
-          color: rgba(255, 255, 255, 0.7);
-          margin-top: 0.25rem;
-        }
-        
-        .preview-button {
-          background: rgba(244, 146, 114, 0.1);
-          border: 1px solid #F49272;
-          color: #F49272;
-          border-radius: 8px;
-          padding: 0.75rem 1.5rem;
-          font-size: 0.9rem;
-          font-weight: 600;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-          transition: all 0.3s ease;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          position: relative;
-          overflow: hidden;
-          box-shadow: 0 0 15px rgba(244, 146, 114, 0.2);
-        }
-        
-        .preview-button::before {
-          content: '';
-          position: absolute;
-          top: -2px;
-          left: -2px;
-          width: calc(100% + 4px);
-          height: calc(100% + 4px);
-          background: linear-gradient(90deg, #E76662, #FEAF52);
-          z-index: -1;
-          border-radius: 9px;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-        
         .preview-button:hover {
-          background: rgba(244, 146, 114, 0.15);
           transform: translateY(-2px);
         }
         
         .preview-button:hover::before {
-          opacity: 0.4;
-        }
-        
-        .arrow-icon {
-          transition: all 0.3s ease;
-          color: #F49272;
+          opacity: 0.7;
         }
         
         .peek-text {
@@ -634,7 +658,7 @@ export default function VerticalShortcutComingSoon() {
           left: 0;
           width: 100%;
           height: 1px;
-          background: linear-gradient(90deg, transparent, #F49272, transparent);
+          background: linear-gradient(90deg, transparent, #FEAF52, transparent);
           transform: scaleX(0);
           transition: transform 0.3s ease;
         }
@@ -645,7 +669,7 @@ export default function VerticalShortcutComingSoon() {
         
         .preview-button:hover .arrow-icon {
           transform: scale(1.1);
-          filter: drop-shadow(0 0 8px rgba(244, 146, 114, 0.6));
+          filter: drop-shadow(0 0 8px rgba(254, 175, 82, 0.6));
         }
         
         /* Module Directory Styles */
@@ -734,9 +758,9 @@ export default function VerticalShortcutComingSoon() {
         }
         
         .module-count {
-          color: #F49272;
+          color: #FEAF52;
           font-weight: 700;
-          text-shadow: 0 0 8px rgba(244, 146, 114, 0.3);
+          text-shadow: 0 0 8px rgba(254, 175, 82, 0.3);
         }
         
         .categories-container {
@@ -758,7 +782,7 @@ export default function VerticalShortcutComingSoon() {
         .category-card:hover {
           transform: translateY(-5px) scale(1.02);
           box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-          border-color: rgba(244, 146, 114, 0.3);
+          border-color: rgba(254, 175, 82, 0.3);
         }
         
         .category-header {
@@ -899,96 +923,91 @@ export default function VerticalShortcutComingSoon() {
         /* Responsive styles */
         @media (max-width: 768px) {
           .content-wrapper {
-            padding: 1.5rem;
-            min-height: 100vh;
-            justify-content: center;
+            padding: 2rem;
           }
 
           .logo-container {
             flex-direction: column;
-            gap: 1.5rem;
-            width: 100%;
-            margin-bottom: 1rem;
+            gap: 2rem;
           }
           
           .logo-text {
-            font-size: 2.5rem;
+            font-size: 3rem;
             text-align: center;
-            line-height: 1.2;
-            width: 100%;
             white-space: normal;
           }
 
-          .logo-text .highlight {
+          .highlight {
             display: block;
-            font-size: 3.25rem;
-            margin: 0.3em 0;
-          }
-
-          .details {
-            max-width: 100%;
-            padding: 0 1rem;
-            margin-top: 2rem;
+            font-size: 4rem;
+            margin: 0.2em 0;
           }
 
           .coming-soon {
-            font-size: 1.1rem;
-            margin-top: 0;
+            font-size: 1.25rem;
           }
           
           .tagline {
-            font-size: 1rem;
-            line-height: 1.4;
-            max-width: 100%;
-            margin: 1rem auto 1.5rem;
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
           }
 
           .eye-container {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
+          }
+
+          .stats-row {
+            gap: 2.5rem;
+          }
+
+          .stat-value {
+            font-size: 2.5rem;
+          }
+
+          .stat-label {
+            font-size: 0.9rem;
           }
         }
         
         @media (max-width: 480px) {
-          .logo-text {
-            font-size: 1.75rem;
-          }
-
-          .logo-text .highlight {
-            font-size: 2.75rem;
-            margin: 0.2em 0;
-          }
-
           .content-wrapper {
-            padding: 1rem;
+            padding: 1.5rem;
           }
-          
-          .details {
-            padding: 0;
-            margin-top: 1.5rem;
+
+          .logo-text {
+            font-size: 2rem;
+          }
+
+          .highlight {
+            font-size: 3rem;
           }
 
           .cta-container {
             flex-direction: column;
             gap: 1rem;
+            width: 100%;
+            padding: 0 1rem;
           }
 
           .preview-button, .waitlist-button-main {
             width: 100%;
             justify-content: center;
+            padding: 1rem;
           }
 
           .stats-row {
             gap: 2rem;
-            margin: 1.5rem 0;
+            flex-wrap: wrap;
+            justify-content: space-around;
+          }
+
+          .stat {
+            flex: 0 0 calc(50% - 1rem);
           }
 
           .stat-value {
-            font-size: 1.5rem;
-          }
-
-          .stat-label {
-            font-size: 0.8rem;
+            font-size: 2rem;
           }
         }
 
