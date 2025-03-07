@@ -1,0 +1,235 @@
+/* Modules Component Styles */
+.module-display-grid {
+  padding: 4rem 15rem;
+  max-width: 100v;
+  margin: 0 auto;
+  color: #09232F;
+  background-color: #FFF5E9;
+}
+
+.module-display-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 0 1.5rem;
+}
+
+.module-display-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: #09232F;
+}
+
+.module-display-subtitle {
+  font-size: 1.25rem;
+  max-width: 650px;
+  margin: 0 auto;
+  color: #154D59;
+}
+
+/* Module Statistics */
+.module-statistics {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background-color: #FDEBDD;
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 24px rgba(9, 35, 47, 0.1);
+}
+
+.module-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .module-stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.module-stat {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #F89A67;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #154D59;
+}
+
+/* Limited offer badge */
+.module-limited-offer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem 1.5rem;
+  background-color: #FEAF52;
+  color: #350013;
+  border-radius: 0.5rem;
+  font-weight: 600;
+}
+
+.limited-badge {
+  font-size: 0.875rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  background-color: #B92234;
+  color: white;
+  border-radius: 2rem;
+  text-transform: uppercase;
+}
+
+/* Categories */
+.module-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.category-section {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(9, 35, 47, 0.1);
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.category-header:hover {
+  filter: brightness(1.1);
+}
+
+.category-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.category-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.module-count {
+  font-size: 0.875rem;
+  opacity: 0.9;
+}
+
+.chevron-icon {
+  font-size: 0.75rem;
+}
+
+.category-modules {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background-color: #FDEBDD;
+}
+
+/* Module Card */
+.module-card {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 0.4rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(9, 35, 47, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.module-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(9, 35, 47, 0.15);
+}
+
+.module-thumbnail {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background-color: #09232F;
+}
+
+.thumbnail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.module-difficulty {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 2rem;
+  text-transform: uppercase;
+}
+
+.module-difficulty-beginner {
+  background-color: #387292;
+  color: white;
+}
+
+.module-difficulty-intermediate {
+  background-color: #FEA35D;
+  color: #08141B;
+}
+
+.module-difficulty-advanced {
+  background-color: #B92234;
+  color: white;
+}
+
+.module-title {
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* CTA Section */
+.modules-cta {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.modules-cta-button {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background-color: #DE6B59;
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 0.4rem;
+  transition: background-color 0.3s, transform 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modules-cta-button:hover {
+  background-color: #B92234;
+  transform: translateY(-2px);
+}
+
+.modules-cta-button:active {
+  transform: translateY(0);
+} 

@@ -1,5 +1,29 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/* Global styles */
+:root {
+  --primary-orange: #FEA35D;
+  --primary-coral: #F89A67;
+  --primary-amber: #FEAC6D;
+  --secondary-teal: #154D59;
+  --secondary-blue: #387292;
+  --accent-red: #DE6B59;
+  --accent-crimson: #B92234;
+  --deep-blue: #09232F;
+  --deep-wine: #350013;
+  --light-cream: #FDEBDD;
+  --light-sand: #FFF5E9;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
+}
+
+#root {
+  height: 100vh;
+}
+
 
 

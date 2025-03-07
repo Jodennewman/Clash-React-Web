@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-313706ec-4b4b-4fca-985b-2a7db8216e62" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="179.3" height="179.3" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 179.3 179.3">
+  <defs>
+    <style>
+      .uuid-c878c057-1fd5-4fa0-a085-49f87d987e12 {
+        filter: url(#uuid-9b6affe2-059d-4433-b471-941a7b15cf5e);
+      }
+
+      .uuid-e4215393-86bb-4056-9190-8d2caf20552e {
+        fill: url(#uuid-aeaf5c69-0306-45cb-83e5-a516c1d2326a);
+      }
+    </style>
+    <filter id="uuid-9b6affe2-059d-4433-b471-941a7b15cf5e" data-name="drop-shadow-1" x="-48.1" y="-36.35" width="264" height="264" filterUnits="userSpaceOnUse">
+      <feOffset dx="-6" dy="6"/>
+      <feGaussianBlur result="uuid-07d0713c-4e99-4c2f-8376-088253ed8238" stdDeviation="14"/>
+      <feFlood flood-color="#332518" flood-opacity=".3"/>
+      <feComposite in2="uuid-07d0713c-4e99-4c2f-8376-088253ed8238" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <radialGradient id="uuid-aeaf5c69-0306-45cb-83e5-a516c1d2326a" cx="500" cy="-717" fx="500" fy="-717" r="0" gradientUnits="userSpaceOnUse">
+      <stop offset=".02" stop-color="#b392bf"/>
+      <stop offset=".17" stop-color="#b08bbb"/>
+      <stop offset=".38" stop-color="#aa7ab0"/>
+      <stop offset=".62" stop-color="#a05e9f"/>
+      <stop offset=".63" stop-color="#a05d9f"/>
+      <stop offset=".73" stop-color="#8e5299"/>
+      <stop offset=".94" stop-color="#62368c"/>
+      <stop offset=".98" stop-color="#59308a"/>
+    </radialGradient>
+  </defs>
+  <g id="uuid-5e9695a0-179e-417b-b6b4-266e41287b29" data-name="Layer 1">
+    <g class="uuid-c878c057-1fd5-4fa0-a085-49f87d987e12">
+      <path class="uuid-e4215393-86bb-4056-9190-8d2caf20552e" d="M135.84,43.46C134.38,19.22,114.27,0,89.65,0h0c-24.61,0-44.73,19.22-46.19,43.46C19.22,44.92,0,65.04,0,89.65h0c0,24.61,19.22,44.73,43.46,46.19,1.46,24.25,21.58,43.46,46.19,43.46h0c24.61,0,44.73-19.22,46.19-43.46,24.25-1.46,43.46-21.58,43.46-46.19h0c0-24.61-19.22-44.73-43.46-46.19ZM133.75,89.65c0,2.77-1.99,5.15-4.72,5.65l-24.65,4.46c-2.36.43-4.2,2.27-4.63,4.63l-4.46,24.65c-.49,2.73-2.87,4.72-5.65,4.72s-5.15-1.99-5.65-4.72l-4.46-24.65c-.43-2.36-2.27-4.2-4.63-4.63l-24.65-4.46c-2.73-.49-4.72-2.87-4.72-5.65h0c0-2.78,1.99-5.15,4.72-5.65l24.65-4.46c2.36-.43,4.2-2.27,4.63-4.63l4.46-24.65c.49-2.73,2.87-4.72,5.65-4.72s5.15,1.99,5.65,4.72l4.46,24.65c.43,2.36,2.27,4.2,4.63,4.63l24.65,4.46c2.73.49,4.72,2.87,4.72,5.65h0Z"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-b253b9a4-c74d-41f7-a646-1d5f12dab4a1" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="194.78" height="192.93" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 194.78 192.93">
+  <defs>
+    <style>
+      .uuid-ef41d053-1f78-4d4e-a8e4-75f533013510 {
+        fill: url(#uuid-71d7980f-d4de-4bb1-8e0a-c215d975aaa8);
+      }
+
+      .uuid-9a6053dc-ec30-4730-8c3a-a759fe6279aa {
+        filter: url(#uuid-e2cbe1ac-5323-4705-b018-5a58445bfb3c);
+      }
+    </style>
+    <filter id="uuid-e2cbe1ac-5323-4705-b018-5a58445bfb3c" data-name="drop-shadow-1" x="-48.9" y="-36.36" width="280" height="278" filterUnits="userSpaceOnUse">
+      <feOffset dx="-6" dy="6"/>
+      <feGaussianBlur result="uuid-3dd317cc-176c-4965-8df5-25d74b257f0b" stdDeviation="14"/>
+      <feFlood flood-color="#332518" flood-opacity=".3"/>
+      <feComposite in2="uuid-3dd317cc-176c-4965-8df5-25d74b257f0b" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <radialGradient id="uuid-71d7980f-d4de-4bb1-8e0a-c215d975aaa8" cx="146.61" cy="23.15" fx="146.61" fy="23.15" r="184.86" gradientUnits="userSpaceOnUse">
+      <stop offset=".02" stop-color="#73bea6"/>
+      <stop offset=".18" stop-color="#6cbca6"/>
+      <stop offset=".39" stop-color="#5bb6a7"/>
+      <stop offset=".63" stop-color="#41afaa"/>
+      <stop offset=".7" stop-color="#3aa298"/>
+      <stop offset=".85" stop-color="#28836c"/>
+      <stop offset=".98" stop-color="#15613d"/>
+    </radialGradient>
+  </defs>
+  <g id="uuid-0c134604-84d8-4870-9210-a65190c4feea" data-name="Layer 1">
+    <g class="uuid-9a6053dc-ec30-4730-8c3a-a759fe6279aa">
+      <path class="uuid-ef41d053-1f78-4d4e-a8e4-75f533013510" d="M100.33,15.36L119.39,1.27c3.46-2.56,8.41-1.11,9.94,2.92l8.42,22.16c.77,2.03,2.78,3.32,4.94,3.18l23.66-1.54c4.29-.28,7.67,3.62,6.78,7.83l-4.9,23.2c-.45,2.12.54,4.29,2.44,5.35l20.74,11.49c3.76,2.09,4.5,7.19,1.47,10.25l-16.66,16.87c-1.53,1.54-1.86,3.9-.84,5.82l11.23,20.88c2.04,3.79-.1,8.48-4.3,9.42l-23.14,5.18c-2.12.47-3.68,2.28-3.85,4.44l-1.84,23.64c-.33,4.29-4.67,7.08-8.71,5.6l-22.27-8.15c-2.04-.75-4.33-.07-5.64,1.66l-14.33,18.89c-2.6,3.43-7.76,3.43-10.36,0l-14.33-18.89c-1.31-1.73-3.6-2.4-5.64-1.66l-22.27,8.15c-4.04,1.48-8.38-1.31-8.71-5.6l-1.84-23.64c-.17-2.16-1.73-3.97-3.85-4.44l-23.14-5.18c-4.2-.94-6.34-5.63-4.3-9.42l11.23-20.88c1.03-1.91.69-4.27-.84-5.82L1.88,86.1c-3.02-3.06-2.29-8.17,1.47-10.25l20.74-11.49c1.9-1.05,2.89-3.22,2.44-5.35l-4.9-23.2c-.89-4.21,2.49-8.11,6.78-7.83l23.66,1.54c2.17.14,4.17-1.15,4.94-3.18l8.42-22.16c1.53-4.02,6.48-5.48,9.94-2.92l19.07,14.09c1.75,1.29,4.13,1.29,5.88,0Z"/>
+    </g>
+  </g>
+</svg>

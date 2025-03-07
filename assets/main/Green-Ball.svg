@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="greenBulletPoint" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="160.38" height="160.38" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 160.38 160.38">
+  <defs>
+    <style>
+      .radialGreenBullet {
+        fill: url(#radialGreen);
+      }
+    </style>
+    <radialGradient id="radialGreen" cx="120.72" cy="19.25" fx="120.72" fy="19.25" r="153.56" gradientUnits="userSpaceOnUse">
+      <stop offset=".02" stop-color="#73bea6"/>
+      <stop offset=".63" stop-color="#41afaa"/>
+      <stop offset=".98" stop-color="#15613d"/>
+    </radialGradient>
+  </defs>
+  <g id="uuid-0bfd2fd1-d801-4766-bada-f32419877edb" data-name="Layer 1">
+    <circle class="radialGreenBullet" cx="80.19" cy="80.19" r="80.19"/>
+  </g>
+</svg>

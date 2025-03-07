@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="a" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 796.8 792">
+  <!-- Generator: Adobe Illustrator 29.3.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 146)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: url(#radial-gradient);
+      }
+    </style>
+    <radialGradient id="radial-gradient" cx="420.8" cy="611.9" fx="308.8" fy="456.7" r="652.8" gradientTransform="translate(0 -207.1)" gradientUnits="userSpaceOnUse">
+      <stop offset=".2" stop-color="#57001c"/>
+      <stop offset=".2" stop-color="#58021d"/>
+      <stop offset=".2" stop-color="#5e0922"/>
+      <stop offset=".2" stop-color="#67152b"/>
+      <stop offset=".2" stop-color="#752738"/>
+      <stop offset=".2" stop-color="#873e48"/>
+      <stop offset=".2" stop-color="#9c5a5c"/>
+      <stop offset=".2" stop-color="#b77c75"/>
+      <stop offset=".2" stop-color="#d5a391"/>
+      <stop offset=".2" stop-color="#f6cfb0"/>
+      <stop offset=".2" stop-color="#ffdab8"/>
+      <stop offset=".2" stop-color="#ffd3a7"/>
+      <stop offset=".3" stop-color="#ffc585"/>
+      <stop offset=".4" stop-color="#faa51c"/>
+      <stop offset=".4" stop-color="#faa51e"/>
+      <stop offset=".4" stop-color="#faa927"/>
+      <stop offset=".4" stop-color="#faae35"/>
+      <stop offset=".4" stop-color="#fab54a"/>
+      <stop offset=".4" stop-color="#fbbf64"/>
+      <stop offset=".4" stop-color="#fccb85"/>
+      <stop offset=".4" stop-color="#fcdaac"/>
+      <stop offset=".4" stop-color="#fdead8"/>
+      <stop offset=".4" stop-color="#feede0"/>
+      <stop offset=".4" stop-color="#fbe6d4"/>
+      <stop offset=".6" stop-color="#f4d3b7"/>
+      <stop offset=".7" stop-color="#e8b687"/>
+      <stop offset=".8" stop-color="#d98f48"/>
+    </radialGradient>
+  </defs>
+  <ellipse class="st0" cx="398.4" cy="396" rx="398.4" ry="396"/>
+</svg>

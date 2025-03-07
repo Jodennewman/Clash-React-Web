@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-5de42f8a-240e-4b81-8b6a-0c75053eaf94" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="245.63" height="245.94" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 245.63 245.94">
+  <defs>
+    <style>
+      .uuid-623faaff-2e78-4eef-b9d4-2421d696aa89 {
+        fill: url(#uuid-ee972be3-b2a4-423b-ade7-30e83454d517);
+      }
+
+      .uuid-ea3804b4-c6cb-41b0-bea0-c903a52e8095 {
+        fill: url(#uuid-f8111e2a-a5e8-4d00-bf67-c42fe1875ba5);
+      }
+
+      .uuid-6640e163-292e-46ae-b7bd-64d92aa1c317 {
+        fill: url(#uuid-639fe4be-c57b-4f99-87a8-27c6c0372d98);
+      }
+
+      .uuid-e2c86a32-8f15-4d66-81f5-c4d9cd0d500a {
+        fill: url(#uuid-aec9ab22-56a8-4b9a-a5b7-130d89042615);
+      }
+    </style>
+    <radialGradient id="uuid-f8111e2a-a5e8-4d00-bf67-c42fe1875ba5" cx="-145.73" cy="372.01" fx="-145.73" fy="372.01" r="218.62" gradientTransform="translate(334.92 -334.91)" gradientUnits="userSpaceOnUse">
+      <stop offset=".02" stop-color="#00c3e3"/>
+      <stop offset=".16" stop-color="#02bce0"/>
+      <stop offset=".36" stop-color="#0aabd9"/>
+      <stop offset=".59" stop-color="#178fcf"/>
+      <stop offset=".63" stop-color="#1a8acd"/>
+      <stop offset=".76" stop-color="#1f78c6"/>
+      <stop offset=".98" stop-color="#2d54b8"/>
+    </radialGradient>
+    <linearGradient id="uuid-aec9ab22-56a8-4b9a-a5b7-130d89042615" x1="-120.44" y1="404.5" x2="-292.95" y2="538.79" gradientTransform="translate(334.92 -334.91)" gradientUnits="userSpaceOnUse">
+      <stop offset=".02" stop-color="#00c3e3"/>
+      <stop offset=".16" stop-color="#02bce0"/>
+      <stop offset=".36" stop-color="#0aabd9"/>
+      <stop offset=".59" stop-color="#178fcf"/>
+      <stop offset=".63" stop-color="#1a8acd"/>
+      <stop offset=".76" stop-color="#1f78c6"/>
+      <stop offset=".98" stop-color="#2d54b8"/>
+    </linearGradient>
+    <radialGradient id="uuid-639fe4be-c57b-4f99-87a8-27c6c0372d98" cx="-5037.46" cy="-4825.31" fx="-5037.46" fy="-4825.31" r="218.62" gradientTransform="translate(-4981.01 -4616.46) rotate(-180)" xlink:href="#uuid-f8111e2a-a5e8-4d00-bf67-c42fe1875ba5"/>
+    <linearGradient id="uuid-ee972be3-b2a4-423b-ade7-30e83454d517" x1="-5012.17" y1="-4792.82" x2="-5184.69" y2="-4658.53" gradientTransform="translate(-4981.01 -4616.46) rotate(-180)" gradientUnits="userSpaceOnUse">
+      <stop offset=".02" stop-color="#00dbe3"/>
+      <stop offset=".15" stop-color="#02d4e1"/>
+      <stop offset=".32" stop-color="#08c3db"/>
+      <stop offset=".52" stop-color="#12a7d2"/>
+      <stop offset=".63" stop-color="#1a94cd"/>
+      <stop offset=".76" stop-color="#1f82c6"/>
+      <stop offset=".98" stop-color="#2d5bb8"/>
+    </linearGradient>
+  </defs>
+  <g id="uuid-4702c00e-ddcc-4b6f-9955-66ee4a6b2d45" data-name="Layer 1">
+    <g>
+      <g>
+        <path class="uuid-ea3804b4-c6cb-41b0-bea0-c903a52e8095" d="M245.63,122.82h-48.7c0-40.93-33.18-74.12-74.12-74.12S48.7,81.89,48.7,122.82H0C0,54.99,54.99,0,122.82,0s122.82,54.99,122.82,122.82Z"/>
+        <path class="uuid-e2c86a32-8f15-4d66-81f5-c4d9cd0d500a" d="M196.94,122.82c0,40.94-33.18,74.12-74.12,74.12s-74.12-33.18-74.12-74.12h148.24Z"/>
+      </g>
+      <g>
+        <path class="uuid-6640e163-292e-46ae-b7bd-64d92aa1c317" d="M0,123.13h48.7c0,40.93,33.18,74.12,74.12,74.12s74.12-33.18,74.12-74.12h48.7c0,67.83-54.99,122.82-122.82,122.82S0,190.96,0,123.13Z"/>
+        <path class="uuid-623faaff-2e78-4eef-b9d4-2421d696aa89" d="M48.7,123.13c0-40.94,33.18-74.12,74.12-74.12s74.12,33.18,74.12,74.12H48.7Z"/>
+      </g>
+    </g>
+  </g>
+</svg>
