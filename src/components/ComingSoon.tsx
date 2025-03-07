@@ -95,11 +95,37 @@ export default function VerticalShortcutComingSoon() {
   };
 
   useEffect(() => {
+    // Remove any existing script to avoid duplicates
+    const existingScript = document.querySelector('script[data-uid="b8e4ad5fd9"]');
+    if (existingScript) {
+      existingScript.remove();
+    }
+
+    // Create and add the ConvertKit script
     const script = document.createElement('script');
     script.async = true;
+    script.src = 'https://f.convertkit.com/b8e4ad5fd9/index.js';
     script.setAttribute('data-uid', 'b8e4ad5fd9');
-    script.src = 'https://alex-o-connor.kit.com/b8e4ad5fd9/index.js';
+    
+    // Add load event listener to ensure script is loaded
+    script.addEventListener('load', () => {
+      // Refresh the KitPopup instance
+      if (window.KitPopup) {
+        window.KitPopup = undefined;
+        const event = new Event('ckjs:refresh');
+        window.dispatchEvent(event);
+      }
+    });
+
     document.body.appendChild(script);
+
+    // Cleanup
+    return () => {
+      const script = document.querySelector('script[data-uid="b8e4ad5fd9"]');
+      if (script) {
+        script.remove();
+      }
+    };
   }, []);
 
   return (
