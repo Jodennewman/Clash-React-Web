@@ -14,9 +14,19 @@ export default function VerticalShortcutComingSoon() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [showDetails, setShowDetails] = useState(false);
   const [showDirectory, setShowDirectory] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const eyeRef = useRef<HTMLDivElement | null>(null);
   const timeoutRef = useRef<number | null>(null);
   
+  // Show details by default on mobile
+  useEffect(() => {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      setShowDetails(true);
+      setHasInteracted(true);
+    }
+  }, []);
+
   // Track mouse movement
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -41,17 +51,20 @@ export default function VerticalShortcutComingSoon() {
       clearTimeout(timeoutRef.current);
     }
     setShowDetails(true);
+    setHasInteracted(true);
   };
 
   const handleMouseLeave = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
+    if (!hasInteracted) {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = window.setTimeout(() => {
+        setShowDetails(false);
+      }, 400);
     }
-    timeoutRef.current = window.setTimeout(() => {
-      setShowDetails(false);
-    }, 400); // 400ms delay before hiding
   };
-  
+
   // Eye following cursor effect
   useEffect(() => {
     const eye = eyeRef.current;
@@ -132,15 +145,25 @@ export default function VerticalShortcutComingSoon() {
     script.async = true;
     script.src = 'https://f.convertkit.com/b8e4ad5fd9/index.js';
     script.setAttribute('data-uid', 'b8e4ad5fd9');
+    script.setAttribute('data-version', '5');
     
     // Add load event listener to ensure script is loaded
     script.addEventListener('load', () => {
+      console.log('ConvertKit script loaded');
       // Refresh the KitPopup instance
       if (window.KitPopup) {
+        console.log('KitPopup found, refreshing...');
         window.KitPopup = undefined;
         const event = new Event('ckjs:refresh');
         window.dispatchEvent(event);
+      } else {
+        console.log('KitPopup not found after script load');
       }
+    });
+
+    // Add error listener
+    script.addEventListener('error', (error) => {
+      console.error('Error loading ConvertKit script:', error);
     });
 
     document.body.appendChild(script);
@@ -154,6 +177,16 @@ export default function VerticalShortcutComingSoon() {
     };
   }, []);
 
+  const handleWaitlistClick = () => {
+    console.log('Waitlist button clicked');
+    if (window.KitPopup) {
+      console.log('Opening KitPopup...');
+      window.KitPopup.open();
+    } else {
+      console.log('KitPopup not found');
+    }
+  };
+
   return (
     <div className="vertical-shortcut-container">
       <div className="gradient-bg"></div>
@@ -161,19 +194,21 @@ export default function VerticalShortcutComingSoon() {
       
       <div className="content-wrapper">
         <div 
-          className="logo-container"
+          className="interactive-area"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <div className="eye-container" ref={eyeRef}>
-            <div className="eye">
-              <div className="iris">
-                <div className="pupil"></div>
+          <div className="logo-container">
+            <div className="eye-container" ref={eyeRef}>
+              <div className="eye">
+                <div className="iris">
+                  <div className="pupil"></div>
+                </div>
               </div>
             </div>
+            
+            <h1 className="logo-text">The <span className="highlight">Vertical</span> Shortcut</h1>
           </div>
-          
-          <h1 className="logo-text">The <span className="highlight">Vertical</span> Shortcut</h1>
         </div>
         
         <div className={`details ${showDetails ? 'visible' : ''}`}>
@@ -187,7 +222,10 @@ export default function VerticalShortcutComingSoon() {
                 <circle cx="12" cy="12" r="3"></circle>
               </svg>
             </button>
-            <button className="waitlist-button-main" onClick={() => window.KitPopup && window.KitPopup.open()}>
+            <button 
+              className="waitlist-button-main" 
+              onClick={handleWaitlistClick}
+            >
               <span>Join Waitlist</span>
             </button>
           </div>
@@ -220,7 +258,7 @@ export default function VerticalShortcutComingSoon() {
           
           <div className="directory-header">
             <h2>Course Curriculum</h2>
-            <p>Preview of our comprehensive framework with <span className="module-count">{Object.values(moduleCategories).flat().length}+ lessons</span></p>
+            <p>Preview of our comprehensive framework with <span className="module-count">132 lessons</span></p>
           </div>
           
           <div className="categories-container">
@@ -307,18 +345,28 @@ export default function VerticalShortcutComingSoon() {
           justify-content: center;
           padding: 2rem;
           z-index: 1;
+          max-width: 800px;
+          margin: 0 auto;
+          text-align: center;
+        }
+        
+        .interactive-area {
+          padding: 2rem;
+          margin: -2rem;
+          cursor: pointer;
+          width: 100%;
+          display: flex;
+          justify-content: center;
         }
         
         .logo-container {
           display: flex;
           align-items: center;
           gap: 1.5rem;
-          cursor: pointer;
           transition: transform 0.3s ease;
-          margin-bottom: 1.5rem;
         }
         
-        .logo-container:hover {
+        .interactive-area:hover .logo-container {
           transform: translateY(-3px);
         }
         
@@ -386,13 +434,17 @@ export default function VerticalShortcutComingSoon() {
         }
         
         .logo-text {
-          font-size: 3rem;
+          font-size: 3.5rem;
           font-weight: 800;
           color: white;
           letter-spacing: -0.03em;
+          text-align: left;
+          white-space: nowrap;
+          line-height: 0.9;
         }
         
         .highlight {
+          display: inline;
           background: linear-gradient(90deg, #E76662, #FEAF52);
           -webkit-background-clip: text;
           background-clip: text;
@@ -405,11 +457,21 @@ export default function VerticalShortcutComingSoon() {
           transform: translateY(10px);
           transition: opacity 0.5s ease, transform 0.5s ease;
           text-align: center;
+          pointer-events: none;
+          position: absolute;
+          width: 100%;
+          visibility: hidden;
+          max-width: 600px;
+          margin: 0 auto;
+          margin-top: 3rem;
         }
         
         .details.visible {
           opacity: 1;
           transform: translateY(0);
+          pointer-events: all;
+          position: relative;
+          visibility: visible;
         }
         
         .cta-container {
@@ -481,7 +543,7 @@ export default function VerticalShortcutComingSoon() {
           color: rgba(255, 255, 255, 0.9);
           max-width: 500px;
           line-height: 1.5;
-          margin-bottom: 2rem;
+          margin: 0 auto 2rem;
         }
         
         .stats-row {
@@ -836,66 +898,121 @@ export default function VerticalShortcutComingSoon() {
         
         /* Responsive styles */
         @media (max-width: 768px) {
-          .logo-text {
-            font-size: 2.5rem;
+          .content-wrapper {
+            padding: 1.5rem;
+            min-height: 100vh;
+            justify-content: center;
+          }
+
+          .logo-container {
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 100%;
+            margin-bottom: 1rem;
           }
           
+          .logo-text {
+            font-size: 2.5rem;
+            text-align: center;
+            line-height: 1.2;
+            width: 100%;
+            white-space: normal;
+          }
+
+          .logo-text .highlight {
+            display: block;
+            font-size: 3.25rem;
+            margin: 0.3em 0;
+          }
+
+          .details {
+            max-width: 100%;
+            padding: 0 1rem;
+            margin-top: 2rem;
+          }
+
+          .coming-soon {
+            font-size: 1.1rem;
+            margin-top: 0;
+          }
+          
+          .tagline {
+            font-size: 1rem;
+            line-height: 1.4;
+            max-width: 100%;
+            margin: 1rem auto 1.5rem;
+          }
+
           .eye-container {
             width: 50px;
             height: 50px;
           }
-          
-          .coming-soon {
-            font-size: 1.25rem;
-          }
-          
-          .tagline {
-            font-size: 1.1rem;
-          }
-          
-          .stats-row {
-            gap: 1.5rem;
-          }
-          
-          .stat-value {
-            font-size: 1.75rem;
-          }
-          
-          .categories-container {
-            grid-template-columns: 1fr;
-          }
-          
-          .directory-header h2 {
-            font-size: 1.75rem;
-          }
         }
         
         @media (max-width: 480px) {
-          .logo-container {
-            flex-direction: column;
-            gap: 1rem;
-          }
-          
           .logo-text {
-            font-size: 2rem;
-            text-align: center;
+            font-size: 1.75rem;
+          }
+
+          .logo-text .highlight {
+            font-size: 2.75rem;
+            margin: 0.2em 0;
+          }
+
+          .content-wrapper {
+            padding: 1rem;
           }
           
-          .stats-row {
+          .details {
+            padding: 0;
+            margin-top: 1.5rem;
+          }
+
+          .cta-container {
             flex-direction: column;
             gap: 1rem;
           }
-          
-          .directory-content {
-            padding: 1.5rem;
+
+          .preview-button, .waitlist-button-main {
+            width: 100%;
+            justify-content: center;
           }
-          
-          .close-button {
-            top: 1rem;
-            right: 1rem;
+
+          .stats-row {
+            gap: 2rem;
+            margin: 1.5rem 0;
+          }
+
+          .stat-value {
+            font-size: 1.5rem;
+          }
+
+          .stat-label {
+            font-size: 0.8rem;
+          }
+        }
+
+        .footer-text {
+          position: fixed;
+          bottom: 1rem;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 0.7rem;
+          color: rgba(255, 255, 255, 0.3);
+          letter-spacing: 0.05em;
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+          .footer-text {
+            position: relative;
+            bottom: auto;
+            margin-top: 2rem;
           }
         }
       `}</style>
+      <div className="footer-text">Clash Creation Ltd</div>
     </div>
   );
 }
