@@ -15,6 +15,7 @@ export default function VerticalShortcutComingSoon() {
   const [showDetails, setShowDetails] = useState(false);
   const [showDirectory, setShowDirectory] = useState(false);
   const eyeRef = useRef<HTMLDivElement | null>(null);
+  const timeoutRef = useRef<number | null>(null);
   
   // Track mouse movement
   useEffect(() => {
@@ -25,6 +26,31 @@ export default function VerticalShortcutComingSoon() {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    setShowDetails(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = window.setTimeout(() => {
+      setShowDetails(false);
+    }, 400); // 400ms delay before hiding
+  };
   
   // Eye following cursor effect
   useEffect(() => {
@@ -136,8 +162,8 @@ export default function VerticalShortcutComingSoon() {
       <div className="content-wrapper">
         <div 
           className="logo-container"
-          onMouseEnter={() => setShowDetails(true)}
-          onMouseLeave={() => setShowDetails(false)}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           <div className="eye-container" ref={eyeRef}>
             <div className="eye">
