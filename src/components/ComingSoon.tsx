@@ -254,58 +254,74 @@ export default function VerticalShortcutComingSoon() {
       <div className="gradient-bg"></div>
       <div className="noise-overlay"></div>
       
-      <div className="content-wrapper">
-        <div 
-          className="interactive-area"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          <div className="logo-container">
-            <div className="eye-container" ref={eyeRef}>
-              <div className="eye">
-                <div className="iris">
-                  <div className="pupil"></div>
+      {/* Mobile wrapper for better control */}
+      <div className="mobile-wrapper" style={{ width: '100%', maxWidth: '100%' }}>
+        <div className="content-wrapper">
+          <div 
+            className="interactive-area"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="logo-container">
+              <div className="eye-container" ref={eyeRef}>
+                <div className="eye">
+                  <div className="iris">
+                    <div className="pupil"></div>
+                  </div>
                 </div>
               </div>
+              
+              <h1 className="logo-text" style={{ textAlign: 'center' }}>
+                The <span className="highlight">Vertical</span> Shortcut
+              </h1>
             </div>
-            
-            <h1 className="logo-text">The <span className="highlight">Vertical</span> Shortcut</h1>
+          </div>
+          
+          <div className={`details ${showDetails ? 'visible' : ''}`}>
+            <div className="coming-soon">Coming Soon</div>
+            <p className="tagline">
+              A Reliable System to Thrive and Scale<br />
+              through Short Form Video,<br />
+              for Founders.
+            </p>
+            <div className="cta-container">
+              <button 
+                className="preview-button" 
+                onClick={() => setShowDirectory(true)}
+                style={{ width: '100%' }}
+              >
+                <span className="peek-text">Sneak Peek</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="arrow-icon">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+              <button 
+                className="waitlist-button-main" 
+                onClick={handleWaitlistClick}
+                style={{ width: '100%' }}
+              >
+                <span>Join Waitlist</span>
+              </button>
+            </div>
+            <div className="stats-row">
+              <div className="stat">
+                <span className="stat-value">800M+</span>
+                <span className="stat-label">Views</span>
+              </div>
+              <div className="stat">
+                <span className="stat-value">£0</span>
+                <span className="stat-label">Ad Spend</span>
+              </div>
+              <div className="stat">
+                <span className="stat-value">24</span>
+                <span className="stat-label">Months</span>
+              </div>
+            </div>
           </div>
         </div>
         
-        <div className={`details ${showDetails ? 'visible' : ''}`}>
-          <div className="coming-soon">Coming Soon</div>
-          <p className="tagline">A Reliable System to Thrive and Scale<br />through Short Form Video,<br />for Founders.</p>
-          <div className="cta-container">
-            <button className="preview-button" onClick={() => setShowDirectory(true)}>
-              <span className="peek-text">Sneak Peek</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="arrow-icon">
-                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-            </button>
-            <button 
-              className="waitlist-button-main" 
-              onClick={handleWaitlistClick}
-            >
-              <span>Join Waitlist</span>
-            </button>
-          </div>
-          <div className="stats-row">
-            <div className="stat">
-              <span className="stat-value">800M+</span>
-              <span className="stat-label">Views</span>
-            </div>
-            <div className="stat">
-              <span className="stat-value">£0</span>
-              <span className="stat-label">Ad Spend</span>
-            </div>
-            <div className="stat">
-              <span className="stat-value">24</span>
-              <span className="stat-label">Months</span>
-            </div>
-          </div>
-        </div>
+        <div className="footer-text">Clash Creation Ltd</div>
       </div>
       
       {/* Module Directory Modal */}
@@ -369,72 +385,86 @@ export default function VerticalShortcutComingSoon() {
           font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
         }
         
+        body {
+          margin: 0;
+          padding: 0;
+          overflow-x: hidden;
+        }
+        
         .vertical-shortcut-container {
           width: 100%;
-          height: 100vh;
+          max-width: 100vw;
+          min-height: 100vh;
+          margin: 0;
+          padding: 0;
           display: flex;
           align-items: center;
           justify-content: center;
           position: relative;
-          overflow: hidden;
+          overflow-x: hidden;
         }
         
         .gradient-bg {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
+          position: fixed;
+          inset: 0;
+          width: 100vw;
+          height: 100vh;
           background: linear-gradient(135deg, #09232F 0%, #081825 50%, #0A2535 100%);
-          z-index: -2;
+          z-index: 0;
         }
         
         .noise-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
+          position: fixed;
+          inset: 0;
+          width: 100vw;
+          height: 100vh;
           background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3C/rect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
           opacity: 0.1;
-          z-index: -1;
+          z-index: 0;
         }
         
         .content-wrapper {
+          width: 100%;
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 2rem;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: 4rem;
+          position: relative;
           z-index: 1;
-          width: 100%;
-          max-width: 1200px;
-          margin: 0 auto;
-          text-align: center;
-          min-height: 100vh;
+          overflow: visible;
         }
         
         .interactive-area {
-          padding: 0;
-          margin: 0;
-          cursor: pointer;
           width: 100%;
+          max-width: 800px;
           display: flex;
           justify-content: center;
-          margin-bottom: 3rem;
+          align-items: center;
+          margin: 0 auto;
+          padding: 0;
+          position: relative;
         }
         
         .logo-container {
           display: flex;
           align-items: center;
           gap: 2rem;
-          transition: transform 0.3s ease;
+          margin: 0 0 3rem;
+          flex-wrap: nowrap;
+          justify-content: center;
+          position: relative;
+          width: auto;
+          max-width: 100%;
         }
         
         .eye-container {
           width: 80px;
           height: 80px;
           position: relative;
+          flex-shrink: 0;
         }
         
         .eye {
@@ -502,6 +532,8 @@ export default function VerticalShortcutComingSoon() {
           text-align: left;
           white-space: nowrap;
           line-height: 0.9;
+          flex-shrink: 1;
+          min-width: 0;
         }
         
         .highlight {
@@ -514,31 +546,33 @@ export default function VerticalShortcutComingSoon() {
         }
         
         .details {
+          width: 100%;
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 0 1rem;
+          text-align: center;
           opacity: 0;
           transform: translateY(20px);
           transition: all 0.5s ease;
-          text-align: center;
           pointer-events: none;
-          position: absolute;
-          width: 100%;
           visibility: hidden;
-          max-width: 800px;
-          margin: 0 auto;
         }
         
         .details.visible {
           opacity: 1;
           transform: translateY(0);
           pointer-events: all;
-          position: relative;
           visibility: visible;
         }
         
         .cta-container {
           display: flex;
           gap: 2rem;
-          margin: 0 0 4rem;
+          margin: 0 auto 4rem;
           justify-content: center;
+          width: 100%;
+          max-width: 600px;
+          padding: 0 1rem;
         }
         
         .waitlist-button-main {
@@ -920,118 +954,232 @@ export default function VerticalShortcutComingSoon() {
           background: rgba(255, 255, 255, 0.3);
         }
         
-        /* Responsive styles */
+        /* Mobile specific fixes */
         @media (max-width: 768px) {
-          .content-wrapper {
-            padding: 2rem;
+          /* Critical body fixes */
+          body {
+            overflow-x: hidden !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            position: relative !important;
           }
-
+          
+          .vertical-shortcut-container {
+            min-height: 100vh;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+          }
+        
+          .content-wrapper {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center !important;
+            justify-content: flex-start;
+            text-align: center !important;
+            overflow-x: hidden;
+          }
+        
+          .interactive-area {
+            width: 100% !important;
+            max-width: 90% !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            margin-bottom: 2rem;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center !important;
+            text-align: center !important;
+          }
+        
           .logo-container {
             flex-direction: column;
-            gap: 2rem;
-          }
-          
-          .logo-text {
-            font-size: 3rem;
-            text-align: center;
-            white-space: normal;
-          }
-
-          .highlight {
-            display: block;
-            font-size: 4rem;
-            margin: 0.2em 0;
-          }
-
-          .coming-soon {
-            font-size: 1.25rem;
-          }
-          
-          .tagline {
-            font-size: 1.25rem;
+            gap: 1.5rem;
+            margin-left: auto !important;
+            margin-right: auto !important;
             margin-bottom: 2rem;
+            width: 100% !important;
+            max-width: 90% !important;
+            display: flex;
+            align-items: center !important;
+            justify-content: center;
+            text-align: center !important;
           }
-
+        
           .eye-container {
             width: 60px;
             height: 60px;
+            margin-left: auto !important;
+            margin-right: auto !important;
           }
-
+        
+          .logo-text {
+            font-size: 2.75rem;
+            text-align: center !important;
+            white-space: normal;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            word-wrap: break-word;
+          }
+        
+          .details {
+            width: 100% !important;
+            max-width: 90% !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            text-align: center !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center !important;
+          }
+        
+          .coming-soon {
+            width: 100% !important;
+            text-align: center !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            margin-bottom: 1.5rem;
+          }
+        
+          .tagline {
+            width: 100% !important;
+            max-width: 100% !important;
+            text-align: center !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            margin-bottom: 2rem;
+            padding: 0;
+            word-wrap: break-word;
+          }
+        
+          .cta-container {
+            flex-direction: column;
+            width: 100% !important;
+            max-width: 90% !important;
+            gap: 1rem;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            margin-bottom: 3rem;
+            padding: 0 !important;
+            display: flex;
+            align-items: center !important;
+            justify-content: center;
+          }
+        
+          .preview-button,
+          .waitlist-button-main {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            text-align: center !important;
+          }
+        
           .stats-row {
-            gap: 2.5rem;
+            width: 100% !important;
+            max-width: 90% !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            gap: 1rem;
+            padding: 0 !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
           }
-
-          .stat-value {
-            font-size: 2.5rem;
+          
+          .stat {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center !important;
+            justify-content: center;
+            text-align: center !important;
           }
-
-          .stat-label {
-            font-size: 0.9rem;
+          
+          .footer-text {
+            width: 100% !important;
+            text-align: center !important;
+            position: relative !important;
+            bottom: auto !important;
+            left: auto !important;
+            transform: none !important;
+            margin: 2rem auto 0 !important;
+          }
+          
+          /* Fix for the directory modal */
+          .module-directory .directory-content {
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
           }
         }
         
+        /* Specific fixes for extra small screens */
         @media (max-width: 480px) {
           .content-wrapper {
-            padding: 1.5rem;
+            padding: 1.5rem 0;
           }
 
           .logo-text {
-            font-size: 2rem;
-          }
-
-          .highlight {
-            font-size: 3rem;
+            font-size: 2.5rem;
           }
 
           .cta-container {
-            flex-direction: column;
-            gap: 1rem;
-            width: 100%;
-            padding: 0 1rem;
-          }
-
-          .preview-button, .waitlist-button-main {
-            width: 100%;
-            justify-content: center;
-            padding: 1rem;
+            max-width: 90%;
           }
 
           .stats-row {
-            gap: 2rem;
-            flex-wrap: wrap;
-            justify-content: space-around;
-          }
-
-          .stat {
-            flex: 0 0 calc(50% - 1rem);
+            gap: 1.5rem;
+            max-width: 90%;
+            margin: 0 auto;
           }
 
           .stat-value {
-            font-size: 2rem;
+            font-size: 1.75rem;
           }
-        }
 
-        .footer-text {
-          position: fixed;
-          bottom: 1rem;
-          left: 50%;
-          transform: translateX(-50%);
-          font-size: 0.7rem;
-          color: rgba(255, 255, 255, 0.3);
-          letter-spacing: 0.05em;
-          pointer-events: none;
-          z-index: 1;
-        }
+          .stat-label {
+            font-size: 0.75rem;
+          }
 
-        @media (max-width: 768px) {
-          .footer-text {
-            position: relative;
-            bottom: auto;
-            margin-top: 2rem;
+          .tagline {
+            font-size: 1.1rem;
+            max-width: 90%;
+            margin: 0 auto 2rem;
+          }
+
+          .tagline br {
+            display: none;
           }
         }
       `}</style>
-      <div className="footer-text">Clash Creation Ltd</div>
     </div>
   );
 }
