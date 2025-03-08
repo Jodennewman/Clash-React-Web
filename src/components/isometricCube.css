@@ -1,0 +1,40 @@
+.isometric-cube {
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateX(60deg) rotateZ(-45deg);
+    width: var(--cube-size);
+    height: var(--cube-size);
+    transition: transform 0.3s ease;
+  }
+  
+  .cube-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .cube-face-top {
+    transform: translateZ(calc(var(--cube-size) * 0.5));
+    background-color: rgba(9, 35, 47, 0.9); /* Slightly lighter for top face */
+  }
+  
+  .cube-face-left {
+    transform: rotateX(-90deg) translateZ(0);
+    transform-origin: bottom;
+    background-color: rgba(9, 35, 47, 0.7); /* Darker for shadow effect */
+  }
+  
+  .cube-face-right {
+    transform: rotateY(90deg) translateZ(var(--cube-size));
+    transform-origin: right;
+    background-color: rgba(9, 35, 47, 0.8); /* Medium dark for side face */
+  }
+  
+  /* Glow effect */
+  .isometric-cube.glowing .cube-face {
+    box-shadow: 0 0 15px var(--glow-color), 0 0 30px var(--glow-color);
+    filter: brightness(1.2);
+  }
+  
