@@ -1,11 +1,14 @@
 // In your app.tsx
 
-import VerticalShortcutComingSoon from './components/ComingSoon';
+import React from 'react';
+import SectionsAndForms from './components/SectionsAndForms';
 
-export default function App() {
+function App() {
   return (
-    <div className="app">
-      <VerticalShortcutComingSoon />
+    <div className="App">
+      <SectionsAndForms />
     </div>
   );
 }
+
+export default App;

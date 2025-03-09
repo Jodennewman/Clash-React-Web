@@ -64,7 +64,7 @@ const farBackgroundGridCubes = [
 
 function App() {
   return (
-    <div className="bg-linear-60 from-black to-cyan-700 min-h-screen overflow-hidden relative">
+    <div className="bg-black bg-linear-60 from-cyan-950/10 to-cyan-600/40 min-h-screen overflow-hidden relative">
       <div className="container mx-auto py-10 px-4 relative z-10">
         <header className="flex justify-between items-center mb-20">
           <div className="text-white text-xl font-bold">ClashCreation.</div>
@@ -118,9 +118,9 @@ function App() {
                 <IsometricGrid 
                   rows={12}                 
                   cols={8}                 
-                  cubeSize={110}            
-                  horizontalSpacing={155}   
-                  verticalSpacing={140}     
+                  cubeSize={95}            
+                  horizontalSpacing={135}   
+                  verticalSpacing={114}     
                   containerWidth={550}     
                   containerHeight={550}
                   customCubes={mainGridCubes}

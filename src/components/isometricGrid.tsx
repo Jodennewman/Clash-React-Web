@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import IsometricCube from './isometricCube';
+import { gsap } from 'gsap';
 
 /**
  * Defines a custom position for a specific cube in the grid
@@ -43,23 +44,23 @@ const COLORS = {
   // Original sRGB colors for fallback
     DEFAULT: '#001C24',  // Dark teal
     WHITE: '#888888',
-    ORANGE: '#A1552B',   // Brand orange
+    ORANGE: '#CF5614',   // Brand orange
     BLUE: '#387292',     // Secondary teal
     TEAL_DARK: '#0F3641', // Darker teal
     TEAL_LIGHT: '#175A65', // Light teal
     RED: '#D30F0A', // Red
-    MAROON: '#99323C', // Maroon
+    MAROON: '#A9323F', // Maroon
     
   // P3 and HDR versions using OKLCH
   P3: {
     DEFAULT: 'oklch(0.209 0.038 219.5deg)',  // #001C24
-    WHITE: 'oklch(0.627 0.000 89.9deg)',  // #888888
-    ORANGE: 'oklch(0.533 0.115 47.5deg)',  // #A1552B
+    WHITE: 'oklch(68.09% 0.1996 43.46)',  // #888888
+    ORANGE: 'oklch(0.683 0.25 47.5deg)',  // #A1552B
     BLUE: 'oklch(0.527 0.079 235.1deg)',  // #387292
     TEAL_DARK: 'oklch(0.311 0.047 220.1deg)',  // #0F3641
     TEAL_LIGHT: 'oklch(0.432 0.066 210.9deg)',  // #175A65
     RED: 'oklch(0.548 0.219 29.1deg)',  // #D30F0A
-    MAROON: 'oklch(0.441 0.116 16.2deg)',  // #87323C
+    MAROON: 'oklch(0.6 0.116 16.2deg)',  // #87323C
   },
   
   // Enhanced HDR versions for XDR display
@@ -130,6 +131,9 @@ const IsometricGrid: React.FC<IsometricGridProps> = ({
 }) => {
   const [activeCubes, setActiveCubes] = useState<{row: number, col: number}[]>([]);
   const [hoveredCube, setHoveredCube] = useState<{row: number, col: number} | null>(null);
+  const [isInteracting, setIsInteracting] = useState(false);
+  const gridContainerRef = useRef<HTMLDivElement>(null);
+  const wiggleAnimationRef = useRef<gsap.core.Tween | gsap.core.Timeline | null>(null);
   
   // Initialize with specific active cubes for visual interest
   useEffect(() => {
@@ -145,8 +149,74 @@ const IsometricGrid: React.FC<IsometricGridProps> = ({
       setActiveCubes(initialActive);
     }
   }, [customCubes]);
+
+  // Add subtle wiggle animation to the entire grid
+  useEffect(() => {
+    if (!gridContainerRef.current) return;
+
+    // Clean up any existing animation
+    if (wiggleAnimationRef.current) {
+      wiggleAnimationRef.current.kill();
+    }
+
+    // Create a very subtle, slow wiggle animation for the entire grid
+    // Using very small values to maintain orthographic appearance
+    wiggleAnimationRef.current = gsap.timeline({
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+      paused: isInteracting, // Pause animation when user is interacting
+    })
+    .to(gridContainerRef.current, {
+      // Use translateX/Y instead of skew to maintain true isometric look
+      translateX: "2px", 
+      translateY: "1px",
+      scale: 1.002, // Extremely subtle scale up
+      duration: 12, // Very slow animation (12 seconds)
+      ease: "sine.inOut"
+    })
+    .to(gridContainerRef.current, {
+      translateX: "-2px", 
+      translateY: "-1px",
+      scale: 0.998, // Extremely subtle scale down
+      duration: 12,
+      ease: "sine.inOut"
+    });
+
+    return () => {
+      if (wiggleAnimationRef.current) {
+        wiggleAnimationRef.current.kill();
+      }
+    };
+  }, [isInteracting]);
+  
+  // Effect to handle pausing/resuming the animation based on interaction state
+  useEffect(() => {
+    if (!wiggleAnimationRef.current || !gridContainerRef.current) return;
+    
+    if (isInteracting) {
+      // Smoothly transition to neutral position when pausing
+      gsap.to(gridContainerRef.current, {
+        translateX: 0,
+        translateY: 0,
+        scale: 1,
+        duration: 0.5,
+        ease: "power2.out",
+        onComplete: () => {
+          if (wiggleAnimationRef.current) {
+            wiggleAnimationRef.current.pause();
+          }
+        }
+      });
+    } else {
+      // Resume the animation
+      wiggleAnimationRef.current.play();
+    }
+  }, [isInteracting]);
   
   const handleCubeClick = (row: number, col: number) => {
+    setIsInteracting(true); // Set interacting state
+    
     const isActive = activeCubes.some(cube => cube.row === row && cube.col === col);
     
     if (isActive) {
@@ -154,13 +224,18 @@ const IsometricGrid: React.FC<IsometricGridProps> = ({
     } else {
       setActiveCubes(prev => [...prev, { row, col }]);
     }
+    
+    // Reset interaction state after a short delay
+    setTimeout(() => setIsInteracting(false), 1000);
   };
   
   const handleCubeHover = (row: number, col: number) => {
+    setIsInteracting(true);
     setHoveredCube({ row, col });
   };
   
   const handleCubeLeave = () => {
+    setIsInteracting(false);
     setHoveredCube(null);
   };
   
@@ -248,7 +323,16 @@ const IsometricGrid: React.FC<IsometricGridProps> = ({
   
   return (
     <div className="w-full h-full flex items-center justify-center">
-      <div className="relative" style={{ width: `${containerWidth}px`, height: `${containerHeight}px` }}>
+      <div 
+        ref={gridContainerRef}
+        className="relative" 
+        style={{ 
+          width: `${containerWidth}px`, 
+          height: `${containerHeight}px`,
+          transformStyle: 'preserve-3d',
+          transformOrigin: 'center center'
+        }}
+      >
         {renderGrid()}
       </div>
     </div>

@@ -5,6 +5,7 @@ import Modules from './components/Modules';
 import ModuleDirectoryMap from './components/moduleDirectoryDropdown';
 import './App.css';
 import ContentOverwhelmer from './components/ContentOverwhelmer.tsx';
+import React from 'react';
 function App() {
 
 
