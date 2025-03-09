@@ -1,73 +1,259 @@
-import React, { JSX, useState } from 'react';
-import IsometricCube from './IsometricCube';
+import React, { useState, useEffect } from 'react';
+import IsometricCube from './isometricCube';
 
-interface ActiveCube {
+/**
+ * Defines a custom position for a specific cube in the grid
+ */
+interface CustomCubePosition {
   row: number;
   col: number;
+  isGlowing?: boolean;
+  color?: string;
+  // We no longer need x and y here since they'll be calculated from row and col
 }
 
-const IsometricGrid = () => {
-  const [activeCube, setActiveCube] = useState<ActiveCube | null>(null);
-  const [rotatingCube, setRotatingCube] = useState<ActiveCube | null>(null);
+/**
+ * IsometricGridProps defines all configurable aspects of the isometric grid
+ */
+interface IsometricGridProps {
+  // Grid dimensions
+  rows?: number;
+  cols?: number;
+  // Cube size
+  cubeSize?: number;
+  // Spacing between cubes
+  horizontalSpacing?: number;
+  verticalSpacing?: number;
+  // Container dimensions
+  containerWidth?: number;
+  containerHeight?: number;
+  // Custom positions for specific cubes
+  customCubes?: CustomCubePosition[];
+  // Show gap pattern (creates visual holes in the grid if true)
+  showGapPattern?: boolean;
+  // Grid offset for positioning
+  offsetX?: number;
+  offsetY?: number;
+}
 
-  const handleCubeClick = (row: number, col: number) => {
-    // Toggle active state
-    if (activeCube?.row === row && activeCube?.col === col) {
-      setActiveCube(null);
-    } else {
-      setActiveCube({ row, col });
-    }
+// Define a type for the color keys (excluding the nested objects)
+type ColorKey = 'DEFAULT' | 'WHITE' | 'ORANGE' | 'BLUE' | 'TEAL_DARK' | 'TEAL_LIGHT' | 'RED' | 'MAROON';
 
-    // Add rotation effect
-    setRotatingCube({ row, col });
+const COLORS = {
+  // Original sRGB colors for fallback
+    DEFAULT: '#001C24',  // Dark teal
+    WHITE: '#888888',
+    ORANGE: '#A1552B',   // Brand orange
+    BLUE: '#387292',     // Secondary teal
+    TEAL_DARK: '#0F3641', // Darker teal
+    TEAL_LIGHT: '#175A65', // Light teal
+    RED: '#D30F0A', // Red
+    MAROON: '#99323C', // Maroon
     
-    // Reset rotation after animation completes
-    setTimeout(() => setRotatingCube(null), 1200);
+  // P3 and HDR versions using OKLCH
+  P3: {
+    DEFAULT: 'oklch(0.209 0.038 219.5deg)',  // #001C24
+    WHITE: 'oklch(0.627 0.000 89.9deg)',  // #888888
+    ORANGE: 'oklch(0.533 0.115 47.5deg)',  // #A1552B
+    BLUE: 'oklch(0.527 0.079 235.1deg)',  // #387292
+    TEAL_DARK: 'oklch(0.311 0.047 220.1deg)',  // #0F3641
+    TEAL_LIGHT: 'oklch(0.432 0.066 210.9deg)',  // #175A65
+    RED: 'oklch(0.548 0.219 29.1deg)',  // #D30F0A
+    MAROON: 'oklch(0.441 0.116 16.2deg)',  // #87323C
+  },
+  
+  // Enhanced HDR versions for XDR display
+  HDR: {
+    DEFAULT: 'oklch(0.188 0.046 219.5deg)',
+    WHITE: 'oklch(0.850 0.001 89.9deg)',
+    ORANGE: 'oklch(0.613 0.259 47.5deg)',
+    BLUE: 'oklch(0.606 0.178 235.1deg)',
+    TEAL_DARK: 'oklch(0.295 0.066 220.1deg)',
+    TEAL_LIGHT: 'oklch(0.410 0.092 210.9deg)',
+    RED: 'oklch(0.630 0.400 29.1deg)',
+    MAROON: 'oklch(0.419 0.244 16.2deg)'
+  }
+} as const;
+
+/**
+ * Gets the appropriate color value based on browser support
+ * @param colorKey The key of the color in the COLORS object
+ * @param useHDR Whether to use HDR enhanced colors
+ */
+const getColor = (colorKey: ColorKey, useHDR = false) => {
+  // Check if we're in a browser environment
+  if (typeof window === 'undefined') return COLORS[colorKey];
+  
+  // Check for P3/OKLCH support
+  const hasP3Support = window.CSS && 
+    CSS.supports && 
+    (CSS.supports('color', 'color(display-p3 0 0 0)') || 
+     CSS.supports('color', 'oklch(0% 0 0)'));
+     
+  // Check for HDR support
+  const hasHDRSupport = useHDR && 
+    window.matchMedia && 
+    window.matchMedia('(dynamic-range: high)').matches;
+  
+  // Choose the appropriate color format
+  if (hasHDRSupport && colorKey in COLORS.HDR) {
+    return COLORS.HDR[colorKey as keyof typeof COLORS.HDR];
+  } else if (hasP3Support && colorKey in COLORS.P3) {
+    return COLORS.P3[colorKey as keyof typeof COLORS.P3];
+  }
+  
+  // Fallback to standard sRGB
+  return COLORS[colorKey];
+};
+
+/**
+ * IsometricGrid creates a grid of isometric cubes with configurable dimensions and spacing.
+ * 
+ * The grid follows a true isometric layout with:
+ * - Even rows having cubes in columns 0, 2, 4, etc.
+ * - Odd rows having cubes in columns 1, 3, 5, etc.
+ * 
+ * This creates the diamond pattern characteristic of isometric projections.
+ */
+const IsometricGrid: React.FC<IsometricGridProps> = ({
+  rows = 9,
+  cols = 7,
+  cubeSize = 75,
+  horizontalSpacing = 50, 
+  verticalSpacing = 50,
+  containerWidth = 550,
+  containerHeight = 550,
+  customCubes,
+  showGapPattern = false,
+  offsetX = 0,
+  offsetY = 0
+}) => {
+  const [activeCubes, setActiveCubes] = useState<{row: number, col: number}[]>([]);
+  const [hoveredCube, setHoveredCube] = useState<{row: number, col: number} | null>(null);
+  
+  // Initialize with specific active cubes for visual interest
+  useEffect(() => {
+    // Only set initial active cubes if not using custom cubes
+    if (!customCubes) {
+      const initialActive = [
+        { row: 2, col: 3 },
+        { row: 4, col: 3 },
+        { row: 5, col: 2 },
+        { row: 6, col: 5 },
+        { row: 8, col: 3 }
+      ];
+      setActiveCubes(initialActive);
+    }
+  }, [customCubes]);
+  
+  const handleCubeClick = (row: number, col: number) => {
+    const isActive = activeCubes.some(cube => cube.row === row && cube.col === col);
+    
+    if (isActive) {
+      setActiveCubes(prev => prev.filter(cube => !(cube.row === row && cube.col === col)));
+    } else {
+      setActiveCubes(prev => [...prev, { row, col }]);
+    }
   };
+  
+  const handleCubeHover = (row: number, col: number) => {
+    setHoveredCube({ row, col });
+  };
+  
+  const handleCubeLeave = () => {
+    setHoveredCube(null);
+  };
+  
+  /**
+   * Convert row and column to isometric x,y position
+   */
+  const calculateIsometricPosition = (row: number, col: number) => {
+    // Calculate center offsets to position the grid in the container
+    const gridWidth = cols * horizontalSpacing;
+    const gridHeight = rows * verticalSpacing;
+    const centerOffsetX = (containerWidth - gridWidth) / 2;
+    const centerOffsetY = (containerHeight - gridHeight) / 2;
 
-  // Grid configuration
-  const rows = 5;
-  const cols = 5;
-  const cubeSize = 80;
-  const spacing = 40;
-
-  // Build the grid
-  const renderGrid = () => {
-    const grid: JSX.Element[] = [];
+    // In a true isometric grid, we need to calculate the diamond pattern
+    // where every other row is offset by half a cube
+    const x = centerOffsetX + col * horizontalSpacing + (row % 2 === 1 ? horizontalSpacing / 2 : 0) + offsetX;
+    const y = centerOffsetY + row * verticalSpacing + offsetY;
+    
+    return { x, y };
+  };
+  
+  // Calculate all grid positions based on isometric projection
+  const calculateAllGridPositions = () => {
+    const positions: CustomCubePosition[] = [];
     
     for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols; col++) {
-        const isActive = activeCube?.row === row && activeCube?.col === col;
-        const isRotating = rotatingCube?.row === row && rotatingCube?.col === col;
+      const maxCol = cols - 1;
+      for (let col = 0; col <= maxCol; col++) {
+        // Apply gap pattern if requested (skips some positions to create a visual pattern)
+        if (showGapPattern && ((row + col) % 3 === 0)) {
+          continue;
+        }
         
-        // Calculate isometric position
-        const xPos = col * (cubeSize + spacing/2) - row * (cubeSize/2);
-        const yPos = row * (cubeSize/2 + spacing/2);
-        
-        grid.push(
-          <IsometricCube 
-            key={`cube-${row}-${col}`}
-            size={cubeSize}
-            position={{ x: xPos, y: yPos }}
-            isGlowing={isActive}
-            glowColor={isActive ? '#FEA35D' : '#154D59'} 
-            rotationDirection={isRotating ? 1 : 0}
-            onClick={() => handleCubeClick(row, col)}
-          />
-        );
+        positions.push({
+          row,
+          col,
+          isGlowing: false,
+          color: COLORS.DEFAULT
+        });
       }
     }
     
-    return grid;
+    return positions;
   };
-
+  
+  const renderGrid = () => {
+    // Use custom cube positions if provided, otherwise calculate based on grid parameters
+    const cubePositions = customCubes || calculateAllGridPositions();
+    
+    return cubePositions.map((pos, index) => {
+      // Calculate the actual x,y position from row,col coordinates
+      const { x, y } = calculateIsometricPosition(pos.row, pos.col);
+      
+      // Determine if this cube should be glowing
+      const isActive = pos.isGlowing || activeCubes.some(cube => cube.row === pos.row && cube.col === pos.col);
+      const isHovered = hoveredCube?.row === pos.row && hoveredCube?.col === pos.col;
+      
+      // Determine cube color
+      let cubeColor = pos.color || COLORS.DEFAULT;
+      
+      // Active cubes are orange (if no custom color specified)
+      if (isActive && !pos.color) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        cubeColor = COLORS.ORANGE;
+      } 
+      
+      return (
+        <IsometricCube
+          key={`cube-${pos.row}-${pos.col}-${index}`}
+          size={cubeSize}
+          position={{ x, y }}
+          color={!isActive ? getColor('DEFAULT') :pos.color || getColor(isActive ? 'ORANGE' : 'DEFAULT', isActive)}
+          isGlowing={isActive}
+          glowColor={pos.color || getColor(isActive ? 'DEFAULT' : 'DEFAULT', isActive)} // Use HDR version for glow if supported
+          onClick={() => handleCubeClick(pos.row, pos.col)}
+          onMouseEnter={() => handleCubeHover(pos.row, pos.col)}
+          onMouseLeave={handleCubeLeave}
+          rotationDirection={isHovered ? (Math.random() > 0.5 ? 1 : -1) : 0}
+          zIndex={pos.row + pos.col}
+          useP3Colors={true}
+        />
+      );
+    });
+  };
+  
   return (
-    <div className="relative w-full h-[600px] overflow-hidden bg-[#09232F]/10 rounded-xl p-10">
-      <div className="relative w-full h-full">
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="relative" style={{ width: `${containerWidth}px`, height: `${containerHeight}px` }}>
         {renderGrid()}
       </div>
     </div>
   );
 };
 
-export default IsometricGrid;
+export default IsometricGrid
+export { COLORS }

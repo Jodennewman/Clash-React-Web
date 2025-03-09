@@ -1,40 +1,171 @@
+.isometric-cube-wrapper {
+  position: absolute;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
 .isometric-cube {
-    position: relative;
-    transform-style: preserve-3d;
-    transform: rotateX(60deg) rotateZ(-45deg);
-    width: var(--cube-size);
-    height: var(--cube-size);
-    transition: transform 0.3s ease;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateX(60deg) rotateZ(-45deg);
+  will-change: transform;
+}
+
+.cube-face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: content-box;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  border: 0.5px solid var(--cube-color);
+}
+
+/* Standard display version - uses sRGB color space */
+/* Top face - lightest shade (30% white overlay) */
+.cube-face--top {
+  transform: translateZ(calc(var(--cube-size) * 0.5)) translateX(-0.3px) translateY(0.08px);
+  
+  background-color: var(--cube-color);
+  background-image: linear-gradient(
+    to right,
+    var(--cube-color),
+    color-mix(in srgb, var(--cube-color) 100%, #ffffff 12%)
+  );
+  background-blend-mode: plus-lighter;
+}
+
+/* Left face - darkest shade (base color) */
+.cube-face--left {
+  transform: rotateY(-90deg) translateZ(calc(var(--cube-size) * 0.5));
+  transform-origin: bottom;
+  background: linear-gradient(
+    to top right,
+    var(--cube-color),
+    color-mix(in srgb, var(--cube-color) 100%, hsl(0, 0%, 100%) 4%)
+  );
+  background-color: var(--cube-color);
+  filter: brightness(0.7);
+  height: calc(var(--cube-size));
+}
+
+/* Right face - medium shade (15% white overlay) */
+.cube-face--right {
+  transform: rotateX(270deg) translateZ(calc(var(--cube-size) * 0.5));
+  transform-origin: right;
+  background: linear-gradient(
+    to top right,
+    var(--cube-color),
+    color-mix(in srgb, var(--cube-color) 100%, #ffffff 18%)
+  );
+  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.05);
+  width: calc(var(--cube-size));
+}
+
+/* P3 color support for wide gamut displays */
+@supports (color: color(display-p3 0 0 0)) or (color: oklch(0% 0 0)) {
+  /* Top face with P3 colors */
+  .p3-colors .cube-face--top {
+    background-image: linear-gradient(
+      to right,
+      var(--cube-color),
+      color-mix(in display-p3, var(--cube-color) 100%, #ffffff 15%)
+    );
+  }
+
+  /* Left face with P3 colors */
+  .p3-colors .cube-face--left {
+    background: linear-gradient(
+      to top right,
+      var(--cube-color),
+      color-mix(in display-p3, var(--cube-color) 100%, hsl(0, 0%, 100%) 5%)
+    );
+  }
+
+  /* Right face with P3 colors */
+  .p3-colors .cube-face--right {
+    background: linear-gradient(
+      to top right,
+      var(--cube-color),
+      color-mix(in display-p3, var(--cube-color) 100%, #ffffff 22%)
+    );
+    box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.07);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 40px 10px var(--glow-color);
+    filter: brightness(1.6) saturate(1.35);
+  }
+  50% {
+    box-shadow: 0 0 48px 15px var(--glow-color);
+    filter: brightness(1.9) saturate(1.1);
+  }
+  100% {
+    box-shadow: 0 0 55px 20px var(--glow-color);
+    filter: brightness(1.9) saturate(1.1);
+  }
+}
+
+/* HDR-specific pulse animation for XDR displays */
+@media (dynamic-range: high) {
+  @keyframes hdr-pulse {
+    0% {
+      box-shadow: 0 0 45px 15px var(--glow-color);
+      filter: brightness(1.8) saturate(1.5);
+    }
+    50% {
+      box-shadow: 0 0 55px 20px var(--glow-color);
+      filter: brightness(2.2) saturate(1.3);
+    }
+    100% {
+      box-shadow: 0 0 65px 25px var(--glow-color);
+      filter: brightness(2.2) saturate(1.3);
+    }
+  }
+}
+
+/* Glowing state - apply directly to faces */
+.isometric-cube--glowing .cube-face--top {
+  box-shadow: 0 0 25px 50px var(--glow-color);
+  animation: pulse 1.6s ease-in-out infinite alternate;
+  filter: brightness(1.8) saturate(1.2);
+}
+
+.isometric-cube--glowing .cube-face--left {
+  box-shadow: 0 0 27px 3px var(--glow-color);
+  animation: pulse 2.1s ease-in-out infinite alternate;
+  filter: brightness(1.4) saturate(1.2);
+}
+
+.isometric-cube--glowing .cube-face--right {
+  box-shadow: 0 0 26px 4.5px var(--glow-color);
+  animation: pulse 1.9s ease-in-out infinite alternate;
+  filter: brightness(1.6) saturate(1.2);
+}
+
+/* HDR enhanced glowing effects for XDR display */
+@media (dynamic-range: high) {
+  .p3-colors.isometric-cube--glowing .cube-face--top {
+    animation: hdr-pulse 1.6s ease-in-out infinite alternate;
+    filter: brightness(2.0) saturate(1.4);
   }
   
-  .cube-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
+  .p3-colors.isometric-cube--glowing .cube-face--left {
+    animation: hdr-pulse 2.1s ease-in-out infinite alternate;
+    filter: brightness(1.6) saturate(1.4);
   }
   
-  .cube-face-top {
-    transform: translateZ(calc(var(--cube-size) * 0.5));
-    background-color: rgba(9, 35, 47, 0.9); /* Slightly lighter for top face */
+  .p3-colors.isometric-cube--glowing .cube-face--right {
+    animation: hdr-pulse 1.9s ease-in-out infinite alternate;
+    filter: brightness(1.8) saturate(1.4);
   }
-  
-  .cube-face-left {
-    transform: rotateX(-90deg) translateZ(0);
-    transform-origin: bottom;
-    background-color: rgba(9, 35, 47, 0.7); /* Darker for shadow effect */
-  }
-  
-  .cube-face-right {
-    transform: rotateY(90deg) translateZ(var(--cube-size));
-    transform-origin: right;
-    background-color: rgba(9, 35, 47, 0.8); /* Medium dark for side face */
-  }
-  
-  /* Glow effect */
-  .isometric-cube.glowing .cube-face {
-    box-shadow: 0 0 15px var(--glow-color), 0 0 30px var(--glow-color);
-    filter: brightness(1.2);
-  }
-  
+}
+

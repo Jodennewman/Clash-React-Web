@@ -1,5 +1,15 @@
 @import "tailwindcss";
+@media (dynamic-range: high) {
+  :root {
+    --hdr-glow-intensity: 1.5;  /* Higher intensity for HDR displays */
+    --hdr-glow-spread: 20px;    /* Wider glow for HDR displays */
+  }
+}
 
+:root {
+  --hdr-glow-intensity: 1;      /* Default intensity */
+  --hdr-glow-spread: 15px;      /* Default glow spread */
+}
 /* Global styles */
 :root {
   --primary-orange: #FEA35D;
