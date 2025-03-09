@@ -7,7 +7,6 @@ interface CubeCustomProperties extends React.CSSProperties {
   '--cube-size'?: string;
   '--glow-color'?: string;
   '--cube-color'?: string;
-  '--glow-intensity'?: string;
 }
 
 interface IsometricCubeProps {
@@ -215,13 +214,14 @@ const IsometricCube = ({
   // Height is slightly adjusted to enhance the 3D effect
   const heightAdjust = size * 1;
 
-  // Get cube styles
+  // Modern browsers will use the OKLCH values directly
+  // while others will fall back to the CSS custom property value
+    
   const getCubeStyles = (): CubeCustomProperties => {
     return {
       '--cube-size': `${size}px`,
       '--glow-color': glowColor,
       '--cube-color': color,
-      '--glow-intensity': isGlowing ? '1' : '0',
     };
   };
 
@@ -242,6 +242,27 @@ const IsometricCube = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
+      {/* Simplified glow effect - only shown when isGlowing is true */}
+      {isGlowing && (
+        <div 
+          className="cube-glow-effect"
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            width: `${size * 1.2}px`, // Reduced from 1.5x to 1.2x
+            height: `${size * 1.2}px`,
+            transform: 'translate(-50%, -50%) rotateX(45deg) rotateZ(-45deg)',
+            zIndex: 0, // Position behind the cube but not -1
+            filter: 'blur(8px)', // Reduced blur from 15px to 8px
+            opacity: 0.6, // Reduced opacity from 0.8 to 0.6
+            pointerEvents: 'none',
+            backgroundColor: glowColor,
+            borderRadius: '30%',
+          }}
+        />
+      )}
+      
       <div 
         ref={cubeRef}
         className={`isometric-cube ${isGlowing ? 'isometric-cube--glowing' : ''}`}
