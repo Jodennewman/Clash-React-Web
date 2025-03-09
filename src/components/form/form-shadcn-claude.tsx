@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import { ControllerRenderProps, FieldValues } from 'react-hook-form';
 
 // UI Components
 import { Button } from '../../components/ui/button';
@@ -16,6 +17,8 @@ import {
   Card, CardContent, CardDescription, CardHeader, CardTitle
 } from '../../components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '../../components/ui/alert';
+import Glow from '../../components/ui/glow';
+
 // Form schema
 const applicationSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -40,14 +43,14 @@ const applicationSchema = z.object({
   }),
 });
 
+type ApplicationFormData = z.infer<typeof applicationSchema>;
+
 // Testimonial component
 type TestimonialProps = {
   quote: string;
   author: string;
   position: string;
 };
-
-
 
 const Testimonial = ({ quote, author, position }: TestimonialProps) => (
   <div className="bg-[#FDEBDD] p-5 rounded-lg my-6 border-l-4 border-[#FEA35D]">
@@ -56,12 +59,12 @@ const Testimonial = ({ quote, author, position }: TestimonialProps) => (
   </div>
 );
 
-
 type ProgramBenefitProps = {
   number: string;
   title: string;
   description: string;
 };
+
 // Program benefits component
 const ProgramBenefit = ({ number, title, description }: ProgramBenefitProps) => (
   <div className="flex gap-4 mb-5">
@@ -76,7 +79,7 @@ const ProgramBenefit = ({ number, title, description }: ProgramBenefitProps) => 
 );
 
 const VerticalShortcutApplicationForm = () => {
-  const form = useForm({
+  const form = useForm<ApplicationFormData>({
     resolver: zodResolver(applicationSchema),
     defaultValues: {
       firstName: '',
@@ -95,9 +98,10 @@ const VerticalShortcutApplicationForm = () => {
     },
   });
 
-  const onSubmit = async (data: | "array") => {
+  const onSubmit = async (data: ApplicationFormData) => {
     console.log(data);
     // Submit form data to your API here
+    alert("Application submitted successfully! We'll be in touch within 48 hours.");
   };
 
   return (
@@ -135,7 +139,8 @@ const VerticalShortcutApplicationForm = () => {
         position="Marketing Consultant"
       />
       
-      <Card className="shadow-lg border-[#FDEBDD] mb-10">
+      <Card className="shadow-lg border-[#FDEBDD] mb-10 relative overflow-hidden">
+        <Glow variant="above" className="opacity-30" />
         <CardHeader className="bg-[#09232F] text-white rounded-t-lg">
           <CardTitle className="text-2xl">Vertical Shortcut Application Form</CardTitle>
           <CardDescription className="text-white/80">
@@ -154,7 +159,7 @@ const VerticalShortcutApplicationForm = () => {
                   <FormField
                     control={form.control}
                     name="firstName"
-                    render={({ field }) => (
+                    render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "firstName"> }) => (
                       <FormItem>
                         <FormLabel>First Name</FormLabel>
                         <FormControl>
@@ -168,7 +173,7 @@ const VerticalShortcutApplicationForm = () => {
                   <FormField
                     control={form.control}
                     name="lastName"
-                    render={({ field }) => (
+                    render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "lastName"> }) => (
                       <FormItem>
                         <FormLabel>Last Name</FormLabel>
                         <FormControl>
@@ -184,7 +189,7 @@ const VerticalShortcutApplicationForm = () => {
                   <FormField
                     control={form.control}
                     name="email"
-                    render={({ field }) => (
+                    render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "email"> }) => (
                       <FormItem>
                         <FormLabel>Email Address</FormLabel>
                         <FormControl>
@@ -198,7 +203,7 @@ const VerticalShortcutApplicationForm = () => {
                   <FormField
                     control={form.control}
                     name="linkedin"
-                    render={({ field }) => (
+                    render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "linkedin"> }) => (
                       <FormItem>
                         <FormLabel>LinkedIn Profile</FormLabel>
                         <FormControl>
@@ -217,20 +222,20 @@ const VerticalShortcutApplicationForm = () => {
                 
                 <ProgramBenefit 
                   number="1" 
-                  title="Develop a Content Strategy That Converts" 
-                  description="Learn our proven framework for creating content that turns viewers into paying clients"
+                  title="Master Hook Fundamentals" 
+                  description="Learn the psychological triggers that make viewers stop scrolling instantly and watch your content"
                 />
                 
                 <ProgramBenefit 
                   number="2" 
-                  title="Grow Your Audience Exponentially" 
-                  description="Master our growth acceleration techniques that have helped clients gain 10K+ new followers in weeks"
+                  title="Build Multiple Income Streams" 
+                  description="Implement our revenue generation systems to create consistent income from your content"
                 />
                 
                 <ProgramBenefit 
                   number="3" 
-                  title="Monetize Your Content Directly" 
-                  description="Implement our revenue generation systems to create consistent income streams"
+                  title="Scale Your Operations" 
+                  description="Transform from a one-person show to a content production machine with our delegation systems"
                 />
               </div>
               
@@ -241,7 +246,7 @@ const VerticalShortcutApplicationForm = () => {
                 <FormField
                   control={form.control}
                   name="commitment"
-                  render={({ field }) => (
+                  render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "commitment"> }) => (
                     <FormItem className="space-y-3">
                       <FormLabel>
                         Vertical Shortcut is about fast growth and monetisation. Are you prepared to work hard for 10 weeks and dedicate at least 4 hours per week?
@@ -278,7 +283,7 @@ const VerticalShortcutApplicationForm = () => {
                 <FormField
                   control={form.control}
                   name="industry"
-                  render={({ field }) => (
+                  render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "industry"> }) => (
                     <FormItem>
                       <FormLabel>What kind of work do you do? (Industry, seniority, etc.)</FormLabel>
                       <FormControl>
@@ -293,7 +298,7 @@ const VerticalShortcutApplicationForm = () => {
                   <FormField
                     control={form.control}
                     name="followerCount"
-                    render={({ field }) => (
+                    render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "followerCount"> }) => (
                       <FormItem>
                         <FormLabel>What are your total follower counts across all platforms?</FormLabel>
                         <FormControl>
@@ -307,7 +312,7 @@ const VerticalShortcutApplicationForm = () => {
                   <FormField
                     control={form.control}
                     name="location"
-                    render={({ field }) => (
+                    render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "location"> }) => (
                       <FormItem>
                         <FormLabel>Where are you based?</FormLabel>
                         <FormControl>
@@ -322,7 +327,7 @@ const VerticalShortcutApplicationForm = () => {
                 <FormField
                   control={form.control}
                   name="contentTopics"
-                  render={({ field }) => (
+                  render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "contentTopics"> }) => (
                     <FormItem>
                       <FormLabel>What topics do you create content about?</FormLabel>
                       <FormControl>
@@ -336,7 +341,7 @@ const VerticalShortcutApplicationForm = () => {
                 <FormField
                   control={form.control}
                   name="goals"
-                  render={() => (
+                  render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "goals"> }) => (
                     <FormItem>
                       <div className="mb-2">
                         <FormLabel>What do you want to achieve? (Select all that apply)</FormLabel>
@@ -354,13 +359,13 @@ const VerticalShortcutApplicationForm = () => {
                           >
                             <FormControl>
                               <Checkbox
-                                checked={form.watch("goals").includes(item.value)}
+                                checked={field.value.includes(item.value)}
                                 onCheckedChange={(checked) => {
-                                  const current = form.watch("goals");
+                                  const current = field.value;
                                   if (checked) {
-                                    form.setValue("goals", [...current, item.value]);
+                                    field.onChange(current.concat(item.value));
                                   } else {
-                                    form.setValue("goals", current.filter(val => val !== item.value));
+                                    field.onChange(current.filter(val => val !== item.value));
                                   }
                                 }}
                               />
@@ -379,7 +384,7 @@ const VerticalShortcutApplicationForm = () => {
                 <FormField
                   control={form.control}
                   name="revenueTarget"
-                  render={({ field }) => (
+                  render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "revenueTarget"> }) => (
                     <FormItem className="space-y-3">
                       <FormLabel>How much are you aiming to make per month?</FormLabel>
                       <FormControl>
@@ -389,11 +394,11 @@ const VerticalShortcutApplicationForm = () => {
                           className="flex flex-wrap gap-3"
                         >
                           {[
-                            {value: "1k-2k", label: "$1k-$2k"},
-                            {value: "4k-8k", label: "$4k-$8k"},
-                            {value: "10k-20k", label: "$10k-$20k"},
-                            {value: "20k-50k", label: "$20k-$50k"},
-                            {value: "50k+", label: "$50k+"}
+                            {value: "1k-2k", label: "£1k-£2k"},
+                            {value: "4k-8k", label: "£4k-£8k"},
+                            {value: "10k-20k", label: "£10k-£20k"},
+                            {value: "20k-50k", label: "£20k-£50k"},
+                            {value: "50k+", label: "£50k+"}
                           ].map((item) => (
                             <FormItem key={item.value} className="flex items-center space-x-2 space-y-0">
                               <FormControl>
@@ -414,7 +419,7 @@ const VerticalShortcutApplicationForm = () => {
                 <FormField
                   control={form.control}
                   name="biggestChallenge"
-                  render={({ field }) => (
+                  render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "biggestChallenge"> }) => (
                     <FormItem className="space-y-3">
                       <FormLabel>What do you struggle with the most when it comes to scaling your brand?</FormLabel>
                       <FormControl>
@@ -482,7 +487,7 @@ const VerticalShortcutApplicationForm = () => {
               <FormField
                 control={form.control}
                 name="termsAccepted"
-                render={({ field }) => (
+                render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "termsAccepted"> }) => (
                   <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                     <FormControl>
                       <Checkbox

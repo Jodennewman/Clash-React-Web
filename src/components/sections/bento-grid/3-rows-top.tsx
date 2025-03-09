@@ -6,8 +6,11 @@ import {
   TileContent,
   TileLink,
 } from "../../ui/tile";
+import React from "react";
 import { Section } from "../../ui/section";
 import GlobeIllustration from "../../illustrations/globe";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import TilesIllustration from "../../illustrations/tiles";
 import ChatIllustration from "../../illustrations/chat";
 import MockupMobileIllustration from "../../illustrations/mockup-mobile";

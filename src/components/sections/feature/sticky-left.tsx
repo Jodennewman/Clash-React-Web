@@ -3,13 +3,13 @@
 import { Section } from "../../ui/section";
 import { Image } from "../../ui/image";
 import { useTheme } from "../../ui/theme-provider";
-import { Beam } from "@/components/launch-ui/ui/beam";
+import { Beam } from "../../ui/beam";
 
 export default function FeatureStickyLeft() {
-  const { resolvedTheme } = useTheme();
+  const  resolvedTheme  = useTheme();
   let src;
 
-  switch (resolvedTheme) {
+  switch (resolvedTheme.theme) {
     case "light":
       src = "/mobile-app-light.png";
       break;

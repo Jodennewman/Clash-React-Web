@@ -92,6 +92,9 @@
     "vite": "^6.2.1",
     "vitest": "^3.0.8"
   },
+  "overrides": {
+    "react-is": "^19.0.0-rc-69d4b800-20241021"
+  },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",

@@ -124,6 +124,6 @@
   transform: translate3d(-75px, 80px, 70px) rotateY(-45deg) rotateX(-45deg) rotateZ(180deg);
   opacity: 1;
   
-  z-index: 400;
+  z-index: 300;
   mix-blend-mode: plus-lighter;
 }
