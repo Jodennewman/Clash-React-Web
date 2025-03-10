@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import IsometricCube from './isometricCube';
+import IsometricCube from './isometricCube.tsx';
 import { gsap } from 'gsap';
 
 /**
