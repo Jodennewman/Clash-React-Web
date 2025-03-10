@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-// Try a different import approach that doesn't rely on file extension
-import IsometricCube from '@/components/isometricCube';
+// Include the file extension in the import statement
+import IsometricCube from '@/components/isometricCube.tsx';
 import { gsap } from 'gsap';
 
 /**
