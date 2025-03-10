@@ -160,7 +160,7 @@ export const courseData: Course = {
               tracks: ["Content Creator Growth", "Holistic Approach", "Founders"],
               duration: 25,
               founderMustWatch: true,
-              entrepreneurSpecific: false,
+entrepreneurSpecific: false,
               popular: true,
               featured: true,
               submodules: [

@@ -606,15 +606,15 @@ const VerticalShortcutLanding = () => {
           <VSNavbar />
           
           {/* Smooth content container */}
-          <div id="smooth-content" ref={contentRef} className="min-h-screen bg-gradient-to-b from-[#09232F] to-[#08141B] text-white overflow-hidden">
+          <div id="smooth-content" ref={contentRef} className="min-h-screen bg-gradient-to-b from-[var(--deep-blue)] to-[color(display-p3_0.008_0.08_0.106)] text-white overflow-hidden">
             {/* Hero Section */}
             <section ref={heroRef} className="relative min-h-screen overflow-hidden pt-32 pb-24">
               {/* Background gradient */}
-              <div className="absolute bottom-0 right-0 w-2/3 h-2/3 bg-gradient-radial from-[#FEA35D]/20 to-transparent opacity-40 blur-3xl"></div>
+              <div className="absolute bottom-0 right-0 w-2/3 h-2/3 bg-gradient-radial from-[var(--primary-orange)]/20 to-transparent opacity-40 blur-3xl"></div>
               
               {/* Floating accent elements */}
-              <div className="absolute top-1/4 right-[15%] w-24 h-24 rounded-full bg-[#B92234]/10 blur-xl animate-pulse"></div>
-              <div className="absolute bottom-1/3 left-[10%] w-32 h-32 rounded-full bg-[#FEA35D]/10 blur-xl animate-pulse" style={{animationDelay: '1s'}}></div>
+              <div className="absolute top-1/4 right-[15%] w-24 h-24 rounded-full bg-[var(--accent-crimson)]/10 blur-xl animate-pulse"></div>
+              <div className="absolute bottom-1/3 left-[10%] w-32 h-32 rounded-full bg-[var(--primary-orange)]/10 blur-xl animate-pulse" style={{animationDelay: '1s'}}></div>
               
               {/* Logo background overlay positioned to the right and up */}
               <div className="absolute top-[5%] right-[7%] w-[450px] h-[450px] opacity-50 z-0">
@@ -697,11 +697,11 @@ const VerticalShortcutLanding = () => {
                   {/* Text Column */}
                   <div className="lg:col-span-7 flex flex-col justify-center order-1 lg:order-2">
                     <div className="hero-badge inline-block mb-6 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full max-w-max">
-                      <span className="text-[#FEA35D] font-semibold">10-Week Transformation Program</span>
+                      <span className="text-[var(--primary-orange)] font-semibold">10-Week Transformation Program</span>
                     </div>
                     
                     <h1 className="hero-title text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                      <span className="hero-accent bg-gradient-to-r from-[#FEA35D] to-[#DE6B59] bg-clip-text text-transparent">800 million views</span>,<br />
+                      <span className="hero-accent bg-gradient-to-r from-[var(--primary-orange)] to-[var(--accent-red)] bg-clip-text text-transparent">800 million views</span>,<br />
                       zero spent on ads
                     </h1>
                     
@@ -711,7 +711,7 @@ const VerticalShortcutLanding = () => {
                     
                     <div className="hero-cta flex flex-wrap gap-4">
                       <Button 
-                        className="px-8 py-7 bg-[#FEA35D] hover:bg-[#F89A67] text-lg font-semibold"
+                        className="px-8 py-7 bg-[var(--primary-orange)] hover:bg-[var(--primary-coral)] text-lg font-semibold"
                         onClick={() => window.location.href = '/application-form'}
                       >
                         Apply Now <span className="ml-2">&rarr;</span>
@@ -835,7 +835,7 @@ const VerticalShortcutLanding = () => {
             </section>
             
             {/* Stats Section with Social Proof */}
-            <Section ref={statsRef} className="bg-[#08141B] py-20 border-t border-[#154D59]/30">
+            <Section ref={statsRef} className="bg-[color(display-p3_0.008_0.08_0.106)] py-20 border-t border-[var(--secondary-teal)]/30">
               <div className="container mx-auto px-4">
                 <div className="mb-12 text-center">
                   <h2 className="text-3xl md:text-4xl font-bold mb-6">Course Stats That Speak for Themselves</h2>
@@ -848,7 +848,7 @@ const VerticalShortcutLanding = () => {
                 <CourseStats />
                 
                 <div className="text-center mb-10">
-                  <Badge variant="outline" className="bg-[#B92234]/10 text-[#FEA35D] border-[#FEA35D]/30 py-2 px-4">
+                  <Badge variant="outline" className="bg-[var(--accent-crimson)]/10 text-[var(--primary-orange)] border-[var(--primary-orange)]/30 py-2 px-4">
                     Don't Just Take Our Word For It
                   </Badge>
                 </div>
@@ -856,7 +856,7 @@ const VerticalShortcutLanding = () => {
             </Section>
             
             {/* Video Showcase Section with Fixed Component */}
-            <div ref={videoRef} className="relative py-16 bg-[#09232F]">
+            <div ref={videoRef} className="relative py-16 bg-[var(--deep-blue)]">
               <div className="container mx-auto px-4">
                 <div className="video-container max-w-4xl mx-auto">
                   <SafeVideoEmbed videoUrl="https://www.youtube.com/embed/your-video-id" />
@@ -868,10 +868,10 @@ const VerticalShortcutLanding = () => {
             <VSBentoGrid />
             
             {/* Core Benefits Section */}
-            <Section ref={benefitsRef} className="benefits-section bg-gradient-to-b from-[#08141B] to-[#09232F] py-24">
+            <Section ref={benefitsRef} className="benefits-section bg-gradient-to-b from-[color(display-p3_0.008_0.08_0.106)] to-[var(--deep-blue)] py-24">
               <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
-                  <Badge variant="outline" className="bg-white/5 text-[#FEA35D] border-[#FEA35D]/30 mb-4 py-2 px-4">
+                  <Badge variant="outline" className="bg-white/5 text-[var(--primary-orange)] border-[var(--primary-orange)]/30 mb-4 py-2 px-4">
                     What You'll Achieve
                   </Badge>
                   <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -886,7 +886,7 @@ const VerticalShortcutLanding = () => {
                   {benefits.map((benefit, index) => (
                     <div 
                       key={index} 
-                      className="benefit-item bg-white/5 backdrop-blur-sm p-8 rounded-xl border border-white/10 hover:border-[#FEA35D]/30 transition-all duration-300"
+                      className="benefit-item bg-white/5 backdrop-blur-sm p-8 rounded-xl border border-white/10 hover:border-[var(--primary-orange)]/30 transition-all duration-300"
                     >
                       <div 
                         className="w-14 h-14 rounded-full flex items-center justify-center mb-6"
@@ -904,7 +904,7 @@ const VerticalShortcutLanding = () => {
                 
                 <div className="mt-16 text-center">
                   <Button 
-                    className="px-8 py-6 bg-[#B92234] hover:bg-[#DE6B59] text-lg font-semibold"
+                    className="px-8 py-6 bg-[var(--accent-crimson)] hover:bg-[var(--accent-red)] text-lg font-semibold"
                     onClick={() => document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' })}
                   >
                     View Full Curriculum
@@ -913,8 +913,7 @@ const VerticalShortcutLanding = () => {
               </div>
             </Section>
             
-            {/* Feature Highlight Section */}
-            <FeatureStickyLeft />
+
             
             {/* Learning Tracks Section */}
             <Section ref={tracksRef} className="bg-[#09232F] py-24 border-t border-[#154D59]/30">

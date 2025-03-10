@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "../../ui/button";
 import {
   Navbar as NavbarComponent,
@@ -9,9 +9,42 @@ import { Sheet, SheetContent, SheetTrigger } from "../../ui/sheet";
 import { Menu } from "lucide-react";
 
 export default function VSNavbar() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Make navbar visible after scrolling down a bit (300px)
+      if (currentScrollY > 300) {
+        // Show on scroll up, hide on scroll down
+        if (currentScrollY < lastScrollY) {
+          setIsVisible(true);
+        } else {
+          setIsVisible(false);
+        }
+      } else {
+        // Always hide at the top of the page
+        setIsVisible(false);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
   return (
-    <header className="fixed top-0 w-full z-50 px-4 md:px-6 py-3">
-      <div className="max-w-[1400px] bg-[#08141B]/80 border-white/10 relative mx-auto rounded-2xl border p-2 py-3 px-4 md:px-6 backdrop-blur-lg">
+    <header 
+      className={`fixed top-0 w-full z-50 px-4 md:px-6 py-3 transition-all duration-300 ${
+        isVisible 
+          ? "transform-none" 
+          : "transform -translate-y-full"
+      }`}
+    >
+      <div className="max-w-[1400px] bg-[#08141B]/90 border-white/10 relative mx-auto rounded-2xl border p-2 py-3 px-4 md:px-6 backdrop-blur-lg">
         <NavbarComponent className="py-1">
           <NavbarLeft>
             <img 
@@ -19,12 +52,16 @@ export default function VSNavbar() {
               alt="Clash Creation" 
               className="h-8 mr-3"
             />
-          </NavbarLeft>
+            <div className="w-8 h-8 rounded-full bg-[#FEA35D] flex items-center justify-center">
+              <span className="text-[#08141B] font-bold">VS</span>
+            </div>
+            <span className="text-white ml-2">Vertical Shortcut</span>
           
-          <nav className="hidden md:flex mx-auto gap-8">
-            <a href="#team-training" className="text-white/70 hover:text-white text-sm">Team Training</a>
-            <a href="#results" className="text-white/70 hover:text-white text-sm">Results</a>
+          </NavbarLeft>
+          <nav className="hidden md:flex ml-8 gap-8">
+            <a href="#benefits" className="text-white/70 hover:text-white text-sm">Benefits</a>
             <a href="#curriculum" className="text-white/70 hover:text-white text-sm">Curriculum</a>
+            <a href="#testimonials" className="text-white/70 hover:text-white text-sm">Success Stories</a>
             <a href="#pricing" className="text-white/70 hover:text-white text-sm">Pricing</a>
           </nav>
           
@@ -34,9 +71,10 @@ export default function VSNavbar() {
             </a>
             <Button 
               variant="default" 
-              className="bg-white hover:bg-white/90 text-[#08141B] px-5 font-medium"
+              className="bg-[#FEA35D] hover:bg-[#F89A67] text-[#08141B] px-5"
+              onClick={() => window.location.href = '/application-form'}
             >
-              Get started
+              Apply Now
             </Button>
             <Sheet>
               <SheetTrigger asChild>
@@ -60,18 +98,13 @@ export default function VSNavbar() {
                       alt="Clash Creation" 
                       className="h-6 mr-2"
                     />
+                    <span>Vertical Shortcut</span>
                   </a>
                   <a
-                    href="#team-training"
+                    href="#benefits"
                     className="text-white/70 hover:text-white"
                   >
-                    Team Training
-                  </a>
-                  <a
-                    href="#results"
-                    className="text-white/70 hover:text-white"
-                  >
-                    Results
+                    Benefits
                   </a>
                   <a
                     href="#curriculum"
@@ -80,15 +113,22 @@ export default function VSNavbar() {
                     Curriculum
                   </a>
                   <a
+                    href="#testimonials"
+                    className="text-white/70 hover:text-white"
+                  >
+                    Success Stories
+                  </a>
+                  <a
                     href="#pricing"
                     className="text-white/70 hover:text-white"
                   >
                     Pricing
                   </a>
                   <Button 
-                    className="mt-4 bg-white hover:bg-white/90 text-[#08141B]"
+                    className="mt-4 bg-[#FEA35D] hover:bg-[#F89A67] text-[#08141B]"
+                    onClick={() => window.location.href = '/application-form'}
                   >
-                    Get started
+                    Apply Now
                   </Button>
                 </nav>
               </SheetContent>

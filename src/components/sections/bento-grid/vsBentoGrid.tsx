@@ -130,10 +130,10 @@ useLayoutEffect(() => {
             <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
               Everything You Need
             </span>
-          </h2>
+        </h2>
           <p className="text-xl text-white/70 max-w-3xl mx-auto">
             Vertical Shortcut gives you all the tools, resources, and support to succeed with short-form content.
-          </p>
+        </p>
         </div>
         
         <div ref={bentoRef} className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
@@ -152,8 +152,8 @@ useLayoutEffect(() => {
                 {item.title}
               </h3>
               <p className="text-white/70">
-                {item.description}
-              </p>
+                    {item.description}
+                  </p>
             </div>
           ))}
         </div>
