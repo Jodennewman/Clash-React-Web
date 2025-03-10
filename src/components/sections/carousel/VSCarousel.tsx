@@ -81,14 +81,14 @@ export default function VSCarousel() {
         >
           <CarouselContent className="-ml-4">
             {slides.map((slide, index) => (
-              <CarouselItem key={index} className="flex basis-2/3 pl-4">
+              <CarouselItem key={index} className="flex pl-4 md:basis-1/2 lg:basis-2/5">
                 <Slide
                   className="grow cursor-pointer bg-[#09232F]/50 border border-white/10"
                   isExpanded={expandedSlides[index]}
                   onClick={() => toggleSlide(index)}
                 >
                   <SlideVisual
-                    className="fade-bottom-lg min-h-[300px] items-end overflow-hidden"
+                    className="fade-bottom-lg min-h-[300px] md:min-h-[400px] items-end overflow-hidden"
                     isExpanded={expandedSlides[index]}
                   >
                     <img
@@ -100,7 +100,7 @@ export default function VSCarousel() {
                       alt={slide.title}
                       width={900}
                       height={600}
-                      className="h-full max-h-[300px] w-full origin-top-left object-cover transition-transform duration-300 group-hover:scale-[1.1]"
+                      className="h-full min-h-[300px] md:min-h-[400px] w-full origin-top-left object-cover transition-transform duration-300 group-hover:scale-[1.1]"
                     />
                     <div
                       className="absolute inset-0 bg-gradient-radial from-[#FEA35D]/20 to-transparent scale-[2.5] opacity-20 transition-opacity duration-300 group-hover:opacity-30"

@@ -7,6 +7,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'display': ['"Neue Haas Grotesk Display Pro"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+      },
       colors: {
         // Brand primary palette in OKLCH
         primary: {

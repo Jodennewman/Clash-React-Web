@@ -52,11 +52,19 @@ const FounderTrack = () => {
             </div>
             
             <div className="flex gap-4">
-              <Button className="px-6 py-6" style={{ backgroundColor: founderColor, borderColor: founderColor }}>
+              <Button 
+                className="px-6 py-6" 
+                style={{ backgroundColor: founderColor, borderColor: founderColor }}
+                onClick={() => window.location.href = '/application-form'}
+              >
                 Apply for Founders Track
               </Button>
-              <Button variant="outline" className="px-6 py-6 border border-white/20 hover:bg-white/10">
-                Learn More
+              <Button 
+                variant="outline" 
+                className="px-6 py-6 border border-white/20 hover:bg-white/10"
+                onClick={() => window.open('https://calendly.com/jodenclashnewman/vertical-shortcut-discovery-call', '_blank')}
+              >
+                Schedule a Call
               </Button>
             </div>
           </div>

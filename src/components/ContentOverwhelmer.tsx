@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef, FC } from 'react';
+import React, { useState, useRef, FC } from 'react';
 import gsap from 'gsap';
+import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { JSX } from 'react/jsx-runtime';
 import { Button } from './ui/button';
@@ -37,10 +38,6 @@ interface Resource {
   name: string;
 }
 
-interface ModuleNames {
-  [key: string]: string[];
-}
-
 interface ResourceColors {
   [key: string]: string;
 }
@@ -48,31 +45,34 @@ interface ResourceColors {
 interface Submodule {
   title: string;
   duration: string;
+  resources: Resource[];
 }
 
 interface Module {
-  id: number;
-  name: string;
-  category: string;
-  tracks: string[];
-  resources: Resource[];
-  description: string;
+  id: string;
+  title: string;
+  track: Track;
   submodules: Submodule[];
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
-  durationHours: number;
+  description?: string;
+  difficulty?: string;
+  durationHours?: number;
 }
 
 const ContentOverwhelmer: FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const pathRef = useRef<SVGPathElement>(null);
-  const animationsRef = useRef<(gsap.core.Timeline | gsap.core.Tween)[]>([]);
-  const scrollTriggersRef = useRef<ScrollTrigger[]>([]);
-  
-  // State for active track filtering and expanded module
-  const [activeTrack, setActiveTrack] = useState<string | null>(null);
-  const [expandedModuleId, setExpandedModuleId] = useState<number | null>(null);
+  // State for expanded/collapsed view
   const [isExpanded, setIsExpanded] = useState(false);
   
+  // State for active track and expanded module
+  const [activeTrack, setActiveTrack] = useState<string | null>(null);
+  const [expandedModuleId, setExpandedModuleId] = useState<string | null>(null);
+  
+  // Refs for animations
+  const containerRef = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const pathTween = useRef<gsap.core.Tween | null>(null);
+  const animationsRef = useRef<(gsap.core.Timeline | gsap.core.Tween)[]>([]);
+  const scrollTriggersRef = useRef<ScrollTrigger[]>([]);
+
   // Define tracks with their respective colors and Hero Icons
   const tracks: Track[] = [
     { name: "FOUNDER", color: "#FEA35D", icon: <UserIcon className="w-5 h-5" /> },
@@ -81,124 +81,116 @@ const ContentOverwhelmer: FC = () => {
     { name: "EDITOR", color: "#387292", icon: <BeakerIcon className="w-5 h-5" /> },
     { name: "VIDEOGRAPHER", color: "#DE6B59", icon: <VideoCameraIcon className="w-5 h-5" /> },
   ];
-  
-  // Expanded curriculum categories for more content
-  const categories: string[] = [
-    "Theory Basics", "Theory Advanced", "Shooting", "Research & Writing", 
-    "Editing", "Monetisation", "Content Strategy", "Growth Systems",
-    "Audience Building", "Platform Mastery", "Production Workflow", "Creator Automation"
-  ];
 
-  // Generate much more content for overwhelming effect
-  const generateModules = (): Module[] => {
-    const modules: Module[] = [];
-    let id = 0;
-    
-    categories.forEach(category => {
-      // 5-8 modules per category for overwhelming effect
-      const moduleCount = 5 + Math.floor(Math.random() * 4);
-      
-      for (let i = 0; i < moduleCount; i++) {
-        // Assign 1-4 random tracks to each module
-        const moduleTrackCount = 1 + Math.floor(Math.random() * 3);
-        const moduleTrackIndices = new Set<number>();
-        
-        while (moduleTrackIndices.size < moduleTrackCount) {
-          moduleTrackIndices.add(Math.floor(Math.random() * tracks.length));
-        }
-        
-        const moduleTracks = Array.from(moduleTrackIndices).map(idx => tracks[idx].name);
-        
-        // 3-6 resources per module for overwhelming effect
-        const resourceCount = 3 + Math.floor(Math.random() * 4);
-        
-        // 3-6 submodules
-        const submoduleCount = 3 + Math.floor(Math.random() * 4);
-        
-        // Difficulty level
-        const difficulties: ('Beginner' | 'Intermediate' | 'Advanced' | 'Expert')[] = 
-          ['Beginner', 'Intermediate', 'Advanced', 'Expert'];
-        
-        modules.push({
-          id: id++,
-          name: getRandomModuleName(category),
-          category,
-          tracks: moduleTracks,
-          resources: getResources(resourceCount),
-          description: getRandomDescription(category),
-          submodules: getRandomSubmodules(submoduleCount),
-          difficulty: difficulties[Math.floor(Math.random() * difficulties.length)],
-          durationHours: 2 + Math.floor(Math.random() * 8)
-        });
+  // Generate sample modules for display
+  const generateSampleModules = (): Module[] => {
+    return [
+      {
+        id: "1",
+        title: "Short Form Video Strategy",
+        track: tracks[0],
+        description: "Learn the fundamentals of short-form video strategy",
+        difficulty: "Beginner",
+        durationHours: 2,
+        submodules: [
+          {
+            title: "Platform Selection",
+            duration: "25 min",
+            resources: [{ type: "PDF", name: "Platform Comparison Guide" }]
+          },
+          {
+            title: "Content Planning",
+            duration: "30 min",
+            resources: [{ type: "Template", name: "Content Calendar" }]
+          }
+        ]
+      },
+      {
+        id: "2",
+        title: "Camera Confidence",
+        track: tracks[1],
+        description: "Overcome camera anxiety and present with confidence",
+        difficulty: "Intermediate",
+        durationHours: 3,
+        submodules: [
+          {
+            title: "Overcoming Camera Anxiety",
+            duration: "20 min",
+            resources: [{ type: "Video", name: "Practice Exercises" }]
+          }
+        ]
       }
-    });
-    
-    return modules;
+    ];
   };
+
+  // Sample modules
+  const sampleModules = generateSampleModules();
   
-  // Generate all modules
-  const allModules = useRef(generateModules()).current;
-  
-  // Filter modules by active track
+  // Filtered modules based on active track
   const filteredModules = activeTrack 
-    ? allModules.filter(module => module.tracks.includes(activeTrack))
-    : allModules;
+    ? sampleModules.filter(module => module.track.name === activeTrack)
+    : sampleModules;
 
-  // Handle module expansion
-  const handleModuleClick = (moduleId: number) => {
-    setExpandedModuleId(prevId => prevId === moduleId ? null : moduleId);
-  };
-
-  // Setup and cleanup animations
-  useEffect(() => {
-    if (!containerRef.current || !pathRef.current) return;
+  // Replace your animation setup with this
+  useGSAP(() => {
+    // Clear previous animations first
+    if (animationsRef.current.length > 0) {
+      animationsRef.current.forEach(anim => anim.kill());
+      animationsRef.current = [];
+    }
     
-    // Clear previous animations and scroll triggers
-    animationsRef.current.forEach(tl => tl.kill());
-    scrollTriggersRef.current.forEach(st => st.kill());
-    animationsRef.current = [];
-    scrollTriggersRef.current = [];
+    if (scrollTriggersRef.current.length > 0) {
+      scrollTriggersRef.current.forEach(st => st.kill());
+      scrollTriggersRef.current = [];
+    }
     
-    // Animation for the path that connects modules
-    const path = pathRef.current;
-    const pathLength = path.getTotalLength();
-    
-    gsap.set(path, {
-      strokeDasharray: pathLength,
-      strokeDashoffset: pathLength,
-    });
-    
-    const pathTween = gsap.to(path, {
-      strokeDashoffset: 0,
-      duration: 3,
-      ease: "power2.inOut",
-      paused: true
-    });
-    
+    // Use unique IDs for all scroll triggers
     const pathTrigger = ScrollTrigger.create({
       trigger: containerRef.current,
       start: "top 80%",
       end: "bottom 20%",
+      id: "content-overwhelmer-path", // Unique ID
       onUpdate: (self) => {
-        pathTween.progress(self.progress);
+        // Only create path animation if it doesn't exist
+        if (!pathTween.current && pathRef.current) {
+          const path = pathRef.current;
+          const pathLength = path.getTotalLength();
+          
+          gsap.set(path, {
+            strokeDasharray: pathLength,
+            strokeDashoffset: pathLength,
+          });
+          
+          pathTween.current = gsap.to(path, {
+            strokeDashoffset: 0,
+            duration: 3,
+            ease: "power2.inOut",
+            paused: true
+          });
+        }
+        
+        // Update animation progress
+        if (pathTween.current) {
+          pathTween.current.progress(self.progress);
+        }
       }
     });
     
     scrollTriggersRef.current.push(pathTrigger);
     
-    // Animate modules in without ScrollTrigger for filtering
-    const moduleElements = gsap.utils.toArray('.module');
+    // Use lower stagger values and shorter durations
+    const moduleElements = document.querySelectorAll('.module');
     if (moduleElements.length) {
       gsap.set(moduleElements, { opacity: 0, y: 20 });
       
       const modulesTl = gsap.to(moduleElements, {
         opacity: 1,
         y: 0,
-        stagger: 0.01,
-        duration: 0.2,
+        stagger: 0.005, // Reduced stagger value
+        duration: 0.15, // Shorter duration
         ease: "power1.out",
         onComplete: () => {
-          // After modules are visible, animate resource cards
+          // Animate resource cards with much lighter animations
           animateResourceCards();
         }
       });
@@ -206,15 +198,18 @@ const ContentOverwhelmer: FC = () => {
       animationsRef.current.push(modulesTl);
     }
     
-    // Add subtle floating animations to resource cards
+    // Much lighter floating animations for resources
     function animateResourceCards() {
       const resourceCards = document.querySelectorAll('.resource-card');
       resourceCards.forEach(card => {
+        // Skip animation for off-screen cards
+        if (!isElementInViewport(card)) return;
+        
         const tl = gsap.to(card, {
-          // Reduced animation by ~70%
-          y: () => Math.random() * 2.5 - 1.25,
-          x: () => Math.random() * 2 - 1,
-          rotation: () => Math.random() * 1.2 - 0.6,
+          // Extremely subtle movement
+          y: () => Math.random() * 1 - 0.5,
+          x: () => Math.random() * 0.7 - 0.35,
+          rotation: () => Math.random() * 0.5 - 0.25,
           duration: 2 + Math.random() * 2,
           repeat: -1,
           yoyo: true,
@@ -224,63 +219,63 @@ const ContentOverwhelmer: FC = () => {
       });
     }
     
-    // Add counter animation for stats
-    const statCounters = document.querySelectorAll('.stat-counter');
-    statCounters.forEach(counter => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const target = Number(counter.getAttribute('data-target') || 0);
-      const counterTl = gsap.from(counter, {
-        innerText: 0,
-        duration: 2,
-        snap: { innerText: 1 },
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: counter,
-          start: "top 90%",
-        }
-      });
-      
-      animationsRef.current.push(counterTl);
-    });
-    
-    // Cleanup on unmount
-    return () => {
-      animationsRef.current.forEach(tl => tl.kill());
-      scrollTriggersRef.current.forEach(st => st.kill());
-    };
-  }, [activeTrack]); // Only run when activeTrack changes
-  
-  // Handle expanded module animations
-  useEffect(() => {
-    // Clean up any existing expand/collapse animations
-    gsap.killTweensOf(".module-expanded-content");
-    
-    // Handle animation for expanded content
-    if (expandedModuleId !== null) {
-      const expandedContent = document.querySelector(`#module-${expandedModuleId} .module-expanded-content`);
-      if (expandedContent) {
-        // Expand animation
-        gsap.fromTo(
-          expandedContent, 
-          { height: 0, opacity: 0, overflow: "hidden" },
-          { 
-            height: "auto", 
-            opacity: 1, 
-            duration: 0.4, 
-            ease: "power2.out",
-            onComplete: function() {
-              gsap.set(expandedContent, { overflow: "visible" });
-            }
-          }
-        );
-      }
+    // Helper function to only animate visible elements
+    function isElementInViewport(el: Element) {
+      const rect = el.getBoundingClientRect();
+      return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+      );
     }
-  }, [expandedModuleId]);
+  }, { scope: containerRef });
+
+  // Toggle expanded/collapsed view
+  const toggleExpanded = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  // Filter modules by track
+  const filterByTrack = (trackName: string | null) => {
+    setActiveTrack(trackName);
+  };
+
+  // Toggle module expansion
+  const toggleModule = (moduleId: string) => {
+    setExpandedModuleId(prevId => prevId === moduleId ? null : moduleId);
+  };
+
+  // Helper function to get resource color
+  const getResourceColor = (type: string): string => {
+    const colors: ResourceColors = {
+      'PDF': '#FEA35D',
+      'Workshop': '#F89A67',
+      'Test': '#154D59',
+      'Video': '#387292',
+      'Template': '#DE6B59',
+      'Worksheet': '#B92234',
+      'Code': '#09232F',
+      'System': '#350013',
+      'Framework': '#FDEBDD'
+    };
+    return colors[type as keyof ResourceColors] || '#FEA35D';
+  };
   
-  // Handle track selection
-  const handleTrackClick = (trackName: string) => {
-    setExpandedModuleId(null); // Close any expanded module
-    setActiveTrack(prevTrack => prevTrack === trackName ? null : trackName);
+  // Helper function to get resource icon
+  const getResourceIcon = (type: string): JSX.Element => {
+    switch(type) {
+      case 'PDF': return <DocumentIcon className="w-4 h-4" />;
+      case 'Workshop': return <UserIcon className="w-4 h-4" />;
+      case 'Test': return <CheckCircleIcon className="w-4 h-4" />;
+      case 'Video': return <VideoCameraIcon className="w-4 h-4" />;
+      case 'Template': return <DocumentIcon className="w-4 h-4" />;
+      case 'Worksheet': return <DocumentIcon className="w-4 h-4" />;
+      case 'Code': return <CogIcon className="w-4 h-4" />;
+      case 'System': return <CogIcon className="w-4 h-4" />;
+      case 'Framework': return <CubeIcon className="w-4 h-4" />;
+      default: return <DocumentIcon className="w-4 h-4" />;
+    }
   };
 
   return (
@@ -358,7 +353,7 @@ const ContentOverwhelmer: FC = () => {
                   {tracks.map((track) => (
                     <button 
                       key={track.name}
-                      onClick={() => handleTrackClick(track.name)}
+                      onClick={() => filterByTrack(track.name)}
                       className={`group m-1.5 px-5 py-2.5 rounded-full border-2 transition-all flex items-center ${
                         activeTrack === track.name ? 'scale-105 shadow-lg' : 'hover:scale-105'
                       }`}
@@ -377,7 +372,7 @@ const ContentOverwhelmer: FC = () => {
                   
                   {activeTrack && (
                     <button 
-                      onClick={() => setActiveTrack(null)}
+                      onClick={() => filterByTrack(null)}
                       className="m-1.5 px-5 py-2.5 rounded-full border-2 border-white/30 transition-all hover:border-white/60"
                     >
                       <span className="font-bold text-base">SHOW ALL</span>
@@ -444,7 +439,7 @@ const ContentOverwhelmer: FC = () => {
                     <div 
                       key={module.id}
                       id={`module-${module.id}`}
-                      onClick={() => handleModuleClick(module.id)}
+                      onClick={() => toggleModule(module.id)}
                       className={`module p-5 rounded-lg backdrop-blur-sm bg-black/30 border transition-all cursor-pointer group ${
                         expandedModuleId === module.id 
                           ? 'border-[#FEAC6D] shadow-lg shadow-[#FEAC6D]/10'
@@ -457,27 +452,27 @@ const ContentOverwhelmer: FC = () => {
                       <div className="flex items-center mb-3">
                         <div 
                           className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold mr-3"
-                          style={{ backgroundColor: tracks[module.id % tracks.length].color }}
+                          style={{ backgroundColor: tracks[parseInt(module.id) % tracks.length].color }}
                         >
-                          {module.id + 1}
+                          {parseInt(module.id) + 1}
                         </div>
                         <h3 className={`text-lg font-bold group-hover:text-[#FEAC6D] transition-colors ${
                           expandedModuleId === module.id ? 'text-[#FEAC6D]' : ''
                         }`}>
-                          {module.name}
+                          {module.title}
                         </h3>
                       </div>
                       
                       {/* Category tag */}
                       <div className="ml-12 mb-3">
                         <span className="text-sm px-2.5 py-1 rounded bg-black/30 text-[#FDEBDD]">
-                          {module.category}
+                          {module.track.name}
                         </span>
                       </div>
                       
                       {/* Track indicators */}
                       <div className="ml-12 flex mb-3">
-                        {module.tracks.map((trackName, idx) => {
+                        {module.track.name.split(',').map((trackName, idx) => {
                           const track = tracks.find(t => t.name === trackName);
                           return track ? (
                             <div 
@@ -495,27 +490,27 @@ const ContentOverwhelmer: FC = () => {
                       
                       {/* Resources - stacked with overlap for overwhelming effect */}
                       <div className="ml-10 flex flex-wrap relative">
-                        {module.resources.slice(0, expandedModuleId === module.id ? 4 : 3).map((resource, i) => (
+                        {module.submodules.map((submodule, i) => (
                           <div 
                             key={i}
                             className="resource-card px-2.5 py-1 text-sm rounded mr-1.5 mb-1.5 flex items-center transition-transform hover:scale-105 hover:z-10 shadow-sm"
                             style={{ 
-                              backgroundColor: getResourceColor(resource.type),
+                              backgroundColor: getResourceColor(submodule.resources[0].type),
                               transform: `translateX(${i * -3}px) translateY(${i % 2 === 0 ? -2 : 2}px)`,
-                              zIndex: module.resources.length - i,
+                              zIndex: module.submodules.length - i,
                             }}
                           >
-                            {getResourceIcon(resource.type)}
-                            <span className="ml-1.5">{resource.name.split(' ').slice(0, 2).join(' ')}</span>
+                            {getResourceIcon(submodule.resources[0].type)}
+                            <span className="ml-1.5">{submodule.resources[0].name.split(' ').slice(0, 2).join(' ')}</span>
                           </div>
                         ))}
                         
                         {/* Resource count badge */}
                         <div 
                           className="absolute right-0 -top-3 w-6 h-6 rounded-full bg-[#B92234] text-white text-xs flex items-center justify-center"
-                          title={`${module.resources.length} resources`}
+                          title={`${module.submodules.length} resources`}
                         >
-                          {module.resources.length}
+                          {module.submodules.length}
                         </div>
                       </div>
                       
@@ -562,14 +557,14 @@ const ContentOverwhelmer: FC = () => {
                           <div>
                             <h4 className="text-base font-bold mb-2 text-[#FEAC6D]">Included Resources:</h4>
                             <div className="grid grid-cols-2 gap-2">
-                              {module.resources.map((resource, idx) => (
+                              {module.submodules.map((submodule, idx) => (
                                 <div 
                                   key={idx}
                                   className="resource-full flex items-center p-2 rounded"
-                                  style={{ backgroundColor: `${getResourceColor(resource.type)}30` }}
+                                  style={{ backgroundColor: `${getResourceColor(submodule.resources[0].type)}30` }}
                                 >
-                                  {getResourceIcon(resource.type)}
-                                  <span className="ml-2 text-sm">{resource.name}</span>
+                                  {getResourceIcon(submodule.resources[0].type)}
+                                  <span className="ml-2 text-sm">{submodule.resources[0].name}</span>
                                 </div>
                               ))}
                             </div>
@@ -720,7 +715,7 @@ const ContentOverwhelmer: FC = () => {
 
         <div className="text-center mt-8">
           <Button
-            onClick={() => setIsExpanded(!isExpanded)}
+            onClick={toggleExpanded}
             variant="outline"
             className="gap-2"
           >
@@ -739,145 +734,5 @@ const ContentOverwhelmer: FC = () => {
     </section>
   );
 };
-
-// Helper functions for module generation
-function getRandomModuleName(category: string): string {
-  const prefixes: string[] = ["Mastering", "Advanced", "Essential", "Practical", "Strategic", "Complete", "Professional"];
-  const suffixes: string[] = ["Techniques", "Framework", "System", "Approach", "Methodology", "Blueprint", "Formula", "Playbook"];
-  
-  const moduleNames: ModuleNames = {
-    "Theory Basics": ["Hooks", "Framing", "Scripting", "Algorithmic Reality", "Cardinal Rules"],
-    "Theory Advanced": ["Nuanced Hooks", "Complex Formats", "Script Mastery", "Data Iteration"],
-    "Shooting": ["Camera Setup", "Lighting", "Movement", "Solo Production", "Studio Setup"],
-    "Editing": ["Pacing", "Transitions", "Color Theory", "Audio Enhancement", "Visual Effects"],
-    "Monetisation": ["Platform Strategy", "Partnerships", "Business Models", "Conversion"],
-    "Research & Writing": ["Keyword Research", "Scriptwriting", "Idea Generation", "Content Planning"],
-    "Content Strategy": ["Pillar Content", "Content Franchises", "Topic Research", "Audience Targeting"],
-    "Growth Systems": ["Viral Triggers", "Engagement Loops", "Growth Frameworks", "Scaling Content"],
-    "Audience Building": ["Community Strategy", "Loyalty Systems", "Audience Segmentation", "Fan Activation"],
-    "Platform Mastery": ["Algorithm Hacking", "Platform Features", "Cross-Platform Strategy", "Platform Selection"],
-    "Production Workflow": ["Team Coordination", "Content Calendar", "Batch Production", "Approval Processes"],
-    "Creator Automation": ["Content Systems", "Delegation Strategy", "Tools & Software", "Scaling Production"]
-  };
-  
-  const names: string[] = moduleNames[category] || ["Content", "Strategy", "Creation", "Growth", "Engagement"];
-  const prefix: string = prefixes[Math.floor(Math.random() * prefixes.length)];
-  const name: string = names[Math.floor(Math.random() * names.length)];
-  const suffix: string = suffixes[Math.floor(Math.random() * suffixes.length)];
-  
-  return `${prefix} ${name} ${suffix}`;
-}
-
-function getRandomDescription(category: string): string {
-  const descriptions = [
-    `Master the core principles of ${category.toLowerCase()} with practical examples and industry insights that have generated millions of views for top creators.`,
-    `Learn advanced strategies for ${category.toLowerCase()} that will set your content apart from competitors and dramatically increase your engagement rates.`,
-    `A comprehensive guide to ${category.toLowerCase()} with proven techniques from top creators who have built multi-million pound businesses through short-form content.`,
-    `Build your skills in ${category.toLowerCase()} from fundamentals to advanced applications, with frameworks that work across all major platforms.`,
-    `Transform your approach to ${category.toLowerCase()} with data-driven methods and frameworks that consistently outperform standard industry practices.`
-  ];
-  
-  return descriptions[Math.floor(Math.random() * descriptions.length)];
-}
-
-function getRandomSubmodules(count: number): Submodule[] {
-  const submodulePrefixes = ['Introduction to', 'Understanding', 'Applying', 'Mastering', 'Advanced', 'Practical'];
-  const submoduleTopics = ['Hooks', 'Audience Engagement', 'Visual Storytelling', 'Script Structure', 'Analytics', 
-                           'Platform Optimization', 'Content Planning', 'Editing Techniques', 'Growth Tactics',
-                           'Monetization Methods', 'Community Building', 'Performance Analysis'];
-  
-  const submodules: Submodule[] = [];
-  
-  for (let i = 0; i < count; i++) {
-    const prefix = submodulePrefixes[Math.floor(Math.random() * submodulePrefixes.length)];
-    const topic = submoduleTopics[Math.floor(Math.random() * submoduleTopics.length)];
-    
-    // Generate random duration between 10 and 70 minutes
-    const minutes = 10 + Math.floor(Math.random() * 60);
-    const duration = `${minutes} minutes`;
-    
-    submodules.push({
-      title: `${prefix} ${topic}`,
-      duration
-    });
-  }
-  
-  return submodules;
-}
-
-function getResources(count: number): Resource[] {
-  // Expanded resource types for more variety
-  const resourceTypes: Resource['type'][] = [
-    'PDF', 'Workshop', 'Test', 'Video', 'Template', 
-    'Worksheet', 'Code', 'System', 'Framework'
-  ];
-  
-  // Resource name prefixes and suffixes for variety
-  const prefixes: string[] = [
-    "Complete", "Ultimate", "Advanced", "Pro", "Quick", 
-    "Expert", "Mastery", "Essential", "Core", "Strategic"
-  ];
-  
-  const suffixes: string[] = [
-    "Guide", "Toolkit", "Workbook", "Checklist", "Template", 
-    "Framework", "System", "Breakdown", "Resource", "Cheatsheet"
-  ];
-  
-  const resources: Resource[] = [];
-  
-  for (let i = 0; i < count; i++) {
-    const type = resourceTypes[Math.floor(Math.random() * resourceTypes.length)];
-    const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-    const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
-    
-    resources.push({
-      type,
-      name: `${prefix} ${type} ${suffix}`
-    });
-  }
-  
-  return resources;
-}
-
-function getResourceColor(type: Resource['type']): string {
-  const colors: ResourceColors = {
-    "PDF": "#DE6B59",
-    "Workshop": "#387292",
-    "Test": "#B92234",
-    "Video": "#154D59",
-    "Template": "#F89A67",
-    "Worksheet": "#FEA35D",
-    "Code": "#350013",
-    "System": "#FEAC6D",
-    "Framework": "#09232F"
-  };
-  
-  return colors[type] || "#FEA35D";
-}
-
-function getResourceIcon(type: Resource['type']): JSX.Element {
-  switch (type) {
-    case 'PDF':
-      return <DocumentIcon className="w-4 h-4" />;
-    case 'Workshop':
-      return <BookOpenIcon className="w-4 h-4" />;
-    case 'Test':
-      return <CheckCircleIcon className="w-4 h-4" />;
-    case 'Video':
-      return <VideoCameraIcon className="w-4 h-4" />;
-    case 'Template':
-      return <DocumentIcon className="w-4 h-4" />;
-    case 'Worksheet':
-      return <DocumentIcon className="w-4 h-4" />;
-    case 'Code':
-      return <CogIcon className="w-4 h-4" />;
-    case 'System':
-      return <CogIcon className="w-4 h-4" />;
-    case 'Framework':
-      return <CubeIcon className="w-4 h-4" />;
-    default:
-      return <DocumentIcon className="w-4 h-4" />;
-  }
-}
 
 export default ContentOverwhelmer;

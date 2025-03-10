@@ -38,92 +38,92 @@ export interface LogoAsset {
 // Map of all available logo assets
 export const logoAssets: Record<LogoType, LogoAsset> = {
   'logo-bg-overlay': {
-    path: 'src/components/logos/Hero/logo-bg-overlay.png',
+    path: '/components/logos/Hero/logo-bg-overlay.png',
     format: 'png',
     description: 'Logo background overlay'
   },
   'logo-bg-overlay@3x': {
-    path: 'src/components/logos/Hero/logo-bg-overlay@3x.png',
+    path: '/components/logos/Hero/logo-bg-overlay@3x.png',
     format: 'png',
     resolution: '3x',
     description: 'Logo background overlay at 3x resolution'
   },
   'Logo-whole-4x': {
-    path: 'src/components/logos/Hero/Logo-whole-4x.png',
+    path: '/components/logos/Hero/Logo-whole-4x.png',
     format: 'png',
     resolution: '4x',
     description: 'Complete logo at 4x resolution'
   },
   'Logo-elements-4x': {
-    path: 'src/components/logos/Hero/Logo-elements-4x.png',
+    path: '/components/logos/Hero/Logo-elements-4x.png',
     format: 'png',
     resolution: '4x',
     description: 'Logo elements at 4x resolution'
   },
   'Logo-whole-3x': {
-    path: 'src/components/logos/Hero/Logo-whole-3x.png',
+    path: '/components/logos/Hero/Logo-whole-3x.png',
     format: 'png',
     resolution: '3x',
     description: 'Complete logo at 3x resolution'
   },
   'Logo-elements-3x': {
-    path: 'src/components/logos/Hero/Logo-elements-3x.png',
+    path: '/components/logos/Hero/Logo-elements-3x.png',
     format: 'png',
     resolution: '3x',
     description: 'Logo elements at 3x resolution'
   },
   'logo-bg-overlay@2x': {
-    path: 'src/components/logos/Hero/logo-bg-overlay@2x.png',
+    path: '/components/logos/Hero/logo-bg-overlay@2x.png',
     format: 'png',
     resolution: '2x',
     description: 'Logo background overlay at 2x resolution'
   },
   'Hero-solo-4x': {
-    path: 'src/components/logos/Hero/Hero-solo-4x.png',
+    path: '/components/logos/Hero/Hero-solo-4x.png',
     format: 'png',
     resolution: '4x',
     description: 'Hero solo at 4x resolution'
   },
   'Logo-elements-2x': {
-    path: 'src/components/logos/Hero/Logo-elements-2x.png',
+    path: '/components/logos/Hero/Logo-elements-2x.png',
     format: 'png',
     resolution: '2x',
     description: 'Logo elements at 2x resolution'
   },
   'Logo-solo-3x': {
-    path: 'src/components/logos/Hero/Logo-solo-3x.png',
+    path: '/components/logos/Hero/Logo-solo-3x.png',
     format: 'png',
     resolution: '3x',
     description: 'Logo solo at 3x resolution'
   },
   'Logo-elements-1x': {
-    path: 'src/components/logos/Hero/Logo-elements-1x.png',
+    path: '/components/logos/Hero/Logo-elements-1x.png',
     format: 'png',
     resolution: '1x',
     description: 'Logo elements at 1x resolution'
   },
   'Logo-bg-border': {
-    path: 'src/components/logos/Hero/Logo-bg-border.png',
+    path: '/components/logos/Hero/Logo-bg-border.png',
     format: 'png',
     description: 'Logo background with border'
   },
   'Logo-elements': {
-    path: 'src/components/logos/Hero/Logo-elements.svg',
+    path: '/components/logos/Hero/Logo-elements.svg',
     format: 'svg',
     description: 'Logo elements in SVG format'
   },
   'Logo-whole': {
-    path: 'src/components/logos/Hero/Logo-whole.svg',
+    path: '/components/logos/Hero/Logo-whole.svg',
     format: 'svg',
     description: 'Complete logo in SVG format'
   },
   'Logo-bg-border-1': {
-    path: 'src/components/logos/Hero/Logo-bg-border-1.png',
+    path: '/components/logos/Hero/Logo-bg-border-1.png',
     format: 'png',
     description: 'Logo background with border, variant 1'
   },
   'logo-bg-overlay-svg': {
-    path: 'src/components/logos/Hero/logo-bg-overlay.svg',
+    path: '/components/logos/Hero/logo-bg-overlay.svg',
     format: 'svg',
     description: 'Logo background overlay in SVG format'
   }

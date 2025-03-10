@@ -5,9 +5,21 @@ import { Button } from "../ui/button";
 import courseUtils from "../../lib/course-utils";
 import { ArrowRightCircle, Clock, Users } from "lucide-react";
 
+// Extend the Module interface to include difficulty property
+interface Module {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [x: string]: any;
+  id: string;
+  title: string;
+  subtitle: string;
+  icon: React.ReactNode;
+  color: string;
+  difficulty?: string;
+}
+
 const FeaturedModules = () => {
   // Get the featured modules from our data
-  const featuredModules = courseUtils.featuredModules;
+  const featuredModules: Module[] = courseUtils.featuredModules;
 
   return (
     <Section className="py-24 bg-[#08141B]">
@@ -50,7 +62,7 @@ const FeaturedModules = () => {
                 
                 {/* Tracks badges */}
                 <div className="flex flex-wrap gap-2 mb-6">
-                  {module.tracks.map((trackName, i) => {
+                  {module.tracks.map((trackName: string, i: React.Key | null | undefined) => {
                     const track = courseUtils.tracks.find(t => t.name === trackName);
                     const TrackIcon = track ? courseUtils.getTrackIcon(track.icon) : Users;
                     
@@ -72,7 +84,7 @@ const FeaturedModules = () => {
                   <div className="bg-black/20 rounded-lg p-4 mb-4">
                     <div className="text-sm font-medium text-white/80 mb-3">Module Includes:</div>
                     <ul className="space-y-2">
-                      {module.submodules.slice(0, 3).map((submodule, idx) => (
+                      {module.submodules?.slice(0, 3).map((submodule: { title: string }, idx: number) => (
                         <li key={idx} className="flex text-sm">
                           <span className="text-[#FEA35D] mr-2">•</span>
                           <span className="text-white/70">{submodule.title}</span>
@@ -97,10 +109,22 @@ const FeaturedModules = () => {
                     </div>
                   )}
                   
-                  <Button variant="ghost" className="text-[#FEA35D] hover:text-[#FEA35D] hover:bg-[#FEA35D]/10 p-0 h-auto ml-auto">
-                    <span className="mr-1">Learn More</span>
-                    <ArrowRightCircle className="w-4 h-4" />
-                  </Button>
+                  {/* Learn More button */}
+                  <div className="mt-3 pt-3 border-t border-[#154D59]/30">
+                    <div className="flex items-center justify-between">
+                      <div className="text-sm text-[#FEA35D]">
+                        {module.difficulty || 'Intermediate'}
+                      </div>
+                      <Button 
+                        variant="ghost" 
+                        className="text-[#FEA35D] hover:text-[#FEA35D] hover:bg-[#FEA35D]/10 p-0 h-auto ml-auto"
+                        onClick={() => document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' })}
+                      >
+                        <span className="mr-1">Learn More</span>
+                        <ArrowRightCircle className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -108,7 +132,10 @@ const FeaturedModules = () => {
         </div>
         
         <div className="text-center mt-12">
-          <Button className="px-8 py-6 bg-[#B92234] hover:bg-[#DE6B59] text-lg font-semibold">
+          <Button 
+            className="px-8 py-6 bg-[#B92234] hover:bg-[#DE6B59] text-lg font-semibold"
+            onClick={() => document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' })}
+          >
             View Full Curriculum
           </Button>
         </div>

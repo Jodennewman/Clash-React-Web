@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useRef, useLayoutEffect } from 'react';
 import { Section } from "../../ui/section";
 import { Badge } from "../../ui/badge";
-import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 // Import individual illustrations from their respective files
 import TilesIllustration from "../../illustrations/tiles";
 import MockupMobileIllustration from "../../illustrations/mockup-mobile";
@@ -72,35 +72,52 @@ const bentoItems: BentoItem[] = [
 
 export default function VSBentoGrid() {
   const bentoRef = useRef<HTMLDivElement>(null);
-  const animationCtx = useRef<ReturnType<typeof gsap.context> | null>(null);
+const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
   
-  useLayoutEffect(() => {
-    if (animationCtx.current) {
-      animationCtx.current.revert();
-    }
-    
-    animationCtx.current = gsap.context(() => {
-      gsap.from(".bento-item", {
-        scrollTrigger: {
-          trigger: bentoRef.current,
-          start: "top 80%",
-          once: true,
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.08,
-        ease: "power2.out",
-        clearProps: "all"
-      });
-    }, bentoRef);
-    
-    return () => {
-      if (animationCtx.current) {
-        animationCtx.current.revert();
+useLayoutEffect(() => {
+  // Create a unique ID for this ScrollTrigger
+  const triggerId = "bento-grid-animation";
+  
+  // Kill any existing ScrollTrigger with this ID
+  const existingTrigger = ScrollTrigger.getById(triggerId);
+  if (existingTrigger) {
+    existingTrigger.kill();
+  }
+  
+  // Create a new context to ensure clean animation setup
+  const ctx = gsap.context(() => {
+    // Create the ScrollTrigger with a unique ID
+    scrollTriggerRef.current = ScrollTrigger.create({
+      trigger: bentoRef.current,
+      start: "top 80%",
+      once: true,
+      id: triggerId,
+      onEnter: () => {
+        // Stagger the animation of bento items efficiently
+        gsap.fromTo(".bento-item", 
+          { y: 30, opacity: 0 },
+          { 
+            y: 0, 
+            opacity: 1, 
+            duration: 0.4, // Shorter duration
+            stagger: 0.05, // Lower stagger value
+            ease: "power2.out",
+            clearProps: "transform" // Only clear transform, keep opacity
+          }
+        );
       }
-    };
-  }, []);
+    });
+  }, bentoRef);
+  
+  // Clean up on unmount
+  return () => {
+    ctx.revert();
+    if (scrollTriggerRef.current) {
+      scrollTriggerRef.current.kill();
+      scrollTriggerRef.current = null;
+    }
+  };
+}, []);
 
   return (
     <Section className="bg-[#08141B] py-24">

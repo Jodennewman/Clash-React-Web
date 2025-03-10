@@ -6,9 +6,9 @@ import { Button } from '../ui/button';
 import { Switch } from '../ui/switch';
 // import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
-import { Book, Award, Zap, Check, X, Shield, HelpCircle } from 'lucide-react';
+import { Book, Award, Zap, Check, X, Shield } from 'lucide-react';
+import ReactDOM from 'react-dom/client';
 
 // Import data and utility from your pricing.ts file
 import {
@@ -270,6 +270,7 @@ const PricingFAQ = () => {
 
 // Inline quiz component
 // (If you prefer the quiz in its own modal file, see pricing-quiz-modal.tsx example)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const PlanQuiz = ({ onComplete }: { onComplete: (result: number) => void }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -386,6 +387,7 @@ const PlanQuiz = ({ onComplete }: { onComplete: (result: number) => void }) => {
 // Main Pricing page component
 export const PricingSection = () => {
   const [useInstallments, setUseInstallments] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showQuiz, setShowQuiz] = useState(false);
   const [recommendedPlan, setRecommendedPlan] = useState<number | null>(null);
   const [showPricingSection, setShowPricingSection] = useState(true);
@@ -421,6 +423,7 @@ export const PricingSection = () => {
     };
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleQuizComplete = (result: number) => {
     setRecommendedPlan(result);
     setShowQuiz(false);
@@ -509,21 +512,41 @@ export const PricingSection = () => {
               </div>
             </div>
 
-            {/* Quiz Trigger */}
-            <Dialog open={showQuiz} onOpenChange={setShowQuiz}>
-              <DialogTrigger asChild>
-                <Button className="px-5 py-2 bg-[#0F1A22] border border-[#FEA35D]/30 text-white hover:bg-[#154D59]/30 gap-2">
-                  <HelpCircle className="h-4 w-4" />
-                  Not sure which plan is right? Take the Quiz
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="bg-[#09232F] border-[#154D59] w-full max-w-md">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl">Find Your Perfect Plan</DialogTitle>
-                </DialogHeader>
-                <PlanQuiz onComplete={handleQuizComplete} />
-              </DialogContent>
-            </Dialog>
+            {/* Top Text & Quiz CTA */}
+            <div className="text-center mb-16">
+              <p className="text-white/70 mb-6 max-w-2xl mx-auto">
+                Choose the plan that's right for your goals. All plans include personalized coaching, community access, and implementation resources.
+              </p>
+              <Button 
+                className="px-5 py-2 bg-[#0F1A22] border border-[#FEA35D]/30 text-white hover:bg-[#154D59]/30 gap-2"
+                onClick={() => {
+                  // Import and open the pricing quiz modal
+                  import('./pricing-quiz-modal').then(module => {
+                    const PricingQuizModal = module.PricingQuizModal;
+                    // Create a div to mount the modal
+                    const modalContainer = document.createElement('div');
+                    document.body.appendChild(modalContainer);
+                    
+                    // Render the quiz modal
+                    const root = ReactDOM.createRoot(modalContainer);
+                    root.render(
+                      <PricingQuizModal 
+                        onComplete={(plan) => {
+                          // Scroll to the recommended plan
+                          document.getElementById(`pricing-tier-${plan}`)?.scrollIntoView({ behavior: 'smooth' });
+                          // Remove the modal
+                          root.unmount();
+                          document.body.removeChild(modalContainer);
+                        }} 
+                      />
+                    );
+                  });
+                }}
+              >
+                <span>Not sure which plan to choose?</span>
+                <span className="text-[#FEA35D]">Take the Quiz</span>
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -645,10 +668,17 @@ export const PricingSection = () => {
                     </CardContent>
 
                     <CardFooter className="flex flex-col gap-4 pt-4">
-                      <Button className="w-full py-6 bg-[#FEA35D] hover:bg-[#F89A67] text-white font-medium">
+                      <Button 
+                        className="w-full py-6 bg-[#FEA35D] hover:bg-[#F89A67] text-white font-medium"
+                        onClick={() => window.location.href = '/application-form'}
+                      >
                         {tier.ctaText}
                       </Button>
-                      <Button variant="link" className="text-white/60 hover:text-white">
+                      <Button
+                        variant="outline"
+                        className="text-white/60 hover:text-white"
+                        onClick={() => window.open('https://calendly.com/jodenclashnewman/vertical-shortcut-discovery-call', '_blank')}
+                      >
                         Schedule a Call
                       </Button>
                     </CardFooter>
@@ -694,12 +724,16 @@ export const PricingSection = () => {
                 audiences and drive sustainable growth.
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
-                <Button className="px-8 py-6 bg-[#B92234] hover:bg-[#DE6B59] text-lg font-semibold">
+                <Button 
+                  className="px-8 py-6 bg-[#B92234] hover:bg-[#DE6B59] text-lg font-semibold"
+                  onClick={() => window.location.href = '/application-form'}
+                >
                   Enroll Now
                 </Button>
                 <Button
                   variant="outline"
                   className="px-8 py-6 border-white/20 hover:bg-white/10 text-lg font-semibold"
+                  onClick={() => window.open('https://calendly.com/jodenclashnewman/vertical-shortcut-discovery-call', '_blank')}
                 >
                   Schedule a Call
                 </Button>
