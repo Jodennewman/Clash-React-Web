@@ -22,7 +22,14 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/App.tsx", "src/main.tsx", "src/components/ComingSoon.tsx"],
+  "include": [
+    "src/App.tsx", 
+    "src/main.tsx", 
+    "src/components/ComingSoon.tsx",
+    "src/components/isometricGrid.tsx",
+    "src/components/isometricCube.tsx",
+    "src/VerticalShortcutLanding.tsx"
+  ],
   "exclude": [
     "src/components/Modules.tsx",
     "src/components/ContentOverwhelmer.tsx",
