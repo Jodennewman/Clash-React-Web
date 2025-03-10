@@ -1,4 +1,5 @@
-// IsometricCube.tsx
+// isometricCube.tsx
+// Ensuring this file is included in the Git commit for Vercel deployment
 import React, { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import './isometricCube.css';

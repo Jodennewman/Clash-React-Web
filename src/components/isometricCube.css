@@ -1,3 +1,4 @@
+/* Isometric Cube CSS - Ensuring this file is included in the Git commit for Vercel deployment */
 .isometric-cube-wrapper {
   position: absolute;
   transform-style: preserve-3d;

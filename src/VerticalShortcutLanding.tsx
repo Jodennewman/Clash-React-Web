@@ -10,7 +10,6 @@ import SocialProofItem from './components/ui/social-proof-item';
 import Glow from './components/ui/glow';
 import { Item, ItemIcon, ItemTitle, ItemDescription } from './components/ui/item';
 import { Alert, AlertDescription, AlertTitle } from './components/ui/alert';
-import FeatureStickyLeft from './components/sections/feature/sticky-left';
 import SafeVideoEmbed from './components/ui/video-embed';
 import VSBentoGrid from './components/sections/bento-grid/vsBentoGrid';
 import VSNavbar from './components/sections/navbar/vs-navbar';
@@ -25,6 +24,7 @@ import SocialProof from './components/sections/social-proof/marquee-2-rows';
 import TestimonialCarousel from './components/ui/testimonial-carousel';
 import LeadCaptureForm from './components/ui/lead-capture-form';
 import Logo from './components/logos/Hero';
+import VerticalShortcutApplicationForm from './components/form/form-shadcn-claude';
 
 // Import only the icons we're using
 import { 
@@ -376,6 +376,9 @@ const VerticalShortcutLanding = () => {
   const ctaRef = useRef(null);
   const videoRef = useRef(null);
 
+  // Add state for application modal
+  const [showApplicationModal, setShowApplicationModal] = useState(false);
+
   // Initialize animations with dependencies on gsapInitialized
   useLayoutEffect(() => {
     // Create a scoped GSAP context inside our component
@@ -597,9 +600,56 @@ const VerticalShortcutLanding = () => {
     };
   }, []);
 
+  // Function to open the application form modal
+  const openApplicationModal = () => {
+    setShowApplicationModal(true);
+    // Disable body scroll when modal is open
+    document.body.style.overflow = 'hidden';
+    // Pause ScrollSmoother to prevent background page scrolling
+    if (globalScrollSmoother) {
+      globalScrollSmoother.paused(true);
+    }
+  };
+  
+  // Function to close the application form modal
+  const closeApplicationModal = () => {
+    setShowApplicationModal(false);
+    // Re-enable body scroll when modal is closed
+    document.body.style.overflow = 'auto';
+    // Resume ScrollSmoother
+    if (globalScrollSmoother) {
+      globalScrollSmoother.paused(false);
+    }
+  };
+
   return (
     <AnimationController>
       <ThemeProvider defaultTheme="dark">
+        {/* Application form modal */}
+        {showApplicationModal && (
+          <div 
+            className="fixed inset-0 z-[9999] bg-black/70 backdrop-blur-sm"
+            onClick={(e) => {
+              // Close modal when clicking the backdrop (outside the modal content)
+              if (e.target === e.currentTarget) {
+                closeApplicationModal();
+              }
+            }}
+          >
+            <div 
+              className="absolute inset-0 overflow-y-auto p-4 flex items-center justify-center"
+              style={{ paddingTop: '2vh', paddingBottom: '2vh' }}
+            >
+              <div 
+                className="w-full max-w-5xl bg-[var(--deep-blue)] rounded-xl" 
+                onClick={(e) => e.stopPropagation()}
+              >
+                <VerticalShortcutApplicationForm onClose={closeApplicationModal} />
+              </div>
+            </div>
+          </div>
+        )}
+      
         {/* Main wrapper for ScrollSmoother */}
         <div id="smooth-wrapper" ref={mainRef} className="min-h-screen overflow-hidden">
           {/* Floating Navbar stays outside the smooth content for fixed positioning */}
@@ -712,7 +762,7 @@ const VerticalShortcutLanding = () => {
                     <div className="hero-cta flex flex-wrap gap-4">
                       <Button 
                         className="px-8 py-7 bg-[var(--primary-orange)] hover:bg-[var(--primary-coral)] text-lg font-semibold"
-                        onClick={() => window.location.href = '/application-form'}
+                        onClick={openApplicationModal}
                       >
                         Apply Now <span className="ml-2">&rarr;</span>
                       </Button>
@@ -1136,7 +1186,7 @@ const VerticalShortcutLanding = () => {
                     <div className="mt-8">
                       <Button 
                         className="w-full py-5 bg-[#B92234] hover:bg-[#DE6B59] text-lg font-semibold"
-                        onClick={() => window.location.href = '/application-form'}
+                        onClick={openApplicationModal}
                       >
                         Apply Now
                       </Button>
