@@ -2,8 +2,9 @@ import { useEffect, useRef } from 'react';
 import { Application, Assets, Container, Sprite, DisplacementFilter } from 'pixi.js';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React from 'react';
 
-gsap.registerPlugin(ScrollTrigger);
+
 
 interface HeroSectionProps {
   onCtaClick?: () => void;

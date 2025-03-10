@@ -56,9 +56,9 @@ const slides = [
     imageDark: "/app-tasks-dark.png",
   },
 ];
-
 export default function CarouselLarge() {
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
+  const resolvedTheme = theme;
   const [expandedSlides, setExpandedSlides] = React.useState<boolean[]>(
     new Array(slides.length).fill(false),
   );

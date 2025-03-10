@@ -1,0 +1,130 @@
+import React from 'react';
+import { Section } from "../ui/section";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import courseUtils from "../../lib/course-utils";
+import { BriefcaseBusiness, Clock, BookOpen, CheckCircle, ArrowRightCircle } from "lucide-react";
+
+const FounderTrack = () => {
+  // Get the founder modules from our data
+  const founderModules = courseUtils.founderModules;
+  
+  // Get the founder track color
+  const founderTrack = courseUtils.tracks.find(track => track.name === "Founders");
+  const founderColor = founderTrack?.color || "#FF3B30";
+
+  return (
+    <Section className="py-24 bg-gradient-to-b from-[#08141B] to-[#09232F]">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col lg:flex-row gap-12 max-w-6xl mx-auto">
+          {/* Left Column - Overview */}
+          <div className="lg:w-5/12">
+            <Badge variant="outline" className="bg-white/5 text-[#FEA35D] border-[#FEA35D]/30 mb-4 py-2 px-4">
+              For Busy Entrepreneurs
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">The Founders Track</span>
+            </h2>
+            <p className="text-xl text-white/70 mb-8">
+              Specifically designed for time-starved entrepreneurs who need to build personal brands and create content that converts—without sacrificing their core business focus.
+            </p>
+            
+            <div className="bg-[#09232F]/70 backdrop-blur-sm border border-white/10 rounded-xl p-6 mb-8">
+              <div className="text-xl font-bold text-white mb-4 flex items-center">
+                <BriefcaseBusiness className="w-6 h-6 mr-3" style={{ color: founderColor }} />
+                Track Highlights
+              </div>
+              
+              <ul className="space-y-4">
+                {[
+                  "Balance professional credibility with platform-native authenticity",
+                  "Strategic batching techniques that save 70% of your time",
+                  "Delegate content creation without losing your unique voice",
+                  "Convert viewers into clients and partners without appearing salesy",
+                  "Build a personal brand that drives business growth"
+                ].map((point, idx) => (
+                  <li key={idx} className="flex">
+                    <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0" style={{ color: founderColor }} />
+                    <span className="text-white/80">{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            <div className="flex gap-4">
+              <Button className="px-6 py-6" style={{ backgroundColor: founderColor, borderColor: founderColor }}>
+                Apply for Founders Track
+              </Button>
+              <Button variant="outline" className="px-6 py-6 border border-white/20 hover:bg-white/10">
+                Learn More
+              </Button>
+            </div>
+          </div>
+          
+          {/* Right Column - Modules */}
+          <div className="lg:w-7/12">
+            <div className="bg-[#09232F]/70 backdrop-blur-sm border border-white/10 rounded-xl p-6 mb-6">
+              <div className="text-xl font-bold text-white mb-4 flex items-center">
+                <BookOpen className="w-6 h-6 mr-3" style={{ color: founderColor }} />
+                Must-Watch Modules for Founders
+              </div>
+              
+              <div className="space-y-4">
+                {founderModules.map((module, index) => (
+                  <div 
+                    key={index}
+                    className="bg-black/20 rounded-lg p-4 hover:bg-black/30 transition-colors duration-300 group cursor-pointer"
+                  >
+                    <div className="flex justify-between mb-2">
+                      <h3 className="font-bold text-white group-hover:text-[#FEA35D] transition-colors duration-300">{module.title}</h3>
+                      <div className="flex items-center text-white/60 text-sm">
+                        <Clock className="w-4 h-4 mr-1" />
+                        {module.duration} min
+                      </div>
+                    </div>
+                    
+                    <p className="text-white/70 text-sm mb-3">{module.subtitle}</p>
+                    
+                    {/* Submodules preview - just show first 2 */}
+                    <div className="pl-3 border-l-2 mb-3" style={{ borderColor: module.color }}>
+                      {module.submodules.slice(0, 2).map((submodule, idx) => (
+                        <div key={idx} className="mb-2">
+                          <div className="text-sm font-medium text-white/90">{submodule.title}</div>
+                          <div className="text-xs text-white/60">{submodule.subtitle}</div>
+                        </div>
+                      ))}
+                      {module.submodules.length > 2 && (
+                        <div className="text-sm text-[#FEA35D] flex items-center">
+                          +{module.submodules.length - 2} more sections
+                          <ArrowRightCircle className="w-3 h-3 ml-1" />
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Resources */}
+                    <div className="flex flex-wrap gap-2">
+                      {[...new Set(module.submodules.flatMap(sm => sm.resources))].map((resource, i) => (
+                        <span 
+                          key={i}
+                          className="text-xs bg-white/10 px-2 py-1 rounded-full text-white/70"
+                        >
+                          {resource}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <p className="text-white/60 text-sm text-center">
+              Access all {courseUtils.courseStats.totalModules} modules with full program enrollment, including {courseUtils.getModulesByTrack("Founders").length} founder-specific modules.
+            </p>
+          </div>
+        </div>
+      </div>
+    </Section>
+  );
+};
+
+export default FounderTrack;

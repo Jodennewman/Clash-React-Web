@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { Section } from "../ui/section";
 import {
     Card,
     CardContent,
@@ -8,16 +9,21 @@ import {
     CardTitle,
   } from '../ui/card';
 import {
-
-    ChartConfig,
+    Select,
+    SelectTrigger,
+    SelectValue,
+    SelectContent,
+    SelectItem
+} from "../ui/select";
+import { TrendingUp } from "lucide-react";
+import {
     ChartContainer,
+    ChartStyle,
     ChartTooltip,
     ChartTooltipContent,
-    ChartStyle,
-  } from '../ui/charts';
+} from '../ui/chart';
 
-
-  import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Label, Pie, PieChart, Sector } from 'recharts';
 
 export default function VSCharts() {
@@ -255,5 +261,3 @@ export default function VSCharts() {
     </Section>
   );
 };
-
-</sections>

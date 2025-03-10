@@ -1,7 +1,7 @@
 import * as React from "react";
-import LaunchUI from "@/components/logos/launch-ui";
+import LaunchUI from "../../components/logos/launch-ui";
 import Glow from "../ui/glow";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 
 import type { JSX } from "react";
 import TailwindLogo from "../logos/tailwind";

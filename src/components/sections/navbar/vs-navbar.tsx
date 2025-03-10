@@ -1,5 +1,4 @@
 import React from "react";
-import Navigation from "../../ui/navigation";
 import { Button } from "../../ui/button";
 import {
   Navbar as NavbarComponent,
@@ -8,7 +7,6 @@ import {
 } from "../../ui/navbar";
 import { Sheet, SheetContent, SheetTrigger } from "../../ui/sheet";
 import { Menu } from "lucide-react";
-import Logo from "../../logos/Hero/index";
 
 export default function vsNavbar() {
   return (
@@ -16,21 +14,24 @@ export default function vsNavbar() {
     <div className="max-w-container bg-[#08141B]/80 border-white/10 relative mx-auto rounded-2xl border p-2 pl-3 backdrop-blur-lg">
       <NavbarComponent className="py-0">
         <NavbarLeft>
-          <Logo type="Logo-solo-4x" className="flex items-center gap-2 text-xl font-bold" />
+          <img 
+            src="/Clash-Logo-One-Line-Light-for-Dark.png" 
+            alt="Clash Creation" 
+            className="h-8 mr-2"
+          />
             <div className="w-8 h-8 rounded-full bg-[#FEA35D] flex items-center justify-center">
               <span className="text-[#08141B] font-bold">VS</span>
             </div>
             <span className="text-white">Vertical Shortcut</span>
-          </Logo>
+          
           </NavbarLeft>
-          <NavbarCenter>
           <nav className="hidden md:flex ml-6 gap-6">
             <a href="#benefits" className="text-white/70 hover:text-white text-sm">Benefits</a>
             <a href="#curriculum" className="text-white/70 hover:text-white text-sm">Curriculum</a>
             <a href="#testimonials" className="text-white/70 hover:text-white text-sm">Success Stories</a>
             <a href="#pricing" className="text-white/70 hover:text-white text-sm">Pricing</a>
           </nav>
-          </NavbarCenter>
+          
           <NavbarRight>
           <a href="#" className="text-sm text-white/70 hover:text-white">
             Sign in
@@ -53,9 +54,11 @@ export default function vsNavbar() {
                   href="#"
                   className="flex items-center gap-2 text-xl font-bold text-white"
                 >
-                  <div className="w-8 h-8 rounded-full bg-[#FEA35D] flex items-center justify-center">
-                    <span className="text-[#08141B] font-bold">VS</span>
-                  </div>
+                  <img 
+                    src="/Clash-Logo-One-Line-Light-for-Dark.png" 
+                    alt="Clash Creation" 
+                    className="h-6 mr-2"
+                  />
                   <span>Vertical Shortcut</span>
                 </a>
                 <a

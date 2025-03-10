@@ -373,7 +373,7 @@ const ContentOverwhelmer: FC = () => {
                         activeTrack === track.name ? 'bg-white/20 text-white' : 'bg-white/10 text-white'
                       }`}>TRACK</span>
                     </button>
-                  )}
+                  ))}
                   
                   {activeTrack && (
                     <button 

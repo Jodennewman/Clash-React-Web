@@ -13,6 +13,7 @@ import { MousePointerClick, Shield, TextCursor, Wrench } from "lucide-react";
 import MockupBrowserIllustration from "../../illustrations/mockup-browser";
 import MockupResponsiveBottomIllustration from "../../illustrations/mockup-responsive-bottom";
 import RadarSmallIllustration from "../../illustrations/radar-small";
+import React from "react";
 
 export default function BentoGrid() {
   return (

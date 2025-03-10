@@ -1,10 +1,8 @@
-import React, { useEffect, useRef, useState, useLayoutEffect } from 'react';
+import React, { useRef, useLayoutEffect } from 'react';
 import { ThemeProvider } from './components/ui/theme-provider';
-import FloatingNavbar from './components/sections/navbar/floating';
 import IsometricGrid, { COLORS } from './components/isometricGrid';
 import ContentOverwhelmer from './components/ContentOverwhelmer';
-import FAQ from './components/sections/faq-raised';
-import { Pricing3ColsSubscription } from './components/sections/pricing-3-cols-subscription';
+import { PricingSection } from './components/sections/pricing-section.tsx';
 import { Section } from './components/ui/section';
 import { Button } from './components/ui/button';
 import { Badge } from './components/ui/badge';
@@ -13,64 +11,24 @@ import Glow from './components/ui/glow';
 import { Item, ItemIcon, ItemTitle, ItemDescription } from './components/ui/item';
 import { Alert, AlertDescription, AlertTitle } from './components/ui/alert';
 import FeatureStickyLeft from './components/sections/feature/sticky-left';
-import { Avatar, AvatarFallback, AvatarImage } from './components/ui/avatar';
-import ModuleBreakdown from './components/sections/module-breakdown';
-import VideoEmbed from './components/ui/video-embed';
-import VSLogo from './components/logos/Hero/vs-hero-logo';
-import { vsNavbar as NavbarComponent } from './components/sections/navbar/vs-navbar';
-import { Sheet, SheetContent, SheetTrigger } from './components/ui/sheet';
+import SafeVideoEmbed from './components/ui/video-embed';
+import VSBentoGrid from './components/sections/bento-grid/vsBentoGrid';
+import VSNavbar from './components/sections/navbar/vs-navbar';
+import CourseStats from './components/sections/course-stats';
+import ModuleBreakdownSimplified from './components/sections/module-breakdown-simplified';
+import FeaturedModules from './components/sections/featured-modules';
+import FounderTrack from './components/sections/founder-track';
+import FAQUpdated from './components/sections/faq-updated';
+import VSCarousel from './components/sections/carousel/VSCarousel';
+import TabsLeft from './components/sections/tabs/left';
+import SocialProof from './components/sections/social-proof/marquee-2-rows';
+import TestimonialCarousel from './components/ui/testimonial-carousel';
+import LeadCaptureForm from './components/ui/lead-capture-form';
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from './components/ui/carousel';
-import {
-  Slide,
-  SlideContent,
-  SlideTitle,
-  SlideDescription,
-  SlideVisual,
-  SlideButton,
-  SlideExpandedContent,
-} from './components/ui/slide';
-import { Image } from './components/ui/image';
-import {
-  Tile,
-  TileVisual,
-  TileTitle,
-  TileDescription,
-  TileContent,
-  TileLink,
-} from './components/ui/tile';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from './components/ui/card';
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  ChartStyle,
-} from './components/ui/chart';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from './components/ui/select';
+
+
 
 // Chart imports
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
-import { Label, Pie, PieChart, Sector } from 'recharts';
 
 // Import only the icons we're using
 import { 
@@ -86,16 +44,6 @@ import {
   DollarSign, 
   BriefcaseBusiness, 
   Rocket,
-  ChevronLeft,
-  ChevronRight,
-  Users,
-  Code,
-  BookOpen,
-  Youtube,
-  Share2,
-  TrendingUp,
-  Menu,
-  TrendingDown,
 } from 'lucide-react';
 
 // Import GSAP and plugins
@@ -107,24 +55,7 @@ import { ScrollSmoother } from 'gsap/ScrollSmoother';
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 // TypeScript Interfaces
-interface Testimonial {
-  quote: string;
-  name: string;
-  role: string;
-  image: string;
-}
 
-interface BentoItem {
-  title: string;
-  description: string;
-  icon: React.ReactElement;
-  color: string;
-  span: string;
-}
-
-interface VideoEmbedProps {
-  videoUrl: string;
-}
 
 // Define the isometric grid cubes for hero section
 const mainGridCubes = [
@@ -341,12 +272,13 @@ const learningOutcomes = [
 ];
 
 // Course stats data
-const courseStats = [
-  { label: "Views Generated", value: "800M+" },
-  { label: "Program Cost", value: "£6,500" },
-  { label: "Course Modules", value: "178+" },
-  { label: "Hours of Content", value: "1000+" }
-];
+// Course stats now come from the course-utils.ts file
+// const courseStats = [
+//   { label: "Views Generated", value: "800M+" },
+//   { label: "Program Cost", value: "£6,500" },
+//   { label: "Course Modules", value: "178+" },
+//   { label: "Hours of Content", value: "1000+" }
+// ];
 
 // Key features data
 const keyFeatures = [
@@ -372,237 +304,6 @@ const keyFeatures = [
   }
 ];
 
-// Bento grid items data
-const bentoItems = [
-  {
-    title: "Creator Network",
-    description: "Connect with 100+ top creators who've built 7+ figure businesses with short-form content.",
-    icon: <Users className="h-8 w-8" />,
-    color: "#FEA35D",
-    span: "col-span-1 row-span-1"
-  },
-  {
-    title: "AI-Powered Tools",
-    description: "Exclusive access to our custom AI tools for content research, script generation, and trend prediction.",
-    icon: <Code className="h-8 w-8" />,
-    color: "#B92234",
-    span: "col-span-1 row-span-1"
-  },
-  {
-    title: "Platform Mastery",
-    description: "Deep dives into TikTok, Instagram, YouTube Shorts, and LinkedIn algorithms with platform-specific strategies.",
-    icon: <Share2 className="h-8 w-8" />,
-    color: "#154D59",
-    span: "col-span-2 row-span-1 md:col-span-1 md:row-span-2"
-  },
-  {
-    title: "Viral Case Studies",
-    description: "Detailed breakdowns of 45+ videos that reached millions of views across different niches and industries.",
-    icon: <Youtube className="h-8 w-8" />,
-    color: "#DE6B59",
-    span: "col-span-2 md:col-span-1 row-span-1"
-  },
-  {
-    title: "Weekly Growth Labs",
-    description: "Live weekly sessions where we review your content and provide actionable feedback for immediate improvement.",
-    icon: <TrendingUp className="h-8 w-8" />,
-    color: "#FEAC6D",
-    span: "col-span-2 row-span-1"
-  },
-  {
-    title: "Content Library",
-    description: "Over 200+ video templates, swipe files, and script formats for every type of business and creator niche.",
-    icon: <BookOpen className="h-8 w-8" />,
-    color: "#387292",
-    span: "col-span-2 md:col-span-1 row-span-1"
-  }
-];
-
-// Custom Carousel component using GSAP Context
-const TestimonialCarousel = ({ testimonials }: { testimonials: Testimonial[] }) => {
-  const [current, setCurrent] = useState(0);
-  const length = testimonials.length;
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const animationCtx = useRef<ReturnType<typeof gsap.context> | null>(null);
-  
-  const nextSlide = () => {
-    setCurrent(current === length - 1 ? 0 : current + 1);
-  };
-  
-  const prevSlide = () => {
-    setCurrent(current === 0 ? length - 1 : current - 1);
-  };
-  
-  // Use Layout Effect to prioritize animation timing
-  useLayoutEffect(() => {
-    // Clear previous context if it exists
-    if (animationCtx.current) {
-      animationCtx.current.revert();
-    }
-    
-    // Create a new GSAP context for proper cleanup
-    animationCtx.current = gsap.context(() => {
-      const activeItem = document.querySelector(".carousel-item-active");
-      
-      if (activeItem) {
-        gsap.fromTo(activeItem, 
-          { opacity: 0, y: 20 },
-          { 
-            opacity: 1, 
-            y: 0, 
-            duration: 0.5, 
-            ease: "power2.out",
-            clearProps: "all" // Important for performance 
-          }
-        );
-      }
-    }, carouselRef); // Scope to our carousel ref
-    
-    // Cleanup function
-    return () => {
-      if (animationCtx.current) {
-        animationCtx.current.revert(); // Clean up all animations
-      }
-    };
-  }, [current]);
-
-  return (
-    <div ref={carouselRef} className="relative bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10">
-      {testimonials.map((testimonial, index) => (
-        <div 
-          key={index} 
-          className={`transition-opacity duration-300 ease-in-out ${
-            index === current ? 'opacity-100 carousel-item-active' : 'opacity-0 hidden'
-          }`}
-        >
-          <div className="flex flex-col items-center">
-            <div className="mb-6">
-              <Avatar className="w-24 h-24 border-4 border-[#FEA35D]/20">
-                <AvatarImage src={testimonial.image} />
-                <AvatarFallback className="bg-[#FEA35D]">{testimonial.name.charAt(0)}</AvatarFallback>
-              </Avatar>
-            </div>
-            <p className="text-xl md:text-2xl italic text-white/90 text-center mb-6">
-              "{testimonial.quote}"
-            </p>
-            <div className="text-center">
-              <h4 className="text-lg font-bold text-white">{testimonial.name}</h4>
-              <p className="text-[#FEA35D]">{testimonial.role}</p>
-            </div>
-          </div>
-        </div>
-      ))}
-      
-      <div className="absolute inset-x-0 bottom-4 flex justify-center space-x-2">
-        {testimonials.map((_, index) => (
-          <button
-            key={index}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              index === current ? 'bg-[#FEA35D] w-4' : 'bg-white/30'
-            }`}
-            onClick={() => setCurrent(index)}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
-      
-      <button 
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#FEA35D]"
-        onClick={prevSlide}
-      >
-        <ChevronLeft className="h-6 w-6" />
-      </button>
-      
-      <button 
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#FEA35D]"
-        onClick={nextSlide}
-      >
-        <ChevronRight className="h-6 w-6" />
-      </button>
-    </div>
-  );
-};
-
-// Custom Bento Grid component 
-const BentoGrid = ({ items }: { items: BentoItem[] }) => {
-  const bentoRef = useRef<HTMLDivElement>(null);
-  const animationCtx = useRef<ReturnType<typeof gsap.context> | null>(null);
-  
-  useLayoutEffect(() => {
-    if (animationCtx.current) {
-      animationCtx.current.revert();
-    }
-    
-    animationCtx.current = gsap.context(() => {
-      // Create a single staggered animation for all items
-      gsap.from(".bento-item", {
-        scrollTrigger: {
-          trigger: bentoRef.current,
-          start: "top 80%",
-          once: true, // Only animate once
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.08,
-        ease: "power2.out",
-        clearProps: "all"
-      });
-    }, bentoRef);
-    
-    return () => {
-      if (animationCtx.current) {
-        animationCtx.current.revert();
-      }
-    };
-  }, []);
-
-  return (
-    <div ref={bentoRef} className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
-      {items.map((item, index) => (
-        <div 
-          key={index} 
-          className={`${item.span} bento-item bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-[${item.color}]/40 transition-all duration-300 group`}
-        >
-          <div 
-            className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4`}
-            style={{ backgroundColor: item.color }}
-          >
-            {React.cloneElement(item.icon, { 
-              className: "h-6 w-6 text-white transition-transform duration-300 group-hover:scale-110" 
-            })}
-          </div>
-          <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#FEA35D] transition-colors duration-300">
-            {item.title}
-          </h3>
-          <p className="text-white/70">
-            {item.description}
-          </p>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-// Optimized VideoEmbed component 
-const SafeVideoEmbed = ({ videoUrl }: VideoEmbedProps) => {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  
-  return (
-    <div className="relative pt-[56.25%] w-full overflow-hidden rounded-xl">
-      <iframe
-        ref={iframeRef}
-        src={`${videoUrl}?enablejsapi=1&rel=0&playsinline=1&modestbranding=1`}
-        title="Video Player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-        loading="lazy"
-        className="absolute top-0 left-0 w-full h-full border-0"
-      />
-    </div>
-  );
-};
-
 // Main component with proper GSAP implementation
 const VerticalShortcutLanding = () => {
   // Create refs for DOM elements and animation contexts
@@ -619,7 +320,6 @@ const VerticalShortcutLanding = () => {
   const testimonialsRef = useRef(null);
   const ctaRef = useRef(null);
   const videoRef = useRef(null);
-  const bentoRef = useRef(null);
 
   // Initialize ScrollSmoother and main animations
   useLayoutEffect(() => {
@@ -632,8 +332,7 @@ const VerticalShortcutLanding = () => {
         wrapper: "#smooth-wrapper",
         content: "#smooth-content",
         normalizeScroll: true,
-        ignoreMobileResize: true,
-        preventDefault: true
+        ignoreMobileResize: true
       });
       
       // Hero section animations - batch for performance
@@ -807,7 +506,7 @@ const VerticalShortcutLanding = () => {
       {/* Main wrapper for ScrollSmoother */}
       <div id="smooth-wrapper" ref={mainRef} className="min-h-screen overflow-hidden">
         {/* Floating Navbar stays outside the smooth content for fixed positioning */}
-        <FloatingNavbar />
+        <VSNavbar />
         
         {/* Smooth content container */}
         <div id="smooth-content" ref={contentRef} className="min-h-screen bg-gradient-to-b from-[#09232F] to-[#08141B] text-white overflow-hidden">
@@ -926,36 +625,13 @@ const VerticalShortcutLanding = () => {
                 </p>
               </div>
               
-              <div className="flex flex-wrap justify-center gap-8 md:gap-16 mb-16">
-                {courseStats.map((stat, index) => (
-                  <div key={index} className="stat-item text-center relative">
-                    <div className="absolute inset-0 bg-[#FEA35D]/5 blur-xl rounded-full"></div>
-                    <div className="relative">
-                      <div className="text-4xl md:text-6xl font-bold text-[#FEA35D] mb-2">{stat.value}</div>
-                      <div className="text-lg text-white/70">{stat.label}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              {/* Replace static stats with CourseStats component */}
+              <CourseStats />
               
               <div className="text-center mb-10">
                 <Badge variant="outline" className="bg-[#B92234]/10 text-[#FEA35D] border-[#FEA35D]/30 py-2 px-4">
                   Don't Just Take Our Word For It
                 </Badge>
-              </div>
-              
-              {/* Testimonial Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-                {testimonials.slice(0, 2).map((testimonial, index) => (
-                  <div key={index} className="testimonial-item">
-                    <SocialProofItem
-                      name={testimonial.name}
-                      username={testimonial.username}
-                      text={testimonial.text}
-                      image={testimonial.image}
-                    />
-                  </div>
-                ))}
               </div>
             </div>
           </Section>
@@ -970,23 +646,7 @@ const VerticalShortcutLanding = () => {
           </div>
           
           {/* Bento Grid Section */}
-          <Section ref={bentoRef} className="bg-[#08141B] py-24">
-            <div className="container mx-auto px-4">
-              <div className="text-center mb-16">
-                <Badge variant="outline" className="bg-white/5 text-[#FEA35D] border-[#FEA35D]/30 mb-4 py-2 px-4">
-                  Program Resources
-                </Badge>
-                <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                  <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">Everything You Need</span>
-                </h2>
-                <p className="text-xl text-white/70 max-w-3xl mx-auto">
-                  Vertical Shortcut gives you all the tools, resources, and support to succeed with short-form content.
-                </p>
-              </div>
-              
-              <BentoGrid items={bentoItems} />
-            </div>
-          </Section>
+          <VSBentoGrid />
           
           {/* Core Benefits Section */}
           <Section ref={benefitsRef} className="benefits-section bg-gradient-to-b from-[#08141B] to-[#09232F] py-24">
@@ -1089,7 +749,8 @@ const VerticalShortcutLanding = () => {
               </div>
               
               <div className="max-w-6xl mx-auto">
-                <ModuleBreakdown />
+                {/* Replace with ModuleBreakdownSimplified */}
+                <ModuleBreakdownSimplified />
               </div>
               
               <div className="mt-16 text-center">
@@ -1100,12 +761,21 @@ const VerticalShortcutLanding = () => {
                   </AlertDescription>
                 </Alert>
                 
-                <Button className="px-8 py-6 bg-[#B92234] hover:bg-[#DE6B59] text-lg font-semibold">
-                  View Complete Curriculum
+                <Button className="px-8 py-6 bg-[#B92234] hover:bg-[#DE6B59] text-lg font-semibold mt-6">
+                  View Full Curriculum
                 </Button>
               </div>
             </div>
           </Section>
+          
+          {/* Add VSCarousel component */}
+          <VSCarousel />
+          
+          {/* Add FeaturedModules component */}
+          <FeaturedModules />
+          
+          {/* Use Cases Section with Tabs */}
+          <TabsLeft />
           
           {/* Content Overwhelmer Section - Shows the massive amount of content */}
           <ContentOverwhelmer />
@@ -1182,6 +852,9 @@ const VerticalShortcutLanding = () => {
               </div>
             </div>
           </Section>
+          
+          {/* Social Proof Marquee */}
+          <SocialProof />
           
           {/* Key Features Section */}
           <Section className="bg-[#09232F] py-24 border-t border-[#154D59]/30">
@@ -1263,10 +936,13 @@ const VerticalShortcutLanding = () => {
           </Section>
           
           {/* Pricing Section */}
-          <Pricing3ColsSubscription />
+          <PricingSection />
           
-          {/* FAQ Section */}
-          <FAQ />
+          {/* FAQ Section - Replace with FAQUpdated */}
+          <FAQUpdated />
+          
+          {/* Add Founder Track section before the final CTA */}
+          <FounderTrack />
           
           {/* Final CTA Section */}
           <Section ref={ctaRef} className="bg-[#08141B] py-24 border-t border-[#154D59]/30 relative overflow-hidden">
@@ -1275,31 +951,27 @@ const VerticalShortcutLanding = () => {
               <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-[#B92234]/10 to-transparent opacity-30 blur-3xl"></div>
             </div>
             
-            <div className="container mx-auto px-4 text-center relative z-10">
-              <div className="max-w-3xl mx-auto">
-                <Glow variant="center" />
-                <div className="cta-badge inline-block mb-6 bg-[#FEAC6D]/10 px-6 py-3 rounded-full border border-[#FEAC6D]/30">
-                  <span className="text-[#FEAC6D] font-semibold flex items-center gap-2">
-                    <Clock className="h-4 w-4" /> Limited spots available for next cohort
-                  </span>
+            <div className="container mx-auto px-4 relative z-10">
+              <div className="flex flex-col lg:flex-row gap-12 items-center">
+                <div className="lg:w-1/2 text-center lg:text-left">
+                  <Glow variant="center" />
+                  <div className="cta-badge inline-block mb-6 bg-[#FEAC6D]/10 px-6 py-3 rounded-full border border-[#FEAC6D]/30">
+                    <span className="text-[#FEAC6D] font-semibold flex items-center gap-2">
+                      <Clock className="h-4 w-4" /> Limited spots available for next cohort
+                    </span>
+                  </div>
+                  
+                  <h2 className="cta-title text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                    Ready to <span className="bg-gradient-to-r from-[#FEA35D] to-[#DE6B59] bg-clip-text text-transparent">Transform</span> Your Content?
+                  </h2>
+                  
+                  <p className="cta-description text-xl text-white/80 mb-10">
+                    Join Vertical Shortcut today and get access to our complete system for creating high-converting content that drives real business results.
+                  </p>
                 </div>
                 
-                <h2 className="cta-title text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-                  Ready to <span className="bg-gradient-to-r from-[#FEA35D] to-[#DE6B59] bg-clip-text text-transparent">Transform</span> Your Content?
-                </h2>
-                
-                <p className="cta-description text-xl text-white/80 mb-10 max-w-2xl mx-auto">
-                  Join Vertical Shortcut today and get access to our complete system for creating high-converting content that drives real business results.
-                </p>
-                
-                <div className="space-y-6 cta-button">
-                  <Button className="px-10 py-7 bg-[#B92234] hover:bg-[#DE6B59] text-xl font-semibold">
-                    Apply Now <span className="ml-2">&rarr;</span>
-                  </Button>
-                  
-                  <p className="text-white/50 text-sm">
-                    Applications for our next cohort close in 7 days
-                  </p>
+                <div className="lg:w-1/2">
+                  <LeadCaptureForm />
                 </div>
               </div>
             </div>

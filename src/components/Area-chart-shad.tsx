@@ -15,15 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "../components/ui/chart"
-
-// Define the chart data type for type safety
-interface ChartDataPoint {
-  month: string;
-  desktop: number;
-  mobile: number;
-}
-
-const chartData: ChartDataPoint[] = [
+const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
   { month: "February", desktop: 305, mobile: 200 },
   { month: "March", desktop: 237, mobile: 120 },
@@ -31,7 +23,6 @@ const chartData: ChartDataPoint[] = [
   { month: "May", desktop: 209, mobile: 130 },
   { month: "June", desktop: 214, mobile: 140 },
 ]
-
 const chartConfig = {
   desktop: {
     label: "Desktop",
@@ -42,15 +33,9 @@ const chartConfig = {
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig
-
-// Add props interface if you need to pass props to this component
-interface AreaChartComponentProps {
-  className?: string; // Make className optional
-}
-
-export function AreaChartComponent({ className = "" }: AreaChartComponentProps) {
+export function Component() {
   return (
-    <Card className={className}>
+    <Card>
       <CardHeader>
         <CardTitle>Area Chart - Axes</CardTitle>
         <CardDescription>
@@ -116,6 +101,3 @@ export function AreaChartComponent({ className = "" }: AreaChartComponentProps) 
     </Card>
   )
 }
-
-// For backwards compatibility with default exports
-export default AreaChartComponent;

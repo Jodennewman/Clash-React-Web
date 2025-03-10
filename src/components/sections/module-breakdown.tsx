@@ -22,7 +22,7 @@ const ModuleBreakdown = () => {
   ];
   
   // Module data for the active section
-  const getModulesForSection = (sectionId) => {
+  const getModulesForSection = (sectionId: string) => {
     switch(sectionId) {
       case 'theory_basics':
         return [

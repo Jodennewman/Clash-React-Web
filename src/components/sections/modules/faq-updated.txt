@@ -1,0 +1,16 @@
+import { Section } from "../ui/section";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "../ui/accordion-raised";
+import { Link } from "../ui/link";
+import courseUtils from "../../utils/courseUtils";
+
+// FAQ data incorporating course information
+const faqItems = [
+  {
+    question: "Why building a great landing page is critical for your business?",
+    answer: [
+      "In today's AI-driven world, standing out is harder than ever. While anyone can build a product, a professional landing page

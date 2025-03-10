@@ -145,7 +145,7 @@ const PricingSection = () => {
       recommendation = 1; // Authority Autopilot
     }
     
-    setRecommendedPlan(recommendation);
+    setRecommendedPlan(recommendation as unknown as React.SetStateAction<null>);
   };
 
   // Reset quiz
