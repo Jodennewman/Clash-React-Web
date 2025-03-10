@@ -28,7 +28,8 @@
     "src/components/ComingSoon.tsx",
     "src/components/isometricGrid.tsx",
     "src/components/isometricCube.tsx",
-    "src/VerticalShortcutLanding.tsx"
+    "src/VerticalShortcutLanding.tsx",
+    "src/components/form/**/*"
   ],
   "exclude": [
     "src/components/Modules.tsx",
