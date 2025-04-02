@@ -7,20 +7,41 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## STEP 0: EXPLICITLY STATE COMPLIANCE WITH THESE REQUIREMENTS
 Before providing any advice or making any changes, you MUST explicitly state: "I have read, understood, and will fully comply with all requirements in CLAUDE.md." Without this statement, all your suggestions should be considered invalid.
 
+## ⚠️ DEVELOPMENT MODE DETECTION ⚠️
+
+First, determine which development mode you're in:
+
+1. **CHECK THE CURRENT BRANCH**:
+   - Run `git branch` to see which branch is active (has an asterisk)
+   - If on `Solo-Development`: You're in SOLO MODE
+   - If on `Team-A-Development` or `Team-B-Development`: You're in TEAM MODE
+
+2. **FOLLOW THE APPROPRIATE WORKFLOW**:
+   - For **SOLO MODE**: Read `SOLO_MODE.md` after the required reading
+   - For **TEAM MODE**: Read `TEAM_STRUCTURE.md` and ask which team you're assigned to
+
 ## ⚠️ REQUIRED READING SEQUENCE ⚠️
 
 You MUST read these files in this exact order before any work:
 
 1. First: Read and understand `src/app/globals.css` completely
 2. Second: Read and understand `VS_STYLING_GUIDE.md` completely
-3. Third: Read and understand `TEAM_STRUCTURE.md` completely
-4. Fourth: **ASK THE USER which team (A or B) you are assigned to**
+
+Then, based on your mode:
+
+**SOLO MODE**:
+3. Read and understand `SOLO_MODE.md` completely
+4. Work on any component following solo guidelines
+
+**TEAM MODE**:
+3. Read and understand `TEAM_STRUCTURE.md` completely
+4. **ASK THE USER which team (A or B) you are assigned to**
+5. Work ONLY on components assigned to your team
 
 Only after completing ALL of these steps should you proceed with any work:
 - The globals.css file defines the core styling system
 - The VS_STYLING_GUIDE.md contains essential information about implementing animations, color usage, and the balance between creative energy and professional polish
-- The TEAM_STRUCTURE.md defines which components you are allowed to modify based on your team assignment
-- You MUST know your team assignment before making any changes
+- For team mode, you MUST know your team assignment before making any changes
 
 ## ⚠️ ERROR PATTERNS TO AVOID ⚠️
 Previous Claude agents have consistently made these errors which MUST be avoided:
@@ -34,17 +55,29 @@ Previous Claude agents have consistently made these errors which MUST be avoided
 8. Not implementing the "VS Bubbly" animation style (20% more pronounced than typical corporate sites)
 
 ## MANDATORY CHECKLIST - COMPLETE BEFORE ANY WORK
+
+### ALL MODES
 - [ ] I have read and understood src/app/globals.css completely
 - [ ] I have read and understood VS_STYLING_GUIDE.md completely
-- [ ] I have read and understood TEAM_STRUCTURE.md completely
-- [ ] I have confirmed with the user which team I am assigned to (A or B)
 - [ ] I understand all CSS variables and theme implementation
 - [ ] I accept that original vibrant colors in course-stats must be preserved exactly
 - [ ] I will never change grid layouts without explicit permission
 - [ ] I will never use hardcoded hex values except in specified exceptions
 - [ ] I will maintain all responsive layouts as they are
-- [ ] I will ONLY work on components assigned to my team
 - [ ] I will clearly state my plan and NEVER deviate from it
+- [ ] I will NEVER run `npm run dev` directly (use the nohup command in SOLO_MODE.md)
+
+### TEAM MODE ONLY
+- [ ] I have read and understood TEAM_STRUCTURE.md completely
+- [ ] I have confirmed with the user which team I am assigned to (A or B)
+- [ ] I will ONLY work on components assigned to my team
+- [ ] I will use the correct team branch (Team-A-Development or Team-B-Development)
+- [ ] I will prefix all commits with "A:" or "B:" according to my team
+
+### SOLO MODE ONLY
+- [ ] I have read and understood SOLO_MODE.md completely
+- [ ] I am working on the Solo-Development branch
+- [ ] I will prefix all commits with "Solo:"
 
 ## CRITICAL CONSTRAINTS - VIOLATIONS WILL REQUIRE COMPLETE REWORK
 1. DO NOT modify grid layouts (grid-cols-*) under any circumstances
