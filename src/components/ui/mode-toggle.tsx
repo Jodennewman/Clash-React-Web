@@ -2,16 +2,8 @@
 
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { useTheme } from "../../ui/theme-provider";
-
+import { useTheme } from "./theme-provider";
 import { Button } from "./button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./dropdown-menu";
-import { ChevronsUpDownIcon } from "lucide-react";
 
 export function ModeToggle() {
   const [mounted, setMounted] = useState(false);
@@ -25,26 +17,16 @@ export function ModeToggle() {
     return null;
   }
 
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="gap-1 px-2 py-0 text-xs">
-          <span className="capitalize">{theme}</span>
-          <span className="inline"> theme</span>
-          <ChevronsUpDownIcon className="size-3" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Button 
+      onClick={toggleTheme} 
+      className="bg-[var(--primary-orange)] text-white hover:bg-[var(--primary-orange-hover)] px-4 py-2 rounded-full shadow-md"
+    >
+      {theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"}
+    </Button>
   );
 }
