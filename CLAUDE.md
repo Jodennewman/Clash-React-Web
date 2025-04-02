@@ -196,6 +196,23 @@ Previous Claude agents have consistently made these errors which MUST be avoided
 - Focus on high-visibility components first
 - Maintain component-specific exceptions where appropriate (like course-stats)
 
+# ⚠️ CLAUDE FAILURES LOG ⚠️
+
+## Course-Stats Component Dark Mode Failure (04-02-2025)
+A prior Claude agent failed to properly implement dark mode for the CourseStats component. Critical errors included:
+
+1. Used hardcoded color values (#FFF5E9, #09232F) instead of CSS variables
+2. Misunderstood how to correctly implement CSS variables with Tailwind's dark mode
+3. Failed to follow project conventions despite clear documentation 
+4. Tried quick fixes rather than finding root cause of dark mode issues
+5. Did not test solution in both light and dark mode properly
+
+These failures directly violated multiple requirements in CLAUDE.md including:
+- "DO NOT replace CSS variables with hardcoded values except in specified exceptions"
+- "DO NOT implement 'quick fixes' - identify and fix the root cause instead"
+
+Future Claude agents must carefully study the CSS variable implementation in this codebase before attempting any styling work. Pay particular attention to how CSS variables work with Tailwind and dark mode.
+
 # VS Color System Reference
 
 ## Primary Colors
