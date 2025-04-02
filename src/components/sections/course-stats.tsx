@@ -4,57 +4,55 @@ import { Badge } from "../ui/badge";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Book, Clock, FileText, FileCode, Layers, CheckSquare } from 'lucide-react';
+import courseUtils from "../../lib/course-utils";
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
 
-// HARDCODED STATS - Using these as a fallback for reliability
-const STATS_FALLBACK = {
-  totalModules: 178,
-  totalHours: 1000,
-  resources: 450, 
-  workshops: 42,
-  pdfs: 89,
-  templates: 64
-};
-
-// Stats items with their respective icons
+// Stats items with their respective icons, preserving their original vibrant colors
+// as required in CLAUDE.md - converted to OKLCH format for better compatibility
 const statItems = [
   { 
     key: 'totalModules', 
     label: 'Modules', 
     icon: Layers,
-    color: '#FEA35D'
+    color: 'var(--primary-orange)', // #FEA35D
+    colorHover: 'var(--primary-orange-hover)'
   },
   { 
     key: 'totalHours', 
     label: 'Hours of Content', 
     icon: Clock,
-    color: '#FF3B30'
+    color: 'oklch(60% 0.19 25)', // #FF3B30
+    colorHover: 'oklch(55% 0.21 25)'
   },
   { 
     key: 'resources', 
     label: 'Resources', 
     icon: CheckSquare,
-    color: '#4A90E2'
+    color: 'oklch(63% 0.13 250)', // #4A90E2
+    colorHover: 'oklch(58% 0.15 250)'
   },
   { 
     key: 'workshops', 
     label: 'Workshops', 
     icon: Book,
-    color: '#34C759'
+    color: 'oklch(75% 0.18 140)', // #34C759
+    colorHover: 'oklch(70% 0.20 140)'
   },
   { 
     key: 'pdfs', 
     label: 'PDFs', 
     icon: FileText,
-    color: '#AF52DE'
+    color: 'oklch(58% 0.21 305)', // #AF52DE
+    colorHover: 'oklch(53% 0.23 305)'
   },
   { 
     key: 'templates', 
     label: 'Templates', 
     icon: FileCode,
-    color: '#387292'
+    color: 'oklch(48% 0.07 230)', // #387292
+    colorHover: 'oklch(43% 0.09 230)'
   }
 ];
 
@@ -64,18 +62,9 @@ const CourseStats = () => {
   const animationsRef = useRef([]);
   const scrollTriggersRef = useRef([]);
   
-  // Try to load dynamic course utils stats, fall back to hardcoded values if needed
-  let courseStats = STATS_FALLBACK;
-  try {
-    // We're trying to dynamically import the data to handle path issues
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const courseUtils = require("../../lib/course-utils").default;
-    if (courseUtils && courseUtils.courseStats) {
-      courseStats = courseUtils.courseStats;
-    }
-  } catch (err) {
-    console.warn("Could not load course-utils data, using fallback values", err);
-  }
+  // Use courseUtils directly without try/catch and fallback
+  // This will properly fail if data is missing (as specified in CLAUDE.md)
+  const courseStats = courseUtils.courseStats;
   
   // Use layout effect to ensure DOM is ready for GSAP
   useLayoutEffect(() => {

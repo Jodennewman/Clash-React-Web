@@ -288,7 +288,6 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   body {
@@ -711,7 +710,6 @@
   .dark .stats-badge {
     background-color: var(--card-bg-dark);
     color: var(--text-white);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
   }
 
   .dark .table th {
