@@ -34,20 +34,18 @@ You still MUST read these files in this exact order before any work:
 
 To avoid the "hanging on npm run dev" problem:
 
-1. **DO NOT use** `npm run dev` directly
-2. If you need to run the dev server, use:
+1. **DO NOT use** `npm run dev` directly - it will cause Claude to freeze!
+
+2. If you need to build the project, use:
    ```bash
-   nohup npm run dev > dev-output.log 2>&1 &
+   npm run build
    ```
 
-3. To check server output:
-   ```bash
-   cat dev-output.log
-   ```
+3. **NEVER** try to run a server that stays running in Claude - it will always cause problems
 
-4. To stop the server:
+4. If you need to test specific components, use:
    ```bash
-   pkill -f "node.*vite"
+   npm run typecheck
    ```
 
 ## Guidance for Solo Work

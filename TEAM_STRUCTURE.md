@@ -101,6 +101,24 @@ This document outlines how multiple Claude agents should collaborate when workin
    - Consider file locking: Only one Claude agent should edit a file at a time
    - Document any component API changes that might affect the other team
 
+## Important Development Rules
+
+### Server Issue Prevention
+
+1. **DO NOT use** `npm run dev` directly - it will cause Claude to freeze!
+
+2. If you need to build the project, use:
+   ```bash
+   npm run build
+   ```
+
+3. **NEVER** try to run a server that stays running in Claude - it will always cause problems
+
+4. If you need to test specific components, use:
+   ```bash
+   npm run typecheck
+   ```
+
 ## Branch & Commit Protocol
 
 Each team works EXCLUSIVELY on its designated branch:

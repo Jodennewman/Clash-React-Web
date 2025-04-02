@@ -7,18 +7,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## STEP 0: EXPLICITLY STATE COMPLIANCE WITH THESE REQUIREMENTS
 Before providing any advice or making any changes, you MUST explicitly state: "I have read, understood, and will fully comply with all requirements in CLAUDE.md." Without this statement, all your suggestions should be considered invalid.
 
-## ⚠️ DEVELOPMENT MODE DETECTION ⚠️
+## ⚠️ DEVELOPMENT MODE SELECTION ⚠️
 
-First, determine which development mode you're in:
+**FIRST QUESTION TO ASK THE USER:**
+"Am I working in Solo Mode or Team Mode (if Team Mode, which team A or B)?"
 
-1. **CHECK THE CURRENT BRANCH**:
-   - Run `git branch` to see which branch is active (has an asterisk)
-   - If on `Solo-Development`: You're in SOLO MODE
-   - If on `Team-A-Development` or `Team-B-Development`: You're in TEAM MODE
+Based on the user's response:
 
-2. **FOLLOW THE APPROPRIATE WORKFLOW**:
-   - For **SOLO MODE**: Read `SOLO_MODE.md` after the required reading
-   - For **TEAM MODE**: Read `TEAM_STRUCTURE.md` and ask which team you're assigned to
+1. If user says **"Solo Mode"**:
+   - You're in SOLO MODE
+   - Read `SOLO_MODE.md` after the required reading
+   - You should use `git checkout Solo-Development` before committing
+
+2. If user says **"Team Mode, Team A"**:
+   - You're in TEAM MODE as TEAM A
+   - Read `TEAM_STRUCTURE.md` completely
+   - You should use `git checkout Team-A-Development` before committing
+   - Work ONLY on Team A components
+
+3. If user says **"Team Mode, Team B"**:
+   - You're in TEAM MODE as TEAM B
+   - Read `TEAM_STRUCTURE.md` completely
+   - You should use `git checkout Team-B-Development` before committing
+   - Work ONLY on Team B components
 
 ## ⚠️ REQUIRED READING SEQUENCE ⚠️
 
@@ -65,7 +76,11 @@ Previous Claude agents have consistently made these errors which MUST be avoided
 - [ ] I will never use hardcoded hex values except in specified exceptions
 - [ ] I will maintain all responsive layouts as they are
 - [ ] I will clearly state my plan and NEVER deviate from it
-- [ ] I will NEVER run `npm run dev` directly (use the nohup command in SOLO_MODE.md)
+- [ ] I will NEVER run `npm run dev` directly (causes freezing!)
+- [ ] If I need to run the dev server, I will use: 
+  ```bash
+  npm run build
+  ```
 
 ### TEAM MODE ONLY
 - [ ] I have read and understood TEAM_STRUCTURE.md completely
