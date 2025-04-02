@@ -101,14 +101,47 @@ This document outlines how multiple Claude agents should collaborate when workin
    - Consider file locking: Only one Claude agent should edit a file at a time
    - Document any component API changes that might affect the other team
 
-## File Modification Protocol
+## Branch & Commit Protocol
 
-When modifying files, follow this process:
-1. State which team you are on
-2. List the specific files you intend to modify
-3. Outline your planned changes
-4. Get user approval BEFORE making any changes
-5. Make only the approved changes
-6. Document what was changed
+Each team works EXCLUSIVELY on its designated branch:
+- Team A: Work ONLY on the `Team-A-Development` branch
+- Team B: Work ONLY on the `Team-B-Development` branch
+
+### First Steps for Each Claude
+
+1. Check out your team's branch immediately at the start of each session:
+   - Team A: `git checkout Team-A-Development`
+   - Team B: `git checkout Team-B-Development`
+
+2. Verify you're on the correct branch:
+   - `git branch` (should show your team branch with an asterisk)
+
+### Automated Commits
+
+1. **Commit Regularly**: Make a git commit after each significant component change
+   - Use the prefix "A:" or "B:" depending on your team 
+   - Include the component name and a brief description of changes
+   - Example: `git commit -m "A: Fix CourseStats component styling and animations"`
+
+2. **No Need for User Permission to Commit**:
+   - Commit automatically when you complete a component
+   - No need to ask permission for EACH commit
+
+3. **Commit Frequency**:
+   - After completing a component
+   - After implementing a feature
+   - After fixing a bug
+   - At least once per hour of work
+
+### File Ownership Rules
+
+1. **Team-Assigned Files**: Edit freely without asking permission
+   - Components assigned to your team are exclusively yours
+   - Just announce which file you're working on before starting
+
+2. **Permission Required ONLY for**:
+   - Files belonging to the other team
+   - Shared utility files used by both teams
+   - Configuration files
 
 Remember: It is better to do nothing than to violate team boundaries or make unapproved changes.
