@@ -1,161 +1,143 @@
-import React, { useRef, useLayoutEffect } from 'react';
+import React from "react";
+import {
+  Tile,
+  TileVisual,
+  TileTitle,
+  TileDescription,
+  TileContent,
+  TileLink,
+} from "../../ui/tile";
 import { Section } from "../../ui/section";
 import { Badge } from "../../ui/badge";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-// Import individual illustrations from their respective files
-import TilesIllustration from "../../illustrations/tiles";
-import MockupMobileIllustration from "../../illustrations/mockup-mobile";
+import { Globe, Zap, Database, PieChart, VideoIcon, BarChart } from "lucide-react";
+
+// Import illustrations
 import PipelineIllustration from "../../illustrations/pipeline";
+import MockupMobileIllustration from "../../illustrations/mockup-mobile";
+import TilesIllustration from "../../illustrations/tiles";
 import CodeEditorIllustration from "../../illustrations/code-editor";
 import RadarSmallIllustration from "../../illustrations/radar-small";
 import GlobeIllustration from "../../illustrations/globe";
 
-// Create wrapper components that don't pass props to the illustrations
-const TilesIcon = () => <div className="h-8 w-8 text-[#154D59]"><TilesIllustration /></div>;
-const MockupMobileIcon = () => <div className="h-8 w-8"><MockupMobileIllustration /></div>;
-const PipelineIcon = () => <div className="h-8 w-8"><PipelineIllustration /></div>;
-const CodeEditorIcon = () => <div className="h-8 w-8"><CodeEditorIllustration /></div>;
-
-interface BentoItem {
-  title: string;
-  description: string;
-  icon: React.ReactElement;
-  color: string;
-  span: string;
-}
-
-const bentoItems: BentoItem[] = [
-  {
-    title: "Creator Network",
-    description: "Connect with 100+ top creators who've built 7+ figure businesses with short-form content.",
-    icon: <GlobeIllustration className="h-8 w-8" />,
-    color: "#FEA35D",
-    span: "col-span-1 row-span-1"
-  },
-  {
-    title: "AI-Powered Tools",
-    description: "Exclusive access to our custom AI tools for content research, script generation, and trend prediction.",
-    icon: <RadarSmallIllustration className="h-8 w-8" />,
-    color: "#B92234",
-    span: "col-span-1 row-span-1"
-  },
-  {
-    title: "Platform Mastery",
-    description: "Deep dives into TikTok, Instagram, YouTube Shorts, and LinkedIn algorithms with platform-specific strategies.",
-    icon: <TilesIcon />,
-    color: "#154D59",
-    span: "col-span-2 row-span-1 md:col-span-1 md:row-span-2"
-  },
-  {
-    title: "Viral Case Studies",
-    description: "Detailed breakdowns of 45+ videos that reached millions of views across different niches and industries.",
-    icon: <MockupMobileIcon />,
-    color: "#DE6B59",
-    span: "col-span-2 md:col-span-1 row-span-1"
-  },
-  {
-    title: "Weekly Growth Labs",
-    description: "Live weekly sessions where we review your content and provide actionable feedback for immediate improvement.",
-    icon: <PipelineIcon />,
-    color: "#FEAC6D",
-    span: "col-span-2 row-span-1"
-  },
-  {
-    title: "Content Library",
-    description: "Over 200+ video templates, swipe files, and script formats for every type of business and creator niche.",
-    icon: <CodeEditorIcon />,
-    color: "#387292",
-    span: "col-span-2 md:col-span-1 row-span-1"
-  }
-];
-
 export default function VSBentoGrid() {
-  const bentoRef = useRef<HTMLDivElement>(null);
-const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
-  
-useLayoutEffect(() => {
-  // Create a unique ID for this ScrollTrigger
-  const triggerId = "bento-grid-animation";
-  
-  // Kill any existing ScrollTrigger with this ID
-  const existingTrigger = ScrollTrigger.getById(triggerId);
-  if (existingTrigger) {
-    existingTrigger.kill();
-  }
-  
-  // Create a new context to ensure clean animation setup
-  const ctx = gsap.context(() => {
-    // Create the ScrollTrigger with a unique ID
-    scrollTriggerRef.current = ScrollTrigger.create({
-      trigger: bentoRef.current,
-      start: "top 80%",
-      once: true,
-      id: triggerId,
-      onEnter: () => {
-        // Stagger the animation of bento items efficiently
-        gsap.fromTo(".bento-item", 
-          { y: 30, opacity: 0 },
-          { 
-            y: 0, 
-            opacity: 1, 
-            duration: 0.4, // Shorter duration
-            stagger: 0.05, // Lower stagger value
-            ease: "power2.out",
-            clearProps: "transform" // Only clear transform, keep opacity
-          }
-        );
-      }
-    });
-  }, bentoRef);
-  
-  // Clean up on unmount
-  return () => {
-    ctx.revert();
-    if (scrollTriggerRef.current) {
-      scrollTriggerRef.current.kill();
-      scrollTriggerRef.current = null;
-    }
-  };
-}, []);
-
   return (
-    <Section className="bg-[#08141B] py-24">
+    <Section className="py-24 bg-[var(--bg-cream)] dark:bg-[var(--bg-navy)]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <Badge variant="outline" className="bg-white/5 text-[#FEA35D] border-[#FEA35D]/30 mb-4 py-2 px-4">
+          <Badge variant="outline" className="bg-[var(--primary-orange)]/5 dark:bg-white/5 text-[var(--primary-orange)] border-[var(--primary-orange)]/30 mb-4 py-2 px-4">
             Program Resources
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: 'var(--text-dark)' }}>
+            <span className="dark:bg-gradient-to-r dark:from-[var(--text-white)] dark:to-[var(--text-white)]/70 dark:bg-clip-text dark:text-transparent">
               Everything You Need
             </span>
-        </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
-            Vertical Shortcut gives you all the tools, resources, and support to succeed with short-form content.
-        </p>
+          </h2>
+          <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-dark)', opacity: 0.7 }}>
+            <span className="dark:text-[var(--text-white)]/70">
+              Vertical Shortcut gives you all the tools, resources, and support to succeed with short-form content.
+            </span>
+          </p>
         </div>
         
-        <div ref={bentoRef} className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
-          {bentoItems.map((item, index) => (
-            <div 
-              key={index} 
-              className={`${item.span} bento-item bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-[${item.color}]/40 transition-all duration-300 group`}
-            >
-              <div 
-                className="w-12 h-12 rounded-lg flex items-center justify-center mb-4"
-                style={{ backgroundColor: item.color }}
-              >
-                {item.icon}
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#FEA35D] transition-colors duration-300">
-                {item.title}
-              </h3>
-              <p className="text-white/70">
-                    {item.description}
-                  </p>
-            </div>
-          ))}
+        <div className="grid grid-cols-12 gap-4">
+          {/* Main row with horizontal layout */}
+          <Tile className="col-span-12 md:flex-row">
+            <TileLink />
+            <TileContent className="grow basis-0 md:justify-end">
+              <Zap className="size-8" style={{ color: 'var(--primary-orange)' }} />
+              <TileTitle>Weekly Growth Labs</TileTitle>
+              <TileDescription>
+                <p className="max-w-[320px] lg:max-w-[460px]">
+                  Live weekly sessions where we review your content and provide actionable feedback for immediate improvement.
+                </p>
+                <p>Our experts analyze your videos and give you specific steps to increase engagement and reach.</p>
+              </TileDescription>
+            </TileContent>
+            <TileVisual className="min-h-[240px] basis-0 sm:p-4 md:min-h-[320px] md:py-12 lg:min-h-[360px]">
+              <PipelineIllustration />
+            </TileVisual>
+          </Tile>
+          
+          {/* Two column layout */}
+          <Tile className="col-span-12 md:col-span-6 lg:col-span-5">
+            <TileLink />
+            <TileVisual className="items-center sm:px-4 md:px-8">
+              <TilesIllustration />
+            </TileVisual>
+            <TileContent>
+              <PieChart className="size-8" style={{ color: 'var(--secondary-teal)' }} />
+              <TileTitle>Platform Mastery</TileTitle>
+              <TileDescription>
+                <p>
+                  Deep dives into TikTok, Instagram, YouTube Shorts, and LinkedIn algorithms with platform-specific strategies.
+                </p>
+                <p>Optimize your content for each platform's unique requirements.</p>
+              </TileDescription>
+            </TileContent>
+          </Tile>
+          
+          <Tile className="col-span-12 md:col-span-6 lg:col-span-7">
+            <TileLink />
+            <TileVisual className="-mx-32 pt-8">
+              <GlobeIllustration />
+            </TileVisual>
+            <TileContent>
+              <Globe className="size-8" style={{ color: 'var(--primary-orange)' }} />
+              <TileTitle>Creator Network</TileTitle>
+              <TileDescription>
+                <p className="max-w-[460px]">
+                  Connect with 100+ top creators who've built 7+ figure businesses with short-form content.
+                </p>
+                <p>Learn directly from experts who are succeeding right now.</p>
+              </TileDescription>
+            </TileContent>
+          </Tile>
+          
+          {/* Two column layout */}
+          <Tile className="col-span-12 md:col-span-6 lg:col-span-6">
+            <TileVisual className="min-h-[240px] sm:p-4 md:min-h-[320px] lg:px-12">
+              <MockupMobileIllustration />
+            </TileVisual>
+            <TileContent>
+              <VideoIcon className="size-8" style={{ color: 'var(--primary-orange-hover)' }} />
+              <TileTitle>Viral Case Studies</TileTitle>
+              <TileDescription>
+                Detailed breakdowns of 45+ videos that reached millions of views across different niches and industries.
+              </TileDescription>
+            </TileContent>
+          </Tile>
+          
+          <Tile className="col-span-12 md:col-span-6 lg:col-span-6">
+            <TileLink />
+            <TileVisual className="relative min-h-[240px]">
+              <RadarSmallIllustration className="absolute top-1/2 left-1/2 -mt-24 h-[512px] w-[512px] -translate-x-1/2 -translate-y-1/2" />
+            </TileVisual>
+            <TileContent>
+              <BarChart className="size-8" style={{ color: 'var(--accent-coral)' }} />
+              <TileTitle>AI-Powered Tools</TileTitle>
+              <TileDescription>
+                <p className="max-w-[460px]">
+                  Exclusive access to our custom AI tools for content research, script generation, and trend prediction.
+                </p>
+              </TileDescription>
+            </TileContent>
+          </Tile>
+          
+          {/* Final row */}
+          <Tile className="col-span-12">
+            <TileContent>
+              <Database className="size-8" style={{ color: 'var(--secondary-teal-light)' }} />
+              <TileTitle>Content Library</TileTitle>
+              <TileDescription>
+                <p className="max-w-[720px]">
+                  Over 200+ video templates, swipe files, and script formats for every type of business and creator niche.
+                </p>
+              </TileDescription>
+            </TileContent>
+            <TileVisual className="min-h-[160px]">
+              <CodeEditorIllustration />
+            </TileVisual>
+          </Tile>
         </div>
       </div>
     </Section>
