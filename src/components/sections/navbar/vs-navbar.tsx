@@ -44,7 +44,7 @@ export default function VSNavbar() {
           : "transform -translate-y-full"
       }`}
     >
-      <div className="max-w-[1400px] bg-gradient-to-br from-[--bg-navy]/90 to-[--bg-navy-darker]/90 dark:bg-gradient-to-br dark:from-[--bg-navy]/95 dark:to-[--bg-navy-darker]/95 border-white/10 relative mx-auto rounded-2xl border p-2 py-3 px-4 md:px-6 backdrop-blur-lg shadow-[2px_2px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_rgba(53,115,128,0.15)] hover:shadow-[2px_2px_16px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.2)] transition-all duration-[--transition-bounce]">
+      <div className="max-w-[1400px] bg-gradient-to-br from-white to-[--bg-cream]/90 dark:bg-gradient-to-br dark:from-[--bg-navy]/95 dark:to-[--bg-navy-darker]/95 border border-[--bg-cream-darker]/20 dark:border-white/10 relative mx-auto rounded-2xl p-2 py-3 px-4 md:px-6 backdrop-blur-lg shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_20px_rgba(53,115,128,0.15)] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.2)] transition-all duration-[--transition-bounce]">
         <NavbarComponent className="py-1">
           <NavbarLeft>
             <img 
@@ -53,20 +53,20 @@ export default function VSNavbar() {
               className="h-8 mr-3"
             />
             <div className="w-8 h-8 rounded-full bg-[--primary-orange] dark:bg-gradient-to-r dark:from-[--primary-orange] dark:to-[--primary-orange-hover] flex items-center justify-center transition-all duration-[--transition-bounce] hover:scale-110 hover:rotate-[3deg] hover:shadow-md dark:hover:shadow-[0_0_8px_rgba(254,163,93,0.3)]">
-              <span className="text-[--bg-navy] dark:text-white font-bold">VS</span>
+              <span className="text-white font-bold">VS</span>
             </div>
-            <span className="text-white ml-2">Vertical Shortcut</span>
+            <span className="text-[--text-navy] dark:text-white ml-2 font-medium">Vertical Shortcut</span>
           </NavbarLeft>
           
           <nav className="hidden md:flex ml-8 gap-8">
-            <a href="#benefits" className="text-white/70 hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]">Benefits</a>
-            <a href="#curriculum" className="text-white/70 hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]">Curriculum</a>
-            <a href="#testimonials" className="text-white/70 hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]">Success Stories</a>
-            <a href="#pricing" className="text-white/70 hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]">Pricing</a>
+            <a href="#benefits" className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]">Benefits</a>
+            <a href="#curriculum" className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]">Curriculum</a>
+            <a href="#testimonials" className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]">Success Stories</a>
+            <a href="#pricing" className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]">Pricing</a>
           </nav>
           
           <NavbarRight>
-            <a href="#" className="text-sm text-white/70 hover:text-white mr-4 transition-all duration-[--transition-bounce] hover:translate-y-[-2px] dark:text-shadow-sm dark:hover:text-shadow-md">
+            <a href="#" className="text-sm text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white mr-4 transition-all duration-[--transition-bounce] hover:translate-y-[-2px] dark:text-shadow-sm dark:hover:text-shadow-md">
               Sign in
             </a>
             <Button 
@@ -81,17 +81,17 @@ export default function VSNavbar() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="shrink-0 md:hidden ml-2 text-white hover:bg-white/10 transition-all duration-[--transition-bounce]"
+                  className="shrink-0 md:hidden ml-2 text-[--text-navy] dark:text-white hover:bg-[--bg-cream-darker]/20 dark:hover:bg-white/10 transition-all duration-[--transition-bounce]"
                 >
                   <Menu className="size-5" />
                   <span className="sr-only">Toggle navigation menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="bg-gradient-to-br from-[--bg-navy] to-[--bg-navy-darker] dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] border-[--secondary-teal]/50">
+              <SheetContent side="right" className="bg-gradient-to-br from-white to-[--bg-cream]/90 dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] border-[--bg-cream-darker]/20 dark:border-[--secondary-teal]/50">
                 <nav className="grid gap-6 text-lg font-medium">
                   <a
                     href="#"
-                    className="flex items-center gap-2 text-xl font-bold text-white dark:text-shadow-sm"
+                    className="flex items-center gap-2 text-xl font-bold text-[--text-navy] dark:text-white dark:text-shadow-sm"
                   >
                     <img 
                       src="/Clash-Logo-One-Line-Light-for-Dark.png" 
@@ -102,25 +102,25 @@ export default function VSNavbar() {
                   </a>
                   <a
                     href="#benefits"
-                    className="text-white/70 hover:text-white transition-all duration-[--transition-bounce] hover:translate-x-[4px]"
+                    className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white transition-all duration-[--transition-bounce] hover:translate-x-[4px]"
                   >
                     Benefits
                   </a>
                   <a
                     href="#curriculum"
-                    className="text-white/70 hover:text-white transition-all duration-[--transition-bounce] hover:translate-x-[4px]"
+                    className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white transition-all duration-[--transition-bounce] hover:translate-x-[4px]"
                   >
                     Curriculum
                   </a>
                   <a
                     href="#testimonials"
-                    className="text-white/70 hover:text-white transition-all duration-[--transition-bounce] hover:translate-x-[4px]"
+                    className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white transition-all duration-[--transition-bounce] hover:translate-x-[4px]"
                   >
                     Success Stories
                   </a>
                   <a
                     href="#pricing"
-                    className="text-white/70 hover:text-white transition-all duration-[--transition-bounce] hover:translate-x-[4px]"
+                    className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white transition-all duration-[--transition-bounce] hover:translate-x-[4px]"
                   >
                     Pricing
                   </a>
