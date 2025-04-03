@@ -137,11 +137,11 @@ export default function VSCarousel() {
                     />
                     {/* Gradient overlay with pulsing animation */}
                     <div
-                      className="absolute inset-0 bg-gradient-to-t from-[var(--bg-navy)]/90 via-transparent to-transparent"
+                      className="absolute inset-0 bg-gradient-to-t from-[--bg-navy]/90 via-transparent to-transparent"
                       aria-hidden="true"
                     />
                     <div
-                      className="absolute inset-0 bg-gradient-radial from-[var(--primary-orange)]/20 to-transparent scale-[2.5] opacity-0 transition-all duration-500 group-hover:opacity-40 animate-pulse"
+                      className="absolute inset-0 bg-gradient-radial from-[--primary-orange]/20 to-transparent scale-[2.5] opacity-0 transition-all duration-500 group-hover:opacity-40 animate-pulse"
                       aria-hidden="true"
                     />
                   </SlideVisual>
@@ -149,30 +149,30 @@ export default function VSCarousel() {
                   <SlideButton
                     isExpanded={expandedSlides[index]}
                     onClick={() => toggleSlide(index)}
-                    className="transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-hover:bg-[var(--primary-orange)]"
+                    className="transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-hover:bg-[--primary-orange]"
                   />
                   
                   <SlideContent isExpanded={expandedSlides[index]} className="p-6">
-                    <SlideDescription style={{ color: 'var(--primary-orange)' }} className="dark:text-[var(--primary-orange-light)] text-sm font-medium uppercase tracking-wider mb-2">
+                    <SlideDescription className="text-[--primary-orange] dark:text-[--primary-orange-light] text-sm font-medium uppercase tracking-wider mb-2">
                       {slide.tagline || ''}
                     </SlideDescription>
                     
-                    <SlideTitle className="text-balance text-2xl font-bold mb-2 dark:text-white" style={{ color: 'var(--text-navy)' }}>
+                    <SlideTitle className="text-balance text-2xl font-bold mb-2 text-[--text-navy] dark:text-white">
                       {slide.title || ''}
                     </SlideTitle>
                   </SlideContent>
                   
                   <SlideExpandedContent isExpanded={expandedSlides[index]} className="px-6 pb-6">
-                    <div className="dark:text-white/80" style={{ color: 'var(--text-navy)', opacity: 0.8 }}>
+                    <div className="text-[--text-navy]/80 dark:text-white/80">
                       {slide.description || ''}
                     </div>
                     
                     {/* Add related module info if expanded */}
                     {expandedSlides[index] && slide.relatedModule && (
-                      <div className="mt-4 pt-4 border-t border-[var(--text-navy)]/10 dark:border-white/10">
-                        <div className="text-sm dark:text-white/70" style={{ color: 'var(--text-navy)', opacity: 0.7 }}>
+                      <div className="mt-4 pt-4 border-t border-[--text-navy]/10 dark:border-white/10">
+                        <div className="text-sm text-[--text-navy]/70 dark:text-white/70">
                           Learn this in our 
-                          <span style={{ color: 'var(--primary-orange)' }} className="dark:text-[var(--primary-orange-light)] font-medium"> {
+                          <span className="text-[--primary-orange] dark:text-[--primary-orange-light] font-medium"> {
                             findModuleTitle(slide.relatedModule)
                           } </span> 
                           module.
@@ -186,8 +186,8 @@ export default function VSCarousel() {
           </CarouselContent>
           
           <div className="mt-12 flex justify-start gap-4">
-            <CarouselPrevious className="static bg-[var(--primary-orange)]/10 border-[var(--primary-orange)]/20 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:bg-[var(--primary-orange)]/20 hover:scale-110 hover:translate-y-[-3px]" />
-            <CarouselNext className="static bg-[var(--primary-orange)]/10 border-[var(--primary-orange)]/20 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:bg-[var(--primary-orange)]/20 hover:scale-110 hover:translate-y-[-3px]" />
+            <CarouselPrevious className="static bg-[--primary-orange]/10 border-[--primary-orange]/20 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:bg-[--primary-orange]/20 hover:scale-110 hover:translate-y-[-3px]" />
+            <CarouselNext className="static bg-[--primary-orange]/10 border-[--primary-orange]/20 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:bg-[--primary-orange]/20 hover:scale-110 hover:translate-y-[-3px]" />
           </div>
         </Carousel>
       </div>

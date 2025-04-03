@@ -38,7 +38,7 @@ const statItems = [
     key: 'totalModules', 
     label: 'Modules', 
     icon: Layers,
-    color: 'var(--primary-orange)', // #FEA35D
+    color: 'var(--primary-orange)', // #FEA35D - Should update to use className with CSS vars directly
     colorHover: 'var(--primary-orange-hover)'
   },
   { 
@@ -216,7 +216,7 @@ const CourseStats = () => {
                     </div>
                     <div 
                       className="stat-counter text-3xl sm:text-4xl md:text-5xl font-bold mb-2 dark:text-white"
-                      style={{ color: item.color }}
+                      style={{ color: item.color }} // Better to use text-[color-var] but need more complex logic
                     >
                       {animatedCounters ? value : '0'}
                     </div>

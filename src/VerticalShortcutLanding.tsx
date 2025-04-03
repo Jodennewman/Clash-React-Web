@@ -25,6 +25,7 @@ import LeadCaptureForm from './components/ui/lead-capture-form';
 import HeroLogo from './components/logos/Hero';
 import VerticalShortcutApplicationForm from './components/form/form-shadcn-claude';
 import { CourseViewer } from './components/sections/course-viewer';
+import { CaseStudies } from './components/sections';
 import { Link } from 'react-router-dom';
 import { AnimatedButton } from './components/marble-buttons/AnimatedButton';
 
@@ -671,6 +672,9 @@ const VerticalShortcutLanding = () => {
           <div className="video-container" ref={videoRef}>
             <SafeVideoEmbed videoUrl="https://www.youtube.com/embed/your-video-id" />
           </div>
+          
+          {/* Case Studies Section - Shows real growth metrics */}
+          <CaseStudies />
           
           {/* Bento Grid Section - Managed by the VSBentoGrid component */}
           <VSBentoGrid />

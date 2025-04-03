@@ -5,23 +5,23 @@ import { Globe, Zap, Database, PieChart, VideoIcon, BarChart, Code, Smartphone, 
 
 export default function VSBentoGrid() {
   return (
-    <Section className="py-24 relative overflow-hidden bg-[var(--bg-cream-gradient)] dark:bg-[var(--bg-navy-gradient)]">
+    <Section className="py-24 relative overflow-hidden bg-[--bg-cream-gradient] dark:bg-[--bg-navy-gradient]">
       {/* Background patterns */}
       <div className="absolute inset-0 opacity-10 dot-bg pointer-events-none dark:hidden" />
       <div className="absolute inset-0 opacity-0 dark:opacity-15 grid-bg pointer-events-none" />
       
       {/* Floating elements - light mode only */}
       <div className="absolute top-40 right-10 w-32 h-32 rounded-[40%] rotate-12 opacity-5 
-                    bg-[var(--primary-orange)] animate-pulse dark:hidden"></div>
+                    bg-[--primary-orange] animate-pulse dark:hidden"></div>
       <div className="absolute bottom-20 left-10 w-48 h-48 rounded-[30%] -rotate-6 opacity-5
-                    bg-[var(--secondary-teal-light)] dark:hidden"></div>
+                    bg-[--secondary-teal-light] dark:hidden"></div>
       
       {/* Floating elements - dark mode only */}
       <div className="absolute top-40 right-10 w-32 h-32 rounded-[40%] rotate-12 opacity-10 
-                    bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-orange-hover)] 
+                    bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] 
                     animate-pulse hidden dark:block"></div>
       <div className="absolute bottom-20 left-10 w-48 h-48 rounded-[30%] -rotate-6 opacity-10
-                    bg-gradient-to-r from-[var(--secondary-teal)] to-[var(--secondary-teal-light)] 
+                    bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-light] 
                     hidden dark:block"></div>
       
       <div className="container mx-auto px-4 relative">
@@ -39,10 +39,10 @@ export default function VSBentoGrid() {
         
         <div className="grid grid-cols-12 gap-4">
           {/* First row - 3 cards with col-span-4 each */}
-          <div className="col-span-4 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-white/5 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.2)] group relative overflow-hidden bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] dark:bg-gradient-to-br dark:from-[var(--card-bg-navy)] dark:to-[rgba(12,67,99,0.8)]">
+          <div className="col-span-4 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-white/5 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.2)] group relative overflow-hidden bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] dark:bg-gradient-to-br dark:from-[--card-bg-navy] dark:to-[rgba(12,67,99,0.8)]">
             {/* Light mode floating element */}
             <div className="absolute -bottom-6 -right-6 w-20 h-20 rounded-[40%] rotate-12 opacity-5 
-                         bg-[var(--secondary-teal-light)] dark:hidden"></div>
+                         bg-[--secondary-teal-light] dark:hidden"></div>
             
             {/* Dark mode floating element */}
             <div className="absolute -bottom-6 -right-6 w-20 h-20 rounded-[40%] rotate-12 opacity-10 
@@ -51,7 +51,7 @@ export default function VSBentoGrid() {
             
             <div className="flex flex-col relative z-10">
               <div className="flex items-center justify-center mb-8 transform transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.08] group-hover:translate-y-[-2px]">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-br from-[var(--secondary-teal)] to-[var(--secondary-teal-light)] dark:from-[var(--secondary-teal-hover)] dark:to-[var(--secondary-teal)] shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(53,115,128,0.2)]">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-br from-[--secondary-teal] to-[--secondary-teal-light] dark:from-[--secondary-teal-hover] dark:to-[--secondary-teal] shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(53,115,128,0.2)]">
                   <Database className="w-10 h-10 text-white" />
                 </div>
               </div>
@@ -65,7 +65,7 @@ export default function VSBentoGrid() {
             </div>
           </div>
           
-          <div className="col-span-4 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-white/5 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(254,163,93,0.15)] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[-0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(254,163,93,0.2)] group relative overflow-hidden bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] dark:bg-gradient-to-br dark:from-[var(--card-bg-navy)] dark:to-[rgba(12,67,99,0.8)]">
+          <div className="col-span-4 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-white/5 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(254,163,93,0.15)] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[-0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(254,163,93,0.2)] group relative overflow-hidden bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] dark:bg-gradient-to-br dark:from-[--card-bg-navy] dark:to-[rgba(12,67,99,0.8)]">
             {/* Light mode floating element */}
             <div className="absolute -top-6 -left-6 w-20 h-20 rounded-[30%] -rotate-6 opacity-5 
                          bg-[var(--primary-orange-light)] dark:hidden"></div>
@@ -91,7 +91,7 @@ export default function VSBentoGrid() {
             </div>
           </div>
           
-          <div className="col-span-4 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-white/5 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(254,163,93,0.15)] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(254,163,93,0.2)] group relative overflow-hidden bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] dark:bg-gradient-to-br dark:from-[var(--card-bg-navy)] dark:to-[rgba(12,67,99,0.8)]">
+          <div className="col-span-4 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-white/5 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(254,163,93,0.15)] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(254,163,93,0.2)] group relative overflow-hidden bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] dark:bg-gradient-to-br dark:from-[--card-bg-navy] dark:to-[rgba(12,67,99,0.8)]">
             {/* Light mode floating element */}
             <div className="absolute top-10 right-10 w-16 h-16 rounded-[35%] rotate-12 opacity-5 
                          bg-[var(--primary-orange-light)] dark:hidden"></div>
@@ -118,10 +118,10 @@ export default function VSBentoGrid() {
           </div>
           
           {/* Second row - 2 cards with col-span-6 each */}
-          <div className="col-span-6 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-white/5 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[-0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.2)] group relative overflow-hidden bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] dark:bg-gradient-to-br dark:from-[var(--card-bg-navy)] dark:to-[rgba(12,67,99,0.8)]">
+          <div className="col-span-6 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-white/5 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[-0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.2)] group relative overflow-hidden bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] dark:bg-gradient-to-br dark:from-[--card-bg-navy] dark:to-[rgba(12,67,99,0.8)]">
             {/* Light mode floating elements */}
             <div className="absolute bottom-16 right-16 w-24 h-24 rounded-[40%] rotate-12 opacity-5 
-                         bg-[var(--secondary-teal-light)] dark:hidden"></div>
+                         bg-[--secondary-teal-light] dark:hidden"></div>
             <div className="absolute top-10 left-20 w-16 h-16 rounded-[30%] -rotate-6 opacity-5
                          bg-[var(--secondary-teal)] dark:hidden"></div>
             
@@ -135,7 +135,7 @@ export default function VSBentoGrid() {
             
             <div className="flex flex-col h-full relative z-10">
               <div className="flex items-center justify-center mb-8 transform transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.08] group-hover:translate-y-[-2px]">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-br from-[var(--secondary-teal)] to-[var(--secondary-teal-light)] dark:from-[var(--secondary-teal-hover)] dark:to-[var(--secondary-teal)] shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(53,115,128,0.2)]">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-br from-[--secondary-teal] to-[--secondary-teal-light] dark:from-[--secondary-teal-hover] dark:to-[--secondary-teal] shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(53,115,128,0.2)]">
                   <Smartphone className="w-10 h-10 text-white" />
                 </div>
               </div>
@@ -149,7 +149,7 @@ export default function VSBentoGrid() {
             </div>
           </div>
           
-          <div className="col-span-6 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-white/5 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(222,107,89,0.15)] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(222,107,89,0.2)] group relative overflow-hidden bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] dark:bg-gradient-to-br dark:from-[var(--card-bg-navy)] dark:to-[rgba(12,67,99,0.8)]">
+          <div className="col-span-6 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-white/5 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(222,107,89,0.15)] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(222,107,89,0.2)] group relative overflow-hidden bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] dark:bg-gradient-to-br dark:from-[--card-bg-navy] dark:to-[rgba(12,67,99,0.8)]">
             {/* Light mode floating elements */}
             <div className="absolute -bottom-8 -right-8 w-40 h-40 rounded-[35%] rotate-12 opacity-5 
                          bg-[var(--accent-coral)] dark:hidden"></div>
