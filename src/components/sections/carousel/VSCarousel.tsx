@@ -116,7 +116,7 @@ export default function VSCarousel() {
             {slides.map((slide, index) => (
               <CarouselItem key={index} className="flex pl-4 md:basis-1/2 lg:basis-2/5">
                 <Slide
-                  className="grow cursor-pointer bg-[var(--card-bg-navy)] border border-white/10 rounded-xl shadow-lg transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:shadow-xl hover:translate-y-[-6px] hover:scale-[1.02] hover:rotate-[0.5deg] group"
+                  className="grow cursor-pointer bg-[--card-bg-navy] border border-white/10 rounded-xl shadow-lg transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:shadow-xl hover:translate-y-[-6px] hover:scale-[1.02] hover:rotate-[0.5deg] group"
                   isExpanded={expandedSlides[index]}
                   onClick={() => toggleSlide(index)}
                 >

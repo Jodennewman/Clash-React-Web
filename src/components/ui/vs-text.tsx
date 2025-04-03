@@ -15,17 +15,17 @@ interface VSTextProps {
 /**
  * VS Text Component - Implements the required styling pattern for text elements
  * 
- * Uses the mandatory pattern of inline styles for light mode + dark: classes for dark mode
+ * Uses the mandatory pattern of direct CSS variable references for light mode + dark: classes for dark mode
  * 
  * @example
  * <VSText>Regular text with navy color</VSText>
- * <VSText color="var(--primary-orange)">Orange text</VSText>
+ * <VSText color="--primary-orange">Orange text</VSText>
  * <VSText variant="h2">Heading with correct styling</VSText>
  */
 export function VSText({
   children,
   variant = 'p',
-  color = 'var(--text-navy)',
+  color = '--text-navy',
   className = '',
   darkClassName = 'dark:text-white',
   as,
@@ -37,11 +37,10 @@ export function VSText({
   
   return (
     <Component
+      className={`text-[${color}] ${darkClassName} ${className}`} // Apply light mode and dark mode styling
       style={{
-        color, // Use the correct pattern for light mode
         ...style, // Support additional styles
       }}
-      className={`${darkClassName} ${className}`} // Apply dark mode styling
       {...props}
     >
       {children}
@@ -55,7 +54,7 @@ export function VSText({
 export function VSHeading({
   children,
   variant = 'h2',
-  color = 'var(--text-navy)',
+  color = '--text-navy',
   className = '',
   darkClassName = 'dark:text-white',
   ...props
@@ -65,8 +64,7 @@ export function VSHeading({
   
   return (
     <Component
-      style={{ color, ...props.style }}
-      className={`${darkClassName} font-bold ${className}`}
+      className={`text-[${color}] ${darkClassName} font-bold ${className}`}
       {...props}
     >
       {children}
@@ -81,10 +79,10 @@ export function VSGradientText({
   children,
   variant = 'span',
   className = '',
-  fromColor = 'var(--primary-orange)',
-  toColor = 'var(--accent-coral)',
-  darkFromColor = 'var(--primary-orange-light)',
-  darkToColor = 'var(--accent-coral-dark)',
+  fromColor = '--primary-orange',
+  toColor = '--accent-coral',
+  darkFromColor = '--primary-orange-light',
+  darkToColor = '--accent-coral-dark',
   as,
   style = {},
   ...props
@@ -96,19 +94,10 @@ export function VSGradientText({
 }) {
   const Component = as || variant;
   
-  // For light mode, use inline style with CSS variables
-  const lightModeStyle = {
-    backgroundImage: `linear-gradient(to right, ${fromColor}, ${toColor})`,
-    WebkitBackgroundClip: 'text',
-    backgroundClip: 'text',
-    color: 'transparent',
-    ...style
-  };
-  
   return (
     <Component
-      className={`inline-block dark:bg-gradient-to-r dark:from-white dark:to-white/70 dark:bg-clip-text dark:text-transparent ${className}`}
-      style={lightModeStyle}
+      className={`inline-block bg-gradient-to-r from-[${fromColor}] to-[${toColor}] bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-white dark:to-white/70 dark:bg-clip-text dark:text-transparent ${className}`}
+      style={style}
       {...props}
     >
       {children}

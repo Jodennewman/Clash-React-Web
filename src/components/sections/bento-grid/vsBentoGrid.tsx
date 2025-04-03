@@ -55,11 +55,11 @@ export default function VSBentoGrid() {
                   <Database className="w-10 h-10 text-white" />
                 </div>
               </div>
-              <Zap className="size-8 text-[var(--primary-orange)] mb-3 transition-transform duration-300 group-hover:scale-110" />
-              <h3 style={{ color: 'var(--text-navy)' }} className="text-2xl font-semibold mb-3 dark:text-white">
+              <Zap className="size-8 text-[--primary-orange] mb-3 transition-transform duration-300 group-hover:scale-110" />
+              <h3 className="text-[--text-navy] text-2xl font-semibold mb-3 dark:text-white">
                 Weekly Growth Labs
               </h3>
-              <p style={{ color: 'var(--text-navy)' }} className="dark:text-white/70">
+              <p className="text-[--text-navy] dark:text-white/70">
                 Live weekly sessions where we review your content and provide actionable feedback for immediate improvement.
               </p>
             </div>
@@ -82,10 +82,10 @@ export default function VSBentoGrid() {
                 </div>
               </div>
               <PieChart className="size-8 text-[var(--secondary-teal)] mb-3 transition-transform duration-300 group-hover:scale-110" />
-              <h3 style={{ color: 'var(--text-navy)' }} className="text-2xl font-semibold mb-3 dark:text-white">
+              <h3 className="text-[--text-navy] text-2xl font-semibold mb-3 dark:text-white">
                 Platform Mastery
               </h3>
-              <p style={{ color: 'var(--text-navy)' }} className="dark:text-white/70">
+              <p className="text-[--text-navy] dark:text-white/70">
                 Deep dives into platform algorithms with strategies specifically tailored for each one.
               </p>
             </div>
@@ -108,10 +108,10 @@ export default function VSBentoGrid() {
                 </div>
               </div>
               <Globe className="size-8 text-[var(--primary-orange)] mb-3 transition-transform duration-300 group-hover:scale-110" />
-              <h3 style={{ color: 'var(--text-navy)' }} className="text-2xl font-semibold mb-3 dark:text-white">
+              <h3 className="text-[--text-navy] text-2xl font-semibold mb-3 dark:text-white">
                 Creator Network
               </h3>
-              <p style={{ color: 'var(--text-navy)' }} className="dark:text-white/70">
+              <p className="text-[--text-navy] dark:text-white/70">
                 Connect with 100+ top creators who've built 7+ figure businesses with short-form content.
               </p>
             </div>
@@ -140,10 +140,10 @@ export default function VSBentoGrid() {
                 </div>
               </div>
               <VideoIcon className="size-8 text-[var(--primary-orange-hover)] mb-3 transition-transform duration-300 group-hover:scale-110" />
-              <h3 style={{ color: 'var(--text-navy)' }} className="text-2xl font-semibold mb-3 dark:text-white">
+              <h3 className="text-[--text-navy] text-2xl font-semibold mb-3 dark:text-white">
                 Viral Case Studies
               </h3>
-              <p style={{ color: 'var(--text-navy)' }} className="dark:text-white/70">
+              <p className="text-[--text-navy] dark:text-white/70">
                 Detailed breakdowns of 45+ videos that reached millions of views across different niches and industries.
               </p>
             </div>
@@ -171,10 +171,10 @@ export default function VSBentoGrid() {
                 </div>
               </div>
               <Shield className="size-8 text-[var(--accent-coral)] mb-3 transition-transform duration-300 group-hover:scale-110" />
-              <h3 style={{ color: 'var(--text-navy)' }} className="text-2xl font-semibold mb-3 dark:text-white">
+              <h3 className="text-[--text-navy] text-2xl font-semibold mb-3 dark:text-white">
                 AI-Powered Tools
               </h3>
-              <p style={{ color: 'var(--text-navy)' }} className="dark:text-white/70">
+              <p className="text-[--text-navy] dark:text-white/70">
                 Exclusive access to our custom AI tools for content research, script generation, and trend prediction.
               </p>
             </div>

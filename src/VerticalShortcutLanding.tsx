@@ -336,6 +336,7 @@ const VerticalShortcutLanding = () => {
   const testimonialsRef = useRef(null);
   const ctaRef = useRef(null);
   const videoRef = useRef(null);
+  const caseStudiesRef = useRef(null);
 
   // Add state for application modal
   const [showApplicationModal, setShowApplicationModal] = useState(false);
@@ -484,6 +485,24 @@ const VerticalShortcutLanding = () => {
         (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).videoSection = videoTrigger;
       }
       
+      // Case Studies section - register once
+      if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).caseStudiesSection && caseStudiesRef.current) {
+        const caseStudiesTrigger = ScrollTrigger.create({
+          trigger: ".case-study-element",
+          start: "top 75%",
+          once: true,
+          id: "case-studies-trigger",
+          onEnter: () => {
+            // Animation will be handled by the CaseStudies component itself
+            // using its own GSAP context and ScrollTrigger
+            console.log("Case studies section in view");
+          }
+        });
+        
+        // Type assertion to allow dynamic property assignment
+        (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).caseStudiesSection = caseStudiesTrigger;
+      }
+      
       // Testimonials - register once
       if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).testimonialsSection && testimonialsRef.current) {
         const testimonialsTrigger = ScrollTrigger.create({
@@ -602,8 +621,8 @@ const VerticalShortcutLanding = () => {
           >
             <VSBackground
               as="div"
-              lightBg="bg-[var(--deep-blue)]"
-              darkBg="dark:bg-[var(--deep-blue)]"
+              lightBg="bg-[--deep-blue]"
+              darkBg="dark:bg-[--deep-blue]"
               className="w-full max-w-5xl rounded-xl" 
               onClick={(e) => e.stopPropagation()}
             >
@@ -623,8 +642,8 @@ const VerticalShortcutLanding = () => {
           as="div"
           id="smooth-content" 
           ref={contentRef} 
-          lightBg="bg-gradient-to-b from-[var(--deep-blue)] to-[color(display-p3_0.008_0.08_0.106)]"
-          darkBg="dark:bg-gradient-to-b dark:from-[var(--deep-blue)] dark:to-[color(display-p3_0.008_0.08_0.106)]"
+          lightBg="bg-gradient-to-b from-[--deep-blue] to-[color(display-p3_0.008_0.08_0.106)]"
+          darkBg="dark:bg-gradient-to-b dark:from-[--deep-blue] dark:to-[color(display-p3_0.008_0.08_0.106)]"
           className="min-h-screen overflow-hidden"
         >
           {/* Hero Section */}
@@ -638,14 +657,14 @@ const VerticalShortcutLanding = () => {
             ref={statsRef} 
             lightBg="bg-[color(display-p3_0.008_0.08_0.106)]"
             darkBg="dark:bg-[color(display-p3_0.008_0.08_0.106)]"
-            className="py-20 border-t border-[var(--secondary-teal)]/30"
+            className="py-20 border-t border-[--secondary-teal]/30"
           >
             <div className="container mx-auto px-4">
               <div className="mb-12 text-center">
                 <VSHeading variant="h2" className="text-3xl md:text-4xl mb-6">
                   Course Stats That Speak for Themselves
                 </VSHeading>
-                <VSText color="var(--text-navy)" darkClassName="dark:text-white/70" className="text-xl max-w-3xl mx-auto">
+                <VSText color="--text-navy" darkClassName="dark:text-white/70" className="text-xl max-w-3xl mx-auto">
                   Vertical Shortcut isn't just another course. It's the culmination of years creating content that drove real business results.
                 </VSText>
               </div>
@@ -655,8 +674,8 @@ const VerticalShortcutLanding = () => {
               <CourseStats />
               
               <div className="text-center mb-10">
-                <Badge variant="outline" className="bg-[var(--accent-crimson)]/10 border-[var(--primary-orange)]/30 py-2 px-4">
-                  <VSText color="var(--primary-orange)" darkClassName="dark:text-[var(--primary-orange)]">
+                <Badge variant="outline" className="bg-[--accent-crimson]/10 border-[--primary-orange]/30 py-2 px-4">
+                  <VSText color="--primary-orange" darkClassName="dark:text-[--primary-orange]">
                     Don't Just Take Our Word For It
                   </VSText>
                 </Badge>
@@ -674,7 +693,7 @@ const VerticalShortcutLanding = () => {
           </div>
           
           {/* Case Studies Section - Shows real growth metrics */}
-          <CaseStudies />
+          <CaseStudies ref={caseStudiesRef} />
           
           {/* Bento Grid Section - Managed by the VSBentoGrid component */}
           <VSBentoGrid />
@@ -748,14 +767,14 @@ const VerticalShortcutLanding = () => {
           {/* Learning Tracks Section */}
           <VSSection 
             ref={tracksRef} 
-            lightBg="bg-[var(--bg-navy)]" 
-            darkBg="dark:bg-[var(--bg-navy)]"
-            className="py-24 border-t border-[var(--secondary-teal)]/30"
+            lightBg="bg-[--bg-navy]" 
+            darkBg="dark:bg-[--bg-navy]"
+            className="py-24 border-t border-[--secondary-teal]/30"
           >
             <div className="container mx-auto px-4">
               <div className="text-center mb-16">
-                <Badge variant="outline" className="bg-white/5 border-[var(--primary-orange)]/30 mb-4 py-2 px-4">
-                  <VSText color="var(--primary-orange)" className="dark:text-[var(--primary-orange)]">
+                <Badge variant="outline" className="bg-white/5 border-[--primary-orange]/30 mb-4 py-2 px-4">
+                  <VSText color="--primary-orange" className="dark:text-[--primary-orange]">
                     Specialized Learning Paths
                   </VSText>
                 </Badge>
