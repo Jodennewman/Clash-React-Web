@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRightCircle, BookOpen, CheckCircle, Star, ChevronLeft, ChevronRight, Camera, Scissors, Briefcase, Rocket, Clock, Award } from 'lucide-react';
-import { sections, tracks, getSectionDescription, getModulesForSection, Module, courseStats } from '../../lib/course-utils';
+import courseUtils, { sections, tracks, getSectionDescription, getModulesForSection, Module, courseStats } from '../../lib/course-utils';
 import { Section } from '../../components/ui/section';
 import { Badge } from '../../components/ui/badge';
-
-// Extend the Module type to include the properties we need
-interface ExtendedModule extends Module {
-  points?: string[];
-}
 
 const ModuleBreakdown = () => {
   // Initialize with the first section (with null check)
@@ -19,7 +14,7 @@ const ModuleBreakdown = () => {
   const modulesPerPage = 4; // Show 4 modules per page
   
   // Get active modules for the selected section with null check
-  const activeModules: ExtendedModule[] = getModulesForSection(activeSection) || [];
+  const activeModules = getModulesForSection(activeSection) || [];
   
   // Calculate total pages with null check
   const totalPages = Math.ceil((activeModules?.length || 0) / modulesPerPage);

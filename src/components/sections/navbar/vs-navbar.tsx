@@ -38,13 +38,13 @@ export default function VSNavbar() {
 
   return (
     <header 
-      className={`fixed top-0 w-full z-50 px-4 md:px-6 py-3 transition-all duration-[--transition-bounce] ${
+      className={`fixed top-0 w-full z-50 px-4 md:px-6 py-3 transition-all duration-[--transition-bounce] bg-gradient-to-br from-white to-[--bg-cream] dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] ${
         isVisible 
           ? "transform-none" 
           : "transform -translate-y-full"
       }`}
     >
-      <div className="max-w-[1400px] bg-gradient-to-br from-white to-[--bg-cream]/90 dark:bg-gradient-to-br dark:from-[--bg-navy]/95 dark:to-[--bg-navy-darker]/95 border border-[--bg-cream-darker]/20 dark:border-white/10 relative mx-auto rounded-2xl p-2 py-3 px-4 md:px-6 backdrop-blur-lg shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_20px_rgba(53,115,128,0.15)] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.2)] transition-all duration-[--transition-bounce]">
+      <div className="max-w-[1400px] bg-gradient-to-br from-white to-[--bg-cream] dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] border border-[--bg-cream-darker]/20 dark:border-white/10 relative mx-auto rounded-2xl p-2 py-3 px-4 md:px-6 backdrop-blur-lg shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_20px_rgba(53,115,128,0.15)] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.2)] transition-all duration-[--transition-bounce]">
         <NavbarComponent className="py-1">
           <NavbarLeft>
             <img 

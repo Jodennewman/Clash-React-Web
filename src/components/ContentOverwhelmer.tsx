@@ -279,27 +279,31 @@ const ContentOverwhelmer: FC = () => {
   };
 
   return (
-    <section className="bg-[#09232F] py-24 border-t border-[#154D59]/30">
+    <section className="bg-[var(--bg-navy)] py-24 border-t border-[var(--secondary-teal)]/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
+          <div className="inline-block mb-6 bg-[var(--primary-orange)]/10 backdrop-blur-sm px-4 py-2 rounded-full max-w-max border border-[var(--primary-orange)]/20 mx-auto">
+            <span style={{ color: 'var(--primary-orange)' }} className="dark:text-[var(--primary-orange-light)] font-semibold">Comprehensive Curriculum</span>
+          </div>
+          
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 relative">
+            <span className="bg-gradient-to-r from-[var(--text-cream)] to-[var(--text-cream)]/80 dark:from-white dark:to-white/70 bg-clip-text text-transparent">
               Content That Overwhelms
             </span>
           </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+          <p className="text-xl dark:text-white/70 max-w-3xl mx-auto" style={{ color: 'var(--text-cream)', opacity: 0.7 }}>
             See exactly what you'll learn in each module of the program.
           </p>
         </div>
 
         <div className={`transition-all duration-500 ${isExpanded ? 'max-h-[2000px]' : 'max-h-[500px] overflow-hidden relative'}`}>
-          <div className="bg-gradient-to-b from-[#09232F] to-[#350013] text-white py-14 w-full overflow-hidden relative">
+          <div className="bg-gradient-to-b from-[var(--bg-navy)] to-[var(--accent-red)]/60 text-white py-14 w-full overflow-hidden relative transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">
             {/* Floating background elements to create visual overwhelm */}
             <div className="absolute inset-0 pointer-events-none">
               {Array.from({ length: 30 }).map((_, i) => (
                 <div
                   key={i}
-                  className="absolute rounded-lg opacity-10"
+                  className="absolute rounded-lg opacity-10 transition-all duration-[500ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-150 hover:opacity-20"
                   style={{
                     width: 20 + Math.random() * 100,
                     height: 20 + Math.random() * 100,
@@ -307,6 +311,7 @@ const ContentOverwhelmer: FC = () => {
                     left: `${Math.random() * 100}%`,
                     backgroundColor: tracks[i % tracks.length].color,
                     transform: `rotate(${Math.random() * 360}deg)`,
+                    boxShadow: `0 0 20px ${tracks[i % tracks.length].color}40`,
                   }}
                 />
               ))}
@@ -315,9 +320,12 @@ const ContentOverwhelmer: FC = () => {
             <div className="max-w-full mx-auto px-6 relative z-10">
               {/* Headline */}
               <div className="text-center mb-10">
-                <h2 className="text-4xl md:text-6xl font-bold mb-4 text-[#FEAC6D]">INSANE AMOUNT OF CONTENT</h2>
-                <p className="text-xl md:text-2xl max-w-4xl mx-auto text-[#FDEBDD] mb-6">
-                  No fluff. <span className="font-bold">178+ modules</span>, <span className="font-bold">450+ resources</span>, and <span className="font-bold">1000+ hours</span> of content creation expertise.
+                <h2 className="text-4xl md:text-6xl font-bold mb-4 relative inline-block">
+                  <span style={{ color: 'var(--primary-orange-light)' }} className="dark:text-[var(--primary-orange-light)]">INSANE AMOUNT OF CONTENT</span>
+                  <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[var(--primary-orange)] to-[var(--accent-coral)] transform transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]"></span>
+                </h2>
+                <p className="text-xl md:text-2xl max-w-4xl mx-auto dark:text-[var(--text-cream)] mb-6" style={{ color: 'var(--text-cream)' }}>
+                  No fluff. <span className="font-bold bg-gradient-to-r from-[var(--primary-orange)] to-[var(--accent-coral)] bg-clip-text text-transparent inline-block hover:scale-110 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">178+ modules</span>, <span className="font-bold bg-gradient-to-r from-[var(--accent-coral)] to-[var(--primary-orange)] bg-clip-text text-transparent inline-block hover:scale-110 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">450+ resources</span>, and <span className="font-bold bg-gradient-to-r from-[var(--primary-orange)] via-[var(--accent-coral)] to-[var(--primary-orange)] bg-clip-text text-transparent inline-block hover:scale-110 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">1000+ hours</span> of content creation expertise.
                 </p>
                 
                 {/* Resource types preview - overwhelming amount of resources */}
@@ -336,10 +344,11 @@ const ContentOverwhelmer: FC = () => {
                   ].map((resource, i) => (
                     <div 
                       key={resource.name}
-                      className="text-sm px-3 py-1.5 rounded-full flex items-center"
+                      className="text-sm px-3 py-1.5 rounded-full flex items-center transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-3px] hover:scale-[1.05] hover:shadow-md"
                       style={{ 
                         backgroundColor: `${tracks[i % tracks.length].color}30`,
-                        borderLeft: `3px solid ${tracks[i % tracks.length].color}`
+                        borderLeft: `3px solid ${tracks[i % tracks.length].color}`,
+                        boxShadow: `0 3px 10px ${tracks[i % tracks.length].color}20`
                       }}
                     >
                       <span className="mr-1.5">{resource.icon}</span>
@@ -354,12 +363,13 @@ const ContentOverwhelmer: FC = () => {
                     <button 
                       key={track.name}
                       onClick={() => filterByTrack(track.name)}
-                      className={`group m-1.5 px-5 py-2.5 rounded-full border-2 transition-all flex items-center ${
-                        activeTrack === track.name ? 'scale-105 shadow-lg' : 'hover:scale-105'
+                      className={`group m-1.5 px-5 py-2.5 rounded-full border-2 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-center ${
+                        activeTrack === track.name ? 'scale-105 shadow-xl translate-y-[-4px]' : 'hover:scale-105 hover:translate-y-[-4px] hover:shadow-lg'
                       }`}
                       style={{ 
                         borderColor: track.color, 
-                        backgroundColor: activeTrack === track.name ? track.color : `${track.color}20`
+                        backgroundColor: activeTrack === track.name ? track.color : `${track.color}20`,
+                        boxShadow: activeTrack === track.name ? `0 8px 20px ${track.color}40` : `0 4px 10px ${track.color}20`
                       }}
                     >
                       <span className="mr-2 text-white">{track.icon}</span>
@@ -440,24 +450,28 @@ const ContentOverwhelmer: FC = () => {
                       key={module.id}
                       id={`module-${module.id}`}
                       onClick={() => toggleModule(module.id)}
-                      className={`module p-5 rounded-lg backdrop-blur-sm bg-black/30 border transition-all cursor-pointer group ${
+                      className={`module p-5 rounded-lg backdrop-blur-sm bg-black/30 border transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer group ${
                         expandedModuleId === module.id 
-                          ? 'border-[#FEAC6D] shadow-lg shadow-[#FEAC6D]/10'
-                          : 'border-[#154D59]/50 hover:border-[#154D59]'
+                          ? 'border-[var(--primary-orange-light)] shadow-lg shadow-[var(--primary-orange)]/20 translate-y-[-8px] scale-[1.03] rotate-[0.5deg]'
+                          : 'border-[var(--secondary-teal)]/50 hover:border-[var(--secondary-teal)] hover:translate-y-[-6px] hover:scale-[1.03] hover:shadow-lg hover:shadow-[var(--primary-orange)]/10 hover:rotate-[0.5deg]'
                       }`}
                       style={{
                         transform: `rotate(${Math.random() * 0.6 - 0.3}deg)`,
+                        boxShadow: expandedModuleId === module.id ? `0 10px 30px rgba(254, 172, 109, 0.2)` : `0 4px 15px rgba(0, 0, 0, 0.3)`
                       }}
                     >
                       <div className="flex items-center mb-3">
                         <div 
-                          className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold mr-3"
-                          style={{ backgroundColor: tracks[parseInt(module.id) % tracks.length].color }}
+                          className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold mr-3 shadow-md transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-125 group-hover:rotate-[5deg] group-hover:shadow-lg"
+                          style={{ 
+                            background: `linear-gradient(135deg, ${tracks[parseInt(module.id) % tracks.length].color} 0%, ${tracks[(parseInt(module.id) + 1) % tracks.length].color} 100%)`,
+                            boxShadow: `0 4px 12px ${tracks[parseInt(module.id) % tracks.length].color}40`
+                          }}
                         >
                           {parseInt(module.id) + 1}
                         </div>
-                        <h3 className={`text-lg font-bold group-hover:text-[#FEAC6D] transition-colors ${
-                          expandedModuleId === module.id ? 'text-[#FEAC6D]' : ''
+                        <h3 className={`text-lg font-bold group-hover:text-[var(--primary-orange-light)] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                          expandedModuleId === module.id ? 'text-[var(--primary-orange-light)]' : ''
                         }`}>
                           {module.title}
                         </h3>
@@ -716,16 +730,16 @@ const ContentOverwhelmer: FC = () => {
         <div className="text-center mt-8">
           <Button
             onClick={toggleExpanded}
-            variant="outline"
-            className="gap-2"
+            variant="glow"
+            className="gap-2 bg-[var(--primary-orange)]/10 border-[var(--primary-orange)]/30 text-[var(--primary-orange-light)] hover:bg-[var(--primary-orange)]/20 hover:border-[var(--primary-orange)]/50 hover:shadow-[0_0_20px_rgba(254,163,93,0.3)] hover:translate-y-[-6px] hover:scale-[1.04] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]"
           >
             {isExpanded ? (
               <>
-                Show Less <ChevronUp className="h-4 w-4" />
+                Show Less <ChevronUp className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-[-2px]" />
               </>
             ) : (
               <>
-                Show More <ChevronDown className="h-4 w-4" />
+                Show More <ChevronDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-[2px]" />
               </>
             )}
           </Button>

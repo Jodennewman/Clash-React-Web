@@ -80,9 +80,9 @@ function SlideExpandedContent({
   className,
   isExpanded,
   ...props
-}: React.ComponentProps<"p"> & { isExpanded?: boolean }) {
+}: React.ComponentProps<"div"> & { isExpanded?: boolean }) {
   return (
-    <p
+    <div
       data-slot="slide-expanded-content"
       className={cn(
         "text-muted-foreground absolute inset-6 text-lg text-balance transition-opacity duration-300",

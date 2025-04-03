@@ -9,6 +9,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '..
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { Book, Award, Zap, Check, X, Shield } from 'lucide-react';
 import ReactDOM from 'react-dom/client';
+import { AnimatedButton } from "../marble-buttons/AnimatedButton";
 
 // Import data and utility from your pricing.ts file
 import {
@@ -21,7 +22,7 @@ import {
 } from '../../data/pricing';
 
 // Import course information from course-utils for track-related data
-import { tracks, sections } from '../../lib/course-utils';
+import { tracks } from '../../lib/course-utils';
 
 function formatPrice(price: number): string {
   return new Intl.NumberFormat('en-GB', {
@@ -530,8 +531,11 @@ export const PricingSection = () => {
               <p className="text-white/70 mb-6 max-w-2xl mx-auto">
                 Choose the plan that's right for your goals. All plans include personalized coaching, community access, and implementation resources.
               </p>
-              <Button 
-                className="px-5 py-2 bg-[#0F1A22] border border-[#FEA35D]/30 text-white hover:bg-[#154D59]/30 gap-2"
+              <AnimatedButton 
+                text="Take the Quiz"
+                variant="pro"
+                saturation="subtle"
+                size="md"
                 onClick={() => {
                   // Import and open the pricing quiz modal
                   import('./pricing-quiz-modal').then(module => {
@@ -555,10 +559,8 @@ export const PricingSection = () => {
                     );
                   });
                 }}
-              >
-                <span>Not sure which plan to choose?</span>
-                <span className="text-[#FEA35D]">Take the Quiz</span>
-              </Button>
+                className="flex items-center justify-center gap-2 w-auto"
+              />
             </div>
           </div>
         </div>
@@ -681,19 +683,22 @@ export const PricingSection = () => {
                     </CardContent>
 
                     <CardFooter className="flex flex-col gap-4 pt-4">
-                      <Button 
-                        className="w-full py-6 bg-[#FEA35D] hover:bg-[#F89A67] text-white font-medium"
+                      <AnimatedButton 
+                        text={tier.ctaText}
+                        variant="start"
+                        saturation={index === 0 ? "normal" : index === 1 ? "high" : "low"}
+                        size="lg"
                         onClick={() => window.location.href = '/application-form'}
-                      >
-                        {tier.ctaText}
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="text-white/60 hover:text-white"
+                        className="w-full"
+                      />
+                      <AnimatedButton
+                        text="Schedule a Call"
+                        variant="docs"
+                        saturation="subtle"
+                        size="md"
                         onClick={() => window.open('https://calendly.com/jodenclashnewman/vertical-shortcut-discovery-call', '_blank')}
-                      >
-                        Schedule a Call
-                      </Button>
+                        className="w-full"
+                      />
                     </CardFooter>
                   </Card>
                 );
@@ -737,19 +742,22 @@ export const PricingSection = () => {
                 audiences and drive sustainable growth.
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
-                <Button 
-                  className="px-8 py-6 bg-[#B92234] hover:bg-[#DE6B59] text-lg font-semibold"
+                <AnimatedButton 
+                  text="Enroll Now"
+                  variant="pro" 
+                  saturation="normal"
+                  size="lg"
                   onClick={() => window.location.href = '/application-form'}
-                >
-                  Enroll Now
-                </Button>
-                <Button
-                  variant="outline"
-                  className="px-8 py-6 border-white/20 hover:bg-white/10 text-lg font-semibold"
+                  className="w-auto"
+                />
+                <AnimatedButton
+                  text="Schedule a Call"
+                  variant="docs"
+                  saturation="normal"
+                  size="lg"
                   onClick={() => window.open('https://calendly.com/jodenclashnewman/vertical-shortcut-discovery-call', '_blank')}
-                >
-                  Schedule a Call
-                </Button>
+                  className="w-auto"
+                />
               </div>
             </div>
           </>

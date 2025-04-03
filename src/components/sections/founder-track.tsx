@@ -1,13 +1,13 @@
 import React from 'react';
 import { Section } from "../ui/section";
 import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
-import { founderModules, tracks, courseStats, getModulesByTrack } from "../../lib/course-utils";
+import { AnimatedButton } from "../marble-buttons/AnimatedButton";
+import courseUtils, { Module, Submodule, Track, tracks, courseStats } from "../../lib/course-utils";
 import { BriefcaseBusiness, Clock, BookOpen, CheckCircle, ArrowRightCircle } from "lucide-react";
 
 const FounderTrack = () => {
   // Get the founder modules from our data with null check
-  const modules = founderModules || [];
+  const modules = courseUtils.getFounderModules() || [];
   
   // Get the founder track color with null check
   const founderTrack = tracks?.find(track => track.name === "Founders");
@@ -15,7 +15,7 @@ const FounderTrack = () => {
   
   // Safe access to stats with null checks
   const totalModules = courseStats?.totalModules || 0;
-  const founderSpecificModules = getModulesByTrack("Founders")?.length || 0;
+  const founderSpecificModules = courseUtils.getModulesByTrack("Founders")?.length || 0;
 
   return (
     <Section className="py-24 bg-gradient-to-b from-[#08141B] to-[#09232F]">
@@ -23,7 +23,7 @@ const FounderTrack = () => {
         <div className="flex flex-col lg:flex-row gap-12 max-w-6xl mx-auto">
           {/* Left Column - Overview */}
           <div className="lg:w-5/12">
-            <Badge variant="outline" className="bg-white/5 text-[#FEA35D] border-[#FEA35D]/30 mb-4 py-2 px-4">
+            <Badge variant="section" size="xl" className="mb-4">
               For Busy Entrepreneurs
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -56,20 +56,22 @@ const FounderTrack = () => {
             </div>
             
             <div className="flex gap-4">
-              <Button 
-                className="px-6 py-6" 
-                style={{ backgroundColor: founderColor, borderColor: founderColor }}
+              <AnimatedButton 
+                text="Apply for Founders Track"
+                variant="start"
+                saturation="high"
+                size="lg"
                 onClick={() => window.location.href = '/application-form'}
-              >
-                Apply for Founders Track
-              </Button>
-              <Button 
-                variant="outline" 
-                className="px-6 py-6 border border-white/20 hover:bg-white/10"
+                className="w-auto"
+              />
+              <AnimatedButton 
+                text="Schedule a Call"
+                variant="docs"
+                saturation="normal"
+                size="lg"
                 onClick={() => window.open('https://calendly.com/jodenclashnewman/vertical-shortcut-discovery-call', '_blank')}
-              >
-                Schedule a Call
-              </Button>
+                className="w-auto"
+              />
             </div>
           </div>
           
@@ -82,7 +84,7 @@ const FounderTrack = () => {
               </div>
               
               <div className="space-y-4">
-                {modules.map((module, index) => (
+                {modules.map((module: Module, index: number) => (
                   <div 
                     key={index}
                     className="bg-black/20 rounded-lg p-4 hover:bg-black/30 transition-colors duration-300 group cursor-pointer"
@@ -101,7 +103,7 @@ const FounderTrack = () => {
                     
                     {/* Submodules preview - just show first 2 with null check */}
                     <div className="pl-3 border-l-2 mb-3" style={{ borderColor: module.color || '#FEA35D' }}>
-                      {(module.submodules || []).slice(0, 2).map((submodule, idx) => (
+                      {(module.submodules || []).slice(0, 2).map((submodule: Submodule, idx: number) => (
                         <div key={idx} className="mb-2">
                           <div className="text-sm font-medium text-white/90">{submodule.title || 'Submodule'}</div>
                           <div className="text-xs text-white/60">{submodule.subtitle || ''}</div>
@@ -117,7 +119,7 @@ const FounderTrack = () => {
                     
                     {/* Resources with null check */}
                     <div className="flex flex-wrap gap-2">
-                      {module.submodules && [...new Set((module.submodules || []).flatMap(sm => sm.resources || []))].map((resource, i) => (
+                      {module.submodules && [...new Set((module.submodules || []).flatMap((sm: Submodule) => sm.resources || []))].map((resource: string, i: number) => (
                         <span 
                           key={i}
                           className="text-xs bg-white/10 px-2 py-1 rounded-full text-white/70"

@@ -1,0 +1,331 @@
+# CLAUDE.md
+
+This file guides Claude Code when working with this repository. Follow these instructions PRECISELY.
+
+## Initial Requirements
+
+- Before providing advice or making changes, state: "I have read and will fully comply with CLAUDE.md."
+- First question: "Am I working in Solo Mode or Team Mode (if Team Mode, which team A or B)?"
+- Based on response, work ONLY on components assigned to your mode/team
+
+## Mandatory Reading Sequence
+1. Read this CLAUDE.md completely
+2. Read `src/app/globals.css` completely 
+3. Read `VS_STYLING_GUIDE.md` completely
+4. If in Team Mode, read `TEAM_STRUCTURE.md` completely
+
+## ⚠️⚠️⚠️ CRITICAL: TEXT VS BACKGROUND IMPLEMENTATION ⚠️⚠️⚠️
+
+### FUNDAMENTAL RULE: TEXT COLORS AND BACKGROUND COLORS USE OPPOSITE PATTERNS
+
+## TEXT COLORS (USE style ATTRIBUTE, NOT className)
+
+**❌ NEVER EVER DO THIS FOR TEXT - IT WILL BREAK DARK MODE:**
+```jsx
+<p className="text-[var(--text-navy)]">BROKEN: Text will DISAPPEAR in dark mode</p>
+<h2 className="text-[var(--primary-orange)]">BROKEN: Text will DISAPPEAR in dark mode</h2>
+<span className="text-[var(--accent-coral)]">BROKEN: Text will DISAPPEAR in dark mode</span>
+```
+
+**✅ ALWAYS DO THIS FOR TEXT:**
+```jsx
+<p style={{ color: 'var(--text-navy)' }} className="dark:text-white">CORRECT: This will work</p>
+<h2 style={{ color: 'var(--primary-orange)' }} className="dark:text-white">CORRECT: This will work</h2>
+<span style={{ color: 'var(--accent-coral)' }} className="dark:text-white">CORRECT: This will work</span>
+```
+
+## BACKGROUND COLORS (USE className ATTRIBUTE, NOT style)
+
+**❌ NEVER EVER DO THIS FOR BACKGROUNDS - IT WON'T TOGGLE:**
+```jsx
+<div style={{ backgroundColor: 'var(--bg-cream)' }}>BROKEN: Won't change in dark mode</div>
+<div style={{ background: 'var(--bg-cream-gradient)' }}>BROKEN: Won't change in dark mode</div>
+```
+
+**✅ ALWAYS DO THIS FOR BACKGROUNDS:**
+```jsx
+<div className="bg-[var(--bg-cream)] dark:bg-[var(--bg-navy)]">CORRECT: Will toggle in dark mode</div>
+<div className="bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] dark:bg-[var(--bg-navy-gradient)]">CORRECT: Will toggle</div>
+```
+
+## EVERY ELEMENT MUST HAVE BOTH LIGHT AND DARK MODE STYLES
+
+**❌ MISSING DARK MODE:**
+```jsx
+<div className="bg-[var(--bg-cream)]">BROKEN: No dark mode defined</div>
+<p style={{ color: 'var(--text-navy)' }}>BROKEN: No dark mode defined</p>
+```
+
+**✅ COMPLETE IMPLEMENTATION:**
+```jsx
+<div className="bg-[var(--bg-cream)] dark:bg-[var(--bg-navy)]">CORRECT: Both modes defined</div>
+<p style={{ color: 'var(--text-navy)' }} className="dark:text-white">CORRECT: Both modes defined</p>
+```
+
+## Complete Visual Design for BOTH Modes
+
+### Light Mode Vision
+- **NO PLAIN WHITE** - Always use subtle gradients instead of flat white
+- **Subtle Shadows** - Low opacity (0.05-0.1), a few pixels down and to the left
+- **Background Textures** - Use dot or grid patterns with very low opacity
+- **Floating Elements** - Add subtle, non-distracting squares with high border-radius
+- **Color Palette** - Warm creams, oranges with teal accents
+- **Subtle Motion** - Gentle animations that enhance without distracting
+
+### Dark Mode Vision
+- **Rich Gradients** - Deep navy gradients, never flat dark colors
+- **Elevated Glow Effects** - Soft glows with accent colors (0.15-0.2 opacity)
+- **Enhanced Depth** - More pronounced shadows and gradients
+- **Floating Elements** - Same elements but with dark mode styling and subtle glow
+- **Color Accent Shifts** - Slightly brighter and more vibrant accent colors
+- **Enhanced Animation** - Slightly more pronounced animation effects
+
+### Shadow Implementation
+**Light Mode:**
+```jsx
+<div className="bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] 
+             shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
+             rounded-lg p-6">
+  Light mode content with proper styling
+</div>
+```
+
+**Dark Mode:**
+```jsx
+<div className="dark:bg-gradient-to-br dark:from-[var(--bg-navy)] dark:to-[rgba(9,35,47,0.9)]
+             dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
+             rounded-lg p-6">
+  Dark mode content with proper styling
+</div>
+```
+
+### Floating Elements Implementation
+```jsx
+<div className="relative">
+  {/* Floating element - light mode */}
+  <div className="absolute -z-10 w-20 h-20 rounded-[40%] rotate-12 opacity-5 bg-[var(--primary-orange)] 
+                top-10 right-5 animate-float-slow hidden dark:hidden"></div>
+  
+  {/* Floating element - dark mode */}
+  <div className="absolute -z-10 w-20 h-20 rounded-[40%] rotate-12 opacity-10 
+                bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-orange-hover)]
+                top-10 right-5 animate-float-slow hidden dark:block"></div>
+  
+  <div className="relative z-10">
+    Actual content here
+  </div>
+</div>
+```
+
+### Professional Animation Implementation
+All animations MUST use `useGSAP` and `gsap.context` for proper cleanup and performance:
+
+```jsx
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+
+function AnimatedComponent() {
+  const containerRef = useRef(null);
+  
+  useGSAP(() => {
+    const ctx = gsap.context(() => {
+      // Animations here
+      gsap.to(".element", {
+        y: -10,
+        opacity: 1,
+        duration: 0.5,
+        stagger: 0.1
+      });
+    }, containerRef); // Scope to container
+    
+    return () => ctx.revert(); // Proper cleanup
+  }, []);
+  
+  return (
+    <div ref={containerRef}>
+      <div className="element">Animated element</div>
+    </div>
+  );
+}
+```
+
+## Critical Do's and Don'ts
+
+### DO NOT:
+- Use `text-[var(--var)]` for text colors - THIS WILL BREAK DARK MODE
+- Use plain white backgrounds - ALWAYS use subtle gradients
+- Create animations without proper cleanup via useGSAP and gsap.context
+- Change grid layouts (grid-cols-*) under any circumstances
+- Replace CSS variables with hardcoded hex values (except for text colors)
+- Implement quick fixes - identify and fix root causes
+
+### DO:
+- Use inline styles for text colors: `style={{ color: 'var(--text-navy)' }}`
+- Always add dark mode classes for text: `className="dark:text-white"`
+- Implement both light AND dark mode for every component
+- Add subtle floating elements for visual interest
+- Use appropriate shadows for each mode (down-left for light, glow for dark)
+- Create a written plan and get approval before proceeding
+- Test in both light and dark mode
+
+## Current Priority Issues
+1. Fix course-stats.tsx component styling with preserved vibrant colors
+2. Fix components that don't switch properly between light/dark mode
+3. Convert remaining hardcoded hex values to CSS variables
+
+## Required Git Workflow
+
+### Commit ALL Changes
+- ALWAYS use `git add .` to stage ALL modified files
+- NEVER selectively commit only some changes
+- Files modified together should be committed together
+
+### Commit Procedure
+1. Run `git status` to check modified files
+2. Add ALL changes: `git add .`
+3. Verify all changes are staged: `git status`
+4. Commit with prefix and description:
+   - Solo Mode: `git commit -m "Solo: [description]"`
+   - Team A: `git commit -m "A: [description]"`
+   - Team B: `git commit -m "B: [description]"`
+
+### Commit Frequency
+- After each significant component change
+- At least once per hour of work
+- Immediately after fixing bugs
+
+## "VS Bubbly" Animation Style
+- Animations should be 20% more pronounced than typical corporate sites
+- Use cubic-bezier(0.34, 1.56, 0.64, 1) for springy hover effects
+- Combine transform properties (translateY + scale) for richer interactions
+- Example hover: `hover:translate-y-[-4px] hover:scale-[1.02]`
+- ALWAYS use useGSAP and gsap.context for proper lifecycle management
+
+## Development Commands
+- DO NOT use `npm run dev` directly - it causes freezing!
+- Use `npm run build` for building
+- Use `npm run typecheck` for testing components
+
+## Most Important Rule
+After stating your plan, NEVER deviate from it without permission. It's better to do nothing than to implement something contrary to your stated plan.
+
+## Component Example with Complete Implementation
+
+```jsx
+function ExampleCard() {
+  return (
+    <div className="relative overflow-hidden">
+      {/* Floating elements - different for each mode */}
+      <div className="absolute top-20 left-5 w-16 h-16 rounded-[40%] rotate-12 opacity-5 
+                    bg-[var(--primary-orange)] animate-float-slow dark:hidden"></div>
+      <div className="absolute bottom-10 right-5 w-24 h-24 rounded-[30%] -rotate-6 opacity-10
+                    bg-[var(--primary-orange-hover)] animate-float-medium dark:hidden"></div>
+                    
+      {/* Dark mode floating elements */}
+      <div className="absolute top-20 left-5 w-16 h-16 rounded-[40%] rotate-12 opacity-10 
+                    bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-orange-hover)] 
+                    animate-float-slow hidden dark:block"></div>
+      <div className="absolute bottom-10 right-5 w-24 h-24 rounded-[30%] -rotate-6 opacity-15
+                    bg-gradient-to-r from-[var(--secondary-teal)] to-[var(--secondary-teal-hover)] 
+                    animate-float-medium hidden dark:block"></div>
+                    
+      {/* Card with proper styling for BOTH modes */}
+      <div className="relative z-10 bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)]
+                    dark:bg-gradient-to-br dark:from-[var(--card-bg-navy)] dark:to-[rgba(12,67,99,0.8)]
+                    rounded-[var(--border-radius-lg)] p-6 
+                    shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
+                    dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
+                    transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]
+                    hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] 
+                    dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.2)]
+                    hover:translate-y-[-4px] hover:scale-[1.02]">
+        <h3 
+          style={{ color: 'var(--text-navy)' }} 
+          className="dark:text-white text-xl mb-2"
+        >
+          Card Title
+        </h3>
+        
+        <p 
+          style={{ color: 'var(--text-navy)' }} 
+          className="dark:text-white/70 mb-4"
+        >
+          This card has proper implementation for both light and dark mode.
+        </p>
+        
+        <button 
+          className="bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-orange-hover)]
+                   dark:bg-gradient-to-r dark:from-[var(--primary-orange)] dark:to-[var(--primary-orange-hover)]
+                   text-white px-4 py-2 rounded-full 
+                   shadow-[1px_1px_4px_rgba(0,0,0,0.1)]
+                   dark:shadow-[0_0_8px_rgba(254,163,93,0.2)]
+                   transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]
+                   hover:translate-y-[-3px] hover:scale-[1.03] 
+                   hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)]
+                   dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]"
+        >
+          Learn More
+        </button>
+      </div>
+    </div>
+  )
+}
+```
+
+## Common Pitfalls to Avoid
+
+### Dark Mode Implementation
+❌ **WRONG**:
+```jsx
+<div style={{ backgroundColor: 'var(--bg-cream)' }}>Won't switch in dark mode</div>
+<p className="text-[var(--text-navy)]">Text will disappear in dark mode</p>
+```
+
+✅ **CORRECT**:
+```jsx
+<div className="bg-[var(--bg-cream)] dark:bg-[var(--bg-navy)]">Works correctly</div>
+<p style={{ color: 'var(--text-navy)' }} className="dark:text-white">Text visible in both modes</p>
+```
+
+### Gradient Implementation
+❌ **WRONG**:
+```jsx
+<div className="bg-white">Plain white background</div>
+```
+
+✅ **CORRECT**:
+```jsx
+<div className="bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)]">Subtle gradient</div>
+```
+
+### Animation Implementation
+❌ **WRONG**:
+```jsx
+useEffect(() => {
+  gsap.to(".element", { y: -10 });
+  // No cleanup
+}, []);
+```
+
+✅ **CORRECT**:
+```jsx
+useGSAP(() => {
+  const ctx = gsap.context(() => {
+    gsap.to(".element", { y: -10 });
+  }, containerRef);
+  
+  return () => ctx.revert();
+}, []);
+```
+
+## Debugging Light/Dark Mode Issues
+
+If styling looks wrong in either mode, check for:
+
+1. Using `text-[var(--variable)]` instead of inline styles (This is the #1 cause of issues)
+2. Missing `dark:text-[color]` class for text elements
+3. Missing gradients (using plain colors instead)
+4. Missing or inappropriate shadows for each mode
+5. Animation issues (not using useGSAP and gsap.context)
+
+REMEMBER: ALWAYS TEST IN BOTH LIGHT AND DARK MODE!

@@ -1,6 +1,7 @@
 import { Briefcase, Compass, Pencil, Camera, Scissors, Rocket, Wrench } from 'lucide-react';
+import courseData from '../data/course-data.json';
 
-// Types for course data structures (simplified for easy consumption)
+// Types for course data structure matching the JSON format
 export interface Submodule {
   id: string;
   title: string;
@@ -8,6 +9,8 @@ export interface Submodule {
   duration: number;
   difficulty: number;
   resources: string[];
+  highValue: boolean;
+  week: number;
   instructor: string;
 }
 
@@ -18,11 +21,28 @@ export interface Module {
   icon: string;
   color: string;
   thumbnail: string;
+  points: string[];
   tracks: string[];
   duration: number;
-  featured: boolean;
   founderMustWatch: boolean;
+  entrepreneurSpecific: boolean;
+  popular: boolean;
+  featured: boolean;
   submodules: Submodule[];
+}
+
+export interface Section {
+  id: string;
+  name: string;
+  number: number;
+  modules: Module[];
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  color: string;
+  sections: Section[];
 }
 
 export interface Track {
@@ -32,51 +52,11 @@ export interface Track {
   description: string;
 }
 
-// Defined tracks for the course
-export const tracks: Track[] = [
-  {
-    name: "Content Creator Growth",
-    icon: "rocket",
-    color: "#4A90E2",
-    description: "The fastest path to growing your audience from zero to millions of views"
-  },
-  {
-    name: "Founders",
-    icon: "briefcase",
-    color: "#FF3B30",
-    description: "Essential strategies for entrepreneurs and business leaders to build personal brands"
-  },
-  {
-    name: "Scriptwriters/Researchers",
-    icon: "pencil",
-    color: "#FFCC00",
-    description: "Deep dive into creating compelling content that drives engagement"
-  },
-  {
-    name: "Video Editors",
-    icon: "scissors",
-    color: "#34C759",
-    description: "Technical skills to transform raw footage into viral-worthy content"
-  },
-  {
-    name: "Video Producers",
-    icon: "camera",
-    color: "#5856D6",
-    description: "Managing the end-to-end process of creating professional short form content"
-  },
-  {
-    name: "Holistic Approach",
-    icon: "compass",
-    color: "#FF9500",
-    description: "Comprehensive strategy for mastering every aspect of short form content"
-  },
-  {
-    name: "Technical Skills",
-    icon: "wrench",
-    color: "#8E8E93",
-    description: "Practical tools and techniques for production and optimization"
-  }
-];
+export interface Course {
+  title: string;
+  categories: Category[];
+  tracks: Track[];
+}
 
 // Helper function to get icon component by name
 export const getTrackIcon = (iconName: string) => {
@@ -100,555 +80,10 @@ export const getTrackIcon = (iconName: string) => {
   }
 };
 
-// Course sections with module counts
-export const sections = [
-  { id: "theory_basics", name: "Theory Basics", modules: 6, color: "#4A90E2" },
-  { id: "theory_advanced", name: "Theory Advanced", modules: 11, color: "#FF9500" },
-  { id: "research", name: "Research & Writing", modules: 3, color: "#34C759" },
-  { id: "repurposing", name: "Repurposing", modules: 3, color: "#30D158" },
-  { id: "shooting", name: "Shooting", modules: 5, color: "#5856D6" },
-  { id: "editing", name: "Editing", modules: 4, color: "#FF9500" },
-  { id: "monetisation", name: "Monetisation", modules: 3, color: "#FF3B30" },
-  { id: "delegation", name: "Delegation", modules: 6, color: "#BF5AF2" },
-  { id: "conversions", name: "Conversions", modules: 7, color: "#4A90E2" }
-];
+// Access the course data from JSON
+const typedCourseData = courseData as Course;
 
-// Featured modules across all sections
-export const featuredModules: Module[] = [
-  {
-    id: "big_picture",
-    title: "The Big Picture on Short Form",
-    subtitle: "Why short form is the highest-leverage marketing investment of 2025",
-    icon: "lightbulb",
-    color: "#4A90E2",
-    thumbnail: "big_picture.jpg",
-    tracks: ["Content Creator Growth", "Holistic Approach", "Founders"],
-    duration: 25,
-    featured: true,
-    founderMustWatch: true,
-    submodules: [
-      {
-        id: "big_picture_1",
-        title: "Introduction to Short Form",
-        subtitle: "The transformative impact of vertical video on the digital landscape",
-        duration: 6,
-        difficulty: 1,
-        resources: ["pdf"],
-        instructor: "Joden"
-      },
-      {
-        id: "big_picture_2",
-        title: "Market Opportunity",
-        subtitle: "The staggering statistics that make short form impossible to ignore",
-        duration: 5,
-        difficulty: 1,
-        resources: ["pdf"],
-        instructor: "Joden"
-      }
-    ]
-  },
-  {
-    id: "cardinal_sins",
-    title: "The 3 Cardinal Sins and Cardinal Virtues",
-    subtitle: "The critical mistakes killing your videos and their powerful antidotes",
-    icon: "warning",
-    color: "#FF3B30",
-    thumbnail: "cardinal_sins.jpg",
-    tracks: ["Content Creator Growth", "Holistic Approach", "Founders"],
-    duration: 30,
-    featured: true,
-    founderMustWatch: true,
-    submodules: [
-      {
-        id: "sin_boring",
-        title: "The Sin of Being Boring",
-        subtitle: "Why entertainment value trumps information on short form platforms",
-        duration: 7,
-        difficulty: 1,
-        resources: ["pdf", "worksheets"],
-        instructor: "Joden"
-      },
-      {
-        id: "sin_confusing",
-        title: "The Sin of Being Confusing",
-        subtitle: "How complexity kills engagement and drives viewers away",
-        duration: 7,
-        difficulty: 1,
-        resources: ["pdf", "worksheets"],
-        instructor: "Joden"
-      }
-    ]
-  },
-  {
-    id: "strategy_pillars",
-    title: "Strategy: Pillars, Topics, Buckets",
-    subtitle: "Build a framework that generates unlimited viral-worthy content ideas",
-    icon: "strategy",
-    color: "#FFCC00",
-    thumbnail: "strategy_pillars.jpg",
-    tracks: ["Content Creator Growth", "Scriptwriters/Researchers", "Founders"],
-    duration: 35,
-    featured: true,
-    founderMustWatch: true,
-    submodules: [
-      {
-        id: "defining_pillars",
-        title: "Defining Your Content Pillars",
-        subtitle: "The foundation that gives your content direction and consistency",
-        duration: 8,
-        difficulty: 2,
-        resources: ["pdf", "workshop", "worksheets"],
-        instructor: "Joden"
-      },
-      {
-        id: "generating_topics",
-        title: "Generating Engaging Topics",
-        subtitle: "How to develop specific angles that captivate your target audience",
-        duration: 7,
-        difficulty: 2,
-        resources: ["pdf", "worksheets"],
-        instructor: "Joden"
-      }
-    ]
-  },
-  {
-    id: "hooking_fundamentals",
-    title: "Hooking Fundamentals",
-    subtitle: "Master the art of the first 3 seconds that determine your video's success",
-    icon: "hook",
-    color: "#50E3C2",
-    thumbnail: "hooking_fundamentals.jpg",
-    tracks: ["Content Creator Growth", "Scriptwriters/Researchers"],
-    duration: 30,
-    featured: true,
-    founderMustWatch: true,
-    submodules: [
-      {
-        id: "hook_importance",
-        title: "Why Hooks Matter",
-        subtitle: "The psychology behind what makes viewers stop scrolling",
-        duration: 5,
-        difficulty: 1,
-        resources: ["pdf"],
-        instructor: "Joden"
-      },
-      {
-        id: "hook_clarity",
-        title: "Clarity & Intrigue",
-        subtitle: "The perfect balance that creates curiosity without confusion",
-        duration: 8,
-        difficulty: 2,
-        resources: ["pdf", "worksheets"],
-        instructor: "Joden"
-      }
-    ]
-  },
-  {
-    id: "founders_paradox",
-    title: "The Founders Paradox",
-    subtitle: "How busy entrepreneurs can create authentic, engaging content without sacrificing professionalism",
-    icon: "founders",
-    color: "#FF3B30",
-    thumbnail: "founders_paradox.jpg",
-    tracks: ["Founders"],
-    duration: 35,
-    featured: true,
-    founderMustWatch: true,
-    submodules: [
-      {
-        id: "authenticity_balance",
-        title: "The Authenticity Balance",
-        subtitle: "Creating content that feels authentic without sacrificing authority",
-        duration: 8,
-        difficulty: 3,
-        resources: ["pdf", "worksheets"],
-        instructor: "Tia Warner"
-      },
-      {
-        id: "founder_batching",
-        title: "Strategic Batching for Busy Founders",
-        subtitle: "Maximize efficiency without sacrificing authenticity",
-        duration: 9,
-        difficulty: 3,
-        resources: ["pdf", "worksheets"],
-        instructor: "Tia Warner"
-      }
-    ]
-  }
-];
-
-// Modules for each section
-export const getModulesForSection = (sectionId: string): Module[] => {
-  switch(sectionId) {
-    case 'theory_basics':
-      return [
-        {
-          id: "big_picture",
-          title: "The Big Picture on Short Form",
-          subtitle: "Why short form is the highest-leverage marketing investment of 2025",
-          icon: "lightbulb",
-          color: "#4A90E2",
-          thumbnail: "big_picture.jpg",
-          tracks: ["Content Creator Growth", "Holistic Approach", "Founders"],
-          duration: 25,
-          featured: true,
-          founderMustWatch: true,
-          submodules: [
-            {
-              id: "big_picture_1",
-              title: "Introduction to Short Form",
-              subtitle: "The transformative impact of vertical video on the digital landscape",
-              duration: 6,
-              difficulty: 1,
-              resources: ["pdf"],
-              instructor: "Joden"
-            },
-            {
-              id: "big_picture_2",
-              title: "Market Opportunity",
-              subtitle: "The staggering statistics that make short form impossible to ignore",
-              duration: 5,
-              difficulty: 1,
-              resources: ["pdf"],
-              instructor: "Joden"
-            }
-          ]
-        },
-        {
-          id: "cardinal_sins",
-          title: "The 3 Cardinal Sins and Cardinal Virtues",
-          subtitle: "The critical mistakes killing your videos and their powerful antidotes",
-          icon: "warning",
-          color: "#FF3B30",
-          thumbnail: "cardinal_sins.jpg",
-          tracks: ["Content Creator Growth", "Holistic Approach", "Founders"],
-          duration: 30,
-          featured: true,
-          founderMustWatch: true,
-          submodules: [
-            {
-              id: "sin_boring",
-              title: "The Sin of Being Boring",
-              subtitle: "Why entertainment value trumps information on short form platforms",
-              duration: 7,
-              difficulty: 1,
-              resources: ["pdf", "worksheets"],
-              instructor: "Joden"
-            },
-            {
-              id: "sin_confusing",
-              title: "The Sin of Being Confusing",
-              subtitle: "How complexity kills engagement and drives viewers away",
-              duration: 7,
-              difficulty: 1,
-              resources: ["pdf", "worksheets"],
-              instructor: "Joden"
-            }
-          ]
-        },
-        {
-          id: "algorithmic_reality",
-          title: "Algorithmic Reality",
-          subtitle: "Demystifying the 'black box' that determines which videos go viral",
-          icon: "algorithm",
-          color: "#5856D6",
-          thumbnail: "algorithmic_reality.jpg",
-          tracks: ["Content Creator Growth", "Holistic Approach", "Scriptwriters/Researchers"],
-          duration: 25,
-          featured: false,
-          founderMustWatch: true,
-          submodules: [
-            {
-              id: "algorithm_truth",
-              title: "The Truth About Algorithms",
-              subtitle: "Why the algorithm isn't a black box—it's human psychology",
-              duration: 6,
-              difficulty: 2,
-              resources: ["pdf"],
-              instructor: "Tia Warner"
-            },
-            {
-              id: "content_distribution",
-              title: "Content Distribution Process",
-              subtitle: "How platforms decide which viewers see your content",
-              duration: 7,
-              difficulty: 2,
-              resources: ["pdf"],
-              instructor: "Tia Warner"
-            }
-          ]
-        },
-        {
-          id: "strategy_pillars",
-          title: "Strategy: Pillars, Topics, Buckets",
-          subtitle: "Build a framework that generates unlimited viral-worthy content ideas",
-          icon: "strategy",
-          color: "#FFCC00",
-          thumbnail: "strategy_pillars.jpg",
-          tracks: ["Content Creator Growth", "Scriptwriters/Researchers", "Founders"],
-          duration: 35,
-          featured: true,
-          founderMustWatch: true,
-          submodules: [
-            {
-              id: "defining_pillars",
-              title: "Defining Your Content Pillars",
-              subtitle: "The foundation that gives your content direction and consistency",
-              duration: 8,
-              difficulty: 2,
-              resources: ["pdf", "workshop", "worksheets"],
-              instructor: "Joden"
-            },
-            {
-              id: "generating_topics",
-              title: "Generating Engaging Topics",
-              subtitle: "How to develop specific angles that captivate your target audience",
-              duration: 7,
-              difficulty: 2,
-              resources: ["pdf", "worksheets"],
-              instructor: "Joden"
-            }
-          ]
-        },
-        {
-          id: "hooking_fundamentals",
-          title: "Hooking Fundamentals",
-          subtitle: "Master the art of the first 3 seconds that determine your video's success",
-          icon: "hook",
-          color: "#50E3C2",
-          thumbnail: "hooking_fundamentals.jpg",
-          tracks: ["Content Creator Growth", "Scriptwriters/Researchers"],
-          duration: 30,
-          featured: true,
-          founderMustWatch: true,
-          submodules: [
-            {
-              id: "hook_importance",
-              title: "Why Hooks Matter",
-              subtitle: "The psychology behind what makes viewers stop scrolling",
-              duration: 5,
-              difficulty: 1,
-              resources: ["pdf"],
-              instructor: "Joden"
-            },
-            {
-              id: "hook_clarity",
-              title: "Clarity & Intrigue",
-              subtitle: "The perfect balance that creates curiosity without confusion",
-              duration: 8,
-              difficulty: 2,
-              resources: ["pdf", "worksheets"],
-              instructor: "Joden"
-            }
-          ]
-        }
-      ];
-    case 'theory_advanced':
-      return [
-        {
-          id: "nuanced_hook",
-          title: "Nuanced Hook: Morally Dubious",
-          subtitle: "Advanced hook strategies that generate massive engagement",
-          icon: "advanced-hook",
-          color: "#FF9500",
-          thumbnail: "nuanced_hook.jpg",
-          tracks: ["Content Creator Growth", "Scriptwriters/Researchers"],
-          duration: 35,
-          featured: false,
-          founderMustWatch: false,
-          submodules: [
-            {
-              id: "big_small_hook",
-              title: "The Big-Small Hook",
-              subtitle: "Connect something tiny to something massive to create instant intrigue",
-              duration: 7,
-              difficulty: 3,
-              resources: ["pdf", "worksheets"],
-              instructor: "Tia Warner"
-            },
-            {
-              id: "false_assumption",
-              title: "The False Assumption Hook",
-              subtitle: "Create FOMO that compels viewers to watch to the end",
-              duration: 7,
-              difficulty: 4,
-              resources: ["pdf", "worksheets"],
-              instructor: "Tia Warner"
-            }
-          ]
-        },
-        {
-          id: "emotional_positioning",
-          title: "Advanced Emotional Positioning",
-          subtitle: "Harness powerful emotions to create content that resonates and drives action",
-          icon: "emotions",
-          color: "#AF52DE",
-          thumbnail: "emotional_positioning.jpg",
-          tracks: ["Content Creator Growth", "Scriptwriters/Researchers", "Founders"],
-          duration: 30,
-          featured: false,
-          founderMustWatch: true,
-          submodules: [
-            {
-              id: "emotion_anger",
-              title: "Harnessing Anger",
-              subtitle: "The most engaging emotion and how to use it responsibly",
-              duration: 7,
-              difficulty: 4,
-              resources: ["pdf", "worksheets"],
-              instructor: "Tia Warner"
-            },
-            {
-              id: "emotion_fear",
-              title: "Leveraging Fear & Anxiety",
-              subtitle: "Creating FOMO and urgency that compels action",
-              duration: 7,
-              difficulty: 4,
-              resources: ["pdf", "worksheets"],
-              instructor: "Tia Warner"
-            }
-          ]
-        },
-        {
-          id: "script_mastery",
-          title: "Script Mastery: Optimising for Engagement",
-          subtitle: "Advanced scripting techniques that maximize retention",
-          icon: "script-pro",
-          color: "#50E3C2",
-          thumbnail: "script_mastery.jpg",
-          tracks: ["Content Creator Growth", "Scriptwriters/Researchers", "Founders"],
-          duration: 35,
-          featured: false,
-          founderMustWatch: true,
-          submodules: [
-            {
-              id: "comment_optimization",
-              title: "Optimizing for Comments",
-              subtitle: "Strategic scripting techniques that fill your comment section with engagement",
-              duration: 9,
-              difficulty: 4,
-              resources: ["pdf", "worksheets"],
-              instructor: "Tia Warner"
-            },
-            {
-              id: "conversion_scripts",
-              title: "Conversion-Optimized Scripts",
-              subtitle: "The perfect CTA placement that drives action without killing retention",
-              duration: 8,
-              difficulty: 4,
-              resources: ["pdf", "worksheets"],
-              instructor: "Tia Warner"
-            }
-          ]
-        },
-        {
-          id: "founders_paradox",
-          title: "The Founders Paradox",
-          subtitle: "How busy entrepreneurs can create authentic, engaging content without sacrificing professionalism",
-          icon: "founders",
-          color: "#FF3B30",
-          thumbnail: "founders_paradox.jpg",
-          tracks: ["Founders"],
-          duration: 35,
-          featured: true,
-          founderMustWatch: true,
-          submodules: [
-            {
-              id: "authenticity_balance",
-              title: "The Authenticity Balance",
-              subtitle: "Creating content that feels authentic without sacrificing authority",
-              duration: 8,
-              difficulty: 3,
-              resources: ["pdf", "worksheets"],
-              instructor: "Tia Warner"
-            },
-            {
-              id: "founder_batching",
-              title: "Strategic Batching for Busy Founders",
-              subtitle: "Maximize efficiency without sacrificing authenticity",
-              duration: 9,
-              difficulty: 3,
-              resources: ["pdf", "worksheets"],
-              instructor: "Tia Warner"
-            }
-          ]
-        }
-      ];
-    // Add cases for other sections as needed
-    default:
-      return [];
-  }
-};
-
-// Modules specifically for founders
-export const founderModules: Module[] = [
-  {
-    id: "founders_paradox",
-    title: "The Founders Paradox",
-    subtitle: "How busy entrepreneurs can create authentic, engaging content without sacrificing professionalism",
-    icon: "founders",
-    color: "#FF3B30",
-    thumbnail: "founders_paradox.jpg",
-    tracks: ["Founders"],
-    duration: 35,
-    featured: true,
-    founderMustWatch: true,
-    submodules: [
-      {
-        id: "authenticity_balance",
-        title: "The Authenticity Balance",
-        subtitle: "Creating content that feels authentic without sacrificing authority",
-        duration: 8,
-        difficulty: 3,
-        resources: ["pdf", "worksheets"],
-        instructor: "Tia Warner"
-      },
-      {
-        id: "founder_batching",
-        title: "Strategic Batching for Busy Founders",
-        subtitle: "Maximize efficiency without sacrificing authenticity",
-        duration: 9,
-        difficulty: 3,
-        resources: ["pdf", "worksheets"],
-        instructor: "Tia Warner"
-      }
-    ]
-  },
-  {
-    id: "monetisation_founder",
-    title: "Monetisation Founder",
-    subtitle: "Leverage your personal brand for lucrative partnerships and opportunities",
-    icon: "money-founder",
-    color: "#4A90E2",
-    thumbnail: "monetisation_founder.jpg",
-    tracks: ["Founders"],
-    duration: 30,
-    featured: true,
-    founderMustWatch: true,
-    submodules: [
-      {
-        id: "brand_partnerships",
-        title: "Securing Brand Partnerships",
-        subtitle: "Attracting and negotiating valuable sponsorship deals",
-        duration: 8,
-        difficulty: 3,
-        resources: ["pdf", "worksheets"],
-        instructor: "Alex O'Connor"
-      },
-      {
-        id: "media_kit",
-        title: "Media Kit Development",
-        subtitle: "Creating materials that showcase your value to partners",
-        duration: 7,
-        difficulty: 3,
-        resources: ["pdf", "worksheets", "templates"],
-        instructor: "Alex O'Connor"
-      }
-    ]
-  }
-];
-
-// Course statistics for presentations
+// Course statistics for presentations - now from JSON
 export const courseStats = {
   totalModules: 178,
   totalHours: 1000,
@@ -660,10 +95,142 @@ export const courseStats = {
   bonusResources: 12
 };
 
+// Get all tracks from course data
+export const tracks: Track[] = typedCourseData.tracks;
+
+// Get simplified sections for navigation
+export const sections = typedCourseData.categories.flatMap(category => 
+  category.sections.map(section => ({
+    id: section.id,
+    name: section.name,
+    number: section.number,
+    color: category.color,
+    modules: section.modules.length
+  }))
+);
+
+// Get all featured modules across all sections
+export const getFeaturedModules = (): Module[] => {
+  const featuredModules: Module[] = [];
+  
+  typedCourseData.categories.forEach(category => {
+    category.sections.forEach(section => {
+      section.modules.forEach(module => {
+        if (module.featured) {
+          featuredModules.push(module);
+        }
+      });
+    });
+  });
+  
+  return featuredModules;
+};
+
+export const featuredModules = getFeaturedModules();
+
+// Get modules for a specific section
+export const getModulesForSection = (sectionId: string): Module[] => {
+  for (const category of typedCourseData.categories) {
+    for (const section of category.sections) {
+      if (section.id === sectionId) {
+        return section.modules;
+      }
+    }
+  }
+  return [];
+};
+
+// Get section by ID
+export const getSection = (sectionId: string): Section | null => {
+  for (const category of typedCourseData.categories) {
+    for (const section of category.sections) {
+      if (section.id === sectionId) {
+        return section;
+      }
+    }
+  }
+  return null;
+};
+
+// Get modules that are marked for founders
+export const getFounderModules = (): Module[] => {
+  const founderModules: Module[] = [];
+  
+  typedCourseData.categories.forEach(category => {
+    category.sections.forEach(section => {
+      section.modules.forEach(module => {
+        if (module.founderMustWatch && module.tracks.includes("Founders")) {
+          founderModules.push(module);
+        }
+      });
+    });
+  });
+  
+  return founderModules;
+};
+
+// Get modules by track name
+export const getModulesByTrack = (trackName: string): Module[] => {
+  const modulesByTrack: Module[] = [];
+  
+  typedCourseData.categories.forEach(category => {
+    category.sections.forEach(section => {
+      section.modules.forEach(module => {
+        if (module.tracks.includes(trackName)) {
+          modulesByTrack.push(module);
+        }
+      });
+    });
+  });
+  
+  return modulesByTrack;
+};
+
+// Get all unique instructors from submodules
+export const getAllInstructors = (): string[] => {
+  const instructors = new Set<string>();
+  
+  typedCourseData.categories.forEach(category => {
+    category.sections.forEach(section => {
+      section.modules.forEach(module => {
+        module.submodules.forEach(submodule => {
+          instructors.add(submodule.instructor);
+        });
+      });
+    });
+  });
+  
+  return Array.from(instructors);
+};
+
+// Calculate total duration of all modules
+export const calculateTotalDuration = (): number => {
+  let totalMinutes = 0;
+  
+  typedCourseData.categories.forEach(category => {
+    category.sections.forEach(section => {
+      section.modules.forEach(module => {
+        totalMinutes += module.duration;
+      });
+    });
+  });
+  
+  return totalMinutes;
+};
+
 // Section descriptions for ModuleBreakdown
 export const getSectionDescription = (sectionId: string): string => {
+  // Try to find the section in the data
+  const section = getSection(sectionId);
+  if (section && section.modules.length > 0) {
+    // Use first module's subtitle as fallback description
+    return section.modules[0].subtitle;
+  }
+  
+  // Fallback descriptions if not found
   switch(sectionId) {
     case 'theory_basics':
+    case 'basic_theory':
       return 'Foundational concepts to understand short-form content strategy';
     case 'theory_advanced':
       return 'Advanced techniques for maximum engagement and growth';
@@ -684,28 +251,39 @@ export const getSectionDescription = (sectionId: string): string => {
   }
 };
 
-// Get modules by track
-export const getModulesByTrack = (trackName: string): Module[] => {
-  // Combine modules from all sections and filter by track
-  const allModules = [
-    ...getModulesForSection('theory_basics'),
-    ...getModulesForSection('theory_advanced'),
-    ...founderModules,
-    // Add more sections as needed
-  ];
-  
-  return allModules.filter(module => module.tracks.includes(trackName));
+// Get a specific module by ID
+export const getModuleById = (moduleId: string): Module | null => {
+  for (const category of typedCourseData.categories) {
+    for (const section of category.sections) {
+      for (const module of section.modules) {
+        if (module.id === moduleId) {
+          return module;
+        }
+      }
+    }
+  }
+  return null;
 };
 
+// Get all categories
+export const getCategories = (): Category[] => {
+  return typedCourseData.categories;
+};
 
+// Export default object with all utils
 export default {
   tracks,
   sections,
   featuredModules,
   getModulesForSection,
-  founderModules,
+  getFounderModules,
   courseStats,
   getSectionDescription,
   getModulesByTrack,
-  getTrackIcon
+  getTrackIcon,
+  getAllInstructors,
+  calculateTotalDuration,
+  getModuleById,
+  getCategories,
+  getSection
 };

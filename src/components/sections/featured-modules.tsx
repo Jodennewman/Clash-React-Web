@@ -27,7 +27,7 @@ const FeaturedModules = () => {
     <Section className="py-24 bg-[#08141B]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <Badge variant="outline" className="bg-white/5 text-[#FEA35D] border-[#FEA35D]/30 mb-4 py-2 px-4">
+          <Badge variant="section" size="xl" className="mb-4">
             Curriculum Highlights
           </Badge>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -70,14 +70,20 @@ const FeaturedModules = () => {
                     const TrackIcon = track?.icon ? getTrackIcon(track.icon) : Users;
                     
                     return track ? (
-                      <div 
+                      <Badge 
                         key={i}
-                        className="flex items-center text-xs px-3 py-1.5 rounded-full"
-                        style={{ backgroundColor: `${track.color || '#888'}40` }}
+                        variant="subtle"
+                        size="sm"
+                        className="flex items-center"
+                        style={{ 
+                          backgroundColor: `${track.color || '#888'}20`,
+                          color: track.color || 'white',
+                          borderColor: `${track.color || '#888'}30` 
+                        }}
                       >
                         <TrackIcon className="w-3 h-3 mr-1.5" />
                         <span>{track.name || 'Track'}</span>
-                      </div>
+                      </Badge>
                     ) : null;
                   })}
                 </div>
@@ -106,21 +112,21 @@ const FeaturedModules = () => {
                 {/* Footer with "Founder must-watch" badge if applicable */}
                 <div className="flex items-center justify-between">
                   {module.founderMustWatch && (
-                    <div className="text-xs bg-[#FF3B30]/20 text-[#FF3B30] px-3 py-1 rounded-full flex items-center">
+                    <Badge variant="destructive" size="sm" className="flex items-center">
                       <Users className="w-3 h-3 mr-1" />
                       Founder Must-Watch
-                    </div>
+                    </Badge>
                   )}
                   
                   {/* Learn More button */}
                   <div className="mt-3 pt-3 border-t border-[#154D59]/30">
                     <div className="flex items-center justify-between">
-                      <div className="text-sm text-[#FEA35D]">
+                      <div className="text-sm text-[--primary-orange] dark:text-[--primary-orange-light]">
                         {module.difficulty || 'Intermediate'}
                       </div>
                       <Button 
                         variant="ghost" 
-                        className="text-[#FEA35D] hover:text-[#FEA35D] hover:bg-[#FEA35D]/10 p-0 h-auto ml-auto"
+                        className="text-[--primary-orange] hover:text-[--primary-orange-hover] hover:bg-[--primary-orange]/10 dark:hover:bg-[--primary-orange]/20 p-0 h-auto ml-auto"
                         onClick={() => document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' })}
                       >
                         <span className="mr-1">Learn More</span>
@@ -136,7 +142,8 @@ const FeaturedModules = () => {
         
         <div className="text-center mt-12">
           <Button 
-            className="px-8 py-6 bg-[#B92234] hover:bg-[#DE6B59] text-lg font-semibold"
+            variant="destructive"
+            className="px-8 py-6 text-lg font-semibold"
             onClick={() => document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' })}
           >
             View Full Curriculum

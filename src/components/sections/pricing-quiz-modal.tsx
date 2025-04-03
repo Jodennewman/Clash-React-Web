@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from '../ui/button';
 import { HelpCircle } from 'lucide-react';
 import { quizSteps } from '../../data/pricing';
+import { AnimatedButton } from "../marble-buttons/AnimatedButton";
 
 interface PricingQuizProps {
   onComplete: (recommendedPlan: number) => void;
@@ -115,27 +116,30 @@ export const PricingQuizModal = ({ onComplete }: PricingQuizProps) => {
                 }`}
                 onClick={() => handleSelect(option.value)}
               >
-                {option.label}
+                <span className="text-white/80">{option.label}</span>
               </div>
             ))}
           </div>
 
           <div className="flex justify-between">
-            <Button
-              variant="outline"
+            <AnimatedButton
+              text="Back"
+              variant="docs"
+              saturation="low"
+              size="sm"
               onClick={handlePrevious}
               disabled={currentStep === 0}
-              className="border-white/20"
-            >
-              Back
-            </Button>
-            <Button
+              className="w-auto"
+            />
+            <AnimatedButton
+              text={currentStep === quizSteps.length - 1 ? "See My Result" : "Next"}
+              variant="pro"
+              saturation={currentStep === quizSteps.length - 1 ? "high" : "normal"}
+              size="sm"
               onClick={handleNext}
               disabled={!isOptionSelected}
-              className="bg-[#FEA35D] hover:bg-[#F89A67]"
-            >
-              {currentStep === quizSteps.length - 1 ? 'See My Result' : 'Next'}
-            </Button>
+              className="w-auto"
+            />
           </div>
         </div>
       </DialogContent>
