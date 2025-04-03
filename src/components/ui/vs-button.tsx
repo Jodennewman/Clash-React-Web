@@ -46,31 +46,31 @@ export function VSButton({
   // Variant-specific classes with proper dark mode support
   const variantClasses = {
     primary: `
-      bg-[var(--primary-orange)] dark:bg-gradient-to-r dark:from-[var(--primary-orange)] dark:to-[var(--primary-orange-hover)]
+      bg-[--primary-orange] dark:bg-gradient-to-r dark:from-[--primary-orange] dark:to-[--primary-orange-hover]
       text-white
-      shadow-[var(--shadow-btn)] dark:shadow-[0_0_15px_rgba(254,163,93,0.15)]
-      hover:bg-[var(--primary-orange-hover)] dark:hover:shadow-[0_0_20px_rgba(254,163,93,0.25)]
+      shadow-[--shadow-btn] dark:shadow-[0_0_15px_rgba(254,163,93,0.15)]
+      hover:bg-[--primary-orange-hover] dark:hover:shadow-[0_0_20px_rgba(254,163,93,0.25)]
     `,
     secondary: `
-      bg-[var(--secondary-teal)] dark:bg-gradient-to-r dark:from-[var(--secondary-teal)] dark:to-[var(--secondary-teal-hover)]
+      bg-[--secondary-teal] dark:bg-gradient-to-r dark:from-[--secondary-teal] dark:to-[--secondary-teal-hover]
       text-white
-      shadow-[var(--shadow-btn)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
-      hover:bg-[var(--secondary-teal-hover)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.25)]
+      shadow-[--shadow-btn] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
+      hover:bg-[--secondary-teal-hover] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.25)]
     `,
     outline: `
       bg-transparent
-      border-2 border-[var(--secondary-teal)] dark:border-white/20
-      hover:bg-[var(--secondary-teal)]/5 dark:hover:bg-white/5
+      border-2 border-[--secondary-teal] dark:border-white/20
+      hover:bg-[--secondary-teal]/5 dark:hover:bg-white/5
     `,
     ghost: `
       bg-transparent
       hover:bg-black/5 dark:hover:bg-white/5
     `,
     vibrant: `
-      bg-gradient-to-r from-[var(--accent-coral)] to-[var(--primary-orange)]
-      dark:bg-gradient-to-r dark:from-[var(--accent-coral-dark)] dark:to-[var(--primary-orange)]
+      bg-gradient-to-r from-[--accent-coral] to-[--primary-orange]
+      dark:bg-gradient-to-r dark:from-[--accent-coral] dark:to-[--primary-orange]
       text-white
-      shadow-[var(--shadow-btn)] dark:shadow-[0_0_15px_rgba(222,107,89,0.15)]
+      shadow-[--shadow-btn] dark:shadow-[0_0_15px_rgba(222,107,89,0.15)]
       hover:shadow-lg dark:hover:shadow-[0_0_20px_rgba(222,107,89,0.25)]
     `
   };
@@ -79,9 +79,9 @@ export function VSButton({
   const getTextColor = () => {
     switch (variant) {
       case 'outline':
-        return { color: 'var(--secondary-teal)' };
+        return { color: 'var(--secondary-teal)' }; // Better to use Tailwind classes instead of inline styles
       case 'ghost':
-        return { color: 'var(--text-navy)' };
+        return { color: 'var(--text-navy)' }; // Better to use text-[--text-navy] class instead
       default:
         return {}; // No inline style needed for variants with text-white
     }

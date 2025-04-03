@@ -83,24 +83,24 @@ export default function VSCarousel() {
   };
 
   return (
-    <Section id="curriculum" className="w-full overflow-hidden py-24 bg-[var(--bg-navy)]">
+    <Section id="curriculum" className="w-full overflow-hidden py-24 bg-[--bg-navy]">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-start gap-6 sm:gap-12 mb-12">
           {/* Accent badge */}
-          <div className="inline-block mb-2 bg-[var(--primary-orange)]/10 backdrop-blur-sm px-4 py-2 rounded-full max-w-max border border-[var(--primary-orange)]/20">
-            <span style={{ color: 'var(--primary-orange)' }} className="dark:text-[var(--primary-orange-light)] font-semibold">Comprehensive Curriculum</span>
+          <div className="inline-block mb-2 bg-[--primary-orange]/10 backdrop-blur-sm px-4 py-2 rounded-full max-w-max border border-[--primary-orange]/20">
+            <span className="text-[--primary-orange] dark:text-[--primary-orange-light] font-semibold">Comprehensive Curriculum</span>
           </div>
           
           <h2 className="text-balance text-4xl md:text-5xl font-bold relative group">
-            <span className="dark:text-white" style={{ color: 'var(--text-cream)' }}>
+            <span className="text-[--text-cream] dark:text-white">
               Master every aspect of <span className="relative inline-block">
                 short-form
-                <span className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-[var(--primary-orange)] to-[var(--accent-coral)] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"></span>
+                <span className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-[--primary-orange] to-[--accent-coral] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"></span>
               </span>
             </span>
           </h2>
           
-          <p className="text-xl max-w-[720px] text-balance dark:text-white/80" style={{ color: 'var(--text-cream)', opacity: 0.8 }}>
+          <p className="text-xl max-w-[720px] text-balance text-[--text-cream]/80 dark:text-white/80">
             Vertical Shortcut gives you comprehensive mastery over every element that makes short-form content convert, from psychological triggers to monetization strategies. With {totalModules}+ modules and {totalResources}+ resources.
           </p>
         </div>

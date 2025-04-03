@@ -782,4 +782,38 @@ a:hover {
     filter: brightness(1.2) contrast(1.1);
     opacity: 0.85;
   }
+  
+  /* Floating animations for decorative elements */
+  @keyframes float-slow {
+    0% { transform: translateY(0) rotate(var(--rotation, 0)); }
+    50% { transform: translateY(-10px) rotate(calc(var(--rotation, 0) + 2deg)); }
+    100% { transform: translateY(0) rotate(var(--rotation, 0)); }
+  }
+  
+  @keyframes float-medium {
+    0% { transform: translateY(0) rotate(var(--rotation, 0)); }
+    50% { transform: translateY(-15px) rotate(calc(var(--rotation, 0) - 3deg)); }
+    100% { transform: translateY(0) rotate(var(--rotation, 0)); }
+  }
+  
+  @keyframes float-fast {
+    0% { transform: translateY(0) rotate(var(--rotation, 0)); }
+    50% { transform: translateY(-20px) rotate(calc(var(--rotation, 0) + 4deg)); }
+    100% { transform: translateY(0) rotate(var(--rotation, 0)); }
+  }
+  
+  .animate-float-slow {
+    --rotation: var(--initial-rotation, 0deg);
+    animation: float-slow 8s ease-in-out infinite;
+  }
+  
+  .animate-float-medium {
+    --rotation: var(--initial-rotation, 0deg);
+    animation: float-medium 6s ease-in-out infinite;
+  }
+  
+  .animate-float-fast {
+    --rotation: var(--initial-rotation, 0deg);
+    animation: float-fast 4s ease-in-out infinite;
+  }
 }

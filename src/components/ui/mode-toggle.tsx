@@ -24,7 +24,7 @@ export function ModeToggle() {
   return (
     <Button 
       onClick={toggleTheme} 
-      className="bg-[var(--primary-orange)] text-white hover:bg-[var(--primary-orange-hover)] px-4 py-2 rounded-full shadow-md"
+      className="bg-[--primary-orange] dark:bg-[--primary-orange] text-white hover:bg-[--primary-orange-hover] dark:hover:bg-[--primary-orange-hover] px-4 py-2 rounded-full shadow-md"
     >
       {theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"}
     </Button>

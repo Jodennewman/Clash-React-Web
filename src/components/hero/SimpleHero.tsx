@@ -46,7 +46,17 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
     }, [logoAnimationStarted]);
 
     return (
-      <section ref={ref} className="relative h-screen max-h-[900px] w-full bg-[--bg-cream] dark:bg-[--bg-navy] overflow-hidden">
+      <section 
+        ref={ref} 
+        className="relative h-screen max-h-[900px] w-full overflow-hidden bg-gradient-to-br from-white to-[--bg-cream]/80 dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]"
+      >
+        {/* Floating background elements for visual interest */}
+        <div className="absolute top-40 left-[15%] w-28 h-28 rounded-[40%] rotate-12 opacity-5 bg-[--primary-orange] animate-float-slow hidden md:block dark:hidden"></div>
+        <div className="absolute bottom-40 right-[10%] w-36 h-36 rounded-[30%] -rotate-6 opacity-8 bg-[--primary-orange-hover] animate-float-medium hidden md:block dark:hidden"></div>
+        
+        {/* Dark mode floating elements */}
+        <div className="absolute top-40 left-[15%] w-28 h-28 rounded-[40%] rotate-12 opacity-10 bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] animate-float-slow hidden md:dark:block"></div>
+        <div className="absolute bottom-40 right-[10%] w-36 h-36 rounded-[30%] -rotate-6 opacity-15 bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-hover] animate-float-medium hidden md:dark:block"></div>
         {/* Grid Layout */}
         <div 
           ref={heroRef}
@@ -54,10 +64,8 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
           style={{
             display: 'grid',
             gridTemplateColumns: 'minmax(0, 1.618fr) minmax(0, 1fr) minmax(0, 1.618fr) minmax(0, 2.618fr) minmax(0, 4.237fr) minmax(0, 2.618fr) minmax(0, 1.618fr) minmax(0, 1fr) minmax(0, 1.618fr)',
-            gridTemplateRows: 'minmax(0, 1.618fr) minmax(0, 1fr) minmax(0, 1.618fr) minmax(0, 2.618fr) minmax(0, 4.237fr) minmax(0, 2.618fr) minmax(0, 1.618fr) minmax(0, 1fr) minmax(0, 1.618fr)',
-            // Subtle grid lines
-            backgroundImage: 'linear-gradient(to right, rgba(255,0,0,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,0,0,0.1) 1px, transparent 1px)',
-            backgroundSize: 'calc(100% / 9) calc(100% / 9)'
+            gridTemplateRows: 'minmax(0, 1.618fr) minmax(0, 1fr) minmax(0, 1.618fr) minmax(0, 2.618fr) minmax(0, 4.237fr) minmax(0, 2.618fr) minmax(0, 1.618fr) minmax(0, 1fr) minmax(0, 1.618fr)'
+            // Removed red grid lines
           }}
         >
           {/* Color blocks positioned in grid */}
