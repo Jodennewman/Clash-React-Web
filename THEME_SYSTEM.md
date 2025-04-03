@@ -1,6 +1,6 @@
 # VS Theme System
 
-The VS Theme System is a comprehensive solution for implementing and managing themes in the VS application, with a focus on beautiful light and dark mode transitions.
+The VS Theme System is a comprehensive solution for implementing and managing themes in the VS application, with a focus on beautiful light and dark mode transitions. The system defaults to using the user's system theme preference ('system') rather than forcing light or dark mode.
 
 ## Quick Start Guide
 
@@ -66,6 +66,31 @@ For complete information about the VS Theme System, including:
 - Troubleshooting
 
 See the comprehensive [VS Color Implementation Strategy](./VS_COLOR_IMPLEMENTATION.md) document.
+
+## Theme Preference Guidelines
+
+The VS Theme System follows these principles for theme preferences:
+
+1. **System First**: 
+   - `defaultTheme="system"` is always set in ThemeProvider
+   - This ensures the site respects user operating system preference
+   - Never hardcode to 'light' or 'dark' by default
+
+2. **Persistent Preference**:
+   - User selections are stored in localStorage under 'clash-theme'
+   - Valid values are: 'light', 'dark', or 'system'
+   - Persisted between site visits
+
+3. **Theme Toggle Logic**:
+   - The ThemeToggle component preserves system preference when possible
+   - If on system preference, clicking toggles to the opposite of current resolved theme
+   - Once manually set, toggling cycles between 'light' and 'dark'
+   - Reset to 'system' available through ThemeDemo
+
+4. **System Preference Changes**:
+   - If theme is set to 'system', changes to OS theme are detected automatically
+   - ThemeProvider listens for '(prefers-color-scheme: dark)' media query changes
+   - No page reload required
 
 ## Demo
 

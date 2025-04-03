@@ -6,36 +6,68 @@ import { Sun, Moon } from "lucide-react";
 /**
  * A simplified theme controller that works directly with the HTML element
  * 
- * This replaces all other theme toggles and providers with a single component
- * that applies dark/light mode directly to the document.documentElement
+ * This is now updated to support system preference and work with the main ThemeProvider
+ * @deprecated - Use ThemeToggle instead - this component is kept for backward compatibility
  */
 export function ThemeController({ className = "" }: { className?: string }) {
+  // Track both theme preference and actual dark/light state
+  const [themePreference, setThemePreference] = useState<'light' | 'dark' | 'system'>('system');
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   // On mount, check for system preference or stored preference
   useEffect(() => {
     // Check stored preference first
     const storedTheme = localStorage.getItem("clash-theme");
-    if (storedTheme) {
-      setIsDarkMode(storedTheme === "dark");
-      document.documentElement.classList.toggle("dark", storedTheme === "dark");
+    if (storedTheme === 'light' || storedTheme === 'dark' || storedTheme === 'system') {
+      setThemePreference(storedTheme as 'light' | 'dark' | 'system');
+      
+      // If it's system, check system preference
+      if (storedTheme === 'system') {
+        const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        setIsDarkMode(systemPrefersDark);
+        document.documentElement.classList.toggle("dark", systemPrefersDark);
+      } else {
+        setIsDarkMode(storedTheme === "dark");
+        document.documentElement.classList.toggle("dark", storedTheme === "dark");
+      }
     } else {
-      // Fallback to system preference
+      // No preference stored, default to system
+      setThemePreference('system');
       const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
       setIsDarkMode(systemPrefersDark);
       document.documentElement.classList.toggle("dark", systemPrefersDark);
+      localStorage.setItem("clash-theme", "system");
     }
-  }, []);
+    
+    // Add listener for system preference changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = () => {
+      if (themePreference === 'system') {
+        setIsDarkMode(mediaQuery.matches);
+        document.documentElement.classList.toggle("dark", mediaQuery.matches);
+      }
+    };
+    
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, [themePreference]);
 
   const toggleTheme = () => {
-    const newMode = !isDarkMode;
-    setIsDarkMode(newMode);
-    
-    // Update HTML element
-    document.documentElement.classList.toggle("dark", newMode);
-    
-    // Store preference
-    localStorage.setItem("clash-theme", newMode ? "dark" : "light");
+    if (themePreference === 'system') {
+      // If using system preference, switch to appropriate manual setting
+      const newMode = !isDarkMode;
+      setThemePreference(newMode ? 'dark' : 'light');
+      setIsDarkMode(newMode);
+      document.documentElement.classList.toggle("dark", newMode);
+      localStorage.setItem("clash-theme", newMode ? "dark" : "light");
+    } else {
+      // If using manual setting, toggle between dark and light
+      const newMode = themePreference === 'light' ? 'dark' : 'light';
+      setThemePreference(newMode);
+      setIsDarkMode(newMode === 'dark');
+      document.documentElement.classList.toggle("dark", newMode === 'dark');
+      localStorage.setItem("clash-theme", newMode);
+    }
   };
 
   return (

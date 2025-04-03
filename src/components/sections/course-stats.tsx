@@ -1,6 +1,7 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from "@gsap/react";
 import { Book, Clock, FileText, FileCode, Layers, CheckSquare } from 'lucide-react';
 import courseUtils from "../../lib/course-utils";
 import { Section } from "../ui/section";
@@ -80,71 +81,55 @@ const statItems = [
 const CourseStats = () => {
   const statsRef = useRef(null);
   const [animatedCounters, setAnimatedCounters] = useState(false);
-  const animationsRef = useRef([]);
-  const scrollTriggersRef = useRef([]);
   
   // Use courseUtils directly without try/catch and fallback
   // This will properly fail if data is missing (as specified in CLAUDE.md)
   const courseStats = courseUtils.courseStats;
   
-  // Use layout effect to ensure DOM is ready for GSAP
-  useLayoutEffect(() => {
-    if (!statsRef.current) return;
-    // Clean up any existing animations
-    (animationsRef.current as gsap.core.Tween[]).forEach(anim => anim.kill());
-    (scrollTriggersRef.current as ScrollTrigger[]).forEach(trigger => trigger.kill());
-    animationsRef.current = [];
-    scrollTriggersRef.current = [];
-    
-    // Enhanced VS Bubbly animation on mount - more pronounced (20% more)
-    const initialAnimation = gsap.fromTo(
-      statsRef.current ? (statsRef.current as HTMLElement).querySelectorAll('.stat-item') : [],
-      { y: 40, opacity: 0, scale: 0.95 }, // More pronounced starting position
-      { 
-        y: 0, 
-        opacity: 1,
-        scale: 1,
-        stagger: 0.12, // Slightly longer stagger
-        duration: 0.6,  // Slightly longer duration 
-        ease: "back.out(1.2)", // More springy easing
-        onComplete: () => {
-          // After items appear, animate the counters
-          animateCounters();
-          setAnimatedCounters(true);
-        }
-      }
-    );
-    
-    // TypeScript is complaining because animationsRef.current is initialized as an empty array
-    // with no type annotation, so TypeScript infers it as never[].
-    // We need to properly type the animations array
-    (animationsRef.current as gsap.core.Tween[]).push(initialAnimation);
-    
-    function animateCounters() {
-      // Add null check to prevent TypeScript error
+  // Use useGSAP hook for proper animation lifecycle management
+  useGSAP(() => {
+    // Create a GSAP context for proper cleanup
+    const ctx = gsap.context(() => {
       if (!statsRef.current) return;
       
-      // Use type assertion to fix querySelectorAll TypeScript error
-      const counterElements = (statsRef.current as HTMLElement).querySelectorAll('.stat-counter');
-      counterElements.forEach((element: gsap.TweenTarget, index: number) => {
-        // Ensure index is treated as a number
-        const key = statItems[index as number].key;
-        // Use type assertion to fix index access
+      // Enhanced VS Bubbly animation on mount - more pronounced (20% more)
+      gsap.fromTo(
+        ".stat-item",
+        { y: 40, opacity: 0, scale: 0.95 }, // More pronounced starting position
+        { 
+          y: 0, 
+          opacity: 1,
+          scale: 1,
+          stagger: 0.12, // Slightly longer stagger
+          duration: 0.6,  // Slightly longer duration 
+          ease: "back.out(1.2)", // More springy easing
+          onComplete: () => {
+            // After items appear, animate the counters
+            animateCounters();
+            setAnimatedCounters(true);
+          }
+        }
+      );
+    }, statsRef); // Scope animations to statsRef
+    
+    function animateCounters() {
+      if (!statsRef.current) return;
+      
+      const counterElements = document.querySelectorAll('.stat-counter');
+      counterElements.forEach((element: Element, index: number) => {
+        const key = statItems[index].key;
         const value = courseStats[key as keyof typeof courseStats] || 0;
         
-        // Set initial and final values
+        // Set initial value
         gsap.set(element, { innerText: '0' });
         
-        const counterTween = gsap.to(element, {
+        // Animate counter
+        gsap.to(element, {
           duration: 2,
           innerText: value,
           ease: "power2.out",
           roundProps: "innerText",
           onUpdate: function() {
-            // Type guard to ensure element is not null
-            if (!element) return;
-            
-            // Type assertion to access innerText property
             const el = element as HTMLElement;
             const currentValue = parseInt(el.innerText, 10);
             
@@ -152,23 +137,16 @@ const CourseStats = () => {
             el.innerText = currentValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             // Add + for large numbers
             if (value > 100) {
-              // Use the same el variable with proper typing that we used above
               el.innerText += '+';
             }
           }
         });
-        // Use type assertion to fix the TypeScript error
-        (animationsRef.current as gsap.core.Tween[]).push(counterTween);
       });
     }
-
-    return () => {
-      // Proper cleanup
-      (animationsRef.current as gsap.core.Tween[]).forEach(anim => anim.kill());
-      // Fix the TypeScript error by properly typing scrollTriggersRef
-      (scrollTriggersRef.current as ScrollTrigger[]).forEach(trigger => trigger.kill());
-    };
-  }, []);
+    
+    // The context will automatically clean up when the component unmounts
+    return () => ctx.revert();
+  }, []); // Empty dependency array means this runs once on mount
 
   return (
     <Section 

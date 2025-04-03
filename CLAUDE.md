@@ -191,11 +191,15 @@ function AnimatedComponent() {
 - Create a written plan and get approval before proceeding
 - Test in both light and dark mode
 
-## CSS Variables Structure
+## Tailwind v4 CSS Variables Structure
 
 ### Global CSS Structure
-Our CSS variables are defined directly in `:root` selector (not in `@theme` block):
+Our CSS variables use Tailwind v4's `@custom-variant` and `@variant` system:
 ```css
+/* Define dark mode variant */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Root variables in light mode */
 :root {
   /* CSS variables here */
   --primary-orange: oklch(75% 0.13 57);
@@ -203,11 +207,14 @@ Our CSS variables are defined directly in `:root` selector (not in `@theme` bloc
   /* etc... */
 }
 
-.dark {
-  /* Dark mode overrides */
-  --primary-orange: oklch(80% 0.14 57);
-  --text-navy: oklch(96% 0.01 90);
-  /* etc... */
+/* Dark mode overrides using variant */
+@variant(dark) {
+  :root {
+    /* Dark mode values */
+    --primary-orange: oklch(80% 0.14 57);
+    --text-navy: oklch(96% 0.01 90);
+    /* etc... */
+  }
 }
 ```
 
@@ -280,10 +287,10 @@ Or with custom elements:
 The theme-toggle.js script will automatically handle the icons/text change and local storage persistence.
 
 ## Current Priority Issues
-1. Ensure all components use direct CSS variable references without var() wrapper
-2. Fix components that don't switch properly between light/dark mode
-3. Convert remaining hardcoded colors to CSS variables
-4. Add proper dark mode styles to all components
+1. Update all components to use direct CSS variable references `text-[--variable-name]` with the new Tailwind v4 approach
+2. Review components to leverage the automatic dark mode via `@variant(dark)` in globals.css
+3. Convert any remaining inline style attributes for colors to Tailwind classes
+4. Verify all components render correctly in both light and dark mode with our new implementation
 
 ## Required Git Workflow
 

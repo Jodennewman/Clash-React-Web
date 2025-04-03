@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from './button';
 import { gsap } from 'gsap';
+import { useGSAP } from "@gsap/react";
 
 interface TestimonialProps {
   quote: string;
@@ -24,31 +25,37 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
     testimonialsRef.current = testimonialsRef.current.slice(0, testimonials.length);
   }, [testimonials.length]);
 
-  // Handle animation when active index changes
-  useEffect(() => {
-    if (!carouselRef.current) return;
+  // Handle animation when active index changes using useGSAP
+  useGSAP(() => {
+    // Create GSAP context for proper cleanup
+    const ctx = gsap.context(() => {
+      if (!carouselRef.current) return;
 
-    // Animate out current testimonials
-    gsap.to(testimonialsRef.current, {
-      opacity: 0,
-      y: 20,
-      duration: 0.3,
-      stagger: 0.1,
-      onComplete: () => {
-        // Animate in new testimonials
-        gsap.fromTo(
-          testimonialsRef.current[activeIndex],
-          { opacity: 0, y: 20 },
-          { 
-            opacity: 1, 
-            y: 0, 
-            duration: 0.5,
-            ease: "power2.out"
-          }
-        );
-      }
-    });
-  }, [activeIndex]);
+      // Animate out current testimonials
+      gsap.to(testimonialsRef.current, {
+        opacity: 0,
+        y: 20,
+        duration: 0.3,
+        stagger: 0.1,
+        onComplete: () => {
+          // Animate in new testimonials
+          gsap.fromTo(
+            testimonialsRef.current[activeIndex],
+            { opacity: 0, y: 20 },
+            { 
+              opacity: 1, 
+              y: 0, 
+              duration: 0.5,
+              ease: "power2.out"
+            }
+          );
+        }
+      });
+    }, carouselRef); // Scope to carousel container
+    
+    // The context will automatically clean up when the component unmounts or dependencies change
+    return () => ctx.revert();
+  }, [activeIndex]); // This runs whenever activeIndex changes
 
   const nextTestimonial = () => {
     setActiveIndex((prev) => (prev + 1) % testimonials.length);

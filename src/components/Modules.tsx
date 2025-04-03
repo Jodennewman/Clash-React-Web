@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from "@gsap/react";
 import { Disclosure, Transition } from '@headlessui/react';
 import { ChevronUpIcon } from '@heroicons/react/24/solid';
 
@@ -285,45 +286,50 @@ const ModuleDisplayGrid = () => {
     }, 300);
   };
   
-  // Initialize animations - simplified to use Tailwind for basic animations
-  useEffect(() => {
-    console.log("Initializing main animations with simplified approach");
-    
-    // Only use GSAP for staggered animations that Tailwind can't handle
-    gsap.from('.module-stat', {
-      opacity: 0,
-      y: 20,
-      stagger: 0.1,
-      duration: 0.6,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '.module-stat',
-        start: 'top bottom-=100px',
-        toggleActions: 'play none none none',
-      }
-    });
-    
-    // Cleanup
-    return () => {
-      // Kill all ScrollTriggers to prevent memory leaks
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-  }, []);
+  // Reference to the module display container
+  const moduleDisplayRef = useRef(null);
   
-  // Simplified animation for category changes
-  useEffect(() => {
-    // Set a delay to ensure DOM updates are complete
-    const timer = setTimeout(() => {
-      // We'll let the Tailwind animations handle most of this now
-      // Just refresh ScrollTrigger to ensure any GSAP animations update
-      ScrollTrigger.refresh();
-    }, 200);
+  // Initialize animations using useGSAP for proper cleanup
+  useGSAP(() => {
+    // Create GSAP context for proper cleanup
+    const ctx = gsap.context(() => {
+      // Only use GSAP for staggered animations that Tailwind can't handle
+      gsap.from('.module-stat', {
+        opacity: 0,
+        y: 20,
+        stagger: 0.1,
+        duration: 0.6,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.module-stat',
+          start: 'top bottom-=100px',
+          toggleActions: 'play none none none',
+        }
+      });
+    }, moduleDisplayRef); // Scope to the module display container
     
-    return () => clearTimeout(timer);
-  }, [expandedCategories]);
+    // The context will automatically clean up when the component unmounts
+    return () => ctx.revert();
+  }, []); // Empty dependency array means this runs once on mount
+  
+  // Handle category changes with useGSAP
+  useGSAP(() => {
+    // Create context for animations related to expandedCategories
+    const ctx = gsap.context(() => {
+      // Set a delay to ensure DOM updates are complete
+      const timer = setTimeout(() => {
+        // Refresh ScrollTrigger to ensure any GSAP animations update
+        ScrollTrigger.refresh();
+      }, 200);
+      
+      return () => clearTimeout(timer);
+    }, moduleDisplayRef);
+    
+    return () => ctx.revert();
+  }, [expandedCategories]); // This runs whenever expandedCategories changes
   
   return (
-    <div className="px-4 py-16 md:px-8 lg:px-16 xl:px-24 bg-gradient-to-b from-primary-cream to-light-200">
+    <div ref={moduleDisplayRef} className="px-4 py-16 md:px-8 lg:px-16 xl:px-24 bg-gradient-to-b from-primary-cream to-light-200">
       <div className="max-w-6xl mx-auto text-center mb-16">
         <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-dark-black to-dark-navy bg-clip-text text-transparent">
           Complete Course Curriculum

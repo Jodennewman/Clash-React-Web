@@ -7,7 +7,7 @@ import {
   TileLink,
 } from "../../ui/tile";
 import { Section } from "../../ui/section";
-import { MousePointerClick, Shield, TextCursor, Wrench, MonitorSmartphone, Globe, BarChart3 } from "lucide-react";
+import { MousePointerClick, Shield, TextCursor, Wrench, MonitorSmartphone, Globe, MessageSquare } from "lucide-react";
 import React from "react";
 
 export default function BentoGrid() {
@@ -91,7 +91,6 @@ export default function BentoGrid() {
           <Tile className="col-span-12 md:col-span-6 lg:col-span-6">
             <TileLink />
             <TileVisual className="relative min-h-[240px]">
-              <Activity className="absolute top-1/2 left-1/2 -mt-24 w-32 h-32 -translate-x-1/2 -translate-y-1/2" />
             </TileVisual>
             <TileContent>
               <Shield className="text-muted-foreground size-8 stroke-1" />

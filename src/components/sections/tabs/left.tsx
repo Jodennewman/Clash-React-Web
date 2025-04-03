@@ -5,8 +5,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 import { MockupFrame } from "../../ui/mockup";
 import Glow from "../../ui/glow";
 import { Badge } from "../../ui/badge";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 import {
   Users,
   BriefcaseBusiness,
@@ -41,67 +42,57 @@ const AudienceVisual = ({
 }) => {
   const ref = useRef(null);
   
-  useEffect(() => {
-    if (isActive && ref.current) {
-      // Entrance animation when tab becomes active
-      gsap.fromTo(
-        (ref.current as HTMLElement).querySelectorAll('.metric-item'),
-        { y: 20, opacity: 0 },
-        { 
-          y: 0, 
-          opacity: 1, 
-          stagger: 0.1, 
-          duration: 0.4,
-          ease: "power2.out",
-          clearProps: "transform"
-        }
-      );
-      
-      // Subtle floating animation for the metrics
-      const floatTl = gsap.timeline({
-        repeat: -1,
-        yoyo: true,
-        defaults: { duration: 2.5, ease: "sine.inOut" }
-      });
-      
-      // Type assertion to handle the ref.current type
-      const container = ref.current as HTMLElement | null;
-      
-      container?.querySelectorAll('.metric-item').forEach((item: Element, index: number) => {
-        const delay = index * 0.2;
-        floatTl.to(
-          item, 
+  useGSAP(() => {
+    // Create GSAP context for proper cleanup
+    const ctx = gsap.context(() => {
+      if (isActive && ref.current) {
+        // Entrance animation when tab becomes active
+        gsap.fromTo(
+          '.metric-item',
+          { y: 20, opacity: 0 },
           { 
-            y: "-=8", 
-            x: index % 2 === 0 ? "+=3" : "-=3" 
-          }, 
-          delay
+            y: 0, 
+            opacity: 1, 
+            stagger: 0.1, 
+            duration: 0.4,
+            ease: "power2.out",
+            clearProps: "transform"
+          }
         );
-      });
-      
-      // Add subtle pulsing to highlight metrics
-      const highlightElements = (container as HTMLElement)?.querySelectorAll('.highlight-value');
-      highlightElements?.forEach((item: Element) => {
-        gsap.to(item, {
+        
+        // Subtle floating animation for the metrics
+        const floatTl = gsap.timeline({
+          repeat: -1,
+          yoyo: true,
+          defaults: { duration: 2.5, ease: "sine.inOut" }
+        });
+        
+        document.querySelectorAll('.metric-item').forEach((item: Element, index: number) => {
+          const delay = index * 0.2;
+          floatTl.to(
+            item, 
+            { 
+              y: "-=8", 
+              x: index % 2 === 0 ? "+=3" : "-=3" 
+            }, 
+            delay
+          );
+        });
+        
+        // Add subtle pulsing to highlight metrics
+        gsap.to('.highlight-value', {
           scale: 1.05,
           duration: 1.5,
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut"
         });
-      });
-      
-      return () => {
-        // Clean up animations
-        if (ref.current) {
-          // Type assertion to handle the ref.current type
-          const container = ref.current as HTMLElement;
-          gsap.killTweensOf(container.querySelectorAll('.metric-item'));
-          gsap.killTweensOf(container.querySelectorAll('.highlight-value'));
-        }
-      };
-    }
-  }, [isActive]);
+      }
+    }, ref); // Scope to container ref
+    
+    // The context will automatically clean up when the component unmounts or dependencies change
+    return () => ctx.revert();
+  }, [isActive]); // This runs whenever isActive changes
 
   return (
     <div ref={ref} className="relative w-full h-full flex flex-col items-center justify-center">
@@ -308,16 +299,20 @@ export default function TabsLeft() {
     }
   ];
   
-  // Add GSAP animations for tab changes
-  useEffect(() => {
-    if (tabsContainerRef.current) {
+  // Add GSAP animations for tab changes using useGSAP
+  useGSAP(() => {
+    // Create GSAP context for proper cleanup
+    const ctx = gsap.context(() => {
       gsap.fromTo(
         ".tabs-content-wrapper",
         { opacity: 0, y: 20 },
         { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }
       );
-    }
-  }, [activeTab]);
+    }, tabsContainerRef); // Scope to tabs container
+    
+    // The context will automatically clean up when the component unmounts or dependencies change
+    return () => ctx.revert();
+  }, [activeTab]); // This runs whenever the activeTab changes
   
   return (
     <Section className="py-24 bg-[#09232F] border-t border-[#154D59]/30">

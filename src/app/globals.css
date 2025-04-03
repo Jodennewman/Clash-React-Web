@@ -1,83 +1,77 @@
-@import url('https://fonts.cdnfonts.com/css/neue-haas-grotesk-display-pro');
-
 @import "tailwindcss";
+@layer theme, base, components, utilities;
+@config "./tailwind.config.js";
+@import url('https://fonts.cdnfonts.com/css/neue-haas-grotesk-display-pro');
+/* Define dark mode variant using Tailwind v4 custom variant approach */
 
-/* Move variables OUT of @theme into :root */
-:root {
-  /* Background colors */
-  --bg-cream: oklch(96% 0.02 85);
+@theme {
+  
+  --bg-cream: oklch(0.96 0.02 85);
   --bg-cream-rgb: 255, 246, 239;
-  --bg-cream-gradient: linear-gradient(213deg, oklch(96% 0.02 85) 0%, oklch(95% 0.03 83) 100%);
-  --bg-cream-gradient-rgb: linear-gradient(213deg, rgb(255, 246, 239) 0%, rgb(253, 235, 221) 100%);
-  --bg-cream-darker: oklch(94% 0.03 80);
+  --bg-cream-gradient: linear-gradient(213deg, oklch(0.96 0.02 85) 0%, oklch(0.95 0.03 83) 100%);
+  --bg-cream-gradient-rgb: linear-gradient(213deg, rgba(255, 246, 239, 1) 0%, rgba(253, 235, 221, 1) 100%);
+  --bg-cream-darker: oklch(0.94 0.03 80);
   --bg-cream-darker-rgb: 255, 240, 229;
   --bg-overlay: linear-gradient(218deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.63) 100%);
   
   /* Primary palette */
-  --primary-orange: oklch(75% 0.13 57);
+  --primary-orange: oklch(0.75 0.13 57);
   --primary-orange-rgb: 254, 163, 93;
-  --primary-orange-hover: oklch(70% 0.16 52);
+  --primary-orange-hover: oklch(0.70 0.16 52);
   --primary-orange-hover-rgb: 245, 138, 79;
-  --primary-orange-light: oklch(78% 0.12 60);
+  --primary-orange-light: oklch(0.78 0.12 60);
   --primary-orange-light-rgb: 254, 172, 109;
   
   /* Secondary palette */
-  --secondary-teal: oklch(48% 0.07 200);
+  --secondary-teal: oklch(0.48 0.07 200);
   --secondary-teal-rgb: 53, 115, 128;
-  --secondary-teal-hover: oklch(45% 0.08 195);
+  --secondary-teal-hover: oklch(0.45 0.08 195);
   --secondary-teal-hover-rgb: 43, 111, 122;
-  --secondary-teal-light: oklch(54% 0.07 195);
+  --secondary-teal-light: oklch(0.54 0.07 195);
   --secondary-teal-light-rgb: 67, 135, 150;
   
   /* Accent colors */
-  --accent-coral: oklch(62% 0.15 27);
+  --accent-coral: oklch(0.62 0.15 27);
   --accent-coral-rgb: 222, 107, 89;
-  --accent-red: oklch(48% 0.21 25);
+  --accent-red: oklch(0.48 0.21 25);
   --accent-red-rgb: 185, 34, 52;
   
   /* Text colors */
-  --text-navy: oklch(30% 0.03 230);
+  --text-navy: oklch(0.30 0.03 230);
   --text-navy-rgb: 18, 46, 59;
-  --text-cream: oklch(96% 0.01 90);
+  --text-cream: oklch(0.96 0.01 90);
   --text-cream-rgb: 255, 245, 233;
   
-  /* Dark mode colors */
-  --bg-navy: oklch(16% 0.03 235);
-  --bg-navy-rgb: 9, 35, 47;
-  --bg-navy-gradient: linear-gradient(213deg, oklch(16% 0.03 235) 0%, oklch(12% 0.02 235) 100%);
-  --bg-navy-gradient-rgb: linear-gradient(213deg, rgb(9, 35, 47) 0%, rgb(8, 29, 39) 100%);
-  --bg-navy-darker: oklch(12% 0.02 235);
-  
   /* Card colors */
-  --card-bg-light: oklch(93% 0.04 65);
+  --card-bg-light: oklch(0.93 0.04 65);
   --card-bg-light-rgb: 255, 237, 224;
-  --card-bg-navy: oklch(31% 0.05 227);
-  --card-bg-navy-rgb: 12, 67, 99;
+  --card-bg-navy: oklch(0.31 0.05 227);
+  --card-bg-navy-rgb: linear-gradient(145deg, rgba(12, 67, 99, 1) 0%, rgba(9, 48, 69, 1) 100%);
   
   /* UI Element colors */
-  --ui-peach-light: oklch(83% 0.07 60);
+  --ui-peach-light: oklch(0.83 0.07 60);
   --ui-peach-light-rgb: 255, 213, 181;
-  --ui-peach-dark: oklch(85% 0.07 59);
+  --ui-peach-dark: oklch(0.85 0.07 59);
   --ui-peach-dark-rgb: 255, 218, 189;
   
   /* Neutral shades */
-  --neutral-blue-1: oklch(49% 0.05 220);
+  --neutral-blue-1: oklch(0.49 0.05 220);
   --neutral-blue-1-rgb: 56, 114, 146;
-  --neutral-blue-2: oklch(42% 0.07 215);
+  --neutral-blue-2: oklch(0.42 0.07 215);
   --neutral-blue-2-rgb: 35, 91, 119;
-  --neutral-blue-3: oklch(25% 0.04 225);
+  --neutral-blue-3: oklch(0.25 0.04 225);
   --neutral-blue-3-rgb: 9, 57, 83;
 
   /* Extended Module HUD Palette */
-  --hud-teal: oklch(49% 0.05 220); /* #387292 */
-  --hud-coral: oklch(62% 0.15 27); /* #DE6B59 */
-  --hud-navy: oklch(25% 0.04 225); /* #122E3B */
-  --hud-red: oklch(48% 0.21 25); /* #B92234 */
-  --hud-pink: oklch(75% 0.12 350); /* #FA91A6 */
-  --hud-orange: oklch(75% 0.13 57); /* #FEA35D */
-  --hud-accent-red: oklch(65% 0.25 25); /* #FF3C54 */
-  --hud-orange-light: oklch(85% 0.07 60); /* #FFD5B5 */
-  --hud-orange-lighter: oklch(85% 0.08 65); /* #FFD79B */
+  --hud-teal: oklch(0.49 0.05 220); /* #387292 */
+  --hud-coral: oklch(0.62 0.15 27); /* #DE6B59 */
+  --hud-navy: oklch(0.25 0.04 225); /* #122E3B */
+  --hud-red: oklch(0.48 0.21 25); /* #B92234 */
+  --hud-pink: oklch(0.75 0.12 350); /* #FA91A6 */
+  --hud-orange: oklch(0.75 0.13 57); /* #FEA35D */
+  --hud-accent-red: oklch(0.65 0.25 25); /* #FF3C54 */
+  --hud-orange-light: oklch(0.85 0.07 60); /* #FFD5B5 */
+  --hud-orange-lighter: oklch(0.85 0.08 65); /* #FFD79B */
   
   /* Common */
   --border-radius-sm: 0.5rem; /* 8px */
@@ -105,89 +99,117 @@
   --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-bounce: 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  /* Additional variables not defined yet (referenced in dark mode) */
+  --bg-navy: oklch(0.16 0.03 235);
+  --bg-navy-rgb: 9, 35, 47;
+  --bg-navy-gradient: linear-gradient(213deg, oklch(0.16 0.03 235) 0%, oklch(0.12 0.02 235) 100%);
+  --bg-navy-gradient-rgb: linear-gradient(213deg, rgba(9, 35, 47, 1) 0%, rgba(8, 29, 39, 1) 100%);
+  --bg-navy-darker: oklch(0.12 0.02 235);
+  --module-bg-gradient: linear-gradient(to bottom right, white, var(--bg-cream));
+  --module-accent-gradient: linear-gradient(to bottom right, var(--bg-cream), var(--bg-cream-darker));
+  --glow-accent: none;
+  --glow-primary: none;
+  --glow-blue: none;
+  --card-bg-dark: white;
 }
 
-/* Dark Mode - comprehensive overrides with rich styling */
-.dark {
-  /* Base dark mode variables */
-  --bg-navy: oklch(12% 0.03 240);
-  --bg-navy-rgb: 9, 35, 47;
+/* Root variables that define our theme */
+
+  /* Background colors */
   
-  /* Enhanced gradient with more richness */
-  --bg-navy-gradient: linear-gradient(135deg, oklch(14% 0.04 235) 0%, oklch(10% 0.04 240) 100%);
-  --bg-navy-gradient-rgb: linear-gradient(135deg, rgb(10, 40, 55) 0%, rgb(5, 25, 35) 100%);
-  
-  /* Basic dark mode changes - direct value assignments instead of variable references */
-  --bg-cream: oklch(12% 0.03 240); /* Using direct value instead of var(--bg-navy) */
-  --bg-cream-rgb: 9, 35, 47;
-  --bg-cream-gradient: linear-gradient(135deg, oklch(14% 0.04 235) 0%, oklch(10% 0.04 240) 100%);
-  --bg-cream-gradient-rgb: linear-gradient(135deg, rgb(10, 40, 55) 0%, rgb(5, 25, 35) 100%);
-  --bg-cream-darker: oklch(12% 0.02 235);
-  --bg-cream-darker-rgb: 8, 29, 39;
-  
-  /* Card background with subtle gradient */
-  --card-bg-light: oklch(28% 0.05 227);
-  --card-bg-light-rgb: 12, 67, 99;
-  --card-bg-navy: linear-gradient(145deg, oklch(28% 0.05 227) 0%, oklch(22% 0.05 225) 100%);
-  --card-bg-navy-rgb: linear-gradient(145deg, rgb(12, 67, 99) 0%, rgb(9, 48, 69) 100%);
-  
-  /* Module backgrounds with gradients */
-  --module-bg-gradient: linear-gradient(120deg, oklch(25% 0.05 225) 0%, oklch(20% 0.04 230) 100%);
-  --module-accent-gradient: linear-gradient(120deg, oklch(28% 0.06 220) 0%, oklch(23% 0.05 225) 100%);
-  
-  /* Enhanced shadows for more depth */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.4);
-  --shadow-btn: 0 2px 6px rgba(0, 0, 0, 0.25);
-  
-  /* Subtle glow effects */
-  --glow-accent: 0 0 20px rgba(222, 107, 89, 0.15);
-  --glow-primary: 0 0 20px rgba(254, 172, 109, 0.15);
-  --glow-blue: 0 0 20px rgba(56, 114, 146, 0.15);
-  
-  /* Text colors - direct assignments */
-  --text-navy: oklch(96% 0.01 90);
-  --text-navy-rgb: 255, 245, 233;
-  --text-cream: oklch(99% 0.001 90);
-  --text-cream-rgb: 255, 255, 255;
-  
-  /* Vibrant accent for dark mode */
-  --accent-coral: oklch(65% 0.18 27);
-  --accent-coral-rgb: 235, 115, 95;
-  --accent-red: oklch(55% 0.23 25);
-  --accent-red-rgb: 215, 45, 65;
-  
-  /* Primary colors - enhanced for dark mode */
-  --primary-orange: oklch(80% 0.14 57);
-  --primary-orange-rgb: 254, 183, 113;
-  --primary-orange-hover: oklch(85% 0.15 55);
-  --primary-orange-hover-rgb: 255, 200, 140;
-  --primary-orange-light: oklch(85% 0.12 60);
-  --primary-orange-light-rgb: 255, 205, 155;
-  
-  /* Secondary colors - enhanced for dark mode */
-  --secondary-teal: oklch(55% 0.08 200);
-  --secondary-teal-rgb: 70, 135, 155;
-  --secondary-teal-hover: oklch(60% 0.09 195);
-  --secondary-teal-hover-rgb: 85, 155, 170;
-  --secondary-teal-light: oklch(65% 0.07 195);
-  --secondary-teal-light-rgb: 95, 170, 185;
-  
-  /* Grid patterns */
-  --grid-line: rgba(255, 255, 255, 0.05);
-  --grid-dot: rgba(255, 255, 255, 0.08);
-  
-  /* Enhanced HUD Colors for dark mode */
-  --hud-teal: oklch(55% 0.07 220);
-  --hud-coral: oklch(70% 0.16 27);
-  --hud-navy: oklch(22% 0.04 225);
-  --hud-red: oklch(55% 0.23 25);
-  --hud-pink: oklch(75% 0.15 350);
-  --hud-orange: oklch(80% 0.14 57);
-  --hud-accent-red: oklch(70% 0.25 25);
-  --hud-orange-light: oklch(85% 0.08 60);
-  --hud-orange-lighter: oklch(87% 0.09 65);
+
+/* Dark Mode - custom variable overrides */
+
+@layer base {
+  [data-theme="dark"] {
+    /* Background colors */
+    --bg-cream: oklch(0.12 0.03 240);
+    --bg-cream-rgb: 9, 35, 47;
+    --bg-cream-gradient: linear-gradient(135deg, oklch(0.14 0.04 235) 0%, oklch(0.10 0.04 240) 100%);
+    --bg-cream-gradient-rgb: linear-gradient(135deg, rgb(10, 40, 55) 0%, rgb(5, 25, 35) 100%);
+    --bg-cream-darker: oklch(0.12 0.02 235);
+    --bg-cream-darker-rgb: 8, 29, 39;
+    --bg-overlay: linear-gradient(218deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.83) 100%);
+    
+    /* Navy backgrounds */
+    --bg-navy: oklch(0.12 0.03 240);
+    --bg-navy-rgb: 9, 35, 47;
+    --bg-navy-gradient: linear-gradient(135deg, oklch(0.14 0.04 235) 0%, oklch(0.10 0.04 240) 100%);
+    --bg-navy-gradient-rgb: linear-gradient(135deg, rgb(10, 40, 55) 0%, rgb(5, 25, 35) 100%);
+    --bg-navy-darker: oklch(0.10 0.02 235);
+    
+    /* Card colors */
+    --card-bg-light: oklch(0.28 0.05 227);
+    --card-bg-light-rgb: 12, 67, 99;
+    --card-bg-navy: linear-gradient(145deg, oklch(0.28 0.05 227) 0%, oklch(0.22 0.05 225) 100%);
+    --card-bg-navy-rgb: linear-gradient(145deg, rgb(12, 67, 99) 0%, rgb(9, 48, 69) 100%);
+    --card-bg-dark: var(--card-bg-navy);
+    
+    /* Module backgrounds */
+    --module-bg-gradient: linear-gradient(120deg, oklch(0.25 0.05 225) 0%, oklch(0.20 0.04 230) 100%);
+    --module-accent-gradient: linear-gradient(120deg, oklch(0.28 0.06 220) 0%, oklch(0.23 0.05 225) 100%);
+    
+    /* Enhanced shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.4);
+    --shadow-btn: 0 2px 6px rgba(0, 0, 0, 0.25);
+    
+    /* Glow effects */
+    --glow-accent: 0 0 20px rgba(222, 107, 89, 0.15);
+    --glow-primary: 0 0 20px rgba(254, 172, 109, 0.15);
+    --glow-blue: 0 0 20px rgba(56, 114, 146, 0.15);
+    
+    /* Text colors */
+    --text-navy: oklch(0.96 0.01 90);
+    --text-navy-rgb: 255, 245, 233;
+    --text-cream: oklch(0.99 0.001 90);
+    --text-cream-rgb: 255, 255, 255;
+    
+    /* Accent colors */
+    --accent-coral: oklch(0.65 0.18 27);
+    --accent-coral-rgb: 235, 115, 95;
+    --accent-red: oklch(0.55 0.23 25);
+    --accent-red-rgb: 215, 45, 65;
+    
+    /* Primary colors */
+    --primary-orange: oklch(0.80 0.14 57);
+    --primary-orange-rgb: 254, 183, 113;
+    --primary-orange-hover: oklch(0.85 0.15 55);
+    --primary-orange-hover-rgb: 255, 200, 140;
+    --primary-orange-light: oklch(0.85 0.12 60);
+    --primary-orange-light-rgb: 255, 205, 155;
+    
+    /* Secondary colors */
+    --secondary-teal: oklch(0.55 0.08 200);
+    --secondary-teal-rgb: 70, 135, 155;
+    --secondary-teal-hover: oklch(0.60 0.09 195);
+    --secondary-teal-hover-rgb: 85, 155, 170;
+    --secondary-teal-light: oklch(0.65 0.07 195);
+    --secondary-teal-light-rgb: 95, 170, 185;
+    
+    /* UI Elements */
+    --ui-peach-light: oklch(0.50 0.05 220);
+    --ui-peach-light-rgb: 60, 120, 150;
+    --ui-peach-dark: oklch(0.55 0.06 220);
+    --ui-peach-dark-rgb: 70, 130, 160;
+    
+    /* Grid patterns */
+    --grid-line: rgba(255, 255, 255, 0.05);
+    --grid-dot: rgba(255, 255, 255, 0.08);
+    
+    /* Enhanced HUD Colors */
+    --hud-teal: oklch(0.55 0.07 220);
+    --hud-coral: oklch(0.70 0.16 27);
+    --hud-navy: oklch(0.22 0.04 225);
+    --hud-red: oklch(0.55 0.23 25);
+    --hud-pink: oklch(0.75 0.15 350);
+    --hud-orange: oklch(0.80 0.14 57);
+    --hud-accent-red: oklch(0.70 0.25 25);
+    --hud-orange-light: oklch(0.85 0.08 60);
+    --hud-orange-lighter: oklch(0.87 0.09 65);
+  }
 }
 
 html {
@@ -208,21 +230,12 @@ body {
   line-height: 1.5;
 }
 
-.dark body {
-  background: linear-gradient(to bottom right, var(--bg-navy), var(--bg-navy-darker));
-  color: var(--text-cream);
-}
-
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
   margin: 0 0 1rem;
   font-weight: 500;
   line-height: 1.2;
   color: var(--text-navy);
-}
-
-.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
-  color: white;
 }
 
 h1 {
@@ -266,10 +279,6 @@ p {
   color: var(--text-navy);
 }
 
-.dark p {
-  color: rgba(255, 255, 255, 0.8);
-}
-
 a {
   color: var(--primary-orange);
   text-decoration: none;
@@ -307,25 +316,13 @@ a:hover {
 
 .grid-bg {
   background-image: 
-    linear-gradient(to right, rgba(18,46,59,0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(18,46,59,0.05) 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
-.dark .grid-bg {
-  background-image: 
-    linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
 .dot-bg {
-  background-image: radial-gradient(rgba(18,46,59,0.08) 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
-.dark .dot-bg {
-  background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
@@ -354,15 +351,6 @@ a:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.dark .btn {
-  background-image: linear-gradient(to right, var(--secondary-teal), var(--secondary-teal-hover));
-  box-shadow: 0 0 12px rgba(53,115,128,0.15);
-}
-
-.dark .btn:hover {
-  box-shadow: 0 0 15px rgba(53,115,128,0.25);
-}
-
 .btn-primary {
   background-color: var(--primary-orange);
 }
@@ -371,26 +359,8 @@ a:hover {
   background-color: var(--primary-orange-hover);
 }
 
-.dark .btn-primary {
-  background-image: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
-  box-shadow: 0 0 12px rgba(254,163,93,0.15);
-}
-
-.dark .btn-primary:hover {
-  box-shadow: 0 0 15px rgba(254,163,93,0.25);
-}
-
 .btn-accent {
   background: linear-gradient(to right, var(--accent-coral), var(--accent-red));
-}
-
-.dark .btn-accent {
-  background: linear-gradient(to right, var(--accent-coral), var(--accent-red));
-  box-shadow: 0 0 12px rgba(222,107,89,0.15);
-}
-
-.dark .btn-accent:hover {
-  box-shadow: 0 0 15px rgba(222,107,89,0.25);
 }
 
 .btn-ghost {
@@ -406,20 +376,9 @@ a:hover {
   color: var(--secondary-teal-hover);
 }
 
-.dark .btn-ghost {
-  border-color: rgba(255, 255, 255, 0.5);
-  color: white;
-}
-
-.dark .btn-ghost:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-color: white;
-  box-shadow: 0 0 15px rgba(53,115,128,0.15);
-}
-
 /* Cards and containers */
 .card {
-  background: linear-gradient(to bottom right, white, rgba(var(--card-bg-light), 0.5));
+  background: linear-gradient(to bottom right, white, rgba(var(--card-bg-light-rgb), 0.5));
   border-radius: var(--border-radius-lg);
   border: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow: var(--shadow-md);
@@ -432,26 +391,9 @@ a:hover {
   box-shadow: var(--shadow-lg);
 }
 
-.dark .card {
-  background: var(--card-bg-navy);
-  box-shadow: var(--shadow-md), var(--glow-blue);
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  color: var(--text-cream);
-}
-
-.dark .card:hover {
-  box-shadow: var(--shadow-lg), var(--glow-blue);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transform: translateY(-3px);
-}
-
 .card-header {
   padding: 1.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.dark .card-header {
-  border-bottom-color: rgba(255, 255, 255, 0.05);
 }
 
 .card-body {
@@ -461,10 +403,6 @@ a:hover {
 .card-footer {
   padding: 1.5rem;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.dark .card-footer {
-  border-top-color: rgba(255, 255, 255, 0.05);
 }
 
 /* Navigation */
@@ -480,10 +418,6 @@ a:hover {
   font-weight: 500;
   color: var(--text-navy);
   text-decoration: none;
-}
-
-.dark .nav-logo {
-  color: white;
 }
 
 .nav-links {
@@ -505,21 +439,6 @@ a:hover {
 .nav-link.active {
   color: var(--primary-orange);
   font-weight: 500;
-}
-
-.dark .nav-link {
-  color: white;
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
-}
-
-.dark .nav-link:hover {
-  color: var(--primary-orange-light);
-  text-shadow: 0 0 8px rgba(254, 172, 109, 0.3);
-}
-
-.dark .nav-link.active {
-  color: var(--primary-orange-light);
-  text-shadow: 0 0 10px rgba(254, 172, 109, 0.4);
 }
 
 /* Module grid */
@@ -546,42 +465,16 @@ a:hover {
   box-shadow: var(--shadow-md);
 }
 
-.dark .module {
-  background: var(--module-bg-gradient);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid rgba(255, 255, 255, 0.03);
-}
-
-.dark .module:hover {
-  box-shadow: var(--shadow-md), var(--glow-blue);
-  transform: translateY(-2px) scale(1.02);
-}
-
 .module.teal {
   background-color: var(--secondary-teal);
-}
-
-.dark .module.teal {
-  background: linear-gradient(135deg, var(--secondary-teal) 0%, var(--neutral-blue-3) 100%);
-  box-shadow: var(--shadow-sm), 0 0 15px rgba(53, 115, 128, 0.15);
 }
 
 .module.orange {
   background-color: var(--primary-orange);
 }
 
-.dark .module.orange {
-  background: linear-gradient(135deg, var(--primary-orange) 0%, var(--accent-coral) 100%);
-  box-shadow: var(--shadow-sm), var(--glow-primary);
-}
-
 .module.coral {
   background-color: var(--accent-coral);
-}
-
-.dark .module.coral {
-  background: linear-gradient(135deg, var(--accent-coral) 0%, var(--accent-red) 100%);
-  box-shadow: var(--shadow-sm), var(--glow-accent);
 }
 
 /* Gradient text effects */
@@ -591,15 +484,6 @@ a:hover {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
-}
-
-.dark .gradient-text {
-  background: linear-gradient(120deg, var(--primary-orange-light) 0%, var(--accent-coral) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-  filter: drop-shadow(0 0 8px rgba(254, 163, 93, 0.2));
 }
 
 /* Float animations for accent elements */
@@ -697,259 +581,203 @@ a:hover {
   }
 }
 
-/* Dark mode button styles with enhanced visual effects */
-.dark .btn,
-.dark button[class*="bg-[var(--primary"] {
-  box-shadow: var(--shadow-btn), 0 0 12px rgba(255, 255, 255, 0.1);
-}
-
-.dark .btn-primary,
-.dark button[class*="bg-[var(--primary-orange"] {
-  background: linear-gradient(135deg, var(--primary-orange) 0%, var(--primary-orange-hover) 100%);
-  box-shadow: var(--shadow-btn), var(--glow-primary);
-}
-
-.dark .btn-primary:hover,
-.dark button[class*="bg-[var(--primary-orange"]:hover {
-  background: linear-gradient(135deg, var(--primary-orange-light) 0%, var(--primary-orange) 100%);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), var(--glow-primary);
-}
-
-.dark .btn-accent,
-.dark button[class*="bg-[var(--accent"] {
-  background: linear-gradient(135deg, var(--accent-coral) 0%, var(--accent-red) 100%);
-  box-shadow: var(--shadow-btn), var(--glow-accent);
-}
-
-.dark .btn-accent:hover,
-.dark button[class*="bg-[var(--accent"]:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), var(--glow-accent);
-}
-
-/* Enhanced dark mode text styling */
-.dark h1, 
-.dark h2, 
-.dark h3, 
-.dark h4, 
-.dark h5, 
-.dark h6 {
-  text-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-}
-
-.dark p {
-  color: rgba(255, 255, 255, 0.85);
-}
-
-/* Marble button specific dark mode styles */
-.dark .marble-button-pattern {
-  filter: brightness(1.2) contrast(1.1);
-  opacity: 0.85;
-}
-
-/* Enhanced dark mode badge styling */
-.dark .badge {
-  border-color: rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-/* Dark mode background pattern enhancements */
-.dark .dot-bg {
-  background-image: 
-    radial-gradient(var(--grid-dot) 1px, transparent 1px),
-    radial-gradient(rgba(255, 255, 255, 0.02) 2px, transparent 2px);
-  background-size: 20px 20px, 60px 60px;
-  background-position: 0 0, 10px 10px;
-}
-
-.dark .grid-bg {
-  background-image: 
-    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.02) 25%, transparent 25%, transparent 50%, 
-      rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.02) 75%, transparent 75%, transparent);
-  background-size: 20px 20px, 20px 20px, 60px 60px;
-}
-
-/* Enhanced Dark Mode Components */
-
-/* Dark Mode Cards */
-.dark .card {
-  background: var(--card-bg-dark, var(--card-bg-navy));
-  box-shadow: var(--shadow-md), var(--glow-blue);
-  border: 1px solid rgba(255, 255, 255, 0.03);
-}
-
-.dark .card:hover {
-  box-shadow: var(--shadow-lg), var(--glow-blue);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transform: translateY(-3px);
-}
-
-.dark .card-header {
-  border-bottom-color: rgba(255, 255, 255, 0.03);
-}
-
-.dark .card-footer {
-  border-top-color: rgba(255, 255, 255, 0.03);
-}
-
-/* Dark Mode Buttons */
-.dark .btn {
-  box-shadow: var(--shadow-btn), 0 0 12px rgba(255, 255, 255, 0.1);
-}
-
-.dark .btn-primary {
-  background: linear-gradient(135deg, var(--primary-orange) 0%, var(--primary-orange-hover) 100%);
-  box-shadow: var(--shadow-btn), var(--glow-primary);
-}
-
-.dark .btn-primary:hover {
-  background: linear-gradient(135deg, var(--primary-orange-light) 0%, var(--primary-orange) 100%);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), var(--glow-primary);
-}
-
-.dark .btn-accent {
-  background: linear-gradient(135deg, var(--accent-coral) 0%, var(--accent-red) 100%);
-  box-shadow: var(--shadow-btn), var(--glow-accent);
-}
-
-.dark .btn-accent:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), var(--glow-accent);
-}
-
-.dark .btn-ghost {
-  border-color: rgba(255, 255, 255, 0.5);
-  color: var(--text-cream);
-  box-shadow: none;
-}
-
-.dark .btn-ghost:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-color: var(--text-cream);
-  box-shadow: var(--glow-blue);
-}
-
-/* Dark Mode Modules */
-.dark .module {
-  background: var(--module-bg-gradient);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid rgba(255, 255, 255, 0.03);
-}
-
-.dark .module:hover {
-  box-shadow: var(--shadow-md), var(--glow-blue);
-  transform: translateY(-2px) scale(1.02);
-}
-
-.dark .module.teal {
-  background: linear-gradient(135deg, var(--secondary-teal) 0%, var(--neutral-blue-3) 100%);
-  box-shadow: var(--shadow-sm), 0 0 15px rgba(53, 115, 128, 0.15);
-}
-
-.dark .module.orange {
-  background: linear-gradient(135deg, var(--primary-orange) 0%, var(--accent-coral) 100%);
-  box-shadow: var(--shadow-sm), var(--glow-primary);
-}
-
-.dark .module.coral {
-  background: linear-gradient(135deg, var(--accent-coral) 0%, var(--accent-red) 100%);
-  box-shadow: var(--shadow-sm), var(--glow-accent);
-}
-
-/* Enhanced Dark Mode Text Elements */
-.dark h1, 
-.dark h2, 
-.dark h3 {
-  text-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  color: var(--text-cream);
-}
-
-.dark h4,
-.dark h5,
-.dark h6 {
-  color: var(--text-cream);
-}
-
-.dark p {
-  color: rgba(255, 255, 255, 0.85);
-}
-
-/* Dark Mode Background Enhancements */
-.dark .dot-bg {
-  background-image: 
-    radial-gradient(var(--grid-dot) 1px, transparent 1px),
-    radial-gradient(rgba(255, 255, 255, 0.02) 2px, transparent 2px);
-  background-size: 20px 20px, 60px 60px;
-  background-position: 0 0, 10px 10px;
-}
-
-.dark .grid-bg {
-  background-image: 
-    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.02) 25%, transparent 25%, transparent 50%, 
-      rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.02) 75%, transparent 75%, transparent);
-  background-size: 20px 20px, 20px 20px, 60px 60px;
-}
-
-/* Special Component Enhancements */
-.dark .pro-tip {
-  background: linear-gradient(135deg, var(--accent-coral) 0%, var(--accent-red) 100%);
-  box-shadow: var(--shadow-md), var(--glow-accent);
-}
-
-.dark .feature-item {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.03);
-}
-
-.dark .stats-badge {
-  background: linear-gradient(135deg, oklch(20% 0.04 235) 0%, oklch(25% 0.05 230) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: var(--shadow-sm);
-}
-
-.dark .stats-badge-number {
-  color: var(--primary-orange-light);
-  text-shadow: 0 0 10px rgba(254, 172, 109, 0.3);
-}
-
-.dark .stats-badge-label {
-  color: var(--text-cream);
-}
-
-/* Enhanced UI Elements */
-.dark .hero-accent {
-  color: var(--accent-coral);
-  text-shadow: 0 0 15px rgba(222, 107, 89, 0.2);
-}
-
-.dark .hero-primary {
-  color: var(--primary-orange-light);
-  text-shadow: 0 0 15px rgba(254, 172, 109, 0.2);
-}
-
-.dark .section-title::after {
-  background: linear-gradient(90deg, var(--primary-orange) 0%, var(--accent-coral) 100%);
-  box-shadow: 0 0 10px rgba(254, 172, 109, 0.3);
-}
-
-.dark .logo-circle {
-  box-shadow: var(--shadow-md), var(--glow-accent);
-}
-
-/* Marble button specific dark mode styles */
-.dark .marble-button-pattern {
-  filter: brightness(1.2) contrast(1.1);
-  opacity: 0.85;
-}
-
-/* Dark mode gradient text enhancement */
-.dark .gradient-text {
-  background: linear-gradient(120deg, var(--primary-orange-light) 0%, var(--accent-coral) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-fill-color: transparent;
-  filter: drop-shadow(0 0 8px rgba(254, 163, 93, 0.2));
+/* Enhanced dark mode styles applied using the variant */
+@variant(dark) {
+  body {
+    background: linear-gradient(to bottom right, var(--bg-navy), var(--bg-navy-darker));
+    color: var(--text-cream);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: white;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  p {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  
+  .btn {
+    background-image: linear-gradient(to right, var(--secondary-teal), var(--secondary-teal-hover));
+    box-shadow: var(--shadow-btn), 0 0 12px rgba(53,115,128,0.15);
+  }
+  
+  .btn:hover {
+    box-shadow: 0 0 15px rgba(53,115,128,0.25);
+  }
+  
+  .btn-primary {
+    background-image: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
+    box-shadow: var(--shadow-btn), var(--glow-primary);
+  }
+  
+  .btn-primary:hover {
+    background-image: linear-gradient(to right, var(--primary-orange-light), var(--primary-orange));
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), var(--glow-primary);
+  }
+  
+  .btn-accent {
+    background: linear-gradient(to right, var(--accent-coral), var(--accent-red));
+    box-shadow: var(--shadow-btn), var(--glow-accent);
+  }
+  
+  .btn-accent:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), var(--glow-accent);
+  }
+  
+  .btn-ghost {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: var(--text-cream);
+    box-shadow: none;
+  }
+  
+  .btn-ghost:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--text-cream);
+    box-shadow: var(--glow-blue);
+  }
+  
+  .card {
+    background: var(--card-bg-dark, var(--card-bg-navy));
+    box-shadow: var(--shadow-md), var(--glow-blue);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    color: var(--text-cream);
+  }
+  
+  .card:hover {
+    box-shadow: var(--shadow-lg), var(--glow-blue);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transform: translateY(-3px);
+  }
+  
+  .card-header {
+    border-bottom-color: rgba(255, 255, 255, 0.03);
+  }
+  
+  .card-footer {
+    border-top-color: rgba(255, 255, 255, 0.03);
+  }
+  
+  .nav-logo {
+    color: white;
+  }
+  
+  .nav-link {
+    color: white;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+  }
+  
+  .nav-link:hover {
+    color: var(--primary-orange-light);
+    text-shadow: 0 0 8px rgba(254, 172, 109, 0.3);
+  }
+  
+  .nav-link.active {
+    color: var(--primary-orange-light);
+    text-shadow: 0 0 10px rgba(254, 172, 109, 0.4);
+  }
+  
+  .module {
+    background: var(--module-bg-gradient);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+  }
+  
+  .module:hover {
+    box-shadow: var(--shadow-md), var(--glow-blue);
+    transform: translateY(-2px) scale(1.02);
+  }
+  
+  .module.teal {
+    background: linear-gradient(135deg, var(--secondary-teal) 0%, var(--neutral-blue-3) 100%);
+    box-shadow: var(--shadow-sm), 0 0 15px rgba(53, 115, 128, 0.15);
+  }
+  
+  .module.orange {
+    background: linear-gradient(135deg, var(--primary-orange) 0%, var(--accent-coral) 100%);
+    box-shadow: var(--shadow-sm), var(--glow-primary);
+  }
+  
+  .module.coral {
+    background: linear-gradient(135deg, var(--accent-coral) 0%, var(--accent-red) 100%);
+    box-shadow: var(--shadow-sm), var(--glow-accent);
+  }
+  
+  .gradient-text {
+    background: linear-gradient(120deg, var(--primary-orange-light) 0%, var(--accent-coral) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    filter: drop-shadow(0 0 8px rgba(254, 163, 93, 0.2));
+  }
+  
+  .grid-bg {
+    background-image: 
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.02) 25%, transparent 25%, transparent 50%, 
+        rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.02) 75%, transparent 75%, transparent);
+    background-size: 20px 20px, 20px 20px, 60px 60px;
+  }
+  
+  .dot-bg {
+    background-image: 
+      radial-gradient(var(--grid-dot) 1px, transparent 1px),
+      radial-gradient(rgba(255, 255, 255, 0.02) 2px, transparent 2px);
+    background-size: 20px 20px, 60px 60px;
+    background-position: 0 0, 10px 10px;
+  }
+  
+  /* Special Component Enhancements */
+  .pro-tip {
+    background: linear-gradient(135deg, var(--accent-coral) 0%, var(--accent-red) 100%);
+    box-shadow: var(--shadow-md), var(--glow-accent);
+  }
+  
+  .feature-item {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+  }
+  
+  .stats-badge {
+    background: linear-gradient(135deg, oklch(20% 0.04 235) 0%, oklch(25% 0.05 230) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .stats-badge-number {
+    color: var(--primary-orange-light);
+    text-shadow: 0 0 10px rgba(254, 172, 109, 0.3);
+  }
+  
+  .stats-badge-label {
+    color: var(--text-cream);
+  }
+  
+  /* Enhanced UI Elements */
+  .hero-accent {
+    color: var(--accent-coral);
+    text-shadow: 0 0 15px rgba(222, 107, 89, 0.2);
+  }
+  
+  .hero-primary {
+    color: var(--primary-orange-light);
+    text-shadow: 0 0 15px rgba(254, 172, 109, 0.2);
+  }
+  
+  .section-title::after {
+    background: linear-gradient(90deg, var(--primary-orange) 0%, var(--accent-coral) 100%);
+    box-shadow: 0 0 10px rgba(254, 172, 109, 0.3);
+  }
+  
+  .logo-circle {
+    box-shadow: var(--shadow-md), var(--glow-accent);
+  }
+  
+  /* Marble button specific dark mode styles */
+  .marble-button-pattern {
+    filter: brightness(1.2) contrast(1.1);
+    opacity: 0.85;
+  }
 }

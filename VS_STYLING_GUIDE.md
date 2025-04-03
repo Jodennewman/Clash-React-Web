@@ -11,27 +11,47 @@ Our design system creates a **vibrant premium experience** that balances creativ
 - **Playful motion** - More pronounced animations than typical corporate sites
 - **Professional foundation** - Clean layouts with clear hierarchy
 
-## ⚠️ CRITICAL: IMPLEMENTING BOTH LIGHT AND DARK MODE ⚠️
+## ⚠️ CRITICAL: TAILWIND V4 DARK MODE IMPLEMENTATION ⚠️
 
 ### FUNDAMENTAL CLARIFICATION
-**Many assume only dark mode needs implementation. THIS IS WRONG. BOTH modes need explicit styling.**
+The CSS files now use the Tailwind v4 `@custom-variant dark` approach with `@variant(dark)` blocks for theme toggling. This lets us define CSS variables just once and swap their values in dark mode.
 
-### The Core Rules for Text Color in Both Modes (Updated for Tailwind v4)
+### Using the New Tailwind V4 Approach
+
+Our globals.css defines dark mode with:
+```css
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
+And then updates CSS variables in dark mode with:
+```css
+@variant(dark) {
+  :root {
+    --bg-cream: oklch(0.12 0.03 240);
+    --text-navy: oklch(0.96 0.01 90);
+    /* other variables */
+  }
+}
+```
+
+### The Core Rules for Color Usage in Components
 
 **❌ NEVER USE THIS PATTERN - IT WILL BREAK:**
 ```jsx
-<p className="text-[var(--text-navy)]">This will NOT work in dark mode</p>
+<p className="text-[var(--text-navy)]">This will NOT work correctly</p>
 ```
 
 **✅ ALWAYS USE THIS PATTERN INSTEAD:**
 ```jsx
-<p className="text-[--text-navy] dark:text-white">This works correctly</p>
+<p className="text-[--text-navy]">This works with Tailwind v4 variable references</p>
 ```
 
-For backgrounds, this pattern works perfectly:
+For backgrounds and other properties, the same pattern is used:
 ```jsx
-<div className="bg-[--bg-cream] dark:bg-[--bg-navy]">Content here</div>
+<div className="bg-[--bg-cream]">Content here</div>
 ```
+
+The variables automatically update in dark mode because the CSS defines all colors with `:root` variables inside `@variant(dark)` blocks.
 
 ## Complete Vision for Light Mode
 
@@ -373,28 +393,28 @@ The VS brand uniquely balances creative energy with professional polish through 
 
 ## Critical Technical Guidelines
 
-### Text Color Implementation
+### CSS Variable References in Tailwind v4
 
-**❌ WRONG - Will break in dark mode:**
+**❌ WRONG - Using var() syntax (outdated):**
 ```jsx
-<p className="text-[var(--text-navy)]">This will NOT work in dark mode</p>
+<p className="text-[var(--text-navy)]">This uses outdated syntax</p>
 ```
 
-**✅ CORRECT - Works in both modes:**
+**✅ CORRECT - Direct CSS variable reference:**
 ```jsx
-<p className="text-[--text-navy] dark:text-white">This works correctly</p>
+<p className="text-[--text-navy]">This uses the correct Tailwind v4 syntax</p>
 ```
 
-### Background Color Implementation
+### No Style Attributes for Colors
 
-**❌ WRONG - Won't switch in dark mode:**
+**❌ WRONG - Using style attribute:**
 ```jsx
-<div style={{ backgroundColor: 'var(--bg-cream)' }}>This won't switch in dark mode</div>
+<div style={{ backgroundColor: 'var(--bg-cream)' }}>This won't update automatically</div>
 ```
 
-**✅ CORRECT - This pattern works for backgrounds:**
+**✅ CORRECT - Using Tailwind classes:**
 ```jsx
-<div className="bg-[--bg-cream] dark:bg-[--bg-navy]">Content here</div>
+<div className="bg-[--bg-cream]">This will update properly in dark mode</div>
 ```
 
 ### Plain White Elimination
@@ -444,14 +464,14 @@ After making styling changes:
 
 If styling looks wrong in either mode, check for:
 
-1. Using `text-[var(--variable)]` instead of `text-[--variable]` (the #1 cause of dark mode issues)
-2. Missing `dark:text-[color]` class for text elements
+1. Using `text-[var(--variable)]` instead of `text-[--variable]` (the #1 cause of styling issues)
+2. Using inline style attributes instead of Tailwind classes for colors
 3. Missing gradients (using plain colors instead)
 4. Missing or inappropriate shadows for each mode (directional for light, glow for dark)
 5. Missing floating elements or texture patterns
 6. Animation issues (not using useGSAP and gsap.context)
 
-Remember: Every component needs specific styling for BOTH light and dark modes. Light mode is not just "default" styling!
+With our new Tailwind v4 implementation, color variables automatically update in dark mode, so you typically don't need to specify both light and dark mode colors manually. The CSS variables are redefined in the `@variant(dark)` block in globals.css.
 
 ## Helper Utilities (Recommended Approach)
 

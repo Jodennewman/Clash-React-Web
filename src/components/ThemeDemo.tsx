@@ -7,7 +7,7 @@ import { ThemeToggle } from './ui/theme-toggle';
  * A demo component showcasing the VS theme system implementation
  */
 export function ThemeDemo() {
-  const { theme, resolvedTheme } = useTheme();
+  const { theme, resolvedTheme, setTheme } = useTheme();
   
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -46,9 +46,43 @@ export function ThemeDemo() {
             <p className="text-xl text-[--text-navy] dark:text-white/80 mb-2">
               Current theme: <span className="font-medium">{theme}</span> (resolved to: <span className="font-medium">{resolvedTheme}</span>)
             </p>
-            <p className="text-[--text-navy] dark:text-white/70">
+            <p className="text-[--text-navy] dark:text-white/70 mb-4">
               Click the theme toggle in the corner to switch between light, dark, and system modes.
             </p>
+            
+            {/* Theme controls */}
+            <div className="flex justify-center gap-4 mb-4">
+              <button 
+                onClick={() => setTheme('light')}
+                className={`px-3 py-1 rounded-full text-sm ${
+                  theme === 'light' 
+                    ? 'bg-[--primary-orange] text-white font-medium' 
+                    : 'bg-[--bg-cream-darker] dark:bg-white/10 text-[--text-navy] dark:text-white/80'
+                }`}
+              >
+                Light
+              </button>
+              <button 
+                onClick={() => setTheme('dark')}
+                className={`px-3 py-1 rounded-full text-sm ${
+                  theme === 'dark' 
+                    ? 'bg-[--primary-orange] text-white font-medium' 
+                    : 'bg-[--bg-cream-darker] dark:bg-white/10 text-[--text-navy] dark:text-white/80'
+                }`}
+              >
+                Dark
+              </button>
+              <button 
+                onClick={() => setTheme('system')}
+                className={`px-3 py-1 rounded-full text-sm ${
+                  theme === 'system' 
+                    ? 'bg-[--primary-orange] text-white font-medium' 
+                    : 'bg-[--bg-cream-darker] dark:bg-white/10 text-[--text-navy] dark:text-white/80'
+                }`}
+              >
+                System (Default)
+              </button>
+            </div>
           </div>
           
           {/* Demo cards */}
