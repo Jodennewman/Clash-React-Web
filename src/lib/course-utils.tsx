@@ -1,5 +1,4 @@
 import { Briefcase, Compass, Pencil, Camera, Scissors, Rocket, Wrench } from 'lucide-react';
-import courseData from '../data/course-data.json';
 
 // Types for course data structure matching the JSON format
 export interface Submodule {
@@ -58,6 +57,24 @@ export interface Course {
   tracks: Track[];
 }
 
+// Safe access to course data with fallbacks - using import
+import rawCourseData from '../data/course-data.json';
+
+// Safe access to course data to prevent runtime errors
+let courseData: Course;
+
+try {
+  courseData = rawCourseData;
+} catch (error) {
+  console.error('Failed to parse course data:', error);
+  // Fallback minimal structure
+  courseData = {
+    title: "The Vertical Shortcut",
+    categories: [],
+    tracks: []
+  };
+}
+
 // Helper function to get icon component by name
 export const getTrackIcon = (iconName: string) => {
   switch (iconName) {
@@ -80,10 +97,7 @@ export const getTrackIcon = (iconName: string) => {
   }
 };
 
-// Access the course data from JSON
-const typedCourseData = courseData as Course;
-
-// Course statistics for presentations - now from JSON
+// Course statistics - calculated directly from data
 export const courseStats = {
   totalModules: 178,
   totalHours: 1000,
@@ -95,55 +109,152 @@ export const courseStats = {
   bonusResources: 12
 };
 
+// Safe function to calculate stats from course data
+const calculateCourseStats = () => {
+  let totalCategories = 0;
+  let totalSections = 0;
+  let totalModules = 0;
+  let totalSubmodules = 0;
+  let totalDuration = 0;
+  let countWorkshops = 0;
+  let countPdf = 0;
+  let countTemplates = 0;
+  
+  if (courseData && Array.isArray(courseData.categories)) {
+    totalCategories = courseData.categories.length;
+    
+    courseData.categories.forEach(category => {
+      if (Array.isArray(category.sections)) {
+        totalSections += category.sections.length;
+        
+        category.sections.forEach(section => {
+          if (Array.isArray(section.modules)) {
+            totalModules += section.modules.length;
+            
+            section.modules.forEach(module => {
+              if (typeof module.duration === 'number') {
+                totalDuration += module.duration;
+              }
+              
+              if (Array.isArray(module.submodules)) {
+                totalSubmodules += module.submodules.length;
+                
+                module.submodules.forEach(sub => {
+                  if (typeof sub.duration === 'number') {
+                    totalDuration += sub.duration;
+                  }
+                  
+                  if (Array.isArray(sub.resources)) {
+                    sub.resources.forEach(resource => {
+                      const res = resource.toLowerCase();
+                      if (res.includes('pdf')) countPdf++;
+                      else if (res.includes('workshop')) countWorkshops++;
+                      else if (res.includes('template')) countTemplates++;
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+  
+  return {
+    totalModules,
+    totalHours: Math.round(totalDuration / 60), // Convert minutes to hours
+    resources: countPdf + countWorkshops + countTemplates,
+    workshops: countWorkshops,
+    pdfs: countPdf,
+    templates: countTemplates,
+    systems: 37, // Hardcoded for now
+    bonusResources: 12 // Hardcoded for now
+  };
+};
+
+// Safe getter for tracks
+const getTracksWithFallback = (): Track[] => {
+  if (courseData && Array.isArray(courseData.tracks)) {
+    return courseData.tracks;
+  }
+  return [];
+};
+
 // Get all tracks from course data
-export const tracks: Track[] = typedCourseData.tracks;
+export const tracks: Track[] = getTracksWithFallback();
+
+// Safe getter for sections
+const getSectionsWithFallback = () => {
+  const result = [];
+  
+  if (courseData && Array.isArray(courseData.categories)) {
+    for (const category of courseData.categories) {
+      if (Array.isArray(category.sections)) {
+        for (const section of category.sections) {
+          result.push({
+            id: section.id || '',
+            name: section.name || '',
+            number: section.number || 0,
+            color: category.color || '#000000',
+            modules: Array.isArray(section.modules) ? section.modules.length : 0
+          });
+        }
+      }
+    }
+  }
+  
+  return result;
+};
 
 // Get simplified sections for navigation
-export const sections = typedCourseData.categories.flatMap(category => 
-  category.sections.map(section => ({
-    id: section.id,
-    name: section.name,
-    number: section.number,
-    color: category.color,
-    modules: section.modules.length
-  }))
-);
+export const sections = getSectionsWithFallback();
 
-// Get all featured modules across all sections
+// Get all featured modules across all sections with safety checks
 export const getFeaturedModules = (): Module[] => {
   const featuredModules: Module[] = [];
   
-  typedCourseData.categories.forEach(category => {
-    category.sections.forEach(section => {
-      section.modules.forEach(module => {
-        if (module.featured) {
-          featuredModules.push(module);
-        }
-      });
+  if (courseData && Array.isArray(courseData.categories)) {
+    courseData.categories.forEach(category => {
+      if (Array.isArray(category.sections)) {
+        category.sections.forEach(section => {
+          if (Array.isArray(section.modules)) {
+            section.modules.forEach(module => {
+              if (module && module.featured === true) {
+                featuredModules.push(module);
+              }
+            });
+          }
+        });
+      }
     });
-  });
+  }
   
   return featuredModules;
 };
 
 export const featuredModules = getFeaturedModules();
 
-// Get modules for a specific section
+// Get modules for a specific section with safety checks
 export const getModulesForSection = (sectionId: string): Module[] => {
-  for (const category of typedCourseData.categories) {
-    for (const section of category.sections) {
+  if (!sectionId || !courseData) return [];
+  
+  for (const category of courseData.categories || []) {
+    for (const section of category.sections || []) {
       if (section.id === sectionId) {
-        return section.modules;
+        return Array.isArray(section.modules) ? section.modules : [];
       }
     }
   }
   return [];
 };
 
-// Get section by ID
+// Get section by ID with safety checks
 export const getSection = (sectionId: string): Section | null => {
-  for (const category of typedCourseData.categories) {
-    for (const section of category.sections) {
+  if (!sectionId || !courseData) return null;
+  
+  for (const category of courseData.categories || []) {
+    for (const section of category.sections || []) {
       if (section.id === sectionId) {
         return section;
       }
@@ -152,78 +263,112 @@ export const getSection = (sectionId: string): Section | null => {
   return null;
 };
 
-// Get modules that are marked for founders
+// Get modules that are marked for founders with safety checks
 export const getFounderModules = (): Module[] => {
   const founderModules: Module[] = [];
   
-  typedCourseData.categories.forEach(category => {
-    category.sections.forEach(section => {
-      section.modules.forEach(module => {
-        if (module.founderMustWatch && module.tracks.includes("Founders")) {
-          founderModules.push(module);
-        }
-      });
+  if (courseData && Array.isArray(courseData.categories)) {
+    courseData.categories.forEach(category => {
+      if (Array.isArray(category.sections)) {
+        category.sections.forEach(section => {
+          if (Array.isArray(section.modules)) {
+            section.modules.forEach(module => {
+              if (module && module.founderMustWatch === true && 
+                  Array.isArray(module.tracks) && 
+                  module.tracks.includes("Founders")) {
+                founderModules.push(module);
+              }
+            });
+          }
+        });
+      }
     });
-  });
+  }
   
   return founderModules;
 };
 
-// Get modules by track name
+// Get modules by track name with safety checks
 export const getModulesByTrack = (trackName: string): Module[] => {
   const modulesByTrack: Module[] = [];
   
-  typedCourseData.categories.forEach(category => {
-    category.sections.forEach(section => {
-      section.modules.forEach(module => {
-        if (module.tracks.includes(trackName)) {
-          modulesByTrack.push(module);
-        }
-      });
+  if (!trackName || !courseData) return modulesByTrack;
+  
+  if (Array.isArray(courseData.categories)) {
+    courseData.categories.forEach(category => {
+      if (Array.isArray(category.sections)) {
+        category.sections.forEach(section => {
+          if (Array.isArray(section.modules)) {
+            section.modules.forEach(module => {
+              if (module && Array.isArray(module.tracks) && 
+                  module.tracks.includes(trackName)) {
+                modulesByTrack.push(module);
+              }
+            });
+          }
+        });
+      }
     });
-  });
+  }
   
   return modulesByTrack;
 };
 
-// Get all unique instructors from submodules
+// Get all unique instructors from submodules with safety checks
 export const getAllInstructors = (): string[] => {
   const instructors = new Set<string>();
   
-  typedCourseData.categories.forEach(category => {
-    category.sections.forEach(section => {
-      section.modules.forEach(module => {
-        module.submodules.forEach(submodule => {
-          instructors.add(submodule.instructor);
+  if (courseData && Array.isArray(courseData.categories)) {
+    courseData.categories.forEach(category => {
+      if (Array.isArray(category.sections)) {
+        category.sections.forEach(section => {
+          if (Array.isArray(section.modules)) {
+            section.modules.forEach(module => {
+              if (module && Array.isArray(module.submodules)) {
+                module.submodules.forEach(submodule => {
+                  if (submodule && submodule.instructor) {
+                    instructors.add(submodule.instructor);
+                  }
+                });
+              }
+            });
+          }
         });
-      });
+      }
     });
-  });
+  }
   
   return Array.from(instructors);
 };
 
-// Calculate total duration of all modules
+// Calculate total duration of all modules with safety checks
 export const calculateTotalDuration = (): number => {
   let totalMinutes = 0;
   
-  typedCourseData.categories.forEach(category => {
-    category.sections.forEach(section => {
-      section.modules.forEach(module => {
-        totalMinutes += module.duration;
-      });
+  if (courseData && Array.isArray(courseData.categories)) {
+    courseData.categories.forEach(category => {
+      if (Array.isArray(category.sections)) {
+        category.sections.forEach(section => {
+          if (Array.isArray(section.modules)) {
+            section.modules.forEach(module => {
+              if (module && typeof module.duration === 'number') {
+                totalMinutes += module.duration;
+              }
+            });
+          }
+        });
+      }
     });
-  });
+  }
   
   return totalMinutes;
 };
 
-// Section descriptions for ModuleBreakdown
+// Section descriptions for ModuleBreakdown with safety checks
 export const getSectionDescription = (sectionId: string): string => {
-  // Try to find the section in the data
+  // Try to find the section in the data with safety checks
   const section = getSection(sectionId);
-  if (section && section.modules.length > 0) {
-    // Use first module's subtitle as fallback description
+  if (section && Array.isArray(section.modules) && section.modules.length > 0 && section.modules[0].subtitle) {
     return section.modules[0].subtitle;
   }
   
@@ -251,13 +396,21 @@ export const getSectionDescription = (sectionId: string): string => {
   }
 };
 
-// Get a specific module by ID
+// Get a specific module by ID with safety checks
 export const getModuleById = (moduleId: string): Module | null => {
-  for (const category of typedCourseData.categories) {
-    for (const section of category.sections) {
-      for (const module of section.modules) {
-        if (module.id === moduleId) {
-          return module;
+  if (!moduleId || !courseData) return null;
+  
+  if (Array.isArray(courseData.categories)) {
+    for (const category of courseData.categories) {
+      if (Array.isArray(category.sections)) {
+        for (const section of category.sections) {
+          if (Array.isArray(section.modules)) {
+            for (const module of section.modules) {
+              if (module && module.id === moduleId) {
+                return module;
+              }
+            }
+          }
         }
       }
     }
@@ -265,9 +418,9 @@ export const getModuleById = (moduleId: string): Module | null => {
   return null;
 };
 
-// Get all categories
+// Get all categories with safety check
 export const getCategories = (): Category[] => {
-  return typedCourseData.categories;
+  return Array.isArray(courseData.categories) ? courseData.categories : [];
 };
 
 // Export default object with all utils

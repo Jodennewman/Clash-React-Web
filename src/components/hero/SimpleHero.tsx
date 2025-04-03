@@ -1,6 +1,4 @@
 import React from 'react';
-import { AnimatedButton } from '../marble-buttons/AnimatedButton';
-import { Badge } from "../ui/badge";
 
 interface SimpleHeroProps {
   onCtaClick?: () => void;
@@ -9,130 +7,103 @@ interface SimpleHeroProps {
 const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
   ({ onCtaClick }, ref) => {
     return (
-      <section ref={ref} className="relative min-h-screen w-full bg-[var(--bg-cream)] dark:bg-[var(--bg-navy-gradient)] overflow-hidden pt-32 pb-24">
-        {/* Enhanced background elements */}
-        <div className="absolute inset-0 opacity-20 dark:opacity-30">
-          <div className="absolute bottom-0 right-0 w-2/3 h-2/3 bg-gradient-radial from-[var(--primary-orange)]/30 to-transparent opacity-40 blur-3xl"></div>
-          <div className="absolute top-1/4 left-1/4 w-1/3 h-1/3 bg-gradient-radial from-[var(--accent-coral)]/20 to-transparent opacity-30 blur-3xl"></div>
+      <section ref={ref} className="relative min-h-screen w-full bg-[#FFF2E4] overflow-hidden">
+        {/* Color blocks absolutely positioned */}
+        <div className="absolute top-0 right-0 flex z-10">
+          <div className="bg-[#32697A] h-[236px] w-[283px]" /> {/* Teal block */}
+          <div className="bg-[#FF9D5E] h-[236px] w-[356px]" /> {/* Orange block */}
+          <div className="bg-[#E37C7C] h-[379px] w-[221px]" /> {/* Red block */}
         </div>
         
-        {/* Animated floating accent elements with VS Bubbly motion */}
-        <div className="absolute top-1/4 right-[15%] w-24 h-24 rounded-full bg-[var(--accent-coral)]/15 blur-xl animate-pulse"></div>
-        <div className="absolute bottom-1/3 left-[10%] w-32 h-32 rounded-full bg-[var(--primary-orange)]/15 blur-xl animate-pulse" style={{animationDelay: '1s'}}></div>
-        <div className="absolute top-1/3 left-[20%] w-20 h-20 rounded-full bg-[var(--secondary-teal)]/15 blur-xl animate-pulse" style={{animationDelay: '1.5s'}}></div>
+        {/* Eyeball SVG absolutely positioned */}
+        <div className="absolute bottom-0 left-0 z-0">
+          <svg
+            width="679"
+            height="332"
+            viewBox="0 0 679 332"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-[567px] h-[567px] rotate-[15deg] translate-y-[100px] -translate-x-[50px]"
+            aria-hidden="true"
+          >
+            <circle
+              cx="331.484"
+              cy="347.484"
+              r="231.656"
+              transform="rotate(-90 331.484 347.484)"
+              fill="white"
+            />
+            <ellipse
+              cx="387.704"
+              cy="307.815"
+              rx="143.553"
+              ry="143.168"
+              transform="rotate(-90 387.704 307.815)"
+              fill="#5F949F"
+            />
+            <path
+              d="M324.537 240.611C337.361 218.609 357.976 202.262 382.267 194.834C406.558 187.406 432.737 189.444 455.577 200.541C478.417 211.637 496.239 230.976 505.483 254.697C514.727 278.417 514.714 304.773 505.446 328.503C496.178 352.233 478.337 371.59 455.485 382.711C432.634 393.832 406.453 395.897 382.169 388.495C357.886 381.092 337.287 364.767 324.486 342.778C311.684 320.789 307.622 294.755 313.109 269.872L411.566 291.649L324.537 240.611Z"
+              fill="#122E3B"
+            />
+          </svg>
+        </div>
         
-        {/* Subtle grid pattern for texture */}
-        <div className="absolute inset-0 bg-grid opacity-5 dark:opacity-10"></div>
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 min-h-[600px] items-center">
-            {/* Text Column */}
-            <div className="lg:col-span-7 flex flex-col justify-center">
-              <Badge variant="outline" size="xl" className="mb-6">
-                10-Week Transformation Program
-              </Badge>
-              
-              <h1 className="hero-title text-6xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight tracking-tight">
-                <div className="overflow-hidden">
-                  <span 
-                    className="hero-accent bg-gradient-to-r from-[var(--primary-orange)] to-[var(--accent-coral)] bg-clip-text text-transparent inline-block hover:scale-[1.02] hover:-translate-y-1 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]"
-                  >
-                    800 million views
-                  </span>
-                </div>
-                <div className="overflow-hidden">
-                  <span 
-                    className="dark:text-white inline-block hover:scale-[1.02] hover:-translate-y-1 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]"
-                    style={{ color: 'var(--text-navy)' }}
-                  >
-                    zero spent on ads
-                  </span>
-                </div>
-              </h1>
-              
-              <p style={{ color: 'var(--text-navy)' }} className="dark:text-white/80 text-xl mb-10 max-w-xl leading-relaxed">
-                A proven turn-key system to survive, thrive, and monetise with short-form content. Stop posting into the void. Start creating content that converts.
-              </p>
-              
-              <div className="hero-cta flex flex-wrap gap-6">
-                <AnimatedButton 
-                  text="Apply Now"
-                  variant="start" 
-                  saturation="high"
-                  size="lg"
-                  onClick={onCtaClick}
-                  className="w-auto"
-                />
-                <AnimatedButton 
-                  text="Book a Call"
-                  variant="docs"
-                  saturation="normal"
-                  size="lg"
-                  className="w-auto"
-                />
-              </div>
-            </div>
+        {/* Grid Layout */}
+        <div 
+          className="w-full h-full relative"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 1.618fr) minmax(0, 1fr) minmax(0, 1.618fr) minmax(0, 2.618fr) minmax(0, 4.237fr) minmax(0, 2.618fr) minmax(0, 1.618fr) minmax(0, 1fr) minmax(0, 1.618fr)',
+            gridTemplateRows: 'minmax(0, 1.618fr) minmax(0, 1fr) minmax(0, 1.618fr) minmax(0, 2.618fr) minmax(0, 4.237fr) minmax(0, 2.618fr) minmax(0, 1.618fr) minmax(0, 1fr) minmax(0, 1.618fr)',
+            // Subtle grid lines
+            backgroundImage: 'linear-gradient(to right, rgba(255,0,0,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,0,0,0.1) 1px, transparent 1px)',
+            backgroundSize: 'calc(100% / 9) calc(100% / 9)'
+          }}
+        >
+          {/* VS Logo Header */}
+          <header style={{ gridColumn: '2 / 3', gridRow: '2 / 3' }} className="flex items-center">
+            <div className="text-5xl text-slate-800 max-sm:text-4xl">VS</div>
+          </header>
+
+          {/* HeroHeadline */}
+          <div style={{ gridColumn: '5 / 9', gridRow: '3 / 5' }} className="flex items-center z-10">
+            <h1 className="mb-10 text-7xl leading-tight text-slate-800 max-md:text-6xl max-sm:text-4xl">
+              <span className="text-8xl text-[#E37C7C] max-md:text-7xl max-sm:text-5xl">
+                800 million
+              </span>
+              <span> views,</span>
+              <span className="block text-7xl max-md:text-6xl max-sm:text-4xl">
+                zero spent on ads
+              </span>
+            </h1>
+          </div>
+
+          {/* HeroSubheading */}
+          <div style={{ gridColumn: '5 / 9', gridRow: '5 / 7' }} className="z-10">
+            <p className="text-4xl leading-tight text-slate-800 max-md:text-3xl max-sm:text-2xl mb-10">
+              <span>A </span>
+              <span className="text-[#FF9D5E]">proven, turn-key system </span>
+              <span>to survive, thrive, and </span>
+              <span>monetise </span>
+              <span>with short form content, for founders.</span>
+            </p>
             
-            {/* Visual Column */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative bg-gradient-to-br from-[var(--primary-orange)]/15 to-[var(--accent-coral)]/10 dark:from-[var(--primary-orange)]/25 dark:to-[var(--accent-coral)]/15 rounded-2xl p-8 h-[500px] flex items-center justify-center overflow-hidden border border-white/10 shadow-lg dark:shadow-[0_10px_50px_rgba(254,163,93,0.15)] transition-all duration-[500ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:shadow-xl hover:translate-y-[-10px] hover:rotate-[1deg] hover:scale-[1.02] hover:border-white/20">
-                {/* Logo/icon display with enhanced VS Bubbly animations */}
-                <div className="w-56 h-56 bg-white dark:bg-[var(--bg-navy)] rounded-full shadow-2xl flex items-center justify-center relative transition-all duration-[500ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.05] hover:shadow-[0_10px_50px_rgba(254,163,93,0.3)]">
-                  {/* Animated gradient border */}
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[var(--primary-orange)] via-[var(--accent-coral)] to-[var(--primary-orange)] bg-[length:400%_400%] animate-borderFlow"></div>
-                  {/* Inner white/navy circle with slight padding */}
-                  <div className="absolute inset-[3px] rounded-full bg-white dark:bg-[var(--bg-navy)]"></div>
-                  
-                  {/* Pulsing glow behind text */}
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[var(--primary-orange)]/30 to-[var(--accent-coral)]/20 animate-pulse blur-md"></div>
-                  
-                  {/* VS logo */}
-                  <div className="text-8xl font-bold text-center relative z-10 bg-gradient-to-r from-[var(--primary-orange)] to-[var(--accent-coral)] bg-clip-text text-transparent transition-all duration-[500ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.1] hover:rotate-[3deg]">
-                    VS
-                  </div>
-                </div>
-                
-                {/* Enhanced decorative elements with VS Bubbly animations */}
-                <div className="absolute top-10 right-10 w-20 h-20 rounded-full bg-[var(--primary-orange)]/30 dark:bg-[var(--primary-orange)]/40 backdrop-blur-sm transition-all duration-[500ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.2] hover:translate-y-[-5px]"></div>
-                <div className="absolute bottom-12 left-12 w-24 h-24 rounded-full bg-[var(--accent-coral)]/25 dark:bg-[var(--accent-coral)]/35 backdrop-blur-sm transition-all duration-[500ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.2] hover:translate-y-[5px]"></div>
-                <div className="absolute -bottom-8 right-20 w-40 h-40 rounded-full bg-[var(--secondary-teal)]/15 dark:bg-[var(--secondary-teal)]/25 backdrop-blur-sm transition-all duration-[500ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.1]"></div>
-                
-                {/* Small accent shapes */}
-                <div className="absolute top-1/4 left-6 w-6 h-6 rounded-sm rotate-45 bg-[var(--primary-orange)] opacity-40 dark:opacity-60 transition-all duration-[500ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:rotate-[135deg] hover:scale-[1.3]"></div>
-                <div className="absolute bottom-1/3 right-8 w-8 h-8 rounded-full bg-[var(--accent-coral)] opacity-40 dark:opacity-60 transition-all duration-[500ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.3]"></div>
-              </div>
+            {/* Buttons - more tasteful, aligned with the design */}
+            <div className="flex flex-wrap gap-4">
+              <button 
+                onClick={onCtaClick}
+                className="px-6 py-3 bg-[#FF9D5E] text-white rounded-lg font-medium transition-all duration-300 hover:bg-[#E37C7C] hover:shadow-md"
+              >
+                Apply Now
+              </button>
+              <button 
+                className="px-6 py-3 bg-transparent border border-slate-800 text-slate-800 rounded-lg font-medium transition-all duration-300 hover:bg-slate-800 hover:text-white"
+              >
+                Book a Call
+              </button>
             </div>
           </div>
         </div>
-        
-        {/* Add custom keyframes for the gradient border animation */}
-        <style dangerouslySetInnerHTML={{__html: `
-          @keyframes borderFlow {
-            0%, 100% {
-              background-position: 0% 50%;
-            }
-            50% {
-              background-position: 100% 50%;
-            }
-          }
-          
-          .animate-borderFlow {
-            animation: borderFlow 8s ease infinite;
-          }
-          
-          .bg-grid {
-            background-image: 
-              linear-gradient(to right, rgba(18, 46, 59, 0.05) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(18, 46, 59, 0.05) 1px, transparent 1px);
-            background-size: 20px 20px;
-          }
-          
-          .dark .bg-grid {
-            background-image: 
-              linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-          }
-        `}} />
       </section>
     );
   }

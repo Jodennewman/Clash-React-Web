@@ -1,41 +1,6 @@
-/* Animation plugin - will be imported via globals.css instead */
-
-/* HDR display support */
-@media (dynamic-range: high) {
-  :root {
-    --hdr-glow-intensity: 1.5;  /* Higher intensity for HDR displays */
-    --hdr-glow-spread: 20px;    /* Wider glow for HDR displays */
-  }
-}
-
-:root {
-  --hdr-glow-intensity: 1;      /* Default intensity */
-  --hdr-glow-spread: 15px;      /* Default glow spread */
-  --radius: 0.625rem;
-}
-
-/* Basic reset styling */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
-}
-
-#root {
-  height: 100vh;
-}
-
-@layer base {
-  * {
-    @apply border-[--bg-cream-darker];
-  }
-  body {
-    @apply bg-[--bg-cream] text-[--text-navy];
-  }
-}
-
-.dark body {
-  background-color: var(--bg-navy);
-  color: white;
-}
+/* 
+  index.css has been consolidated into globals.css 
+  This file is kept empty for reference but its contents
+  have been moved to maintain a single source of truth.
+*/
 

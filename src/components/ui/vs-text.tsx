@@ -60,16 +60,17 @@ export function VSHeading({
   darkClassName = 'dark:text-white',
   ...props
 }: VSTextProps) {
+  // Choose the element type based on the variant
+  const Component = variant;
+  
   return (
-    <VSText
-      variant={variant}
-      color={color}
-      className={`font-bold ${className}`} // Apply heading specific styling
-      darkClassName={darkClassName}
+    <Component
+      style={{ color, ...props.style }}
+      className={`${darkClassName} font-bold ${className}`}
       {...props}
     >
       {children}
-    </VSText>
+    </Component>
   );
 }
 

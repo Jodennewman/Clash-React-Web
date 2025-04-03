@@ -12,7 +12,20 @@ This file guides Claude Code when working with this repository. Follow these ins
 1. Read this CLAUDE.md completely
 2. Read `src/app/globals.css` completely 
 3. Read `VS_STYLING_GUIDE.md` completely
-4. If in Team Mode, read `TEAM_STRUCTURE.md` completely
+4. Read `VS_COLOR_IMPLEMENTATION.md` completely
+5. Read `THEME_SYSTEM.md` completely
+6. Read `THEME_IMPLEMENTATION_SUMMARY.md` completely
+7. If in Team Mode, read `TEAM_STRUCTURE.md` completely
+
+## ⚠️⚠️⚠️ CRITICAL: THEME SYSTEM FILES ⚠️⚠️⚠️
+
+The theme system is defined in three key files that you MUST read to understand our approach:
+
+1. **VS_COLOR_IMPLEMENTATION.md** - Complete color implementation strategy
+2. **THEME_SYSTEM.md** - Quick reference guide for using the theme system
+3. **THEME_IMPLEMENTATION_SUMMARY.md** - Implementation plan and next steps
+
+These files contain the definitive instructions for implementing themes in our codebase.
 
 ## ⚠️⚠️⚠️ CRITICAL: TAILWIND CSS VARIABLE PATTERNS ⚠️⚠️⚠️
 

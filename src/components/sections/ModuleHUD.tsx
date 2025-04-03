@@ -7,6 +7,14 @@ interface ModuleHUDProps {
   selectedSection?: string | null;
 }
 
+// Define module shape to avoid type issues
+interface ModuleItem {
+  id: string;
+  title: string;
+  color: string;
+  founderMustWatch: boolean;
+}
+
 // Get the first three sections directly from the JSON data
 const mainSections = [
   {
@@ -27,16 +35,25 @@ const mainSections = [
 ];
 
 // Get modules for a section directly from the JSON
-const getModulesForSection = (sectionId: string) => {
+const getModulesForSection = (sectionId: string): ModuleItem[] => {
   const course = courseData as any;
+  
+  if (!course || !Array.isArray(course.categories)) {
+    return [];
+  }
+  
   for (const category of course.categories) {
+    if (!category || !Array.isArray(category.sections)) {
+      continue;
+    }
+    
     for (const section of category.sections) {
-      if (section.id === sectionId) {
-        return section.modules.slice(0, 3).map(module => ({
-          id: module.id,
-          title: module.title,
-          color: module.color,
-          founderMustWatch: module.founderMustWatch
+      if (section.id === sectionId && Array.isArray(section.modules)) {
+        return section.modules.slice(0, 3).map((module: any) => ({
+          id: module.id || '',
+          title: module.title || '',
+          color: module.color || '#333',
+          founderMustWatch: !!module.founderMustWatch
         }));
       }
     }
@@ -199,7 +216,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection }) => {
       });
       
       // Setup hover animations for modules
-      selectedSectionModules.forEach(module => {
+      selectedSectionModules.forEach((module: ModuleItem) => {
         const el = moduleRefs.current[module.id];
         if (el) {
           el.addEventListener('mouseenter', () => {
@@ -246,6 +263,16 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection }) => {
     return () => ctx.revert();
   }, [selectedSection, selectedSectionModules]);
   
+  // Fixed callback for ref
+  const setSectionRef = (id: string) => (el: HTMLDivElement | null) => {
+    sectionRefs.current[id] = el;
+  };
+  
+  // Fixed callback for ref
+  const setModuleRef = (id: string) => (el: HTMLDivElement | null) => {
+    moduleRefs.current[id] = el;
+  };
+  
   return (
     <div 
       ref={containerRef}
@@ -267,7 +294,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection }) => {
           {mainSections.map((section, index) => (
             <div key={section.id} className="w-full flex items-center justify-center relative">
               <div 
-                ref={el => sectionRefs.current[section.id] = el}
+                ref={setSectionRef(section.id)}
                 data-id={section.id}
                 className="section-module module-item w-[calc(7vw+40px)] h-[calc(7vw+40px)] sm:w-[85px] sm:h-[85px] rounded-xl shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] cursor-pointer relative transition-all duration-[--transition-bounce]"
                 style={{ backgroundColor: section.color }}
@@ -289,10 +316,10 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection }) => {
                 className="module-container absolute top-1/2 left-full transform -translate-y-1/2 ml-[5vw] sm:ml-[4vw] md:ml-[25px] flex items-center gap-[5vw] sm:gap-[4vw] md:gap-[25px] lg:gap-[30px]"
               >
                 {section.id === selectedSection && 
-                  selectedSectionModules.map(module => (
+                  selectedSectionModules.map((module: ModuleItem) => (
                     <div 
                       key={module.id}
-                      ref={el => moduleRefs.current[module.id] = el}
+                      ref={(el) => setModuleRef(el, module.id)}
                       data-id={module.id}
                       className="module-item w-[calc(4vw+20px)] h-[calc(4vw+20px)] sm:w-[45px] sm:h-[45px] rounded-xl shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] cursor-pointer relative transition-all duration-[--transition-bounce]"
                       style={{ backgroundColor: module.color }}
