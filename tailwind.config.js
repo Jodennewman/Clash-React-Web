@@ -1,11 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: 'variant',
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  // Note: In Tailwind v4, darkMode is handled via @custom-variant in CSS
+  // Using class-based dark mode approach
   theme: {
     extend: {
       // We'll use CSS variables from @theme directive instead of colors here

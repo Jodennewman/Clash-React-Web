@@ -1,10 +1,10 @@
 @import "tailwindcss";
 @layer theme, base, components, utilities;
-@config "./tailwind.config.js";
+@config "../../tailwind.config.js";
 @import url('https://fonts.cdnfonts.com/css/neue-haas-grotesk-display-pro');
 
-/* Define dark mode variant using Tailwind v4 custom variant approach */
-@custom-variant dark (&:where(.dark, .dark *));
+/* Define dark mode variant using Tailwind v4 custom variant approach 
+Note: Make sure the variant 'dark' is properly defined in tailwind.config.js */
 
 @theme {
   
@@ -584,7 +584,7 @@ a:hover {
 }
 
 /* Enhanced dark mode styles applied using the variant */
-@variant(dark) {
+.dark {
   body {
     background: linear-gradient(to bottom right, var(--bg-navy), var(--bg-navy-darker));
     color: var(--text-cream);
