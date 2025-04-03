@@ -38,8 +38,8 @@ const statItems = [
     key: 'totalModules', 
     label: 'Modules', 
     icon: Layers,
-    color: 'var(--primary-orange)', // #FEA35D - Should update to use className with CSS vars directly
-    colorHover: 'var(--primary-orange-hover)'
+    color: 'oklch(75% 0.13 57)', // #FEA35D - Direct OKLCH color instead of CSS var
+    colorHover: 'oklch(70% 0.16 52)' // Direct OKLCH color instead of CSS var
   },
   { 
     key: 'totalHours', 
@@ -215,8 +215,7 @@ const CourseStats = () => {
                       <Icon className="h-6 w-6 text-white" />
                     </div>
                     <div 
-                      className="stat-counter text-3xl sm:text-4xl md:text-5xl font-bold mb-2 dark:text-white"
-                      style={{ color: item.color }} // Better to use text-[color-var] but need more complex logic
+                      className="stat-counter text-3xl sm:text-4xl md:text-5xl font-bold mb-2 text-[oklch(75%_0.13_57)] dark:text-white"
                     >
                       {animatedCounters ? value : '0'}
                     </div>

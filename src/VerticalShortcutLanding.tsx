@@ -661,12 +661,12 @@ const VerticalShortcutLanding = () => {
           >
             <div className="container mx-auto px-4">
               <div className="mb-12 text-center">
-                <VSHeading variant="h2" className="text-3xl md:text-4xl mb-6">
+                <h2 className="text-[--text-navy] dark:text-white text-3xl md:text-4xl font-bold mb-6">
                   Course Stats That Speak for Themselves
-                </VSHeading>
-                <VSText color="--text-navy" darkClassName="dark:text-white/70" className="text-xl max-w-3xl mx-auto">
+                </h2>
+                <p className="text-[--text-navy] dark:text-white/70 text-xl max-w-3xl mx-auto">
                   Vertical Shortcut isn't just another course. It's the culmination of years creating content that drove real business results.
-                </VSText>
+                </p>
               </div>
               
               {/* CourseStats component - THIS COMPONENT MAINTAINS ITS OWN STYLING */}
@@ -675,9 +675,9 @@ const VerticalShortcutLanding = () => {
               
               <div className="text-center mb-10">
                 <Badge variant="outline" className="bg-[--accent-crimson]/10 border-[--primary-orange]/30 py-2 px-4">
-                  <VSText color="--primary-orange" darkClassName="dark:text-[--primary-orange]">
+                  <span className="text-[--primary-orange] dark:text-[--primary-orange]">
                     Don't Just Take Our Word For It
-                  </VSText>
+                  </span>
                 </Badge>
               </div>
             </div>
@@ -739,12 +739,12 @@ const VerticalShortcutLanding = () => {
                     >
                       {benefit.icon}
                     </div>
-                    <VSHeading variant="h3" color="white" className="text-xl mb-4">
+                    <h3 className="text-white dark:text-white text-xl font-bold mb-4">
                       {benefit.title}
-                    </VSHeading>
-                    <VSText color="white" className="dark:text-white/70">
+                    </h3>
+                    <p className="text-white dark:text-white/70">
                       {benefit.description}
-                    </VSText>
+                    </p>
                   </VSCard>
                 ))}
               </div>
@@ -774,9 +774,9 @@ const VerticalShortcutLanding = () => {
             <div className="container mx-auto px-4">
               <div className="text-center mb-16">
                 <Badge variant="outline" className="bg-white/5 border-[--primary-orange]/30 mb-4 py-2 px-4">
-                  <VSText color="--primary-orange" className="dark:text-[--primary-orange]">
+                  <span className="text-[--primary-orange] dark:text-[--primary-orange]">
                     Specialized Learning Paths
-                  </VSText>
+                  </span>
                 </Badge>
                 <VSGradientText
                   variant="h2"
