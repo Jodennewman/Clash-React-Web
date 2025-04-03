@@ -189,10 +189,10 @@ const CourseStats = () => {
       {/* Dark mode floating elements */}
       <div className="absolute top-20 left-10 w-24 h-24 rounded-[40%] rotate-12 opacity-0
                      bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-orange-hover)] 
-                     animate-float-slow dark:opacity-10"></div>
+                     animate-float-slow dark:opacity-25"></div>
       <div className="absolute bottom-40 right-20 w-32 h-32 rounded-[30%] -rotate-6 opacity-0
                      bg-gradient-to-r from-[var(--secondary-teal)] to-[var(--secondary-teal-light)] 
-                     animate-float-medium dark:opacity-15"></div>
+                     animate-float-medium dark:opacity-30"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
@@ -223,7 +223,7 @@ const CourseStats = () => {
                                transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]
                                hover:translate-y-[-6px] hover:scale-[1.03] hover:rotate-[0.5deg]
                                hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[var(--shadow-lg),0_0_20px_rgba(53,115,128,0.2)]
-                               group min-h-[160px] text-center overflow-hidden">
+                               group min-h-[160px] md:min-h-[200px] text-center overflow-hidden">
                   {/* Light mode subtle gradient background */}
                   <div 
                     className="absolute inset-0 rounded-[var(--border-radius-lg)] dot-bg opacity-5 
@@ -241,7 +241,7 @@ const CourseStats = () => {
                   <div 
                     className="absolute inset-0 rounded-[var(--border-radius-lg)] 
                               opacity-0 dark:opacity-100 transition-all duration-500" 
-                    style={{ background: `linear-gradient(135deg, var(--card-bg-navy) 0%, ${item.color}30 100%)` }}
+                    style={{ background: `linear-gradient(135deg, var(--card-bg-navy) 0%, ${item.color}35 100%)` }}
                   ></div>
                   
                   {/* Floating element for light mode */}
@@ -256,7 +256,7 @@ const CourseStats = () => {
                   {/* Floating element for dark mode */}
                   <div 
                     className="absolute -bottom-3 -right-3 w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-[40%] rotate-12 opacity-0 
-                              animate-float-slow dark:opacity-10"
+                              animate-float-slow dark:opacity-25"
                     style={{ 
                       background: `linear-gradient(to bottom right, ${item.color}, ${item.colorHover})`
                     }}
@@ -273,7 +273,7 @@ const CourseStats = () => {
                   <div 
                     className="absolute inset-0 rounded-[var(--border-radius-lg)]
                               opacity-0 dark:group-hover:opacity-100 transition-all duration-500 pointer-events-none"
-                    style={{ boxShadow: `0 0 25px ${item.color}40` }}
+                    style={{ boxShadow: `0 0 30px ${item.color}60` }}
                   ></div>
                   
                   <div className="relative z-10 flex flex-col items-center justify-between h-full">
