@@ -9,133 +9,126 @@ import {
 } from "../../ui/tile";
 import { Section } from "../../ui/section";
 import { Badge } from "../../ui/badge";
-import { Globe, Zap, Database, PieChart, VideoIcon, BarChart } from "lucide-react";
-
-// Import illustrations
-import PipelineIllustration from "../../illustrations/pipeline";
-import MockupMobileIllustration from "../../illustrations/mockup-mobile";
-import TilesIllustration from "../../illustrations/tiles";
-import CodeEditorIllustration from "../../illustrations/code-editor";
-import RadarSmallIllustration from "../../illustrations/radar-small";
-import GlobeIllustration from "../../illustrations/globe";
+import { Globe, Zap, Database, PieChart, VideoIcon, BarChart, Code, Smartphone, Layout, Activity, MessageSquare } from "lucide-react";
 
 export default function VSBentoGrid() {
   return (
     <Section className="py-24 bg-[var(--bg-cream)] dark:bg-[var(--bg-navy)]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <Badge variant="outline" className="bg-[var(--primary-orange)]/5 dark:bg-white/5 text-[var(--primary-orange)] border-[var(--primary-orange)]/30 mb-4 py-2 px-4">
-            Program Resources
+          <Badge variant="outline" className="bg-[var(--primary-orange)]/5 dark:bg-white/5 border-[var(--primary-orange)]/30 mb-4 py-2 px-4">
+            <span style={{ color: 'var(--primary-orange)' }} className="dark:text-white">Program Resources</span>
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: 'var(--text-dark)' }}>
-            <span className="dark:bg-gradient-to-r dark:from-[var(--text-white)] dark:to-[var(--text-white)]/70 dark:bg-clip-text dark:text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: 'var(--text-navy)' }}>
+            <span className="dark:text-white">
               Everything You Need
             </span>
           </h2>
-          <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-dark)', opacity: 0.7 }}>
-            <span className="dark:text-[var(--text-white)]/70">
+          <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-navy)', opacity: 0.7 }}>
+            <span className="dark:text-white/70">
               Vertical Shortcut gives you all the tools, resources, and support to succeed with short-form content.
             </span>
           </p>
         </div>
         
         <div className="grid grid-cols-12 gap-4">
-          {/* Main row with horizontal layout */}
-          <Tile className="col-span-12 md:flex-row">
+          {/* Top row with horizontal layout */}
+          <Tile className="col-span-12 md:flex-row bg-white dark:bg-[var(--card-bg-navy)]">
             <TileLink />
             <TileContent className="grow basis-0 md:justify-end">
               <Zap className="size-8" style={{ color: 'var(--primary-orange)' }} />
-              <TileTitle>Weekly Growth Labs</TileTitle>
+              <TileTitle style={{ color: 'var(--text-navy)' }} className="dark:text-white">Weekly Growth Labs</TileTitle>
               <TileDescription>
-                <p className="max-w-[320px] lg:max-w-[460px]">
+                <p className="max-w-[320px] lg:max-w-[460px] dark:text-white/70" style={{ color: 'var(--text-navy)' }}>
                   Live weekly sessions where we review your content and provide actionable feedback for immediate improvement.
                 </p>
-                <p>Our experts analyze your videos and give you specific steps to increase engagement and reach.</p>
+                <p className="dark:text-white/70" style={{ color: 'var(--text-navy)' }}>Our experts analyze your videos and give you specific steps to increase engagement and reach.</p>
               </TileDescription>
             </TileContent>
             <TileVisual className="min-h-[240px] basis-0 sm:p-4 md:min-h-[320px] md:py-12 lg:min-h-[360px]">
-              <PipelineIllustration />
+              <Database className="w-24 h-24 text-[var(--secondary-teal)] dark:text-[var(--secondary-teal-light)]" />
             </TileVisual>
           </Tile>
           
-          {/* Two column layout */}
-          <Tile className="col-span-12 md:col-span-6 lg:col-span-5">
+          {/* Middle row - two columns */}
+          <Tile className="col-span-12 md:col-span-6 lg:col-span-5 bg-white dark:bg-[var(--card-bg-navy)]">
             <TileLink />
             <TileVisual className="items-center sm:px-4 md:px-8">
-              <TilesIllustration />
+              <MessageSquare className="w-24 h-24 text-[var(--primary-orange)] dark:text-[var(--primary-orange-light)]" />
             </TileVisual>
             <TileContent>
               <PieChart className="size-8" style={{ color: 'var(--secondary-teal)' }} />
-              <TileTitle>Platform Mastery</TileTitle>
+              <TileTitle style={{ color: 'var(--text-navy)' }} className="dark:text-white">Platform Mastery</TileTitle>
               <TileDescription>
-                <p>
+                <p className="dark:text-white/70" style={{ color: 'var(--text-navy)' }}>
                   Deep dives into TikTok, Instagram, YouTube Shorts, and LinkedIn algorithms with platform-specific strategies.
                 </p>
-                <p>Optimize your content for each platform's unique requirements.</p>
               </TileDescription>
             </TileContent>
           </Tile>
           
-          <Tile className="col-span-12 md:col-span-6 lg:col-span-7">
+          <Tile className="col-span-12 md:col-span-6 lg:col-span-7 bg-white dark:bg-[var(--card-bg-navy)]">
             <TileLink />
             <TileVisual className="-mx-32 pt-8">
-              <GlobeIllustration />
+              <Layout className="w-24 h-24 text-[var(--primary-orange)] dark:text-[var(--primary-orange-light)]" />
             </TileVisual>
             <TileContent>
               <Globe className="size-8" style={{ color: 'var(--primary-orange)' }} />
-              <TileTitle>Creator Network</TileTitle>
+              <TileTitle style={{ color: 'var(--text-navy)' }} className="dark:text-white">Creator Network</TileTitle>
               <TileDescription>
-                <p className="max-w-[460px]">
+                <p className="max-w-[460px] dark:text-white/70" style={{ color: 'var(--text-navy)' }}>
                   Connect with 100+ top creators who've built 7+ figure businesses with short-form content.
                 </p>
-                <p>Learn directly from experts who are succeeding right now.</p>
+                <p className="dark:text-white/70" style={{ color: 'var(--text-navy)' }}>Learn directly from experts who are succeeding right now.</p>
               </TileDescription>
             </TileContent>
           </Tile>
           
-          {/* Two column layout */}
-          <Tile className="col-span-12 md:col-span-6 lg:col-span-6">
+          {/* Third row - two columns */}
+          <Tile className="col-span-12 md:col-span-6 lg:col-span-6 bg-white dark:bg-[var(--card-bg-navy)]">
             <TileVisual className="min-h-[240px] sm:p-4 md:min-h-[320px] lg:px-12">
-              <MockupMobileIllustration />
+              <Smartphone className="w-24 h-24 text-[var(--secondary-teal)] dark:text-[var(--secondary-teal-light)]" />
             </TileVisual>
             <TileContent>
               <VideoIcon className="size-8" style={{ color: 'var(--primary-orange-hover)' }} />
-              <TileTitle>Viral Case Studies</TileTitle>
+              <TileTitle style={{ color: 'var(--text-navy)' }} className="dark:text-white">Viral Case Studies</TileTitle>
               <TileDescription>
-                Detailed breakdowns of 45+ videos that reached millions of views across different niches and industries.
+                <p className="dark:text-white/70" style={{ color: 'var(--text-navy)' }}>
+                  Detailed breakdowns of 45+ videos that reached millions of views across different niches and industries.
+                </p>
               </TileDescription>
             </TileContent>
           </Tile>
           
-          <Tile className="col-span-12 md:col-span-6 lg:col-span-6">
+          <Tile className="col-span-12 md:col-span-6 lg:col-span-6 bg-white dark:bg-[var(--card-bg-navy)]">
             <TileLink />
             <TileVisual className="relative min-h-[240px]">
-              <RadarSmallIllustration className="absolute top-1/2 left-1/2 -mt-24 h-[512px] w-[512px] -translate-x-1/2 -translate-y-1/2" />
+              <Activity className="w-24 h-24 text-[var(--accent-coral)] dark:text-[var(--accent-coral-dark)]" />
             </TileVisual>
             <TileContent>
               <BarChart className="size-8" style={{ color: 'var(--accent-coral)' }} />
-              <TileTitle>AI-Powered Tools</TileTitle>
+              <TileTitle style={{ color: 'var(--text-navy)' }} className="dark:text-white">AI-Powered Tools</TileTitle>
               <TileDescription>
-                <p className="max-w-[460px]">
+                <p className="max-w-[460px] dark:text-white/70" style={{ color: 'var(--text-navy)' }}>
                   Exclusive access to our custom AI tools for content research, script generation, and trend prediction.
                 </p>
               </TileDescription>
             </TileContent>
           </Tile>
           
-          {/* Final row */}
-          <Tile className="col-span-12">
-            <TileContent>
+          {/* Bottom row - full width */}
+          <Tile className="col-span-12 md:flex-row bg-white dark:bg-[var(--card-bg-navy)]">
+            <TileContent className="grow basis-0 md:justify-end">
               <Database className="size-8" style={{ color: 'var(--secondary-teal-light)' }} />
-              <TileTitle>Content Library</TileTitle>
+              <TileTitle style={{ color: 'var(--text-navy)' }} className="dark:text-white">Content Library</TileTitle>
               <TileDescription>
-                <p className="max-w-[720px]">
+                <p className="max-w-[720px] dark:text-white/70" style={{ color: 'var(--text-navy)' }}>
                   Over 200+ video templates, swipe files, and script formats for every type of business and creator niche.
                 </p>
               </TileDescription>
             </TileContent>
-            <TileVisual className="min-h-[160px]">
-              <CodeEditorIllustration />
+            <TileVisual className="min-h-[240px] basis-0 sm:p-4 md:min-h-[320px] md:py-12">
+              <Code className="w-24 h-24 text-[var(--secondary-teal)] dark:text-[var(--secondary-teal-light)]" />
             </TileVisual>
           </Tile>
         </div>

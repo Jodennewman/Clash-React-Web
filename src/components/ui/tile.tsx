@@ -8,7 +8,7 @@ function Tile({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="tile"
       className={cn(
-        "glass-1 hover:glass-2 group text-card-foreground relative flex flex-col gap-6 overflow-hidden rounded-xl p-6 shadow-xl transition-all",
+        "group relative flex flex-col gap-6 overflow-hidden rounded-xl p-6 shadow-md transition-all duration-300 hover:translate-y-[-3px] hover:shadow-lg",
         className,
       )}
       {...props}

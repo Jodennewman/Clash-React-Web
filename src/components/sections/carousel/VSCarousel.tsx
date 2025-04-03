@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Section } from "../../ui/section";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../../ui/carousel";
 import { Slide, SlideVisual, SlideButton, SlideContent, SlideDescription, SlideExpandedContent, SlideTitle } from "../../ui/slide";
-//import * as THUMBNAIL from "assets/main/Course_Teaching_images";
 import { 
   featuredModules, 
   getModulesForSection, 
@@ -60,6 +59,25 @@ export default function VSCarousel() {
 
   // Create slides based on featured modules
   const slides = Object.values(moduleToSlideMapping);
+  
+  // Safe access to course stats with defaults
+  const totalModules = courseStats?.totalModules || 0;
+  const totalResources = courseStats?.resources || 0;
+
+  // Function to find module title with proper null checks
+  const findModuleTitle = (moduleId: string): string => {
+    // First try to find in featured modules
+    const featuredModule = featuredModules?.find(m => m.id === moduleId);
+    if (featuredModule?.title) return featuredModule.title;
+    
+    // Then try to find in theory basics section
+    const theoryBasicsModules = getModulesForSection('theory_basics') || [];
+    const basicModule = theoryBasicsModules.find(m => m.id === moduleId);
+    if (basicModule?.title) return basicModule.title;
+    
+    // Default fallback
+    return 'module';
+  };
 
   return (
     <Section id="curriculum" className="w-full overflow-hidden py-24 bg-[#08141B]">
@@ -69,7 +87,7 @@ export default function VSCarousel() {
             Master every aspect of short-form
           </h2>
           <p className="text-md max-w-[720px] text-balance font-medium text-white/70 sm:text-xl">
-            Vertical Shortcut gives you comprehensive mastery over every element that makes short-form content convert, from psychological triggers to monetization strategies. With {courseStats.totalModules}+ modules and {courseStats.resources}+ resources.
+            Vertical Shortcut gives you comprehensive mastery over every element that makes short-form content convert, from psychological triggers to monetization strategies. With {totalModules}+ modules and {totalResources}+ resources.
           </p>
         </div>
         <Carousel
@@ -112,13 +130,13 @@ export default function VSCarousel() {
                     onClick={() => toggleSlide(index)}
                   />
                   <SlideContent isExpanded={expandedSlides[index]}>
-                    <SlideDescription className="text-[#FEA35D]">{slide.tagline}</SlideDescription>
+                    <SlideDescription className="text-[#FEA35D]">{slide.tagline || ''}</SlideDescription>
                     <SlideTitle className="text-balance">
-                      {slide.title}
+                      {slide.title || ''}
                     </SlideTitle>
                   </SlideContent>
                   <SlideExpandedContent isExpanded={expandedSlides[index]}>
-                    {slide.description}
+                    {slide.description || ''}
                     
                     {/* Add related module info if expanded */}
                     {expandedSlides[index] && slide.relatedModule && (
@@ -126,9 +144,7 @@ export default function VSCarousel() {
                         <p className="text-sm text-white/70">
                           Learn this in our 
                           <span className="text-[#FEA35D] font-medium"> {
-                            featuredModules.find(m => m.id === slide.relatedModule)?.title || 
-                            getModulesForSection('theory_basics').find(m => m.id === slide.relatedModule)?.title || 
-                            'related'
+                            findModuleTitle(slide.relatedModule)
                           } </span> 
                           module.
                         </p>

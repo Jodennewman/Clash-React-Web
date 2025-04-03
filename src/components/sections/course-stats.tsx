@@ -74,16 +74,18 @@ const CourseStats = () => {
     (scrollTriggersRef.current as ScrollTrigger[]).forEach(trigger => trigger.kill());
     animationsRef.current = [];
     scrollTriggersRef.current = [];
-    // Simple animation on mount
+    
+    // Enhanced VS Bubbly animation on mount - more pronounced (20% more)
     const initialAnimation = gsap.fromTo(
       statsRef.current ? (statsRef.current as HTMLElement).querySelectorAll('.stat-item') : [],
-      { y: 30, opacity: 0 },
+      { y: 40, opacity: 0, scale: 0.95 }, // More pronounced starting position
       { 
         y: 0, 
-        opacity: 1, 
-        stagger: 0.1, 
-        duration: 0.5, 
-        ease: "power2.out",
+        opacity: 1,
+        scale: 1,
+        stagger: 0.12, // Slightly longer stagger
+        duration: 0.6,  // Slightly longer duration 
+        ease: "back.out(1.2)", // More springy easing
         onComplete: () => {
           // After items appear, animate the counters
           animateCounters();
@@ -146,17 +148,20 @@ const CourseStats = () => {
       (scrollTriggersRef.current as ScrollTrigger[]).forEach(trigger => trigger.kill());
     };
   }, []);
+
   return (
-    <Section className="py-24 bg-[#09232F] border-t border-[#154D59]/30">
+    <Section className="py-24 bg-[var(--bg-cream)] dark:bg-[var(--bg-navy)] border-t border-[var(--text-navy)]/10 dark:border-[var(--text-cream)]/10">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <Badge variant="outline" className="bg-white/5 text-[#FEA35D] border-[#FEA35D]/30 mb-4 py-2 px-4">
-            Program Overview
+          <Badge variant="outline" className="bg-[var(--bg-cream-darker)] dark:bg-[var(--text-cream)]/5 border-[var(--primary-orange)]/30 mb-4 py-2 px-4">
+            <span style={{ color: 'var(--primary-orange)' }} className="dark:text-[var(--primary-orange-light)]">
+              Program Overview
+            </span>
           </Badge>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">By The Numbers</span>
+            <span style={{ color: 'var(--text-navy)' }} className="dark:text-white">By The Numbers</span>
           </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+          <p className="text-xl mb-2 max-w-3xl mx-auto dark:text-white/70" style={{ color: 'var(--text-navy)' }}>
             Vertical Shortcut isn't just another course. It's a comprehensive system built on real-world results and years of testing.
           </p>
         </div>
@@ -169,29 +174,72 @@ const CourseStats = () => {
             
             return (
               <div key={item.key} className="stat-item text-center">
-                <div className="relative bg-black/30 backdrop-blur-sm rounded-lg p-6 border border-white/10 hover:border-white/20 transition-all duration-300 h-full">
-                  {/* Glowing background effect */}
+                <div className="relative bg-white dark:bg-[#09232F] rounded-[var(--border-radius-lg)] p-6 
+                               border border-[rgba(0,0,0,0.05)] dark:border-white/5 
+                               shadow-[var(--shadow-md)] dark:shadow-[var(--shadow-lg)]
+                               transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]
+                               hover:translate-y-[-6px] hover:scale-[1.03] hover:rotate-[0.5deg]
+                               hover:shadow-[var(--shadow-lg)] dark:hover:shadow-[var(--shadow-lg)]
+                               group h-full">
+                  {/* Light mode subtle gradient background */}
                   <div 
-                    className="absolute inset-0 rounded-lg opacity-20 blur-xl" 
-                    style={{ backgroundColor: item.color }}
+                    className="absolute inset-0 rounded-[var(--border-radius-lg)] 
+                              opacity-100 dark:opacity-0 transition-all duration-500" 
+                    style={{ background: `linear-gradient(to bottom, white 30%, ${item.color}15 100%)` }}
+                  ></div>
+                  
+                  {/* Dark mode gradient with enhanced glow */}
+                  <div 
+                    className="absolute inset-0 rounded-[var(--border-radius-lg)] 
+                              opacity-0 dark:opacity-100 transition-all duration-500" 
+                    style={{ background: `linear-gradient(135deg, #09232F 0%, ${item.color}30 100%)` }}
+                  ></div>
+                  
+                  {/* Hover glow effect for dark mode */}
+                  <div 
+                    className="absolute inset-0 rounded-[var(--border-radius-lg)]
+                              opacity-0 dark:group-hover:opacity-100 transition-all duration-500 pointer-events-none"
+                    style={{ boxShadow: `0 0 25px ${item.color}40` }}
                   ></div>
                   
                   <div className="relative z-10 flex flex-col items-center">
+                    {/* Icon with playful springy animation */}
                     <div 
-                      className="w-12 h-12 rounded-full flex items-center justify-center mb-4"
-                      style={{ backgroundColor: item.color }}
+                      className="w-16 h-16 rounded-full flex items-center justify-center mb-4 
+                               transform transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]
+                               group-hover:scale-[1.15] group-hover:translate-y-[-2px]"
+                      style={{ 
+                        background: `linear-gradient(135deg, ${item.color} 0%, ${item.colorHover} 100%)`,
+                        boxShadow: `0 6px 15px ${item.color}40`
+                      }}
                     >
-                      <Icon className="w-6 h-6 text-white" />
+                      <Icon className="w-8 h-8 text-white" />
                     </div>
                     
+                    {/* Value with enhanced scale and glow effect */}
                     <div 
-                      className="stat-counter text-3xl font-bold mb-2" 
-                      style={{ color: item.color }}
+                      className="stat-counter text-3xl font-bold mb-2 
+                               transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]
+                               group-hover:scale-[1.15]" 
+                      style={{ 
+                        color: item.color, 
+                        textShadow: `0 2px 8px ${item.color}30`,
+                      }}
                     >
                       {animationCompleted ? value : '0'}
+                      {/* Subtle animated glow effect on hover */}
+                      <div 
+                        className="absolute inset-0 opacity-0 group-hover:opacity-100 
+                                transition-opacity duration-300 blur-[8px] -z-10"
+                        style={{ background: `${item.color}20`, borderRadius: '8px' }}
+                      ></div>
                     </div>
                     
-                    <div className="text-sm text-white/70">
+                    {/* Label with subtle animation - fixed dark mode implementation */}
+                    <div 
+                      style={{ color: 'var(--text-navy)' }}
+                      className="dark:text-white/70 text-sm font-medium transition-all duration-300 group-hover:translate-y-[2px]"
+                    >
                       {item.label}
                     </div>
                   </div>

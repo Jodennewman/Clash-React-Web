@@ -2,24 +2,26 @@ import React from 'react';
 import { Section } from "../ui/section";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import courseUtils from "../../lib/course-utils";
+import { featuredModules, tracks, getTrackIcon } from "../../lib/course-utils";
 import { ArrowRightCircle, Clock, Users } from "lucide-react";
 
 // Extend the Module interface to include difficulty property
 interface Module {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [x: string]: any;
   id: string;
   title: string;
   subtitle: string;
   icon: React.ReactNode;
   color: string;
   difficulty?: string;
+  tracks: string[];
+  duration: number;
+  founderMustWatch: boolean;
+  submodules: { title: string }[];
 }
 
 const FeaturedModules = () => {
-  // Get the featured modules from our data
-  const featuredModules: Module[] = courseUtils.featuredModules;
+  // Get the featured modules from our data with proper null check
+  const modules: Module[] = featuredModules || [];
 
   return (
     <Section className="py-24 bg-[#08141B]">
@@ -37,57 +39,58 @@ const FeaturedModules = () => {
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {featuredModules.map((module, index) => (
+          {modules.map((module, index) => (
             <div 
               key={index}
               className="bg-[#09232F]/50 backdrop-blur-sm rounded-xl border border-white/10 overflow-hidden hover:border-[#FEA35D]/30 transition-all duration-300 group"
             >
               {/* Module header with color strip based on module color */}
-              <div className="h-2" style={{ backgroundColor: module.color }}></div>
+              <div className="h-2" style={{ backgroundColor: module.color || '#FEA35D' }}></div>
               
               <div className="p-6">
                 <div className="flex items-start justify-between mb-4">
                   <h3 className="text-xl font-bold text-white group-hover:text-[#FEA35D] transition-colors duration-300">
-                    {module.title}
+                    {module.title || 'Module'}
                   </h3>
                   <div className="flex items-center text-sm text-white/70 bg-white/5 px-3 py-1 rounded-full">
                     <Clock className="w-4 h-4 mr-1" />
-                    {module.duration} min
+                    {module.duration || 0} min
                   </div>
                 </div>
                 
                 <p className="text-white/70 mb-6">
-                  {module.subtitle}
+                  {module.subtitle || 'Learn more about this module'}
                 </p>
                 
                 {/* Tracks badges */}
                 <div className="flex flex-wrap gap-2 mb-6">
-                  {module.tracks.map((trackName: string, i: React.Key | null | undefined) => {
-                    const track = courseUtils.tracks.find(t => t.name === trackName);
-                    const TrackIcon = track ? courseUtils.getTrackIcon(track.icon) : Users;
+                  {(module.tracks || []).map((trackName, i) => {
+                    const track = tracks?.find(t => t.name === trackName);
+                    // Use getTrackIcon safely with fallback
+                    const TrackIcon = track?.icon ? getTrackIcon(track.icon) : Users;
                     
                     return track ? (
                       <div 
                         key={i}
                         className="flex items-center text-xs px-3 py-1.5 rounded-full"
-                        style={{ backgroundColor: `${track.color}40` }}
+                        style={{ backgroundColor: `${track.color || '#888'}40` }}
                       >
                         <TrackIcon className="w-3 h-3 mr-1.5" />
-                        <span>{track.name}</span>
+                        <span>{track.name || 'Track'}</span>
                       </div>
                     ) : null;
                   })}
                 </div>
                 
-                {/* Submodules preview */}
-                {module.submodules.length > 0 && (
+                {/* Submodules preview with null check */}
+                {module.submodules && module.submodules.length > 0 && (
                   <div className="bg-black/20 rounded-lg p-4 mb-4">
                     <div className="text-sm font-medium text-white/80 mb-3">Module Includes:</div>
                     <ul className="space-y-2">
-                      {module.submodules?.slice(0, 3).map((submodule: { title: string }, idx: number) => (
+                      {module.submodules.slice(0, 3).map((submodule, idx) => (
                         <li key={idx} className="flex text-sm">
                           <span className="text-[#FEA35D] mr-2">•</span>
-                          <span className="text-white/70">{submodule.title}</span>
+                          <span className="text-white/70">{submodule.title || 'Submodule'}</span>
                         </li>
                       ))}
                       {module.submodules.length > 3 && (

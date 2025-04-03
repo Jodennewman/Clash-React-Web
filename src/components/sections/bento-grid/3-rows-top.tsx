@@ -8,15 +8,6 @@ import {
 } from "../../ui/tile";
 import React from "react";
 import { Section } from "../../ui/section";
-import GlobeIllustration from "../../illustrations/globe";
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import TilesIllustration from "../../illustrations/tiles";
-import ChatIllustration from "../../illustrations/chat";
-import MockupMobileIllustration from "../../illustrations/mockup-mobile";
-import PipelineIllustration from "../../illustrations/pipeline";
-import CodeEditorIllustration from "../../illustrations/code-editor";
-import RadarSmallIllustration from "../../illustrations/radar-small";
 
 export default function BentoGrid() {
   return (
@@ -43,7 +34,7 @@ export default function BentoGrid() {
               </TileDescription>
             </TileContent>
             <TileVisual className="min-h-[300px] py-12">
-              <MockupMobileIllustration />
+              <Smartphone className="w-16 h-16" />
             </TileVisual>
           </Tile>
           <Tile className="col-span-12 md:col-span-6 lg:col-span-7">
@@ -58,7 +49,7 @@ export default function BentoGrid() {
               </TileDescription>
             </TileContent>
             <TileVisual className="min-h-[160px] grow items-center">
-              <PipelineIllustration />
+              <Database className="w-16 h-16" />
             </TileVisual>
           </Tile>
           <Tile className="col-span-12 md:col-span-6 lg:col-span-7">
@@ -73,7 +64,7 @@ export default function BentoGrid() {
               </TileDescription>
             </TileContent>
             <TileVisual className="min-h-[240px] grow items-center p-4 lg:p-12">
-              <CodeEditorIllustration />
+              <Code className="w-16 h-16" />
             </TileVisual>
           </Tile>
           <Tile className="col-span-12 md:col-span-6 lg:col-span-5">
@@ -86,7 +77,7 @@ export default function BentoGrid() {
               </TileDescription>
             </TileContent>
             <TileVisual className="-mb-[96px] sm:-mb-[186px] md:-mx-32">
-              <GlobeIllustration className="[&_svg]:h-[100%] [&_svg]:w-[100%]" />
+              <Globe className="w-12 h-12" />
             </TileVisual>
           </Tile>
           <Tile className="col-span-12 md:col-span-6 lg:col-span-5">
@@ -102,7 +93,7 @@ export default function BentoGrid() {
               </TileDescription>
             </TileContent>
             <TileVisual className="sm:p-4 md:p-8">
-              <ChatIllustration />
+              <MessageSquare className="w-16 h-16" />
             </TileVisual>
           </Tile>
           <Tile className="col-span-12 md:col-span-6 lg:col-span-7">
@@ -118,7 +109,7 @@ export default function BentoGrid() {
               </TileDescription>
             </TileContent>
             <TileVisual className="mt-12 -mb-48">
-              <RadarSmallIllustration className="max-w-[480px]" />
+              <Activity className="w-16 h-16" />
             </TileVisual>
           </Tile>
         </div>

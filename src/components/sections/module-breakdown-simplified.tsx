@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRightCircle, BookOpen, CheckCircle, Star, ChevronLeft, ChevronRight, Camera, Scissors, Briefcase, Rocket, Clock, Award } from 'lucide-react';
-import courseUtils, { Module } from '../../lib/course-utils';
+import { sections, tracks, getSectionDescription, getModulesForSection, Module, courseStats } from '../../lib/course-utils';
 import { Section } from '../../components/ui/section';
 import { Badge } from '../../components/ui/badge';
 
@@ -10,24 +10,25 @@ interface ExtendedModule extends Module {
 }
 
 const ModuleBreakdown = () => {
-  // Initialize with the first section
-  const [activeSection, setActiveSection] = useState(courseUtils.sections[0].id);
+  // Initialize with the first section (with null check)
+  const initialSectionId = sections && sections.length > 0 ? sections[0].id : '';
+  const [activeSection, setActiveSection] = useState(initialSectionId);
   
   // State for pagination
   const [currentPage, setCurrentPage] = useState(0);
   const modulesPerPage = 4; // Show 4 modules per page
   
-  // Get active modules for the selected section
-  const activeModules = courseUtils.getModulesForSection(activeSection) as ExtendedModule[];
+  // Get active modules for the selected section with null check
+  const activeModules: ExtendedModule[] = getModulesForSection(activeSection) || [];
   
-  // Calculate total pages
-  const totalPages = Math.ceil(activeModules.length / modulesPerPage);
+  // Calculate total pages with null check
+  const totalPages = Math.ceil((activeModules?.length || 0) / modulesPerPage);
   
-  // Get current page modules
-  const currentModules = activeModules.slice(
+  // Get current page modules with null check
+  const currentModules = activeModules ? activeModules.slice(
     currentPage * modulesPerPage, 
     (currentPage + 1) * modulesPerPage
-  );
+  ) : [];
   
   // Reset page when section changes
   useEffect(() => {
@@ -36,7 +37,7 @@ const ModuleBreakdown = () => {
   
   // Helper function to get an appropriate icon for each section
   function getSectionIcon(sectionName: string) {
-    switch(sectionName.toLowerCase()) {
+    switch(sectionName?.toLowerCase()) {
       case 'theory basics':
         return BookOpen;
       case 'theory advanced':
@@ -80,8 +81,11 @@ const ModuleBreakdown = () => {
     setCurrentPage(0); // Reset to first page when changing sections
   };
 
-  // Get active section data
-  const activeSectionData = courseUtils.sections.find(s => s.id === activeSection);
+  // Get active section data with null check
+  const activeSectionData = sections?.find(s => s.id === activeSection) || null;
+  
+  // Total modules count with null check
+  const totalModuleCount = courseStats?.totalModules || 0;
 
   return (
     <Section className="py-24 bg-[#08141B]">
@@ -101,8 +105,8 @@ const ModuleBreakdown = () => {
         {/* Section navigation - horizontal scrolling tabs */}
         <div className="flex overflow-x-auto pb-4 mb-8 hide-scrollbar justify-center">
           <div className="flex gap-2 min-w-max">
-            {courseUtils.sections.map((section) => {
-              const Icon = getSectionIcon(section.name);
+            {(sections || []).map((section) => {
+              const Icon = getSectionIcon(section.name || '');
               return (
                 <button
                   key={section.id}
@@ -114,9 +118,9 @@ const ModuleBreakdown = () => {
                   }`}
                 >
                   <Icon size={18} />
-                  <span className="font-medium">{section.name}</span>
+                  <span className="font-medium">{section.name || 'Section'}</span>
                   <span className="ml-1 bg-[#0F1A22] text-gray-300 rounded-full px-2 py-0.5 text-xs font-medium">
-                    {section.modules}
+                    {section.modules || 0}
                   </span>
                 </button>
               );
@@ -129,10 +133,10 @@ const ModuleBreakdown = () => {
           <h3 className="text-2xl font-bold mb-2" style={{ 
             color: activeSectionData?.color || '#FEA35D'
           }}>
-            {activeSectionData?.name}
+            {activeSectionData?.name || 'Section'}
           </h3>
           <p className="text-gray-400">
-            {courseUtils.getSectionDescription(activeSection)}
+            {getSectionDescription(activeSection) || 'Explore the content in this section.'}
           </p>
         </div>
         
@@ -140,13 +144,13 @@ const ModuleBreakdown = () => {
         <div className="mb-8 bg-[#0F1A22] p-4 rounded-lg border border-[#154D59]/30">
           <h4 className="font-semibold mb-3 text-white">Learning Tracks</h4>
           <div className="flex flex-wrap gap-4">
-            {courseUtils.tracks.map((track, idx) => (
+            {(tracks || []).map((track, idx) => (
               <div key={idx} className="flex items-center gap-2">
                 <div 
                   className="w-3 h-3 rounded-full"
-                  style={{ backgroundColor: track.color }}
+                  style={{ backgroundColor: track.color || '#888' }}
                 ></div>
-                <span className="text-sm text-gray-300">{track.name}</span>
+                <span className="text-sm text-gray-300">{track.name || ''}</span>
               </div>
             ))}
           </div>
@@ -161,13 +165,13 @@ const ModuleBreakdown = () => {
                 className="bg-[#0F1A22] p-5 rounded-lg border border-[#154D59]/30 hover:border-[#154D59] transition-all"
               >
                 <div className="flex justify-between items-start mb-3">
-                  <h3 className="font-semibold text-white text-lg">{module.title}</h3>
+                  <h3 className="font-semibold text-white text-lg">{module.title || 'Module'}</h3>
                   <div className="flex items-center gap-1 text-sm bg-[#154D59]/50 text-white rounded-full px-2 py-1">
                     <Clock size={14} />
-                    <span>{module.duration} min</span>
+                    <span>{module.duration || 0} min</span>
                   </div>
                 </div>
-                <p className="text-gray-400 text-sm mb-4">{module.subtitle}</p>
+                <p className="text-gray-400 text-sm mb-4">{module.subtitle || ''}</p>
                 
                 {/* Module points/highlights */}
                 {module.points && module.points.length > 0 && (
@@ -184,8 +188,8 @@ const ModuleBreakdown = () => {
                 )}
                 
                 <div className="flex flex-wrap gap-2">
-                  {module.tracks.map((track, i) => {
-                    const trackData = courseUtils.tracks.find(t => t.name === track);
+                  {(module.tracks || []).map((track, i) => {
+                    const trackData = tracks?.find(t => t.name === track);
                     return (
                       <span 
                         key={i} 
@@ -248,7 +252,7 @@ const ModuleBreakdown = () => {
         <div className="bg-[#0F1A22] border border-[#FEA35D]/30 rounded-lg p-6 mb-8 text-center">
           <h3 className="text-[#FEA35D] text-xl font-bold mb-2">This is just a preview!</h3>
           <p className="text-white/70">
-            The full Vertical Shortcut program contains over 178 modules across 10 categories, with new content added monthly.
+            The full Vertical Shortcut program contains over {totalModuleCount} modules across 10 categories, with new content added monthly.
           </p>
         </div>
         

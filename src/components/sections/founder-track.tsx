@@ -2,16 +2,20 @@ import React from 'react';
 import { Section } from "../ui/section";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import courseUtils from "../../lib/course-utils";
+import { founderModules, tracks, courseStats, getModulesByTrack } from "../../lib/course-utils";
 import { BriefcaseBusiness, Clock, BookOpen, CheckCircle, ArrowRightCircle } from "lucide-react";
 
 const FounderTrack = () => {
-  // Get the founder modules from our data
-  const founderModules = courseUtils.founderModules;
+  // Get the founder modules from our data with null check
+  const modules = founderModules || [];
   
-  // Get the founder track color
-  const founderTrack = courseUtils.tracks.find(track => track.name === "Founders");
+  // Get the founder track color with null check
+  const founderTrack = tracks?.find(track => track.name === "Founders");
   const founderColor = founderTrack?.color || "#FF3B30";
+  
+  // Safe access to stats with null checks
+  const totalModules = courseStats?.totalModules || 0;
+  const founderSpecificModules = getModulesByTrack("Founders")?.length || 0;
 
   return (
     <Section className="py-24 bg-gradient-to-b from-[#08141B] to-[#09232F]">
@@ -78,30 +82,32 @@ const FounderTrack = () => {
               </div>
               
               <div className="space-y-4">
-                {founderModules.map((module, index) => (
+                {modules.map((module, index) => (
                   <div 
                     key={index}
                     className="bg-black/20 rounded-lg p-4 hover:bg-black/30 transition-colors duration-300 group cursor-pointer"
                   >
                     <div className="flex justify-between mb-2">
-                      <h3 className="font-bold text-white group-hover:text-[#FEA35D] transition-colors duration-300">{module.title}</h3>
+                      <h3 className="font-bold text-white group-hover:text-[#FEA35D] transition-colors duration-300">
+                        {module.title || 'Module'}
+                      </h3>
                       <div className="flex items-center text-white/60 text-sm">
                         <Clock className="w-4 h-4 mr-1" />
-                        {module.duration} min
+                        {module.duration || 0} min
                       </div>
                     </div>
                     
-                    <p className="text-white/70 text-sm mb-3">{module.subtitle}</p>
+                    <p className="text-white/70 text-sm mb-3">{module.subtitle || ''}</p>
                     
-                    {/* Submodules preview - just show first 2 */}
-                    <div className="pl-3 border-l-2 mb-3" style={{ borderColor: module.color }}>
-                      {module.submodules.slice(0, 2).map((submodule, idx) => (
+                    {/* Submodules preview - just show first 2 with null check */}
+                    <div className="pl-3 border-l-2 mb-3" style={{ borderColor: module.color || '#FEA35D' }}>
+                      {(module.submodules || []).slice(0, 2).map((submodule, idx) => (
                         <div key={idx} className="mb-2">
-                          <div className="text-sm font-medium text-white/90">{submodule.title}</div>
-                          <div className="text-xs text-white/60">{submodule.subtitle}</div>
+                          <div className="text-sm font-medium text-white/90">{submodule.title || 'Submodule'}</div>
+                          <div className="text-xs text-white/60">{submodule.subtitle || ''}</div>
                         </div>
                       ))}
-                      {module.submodules.length > 2 && (
+                      {module.submodules && module.submodules.length > 2 && (
                         <div className="text-sm text-[#FEA35D] flex items-center">
                           +{module.submodules.length - 2} more sections
                           <ArrowRightCircle className="w-3 h-3 ml-1" />
@@ -109,9 +115,9 @@ const FounderTrack = () => {
                       )}
                     </div>
                     
-                    {/* Resources */}
+                    {/* Resources with null check */}
                     <div className="flex flex-wrap gap-2">
-                      {[...new Set(module.submodules.flatMap(sm => sm.resources))].map((resource, i) => (
+                      {module.submodules && [...new Set((module.submodules || []).flatMap(sm => sm.resources || []))].map((resource, i) => (
                         <span 
                           key={i}
                           className="text-xs bg-white/10 px-2 py-1 rounded-full text-white/70"
@@ -126,7 +132,7 @@ const FounderTrack = () => {
             </div>
             
             <p className="text-white/60 text-sm text-center">
-              Access all {courseUtils.courseStats.totalModules} modules with full program enrollment, including {courseUtils.getModulesByTrack("Founders").length} founder-specific modules.
+              Access all {totalModules} modules with full program enrollment, including {founderSpecificModules} founder-specific modules.
             </p>
           </div>
         </div>

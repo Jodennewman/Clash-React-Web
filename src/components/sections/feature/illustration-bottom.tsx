@@ -1,5 +1,5 @@
 import { Section } from "../../ui/section";
-import RisingIllustration from "../../illustrations/rising-large";
+import { TrendingUp } from "lucide-react";
 
 export default function Feature() {
   return (
@@ -16,7 +16,7 @@ export default function Feature() {
             </p>
           </div>
           <div className="w-full">
-            <RisingIllustration />
+            <TrendingUp className="w-36 h-36" />
           </div>
         </div>
       </div>
