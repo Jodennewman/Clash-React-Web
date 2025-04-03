@@ -8,16 +8,8 @@ import AnimatedButtonsDemo from './components/marble-buttons/AnimatedButtonsDemo
 
 function App() {
   // Load theme toggle script
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = '/js/theme-toggle.js';
-    script.async = true;
-    document.body.appendChild(script);
-    
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+  // Note: Theme is now handled by the dark class on the html element
+  // The theme-toggle.js script and ThemeProvider add this class
   
   return (
     <Router>

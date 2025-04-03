@@ -12,11 +12,11 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
     const [logoAnimationStarted, setLogoAnimationStarted] = useState(false);
     const heroRef = React.useRef<HTMLDivElement>(null);
     
-    // Auto-start content fade-in after a delay rather than waiting for full logo animation
+    // Auto-start content fade-in after a shorter delay for better flow with logo animation
     useEffect(() => {
       const timer = setTimeout(() => {
         setLogoAnimationStarted(true);
-      }, 800); // Start fading in content while logo is still animating
+      }, 600); // Start fading in content earlier while logo is still animating
       
       return () => clearTimeout(timer);
     }, []);

@@ -53,25 +53,41 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({
         clearProps: "scale" // Prevents scaling issues later
       });
 
-      // Ensure all paths start invisible
+      // Ensure all paths start invisible but keep container visible
+      gsap.set(logoRef.current, { autoAlpha: 1 });
+      
+      // Set initial states for all elements that will animate
       gsap.set([
         ".dash-line", 
         ".dashed-path",
-        ".vs-letters path", 
-        ".accent-elements"
+        ".vs-letters path"
       ], { 
         autoAlpha: 0 
+      });
+      
+      // Set accent elements to 0 opacity but with proper scales/transforms
+      gsap.set(".accent-drop", { 
+        autoAlpha: 0,
+        scale: 0.9,
+        transformOrigin: "center center"
+      });
+      
+      gsap.set(".accent-inner", { 
+        autoAlpha: 0,
+        scale: 0.8,
+        transformOrigin: "center center"
       });
 
       // 2. Line animations (starts 0.2s after initialScale begins)
       lineTl
-        // Dashed lines
-        .to(".dashed-path", {
+        // Dashed lines - make all the paths in dashed-path-group visible first
+        .to(".dashed-path-group path", {
           autoAlpha: 1,
           duration: 0.05,
           ease: "none"
         })
-        .fromTo(".dashed-path", {
+        // Then animate them drawing on
+        .fromTo(".dashed-path-group path", {
           drawSVG: "0%"
         }, {
           drawSVG: "100%",
@@ -125,19 +141,37 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({
 
       // 4. Accent elements (fade in while letters are pulsing)
       accentTl
-        .to(".accent-elements", {
+        // First animate the coral drop shape
+        .to(".accent-drop", {
           autoAlpha: 1,
+          scale: 1.1,
           duration: 0.4,
-          stagger: 0.1,
-          ease: "power1.inOut"
-        }, "0.2");
+          ease: "back.out(1.2)"
+        }, "0.2")
+        // Then the inner cream circle with a slight delay and bounce
+        .to(".accent-inner", {
+          autoAlpha: 1,
+          scale: 1.15, 
+          duration: 0.3,
+          ease: "back.out(1.4)"
+        }, "0.35");
+      
+      // Add a little wiggle to the drop at the end
+      accentTl.to(".accent-drop", {
+        rotation: 5,
+        duration: 0.2,
+        yoyo: true,
+        repeat: 1,
+        ease: "power1.inOut",
+        transformOrigin: "center center"
+      }, "0.5");
 
-      // Add all timelines to master timeline with overlaps
+      // Add all timelines to master timeline with increased overlaps for more fluid animation
       masterTl
         .add(initialScaleTl)
-        .add(lineTl, "-=0.3") // Start lines before initial scale completes
-        .add(lettersTl, "-=0.5") // Start letters before lines complete 
-        .add(accentTl, "-=0.5"); // Start accents before letters complete
+        .add(lineTl, "-=0.35") // Start lines sooner (before initial scale completes)
+        .add(lettersTl, "-=0.6") // Start letters earlier (before lines complete)
+        .add(accentTl, "-=0.7"); // Start accents much earlier (while letters are still drawing)
 
     }, logoRef);
 
@@ -191,10 +225,19 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({
         
         {/* Accent elements */}
         <g className="accent-elements">
-          <path d="M285.875 437.104C285.875 428.366 293.235 421.327 302.371 421.327C311.507 421.327 318.867 428.366 318.867 437.104C318.867 450.833 307.87 464.998 302.371 476.113C296.873 466.483 285.875 450.833 285.875 437.104Z" 
-                fill="#DE6B59" style={{ fill: 'var(--accent-coral)' }} />
-          <path d="M294.124 437.763C294.124 433.211 297.803 429.545 302.371 429.545C306.939 429.545 310.619 433.211 310.619 437.763C310.619 442.314 306.939 445.981 302.371 445.981C297.803 445.981 294.124 442.314 294.124 437.763Z" 
-                fill="#FDEBDD" style={{ fill: 'var(--bg-cream)' }} />
+          {/* Accent drop shape (coral) */}
+          <path 
+            className="accent-drop"
+            d="M285.875 437.104C285.875 428.366 293.235 421.327 302.371 421.327C311.507 421.327 318.867 428.366 318.867 437.104C318.867 450.833 307.87 464.998 302.371 476.113C296.873 466.483 285.875 450.833 285.875 437.104Z" 
+            fill="#DE6B59"
+          />
+          
+          {/* Inner circle (cream) */}
+          <path 
+            className="accent-inner"
+            d="M294.124 437.763C294.124 433.211 297.803 429.545 302.371 429.545C306.939 429.545 310.619 433.211 310.619 437.763C310.619 442.314 306.939 445.981 302.371 445.981C297.803 445.981 294.124 442.314 294.124 437.763Z" 
+            fill="#FDEBDD"
+          />
         </g>
       </svg>
     </div>

@@ -10,18 +10,18 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-orange-hover)] hover:from-[var(--primary-orange-light)] hover:to-[var(--primary-orange)] text-white shadow-[var(--shadow-btn)] hover:shadow-lg dark:shadow-[0_4px_12px_rgba(254,163,93,0.2)] dark:hover:shadow-[0_6px_16px_rgba(254,163,93,0.3)]",
+          "bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] hover:from-[--primary-orange-light] hover:to-[--primary-orange] text-white shadow-[--shadow-btn] hover:shadow-lg dark:shadow-[0_4px_12px_rgba(254,163,93,0.2)] dark:hover:shadow-[0_6px_16px_rgba(254,163,93,0.3)]",
         destructive:
-          "bg-gradient-to-r from-[var(--accent-red)] to-[var(--accent-coral)] text-white shadow-[var(--shadow-btn)] hover:shadow-lg hover:from-[var(--accent-coral)] hover:to-[var(--accent-red)]",
+          "bg-gradient-to-r from-[--accent-red] to-[--accent-coral] text-white shadow-[--shadow-btn] hover:shadow-lg hover:from-[--accent-coral] hover:to-[--accent-red]",
         outline:
-          "border border-[var(--secondary-teal)] dark:border-white/20 bg-transparent text-[var(--secondary-teal)] dark:text-white shadow-xs hover:bg-[var(--secondary-teal)]/5 dark:hover:bg-white/5",
+          "border border-[--secondary-teal] dark:border-white/20 bg-transparent text-[--secondary-teal] dark:text-white shadow-xs hover:bg-[--secondary-teal]/5 dark:hover:bg-white/5",
         glow: "bg-white/10 backdrop-blur-sm border border-white/20 shadow-md hover:bg-white/15 hover:border-white/30 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]",
         secondary:
-          "bg-gradient-to-r from-[var(--secondary-teal)] to-[var(--secondary-teal-hover)] hover:from-[var(--secondary-teal-light)] hover:to-[var(--secondary-teal)] text-white shadow-[var(--shadow-btn)] hover:shadow-lg",
+          "bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-hover] hover:from-[--secondary-teal-light] hover:to-[--secondary-teal] text-white shadow-[--shadow-btn] hover:shadow-lg",
         ghost: "hover:bg-white/10 dark:hover:bg-white/5",
-        link: "text-[var(--primary-orange)] dark:text-[var(--primary-orange-light)] hover:text-[var(--primary-orange-hover)] dark:hover:text-[var(--primary-orange)] underline-offset-4 hover:underline",
-        subtle: "bg-[var(--bg-cream-darker)] dark:bg-white/5 text-[var(--text-navy)] dark:text-white/80 hover:bg-[var(--bg-cream-darker)]/80 dark:hover:bg-white/10",
-        vibrant: "bg-gradient-to-r from-[var(--accent-coral)] to-[var(--primary-orange)] text-white shadow-[var(--shadow-btn)] hover:shadow-lg hover:from-[var(--primary-orange)] hover:to-[var(--accent-coral)]",
+        link: "text-[--primary-orange] dark:text-[--primary-orange-light] hover:text-[--primary-orange-hover] dark:hover:text-[--primary-orange] underline-offset-4 hover:underline",
+        subtle: "bg-[--bg-cream-darker] dark:bg-white/5 text-[--text-navy] dark:text-white/80 hover:bg-[--bg-cream-darker]/80 dark:hover:bg-white/10",
+        vibrant: "bg-gradient-to-r from-[--accent-coral] to-[--primary-orange] text-white shadow-[--shadow-btn] hover:shadow-lg hover:from-[--primary-orange] hover:to-[--accent-coral]",
       },
       size: {
         default: "h-10 px-5 py-2.5",

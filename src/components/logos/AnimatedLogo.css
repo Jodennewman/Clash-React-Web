@@ -13,19 +13,19 @@
 }
 
 /* Accent elements */
-.accent-elements path:first-child {
+.accent-drop {
   fill: var(--accent-coral);
 }
 
-.accent-elements path:last-child {
+.accent-inner {
   fill: var(--bg-cream);
 }
 
-:global(.dark) .accent-elements path:first-child {
+:global(.dark) .accent-drop {
   fill: var(--accent-coral-glow);
 }
 
-:global(.dark) .accent-elements path:last-child {
+:global(.dark) .accent-inner {
   fill: white;
 }
 
