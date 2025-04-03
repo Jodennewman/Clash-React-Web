@@ -656,7 +656,8 @@ export const courseStats = {
   workshops: 42,
   pdfs: 89,
   templates: 64,
-  systems: 37
+  systems: 37,
+  bonusResources: 12
 };
 
 // Section descriptions for ModuleBreakdown
@@ -695,6 +696,7 @@ export const getModulesByTrack = (trackName: string): Module[] => {
   
   return allModules.filter(module => module.tracks.includes(trackName));
 };
+
 
 export default {
   tracks,

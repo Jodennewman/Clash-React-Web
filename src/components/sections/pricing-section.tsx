@@ -14,11 +14,14 @@ import ReactDOM from 'react-dom/client';
 import {
   pricingTiers,
   pricingConfig,
-  calculateCourseStats,
   moduleCategories,
   supportFeatures,
-  quizSteps
+  quizSteps,
+  calculateCourseStats
 } from '../../data/pricing';
+
+// Import course information from course-utils for track-related data
+import { tracks, sections } from '../../lib/course-utils';
 
 function formatPrice(price: number): string {
   return new Intl.NumberFormat('en-GB', {
@@ -31,9 +34,15 @@ function formatPrice(price: number): string {
 
 // Module preview component
 const ModulePreview = () => {
-  const stats = calculateCourseStats();
+  // Use category data from pricing module, but pull in stats from course-utils
   const categoryNames = Object.keys(moduleCategories).sort();
   const midpoint = Math.ceil(categoryNames.length / 2);
+  
+  // Access stats from course-utils and pricing stats as needed
+  const stats = calculateCourseStats();
+  const totalModules = stats.totalModules || 0;
+  const totalHours = stats.totalHours || 0;
+  const totalCategories = stats.totalCategories || 0;
 
   return (
     <div className="bg-[#0F1A22] rounded-xl p-6 border border-white/10 mt-8">
@@ -47,7 +56,7 @@ const ModulePreview = () => {
               className="flex justify-between items-center group rounded-lg p-2 hover:bg-white/5"
             >
               <div className="text-white/80">{category}</div>
-              <div className="text-[#FEA35D] text-sm">{moduleCategories[category].length}</div>
+              <div className="text-[#FEA35D] text-sm">{moduleCategories[category]?.length || 0}</div>
             </div>
           ))}
         </div>
@@ -60,7 +69,7 @@ const ModulePreview = () => {
               className="flex justify-between items-center group rounded-lg p-2 hover:bg-white/5"
             >
               <div className="text-white/80">{category}</div>
-              <div className="text-[#FEA35D] text-sm">{moduleCategories[category].length}</div>
+              <div className="text-[#FEA35D] text-sm">{moduleCategories[category]?.length || 0}</div>
             </div>
           ))}
         </div>
@@ -69,17 +78,17 @@ const ModulePreview = () => {
       <div className="mt-8 flex justify-center">
         <div className="bg-[#09232F] px-6 py-3 rounded-lg flex items-center gap-4">
           <div className="text-center">
-            <div className="text-2xl font-bold text-[#FEA35D]">{stats.totalModules}+</div>
+            <div className="text-2xl font-bold text-[#FEA35D]">{totalModules}+</div>
             <div className="text-sm text-white/60">Lessons</div>
           </div>
           <div className="h-10 w-px bg-white/10"></div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-[#FEA35D]">{stats.totalCategories}</div>
+            <div className="text-2xl font-bold text-[#FEA35D]">{totalCategories}</div>
             <div className="text-sm text-white/60">Learning Tracks</div>
           </div>
           <div className="h-10 w-px bg-white/10"></div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-[#FEA35D]">{stats.totalHours}+</div>
+            <div className="text-2xl font-bold text-[#FEA35D]">{totalHours}+</div>
             <div className="text-sm text-white/60">Hours</div>
           </div>
         </div>
@@ -391,7 +400,7 @@ export const PricingSection = () => {
   const [showQuiz, setShowQuiz] = useState(false);
   const [recommendedPlan, setRecommendedPlan] = useState<number | null>(null);
   const [showPricingSection, setShowPricingSection] = useState(true);
-  const courseStats = calculateCourseStats();
+  const pricingStats = calculateCourseStats();
 
   // Price logic
   const calculateDisplayPrice = (tier: number) => {
@@ -456,6 +465,10 @@ export const PricingSection = () => {
     }
   };
 
+  // Get course stats with null checks
+  const totalCategories = tracks?.length || 0;
+  const totalModules = pricingStats.totalModules || 0;
+
   const getTrackAccessContent = (tierIndex: number) => {
     const plan = pricingTiers[tierIndex];
     if (plan.trackAccess === "all") {
@@ -463,9 +476,9 @@ export const PricingSection = () => {
         <div className="text-white/80 mt-2">
           <p>
             <span className="text-white font-semibold">
-              All {courseStats.totalCategories} learning tracks
+              All {totalCategories} learning tracks
             </span>{" "}
-            with {courseStats.totalModules}+ lessons
+            with {totalModules}+ lessons
           </p>
         </div>
       );
@@ -497,17 +510,17 @@ export const PricingSection = () => {
           <div className="mt-8 flex flex-wrap gap-6 justify-center items-center">
             <div className="flex items-center gap-4 bg-[#0F1A22] px-4 py-2 rounded-full">
               <div className="text-center px-3">
-                <div className="text-2xl font-bold text-[#FEA35D]">{courseStats.totalModules}+</div>
+                <div className="text-2xl font-bold text-[#FEA35D]">{pricingStats.totalModules}+</div>
                 <div className="text-xs text-white/60">Lessons</div>
               </div>
               <div className="h-8 w-px bg-white/10"></div>
               <div className="text-center px-3">
-                <div className="text-2xl font-bold text-[#FEA35D]">{courseStats.totalCategories}</div>
+                <div className="text-2xl font-bold text-[#FEA35D]">{pricingStats.totalCategories}</div>
                 <div className="text-xs text-white/60">Tracks</div>
               </div>
               <div className="h-8 w-px bg-white/10"></div>
               <div className="text-center px-3">
-                <div className="text-2xl font-bold text-[#FEA35D]">{courseStats.totalHours}+</div>
+                <div className="text-2xl font-bold text-[#FEA35D]">{pricingStats.totalHours}+</div>
                 <div className="text-xs text-white/60">Hours</div>
               </div>
             </div>
