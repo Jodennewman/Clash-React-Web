@@ -17,15 +17,27 @@ This file guides Claude Code when working with this repository. Follow these ins
 6. Read `THEME_IMPLEMENTATION_SUMMARY.md` completely
 7. If in Team Mode, read `TEAM_STRUCTURE.md` completely
 
-## ⚠️⚠️⚠️ CRITICAL: THEME SYSTEM FILES ⚠️⚠️⚠️
+## ⚠️⚠️⚠️ CRITICAL: PROJECT DOCUMENTATION ⚠️⚠️⚠️
 
-The theme system is defined in three key files that you MUST read to understand our approach:
+### Essential Documentation Files
 
+**Theme System:**
 1. **VS_COLOR_IMPLEMENTATION.md** - Complete color implementation strategy
 2. **THEME_SYSTEM.md** - Quick reference guide for using the theme system
 3. **THEME_IMPLEMENTATION_SUMMARY.md** - Implementation plan and next steps
 
-These files contain the definitive instructions for implementing themes in our codebase.
+**Style Guides:**
+4. **VS_STYLING_GUIDE.md** - Core design system and styling standards
+5. **TAILWIND-V4-DOCS.txt** - Reference for Tailwind v4 specifics
+
+**Team Organization:**
+6. **TEAM_STRUCTURE.md** - Team assignments and top-down/bottom-up approach
+7. **SOLO_MODE.md** - Guidelines for solo development
+
+**Quick Reference:**
+8. **QUICK_COMMANDS.md** - Essential development commands
+
+Refer to these files for comprehensive guidance on implementation standards and team coordination.
 
 ## ⚠️⚠️⚠️ CRITICAL: TAILWIND CSS VARIABLE PATTERNS ⚠️⚠️⚠️
 
@@ -308,6 +320,30 @@ The theme-toggle.js script will automatically handle the icons/text change and l
 
 ## Most Important Rule
 After stating your plan, NEVER deviate from it without permission. It's better to do nothing than to implement something contrary to your stated plan.
+
+## Landing Page Implementation Strategy
+
+We follow a **"Meet in the Middle"** approach for the landing page:
+
+### Team A: Top-Down
+- Starts at the top of the page (navigation, hero section)
+- Works downward through course stats, value proposition
+- Implements top portion of module overviews and bento grid
+
+### Team B: Bottom-Up
+- Starts at the bottom of the page (footer, final CTAs)
+- Works upward through pricing, testimonials, FAQs
+- Implements bottom portion of feature details and bento grid
+
+### Excluded Components
+The Module Viewer component should NOT be modified in the current sprint.
+
+### Implementation Guidelines
+1. Always implement both light and dark mode for every component
+2. Use direct CSS variable references with the pattern `text-[--variable-name]`
+3. Add appropriate floating elements and gradients to each section
+4. Test all changes in both light and dark modes
+5. Include team prefix in all commit messages: `A:` or `B:`
 
 ## Component Example with Complete Implementation
 

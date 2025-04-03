@@ -2,21 +2,40 @@
 
 This document outlines team responsibilities when working on the Vertical Shortcut Landing Page.
 
-## Tailwind v4 Refactoring Team Assignments
+## Landing Page Implementation Plan
 
-### Team A: UI Core & Visitor Experience
-- **Theme System:** ThemeProvider, ModeToggle, theme utility functions
-- **Base Components:** Button, Badge, Logo, Input, Card, Icon components
-- **Layout Components:** Section, Container, VSNavbar, Footer
-- **Animation Core:** AnimationController, GSAP integration, ScrollTrigger
-- **User Interaction:** CourseStats, HeroSection, CTAs, Glow effects
+### Top-Down / Bottom-Up Approach
 
-### Team B: Content & Conversion Elements
-- **Course Elements:** ModuleBreakdownSimplified, FeaturedModules, FounderTrack
-- **Social Content:** SocialProof, TestimonialCarousel, SocialProofItem
-- **Grid Components:** VSBentoGrid, VSCarousel, ContentOverwhelmer
-- **Forms & Conversion:** VerticalShortcutApplicationForm, LeadCaptureForm, PricingSection
-- **Dynamic Content:** courseUtils implementation, data loaders
+We will implement the landing page using a "meet in the middle" strategy:
+
+- **Team A:** Start from the top of the landing page and work downwards
+- **Team B:** Start from the bottom of the landing page and work upwards
+- Both teams will meet in the middle section
+
+### Team A: Top-Down Sections
+- **ThemeProvider & System:** Theme implementation and toggles (COMPLETED)
+- **Navigation:** Navbar, menu, logo, theme toggle
+- **Hero Section:** Main hero with animations, headline, subheadline
+- **Course Stats Section:** Metrics display, animated stats
+- **Value Proposition:** Main benefits section
+- **Feature Highlights:** Key feature overview (top sections)
+- **Module Overview:** High-level course structure
+- **BentoGrid Top:** Top portion of the grid showcase
+
+### Team B: Bottom-Up Sections
+- **Footer:** Complete footer implementation
+- **CTA Sections:** Final call-to-action components
+- **Pricing Section:** All pricing tables and options
+- **Testimonials:** Social proof, testimonial carousels
+- **FAQ Section:** All FAQ components and accordions
+- **Feature Details:** Detailed feature sections (bottom sections)
+- **Module Examples:** Example module displays
+- **BentoGrid Bottom:** Bottom portion of the grid showcase
+
+### Temporary Exclusions
+- **Module Viewer:** Exclude from current implementation sprint
+- **Application Form:** Handle separately in future sprint
+- **Course Editor:** Handle as a separate feature
 
 ## Refactoring Workflow Rules
 
