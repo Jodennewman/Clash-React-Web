@@ -22,7 +22,6 @@ import TabsLeft from './components/sections/tabs/left';
 import SocialProof from './components/sections/social-proof/marquee-2-rows';
 import TestimonialCarousel from './components/ui/testimonial-carousel';
 import LeadCaptureForm from './components/ui/lead-capture-form';
-import HeroLogo from './components/logos/Hero';
 import VerticalShortcutApplicationForm from './components/form/form-shadcn-claude';
 import { CaseStudies } from './components/sections';
 import { Link } from 'react-router-dom';
@@ -32,7 +31,6 @@ import { CourseViewer } from './components/sections/course-viewer';
 // Import VS helper components for correct light/dark mode implementation
 import { VSText, VSHeading, VSGradientText } from './components/ui/vs-text';
 import { VSBackground, VSCard, VSSection } from './components/ui/vs-background';
-import { VSButton, VSIconButton } from './components/ui/vs-button';
 
 // Import only the icons we're using
 import { 
@@ -336,6 +334,7 @@ const VerticalShortcutLanding = () => {
   const testimonialsRef = useRef(null);
   const ctaRef = useRef(null);
   const videoRef = useRef(null);
+  const caseStudiesRef = useRef(null);
 
   // Add state for application modal
   const [showApplicationModal, setShowApplicationModal] = useState(false);
@@ -603,10 +602,24 @@ const VerticalShortcutLanding = () => {
           {/* Stats Section with Social Proof */}
           <VSSection 
             ref={statsRef} 
-            lightBg="bg-[color(display-p3_0.008_0.08_0.106)]"
-            darkBg="dark:bg-[color(display-p3_0.008_0.08_0.106)]"
-            className="py-20 border-t border-[--secondary-teal]/30"
+            lightBg="bg-gradient-to-br from-white to-[--bg-cream]/80"
+            darkBg="dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]"
+            className="py-20 border-t border-[--secondary-teal]/30 relative overflow-hidden"
           >
+            {/* Light mode floating elements */}
+            <div className="absolute top-40 left-[15%] w-32 h-32 rounded-[40%] rotate-12 opacity-5 
+                           bg-[--primary-orange] animate-float-slow hidden md:block dark:hidden"></div>
+            <div className="absolute bottom-60 right-[10%] w-36 h-36 rounded-[30%] -rotate-6 opacity-8 
+                           bg-[--primary-orange-hover] animate-float-medium hidden md:block dark:hidden"></div>
+              
+            {/* Dark mode floating elements */}
+            <div className="absolute top-40 left-[15%] w-32 h-32 rounded-[40%] rotate-12 opacity-10 
+                           bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] 
+                           animate-float-slow hidden md:dark:block"></div>
+            <div className="absolute bottom-60 right-[10%] w-36 h-36 rounded-[30%] -rotate-6 opacity-15
+                           bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-hover] 
+                           animate-float-medium hidden md:dark:block"></div>
+              
             <div className="container mx-auto px-4">
               <div className="mb-12 text-center">
                 <h2 className="text-[--text-navy] dark:text-white text-3xl md:text-4xl font-bold mb-6">
@@ -649,10 +662,24 @@ const VerticalShortcutLanding = () => {
           {/* Core Benefits Section */}
           <VSSection 
             ref={benefitsRef} 
-            lightBg="bg-gradient-to-b from-[color(display-p3_0.008_0.08_0.106)] to-[--deep-blue)]"
-            darkBg="dark:bg-gradient-to-b dark:from-[color(display-p3_0.008_0.08_0.106)] dark:to-[--deep-blue)]"
-            className="benefits-section py-24"
+            lightBg="bg-gradient-to-br from-white to-[--bg-cream]/80"
+            darkBg="dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]"
+            className="benefits-section py-24 relative overflow-hidden"
           >
+            {/* Light mode floating elements */}
+            <div className="absolute top-[15%] right-[10%] w-28 h-28 rounded-[40%] rotate-[-5deg] opacity-5 
+                           bg-[--primary-orange] animate-float-slow hidden md:block dark:hidden"></div>
+            <div className="absolute bottom-[20%] left-[5%] w-32 h-32 rounded-[35%] rotate-12 opacity-8 
+                           bg-[--secondary-teal-light] animate-float-medium hidden md:block dark:hidden"></div>
+              
+            {/* Dark mode floating elements */}
+            <div className="absolute top-[15%] right-[10%] w-28 h-28 rounded-[40%] rotate-[-5deg] opacity-10 
+                           bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] 
+                           animate-float-slow hidden md:dark:block"></div>
+            <div className="absolute bottom-[20%] left-[5%] w-32 h-32 rounded-[35%] rotate-12 opacity-15
+                           bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-hover] 
+                           animate-float-medium hidden md:dark:block"></div>
+              
             <div className="container mx-auto px-4">
               <div className="text-center mb-16">
                 <Badge variant="outline" className="bg-white/5 border-[--primary-orange)]/30 mb-4 py-2 px-4">

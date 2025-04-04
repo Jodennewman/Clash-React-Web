@@ -46,16 +46,16 @@ export function VSButton({
   // Variant-specific classes with proper dark mode support
   const variantClasses = {
     primary: `
-      bg-[--primary-orange] dark:bg-gradient-to-r dark:from-[--primary-orange] dark:to-[--primary-orange-hover]
+      bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover]/90 dark:bg-gradient-to-r dark:from-[--primary-orange] dark:to-[--primary-orange-hover]
       text-white
-      shadow-[--shadow-btn] dark:shadow-[0_0_15px_rgba(254,163,93,0.15)]
-      hover:bg-[--primary-orange-hover] dark:hover:shadow-[0_0_20px_rgba(254,163,93,0.25)]
+      shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_15px_rgba(254,163,93,0.15)]
+      hover:bg-gradient-to-r hover:from-[--primary-orange-hover]/90 hover:to-[--primary-orange] dark:hover:shadow-[0_0_20px_rgba(254,163,93,0.25)]
     `,
     secondary: `
-      bg-[--secondary-teal] dark:bg-gradient-to-r dark:from-[--secondary-teal] dark:to-[--secondary-teal-hover]
+      bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-light] dark:bg-gradient-to-r dark:from-[--secondary-teal] dark:to-[--secondary-teal-hover]
       text-white
-      shadow-[--shadow-btn] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
-      hover:bg-[--secondary-teal-hover] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.25)]
+      shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
+      hover:bg-gradient-to-r hover:from-[--secondary-teal-light] hover:to-[--secondary-teal] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.25)]
     `,
     outline: `
       bg-transparent
@@ -70,8 +70,9 @@ export function VSButton({
       bg-gradient-to-r from-[--accent-coral] to-[--primary-orange]
       dark:bg-gradient-to-r dark:from-[--accent-coral] dark:to-[--primary-orange]
       text-white
-      shadow-[--shadow-btn] dark:shadow-[0_0_15px_rgba(222,107,89,0.15)]
-      hover:shadow-lg dark:hover:shadow-[0_0_20px_rgba(222,107,89,0.25)]
+      shadow-[1px_1px_6px_rgba(222,107,89,0.15)] dark:shadow-[0_0_15px_rgba(222,107,89,0.15)]
+      hover:shadow-[1px_1px_12px_rgba(222,107,89,0.2)] dark:hover:shadow-[0_0_20px_rgba(222,107,89,0.25)]
+      hover:from-[--primary-orange] hover:to-[--accent-coral]
     `
   };
   
