@@ -22,8 +22,8 @@ import TabsLeft from './components/sections/tabs/left';
 import SocialProof from './components/sections/social-proof/marquee-2-rows';
 import TestimonialCarousel from './components/ui/testimonial-carousel';
 import LeadCaptureForm from './components/ui/lead-capture-form';
-import VerticalShortcutApplicationForm from './components/form/form-shadcn-claude';
-import { CaseStudies } from './components/sections';
+import VSApplicationFormModal from './components/form/VSApplicationFormModal';
+import { CaseStudies, VSPainPoints } from './components/sections';
 import { Link } from 'react-router-dom';
 import { AnimatedButton } from './components/marble-buttons/AnimatedButton';
 import { CourseViewer } from './components/sections/course-viewer';
@@ -551,33 +551,11 @@ const VerticalShortcutLanding = () => {
 
   return (
     <AnimationController>
-      {/* Application form modal */}
-      {showApplicationModal && (
-        <div 
-          className="fixed inset-0 z-[9999] bg-black/70 backdrop-blur-sm"
-          onClick={(e) => {
-            // Close modal when clicking the backdrop (outside the modal content)
-            if (e.target === e.currentTarget) {
-              closeApplicationModal();
-            }
-          }}
-        >
-          <div 
-            className="absolute inset-0 overflow-y-auto p-4 flex items-center justify-center"
-            style={{ paddingTop: '2vh', paddingBottom: '2vh' }}
-          >
-            <VSBackground
-              as="div"
-              lightBg="bg-[--deep-blue]"
-              darkBg="dark:bg-[--deep-blue]"
-              className="w-full max-w-5xl rounded-xl" 
-              onClick={(e) => e.stopPropagation()}
-            >
-              <VerticalShortcutApplicationForm onClose={closeApplicationModal} />
-            </VSBackground>
-          </div>
-        </div>
-      )}
+      {/* Enhanced Application Form Modal with Better UX */}
+      <VSApplicationFormModal
+        isOpen={showApplicationModal}
+        onClose={closeApplicationModal}
+      />
     
       {/* Main wrapper for ScrollSmoother */}
       <div id="smooth-wrapper" ref={mainRef} className="min-h-screen overflow-hidden">
@@ -597,7 +575,7 @@ const VerticalShortcutLanding = () => {
           <SimpleHero ref={heroRef} onCtaClick={openApplicationModal} />
 
           {/* Course Viewer - Minimalist HUD Layout */}
-          <CourseViewer />
+          
           
           {/* Stats Section with Social Proof */}
           <VSSection 
@@ -610,39 +588,17 @@ const VerticalShortcutLanding = () => {
             <div className="absolute top-40 left-[15%] w-32 h-32 rounded-[40%] rotate-12 opacity-5 
                            bg-[--primary-orange] animate-float-slow hidden md:block dark:hidden"></div>
             <div className="absolute bottom-60 right-[10%] w-36 h-36 rounded-[30%] -rotate-6 opacity-8 
-                           bg-[--primary-orange-hover] animate-float-medium hidden md:block dark:hidden"></div>
+                           bg-[var(--primary-orange-hover)] animate-float-medium hidden md:block dark:hidden"></div>
               
             {/* Dark mode floating elements */}
             <div className="absolute top-40 left-[15%] w-32 h-32 rounded-[40%] rotate-12 opacity-10 
-                           bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] 
+                           bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-orange-hover)] 
                            animate-float-slow hidden md:dark:block"></div>
             <div className="absolute bottom-60 right-[10%] w-36 h-36 rounded-[30%] -rotate-6 opacity-15
-                           bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-hover] 
+                           bg-gradient-to-r from-[var(--secondary-teal)] to-[var(--secondary-teal-hover)] 
                            animate-float-medium hidden md:dark:block"></div>
               
-            <div className="container mx-auto px-4">
-              <div className="mb-12 text-center">
-                <h2 className="text-[--text-navy] dark:text-white text-3xl md:text-4xl font-bold mb-6">
-                  Course Stats That Speak for Themselves
-                </h2>
-                <p className="text-[--text-navy] dark:text-white/70 text-xl max-w-3xl mx-auto">
-                  Vertical Shortcut isn't just another course. It's the culmination of years creating content that drove real business results.
-                </p>
-              </div>
-              
-              {/* CourseStats component - THIS COMPONENT MAINTAINS ITS OWN STYLING */}
-              {/* It has special styling rules for stats with vibrant colors */}
-              <CourseStats />
-              
-              <div className="text-center mb-10">
-                <Badge variant="outline" className="bg-[--accent-crimson]/10 border-[--primary-orange]/30 py-2 px-4">
-                  <span className="text-[--primary-orange] dark:text-[--primary-orange]">
-                    Don't Just Take Our Word For It
-                  </span>
-                </Badge>
-              </div>
-            </div>
-          </VSSection>
+            
           
           {/* Video Showcase Section with Video Component */}
           {/* 
@@ -655,6 +611,36 @@ const VerticalShortcutLanding = () => {
           
           {/* Case Studies Section - Shows real growth metrics */}
           <CaseStudies />
+
+          <div className="container mx-auto px-4">
+              <div className="mb-12 text-center">
+                <h2 className="text-[var(--text-navy)] dark:text-white text-3xl md:text-4xl font-bold mb-6">
+                  Course Stats That Speak for Themselves
+                </h2>
+                <p className="text-[var(--text-navy)] dark:text-white/70 text-xl max-w-3xl mx-auto">
+                  Vertical Shortcut isn't just another course. It's the culmination of years creating content that drove real business results.
+                </p>
+              </div>
+              
+              {/* CourseStats component - THIS COMPONENT MAINTAINS ITS OWN STYLING */}
+              {/* It has special styling rules for stats with vibrant colors */}
+              
+              
+              <div className="text-center mb-10">
+                <Badge variant="outline" className="bg-[var(--accent-coral)]/10 border-[var(--primary-orange)]/30 py-2 px-4">
+                  <span className="text-[var(--primary-orange)] dark:text-[var(--primary-orange)] font-bold">
+                    Don't Just Take Our Word For It
+                  </span>
+                </Badge>
+              </div>
+            </div>
+          </VSSection>
+          <CourseStats />
+          
+          {/* Pain Points Section - For founders feeling fed up */}
+          <VSPainPoints />
+
+          <CourseViewer />
           
           {/* Bento Grid Section - Managed by the VSBentoGrid component */}
           <VSBentoGrid />
@@ -737,110 +723,14 @@ const VerticalShortcutLanding = () => {
             </div>
           </VSSection>
           
-
-          
-          {/* Learning Tracks Section */}
-          <VSSection 
-            ref={tracksRef} 
-            lightBg="bg-[--bg-navy]" 
-            darkBg="dark:bg-[--bg-navy]"
-            className="py-24 border-t border-[--secondary-teal]/30"
-          >
-            <div className="container mx-auto px-4">
-              <div className="text-center mb-16">
-                <Badge variant="outline" className="bg-white/5 border-[--primary-orange]/30 mb-4 py-2 px-4">
-                  <span className="text-[--primary-orange] dark:text-[--primary-orange]">
-                    Specialized Learning Paths
-                  </span>
-                </Badge>
-                <VSGradientText
-                  variant="h2"
-                  fromColor="white"
-                  toColor="rgba(255,255,255,0.7)"
-                  className="text-4xl md:text-5xl font-bold mb-6"
-                >
-                  Choose Your Path to Mastery
-                </VSGradientText>
-                <VSText color="white" className="text-xl dark:text-white/70 max-w-3xl mx-auto">
-                  Vertical Shortcut adapts to your specific goals, whether you're a founder with limited time or a dedicated creator looking to scale.
-                </VSText>
-              </div>
-              
-              <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                {tracks.map((track, index) => (
-                  <VSCard
-                    key={index} 
-                    className="track-item backdrop-blur-sm p-8 rounded-xl border border-white/10 hover:border-[--primary-orange)]/30"
-                    lightBg="bg-white/5"
-                    darkBg="dark:bg-white/5"
-                  >
-                    <div className="flex items-center gap-4 mb-4">
-                      <div 
-                        className="w-12 h-12 rounded-full flex items-center justify-center"
-                        style={{ backgroundColor: track.color }}
-                      >
-                        {track.icon}
-                      </div>
-                      <VSHeading variant="h3" color="white" className="text-xl">
-                        {track.name}
-                      </VSHeading>
-                    </div>
-                    <VSText color="white" className="dark:text-white/70">
-                      {track.description}
-                    </VSText>
-                  </VSCard>
-                ))}
-              </div>
-            </div>
-          </VSSection>
-          
-          {/* Curriculum Preview Section - Custom Module Breakdown */}
-          <VSSection 
-            lightBg="bg-[--bg-navy-dark)]" 
-            darkBg="dark:bg-[--bg-navy-dark)]"
-            className="py-24"
-          >
-            <div className="container mx-auto px-4">
-              <div className="max-w-6xl mx-auto">
-                {/* Module breakdown component */}
-                <ModuleBreakdownSimplified />
-              </div>
-              
-              <div className="mt-16 text-center">
-                <Alert className="bg-[--secondary-teal)]/50 border-[--primary-orange)] max-w-3xl mx-auto mb-8">
-                  <AlertTitle className="text-lg">
-                    <VSText color="--primary-orange)" className="dark:text-[--primary-orange)]">
-                      This is just a preview!
-                    </VSText>
-                  </AlertTitle>
-                  <AlertDescription>
-                    <VSText color="white" className="dark:text-white/90">
-                      The full Vertical Shortcut program contains over 178 modules across 10 categories, with new content added monthly.
-                    </VSText>
-                  </AlertDescription>
-                </Alert>
-                
-                <AnimatedButton 
-                  text="View Full Curriculum"
-                  variant="learn" 
-                  saturation="normal"
-                  size="lg"
-                  onClick={() => document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="w-auto"
-                />
-              </div>
-            </div>
-          </VSSection>
-          
           {/* Use VSCarousel component */}
           <VSCarousel />
           
-          {/* Add FeaturedModules component */}
-          <FeaturedModules />
           
           {/* Use Cases Section with Tabs */}
           <TabsLeft />
           
+          <FounderTrack />
           {/* ContentOverwhelmer section - with proper animation management */}
           <ContentOverwhelmer />
           
@@ -932,22 +822,10 @@ const VerticalShortcutLanding = () => {
                   </div>
                 ))}
               </div>
-              
-              {/* Testimonial Carousel */}
-              <div className="mt-16 text-center mb-8">
-                <VSHeading variant="h3" color="white" className="text-2xl mb-6">
-                  More Success Stories
-                </VSHeading>
-              </div>
-              
-              <div className="max-w-4xl mx-auto">
-                <TestimonialCarousel testimonials={carouselTestimonials} />
-              </div>
+        
             </div>
           </VSSection>
           
-          {/* Social Proof Marquee */}
-          <SocialProof />
           
           {/* Key Features Section */}
           <VSSection 
@@ -1065,7 +943,7 @@ const VerticalShortcutLanding = () => {
           <FAQUpdated />
           
           {/* Add Founder Track section before the final CTA */}
-          <FounderTrack />
+         
           
           {/* Final CTA Section */}
           <VSSection 

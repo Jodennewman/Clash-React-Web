@@ -83,24 +83,24 @@ export default function VSCarousel() {
   };
 
   return (
-    <Section id="curriculum" className="w-full overflow-hidden py-24 bg-[--bg-navy-gradient] dark:bg-[--bg-navy-gradient]">
+    <Section id="curriculum" className="w-full overflow-hidden py-24 bg-[var(--bg-navy)] dark:bg-[var(--bg-navy-darker)]">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-start gap-6 sm:gap-12 mb-12">
           {/* Accent badge */}
-          <div className="inline-block mb-2 bg-[--primary-orange]/10 backdrop-blur-sm px-4 py-2 rounded-full max-w-max border border-[--primary-orange]/20">
-            <span className="text-[--primary-orange] dark:text-[--primary-orange-light] font-semibold">Comprehensive Curriculum</span>
+          <div className="inline-block mb-2 bg-[var(--primary-orange)]/10 backdrop-blur-sm px-4 py-2 rounded-full max-w-max border border-[var(--primary-orange)]/20">
+            <span className="text-[var(--primary-orange)] dark:text-[var(--primary-orange-light)] font-semibold">Comprehensive Curriculum</span>
           </div>
           
           <h2 className="text-balance text-4xl md:text-5xl font-bold relative group">
-            <span className="text-[--text-cream] dark:text-white">
+            <span className="text-[var(--text-cream)] dark:text-white">
               Master every aspect of <span className="relative inline-block">
                 short-form
-                <span className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-[--primary-orange] to-[--accent-coral] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"></span>
+                <span className="absolute -bottom-1 left-0 w-full h-1 bg-[var(--primary-orange)] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"></span>
               </span>
             </span>
           </h2>
           
-          <p className="text-xl max-w-[720px] text-balance text-[--text-cream]/80 dark:text-white/80">
+          <p className="text-xl max-w-[720px] text-balance text-[var(--text-cream)]/80 dark:text-white/80">
             Vertical Shortcut gives you comprehensive mastery over every element that makes short-form content convert, from psychological triggers to monetization strategies. With {totalModules}+ modules and {totalResources}+ resources.
           </p>
         </div>
@@ -116,7 +116,7 @@ export default function VSCarousel() {
             {slides.map((slide, index) => (
               <CarouselItem key={index} className="flex pl-4 md:basis-1/2 lg:basis-2/5">
                 <Slide
-                  className="grow cursor-pointer bg-[--card-bg-navy] border border-white/10 rounded-xl shadow-lg transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:shadow-xl hover:translate-y-[-6px] hover:scale-[1.02] hover:rotate-[0.5deg] group"
+                  className="grow cursor-pointer bg-[var(--bg-navy)] border border-white/10 rounded-xl shadow-lg transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:shadow-xl hover:translate-y-[-6px] hover:scale-[1.02] hover:rotate-[0.5deg] group"
                   isExpanded={expandedSlides[index]}
                   onClick={() => toggleSlide(index)}
                 >
@@ -137,11 +137,11 @@ export default function VSCarousel() {
                     />
                     {/* Gradient overlay with pulsing animation */}
                     <div
-                      className="absolute inset-0 bg-gradient-to-t from-[--bg-navy]/90 via-transparent to-transparent"
+                      className="absolute inset-0 vs-fade-overlay-dark"
                       aria-hidden="true"
                     />
                     <div
-                      className="absolute inset-0 bg-gradient-radial from-[--primary-orange]/20 to-transparent scale-[2.5] opacity-0 transition-all duration-500 group-hover:opacity-40 animate-pulse"
+                      className="absolute inset-0 bg-[var(--primary-orange)]/20 scale-[2.5] opacity-0 transition-all duration-500 group-hover:opacity-40 animate-pulse"
                       aria-hidden="true"
                     />
                   </SlideVisual>
@@ -149,30 +149,30 @@ export default function VSCarousel() {
                   <SlideButton
                     isExpanded={expandedSlides[index]}
                     onClick={() => toggleSlide(index)}
-                    className="transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-hover:bg-[--primary-orange]"
+                    className="transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-hover:bg-[var(--primary-orange)]"
                   />
                   
                   <SlideContent isExpanded={expandedSlides[index]} className="p-6">
-                    <SlideDescription className="text-[--primary-orange] dark:text-[--primary-orange-light] text-sm font-medium uppercase tracking-wider mb-2">
+                    <SlideDescription className="text-[var(--primary-orange)] dark:text-[var(--primary-orange-light)] text-sm font-medium uppercase tracking-wider mb-2">
                       {slide.tagline || ''}
                     </SlideDescription>
                     
-                    <SlideTitle className="text-balance text-2xl font-bold mb-2 text-[--text-navy] dark:text-white">
+                    <SlideTitle className="text-balance text-2xl font-bold mb-2 text-[var(--text-navy)] dark:text-white">
                       {slide.title || ''}
                     </SlideTitle>
                   </SlideContent>
                   
                   <SlideExpandedContent isExpanded={expandedSlides[index]} className="px-6 pb-6">
-                    <div className="text-[--text-navy]/80 dark:text-white/80">
+                    <div className="text-[var(--text-navy)]/80 dark:text-white/80">
                       {slide.description || ''}
                     </div>
                     
                     {/* Add related module info if expanded */}
                     {expandedSlides[index] && slide.relatedModule && (
-                      <div className="mt-4 pt-4 border-t border-[--text-navy]/10 dark:border-white/10">
-                        <div className="text-sm text-[--text-navy]/70 dark:text-white/70">
+                      <div className="mt-4 pt-4 border-t border-[var(--text-navy)]/10 dark:border-white/10">
+                        <div className="text-sm text-[var(--text-navy)]/70 dark:text-white/70">
                           Learn this in our 
-                          <span className="text-[--primary-orange] dark:text-[--primary-orange-light] font-medium"> {
+                          <span className="text-[var(--primary-orange)] dark:text-[var(--primary-orange-light)] font-medium"> {
                             findModuleTitle(slide.relatedModule)
                           } </span> 
                           module.
@@ -186,8 +186,8 @@ export default function VSCarousel() {
           </CarouselContent>
           
           <div className="mt-12 flex justify-start gap-4">
-            <CarouselPrevious className="static bg-[--primary-orange]/10 border-[--primary-orange]/20 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:bg-[--primary-orange]/20 hover:scale-110 hover:translate-y-[-3px]" />
-            <CarouselNext className="static bg-[--primary-orange]/10 border-[--primary-orange]/20 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:bg-[--primary-orange]/20 hover:scale-110 hover:translate-y-[-3px]" />
+            <CarouselPrevious className="static bg-[var(--primary-orange)]/10 border-[var(--primary-orange)]/20 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:bg-[var(--primary-orange)]/20 hover:scale-110 hover:translate-y-[-3px]" />
+            <CarouselNext className="static bg-[var(--primary-orange)]/10 border-[var(--primary-orange)]/20 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:bg-[var(--primary-orange)]/20 hover:scale-110 hover:translate-y-[-3px]" />
           </div>
         </Carousel>
       </div>

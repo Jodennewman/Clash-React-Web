@@ -537,23 +537,25 @@ export const PricingSection = () => {
                 saturation="subtle"
                 size="md"
                 onClick={() => {
-                  // Import and open the pricing quiz modal
-                  import('./pricing-quiz-modal').then(module => {
-                    const PricingQuizModal = module.PricingQuizModal;
+                  // Import and open the enhanced VS pricing quiz modal
+                  import('./VSPricingQuizModal').then(module => {
+                    const VSPricingQuizModal = module.VSPricingQuizModal;
                     // Create a div to mount the modal
                     const modalContainer = document.createElement('div');
                     document.body.appendChild(modalContainer);
                     
-                    // Render the quiz modal
+                    // Render the enhanced quiz modal
                     const root = ReactDOM.createRoot(modalContainer);
                     root.render(
-                      <PricingQuizModal 
+                      <VSPricingQuizModal 
                         onComplete={(plan) => {
                           // Scroll to the recommended plan
                           document.getElementById(`pricing-tier-${plan}`)?.scrollIntoView({ behavior: 'smooth' });
-                          // Remove the modal
-                          root.unmount();
-                          document.body.removeChild(modalContainer);
+                          // Clean up
+                          setTimeout(() => {
+                            root.unmount();
+                            document.body.removeChild(modalContainer);
+                          }, 500);
                         }} 
                       />
                     );
@@ -711,28 +713,12 @@ export const PricingSection = () => {
             </div>
 
             {/* Module breakdown */}
-            <ModulePreview />
+            
 
             {/* Comparison table */}
             <ComparisonTable />
 
-            {/* Guarantee */}
-            <div className="mt-16 bg-[#0F1A22] rounded-xl p-8 border border-white/10 flex flex-col md:flex-row items-center gap-6">
-              <div className="bg-[#FEA35D]/10 p-6 rounded-full">
-                <Shield className="h-12 w-12 text-[#FEA35D]" />
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">30-Day Money-Back Guarantee</h3>
-                <p className="text-white/70">
-                  Try the course risk-free. If within 30 days you don't feel it's right for you,
-                  we'll refund your investment. We're confident in the quality of our training and
-                  support.
-                </p>
-              </div>
-            </div>
-
-            {/* FAQ */}
-            <PricingFAQ />
+            <ModulePreview />
 
             {/* Final CTA */}
             <div className="mt-16 text-center">

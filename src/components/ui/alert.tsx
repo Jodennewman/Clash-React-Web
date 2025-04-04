@@ -4,13 +4,15 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "../../lib/utils"
 
 const alertVariants = cva(
-  "relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
+  "relative w-full rounded-[--border-radius-md] border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(16px)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
   {
     variants: {
       variant: {
-        default: "bg-background text-foreground",
+        default: "vs-gradient-light dark:vs-gradient-dark border-white/20 dark:border-white/5 text-[--text-navy] dark:text-white shadow-[--shadow-sm] dark:shadow-[0_0_10px_rgba(53,115,128,0.1)]",
         destructive:
-          "text-destructive-foreground [&>svg]:text-current *:data-[slot=alert-description]:text-destructive-foreground/80",
+          "vs-btn-destructive-gradient text-white [&>svg]:text-white *:data-[slot=alert-description]:text-white/80 shadow-[--shadow-sm] dark:shadow-[0_0_10px_rgba(222,107,89,0.15)]",
+        primary: "vs-btn-primary-gradient text-white [&>svg]:text-white *:data-[slot=alert-description]:text-white/80 shadow-[--shadow-sm] dark:shadow-[0_0_10px_rgba(254,163,93,0.15)]",
+        secondary: "vs-btn-secondary-gradient text-white [&>svg]:text-white *:data-[slot=alert-description]:text-white/80 shadow-[--shadow-sm] dark:shadow-[0_0_10px_rgba(53,115,128,0.15)]",
       },
     },
     defaultVariants: {
@@ -39,7 +41,7 @@ function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="alert-title"
       className={cn(
-        "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight",
+        "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight text-[--text-navy] dark:text-white",
         className
       )}
       {...props}
@@ -55,7 +57,7 @@ function AlertDescription({
     <div
       data-slot="alert-description"
       className={cn(
-        "text-muted-foreground col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed",
+        "col-start-2 grid justify-items-start gap-1 text-sm text-[--text-navy]/70 dark:text-white/70 [&_p]:leading-relaxed",
         className
       )}
       {...props}

@@ -49,14 +49,14 @@ const VideoEmbed = ({ videoUrl = "https://www.youtube.com/embed/your-video-id" }
   return (
     <section 
       ref={sectionRef} 
-      className="relative py-24 overflow-hidden bg-gradient-to-br from-white to-[--bg-cream]/80 dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]"
+      className="relative py-24 overflow-hidden bg-[var(--bg-cream-darker)] dark:bg-[var(--bg-navy-darker)]"
     >
       {/* Light mode decorative elements - left side */}
       <div className="absolute left-0 bottom-0 w-1/3 h-full pointer-events-none dark:hidden">
-        <div className="absolute bottom-10 left-10 w-20 h-20 bg-[--primary-orange] opacity-10 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-40 left-20 w-16 h-16 bg-[--primary-orange-light] opacity-8 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-20 left-40 w-24 h-24 bg-[--secondary-teal] opacity-5 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-60 left-8 w-14 h-14 bg-[--accent-coral] opacity-5 rotate-45 rounded-md"></div>
+        <div className="absolute bottom-10 left-10 w-20 h-20 bg-[var(--primary-orange)] opacity-10 rotate-45 rounded-md"></div>
+        <div className="absolute bottom-40 left-20 w-16 h-16 bg-[var(--primary-orange-light)] opacity-8 rotate-45 rounded-md"></div>
+        <div className="absolute bottom-20 left-40 w-24 h-24 bg-[var(--secondary-teal)] opacity-5 rotate-45 rounded-md"></div>
+        <div className="absolute bottom-60 left-8 w-14 h-14 bg-[var(--accent-coral)] opacity-5 rotate-45 rounded-md"></div>
       </div>
       
       {/* Dark mode decorative elements - left side with gradients */}

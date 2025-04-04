@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from "@gsap/react";
 import { Disclosure, Transition } from '@headlessui/react';
 import { ChevronUpIcon } from '@heroicons/react/24/solid';
+import courseUtils from '../lib/course-utils';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -167,7 +168,7 @@ const ModuleCard = ({ title, thumbnail, difficulty, color }: ModuleCardProps) =>
     >
       <div className="relative overflow-hidden">
         <img 
-          src={thumbnail} 
+          src={courseUtils.getThumbnailPath(thumbnail)} 
           alt={title} 
           className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105" 
         />

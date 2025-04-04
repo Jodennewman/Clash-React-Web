@@ -61,6 +61,9 @@ export function ThemeProvider({
     // Apply the theme class
     root.classList.add(newResolvedTheme);
     
+    // IMPORTANT: Also set the data-theme attribute for CSS variables
+    root.setAttribute('data-theme', newResolvedTheme);
+    
     // Dispatch an event for other parts of the app
     window.dispatchEvent(new CustomEvent('theme-change', { 
       detail: { theme: newResolvedTheme }
@@ -79,6 +82,8 @@ export function ThemeProvider({
         setResolvedTheme(newResolvedTheme);
         document.documentElement.classList.remove('light', 'dark');
         document.documentElement.classList.add(newResolvedTheme);
+        // IMPORTANT: Also update the data-theme attribute
+        document.documentElement.setAttribute('data-theme', newResolvedTheme);
       }
     };
     

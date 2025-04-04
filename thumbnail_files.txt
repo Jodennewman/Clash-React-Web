@@ -1,0 +1,46 @@
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/AdvancedMetrics0.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/AlexExplainsmore0.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Basicedits0.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Boulder20.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/data-led0.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Fame-Grilled-S04-E49-HarryThrowsClay-FullCut0.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/FameGrilled0.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Grid0.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Joden React0.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/JodenExplain0.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Monetisation.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Paradox0.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/ProducingAPodcast0.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 1_ The Fundamentals/0101_ Starting An Account.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 1_ The Fundamentals/0102 Understanding The Frame.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 2_ Core Theory/0201thealgorithm.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 2_ Core Theory/0202CardinalSins.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 2_ Core Theory/0203craftingcompellinghooks.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 2_ Core Theory/0204scriptingfundamentals.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 3_ Understanding Platforms/0301helpful formats.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 3_ Understanding Platforms/0302 metrics that matter.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 3_ Understanding Platforms/0303buildingyourcontentstrategy.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 4_ Advanced Theory/0401AdvancedMetrics.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 4_ Advanced Theory/0402complexformats.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 4_ Advanced Theory/0403datalediteration.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 4_ Advanced Theory/0404managingcomments.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 4_ Advanced Theory/0405PR.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 5_ Advanced Scriptwriting/0501 Emotional Positioning.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 5_ Advanced Scriptwriting/0502NuancedHooks.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 5_ Advanced Scriptwriting/0503ScriptingforAuthority.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 5_ Advanced Scriptwriting/0504scriptwastery.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 6_ Technical Mastery/0601ShootingforShortForm.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 6_ Technical Mastery/0603fidelity.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 6_ Technical Mastery/0604ResearchandWriting.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 7_ Creative Efficiency/0701Repurposing.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 7_ Creative Efficiency/0702serialisation.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 8_ Building a Business/0801PostingandScheduling.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 8_ Building a Business/0802buildingyourfunnel.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 8_ Building a Business/0803delegation.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Section 8_ Building a Business/0804monetisation.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/Serialisation0.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/ShootingConfidence.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/ShootingConfidence0.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/TestFootage0.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/TiaExplainng0.webp
+/Users/jodennewman/Documents/Code/REACT/ViteTailwindGsap/ReactWebDev/assets/main/DataBaseThumbnails/TiaSmile0.webp

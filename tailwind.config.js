@@ -1,11 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: 'class',
+  darkMode: ['class', '[data-theme="dark"]'],
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  // Using class-based dark mode approach
   theme: {
     extend: {
       // We'll use CSS variables from @theme directive instead of colors here
@@ -42,6 +41,9 @@ export default {
         'bounce-vs': 'cubic-bezier(0.34, 1.56, 0.64, 1)'
       }
     },
+  },
+  experimental: {
+    variantGrouping: false,
   },
   plugins: [
     // Add custom utilities for HDR support

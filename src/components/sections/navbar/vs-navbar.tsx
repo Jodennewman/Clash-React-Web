@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "../../ui/button";
 import {
   Navbar as NavbarComponent,
@@ -7,21 +7,53 @@ import {
 } from "../../ui/navbar";
 import { Sheet, SheetContent, SheetTrigger } from "../../ui/sheet";
 import { Menu } from "lucide-react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+// Register ScrollToPlugin
+gsap.registerPlugin(ScrollToPlugin);
 
 export default function VSNavbar() {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const navbarRef = useRef(null);
+  
+  // GSAP animation for the navbar
+  useGSAP(() => {
+    const ctx = gsap.context(() => {
+      if (isVisible) {
+        gsap.to(navbarRef.current, {
+          y: 0,
+          opacity: 1,
+          duration: 0.5,
+          ease: "power3.out"
+        });
+      } else {
+        gsap.to(navbarRef.current, {
+          y: -100,
+          opacity: 0,
+          duration: 0.6,
+          ease: "power2.inOut"
+        });
+      }
+    }, navbarRef);
+    
+    return () => ctx.revert();
+  }, [isVisible]);
 
+  // Improved scroll handling
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       
+      // More graceful transition behavior with debounce-like concept
       // Make navbar visible after scrolling down a bit (300px)
       if (currentScrollY > 300) {
-        // Show on scroll up, hide on scroll down
-        if (currentScrollY < lastScrollY) {
+        // Show on scroll up, hide on scroll down - with threshold to prevent jitter
+        if (currentScrollY < lastScrollY - 30) {
           setIsVisible(true);
-        } else {
+        } else if (currentScrollY > lastScrollY + 30) {
           setIsVisible(false);
         }
       } else {
@@ -35,14 +67,29 @@ export default function VSNavbar() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
+  
+  // Smooth scroll function for nav links
+  const handleNavLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string): void => {
+    e.preventDefault();
+    const targetElement = document.getElementById(targetId);
+    
+    if (targetElement) {
+      // Use GSAP for smooth scrolling
+      gsap.to(window, {
+        duration: 1.2,
+        scrollTo: {
+          y: targetElement,
+          offsetY: 100
+        },
+        ease: "power3.inOut"
+      });
+    }
+  };
 
   return (
     <header 
-      className={`fixed top-0 w-full z-50 px-4 md:px-6 py-3 transition-all duration-[--transition-bounce] bg-gradient-to-br from-white to-[--bg-cream] dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] ${
-        isVisible 
-          ? "transform-none" 
-          : "transform -translate-y-full"
-      }`}
+      ref={navbarRef}
+      className="fixed top-0 w-full z-50 px-4 md:px-6 py-3 bg-gradient-to-br from-white to-[--bg-cream] dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]"
     >
       <div className="max-w-[1400px] bg-gradient-to-br from-white to-[--bg-cream] dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] border border-[--bg-cream-darker]/20 dark:border-white/10 relative mx-auto rounded-2xl p-2 py-3 px-4 md:px-6 backdrop-blur-lg shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_20px_rgba(53,115,128,0.15)] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.2)] transition-all duration-[--transition-bounce]">
         <NavbarComponent className="py-1">
@@ -59,10 +106,34 @@ export default function VSNavbar() {
           </NavbarLeft>
           
           <nav className="hidden md:flex ml-8 gap-8">
-            <a href="#benefits" className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]">Benefits</a>
-            <a href="#curriculum" className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]">Curriculum</a>
-            <a href="#testimonials" className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]">Success Stories</a>
-            <a href="#pricing" className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]">Pricing</a>
+            <a 
+              href="#benefits" 
+              className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]"
+              onClick={(e) => handleNavLinkClick(e, "benefits")}
+            >
+              Benefits
+            </a>
+            <a 
+              href="#curriculum" 
+              className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]"
+              onClick={(e) => handleNavLinkClick(e, "curriculum")}
+            >
+              Curriculum
+            </a>
+            <a 
+              href="#testimonials" 
+              className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]"
+              onClick={(e) => handleNavLinkClick(e, "testimonials")}
+            >
+              Success Stories
+            </a>
+            <a 
+              href="#pricing" 
+              className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]"
+              onClick={(e) => handleNavLinkClick(e, "pricing")}
+            >
+              Pricing
+            </a>
           </nav>
           
           <NavbarRight>
@@ -72,7 +143,21 @@ export default function VSNavbar() {
             <Button 
               variant="default" 
               className="bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] hover:from-[--primary-orange-light] hover:to-[--primary-orange] dark:bg-gradient-to-r dark:from-[--primary-orange] dark:to-[--primary-orange-hover] dark:hover:from-[--primary-orange-light] dark:hover:to-[--primary-orange] text-white px-5 py-2 shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(254,163,93,0.2)] transition-all duration-[--transition-bounce] hover:translate-y-[-4px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]"
-              onClick={() => window.location.href = '/application-form'}
+              onClick={() => {
+                const applicationForm = document.getElementById("application-form");
+                if (applicationForm) {
+                  gsap.to(window, {
+                    duration: 1.2,
+                    scrollTo: {
+                      y: applicationForm,
+                      offsetY: 80
+                    },
+                    ease: "power3.inOut"
+                  });
+                } else {
+                  window.location.href = '/application-form';
+                }
+              }}
             >
               Apply Now
             </Button>
@@ -103,30 +188,85 @@ export default function VSNavbar() {
                   <a
                     href="#benefits"
                     className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white transition-all duration-[--transition-bounce] hover:translate-x-[4px]"
+                    onClick={(e) => {
+                      handleNavLinkClick(e, "benefits");
+                      const sheet = document.querySelector('[data-state="open"]');
+                      if (sheet) {
+                        const closeButton = sheet.querySelector('button[aria-label="Close"]');
+                        if (closeButton && closeButton instanceof HTMLElement) closeButton.click();
+                      }
+                    }}
                   >
                     Benefits
                   </a>
                   <a
                     href="#curriculum"
                     className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white transition-all duration-[--transition-bounce] hover:translate-x-[4px]"
+                    onClick={(e) => {
+                      handleNavLinkClick(e, "curriculum");
+                      const sheet = document.querySelector('[data-state="open"]');
+                      if (sheet) {
+                        const closeButton = sheet.querySelector('button[aria-label="Close"]');
+                        if (closeButton && closeButton instanceof HTMLElement) closeButton.click();
+                      }
+                    }}
                   >
                     Curriculum
                   </a>
                   <a
                     href="#testimonials"
                     className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white transition-all duration-[--transition-bounce] hover:translate-x-[4px]"
+                    onClick={(e) => {
+                      handleNavLinkClick(e, "testimonials");
+                      const sheet = document.querySelector('[data-state="open"]');
+                      if (sheet) {
+                        const closeButton = sheet.querySelector('button[aria-label="Close"]');
+                        if (closeButton && closeButton instanceof HTMLElement) closeButton.click();
+                      }
+                    }}
                   >
                     Success Stories
                   </a>
                   <a
                     href="#pricing"
                     className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white transition-all duration-[--transition-bounce] hover:translate-x-[4px]"
+                    onClick={(e) => {
+                      handleNavLinkClick(e, "pricing");
+                      const sheet = document.querySelector('[data-state="open"]');
+                      if (sheet) {
+                        const closeButton = sheet.querySelector('button[aria-label="Close"]');
+                        if (closeButton && closeButton instanceof HTMLElement) closeButton.click();
+                      }
+                    }}
                   >
                     Pricing
                   </a>
                   <Button 
                     className="mt-4 bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] hover:from-[--primary-orange-light] hover:to-[--primary-orange] dark:bg-gradient-to-r dark:from-[--primary-orange] dark:to-[--primary-orange-hover] dark:hover:from-[--primary-orange-light] dark:hover:to-[--primary-orange] text-white shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(254,163,93,0.2)] transition-all duration-[--transition-bounce] hover:translate-y-[-4px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]"
-                    onClick={() => window.location.href = '/application-form'}
+                    onClick={() => {
+                      const applicationForm = document.getElementById("application-form");
+                      const sheet = document.querySelector('[data-state="open"]');
+                      
+                      if (sheet) {
+                        const closeButton = sheet.querySelector('button[aria-label="Close"]');
+                        if (closeButton && closeButton instanceof HTMLElement) closeButton.click();
+                      }
+                      
+                      if (applicationForm) {
+                        setTimeout(() => {
+                          gsap.to(window, {
+                            duration: 1.2,
+                            scrollTo: {
+                              y: applicationForm,
+                              offsetY: 80
+                            },
+                            ease: "power3.inOut"
+                          });
+                        }, 300);
+                      } else {
+                        window.location.href = '/application-form';
+                      }
+                    }}
                   >
                     Apply Now
                   </Button>

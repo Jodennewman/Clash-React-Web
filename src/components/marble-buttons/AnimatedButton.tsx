@@ -206,7 +206,7 @@ export const AnimatedButton: React.FC<AnimatedButtonProps> = ({
         backgroundPosition: '20% 10%'
       },
       { 
-        transform: `translate(-8%, 8%) scale(1.2) rotate(-${params.rotate})`,
+        transform: `translate(-8%, 8%) scale(1.2) rotate(${params.rotate.startsWith('-') ? params.rotate : `-${params.rotate}`})`,
         backgroundPosition: '5% 15%'
       },
       { 

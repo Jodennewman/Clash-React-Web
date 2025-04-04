@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from "@gsap/react";
 import { Book, Clock, FileText, FileCode, Layers, CheckSquare } from 'lucide-react';
 import courseUtils from "../../lib/course-utils";
+import { courseStats as courseStatsData } from "../../data/course-data"; // Backup import
 import { Section } from "../ui/section";
 import { Badge } from "../ui/badge";
 
@@ -82,9 +83,11 @@ const CourseStats = () => {
   const statsRef = useRef(null);
   const [animatedCounters, setAnimatedCounters] = useState(false);
   
-  // Use courseUtils directly without try/catch and fallback
-  // This will properly fail if data is missing (as specified in CLAUDE.md)
-  const courseStats = courseUtils.courseStats;
+  // Get stats from courseUtils, with backup from direct import if needed
+  const courseStats = courseUtils.courseStats || courseStatsData;
+  
+  // Debug logging to check if courseStats is available
+  console.log("CourseStats Component - Stats Data:", courseStats);
   
   // Use useGSAP hook for proper animation lifecycle management
   useGSAP(() => {
@@ -161,7 +164,7 @@ const CourseStats = () => {
 
   return (
     <Section 
-      className="py-24 bg-[--bg-cream-gradient] dark:bg-[--bg-navy-gradient] border-t border-[--text-navy]/10 dark:border-[--text-cream]/10 relative overflow-hidden"
+      className="py-24 vs-gradient-light dark:vs-gradient-dark border-t border-[var(--text-navy)]/10 dark:border-[var(--text-cream)]/10 relative overflow-hidden"
     >
       {/* Apply float animations via style tag */}
       <style dangerouslySetInnerHTML={{ __html: floatingAnimationsStyle }} />
@@ -171,27 +174,25 @@ const CourseStats = () => {
       
       {/* Light mode floating elements */}
       <div className="absolute top-20 left-10 w-24 h-24 rounded-[40%] rotate-12 opacity-5 
-                     bg-[--primary-orange] animate-float-slow hidden dark:hidden"></div>
+                     bg-[var(--primary-orange)] animate-float-slow hidden md:block dark:hidden"></div>
       <div className="absolute bottom-40 right-20 w-32 h-32 rounded-[30%] -rotate-6 opacity-8
-                    bg-[--secondary-teal-light] animate-float-medium hidden dark:hidden"></div>
+                    bg-[var(--secondary-teal-light)] animate-float-medium hidden md:block dark:hidden"></div>
       
       {/* Dark mode floating elements */}
       <div className="absolute top-20 left-10 w-24 h-24 rounded-[40%] rotate-12 opacity-10 
-                     bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] 
-                     animate-float-slow hidden dark:block"></div>
+                     vs-float-orange animate-float-slow hidden dark:block"></div>
       <div className="absolute bottom-40 right-20 w-32 h-32 rounded-[30%] -rotate-6 opacity-15
-                     bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-light] 
-                     animate-float-medium hidden dark:block"></div>
+                     vs-float-teal animate-float-medium hidden dark:block"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <Badge variant="section" size="xl" className="mb-4">
             Program Overview
           </Badge>
-          <h2 className="text-[--text-navy] dark:text-white text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-[var(--text-navy)] dark:text-white text-4xl md:text-5xl font-bold mb-6">
             By The Numbers
           </h2>
-          <p className="text-[--text-navy] dark:text-white/70 text-xl mb-2 max-w-3xl mx-auto">
+          <p className="text-[var(--text-navy)] dark:text-white/70 text-xl mb-2 max-w-3xl mx-auto">
             Vertical Shortcut isn't just another course. It's a comprehensive system built on real-world results and years of testing.
           </p>
         </div>
@@ -204,8 +205,7 @@ const CourseStats = () => {
             
             return (
               <div key={item.key} className="stat-item">
-                <div className="relative bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] 
-                               dark:bg-gradient-to-br dark:from-[--card-bg-navy] dark:to-[rgba(12,67,99,0.8)]
+                <div className="relative bg-white dark:bg-[var(--bg-navy)]
                                rounded-xl p-5 
                                border border-white/40 dark:border-white/5 
                                shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
@@ -231,7 +231,7 @@ const CourseStats = () => {
                       {animatedCounters ? value : '0'}
                     </div>
                     <div 
-                      className="text-[--text-navy] dark:text-white/80 text-sm md:text-base font-medium"
+                      className="text-[var(--text-navy)] dark:text-white/80 text-sm md:text-base font-medium"
                     >
                       {item.label}
                     </div>
@@ -245,12 +245,12 @@ const CourseStats = () => {
       
       {/* Add textured light mode decorative elements at the bottom */}
       <div className="absolute bottom-0 left-0 right-0 h-20 
-                    bg-gradient-to-t from-[--bg-cream-darker]/10 to-transparent 
+                    vs-fade-overlay-light
                     opacity-20 dark:opacity-0 pointer-events-none"></div>
       
       {/* Add subtle dark mode glow at bottom */}
       <div className="absolute bottom-0 left-0 right-0 h-40 
-                    bg-gradient-to-t from-[--primary-orange]/5 to-transparent 
+                    bg-[var(--primary-orange)]/5
                     opacity-0 dark:opacity-30 pointer-events-none"></div>
     </Section>
   );

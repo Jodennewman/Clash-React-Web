@@ -38,10 +38,10 @@
     --accent-red-rgb: 185, 34, 52;
     
     /* Text colors */
-    --text-navy: oklch(30% 0.03 230);
-    --text-navy-rgb: 18, 46, 59;
-    --text-cream: oklch(96% 0.01 90);
-    --text-cream-rgb: 255, 245, 233;
+    --text-dark: oklch(30% 0.03 230);
+    --text-dark-rgb: 18, 46, 59;
+    --text-white: oklch(96% 0.01 90);
+    --text-white-rgb: 255, 245, 233;
     
     /* Dark mode colors */
     --bg-navy: oklch(16% 0.03 235);
@@ -52,8 +52,8 @@
     /* Card colors */
     --card-bg-light: oklch(93% 0.04 65);
     --card-bg-light-rgb: 255, 237, 224;
-    --card-bg-navy: oklch(31% 0.05 227);
-    --card-bg-navy-rgb: 12, 67, 99;
+    --card-bg-dark: oklch(31% 0.05 227);
+    --card-bg-dark-rgb: 12, 67, 99;
     
     /* UI Element colors */
     --ui-peach-light: oklch(83% 0.07 60);
@@ -102,7 +102,7 @@
   html {
     font-family: var(--font-sans);
     background-color: var(--bg-cream);
-    color: var(--text-navy);
+    color: var(--text-dark);
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -113,7 +113,7 @@
     padding: 0;
     font-family: var(--font-sans);
     background: var(--bg-cream-gradient);
-    color: var(--text-navy);
+    color: var(--text-dark);
     min-height: 100vh;
     line-height: 1.5;
   }
@@ -123,7 +123,7 @@
     margin: 0 0 1rem;
     font-weight: 500;
     line-height: 1.2;
-    color: var(--text-navy);
+    color: var(--text-dark);
   }
 
   h1 {
@@ -193,8 +193,8 @@
     color: var(--secondary-teal);
   }
 
-  .text-cream {
-    color: var(--text-cream);
+  .text-white {
+    color: var(--text-white);
   }
 
   /* Container and layout */
@@ -306,7 +306,7 @@
   .nav-logo {
     font-size: 1.5rem;
     font-weight: 500;
-    color: var(--text-navy);
+    color: var(--text-dark);
     text-decoration: none;
   }
 
@@ -316,7 +316,7 @@
   }
 
   .nav-link {
-    color: var(--text-navy);
+    color: var(--text-dark);
     text-decoration: none;
     font-weight: 400;
     transition: color var(--transition-fast);
@@ -434,7 +434,7 @@
   .stats-badge-label {
     font-size: 0.9rem;
     font-weight: 300;
-    color: var(--text-navy);
+    color: var(--text-dark);
   }
 
   /* Pro tip component */
@@ -516,7 +516,7 @@
   .table th {
     background-color: rgba(53, 115, 128, 0.05);
     font-weight: 500;
-    color: var(--text-navy);
+    color: var(--text-dark);
   }
 
   .table tr:last-child td {
@@ -534,8 +534,8 @@
     --bg-navy-gradient-rgb: linear-gradient(135deg, rgb(10, 40, 55) 0%, rgb(5, 25, 35) 100%);
     
     /* Card background with subtle gradient */
-    --card-bg-navy: linear-gradient(145deg, oklch(28% 0.05 227) 0%, oklch(22% 0.05 225) 100%);
-    --card-bg-navy-rgb: linear-gradient(145deg, rgb(12, 67, 99) 0%, rgb(9, 48, 69) 100%);
+    --card-bg-dark: linear-gradient(145deg, oklch(28% 0.05 227) 0%, oklch(22% 0.05 225) 100%);
+    --card-bg-dark-rgb: linear-gradient(145deg, rgb(12, 67, 99) 0%, rgb(9, 48, 69) 100%);
     
     /* Module backgrounds with gradients */
     --module-bg-gradient: linear-gradient(120deg, oklch(25% 0.05 225) 0%, oklch(20% 0.04 230) 100%);
@@ -558,10 +558,10 @@
 
   /* Card styles */
   .dark .card {
-    background: var(--card-bg-navy);
+    background: var(--card-bg-dark);
     box-shadow: var(--shadow-md), var(--glow-blue);
     border: 1px solid rgba(255, 255, 255, 0.03);
-    color: var(--text-cream);
+    color: var(--text-white);
   }
   
   .dark .card:hover {
@@ -622,8 +622,8 @@
   }
   
   .dark .btn-ghost {
-    border-color: var(--text-cream);
-    color: var(--text-cream);
+    border-color: var(--text-white);
+    color: var(--text-white);
   }
   
   .dark .btn-ghost:hover {
@@ -640,7 +640,7 @@
     background: linear-gradient(135deg, oklch(20% 0.04 235) 0%, oklch(25% 0.05 230) 100%);
     border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: var(--shadow-sm);
-    color: var(--text-cream);
+    color: var(--text-white);
   }
   
   .dark .stats-badge-number {
@@ -704,7 +704,7 @@
   /* Table styles */
   .dark .table th {
     background-color: rgba(255, 245, 233, 0.05);
-    color: var(--text-cream);
+    color: var(--text-white);
   }
   
   .dark .table th,
@@ -776,7 +776,7 @@
   .bg-secondary { background-color: var(--secondary-teal); }
   .bg-accent { background-color: var(--accent-coral); }
   .bg-white { background-color: white; }
-  .bg-navy { background-color: var(--text-navy); }
+  .bg-dark { background-color: var(--text-dark); }
 
   /* Text sizes */
   .text-xs { font-size: 0.75rem; }

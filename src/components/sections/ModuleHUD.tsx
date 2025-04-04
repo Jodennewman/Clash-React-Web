@@ -61,7 +61,7 @@ const getModulesForSection = (sectionId: string): ModuleItem[] => {
   return [];
 };
 
-export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection }) => {
+const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
   const moduleRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
@@ -269,7 +269,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection }) => {
   };
   
   // Fixed callback for ref
-  const setModuleRef = (id: string) => (el: HTMLDivElement | null) => {
+  const setModuleRef = (el: HTMLDivElement | null, id: string) => {
     moduleRefs.current[id] = el;
   };
   
@@ -344,3 +344,6 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection }) => {
     </div>
   );
 };
+
+// Export the component as default
+export default ModuleHUD;

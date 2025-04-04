@@ -610,4 +610,22 @@ Use these utility classes for common styling patterns:
 </button>
 ```
 
-- search codebase by 'var(' to more quickly find old variables
+- search codebase by 'var(' to more quickly find old variables## Current Priority Issues
+1. Fix course-stats.tsx component styling with preserved vibrant colors
+2. Fix components that don't switch properly between light/dark mode
+3. Convert remaining hardcoded hex values to CSS variables
+
+## ⚠️⚠️⚠️ CRITICAL: AVOID TAILWIND GRADIENT SYNTAX ⚠️⚠️⚠️
+
+**Tailwind gradient syntax (bg-gradient-to-*) is NOT WORKING properly in this project**
+
+- Do NOT use `bg-gradient-to-b`, `bg-gradient-to-r`, etc. as these break components
+- Instead, create and use explicit CSS classes for gradients with proper naming
+- The gradient syntax destroys component rendering, especially with transparency
+- Prefer solid colors with direct CSS variable references: `bg-[var(--bg-cream)]`
+4. **CRITICAL MISSION: Fix Color Variable Syntax Throughout Codebase**
+   - Change all instances of `text-[--color-var]` to `text-[var(--color-var)]`
+   - Replace all `bg-[--color-var]/80` with solid backgrounds `bg-[var(--color-var)]`
+   - Ensure all dark mode floating elements have `dark:block` class
+   - Make accent text (red, orange) `font-bold` for better visibility
+   - Fix all GSAP animations that use `autoAlpha: 0` to prevent invisible elements

@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ModuleHUD } from './ModuleHUD';
+import ModuleHUD from './ModuleHUD.tsx';
 import { Badge } from '../ui/badge';
 import { VSSection } from '../ui/vs-background';
 import { VSGradientText, VSHeading } from '../ui/vs-text';
+import courseUtils from '../../lib/course-utils';
 
 interface ModuleDetails {
   id: string;
@@ -268,7 +269,7 @@ export const CourseViewer: React.FC = () => {
               <div className="w-full md:w-1/3">
                 <div className="aspect-video rounded-[--border-radius-md] overflow-hidden mb-4 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]">
                   <img 
-                    src={selectedModule.thumbnail} 
+                    src={courseUtils.getThumbnailPath(selectedModule.thumbnail)} 
                     alt={selectedModule.title}
                     className="w-full h-full object-cover"
                   />
