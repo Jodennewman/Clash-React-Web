@@ -88,7 +88,7 @@ const VideoEmbed = ({ videoUrl = "https://www.youtube.com/embed/your-video-id" }
         {/* Video container with curved border radius using CSS variables for consistent styling */}
         <div 
           ref={videoContainerRef} 
-          className="relative mx-auto max-w-5xl overflow-hidden rounded-[--border-radius-lg] bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] dark:bg-black shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_20px_rgba(0,0,0,0.3)]"
+          className="relative mx-auto max-w-5xl overflow-hidden rounded-xl bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] dark:bg-black shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_20px_rgba(0,0,0,0.3)]"
         >
           {/* Video aspect ratio container */}
           <div className="aspect-[16/9] relative">

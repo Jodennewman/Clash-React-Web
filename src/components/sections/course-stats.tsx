@@ -116,8 +116,17 @@ const CourseStats = () => {
       if (!statsRef.current) return;
       
       const counterElements = document.querySelectorAll('.stat-counter');
+      
+      if (!counterElements || counterElements.length === 0) return;
+      
       counterElements.forEach((element: Element, index: number) => {
+        // Make sure index is valid and statItems[index] exists
+        if (index >= statItems.length || !statItems[index]) return;
+        
         const key = statItems[index].key;
+        // Make sure courseStats and key exist
+        if (!courseStats || !key || !(key in courseStats)) return;
+        
         const value = courseStats[key as keyof typeof courseStats] || 0;
         
         // Set initial value
@@ -131,7 +140,9 @@ const CourseStats = () => {
           roundProps: "innerText",
           onUpdate: function() {
             const el = element as HTMLElement;
-            const currentValue = parseInt(el.innerText, 10);
+            if (!el) return; // Safety check
+            
+            const currentValue = parseInt(el.innerText || '0', 10);
             
             // Format with commas
             el.innerText = currentValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -195,7 +206,7 @@ const CourseStats = () => {
               <div key={item.key} className="stat-item">
                 <div className="relative bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] 
                                dark:bg-gradient-to-br dark:from-[--card-bg-navy] dark:to-[rgba(12,67,99,0.8)]
-                               rounded-[--border-radius-lg] p-5 
+                               rounded-xl p-5 
                                border border-white/40 dark:border-white/5 
                                shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
                                dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]

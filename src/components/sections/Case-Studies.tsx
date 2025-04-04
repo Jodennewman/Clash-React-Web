@@ -14,7 +14,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Section } from "../ui/section";
 import { Badge } from "../ui/badge";
-import { Sun, Moon } from "lucide-react";
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -244,7 +243,7 @@ const creators = [
   },
 ];
 
-const CaseStudies = () => {
+const CaseStudies = React.forwardRef((props, ref) => {
   const sectionRef = useRef(null);
   const chartRef = useRef(null);
   const [activeCreator, setActiveCreator] = useState(0);
@@ -255,7 +254,7 @@ const CaseStudies = () => {
   const currentCreator = creators[activeCreator];
 
   // Format numbers with comma separators
-  const formatNumber = (num) => {
+  const formatNumber = (num: number) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
@@ -338,7 +337,7 @@ const CaseStudies = () => {
 
   return (
     <Section
-      ref={sectionRef}
+      ref={mergeRefs([sectionRef, ref])}
       className="py-24 bg-gradient-to-br from-white to-[--bg-cream]/80 dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] relative overflow-hidden border-t border-[--text-navy]/10 dark:border-[--text-cream]/10"
     >
       {/* Background patterns */}
@@ -423,7 +422,7 @@ const CaseStudies = () => {
         {/* Graph component */}
         <div ref={chartRef} className="case-study-element bg-gradient-to-br from-white to-[--bg-cream]/90
                       dark:bg-gradient-to-br dark:from-[--card-bg-navy] dark:to-[rgba(12,67,99,0.7)]
-                      p-6 rounded-[--border-radius-lg] mb-10
+                      p-6 rounded-xl mb-10
                       border border-white/40 dark:border-white/5
                       shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
                       dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]">
@@ -543,7 +542,7 @@ const CaseStudies = () => {
           {/* Views card */}
           <div className="relative bg-gradient-to-br from-white to-[--bg-cream]/80 
                         dark:bg-gradient-to-br dark:from-[--card-bg-navy] dark:to-[rgba(12,67,99,0.8)]
-                        rounded-[--border-radius-lg] p-6 
+                        rounded-xl p-6 
                         border border-white/40 dark:border-white/5 
                         shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
                         dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
@@ -565,7 +564,7 @@ const CaseStudies = () => {
           {/* Followers card */}
           <div className="relative bg-gradient-to-br from-white to-[--bg-cream]/80 
                         dark:bg-gradient-to-br dark:from-[--card-bg-navy] dark:to-[rgba(12,67,99,0.8)]
-                        rounded-[--border-radius-lg] p-6 
+                        rounded-xl p-6 
                         border border-white/40 dark:border-white/5 
                         shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
                         dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
@@ -587,7 +586,7 @@ const CaseStudies = () => {
           {/* Interactions card */}
           <div className="relative bg-gradient-to-br from-white to-[--bg-cream]/80 
                         dark:bg-gradient-to-br dark:from-[--card-bg-navy] dark:to-[rgba(12,67,99,0.8)]
-                        rounded-[--border-radius-lg] p-6 
+                        rounded-xl p-6 
                         border border-white/40 dark:border-white/5 
                         shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
                         dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
@@ -620,7 +619,7 @@ const CaseStudies = () => {
                 onClick={() => setActiveCreator(index)}
                 className={`relative bg-gradient-to-br from-white to-[--bg-cream]/80 
                           dark:bg-gradient-to-br dark:from-[--card-bg-navy] dark:to-[rgba(12,67,99,0.8)]
-                          rounded-[--border-radius-lg] p-4
+                          rounded-xl p-4
                           border ${activeCreator === index 
                             ? 'border-[--primary-orange] dark:border-[--primary-orange]' 
                             : 'border-white/40 dark:border-white/5'}
@@ -666,6 +665,21 @@ const CaseStudies = () => {
                    opacity-0 dark:opacity-30 pointer-events-none"></div>
     </Section>
   );
-};
+});
+
+// Helper function to merge refs
+function mergeRefs(refs) {
+  return (value) => {
+    refs.forEach(ref => {
+      if (!ref) return;
+      
+      if (typeof ref === 'function') {
+        ref(value);
+      } else {
+        ref.current = value;
+      }
+    });
+  };
+}
 
 export default CaseStudies;

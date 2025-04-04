@@ -91,7 +91,7 @@ export function ThemeDemo() {
             {/* Card demonstrating direct CSS variable references */}
             <div className="bg-gradient-to-br from-white to-[--bg-cream]/80
                          dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]
-                         rounded-[--border-radius-lg] p-6 
+                         rounded-xl p-6 
                          shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
                          dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
                          transition-all duration-[--transition-bounce]
@@ -114,7 +114,7 @@ export function ThemeDemo() {
             <VSThemeWrapper
               lightClassName="bg-gradient-to-br from-white to-[--bg-cream]/80 shadow-[2px_2px_8px_rgba(0,0,0,0.05)]"
               darkClassName="bg-gradient-to-br from-[--bg-navy] to-[--bg-navy-darker] shadow-[0_0_15px_rgba(53,115,128,0.15)]"
-              defaultClassName="rounded-[--border-radius-lg] p-6 transition-all duration-[--transition-bounce] hover-bubbly"
+              defaultClassName="rounded-xl p-6 transition-all duration-[--transition-bounce] hover-bubbly"
             >
               <div>
                 <h2 className="text-xl font-medium mb-4 text-[--text-navy] dark:text-white">
@@ -135,7 +135,7 @@ export function ThemeDemo() {
           {/* Color palette demo */}
           <div className="bg-gradient-to-br from-white to-[--bg-cream]/80
                        dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]
-                       rounded-[--border-radius-lg] p-6 mb-12
+                       rounded-xl p-6 mb-12
                        shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
                        dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]">
             <h2 className="text-xl font-medium mb-6 text-[--text-navy] dark:text-white">
@@ -152,7 +152,7 @@ export function ThemeDemo() {
           {/* Button examples */}
           <div className="bg-gradient-to-br from-white to-[--bg-cream]/80
                        dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]
-                       rounded-[--border-radius-lg] p-6
+                       rounded-xl p-6
                        shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
                        dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]">
             <h2 className="text-xl font-medium mb-6 text-[--text-navy] dark:text-white">
