@@ -279,7 +279,7 @@ const ContentOverwhelmer: FC = () => {
   };
 
   return (
-    <section className="bg-[--bg-navy] py-24 border-t border-[--secondary-teal]/30">
+    <section className="bg-[--bg-cream-gradient] dark:bg-[--bg-navy-gradient] py-24 border-t border-[--text-navy]/10 dark:border-[--secondary-teal]/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <div className="inline-block mb-6 bg-[--primary-orange]/10 backdrop-blur-sm px-4 py-2 rounded-full max-w-max border border-[--primary-orange]/20 mx-auto">
@@ -297,7 +297,7 @@ const ContentOverwhelmer: FC = () => {
         </div>
 
         <div className={`transition-all duration-500 ${isExpanded ? 'max-h-[2000px]' : 'max-h-[500px] overflow-hidden relative'}`}>
-          <div className="bg-gradient-to-b from-[--bg-navy] to-[--accent-red]/60 text-white py-14 w-full overflow-hidden relative transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">
+          <div className="bg-gradient-to-b from-[--bg-cream-darker] to-[--primary-orange]/20 dark:from-[--bg-navy] dark:to-[--accent-red]/60 text-[--text-navy] dark:text-white py-14 w-full overflow-hidden relative transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">
             {/* Floating background elements to create visual overwhelm */}
             <div className="absolute inset-0 pointer-events-none">
               {Array.from({ length: 30 }).map((_, i) => (

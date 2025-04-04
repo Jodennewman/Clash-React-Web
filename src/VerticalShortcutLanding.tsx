@@ -642,8 +642,8 @@ const VerticalShortcutLanding = () => {
           as="div"
           id="smooth-content" 
           ref={contentRef} 
-          lightBg="bg-gradient-to-b from-[--deep-blue] to-[color(display-p3_0.008_0.08_0.106)]"
-          darkBg="dark:bg-gradient-to-b dark:from-[--deep-blue] dark:to-[color(display-p3_0.008_0.08_0.106)]"
+          lightBg="bg-gradient-to-b from-white to-[--bg-cream-gradient]"
+          darkBg="dark:bg-gradient-to-b dark:from-[--bg-navy] dark:to-[--bg-navy-darker]"
           className="min-h-screen overflow-hidden"
         >
           {/* Hero Section */}
