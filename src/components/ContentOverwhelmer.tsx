@@ -279,25 +279,25 @@ const ContentOverwhelmer: FC = () => {
   };
 
   return (
-    <section className="bg-[var(--bg-navy)] py-24 border-t border-[var(--secondary-teal)]/30">
+    <section className="bg-[--bg-navy] py-24 border-t border-[--secondary-teal]/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <div className="inline-block mb-6 bg-[var(--primary-orange)]/10 backdrop-blur-sm px-4 py-2 rounded-full max-w-max border border-[var(--primary-orange)]/20 mx-auto">
-            <span style={{ color: 'var(--primary-orange)' }} className="dark:text-[var(--primary-orange-light)] font-semibold">Comprehensive Curriculum</span>
+          <div className="inline-block mb-6 bg-[--primary-orange]/10 backdrop-blur-sm px-4 py-2 rounded-full max-w-max border border-[--primary-orange]/20 mx-auto">
+            <span className="text-[--primary-orange] dark:text-[--primary-orange-light] font-semibold">Comprehensive Curriculum</span>
           </div>
           
           <h2 className="text-4xl md:text-5xl font-bold mb-6 relative">
-            <span className="bg-gradient-to-r from-[var(--text-cream)] to-[var(--text-cream)]/80 dark:from-white dark:to-white/70 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[--text-cream] to-[--text-cream]/80 dark:from-white dark:to-white/70 bg-clip-text text-transparent">
               Content That Overwhelms
             </span>
           </h2>
-          <p className="text-xl dark:text-white/70 max-w-3xl mx-auto" style={{ color: 'var(--text-cream)', opacity: 0.7 }}>
+          <p className="text-xl text-[--text-cream]/70 dark:text-white/70 max-w-3xl mx-auto">
             See exactly what you'll learn in each module of the program.
           </p>
         </div>
 
         <div className={`transition-all duration-500 ${isExpanded ? 'max-h-[2000px]' : 'max-h-[500px] overflow-hidden relative'}`}>
-          <div className="bg-gradient-to-b from-[var(--bg-navy)] to-[var(--accent-red)]/60 text-white py-14 w-full overflow-hidden relative transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">
+          <div className="bg-gradient-to-b from-[--bg-navy] to-[--accent-red]/60 text-white py-14 w-full overflow-hidden relative transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">
             {/* Floating background elements to create visual overwhelm */}
             <div className="absolute inset-0 pointer-events-none">
               {Array.from({ length: 30 }).map((_, i) => (
@@ -321,11 +321,11 @@ const ContentOverwhelmer: FC = () => {
               {/* Headline */}
               <div className="text-center mb-10">
                 <h2 className="text-4xl md:text-6xl font-bold mb-4 relative inline-block">
-                  <span style={{ color: 'var(--primary-orange-light)' }} className="dark:text-[var(--primary-orange-light)]">INSANE AMOUNT OF CONTENT</span>
-                  <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[var(--primary-orange)] to-[var(--accent-coral)] transform transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]"></span>
+                  <span className="text-[--primary-orange-light] dark:text-[--primary-orange-light]">INSANE AMOUNT OF CONTENT</span>
+                  <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[--primary-orange] to-[--accent-coral] transform transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]"></span>
                 </h2>
-                <p className="text-xl md:text-2xl max-w-4xl mx-auto dark:text-[var(--text-cream)] mb-6" style={{ color: 'var(--text-cream)' }}>
-                  No fluff. <span className="font-bold bg-gradient-to-r from-[var(--primary-orange)] to-[var(--accent-coral)] bg-clip-text text-transparent inline-block hover:scale-110 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">178+ modules</span>, <span className="font-bold bg-gradient-to-r from-[var(--accent-coral)] to-[var(--primary-orange)] bg-clip-text text-transparent inline-block hover:scale-110 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">450+ resources</span>, and <span className="font-bold bg-gradient-to-r from-[var(--primary-orange)] via-[var(--accent-coral)] to-[var(--primary-orange)] bg-clip-text text-transparent inline-block hover:scale-110 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">1000+ hours</span> of content creation expertise.
+                <p className="text-xl md:text-2xl max-w-4xl mx-auto text-[--text-cream] dark:text-[--text-cream] mb-6">
+                  No fluff. <span className="font-bold bg-gradient-to-r from-[--primary-orange] to-[--accent-coral] bg-clip-text text-transparent inline-block hover:scale-110 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">178+ modules</span>, <span className="font-bold bg-gradient-to-r from-[--accent-coral] to-[--primary-orange] bg-clip-text text-transparent inline-block hover:scale-110 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">450+ resources</span>, and <span className="font-bold bg-gradient-to-r from-[--primary-orange] via-[--accent-coral] to-[--primary-orange] bg-clip-text text-transparent inline-block hover:scale-110 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">1000+ hours</span> of content creation expertise.
                 </p>
                 
                 {/* Resource types preview - overwhelming amount of resources */}
@@ -731,7 +731,7 @@ const ContentOverwhelmer: FC = () => {
           <Button
             onClick={toggleExpanded}
             variant="glow"
-            className="gap-2 bg-[var(--primary-orange)]/10 border-[var(--primary-orange)]/30 text-[var(--primary-orange-light)] hover:bg-[var(--primary-orange)]/20 hover:border-[var(--primary-orange)]/50 hover:shadow-[0_0_20px_rgba(254,163,93,0.3)] hover:translate-y-[-6px] hover:scale-[1.04] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+            className="gap-2 bg-[--primary-orange]/10 border-[--primary-orange]/30 text-[--primary-orange-light] hover:bg-[--primary-orange]/20 hover:border-[--primary-orange]/50 hover:shadow-[0_0_20px_rgba(254,163,93,0.3)] hover:translate-y-[-6px] hover:scale-[1.04] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]"
           >
             {isExpanded ? (
               <>

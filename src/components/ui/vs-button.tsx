@@ -79,29 +79,29 @@ export function VSButton({
   const getTextColor = () => {
     switch (variant) {
       case 'outline':
-        return { color: 'var(--secondary-teal)' }; // Better to use Tailwind classes instead of inline styles
+        return {}; // Return empty object - we'll use Tailwind classes instead
       case 'ghost':
-        return { color: 'var(--text-navy)' }; // Better to use text-[--text-navy] class instead
+        return {}; // Return empty object - we'll use Tailwind classes instead
       default:
         return {}; // No inline style needed for variants with text-white
     }
   };
   
-  // Dark text classes for variants that need them
-  const getDarkTextClass = () => {
+  // Text color classes for variants that need them
+  const getTextColorClass = () => {
     switch (variant) {
       case 'outline':
+        return 'text-[--secondary-teal] dark:text-white';
       case 'ghost':
-        return 'dark:text-white';
+        return 'text-[--text-navy] dark:text-white';
       default:
-        return ''; // No dark text class needed for variants with text-white
+        return ''; // No text color class needed for variants with text-white
     }
   };
   
   return (
     <button
-      className={`${baseClasses} ${variantClasses[variant]} ${getDarkTextClass()} ${className}`}
-      style={getTextColor()}
+      className={`${baseClasses} ${variantClasses[variant]} ${getTextColorClass()} ${className}`}
       onClick={onClick}
       {...props}
     >
