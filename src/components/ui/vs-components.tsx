@@ -29,7 +29,7 @@ export {
  * 
  * // Text - using inline styles for CSS variables and dark: classes for dark mode
  * <VSText>Regular text with navy color</VSText>
- * <VSText color="var(--primary-orange)">Orange colored text</VSText>
+ * <VSText color="--primary-orange)">Orange colored text</VSText>
  * <VSHeading variant="h2">Properly styled heading</VSHeading>
  * <VSGradientText>Gradient text with dark mode support</VSGradientText>
  * 

@@ -701,14 +701,14 @@ const VerticalShortcutLanding = () => {
           {/* Core Benefits Section */}
           <VSSection 
             ref={benefitsRef} 
-            lightBg="bg-gradient-to-b from-[color(display-p3_0.008_0.08_0.106)] to-[var(--deep-blue)]"
-            darkBg="dark:bg-gradient-to-b dark:from-[color(display-p3_0.008_0.08_0.106)] dark:to-[var(--deep-blue)]"
+            lightBg="bg-gradient-to-b from-[color(display-p3_0.008_0.08_0.106)] to-[--deep-blue)]"
+            darkBg="dark:bg-gradient-to-b dark:from-[color(display-p3_0.008_0.08_0.106)] dark:to-[--deep-blue)]"
             className="benefits-section py-24"
           >
             <div className="container mx-auto px-4">
               <div className="text-center mb-16">
-                <Badge variant="outline" className="bg-white/5 border-[var(--primary-orange)]/30 mb-4 py-2 px-4">
-                  <VSText color="var(--primary-orange)" className="dark:text-[var(--primary-orange)]">
+                <Badge variant="outline" className="bg-white/5 border-[--primary-orange)]/30 mb-4 py-2 px-4">
+                  <VSText color="--primary-orange)" className="dark:text-[--primary-orange)]">
                     What You'll Achieve
                   </VSText>
                 </Badge>
@@ -729,7 +729,7 @@ const VerticalShortcutLanding = () => {
                 {benefits.map((benefit, index) => (
                   <VSCard 
                     key={index} 
-                    className="benefit-item backdrop-blur-sm p-8 rounded-xl border border-white/10 hover:border-[var(--primary-orange)]/30"
+                    className="benefit-item backdrop-blur-sm p-8 rounded-xl border border-white/10 hover:border-[--primary-orange)]/30"
                     lightBg="bg-white/5"
                     darkBg="dark:bg-white/5"
                   >
@@ -795,7 +795,7 @@ const VerticalShortcutLanding = () => {
                 {tracks.map((track, index) => (
                   <VSCard
                     key={index} 
-                    className="track-item backdrop-blur-sm p-8 rounded-xl border border-white/10 hover:border-[var(--primary-orange)]/30"
+                    className="track-item backdrop-blur-sm p-8 rounded-xl border border-white/10 hover:border-[--primary-orange)]/30"
                     lightBg="bg-white/5"
                     darkBg="dark:bg-white/5"
                   >
@@ -821,8 +821,8 @@ const VerticalShortcutLanding = () => {
           
           {/* Curriculum Preview Section - Custom Module Breakdown */}
           <VSSection 
-            lightBg="bg-[var(--bg-navy-dark)]" 
-            darkBg="dark:bg-[var(--bg-navy-dark)]"
+            lightBg="bg-[--bg-navy-dark)]" 
+            darkBg="dark:bg-[--bg-navy-dark)]"
             className="py-24"
           >
             <div className="container mx-auto px-4">
@@ -832,9 +832,9 @@ const VerticalShortcutLanding = () => {
               </div>
               
               <div className="mt-16 text-center">
-                <Alert className="bg-[var(--secondary-teal)]/50 border-[var(--primary-orange)] max-w-3xl mx-auto mb-8">
+                <Alert className="bg-[--secondary-teal)]/50 border-[--primary-orange)] max-w-3xl mx-auto mb-8">
                   <AlertTitle className="text-lg">
-                    <VSText color="var(--primary-orange)" className="dark:text-[var(--primary-orange)]">
+                    <VSText color="--primary-orange)" className="dark:text-[--primary-orange)]">
                       This is just a preview!
                     </VSText>
                   </AlertTitle>
@@ -871,14 +871,14 @@ const VerticalShortcutLanding = () => {
           
           {/* What You'll Learn Section */}
           <VSSection 
-            lightBg="bg-[var(--bg-navy)]" 
-            darkBg="dark:bg-[var(--bg-navy)]"
-            className="py-24 border-t border-[var(--secondary-teal)]/30"
+            lightBg="bg-[--bg-navy)]" 
+            darkBg="dark:bg-[--bg-navy)]"
+            className="py-24 border-t border-[--secondary-teal)]/30"
           >
             <div className="container mx-auto px-4">
               <div className="text-center mb-16">
-                <Badge variant="outline" className="bg-white/5 border-[var(--primary-orange)]/30 mb-4 py-2 px-4">
-                  <VSText color="var(--primary-orange)" className="dark:text-[var(--primary-orange)]">
+                <Badge variant="outline" className="bg-white/5 border-[--primary-orange)]/30 mb-4 py-2 px-4">
+                  <VSText color="--primary-orange)" className="dark:text-[--primary-orange)]">
                     Real-World Skills
                   </VSText>
                 </Badge>
@@ -899,11 +899,11 @@ const VerticalShortcutLanding = () => {
                 {learningOutcomes.map((outcome, index) => (
                   <VSCard 
                     key={index} 
-                    className="backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-[var(--primary-orange)]/30"
+                    className="backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-[--primary-orange)]/30"
                     lightBg="bg-white/5"
                     darkBg="dark:bg-white/5"
                   >
-                    <div style={{ color: 'var(--primary-orange)' }} className="dark:text-[var(--primary-orange)] mb-4">
+                    <div style={{ color: '--primary-orange)' }} className="dark:text-[--primary-orange)] mb-4">
                       {outcome.icon}
                     </div>
                     <VSHeading variant="h3" color="white" className="text-xl mb-2">
@@ -921,14 +921,14 @@ const VerticalShortcutLanding = () => {
           {/* Testimonials Full Section */}
           <VSSection 
             ref={testimonialsRef} 
-            lightBg="bg-[var(--bg-navy-dark)]" 
-            darkBg="dark:bg-[var(--bg-navy-dark)]"
-            className="testimonials-section py-24 border-t border-[var(--secondary-teal)]/30"
+            lightBg="bg-[--bg-navy-dark)]" 
+            darkBg="dark:bg-[--bg-navy-dark)]"
+            className="testimonials-section py-24 border-t border-[--secondary-teal)]/30"
           >
             <div className="container mx-auto px-4">
               <div className="text-center mb-16">
-                <Badge variant="outline" className="bg-white/5 border-[var(--primary-orange)]/30 mb-4 py-2 px-4">
-                  <VSText color="var(--primary-orange)" className="dark:text-[var(--primary-orange)]">
+                <Badge variant="outline" className="bg-white/5 border-[--primary-orange)]/30 mb-4 py-2 px-4">
+                  <VSText color="--primary-orange)" className="dark:text-[--primary-orange)]">
                     Success Stories
                   </VSText>
                 </Badge>
@@ -976,15 +976,15 @@ const VerticalShortcutLanding = () => {
           
           {/* Key Features Section */}
           <VSSection 
-            lightBg="bg-[var(--bg-navy)]" 
-            darkBg="dark:bg-[var(--bg-navy)]"
-            className="py-24 border-t border-[var(--secondary-teal)]/30"
+            lightBg="bg-[--bg-navy)]" 
+            darkBg="dark:bg-[--bg-navy)]"
+            className="py-24 border-t border-[--secondary-teal)]/30"
           >
             <div className="container mx-auto px-4">
               <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto items-center">
                 <div>
-                  <Badge variant="outline" className="bg-white/5 border-[var(--primary-orange)]/30 mb-4 py-2 px-4">
-                    <VSText color="var(--primary-orange)" className="dark:text-[var(--primary-orange)]">
+                  <Badge variant="outline" className="bg-white/5 border-[--primary-orange)]/30 mb-4 py-2 px-4">
+                    <VSText color="--primary-orange)" className="dark:text-[--primary-orange)]">
                       Program Features
                     </VSText>
                   </Badge>
@@ -1046,7 +1046,7 @@ const VerticalShortcutLanding = () => {
                     
                     <div className="flex justify-between items-center pb-3 border-b border-white/10">
                       <VSText color="white" className="text-lg">Next Cohort</VSText>
-                      <VSText color="var(--accent-crimson)" className="text-lg font-bold dark:text-[var(--accent-crimson)]">
+                      <VSText color="--accent-crimson)" className="text-lg font-bold dark:text-[--accent-crimson)]">
                         March 25, 2025
                       </VSText>
                     </div>
@@ -1058,7 +1058,7 @@ const VerticalShortcutLanding = () => {
                     
                     <div className="flex justify-between items-center">
                       <VSText color="white" className="text-lg">Investment</VSText>
-                      <VSText color="var(--primary-orange)" className="text-xl font-bold dark:text-[var(--primary-orange)]">
+                      <VSText color="--primary-orange)" className="text-xl font-bold dark:text-[--primary-orange)]">
                         £6,500
                       </VSText>
                     </div>
@@ -1095,21 +1095,21 @@ const VerticalShortcutLanding = () => {
           {/* Final CTA Section */}
           <VSSection 
             ref={ctaRef} 
-            lightBg="bg-[var(--bg-navy-dark)]"
-            darkBg="dark:bg-[var(--bg-navy-dark)]"
-            className="py-24 border-t border-[var(--secondary-teal)]/30 relative overflow-hidden"
+            lightBg="bg-[--bg-navy-dark)]"
+            darkBg="dark:bg-[--bg-navy-dark)]"
+            className="py-24 border-t border-[--secondary-teal)]/30 relative overflow-hidden"
           >
             <div className="absolute inset-0">
-              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[var(--primary-orange)]/5 to-transparent opacity-50"></div>
-              <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-[var(--accent-crimson)]/10 to-transparent opacity-30 blur-3xl"></div>
+              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[--primary-orange)]/5 to-transparent opacity-50"></div>
+              <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-[--accent-crimson)]/10 to-transparent opacity-30 blur-3xl"></div>
             </div>
             
             <div className="container mx-auto px-4 relative z-10">
               <div className="flex flex-col lg:flex-row gap-12 items-center">
                 <div className="lg:w-1/2 text-center lg:text-left">
                   <Glow variant="center" />
-                  <div className="cta-badge inline-block mb-6 bg-[var(--primary-orange)]/10 px-6 py-3 rounded-full border border-[var(--primary-orange)]/30">
-                    <VSText color="var(--primary-orange)" className="font-semibold flex items-center gap-2 dark:text-[var(--primary-orange)]">
+                  <div className="cta-badge inline-block mb-6 bg-[--primary-orange)]/10 px-6 py-3 rounded-full border border-[--primary-orange)]/30">
+                    <VSText color="--primary-orange)" className="font-semibold flex items-center gap-2 dark:text-[--primary-orange)]">
                       <Clock className="h-4 w-4" /> Limited spots available for next cohort
                     </VSText>
                   </div>
@@ -1142,9 +1142,9 @@ const VerticalShortcutLanding = () => {
           {/* Footer */}
           <VSBackground
             as="footer" 
-            lightBg="bg-[var(--bg-navy)]" 
-            darkBg="dark:bg-[var(--bg-navy)]"
-            className="py-16 border-t border-[var(--secondary-teal)]/30"
+            lightBg="bg-[--bg-navy)]" 
+            darkBg="dark:bg-[--bg-navy)]"
+            className="py-16 border-t border-[--secondary-teal)]/30"
           >
             <div className="container mx-auto px-4">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
@@ -1172,36 +1172,36 @@ const VerticalShortcutLanding = () => {
                   </VSHeading>
                   <ul className="space-y-3">
                     <li>
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] transition-colors">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Curriculum
                         </VSText>
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] transition-colors">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Pricing
                         </VSText>
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] transition-colors">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Success Stories
                         </VSText>
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] transition-colors">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           FAQ
                         </VSText>
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] transition-colors">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Apply Now
                         </VSText>
                       </a>
@@ -1216,35 +1216,35 @@ const VerticalShortcutLanding = () => {
                   <ul className="space-y-3">
                     <li>
                       <a href="#" className="transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           About Us
                         </VSText>
                       </a>
                     </li>
                     <li>
-                      <Link to="/marble-buttons" className="text-white/60 hover:text-[var(--primary-orange)] transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                      <Link to="/marble-buttons" className="text-white/60 hover:text-[--primary-orange)] transition-colors">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Marble Buttons Demo
                         </VSText>
                       </Link>
                     </li>
                     <li>
                       <a href="#" className="transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Blog
                         </VSText>
                       </a>
                     </li>
                     <li>
                       <a href="#" className="transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Careers
                         </VSText>
                       </a>
                     </li>
                     <li>
                       <a href="#" className="transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Contact
                         </VSText>
                       </a>
@@ -1259,21 +1259,21 @@ const VerticalShortcutLanding = () => {
                   <ul className="space-y-3">
                     <li>
                       <a href="#" className="transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Terms of Service
                         </VSText>
                       </a>
                     </li>
                     <li>
                       <a href="#" className="transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Privacy Policy
                         </VSText>
                       </a>
                     </li>
                     <li>
                       <a href="#" className="transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Cookie Policy
                         </VSText>
                       </a>
@@ -1285,16 +1285,16 @@ const VerticalShortcutLanding = () => {
                       Follow Us
                     </VSHeading>
                     <div className="flex gap-4">
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] dark:text-white/60 dark:hover:text-[var(--primary-orange)] transition-colors">
+                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] dark:text-white/60 dark:hover:text-[--primary-orange)] transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                       </a>
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] dark:text-white/60 dark:hover:text-[var(--primary-orange)] transition-colors">
+                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] dark:text-white/60 dark:hover:text-[--primary-orange)] transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                       </a>
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] dark:text-white/60 dark:hover:text-[var(--primary-orange)] transition-colors">
+                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] dark:text-white/60 dark:hover:text-[--primary-orange)] transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                       </a>
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] dark:text-white/60 dark:hover:text-[var(--primary-orange)] transition-colors">
+                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] dark:text-white/60 dark:hover:text-[--primary-orange)] transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
                       </a>
                     </div>
