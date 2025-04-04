@@ -452,8 +452,8 @@ const ContentOverwhelmer: FC = () => {
                       onClick={() => toggleModule(module.id)}
                       className={`module p-5 rounded-lg backdrop-blur-sm bg-black/30 border transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer group ${
                         expandedModuleId === module.id 
-                          ? 'border-[var(--primary-orange-light)] shadow-lg shadow-[var(--primary-orange)]/20 translate-y-[-8px] scale-[1.03] rotate-[0.5deg]'
-                          : 'border-[var(--secondary-teal)]/50 hover:border-[var(--secondary-teal)] hover:translate-y-[-6px] hover:scale-[1.03] hover:shadow-lg hover:shadow-[var(--primary-orange)]/10 hover:rotate-[0.5deg]'
+                          ? 'border-[--primary-orange-light] shadow-lg shadow-[--primary-orange]/20 translate-y-[-8px] scale-[1.03] rotate-[0.5deg]'
+                          : 'border-[--secondary-teal]/50 hover:border-[--secondary-teal] hover:translate-y-[-6px] hover:scale-[1.03] hover:shadow-lg hover:shadow-[--primary-orange]/10 hover:rotate-[0.5deg]'
                       }`}
                       style={{
                         transform: `rotate(${Math.random() * 0.6 - 0.3}deg)`,
@@ -470,8 +470,8 @@ const ContentOverwhelmer: FC = () => {
                         >
                           {parseInt(module.id) + 1}
                         </div>
-                        <h3 className={`text-lg font-bold group-hover:text-[var(--primary-orange-light)] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
-                          expandedModuleId === module.id ? 'text-[var(--primary-orange-light)]' : ''
+                        <h3 className={`text-lg font-bold group-hover:text-[--primary-orange-light] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                          expandedModuleId === module.id ? 'text-[--primary-orange-light]' : ''
                         }`}>
                           {module.title}
                         </h3>
