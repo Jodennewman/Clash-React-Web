@@ -161,6 +161,70 @@
   --glow-primary: none;
   --glow-blue: none;
   --card-bg-dark: white;
+  
+  /* Theme-aware variables that update automatically with theme */
+  
+  /* Theme text colors */
+  --theme-text-primary: var(--text-navy);
+  --theme-text-secondary: var(--text-navy);
+  --theme-text-tertiary: rgba(18, 46, 59, 0.7);
+  --theme-text-subtle: rgba(18, 46, 59, 0.5);
+  
+  /* Theme background colors */
+  --theme-bg-primary: var(--bg-cream);
+  --theme-bg-secondary: var(--bg-cream-darker);
+  --theme-bg-surface: white;
+  --theme-bg-card: white;
+  
+  /* Theme gradient variables */
+  --theme-gradient-start: white;
+  --theme-gradient-end: var(--bg-cream);
+  --theme-gradient-card-start: white;
+  --theme-gradient-card-end: var(--bg-cream);
+  --theme-primary-gradient-start: var(--primary-orange);
+  --theme-primary-gradient-end: var(--primary-orange-hover);
+  --theme-secondary-gradient-start: var(--secondary-teal);
+  --theme-secondary-gradient-end: var(--secondary-teal-hover);
+  --theme-accent-gradient-start: var(--accent-coral);
+  --theme-accent-gradient-end: var(--accent-red);
+  
+  /* Theme accent colors */
+  --theme-primary: var(--primary-orange);
+  --theme-primary-hover: var(--primary-orange-hover);
+  --theme-primary-light: var(--primary-orange-light);
+  --theme-accent-secondary: var(--secondary-teal);
+  --theme-accent-secondary-hover: var(--secondary-teal-hover);
+  --theme-accent-secondary-light: var(--secondary-teal-light);
+  --theme-accent-tertiary: var(--accent-coral);
+  --theme-accent-quaternary: var(--accent-red);
+  
+  /* Theme shadows */
+  --theme-shadow-card: var(--shadow-sm);
+  --theme-shadow-card-hover: var(--shadow-md);
+  --theme-shadow-sm: var(--shadow-sm);
+  --theme-shadow-md: var(--shadow-md);
+  --theme-shadow-lg: var(--shadow-lg);
+  --theme-shadow-btn: var(--shadow-btn);
+  
+  /* Theme floating elements */
+  --theme-float-opacity: 0.05;
+  --theme-float-opacity-secondary: 0.08;
+  --theme-float-bg-primary: var(--primary-orange);
+  --theme-float-bg-secondary: var(--primary-orange-hover);
+  
+  /* Theme animation variables */
+  --theme-anim-distance: -4px;
+  --theme-anim-scale: 1.02;
+  --theme-anim-duration: 0.35;
+  --theme-transition-bounce: var(--transition-bounce);
+  
+  /* Theme border colors */
+  --theme-border-light: rgba(0, 0, 0, 0.05);
+  --theme-border-primary: rgba(var(--primary-orange-rgb), 0.2);
+  
+  /* Theme grid patterns */
+  --theme-grid-line: var(--grid-line);
+  --theme-grid-dot: var(--grid-dot);
 }
 
 /* Root variables that define our theme */
@@ -258,6 +322,59 @@
     --hud-accent-red: oklch(0.70 0.25 25);
     --hud-orange-light: oklch(0.85 0.08 60);
     --hud-orange-lighter: oklch(0.87 0.09 65);
+    
+    /* Theme-aware variables for dark mode */
+    
+    /* Theme text colors - dark mode */
+    --theme-text-primary: white;
+    --theme-text-secondary: rgba(255, 255, 255, 0.7);
+    --theme-text-tertiary: rgba(255, 255, 255, 0.6);
+    --theme-text-subtle: rgba(255, 255, 255, 0.4);
+    
+    /* Theme background colors - dark mode */
+    --theme-bg-primary: var(--bg-navy);
+    --theme-bg-secondary: var(--bg-navy-darker);
+    --theme-bg-surface: var(--bg-navy);
+    --theme-bg-card: var(--card-bg-light);
+    
+    /* Theme gradient variables - dark mode */
+    --theme-gradient-start: var(--bg-navy);
+    --theme-gradient-end: var(--bg-navy-darker);
+    --theme-gradient-card-start: var(--card-bg-light);
+    --theme-gradient-card-end: var(--bg-navy-darker);
+    --theme-primary-gradient-start: var(--primary-orange);
+    --theme-primary-gradient-end: var(--primary-orange-hover);
+    --theme-secondary-gradient-start: var(--secondary-teal);
+    --theme-secondary-gradient-end: var(--secondary-teal-hover);
+    --theme-accent-gradient-start: var(--accent-coral);
+    --theme-accent-gradient-end: var(--accent-red);
+    
+    /* Theme shadows - dark mode */
+    --theme-shadow-card: 0 0 15px rgba(53, 115, 128, 0.15);
+    --theme-shadow-card-hover: 0 0 20px rgba(53, 115, 128, 0.25);
+    --theme-shadow-sm: var(--shadow-sm);
+    --theme-shadow-md: var(--shadow-md);
+    --theme-shadow-lg: var(--shadow-lg);
+    --theme-shadow-btn: var(--shadow-btn);
+    
+    /* Theme floating elements - dark mode */
+    --theme-float-opacity: 0.1;
+    --theme-float-opacity-secondary: 0.15;
+    --theme-float-bg-primary: var(--primary-orange);
+    --theme-float-bg-secondary: var(--secondary-teal);
+    
+    /* Theme animation variables - dark mode */
+    --theme-anim-distance: -5px;
+    --theme-anim-scale: 1.03;
+    --theme-anim-duration: 0.4;
+    
+    /* Theme border colors - dark mode */
+    --theme-border-light: rgba(255, 255, 255, 0.05);
+    --theme-border-primary: rgba(var(--primary-orange-rgb), 0.25);
+    
+    /* Theme grid patterns - dark mode */
+    --theme-grid-line: var(--grid-line);
+    --theme-grid-dot: var(--grid-dot);
   }
 }
 
@@ -1188,6 +1305,137 @@ a:hover {
   background: linear-gradient(to bottom, var(--bg-navy), var(--bg-navy-darker));
 }
 
+/* Theme-aware utility classes */
+
+/* Theme-aware text colors */
+.text-theme-primary {
+  color: var(--theme-text-primary);
+}
+
+.text-theme-secondary {
+  color: var(--theme-text-secondary);
+}
+
+.text-theme-tertiary {
+  color: var(--theme-text-tertiary);
+}
+
+.text-theme-subtle {
+  color: var(--theme-text-subtle);
+}
+
+/* Theme-aware backgrounds */
+.bg-theme-primary {
+  background-color: var(--theme-bg-primary);
+}
+
+.bg-theme-secondary {
+  background-color: var(--theme-bg-secondary);
+}
+
+.bg-theme-surface {
+  background-color: var(--theme-bg-surface);
+}
+
+.bg-theme-card {
+  background-color: var(--theme-bg-card);
+}
+
+/* Theme-aware gradients */
+.bg-theme-gradient {
+  background: linear-gradient(to bottom right, var(--theme-gradient-start), var(--theme-gradient-end));
+}
+
+.bg-theme-gradient-card {
+  background: linear-gradient(to bottom right, var(--theme-gradient-card-start), var(--theme-gradient-card-end));
+}
+
+.bg-theme-gradient-primary {
+  background: linear-gradient(to right, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));
+}
+
+.bg-theme-gradient-secondary {
+  background: linear-gradient(to right, var(--theme-secondary-gradient-start), var(--theme-secondary-gradient-end));
+}
+
+.bg-theme-gradient-accent {
+  background: linear-gradient(to right, var(--theme-accent-gradient-start), var(--theme-accent-gradient-end));
+}
+
+/* Theme-aware buttons */
+.btn-theme-primary {
+  background: linear-gradient(to right, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));
+  color: white;
+  box-shadow: var(--theme-shadow-btn);
+  transition: all var(--theme-transition-bounce);
+}
+
+.btn-theme-primary:hover {
+  transform: translateY(var(--theme-anim-distance)) scale(var(--theme-anim-scale));
+  box-shadow: var(--theme-shadow-md);
+}
+
+.btn-theme-secondary {
+  background: linear-gradient(to right, var(--theme-secondary-gradient-start), var(--theme-secondary-gradient-end));
+  color: white;
+  box-shadow: var(--theme-shadow-btn);
+  transition: all var(--theme-transition-bounce);
+}
+
+.btn-theme-secondary:hover {
+  transform: translateY(var(--theme-anim-distance)) scale(var(--theme-anim-scale));
+  box-shadow: var(--theme-shadow-md);
+}
+
+/* Theme-aware cards */
+.card-theme {
+  background: linear-gradient(to bottom right, var(--theme-gradient-card-start), var(--theme-gradient-card-end));
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--theme-shadow-card);
+  transition: all var(--theme-transition-bounce);
+}
+
+.card-theme:hover {
+  transform: translateY(var(--theme-anim-distance)) scale(var(--theme-anim-scale));
+  box-shadow: var(--theme-shadow-card-hover);
+}
+
+/* Theme-aware borders */
+.border-theme-light {
+  border: 1px solid var(--theme-border-light);
+}
+
+.border-theme-primary {
+  border: 1px solid var(--theme-border-primary);
+}
+
+/* Theme-aware shadows */
+.shadow-theme-sm {
+  box-shadow: var(--theme-shadow-sm);
+}
+
+.shadow-theme-md {
+  box-shadow: var(--theme-shadow-md);
+}
+
+.shadow-theme-lg {
+  box-shadow: var(--theme-shadow-lg);
+}
+
+.shadow-theme-card {
+  box-shadow: var(--theme-shadow-card);
+}
+
+/* Theme-aware text gradient */
+.text-theme-gradient-primary {
+  background: linear-gradient(to right, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
 /* Fade overlays */
 .vs-fade-overlay-light {
   background: linear-gradient(to top, var(--bg-cream), transparent);
@@ -1302,6 +1550,26 @@ a:hover {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
+}
+
+.vs-gradient-coral-orange {
+  background: linear-gradient(90deg, #E76662, #FEAF52);
+}
+
+.vs-gradient-navy-deep {
+  background: linear-gradient(135deg, #09232F 0%, #081825 50%, #0A2535 100%);
+}
+
+.vs-gradient-navy-ultra-deep {
+  background: linear-gradient(135deg, #030A10 0%, #051320 50%, #081825 100%);
+}
+
+.vs-gradient-navy-black {
+  background: linear-gradient(135deg, #030A10 30%, #050F18 100%);
+}
+
+.vs-gradient-fade-orange {
+  background: linear-gradient(90deg, transparent, #FEAF52, transparent);
 }
 
 /* Responsive adjustments */

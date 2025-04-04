@@ -59,13 +59,12 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
     return (
       <section 
         ref={ref} 
-        style={{backgroundColor: 'var(--bg-cream)'}} 
-        className="relative h-screen w-full shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] dark:bg-[var(--bg-navy-darker)]"
+        className="bg-[var(--theme-bg-primary)] relative h-screen w-full shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] dark:bg-[var(--theme-bg-secondary)]"
       >
         <IsometricGridBackground />
         {/* Floating background elements for visual interest */}
-        <div className="absolute top-40 left-[15%] w-28 h-28 rounded-[40%] rotate-12 opacity-10 bg-[var(--primary-orange)] animate-float-slow md:block"></div>
-        <div className="absolute bottom-40 right-[10%] w-36 h-36 rounded-[30%] -rotate-6 opacity-5 bg-[var(--primary-orange-hover)] animate-float-medium md:block"></div>
+        <div className="absolute top-40 left-[15%] w-28 h-28 rounded-[40%] rotate-12 opacity-10 bg-[var(--theme-primary)] animate-float-slow md:block"></div>
+        <div className="absolute bottom-40 right-[10%] w-36 h-36 rounded-[30%] -rotate-6 opacity-5 bg-[var(--theme-primary-hover)] animate-float-medium md:block"></div>
         
         {/* Dark mode floating elements */}
         <div className="absolute top-10 left-[43%] w-28 h-28 rounded-[40%] rotate-8 opacity-25 vs-float-orange animate-float-slow hidden dark:block"></div>
@@ -82,9 +81,9 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
           }}
         >
           {/* Color blocks positioned in grid */}
-          <div style={{ gridColumn: '5 / 6', gridRow: '1 / 3' }} className="w-full h-full bg-[var(--secondary-teal)] dark:bg-[var(--secondary-teal-light)] z-10" /> {/* Teal block */}
-          <div style={{ gridColumn: '6 / 8', gridRow: '1 / 4' }} className="w-full h-full bg-[var(--primary-orange)] dark:bg-[var(--primary-orange-light)] z-10" /> {/* Orange block */}
-          <div style={{ gridColumn: '8 / 10', gridRow: '1 / 5' }} className="w-full h-full bg-[var(--accent-coral)] dark:bg-[var(--accent-red)] z-10" /> {/* Red block */}
+          <div style={{ gridColumn: '5 / 6', gridRow: '1 / 3' }} className="w-full h-full bg-[var(--theme-accent-secondary)]  z-10" /> {/* Teal block */}
+          <div style={{ gridColumn: '6 / 8', gridRow: '1 / 4' }} className="w-full h-full bg-[var(--theme-primary)]  z-10" /> {/* Orange block */}
+          <div style={{ gridColumn: '8 / 10', gridRow: '1 / 5' }} className="w-full h-full bg-[var(--theme-accent-tertiary)]  z-10" /> {/* Red block */}
           
           {/* Animated VS Logo */}
           <div style={{ gridColumn: '2 / 5', gridRow: '3 / 9' }} className="flex items-center justify-center z-20">
@@ -131,13 +130,13 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
 
           {/* VS Logo Header - Now hidden as we have the animated logo */}
           <header style={{ gridColumn: '2 / 3', gridRow: '2 / 3' }} className="flex items-center">
-            <div className="text-5xl text-[--text-navy] dark:text-white max-sm:text-4xl opacity-0">VS</div>
+            <div className="text-5xl text-[var(--theme-text-primary)] dark:text-white max-sm:text-4xl opacity-0">VS</div>
           </header>
 
           {/* HeroHeadline */}
           <div style={{ gridColumn: '5 / 8', gridRow: '4 / 6' }} className="flex items-center z-20">
-            <h1 className={`hero-content z-20 mb-6 lg:mb-10 text-5xl lg:text-7xl leading-tight text-[--text-navy] dark:text-white max-md:text-4xl max-sm:text-3xl `}>
-              <span className="text-6xl z-20 lg:text-8xl text-[var(--accent-coral)]  max-md:text-5xl max-sm:text-4xl font-bold dark:text-[var(--accent-red)]">
+            <h1 className={`hero-content z-20 mb-6 lg:mb-10 text-5xl lg:text-7xl leading-tight text-[var(--theme-text-primary)] dark:text-white max-md:text-4xl max-sm:text-3xl `}>
+              <span className="text-6xl z-20 lg:text-8xl text-[var(--theme-accent-tertiary)]  max-md:text-5xl max-sm:text-4xl font-bold ">
                 Over 1 billion
               </span>
               <span> views,</span>
@@ -149,9 +148,9 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
 
           {/* HeroSubheading */}
           <div style={{ gridColumn: '5 / 9', gridRow: '6' }} className="z-10">
-            <p className={`hero-content text-4xl lg:text-4xl max-md:text-xl max-sm:text-lg mb-6 lg:mb-10 text-[--text-navy] dark:text-white `}>
+            <p className={`hero-content text-4xl lg:text-4xl max-md:text-xl max-sm:text-lg mb-6 lg:mb-10 text-[var(--theme-text-primary)] dark:text-white `}>
               <span>A </span>
-              <span className="text-[--accent-red] dark:text-[--primary-orange-light] font-bold">proven, turn-key system </span>
+              <span className="text-[var(--theme-accent-quaternary)]  font-bold">proven, turn-key system </span>
               <span className="inline md:hidden">for short form content.</span>
               <span className="hidden md:inline">to survive, thrive, and </span>
               <span className="hidden md:inline">monetise </span>

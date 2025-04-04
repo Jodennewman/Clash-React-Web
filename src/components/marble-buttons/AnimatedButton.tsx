@@ -36,23 +36,23 @@ export const AnimatedButton: React.FC<AnimatedButtonProps> = ({
   const variantStylesMap = {
     start: {
       normal: {
-        textColor: "text-[var(--text-cream)]",
-        bgColor: "bg-gradient-to-r from-[var(--accent-coral)] to-[var(--accent-coral-rgb,#E07559)]",
+        textColor: "text-[var(--theme-text-secondary)]",
+        bgColor: "bg-gradient-to-r from-[var(--theme-accent-tertiary)] to-[var(--theme-accent-coral-rgb,#E07559)]",
         shadow: "shadow-[0_8px_16px_rgba(var(--accent-coral-rgb,222,107,89),0.3)]",
         border: "",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDEwMCwxMDAgTCA1MCw1MCBMIDE1MCw1MCBaIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz48L3N2Zz4=')",
       },
       high: {
-        textColor: "text-[var(--text-cream)]",
-        bgColor: "bg-gradient-to-r from-[var(--hud-accent-red)] to-[var(--accent-red)]",
+        textColor: "text-[var(--theme-text-secondary)]",
+        bgColor: "vs-btn-primary-gradient",
         shadow: "shadow-[0_8px_16px_rgba(var(--accent-red-rgb,185,34,52),0.35)]",
         border: "",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDEwMCwxMDAgTCA1MCw1MCBMIDE1MCw1MCBaIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMTUpIi8+PC9zdmc+')",
       },
       low: {
-        textColor: "text-[var(--text-cream)]",
+        textColor: "text-[var(--theme-text-secondary)]",
         bgColor: "bg-gradient-to-r from-[#D87F70] to-[#E08B7A]",
         shadow: "shadow-[0_8px_16px_rgba(216,127,112,0.25)]",
         border: "",
@@ -60,112 +60,112 @@ export const AnimatedButton: React.FC<AnimatedButtonProps> = ({
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDEwMCwxMDAgTCA1MCw1MCBMIDE1MCw1MCBaIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDgpIi8+PC9zdmc+')",
       },
       subtle: {
-        textColor: "text-[var(--text-navy)] dark:text-[var(--text-cream)]",
-        bgColor: "bg-[var(--card-bg-light)] dark:bg-[var(--card-bg-navy)]",
+        textColor: "text-[var(--theme-text-primary)] dark:text-[var(--theme-text-secondary)]",
+        bgColor: "bg-[var(--theme-card-bg-light)] dark:bg-[var(--theme-card-bg-navy)]",
         shadow: "shadow-[0_8px_16px_rgba(0,0,0,0.1)]",
-        border: "border border-[var(--accent-coral)] border-opacity-30",
+        border: "border border-[var(--theme-accent-tertiary)] border-opacity-30",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDEwMCwxMDAgTCA1MCw1MCBMIDE1MCw1MCBaIiBmaWxsPSJyZ2JhKDIyMiwxMDcsODksMC4wNSkiLz48L3N2Zz4=')",
       },
     },
     pro: {
       normal: {
-        textColor: "text-[var(--text-navy)] dark:text-[var(--text-cream)]",
-        bgColor: "bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-orange-light)]",
+        textColor: "text-[var(--theme-text-primary)] dark:text-[var(--theme-text-secondary)]",
+        bgColor: "vs-btn-primary-gradient",
         shadow: "shadow-[0_8px_16px_rgba(var(--primary-orange-rgb,254,163,93),0.3)]",
         border: "",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDAsMCBMIDUwLDUwIEwgMCwxMDAgWiIgZmlsbD0icmdiYSgwLDAsMCwwLjA1KSIvPjwvc3ZnPg==')",
       },
       high: {
-        textColor: "text-[var(--text-navy)] dark:text-[var(--text-cream)]",
-        bgColor: "bg-gradient-to-r from-[var(--primary-orange-hover)] to-[var(--primary-orange)]",
+        textColor: "text-[var(--theme-text-primary)] dark:text-[var(--theme-text-secondary)]",
+        bgColor: "vs-btn-primary-gradient",
         shadow: "shadow-[0_8px_16px_rgba(var(--primary-orange-rgb,254,163,93),0.35)]",
         border: "",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDAsMCBMIDUwLDUwIEwgMCwxMDAgWiIgZmlsbD0icmdiYSgwLDAsMCwwLjA4KSIvPjwvc3ZnPg==')",
       },
       low: {
-        textColor: "text-[var(--text-navy)] dark:text-[var(--text-cream)]",
-        bgColor: "bg-gradient-to-r from-[var(--ui-peach-light)] to-[var(--ui-peach-dark)]",
+        textColor: "text-[var(--theme-text-primary)] dark:text-[var(--theme-text-secondary)]",
+        bgColor: "vs-btn-primary-gradient",
         shadow: "shadow-[0_8px_16px_rgba(var(--primary-orange-rgb,254,163,93),0.2)]",
         border: "",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDAsMCBMIDUwLDUwIEwgMCwxMDAgWiIgZmlsbD0icmdiYSgyNTUsMTYzLDkzLDAuMDUpIi8+PC9zdmc+')",
       },
       subtle: {
-        textColor: "text-[var(--primary-orange)] dark:text-[var(--primary-orange-light)]",
-        bgColor: "bg-gradient-to-r from-[var(--bg-cream)] to-[var(--bg-cream-darker)]",
+        textColor: "text-[var(--theme-primary)] dark:text-[var(--theme-primary-light)]",
+        bgColor: "vs-btn-primary-gradient",
         shadow: "shadow-[0_8px_16px_rgba(var(--primary-orange-rgb,254,163,93),0.1)]",
-        border: "border border-[var(--primary-orange)] border-opacity-20",
+        border: "border border-[var(--theme-primary)] border-opacity-20",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDAsMCBMIDUwLDUwIEwgMCwxMDAgWiIgZmlsbD0icmdiYSgyNTQsMTYzLDkzLDAuMDMpIi8+PC9zdmc+')",
       },
     },
     learn: {
       normal: {
-        textColor: "text-[var(--text-cream)]",
-        bgColor: "bg-gradient-to-r from-[var(--secondary-teal)] to-[var(--secondary-teal-light)]",
+        textColor: "text-[var(--theme-text-secondary)]",
+        bgColor: "vs-btn-secondary-gradient",
         shadow: "shadow-[0_8px_16px_rgba(var(--secondary-teal-rgb,53,115,128),0.3)]",
         border: "",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjUwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz48L3N2Zz4=')",
       },
       high: {
-        textColor: "text-[var(--text-cream)]",
-        bgColor: "bg-gradient-to-r from-[var(--secondary-teal-hover)] to-[var(--secondary-teal)]",
+        textColor: "text-[var(--theme-text-secondary)]",
+        bgColor: "vs-btn-secondary-gradient",
         shadow: "shadow-[0_8px_16px_rgba(var(--secondary-teal-rgb,53,115,128),0.35)]",
         border: "",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjUwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMTUpIi8+PC9zdmc+')",
       },
       low: {
-        textColor: "text-[var(--text-cream)]",
-        bgColor: "bg-gradient-to-r from-[var(--neutral-blue-1)] to-[var(--neutral-blue-2)]",
+        textColor: "text-[var(--theme-text-secondary)]",
+        bgColor: "vs-btn-primary-gradient",
         shadow: "shadow-[0_8px_16px_rgba(var(--secondary-teal-rgb,53,115,128),0.25)]",
         border: "",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjUwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDgpIi8+PC9zdmc+')",
       },
       subtle: {
-        textColor: "text-[var(--secondary-teal)] dark:text-[var(--secondary-teal-light)]",
-        bgColor: "bg-[var(--bg-cream)] dark:bg-[var(--bg-navy)]",
+        textColor: "text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)]",
+        bgColor: "bg-[var(--theme-bg-primary)] dark:bg-[var(--theme-bg-primary)]",
         shadow: "shadow-[0_8px_16px_rgba(var(--secondary-teal-rgb,53,115,128),0.15)]",
-        border: "border border-[var(--secondary-teal)] border-opacity-30",
+        border: "border border-[var(--theme-accent-secondary)] border-opacity-30",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjUwIiBmaWxsPSJyZ2JhKDUzLDExNSwxMjgsMC4wNSkiLz48L3N2Zz4=')",
       },
     },
     docs: {
       normal: {
-        textColor: "text-[var(--text-navy)] dark:text-[var(--text-cream)]",
+        textColor: "text-[var(--theme-text-primary)] dark:text-[var(--theme-text-secondary)]",
         bgColor: "bg-transparent dark:bg-transparent",
         shadow: "shadow-[0_8px_16px_rgba(var(--text-navy-rgb,18,46,59),0.1)]",
-        border: "border-[2px] border-[var(--text-navy)] dark:border-[var(--text-cream)]",
+        border: "border-[2px] border-[var(--theme-text-primary)] dark:border-[var(--theme-text-secondary)]",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI1MCIgeT0iNTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJyZ2JhKDE4LDQ2LDU5LDAuMDUpIi8+PC9zdmc+')",
       },
       high: {
-        textColor: "text-[var(--bg-cream)] dark:text-[var(--bg-navy)]",
-        bgColor: "bg-[var(--text-navy)] dark:bg-[var(--text-cream)]",
+        textColor: "text-[var(--theme-bg-primary)] dark:text-[var(--theme-bg-primary)]",
+        bgColor: "bg-[var(--theme-text-primary)] dark:bg-[var(--theme-text-secondary)]",
         shadow: "shadow-[0_8px_16px_rgba(var(--text-navy-rgb,18,46,59),0.2)]",
-        border: "border-[2px] border-[var(--text-navy)] dark:border-[var(--text-cream)]",
+        border: "border-[2px] border-[var(--theme-text-primary)] dark:border-[var(--theme-text-secondary)]",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI1MCIgeT0iNTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDgpIi8+PC9zdmc+')",
       },
       low: {
-        textColor: "text-[var(--text-navy)] dark:text-[var(--text-cream)]",
+        textColor: "text-[var(--theme-text-primary)] dark:text-[var(--theme-text-secondary)]",
         bgColor: "bg-transparent dark:bg-transparent",
         shadow: "shadow-[0_4px_12px_rgba(var(--text-navy-rgb,18,46,59),0.08)]",
-        border: "border border-[var(--text-navy)] dark:border-[var(--text-cream)] border-opacity-60 dark:border-opacity-60",
+        border: "border border-[var(--theme-text-primary)] dark:border-[var(--theme-text-secondary)] border-opacity-60 dark:border-opacity-60",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI1MCIgeT0iNTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJyZ2JhKDE4LDQ2LDU5LDAuMDIpIi8+PC9zdmc+')",
       },
       subtle: {
-        textColor: "text-[var(--text-navy)] dark:text-[var(--text-cream)]",
+        textColor: "text-[var(--theme-text-primary)] dark:text-[var(--theme-text-secondary)]",
         bgColor: "bg-transparent dark:bg-transparent",
         shadow: "shadow-[0_2px_8px_rgba(var(--text-navy-rgb,18,46,59),0.05)]",
-        border: "border border-[var(--text-navy)] dark:border-[var(--text-cream)] border-opacity-30 dark:border-opacity-30",
+        border: "border border-[var(--theme-text-primary)] dark:border-[var(--theme-text-secondary)] border-opacity-30 dark:border-opacity-30",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI1MCIgeT0iNTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJyZ2JhKDE4LDQ2LDU5LDAuMDIpIi8+PC9zdmc+')",
       },
@@ -237,7 +237,7 @@ export const AnimatedButton: React.FC<AnimatedButtonProps> = ({
         transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]
         ${disabled ? 'opacity-60 cursor-not-allowed' : 'hover:translate-y-[-6px] hover:scale-[1.05] hover:shadow-[0_12px_24px_rgba(0,0,0,0.2)] focus:scale-[1.02] hover:rotate-[0.5deg]'}
         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-opacity-50
-        ${variant === "docs" ? "hover:bg-[rgba(var(--bg-cream-rgb),0.8)] dark:hover:bg-[rgba(var(--bg-navy-rgb),0.8)] focus:ring-[var(--text-navy)]" 
+        ${variant === "docs" ? "hover:bg-[rgba(var(--bg-cream-rgb),0.8)] dark:hover:bg-[rgba(var(--bg-navy-rgb),0.8)] focus:ring-[var(--theme-text-primary)]" 
           : "hover:brightness-105 focus:brightness-105 focus:ring-white"}
         ${className}
       `}

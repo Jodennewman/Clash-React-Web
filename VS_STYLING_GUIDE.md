@@ -34,24 +34,40 @@ And then updates CSS variables in dark mode with:
 }
 ```
 
-### The Core Rules for Color Usage in Components
+### Theme-Aware Variables for Components
 
-**❌ NEVER USE THIS PATTERN - IT WILL BREAK:**
+**❌ PROBLEMATIC APPROACH - COMPETING STYLES:**
 ```jsx
-<p className="text-[var(--text-navy)]">This will NOT work correctly</p>
+<p className="text-[--text-navy] dark:text-white">Competing styles cause maintenance issues</p>
+<div className="bg-[--bg-cream] dark:bg-[--bg-navy]">Competing background styles</div>
 ```
 
-**✅ ALWAYS USE THIS PATTERN INSTEAD:**
+**✅ RECOMMENDED APPROACH - THEME-AWARE VARIABLES:**
 ```jsx
-<p className="text-[--text-navy]">This works with Tailwind v4 variable references</p>
+<p className="text-[var(--theme-text-primary)]">Uses a variable that updates with theme</p>
+<div className="bg-[var(--theme-bg-primary)]">Uses theme-aware background</div>
 ```
 
-For backgrounds and other properties, the same pattern is used:
+Or even better, use theme utility classes:
 ```jsx
-<div className="bg-[--bg-cream]">Content here</div>
+<p className="text-theme-primary">Uses theme utility class</p>
+<div className="bg-theme-surface">Uses theme background utility</div>
 ```
 
-The variables automatically update in dark mode because the CSS defines all colors with `:root` variables inside `@variant(dark)` blocks.
+These theme-aware variables are defined in globals.css:
+```css
+:root {
+  --theme-text-primary: var(--text-navy);
+  --theme-bg-primary: var(--bg-cream);
+}
+
+@variant(dark) {
+  :root {
+    --theme-text-primary: white;
+    --theme-bg-primary: var(--bg-navy);
+  }
+}
+```
 
 ## Complete Vision for Light Mode
 
@@ -393,28 +409,30 @@ The VS brand uniquely balances creative energy with professional polish through 
 
 ## Critical Technical Guidelines
 
-### CSS Variable References in Tailwind v4
+### Theme-Aware Variables in Tailwind v4
 
-**❌ WRONG - Using var() syntax (outdated):**
+**❌ PROBLEMATIC - Competing Styles:**
 ```jsx
-<p className="text-[var(--text-navy)]">This uses outdated syntax</p>
+<p className="text-[--text-navy] dark:text-white">Competing styles cause maintenance issues</p>
 ```
 
-**✅ CORRECT - Direct CSS variable reference:**
+**✅ RECOMMENDED - Theme-Aware Variables:**
 ```jsx
-<p className="text-[--text-navy]">This uses the correct Tailwind v4 syntax</p>
+<p className="text-[var(--theme-text-primary)]">Uses a variable that updates with theme</p>
+<p className="text-theme-primary">Uses a utility class that handles theming</p>
 ```
 
-### No Style Attributes for Colors
+### Theme-Aware Alternative to Style Attributes
 
-**❌ WRONG - Using style attribute:**
+**❌ PROBLEMATIC - Non-Responsive Styling:**
 ```jsx
-<div style={{ backgroundColor: 'var(--bg-cream)' }}>This won't update automatically</div>
+<div style={{ backgroundColor: 'var(--bg-cream)' }}>Won't update with theme changes</div>
 ```
 
-**✅ CORRECT - Using Tailwind classes:**
+**✅ RECOMMENDED - Theme-Aware Approach:**
 ```jsx
-<div className="bg-[--bg-cream]">This will update properly in dark mode</div>
+<div className="bg-[var(--theme-bg-primary)]">Uses theme-aware variable</div>
+<div className="bg-theme-surface">Uses theme utility class</div>
 ```
 
 ### Plain White Elimination

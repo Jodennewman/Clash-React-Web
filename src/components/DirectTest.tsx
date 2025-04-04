@@ -13,29 +13,25 @@ export function DirectTest() {
       {/* Test elements with inline styles */}
       <div className="grid grid-cols-2 gap-4">
         <div 
-          style={{ backgroundColor: 'var(--primary-orange)', padding: '1rem', borderRadius: '0.5rem' }}
-          className="text-white font-medium"
+          className="bg-[var(--theme-primary)] text-white font-medium"
         >
           Primary Orange - Inline Style
         </div>
         
         <div 
-          style={{ backgroundColor: 'var(--secondary-teal)', padding: '1rem', borderRadius: '0.5rem' }}
-          className="text-white font-medium"
+          className="bg-[var(--theme-accent-secondary)] text-white font-medium"
         >
           Secondary Teal - Inline Style
         </div>
         
         <div 
-          style={{ color: 'var(--text-navy)', backgroundColor: 'white', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #eee' }}
-          className="font-medium"
+          className="bg-[var(--theme-text-primary)] font-medium"
         >
           Text Navy - Inline Style
         </div>
         
         <div 
-          style={{ color: 'var(--accent-coral)', backgroundColor: 'white', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #eee' }}
-          className="font-medium"
+          className="bg-[var(--theme-accent-tertiary)] font-medium"
         >
           Accent Coral - Inline Style
         </div>

@@ -52,8 +52,8 @@ export function DirectClassTest() {
           Use these direct CSS classes instead of Tailwind bracket notation:
         </p>
         <ul className="space-y-1 font-mono text-sm">
-          <li>Use <code className="bg-gray-200 px-1 rounded">bg-primary-orange</code> instead of <code className="bg-gray-200 px-1 rounded">bg-[--primary-orange]</code></li>
-          <li>Use <code className="bg-gray-200 px-1 rounded">text-navy</code> instead of <code className="bg-gray-200 px-1 rounded">text-[--text-navy]</code></li>
+          <li>Use <code className="bg-gray-200 px-1 rounded">bg-primary-orange</code> instead of <code className="bg-gray-200 px-1 rounded">bg-[var(--theme-primary)]</code></li>
+          <li>Use <code className="bg-gray-200 px-1 rounded">text-navy</code> instead of <code className="bg-gray-200 px-1 rounded">text-[var(--theme-text-primary)]</code></li>
           <li>Use <code className="bg-gray-200 px-1 rounded">bg-gradient-primary</code> for gradients</li>
         </ul>
       </div>

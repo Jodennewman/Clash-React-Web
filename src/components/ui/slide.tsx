@@ -24,7 +24,7 @@ function SlideTitle({ className, ...props }: React.ComponentProps<"h3">) {
   return (
     <h3
       data-slot="slide-title"
-      className={cn("text-lg font-semibold tracking-tight text-[--text-navy] dark:text-white", className)}
+      className={cn("text-lg font-semibold tracking-tight text-[var(--theme-text-primary)] dark:text-white", className)}
       {...props}
     />
   );
@@ -34,7 +34,7 @@ function SlideDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
       data-slot="slide-description"
-      className={cn("text-sm text-balance text-[--text-navy]/70 dark:text-white/70", className)}
+      className={cn("text-sm text-balance text-[var(--theme-text-primary)]/70 dark:text-white/70", className)}
       {...props}
     />
   );
@@ -85,7 +85,7 @@ function SlideExpandedContent({
     <div
       data-slot="slide-expanded-content"
       className={cn(
-        "absolute inset-6 text-lg text-balance text-[--text-navy]/80 dark:text-white/80 transition-opacity duration-300",
+        "absolute inset-6 text-lg text-balance text-[var(--theme-text-primary)]/80 dark:text-white/80 transition-opacity duration-300",
         isExpanded ? "opacity-100" : "opacity-0",
         className,
       )}

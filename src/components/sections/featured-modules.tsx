@@ -121,12 +121,12 @@ const FeaturedModules = () => {
                   {/* Learn More button */}
                   <div className="mt-3 pt-3 border-t border-[#154D59]/30">
                     <div className="flex items-center justify-between">
-                      <div className="text-sm text-[--primary-orange] dark:text-[--primary-orange-light]">
+                      <div className="text-sm text-[var(--theme-primary)] ">
                         {module.difficulty || 'Intermediate'}
                       </div>
                       <Button 
                         variant="ghost" 
-                        className="text-[--primary-orange] hover:text-[--primary-orange-hover] hover:bg-[--primary-orange]/10 dark:hover:bg-[--primary-orange]/20 p-0 h-auto ml-auto"
+                        className="text-[var(--theme-primary)] hover:text-[var(--theme-primary-hover)] hover:bg-[var(--theme-primary)]/10 dark:hover:bg-[var(--theme-primary)]/20 p-0 h-auto ml-auto"
                         onClick={() => document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' })}
                       >
                         <span className="mr-1">Learn More</span>

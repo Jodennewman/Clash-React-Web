@@ -16,13 +16,13 @@ interface VSBackgroundProps {
  * 
  * @example
  * <VSBackground>Content with proper background</VSBackground>
- * <VSBackground lightBg="bg-[--card-bg-light]" darkBg="dark:bg-[--card-bg-navy]">Card</VSBackground>
+ * <VSBackground lightBg="bg-[var(--theme-card-bg-light)]" darkBg="dark:bg-[var(--theme-card-bg-navy)]">Card</VSBackground>
  */
 export const VSBackground = forwardRef<HTMLElement, VSBackgroundProps & React.HTMLAttributes<HTMLElement>>(
   ({
     children,
-    lightBg = 'bg-[var(--bg-cream)]',
-    darkBg = 'dark:bg-[var(--bg-navy)]',
+    lightBg = 'bg-[var(--theme-bg-primary)]',
+    darkBg = 'dark:bg-[var(--theme-bg-primary)]',
     className = '',
     as = 'div',
     ...props
@@ -48,8 +48,8 @@ export const VSCard = forwardRef<HTMLElement, VSBackgroundProps & React.HTMLAttr
   ({
     children,
     className = '',
-    lightBg = 'bg-gradient-to-br from-white to-[var(--bg-cream)]',
-    darkBg = 'dark:bg-gradient-to-br dark:from-[var(--card-bg-navy)] dark:to-[var(--bg-navy-darker)]',
+    lightBg = 'bg-gradient-to-br from-white to-[var(--theme-bg-primary)]',
+    darkBg = 'dark:bg-gradient-to-br dark:from-[var(--theme-card-bg-navy)] dark:to-[var(--theme-bg-secondary)]',
     ...props
   }, ref) => {
     return (
@@ -57,7 +57,7 @@ export const VSCard = forwardRef<HTMLElement, VSBackgroundProps & React.HTMLAttr
         ref={ref}
         lightBg={lightBg}
         darkBg={darkBg}
-        className={`rounded-[var(--border-radius-lg)] p-6 
+        className={`rounded-[var(--theme-border-radius-lg)] p-6 
                    border border-[rgba(0,0,0,0.03)] dark:border-white/5 
                    shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
                    transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]
@@ -79,8 +79,8 @@ export const VSSection = forwardRef<HTMLElement, VSBackgroundProps & React.HTMLA
   ({
     children,
     className = '',
-    lightBg = 'bg-[var(--bg-cream)]',
-    darkBg = 'dark:bg-[var(--bg-navy)]',
+    lightBg = 'bg-[var(--theme-bg-primary)]',
+    darkBg = 'dark:bg-[var(--theme-bg-primary)]',
     ...props
   }, ref) => {
     return (
@@ -89,8 +89,8 @@ export const VSSection = forwardRef<HTMLElement, VSBackgroundProps & React.HTMLA
         ref={ref}
         lightBg={lightBg}
         darkBg={darkBg}
-        className={`py-24 relative overflow-hidden border-t border-[var(--text-navy)]/10 
-                   dark:border-[var(--text-cream)]/10 ${className}`}
+        className={`py-24 relative overflow-hidden border-t border-[var(--theme-text-primary)]/10 
+                   dark:border-[var(--theme-text-secondary)]/10 ${className}`}
         {...props}
       >
         {children}

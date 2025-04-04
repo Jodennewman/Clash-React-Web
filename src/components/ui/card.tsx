@@ -7,7 +7,7 @@ function Card({ className, showFloatingElements = false, ...props }: React.Compo
     <div
       data-slot="card"
       className={cn(
-        "relative overflow-hidden vs-gradient-light dark:vs-gradient-dark text-[--text-navy] dark:text-white rounded-[--border-radius-lg] border border-white/20 dark:border-white/5 vs-card-shadow hover-bubbly",
+        "relative overflow-hidden vs-gradient-light dark:vs-gradient-dark text-[var(--theme-text-primary)] dark:text-white rounded-[--border-radius-lg] border border-white/20 dark:border-white/5 vs-card-shadow hover-bubbly",
         className,
       )}
       {...props}
@@ -39,7 +39,7 @@ function CardTitle({ className, ...props }: React.ComponentProps<"h3">) {
   return (
     <h3
       data-slot="card-title"
-      className={cn("leading-none font-semibold tracking-tight text-[--text-navy] dark:text-white", className)}
+      className={cn("leading-none font-semibold tracking-tight text-[var(--theme-text-primary)] dark:text-white", className)}
       {...props}
     />
   );
@@ -49,7 +49,7 @@ function CardDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
       data-slot="card-description"
-      className={cn("text-[--text-navy]/70 dark:text-white/70 text-sm", className)}
+      className={cn("text-[var(--theme-text-primary)]/70 dark:text-white/70 text-sm", className)}
       {...props}
     />
   );

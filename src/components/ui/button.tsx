@@ -14,13 +14,13 @@ const buttonVariants = cva(
         destructive:
           "vs-btn-destructive-gradient hover:vs-btn-destructive-gradient-hover text-white shadow-[--shadow-btn] hover:shadow-[--shadow-md]",
         outline:
-          "border border-[--secondary-teal] dark:border-white/20 bg-transparent text-[--secondary-teal] dark:text-white shadow-xs hover:bg-[--secondary-teal]/5 dark:hover:bg-white/5",
+          "border border-[var(--theme-accent-secondary)] dark:border-white/20 bg-transparent text-[var(--theme-accent-secondary)] dark:text-white shadow-xs hover:bg-[var(--theme-accent-secondary)]/5 dark:hover:bg-white/5",
         glow: "bg-white/10 backdrop-blur-sm border border-white/20 shadow-[--shadow-sm] hover:bg-white/15 hover:border-white/30 dark:hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]",
         secondary:
           "vs-btn-secondary-gradient hover:vs-btn-secondary-gradient-hover text-white shadow-[--shadow-btn] hover:shadow-[--shadow-md]",
         ghost: "hover:bg-white/10 dark:hover:bg-white/5",
-        link: "text-[--primary-orange] dark:text-[--primary-orange-light] hover:text-[--primary-orange-hover] dark:hover:text-[--primary-orange] underline-offset-4 hover:underline",
-        subtle: "bg-[--bg-cream-darker] dark:bg-white/5 text-[--text-navy] dark:text-white/80 hover:bg-[--bg-cream-darker]/80 dark:hover:bg-white/10",
+        link: "text-[var(--theme-primary)] dark:text-[var(--theme-primary-light)] hover:text-[var(--theme-primary-hover)] dark:hover:text-[var(--theme-primary)] underline-offset-4 hover:underline",
+        subtle: "bg-[var(--theme-bg-secondary)] dark:bg-white/5 text-[var(--theme-text-primary)] dark:text-white/80 hover:bg-[var(--theme-bg-secondary)]/80 dark:hover:bg-white/10",
         vibrant: "vs-btn-vibrant-gradient hover:vs-btn-vibrant-gradient-hover text-white shadow-[--shadow-btn] hover:shadow-[--shadow-md]",
       },
       size: {

@@ -148,12 +148,12 @@ const VSModal: React.FC<VSModalProps> = ({
           <div className="relative z-10">
             {/* Header */}
             {(title || showCloseButton) && (
-              <div className="p-5 md:p-6 border-b border-[--bg-cream-darker]/20 dark:border-white/5 flex items-center justify-between">
+              <div className="p-5 md:p-6 border-b border-[var(--theme-bg-secondary)]/20 dark:border-white/5 flex items-center justify-between">
                 {title && (
                   <div>
-                    <h2 className="text-xl md:text-2xl font-semibold text-[--text-navy] dark:text-white">{title}</h2>
+                    <h2 className="text-xl md:text-2xl font-semibold text-[var(--theme-text-primary)] dark:text-white">{title}</h2>
                     {description && (
-                      <p className="mt-1 text-[--text-navy]/70 dark:text-white/60 text-sm">{description}</p>
+                      <p className="mt-1 text-[var(--theme-text-primary)]/70 dark:text-white/60 text-sm">{description}</p>
                     )}
                   </div>
                 )}
@@ -161,7 +161,7 @@ const VSModal: React.FC<VSModalProps> = ({
                 {showCloseButton && (
                   <button
                     onClick={handleClose}
-                    className="text-[--text-navy]/60 dark:text-white/60 hover:text-[--text-navy] dark:hover:text-white transition-colors hover-bubbly-sm p-1"
+                    className="text-[var(--theme-text-primary)]/60 dark:text-white/60 hover:text-[var(--theme-text-primary)] dark:hover:text-white transition-colors hover-bubbly-sm p-1"
                     aria-label="Close modal"
                   >
                     <XCircle className="h-6 w-6" />

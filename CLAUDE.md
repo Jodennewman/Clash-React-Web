@@ -39,81 +39,90 @@ This file guides Claude Code when working with this repository. Follow these ins
 
 Refer to these files for comprehensive guidance on implementation standards and team coordination.
 
-## ⚠️⚠️⚠️ CRITICAL: TAILWIND CSS VARIABLE PATTERNS ⚠️⚠️⚠️
+## ⚠️⚠️⚠️ CRITICAL: THEME-AWARE CSS VARIABLES ⚠️⚠️⚠️
 
-### TEXT COLORS - DIRECT CSS VARIABLE REFERENCE
+### TEXT COLORS - THEME-AWARE APPROACH
 
-**❌ INCORRECT APPROACH - DO NOT USE:**
+**❌ PROBLEMATIC APPROACHES WITH COMPETING STYLES:**
 ```jsx
-<p className="text-[--text-navy] dark:text-white">WRONG: Missing var() wrapper</p>
-<h2 className="text-[--primary-orange] dark:text-white">WRONG: Missing var() wrapper</h2>
-<div className="bg-[--bg-cream]">WRONG: Missing var() wrapper</div>
-<div className="bg-gradient-to-br from-[--bg-cream] to-white">WRONG: Don't use from/to with variables</div>
+<p className="bg-[var(--secondary-teal)] dark:bg-[var(--secondary-teal-light)]">Competing variables cause conflicts</p>
+<div style={{ backgroundColor: 'var(--bg-cream)' }}>Won't update in dark mode without logic</div>
+<div className="text-[var(--text-navy)]">Using outdated var() syntax</div>
 ```
 
-**✅ CORRECT APPROACH - ALWAYS USE:**
+**✅ CORRECT APPROACH - THEME-AWARE VARIABLES:**
 ```jsx
-<!-- Option 1: Use style attribute with var() syntax (PREFERRED) -->
-<p style={{ color: 'var(--text-navy)' }} className="dark:text-white">CORRECT: Using style with var()</p>
-<h2 style={{ color: 'var(--primary-orange)' }} className="dark:text-white">CORRECT: Using style with var()</h2>
+<!-- Option 1: Use theme-aware variables (PREFERRED) -->
+<p className="bg-[var(--theme-accent-secondary)]">Uses variables that update with theme</p>
+<h2 className="text-[var(--theme-text-primary)]">Text color updates with theme</h2>
 
-<!-- Option 2: Use helper classes defined in globals.css (BEST PRACTICE) -->
-<div className="vs-text-navy dark:text-white">CORRECT: Using helper class</div>
-<div className="vs-bg-cream dark:vs-bg-navy">CORRECT: Using helper class</div>
+<!-- Option 2: Use utility classes for common patterns -->
+<div className="bg-theme-secondary">Using utility class that updates with theme</div>
+<div className="text-theme-primary">Text uses theme-aware utility class</div>
 
-<!-- Option 3: Use Tailwind with var() wrapper (IF NECESSARY) -->
-<span className="text-[var(--accent-coral)] dark:text-white/80">CORRECT: Using var() wrapper in class</span>
-<div className="bg-[var(--bg-cream)] dark:bg-[var(--bg-navy)]">CORRECT: Using var() wrapper in class</div>
-```
-
-## GRADIENT IMPLEMENTATION - NEVER USE TAILWIND GRADIENTS WITH VARIABLES
-
-**❌ INCORRECT APPROACH - DO NOT USE:**
-```jsx
-<div className="bg-gradient-to-br from-white to-[--bg-cream]">WRONG: Using Tailwind gradient with variable</div>
-<div className="bg-gradient-to-r from-[--primary-orange] to-[--accent-coral]">WRONG: Using from/to with variables</div>
-```
-
-**✅ CORRECT APPROACH - ALWAYS USE:**
-```jsx
-<!-- Option 1: Use helper classes defined in globals.css (PREFERRED) -->
-<div className="vs-gradient-light dark:vs-gradient-dark">CORRECT: Using predefined gradient class</div>
-<div className="vs-btn-primary-gradient">CORRECT: Using component-specific gradient</div>
-
-<!-- Option 2: Use inline style with CSS variables (IF NECESSARY) -->
+<!-- Option 3: When component is outside theme context -->
 <div style={{ 
-  background: 'linear-gradient(to bottom right, white, var(--bg-cream))' 
-}} className="dark:vs-gradient-dark">
-  CORRECT: Using style with proper gradient and var()
+  backgroundColor: isDarkTheme ? 'var(--bg-navy)' : 'var(--bg-cream)' 
+}}>Uses conditional for isolated components</div>
+```
+
+## GRADIENT IMPLEMENTATION - THEME-AWARE APPROACH
+
+**❌ PROBLEMATIC GRADIENT APPROACHES:**
+```jsx
+<div className="bg-gradient-to-br from-white to-[--bg-cream]/80 dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]">Competing gradient styles can cause conflicts</div>
+<div style={{ background: 'linear-gradient(to bottom right, white, var(--bg-cream))' }}>Won't update in dark mode</div>
+```
+
+**✅ CORRECT APPROACH - THEME-AWARE GRADIENTS:**
+```jsx
+<!-- Option 1: Use theme-aware gradient utility classes (PREFERRED) -->
+<div className="bg-theme-gradient">Gradient changes automatically with theme</div>
+<div className="bg-theme-gradient-primary">Component-specific gradient that's theme-aware</div>
+
+<!-- Option 2: CSS variables that update with theme -->
+<div className="bg-[var(--theme-gradient)]">
+  Uses CSS variables that update with theme
+</div>
+
+<!-- Option 3: For advanced cases, use conditional styles -->
+<div style={{ 
+  background: isDarkTheme 
+    ? 'linear-gradient(to bottom right, var(--bg-navy), var(--bg-navy-darker))' 
+    : 'linear-gradient(to bottom right, white, var(--bg-cream))'
+}}>
+  Conditional styling for special cases
 </div>
 ```
 
-## EVERY ELEMENT MUST HAVE BOTH LIGHT AND DARK MODE STYLES
+## SINGLE-SOURCE-OF-TRUTH THEME VARIABLES
 
-**❌ MISSING DARK MODE:**
+**❌ PROBLEMATIC DUAL-MODE APPROACH:**
 ```jsx
-<div style={{ backgroundColor: 'var(--bg-cream)' }}>BROKEN: No dark mode style</div>
-<p className="vs-text-navy">BROKEN: No dark mode class</p>
+<div className="text-[--text-navy] dark:text-white">Using competing styles for each mode</div>
+<p className="vs-text-navy dark:text-white">Helper class + dark override creates maintenance issues</p>
 ```
 
-**✅ COMPLETE IMPLEMENTATION:**
+**✅ THEME-AWARE IMPLEMENTATION:**
 ```jsx
-<!-- Option 1: Using style attribute with media query -->
-<div 
-  style={{ 
-    backgroundColor: 'var(--bg-cream)', 
-    '@media (prefers-color-scheme: dark)': {
-      backgroundColor: 'var(--bg-navy)'
-    }
-  }}
->CORRECT: Both modes defined in style</div>
+<!-- Option 1: Theme-aware variables (PREFERRED) -->
+<div className="text-[var(--theme-text-primary)]">
+  Text color automatically changes with theme
+</div>
 
-<!-- Option 2: Using helper classes with dark variant -->
-<p className="vs-text-navy dark:text-white">CORRECT: Both modes defined with classes</p>
+<!-- Option 2: Theme utility classes -->
+<p className="text-theme-primary">
+  Utility class controls color in both modes
+</p>
 
-<!-- Option 3: Using conditional styling with theme context -->
-<div style={{ backgroundColor: isDarkTheme ? 'var(--bg-navy)' : 'var(--bg-cream)' }}>
-  CORRECT: Both modes handled in logic
+<!-- Option 3: Using component-specific theme classes -->
+<div className="heading-primary">
+  Component-specific class handles both modes
+</div>
+
+<!-- Option 4: For isolated components -->
+<div style={{ color: isDarkTheme ? 'var(--text-light)' : 'var(--text-navy)' }}>
+  Conditional logic for isolated components
 </div>
 ```
 
@@ -204,21 +213,21 @@ function AnimatedComponent() {
 }
 ```
 
-## Critical Do's and Don'ts - ⚠️⚠️⚠️ UPDATED & CLARIFIED ⚠️⚠️⚠️
+## Critical Do's and Don'ts - ⚠️⚠️⚠️ UPDATED FOR THEME-AWARE APPROACH ⚠️⚠️⚠️
 
 ### DO NOT:
-- ❌ NEVER use `className="text-[--color-var]"` without var() wrapper
-- ❌ NEVER use Tailwind gradient classes with CSS variables
+- ❌ NEVER use competing light/dark mode styles that target same property
+- ❌ NEVER use static color values without theme awareness
 - ❌ NEVER use plain white backgrounds - ALWAYS use subtle gradients
 - ❌ NEVER create animations without proper cleanup via useGSAP and gsap.context
 - ❌ NEVER change grid layouts (grid-cols-*) under any circumstances
 - ❌ NEVER implement quick fixes - identify and fix root causes
 
 ### DO:
-- ✅ ALWAYS use style attributes with var(): `style={{ color: 'var(--text-navy)' }}`
-- ✅ ALWAYS use var() wrapper in Tailwind: `className="text-[var(--text-navy)]"`
-- ✅ ALWAYS use pre-defined helper classes for gradients: `className="vs-gradient-primary"` 
-- ✅ ALWAYS implement both light AND dark mode for every component
+- ✅ ALWAYS use theme-aware variables: `className="text-[var(--theme-text-primary)]"`
+- ✅ ALWAYS use theme utility classes when available: `className="text-theme-primary"`
+- ✅ ALWAYS use theme-aware gradients: `className="bg-theme-gradient-primary"`
+- ✅ ALWAYS verify components look correct in both light and dark modes
 - ✅ ALWAYS add subtle floating elements for visual interest
 - ✅ ALWAYS use appropriate shadows for each mode (down-left for light, glow for dark)
 - ✅ ALWAYS create a written plan and get approval before proceeding
@@ -251,27 +260,52 @@ Our CSS variables use Tailwind v4's `@custom-variant` and `@variant` system:
 }
 ```
 
-### CSS Variable Usage Patterns - CRITICAL CLARIFICATION
-- In CSS stylesheets: `var(--primary-orange)` ✅
-- In JSX style attributes: `style={{ color: 'var(--primary-orange)' }}` ✅
-- In Tailwind classes: NEVER use `text-[--primary-orange]` directly ❌
-- In Tailwind classes: ALWAYS use `text-[var(--primary-orange)]` with var() wrapper ✅
-- When possible, use helper classes defined in globals.css instead of inline styles
-
-### Gradient Patterns - DO NOT USE DIRECTLY
-- ❌ NEVER use Tailwind gradients like: `bg-gradient-to-r from-[--primary-orange] to-[--accent-coral]`
-- ❌ NEVER use `from-[--variable]` syntax directly
-- ✅ ALWAYS use predefined CSS classes in globals.css like:
+### Theme-Aware CSS Variables - CRITICAL APPROACH
+- In CSS stylesheets: Define theme variables that automatically update with theme context ✅
   ```css
-  .vs-gradient-primary {
-    background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
+  :root {
+    --theme-text-primary: var(--text-navy);
+    --theme-bg-primary: var(--bg-cream);
+  }
+  
+  @variant(dark) {
+    :root {
+      --theme-text-primary: white;
+      --theme-bg-primary: var(--bg-navy);
+    }
   }
   ```
-- ✅ Or use inline styles with proper variable references:
+- In Tailwind classes: Use theme-aware variables ✅
   ```jsx
-  style={{ 
-    background: 'linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover))' 
-  }}
+  <p className="text-[var(--theme-text-primary)]">Text updates with theme</p>
+  ```
+- Use utility classes for common patterns ✅
+  ```jsx
+  <div className="text-theme-primary bg-theme-surface">Using utility classes</div>
+  ```
+- In isolated components: Use conditional logic ✅
+  ```jsx
+  <div style={{ color: isDarkMode ? 'white' : 'var(--text-navy)' }}>
+    Works outside theme context
+  </div>
+  ```
+
+### Theme-Aware Gradient Patterns
+- ✅ Use theme-aware gradient CSS classes:
+  ```css
+  .bg-theme-gradient {
+    background: linear-gradient(to right, var(--theme-gradient-start), var(--theme-gradient-end));
+  }
+  ```
+- ✅ Apply with simple class names:
+  ```jsx
+  <div className="bg-theme-gradient">Theme-aware gradient that updates automatically</div>
+  ```
+- ✅ Define component-specific themed gradients:
+  ```css
+  .card-gradient {
+    background: linear-gradient(to bottom right, var(--theme-card-gradient-start), var(--theme-card-gradient-end));
+  }
   ```
 
 ### Adding Plugins
@@ -409,185 +443,336 @@ The Module Viewer component should NOT be modified in the current sprint.
 4. Test all changes in both light and dark modes
 5. Include team prefix in all commit messages: `A:` or `B:`
 
-## Component Example with Complete Implementation
+## Component Example with Theme-Aware Implementation
 
 ```jsx
 function ExampleCard() {
   return (
     <div className="relative overflow-hidden">
-      {/* Floating elements - different for each mode */}
-      <div className="absolute top-20 left-5 w-16 h-16 rounded-[40%] rotate-12 opacity-5 
-                    bg-[--primary-orange] animate-float-slow hidden dark:hidden"></div>
-      <div className="absolute bottom-10 right-5 w-24 h-24 rounded-[30%] -rotate-6 opacity-8
-                    bg-[--primary-orange-hover] animate-float-medium hidden dark:hidden"></div>
+      {/* Floating elements using theme-aware approach */}
+      <div className="absolute top-20 left-5 w-16 h-16 rounded-[40%] rotate-12 
+                    opacity-[var(--theme-float-opacity)] 
+                    bg-[var(--theme-float-bg-primary)]
+                    animate-float-slow"></div>
+      <div className="absolute bottom-10 right-5 w-24 h-24 rounded-[30%] -rotate-6 
+                    opacity-[var(--theme-float-opacity-secondary)]
+                    bg-[var(--theme-float-bg-secondary)]
+                    animate-float-medium"></div>
                     
-      {/* Dark mode floating elements */}
-      <div className="absolute top-20 left-5 w-16 h-16 rounded-[40%] rotate-12 opacity-10 
-                    bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] 
-                    animate-float-slow hidden dark:block"></div>
-      <div className="absolute bottom-10 right-5 w-24 h-24 rounded-[30%] -rotate-6 opacity-15
-                    bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-hover] 
-                    animate-float-medium hidden dark:block"></div>
-                    
-      {/* Card with proper styling for BOTH modes */}
-      <div className="relative z-10 bg-gradient-to-br from-white to-[--bg-cream]/80
-                    dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]
-                    rounded-[--border-radius-lg] p-6 
-                    shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
-                    dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
-                    transition-all duration-[--transition-bounce]
-                    hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] 
-                    dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.2)]
-                    hover:translate-y-[-4px] hover:scale-[1.02]">
-        <h3 className="text-[--text-navy] dark:text-white text-xl mb-2">
+      {/* Card with theme-aware styling */}
+      <div className="relative z-10 
+                    bg-theme-card-gradient
+                    rounded-lg p-6 
+                    shadow-[var(--theme-shadow-card)]
+                    transition-all duration-300
+                    hover:shadow-[var(--theme-shadow-card-hover)]
+                    hover-bubbly">
+        {/* Content */}
+        <h3 className="text-[var(--theme-text-primary)] text-xl mb-2">
           Card Title
         </h3>
         
-        <p className="text-[--text-navy] dark:text-white/70 mb-4">
-          This card has proper implementation for both light and dark mode.
+        <p className="text-[var(--theme-text-secondary)] mb-4">
+          This card uses theme-aware variables for consistent styling in any theme.
         </p>
         
-        <button 
-          className="bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover]
-                   dark:bg-gradient-to-r dark:from-[--primary-orange] dark:to-[--primary-orange-hover]
-                   text-white px-4 py-2 rounded-full 
-                   shadow-[1px_1px_4px_rgba(0,0,0,0.1)]
-                   dark:shadow-[0_0_8px_rgba(254,163,93,0.2)]
-                   transition-all duration-[--transition-bounce]
-                   hover:translate-y-[-3px] hover:scale-[1.03] 
-                   hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)]
-                   dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]">
+        <button className="btn-primary hover-bubbly-sm">
           Learn More
         </button>
       </div>
     </div>
   )
 }
+
+// Define these utility classes in globals.css:
+/*
+.bg-theme-card-gradient {
+  background: linear-gradient(to bottom right, var(--theme-card-gradient-start), var(--theme-card-gradient-end));
+}
+
+.btn-primary {
+  background: linear-gradient(to right, var(--theme-btn-primary-start), var(--theme-btn-primary-end));
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  box-shadow: var(--theme-shadow-sm);
+  transition: all 300ms var(--theme-transition-bounce);
+}
+
+.btn-primary:hover {
+  box-shadow: var(--theme-shadow-md);
+}
+
+.hover-bubbly:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+.hover-bubbly-sm:hover {
+  transform: translateY(-3px) scale(1.03);
+}
+*/
 ```
 
 ## Common Pitfalls to Avoid
 
-### Dark Mode Implementation - UPDATED CRITICAL INFO
-❌ **WRONG**:
+### Competing Styles Problem
+❌ **PROBLEMATIC APPROACHES**:
 ```jsx
-<div style={{ backgroundColor: 'var(--bg-cream)' }}>Won't switch in dark mode without logic</div>
-<p className="text-[--text-navy]">WRONG - Missing var() wrapper</p>
-<div className="bg-gradient-to-r from-[--primary-orange]">WRONG - Don't use Tailwind gradients with variables</div>
+<div className="text-[--text-navy] dark:text-white">Competing styles can cause conflicts</div>
+<p className="bg-[var(--bg-cream)] dark:bg-[var(--bg-navy)]">Using different variables for each mode</p>
+<div className="bg-gradient-to-br from-white to-[--bg-cream]/80 dark:bg-gradient-to-br dark:from-[--bg-navy]">Gradient with competing declarations</div>
 ```
 
-✅ **CORRECT**:
+✅ **THEME-AWARE SOLUTIONS**:
 ```jsx
-<!-- Option 1: Style with theme context or class conditionals -->
-<div 
-  className="dark-mode-container" 
-  style={{ backgroundColor: isDarkMode ? 'var(--bg-navy)' : 'var(--bg-cream)' }}
->Works correctly with conditionals</div>
-
-<!-- Option 2: Helper classes (PREFERRED) -->
-<div className="vs-bg-cream dark:vs-bg-navy">
-  Works correctly with helper classes
-</div>
-<p className="vs-text-navy dark:text-white">
-  Text with helper class and dark mode
-</p>
-
-<!-- Option 3: When necessary, use Tailwind with var() wrapper -->
-<span className="text-[var(--primary-orange)] dark:text-white">
-  ONLY when helper classes unavailable
-</span>
-```
-
-### Gradient Implementation - UPDATED CRITICAL INFO
-❌ **WRONG**:
-```jsx
-<div className="bg-white">Plain white background</div>
-<div className="bg-gradient-to-br from-white to-[--bg-cream]/80">WRONG - Don't use CSS variables in Tailwind gradients</div>
-```
-
-✅ **CORRECT**:
-```jsx
-<!-- Option 1: Use predefined helper classes (PREFERRED) -->
-<div className="vs-gradient-light dark:vs-gradient-dark">
-  Proper gradient with helper class for both modes
+<!-- Option 1: Theme-aware CSS variables -->
+<div className="text-[var(--theme-text-primary)]">
+  Single variable automatically updates with theme
 </div>
 
-<!-- Option 2: Use inline style with CSS variables -->
+<!-- Option 2: Theme utility classes -->
+<div className="bg-theme-surface">
+  Utility class handles theme changes automatically
+</div>
+
+<!-- Option 3: Component-specific theme classes -->
+<div className="card-gradient">
+  Component class with theme-aware styles
+</div>
+```
+
+### Theme-Aware Gradient Implementation
+❌ **PROBLEMATIC APPROACHES**:
+```jsx
+<div className="bg-white">Plain white background without theme support</div>
+<div style={{ background: 'linear-gradient(to right, var(--primary-orange), var(--accent-coral))' }}>
+  Doesn't update with theme
+</div>
+```
+
+✅ **THEME-AWARE SOLUTIONS**:
+```jsx
+<!-- Option 1: Theme-aware gradient class -->
+<div className="bg-theme-gradient">
+  Gradient that updates automatically with theme
+</div>
+
+<!-- Option 2: Component-specific gradient with theme awareness -->
+<div className="card-gradient">
+  Component-specific gradient with theme support
+</div>
+
+<!-- Option 3: For isolated components -->
 <div style={{ 
-  background: 'linear-gradient(to bottom right, white, var(--bg-cream))' 
-}} className="dark:vs-gradient-dark">
-  Proper gradient with inline styles
-</div>
-
-<!-- Option 3: Create component-specific gradient classes -->
-<div className="hero-gradient">
-  Proper gradient with custom class
+  background: isDarkMode
+    ? 'linear-gradient(to right, var(--primary-orange-dark), var(--accent-coral-dark))'
+    : 'linear-gradient(to right, var(--primary-orange), var(--accent-coral))'
+}}>
+  Conditional gradient for isolated components
 </div>
 ```
 
-### Animation Implementation
-❌ **WRONG**:
+### Animation Implementation with Theme Awareness
+❌ **PROBLEMATIC APPROACHES**:
 ```jsx
+// Problem 1: No cleanup
 useEffect(() => {
   gsap.to(".element", { y: -10 });
   // No cleanup
 }, []);
-```
 
-✅ **CORRECT**:
-```jsx
+// Problem 2: No theme awareness
 useGSAP(() => {
   const ctx = gsap.context(() => {
-    gsap.to(".element", { y: -10 });
+    gsap.to(".element", { 
+      y: -10,
+      duration: 0.5
+    });
   }, containerRef);
   
   return () => ctx.revert();
 }, []);
 ```
 
-## Debugging Light/Dark Mode Issues
+✅ **THEME-AWARE ANIMATION**:
+```jsx
+// Using theme-aware variables for animation properties
+useGSAP(() => {
+  const ctx = gsap.context(() => {
+    // Get computed values from theme-aware CSS variables
+    const element = containerRef.current.querySelector(".element");
+    const styles = window.getComputedStyle(element);
+    const animDistance = styles.getPropertyValue('--theme-anim-distance') || '-10px';
+    const animDuration = styles.getPropertyValue('--theme-anim-duration') || '0.5';
+    
+    gsap.to(".element", { 
+      y: animDistance,
+      duration: parseFloat(animDuration),
+      ease: "power2.out"
+    });
+  }, containerRef);
+  
+  return () => ctx.revert();
+}, []);
+```
 
-If styling looks wrong in either mode, check for:
+## Debugging Theme Implementation Issues
 
-1. Using `text-[var(--variable)]` instead of `text-[--variable]` (This is the #1 cause of issues)
-2. Missing `dark:text-[color]` class for text elements
-3. Missing gradients (using plain colors instead)
-4. Missing or inappropriate shadows for each mode
-5. Animation issues (not using useGSAP and gsap.context)
+If styling looks wrong in either theme mode, check for:
+
+1. Missing theme-aware variable definitions in your CSS (check `:root` and `@variant(dark)` sections)
+2. Using competing light/dark mode styles instead of theme-aware variables
+3. Using static values instead of theme variables (e.g., `text-white` instead of `text-[var(--theme-text-primary)]`)
+4. Missing or inappropriate shadows for each mode (verify theme shadow variables are defined)
+5. Animation issues (verify theme animation variables and useGSAP implementation)
+
+**How to test theme-aware variables:**
+1. Inspect the element in browser dev tools
+2. Check the computed CSS values in both light and dark modes
+3. Verify theme variables are updating correctly when theme changes
 
 REMEMBER: ALWAYS TEST IN BOTH LIGHT AND DARK MODE!
 
-## Common Utility Classes
+**Quick fix for common issues:**
+```css
+/* Add these to globals.css */
+:root {
+  /* Theme text colors */
+  --theme-text-primary: var(--text-navy);
+  --theme-text-secondary: var(--text-navy);
+  
+  /* Theme background colors */
+  --theme-bg-primary: var(--bg-cream);
+  --theme-bg-secondary: var(--bg-cream-darker);
+  
+  /* Theme gradients */
+  --theme-gradient-start: white;
+  --theme-gradient-end: var(--bg-cream);
+  
+  /* Theme shadows */
+  --theme-shadow-card: 2px 2px 8px rgba(0,0,0,0.05);
+}
 
-Use these utility classes for common styling patterns:
+@variant(dark) {
+  :root {
+    /* Theme text colors in dark mode */
+    --theme-text-primary: white;
+    --theme-text-secondary: rgba(255,255,255,0.7);
+    
+    /* Theme background colors in dark mode */
+    --theme-bg-primary: var(--bg-navy);
+    --theme-bg-secondary: var(--bg-navy-darker);
+    
+    /* Theme gradients in dark mode */
+    --theme-gradient-start: var(--bg-navy);
+    --theme-gradient-end: var(--bg-navy-darker);
+    
+    /* Theme shadows in dark mode */
+    --theme-shadow-card: 0 0 15px rgba(53,115,128,0.15);
+  }
+}
+```
+
+## Theme-Aware Utility Classes
+
+Use these theme-aware utility classes for common styling patterns:
 
 ```jsx
-// Spacing hover effect using VS Bubbly animation
+// Theme-aware text colors
+<div className="text-theme-primary">
+  Primary text color that updates with theme
+</div>
+
+<div className="text-theme-secondary">
+  Secondary text color that updates with theme
+</div>
+
+// Theme-aware backgrounds
+<div className="bg-theme-surface">
+  Surface background that updates with theme
+</div>
+
+<div className="bg-theme-card">
+  Card background that updates with theme
+</div>
+
+// Theme-aware gradients
+<div className="bg-theme-gradient">
+  Gradient that updates with theme
+</div>
+
+<div className="bg-theme-gradient-primary">
+  Primary accent gradient that updates with theme
+</div>
+
+// VS Bubbly animations (theme-aware)
 <div className="hover-bubbly">
-  Hovers with standard VS Bubbly animation
+  Hover with standard VS Bubbly effect
 </div>
 
-// More pronounced hover
 <div className="hover-bubbly-lg">
-  Hovers with larger VS Bubbly animation
+  Hover with larger VS Bubbly effect
 </div>
 
-// Subtle hover
-<div className="hover-bubbly-sm">
-  Hovers with subtle VS Bubbly animation
+// Theme-aware shadows
+<div className="shadow-theme-card">
+  Card shadow that updates with theme
 </div>
 
-// Text shadow for dark mode
-<div className="dark:text-shadow-md">
-  Text with medium shadow in dark mode
+// Complete component styling
+<div className="card-primary">
+  Card with complete theme-aware styling
 </div>
+```
 
-// Rich gradient card
-<div className="bg-gradient-to-br from-white to-[--bg-cream]/80 
-              dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]
-              shadow-[2px_2px_8px_rgba(0,0,0,0.05)]
-              dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]">
-  Card with proper gradients and shadows
-</div>
+Example implementation of these classes in globals.css:
+
+```css
+/* Text utilities */
+.text-theme-primary {
+  color: var(--theme-text-primary);
+}
+
+.text-theme-secondary {
+  color: var(--theme-text-secondary);
+}
+
+/* Background utilities */
+.bg-theme-surface {
+  background-color: var(--theme-bg-primary);
+}
+
+.bg-theme-card {
+  background-color: var(--theme-bg-card);
+}
+
+/* Gradient utilities */
+.bg-theme-gradient {
+  background: linear-gradient(to bottom right, var(--theme-gradient-start), var(--theme-gradient-end));
+}
+
+.bg-theme-gradient-primary {
+  background: linear-gradient(to right, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));
+}
+
+/* Shadow utilities */
+.shadow-theme-card {
+  box-shadow: var(--theme-shadow-card);
+}
+
+/* Complete component styling */
+.card-primary {
+  background: linear-gradient(to bottom right, var(--theme-card-gradient-start), var(--theme-card-gradient-end));
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: var(--theme-shadow-card);
+  transition: all 300ms var(--theme-transition-bounce);
+}
+
+.card-primary:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--theme-shadow-card-hover);
+}
 ```
 
 ## CSS Variables Reference: Light & Dark Mode
@@ -717,34 +902,77 @@ Use these utility classes for common styling patterns:
 </button>
 ```
 
-## ⚠️⚠️⚠️ CRITICAL: AVOID TAILWIND GRADIENT SYNTAX ⚠️⚠️⚠️
+## ⚠️⚠️⚠️ CRITICAL: THEME-AWARE VARIABLE APPROACH ⚠️⚠️⚠️
 
-**Tailwind gradient syntax (bg-gradient-to-*) is NOT WORKING properly in this project with CSS variables**
+**The theme-aware variable approach avoids competing light/dark styles and simplifies maintenance**
 
-- ❌ Do NOT use `bg-gradient-to-b`, `bg-gradient-to-r`, etc. with CSS variables
-- ❌ Do NOT use `from-[--variable-name]` or `to-[--variable-name]` syntax
-- ❌ Do NOT use direct CSS variables in Tailwind classes without var() wrapper: `bg-[--var-name]` 
-- ✅ Instead, create and use explicit CSS classes for gradients with proper naming
-- ✅ Use inline styles with proper var() syntax: `style={{ background: 'linear-gradient(...)' }}`
-- ✅ Prefer predefined helper classes: `vs-gradient-light`, `vs-btn-primary-gradient`, etc.
+- ❌ Do NOT use competing style declarations (e.g., `text-[--color] dark:text-white`)
+- ❌ Do NOT use direct color values without theme awareness
+- ❌ Do NOT use inline styles that don't adapt to theme changes
+- ✅ Instead, create theme-aware variables in CSS with proper naming
+- ✅ Use single theme-aware classes: `text-[var(--theme-text-primary)]`
+- ✅ Prefer theme utility classes: `text-theme-primary`, `bg-theme-surface`
 
-## CRITICAL MISSION: Fix Color Variable Syntax Throughout Codebase
+## CRITICAL MISSION: Implement Theme-Aware Approach Throughout Codebase
 
-1. **Colors & Backgrounds:**
-   - ❌ Change all instances of `text-[--color-var]` to `style={{ color: 'var(--color-var)' }}` or helper class
-   - ❌ Change all instances of `bg-[--color-var]` to `style={{ backgroundColor: 'var(--color-var)' }}` or helper class
-   - ❌ Remove all `bg-gradient-to-*` that use CSS variables, replace with helper classes
-   - ✅ Ensure all components have proper light/dark mode styling
+1. **Add Theme-Aware Variables to globals.css:**
+   ```css
+   :root {
+     /* Text theme */
+     --theme-text-primary: var(--text-navy);
+     --theme-text-secondary: var(--text-navy);
+     
+     /* Background theme */
+     --theme-bg-primary: var(--bg-cream);
+     --theme-bg-surface: var(--bg-cream-darker);
+     
+     /* Gradient theme */
+     --theme-gradient-start: white;
+     --theme-gradient-end: var(--bg-cream);
+     
+     /* Shadow theme */
+     --theme-shadow-card: 2px 2px 8px rgba(0,0,0,0.05);
+   }
+   
+   @variant(dark) {
+     :root {
+       /* Dark theme values */
+       --theme-text-primary: white;
+       --theme-text-secondary: rgba(255,255,255,0.7);
+       
+       --theme-bg-primary: var(--bg-navy);
+       --theme-bg-surface: var(--bg-navy-darker);
+       
+       --theme-gradient-start: var(--bg-navy);
+       --theme-gradient-end: var(--bg-navy-darker);
+       
+       --theme-shadow-card: 0 0 15px rgba(53,115,128,0.15);
+     }
+   }
+   ```
 
-2. **Floating Elements:**
-   - ✅ Use predefined `vs-float-element-light-1`, `vs-float-element-dark-1` helper classes
-   - ✅ Ensure all dark mode floating elements have `dark:block` class
+2. **Create Utility Classes for Common Patterns:**
+   ```css
+   /* Theme-aware utility classes */
+   .text-theme-primary { color: var(--theme-text-primary); }
+   .bg-theme-surface { background-color: var(--theme-bg-surface); }
+   .bg-theme-gradient { background: linear-gradient(to bottom right, var(--theme-gradient-start), var(--theme-gradient-end)); }
+   .shadow-theme-card { box-shadow: var(--theme-shadow-card); }
+   ```
 
-3. **Shadows & Effects:**
-   - ✅ Replace hardcoded shadow values with CSS variables or helper classes
-   - ✅ Use `vs-card-shadow` helper class for consistent shadows
+3. **Refactor Components to Use Theme-Aware Approach:**
+   - ✅ Replace competing styles with theme-aware variables
+   - ✅ Use utility classes for common styling patterns
+   - ✅ Create component-specific classes for complex components
 
-4. **IMPORTANT SEARCH TIPS:**
-   - Search for `text-[--` or `bg-[--` to find incorrect variable usage
-   - Search for `from-[--` to find incorrect gradient implementation
-   - Look for components that don't have dark mode alternatives
+4. **IMPLEMENTATION CHECKLIST:**
+   - [ ] Add theme-aware variables to globals.css
+   - [ ] Create utility classes for common patterns
+   - [ ] Update component styles to use theme-aware approach
+   - [ ] Test components in both light and dark mode
+   - [ ] Verify theme changes are properly applied
+
+5. **SEARCH TIPS:**
+   - Search for `dark:` to find competing style declarations
+   - Search for `text-white` to find hardcoded text colors
+   - Look for components that use both light and dark mode styles for the same property

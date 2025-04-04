@@ -96,11 +96,11 @@ const CaseStudies = React.forwardRef((props, ref) => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-[--bg-cream-darker]/80 dark:bg-[--bg-navy-darker]/90
+        <div className="bg-[var(--theme-bg-secondary)]/80 dark:bg-[var(--theme-bg-secondary)]/90
                       p-2.5 rounded-md shadow-[0_1px_3px_rgba(0,0,0,0.02)]
                       dark:shadow-[0_2px_6px_rgba(0,0,0,0.3)]
-                      border border-[--text-navy]/5 dark:border-white/10">
-          <p className="font-medium text-sm text-[--text-navy] dark:text-white border-b border-[--text-navy]/5 dark:border-white/10 pb-1 mb-1.5">
+                      border border-[var(--theme-text-primary)]/5 dark:border-white/10">
+          <p className="font-medium text-sm text-[var(--theme-text-primary)] dark:text-white border-b border-[var(--theme-text-primary)]/5 dark:border-white/10 pb-1 mb-1.5">
             {label}
           </p>
           {payload.map((entry, index) => (
@@ -118,24 +118,23 @@ const CaseStudies = React.forwardRef((props, ref) => {
   return (
     <Section
       ref={mergeRefs([sectionRef, ref])}
-      style={{backgroundColor: 'var(--bg-cream)'}}
-      className="min-h-screen flex flex-col justify-center py-20 dark:bg-[var(--bg-navy)] relative overflow-hidden border-t border-[var(--text-navy)]/10 dark:border-white/5"
+      className="bg-[var(--theme-bg-primary)] min-h-screen flex flex-col justify-center py-20 dark:bg-[var(--theme-bg-primary)] relative overflow-hidden border-t border-[var(--theme-text-primary)]/10 dark:border-white/5"
     >
       {/* Background patterns */}
       <div className="absolute inset-0 dot-bg opacity-30 dark:opacity-10 pointer-events-none"></div>
       
       {/* Light mode floating elements */}
       <div className="absolute top-40 left-[10%] w-40 h-40 rounded-[40%] rotate-12 opacity-5 
-                    bg-[--primary-orange] animate-float-slow hidden md:block dark:hidden"></div>
+                    bg-[var(--theme-primary)] animate-float-slow hidden md:block dark:hidden"></div>
       <div className="absolute bottom-60 right-[15%] w-40 h-40 rounded-[30%] -rotate-6 opacity-8 
-                    bg-[--primary-orange-hover] animate-float-medium hidden md:block dark:hidden"></div>
+                    bg-[var(--theme-primary-hover)] animate-float-medium hidden md:block dark:hidden"></div>
       
       {/* Dark mode floating elements */}
       <div className="absolute top-40 left-[10%] w-40 h-40 rounded-[40%] rotate-12 opacity-10 
-                    bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] 
+                    vs-btn-primary-gradient 
                     animate-float-slow hidden md:dark:block"></div>
       <div className="absolute bottom-60 right-[15%] w-40 h-40 rounded-[30%] -rotate-6 opacity-15
-                    bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-hover] 
+                    vs-btn-secondary-gradient 
                     animate-float-medium hidden md:dark:block"></div>
 
       <div className="container mx-auto px-4 relative z-10 flex flex-col">
@@ -144,10 +143,10 @@ const CaseStudies = React.forwardRef((props, ref) => {
           <Badge variant="section" size="xl" className="mb-2">
             Success Stories
           </Badge>
-          <h2 className="text-[--text-navy] dark:text-white text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-[var(--theme-text-primary)] dark:text-white text-4xl md:text-5xl font-bold mb-4">
             Creator Case Studies
           </h2>
-          <p className="text-[--text-navy] dark:text-white/70 text-lg md:text-xl mb-2 max-w-3xl mx-auto">
+          <p className="text-[var(--theme-text-primary)] dark:text-white/70 text-lg md:text-xl mb-2 max-w-3xl mx-auto">
             See how we've helped creators grow their audience and engagement through our proven strategies.
           </p>
         </div>
@@ -158,8 +157,8 @@ const CaseStudies = React.forwardRef((props, ref) => {
           <div className="lg:w-2/3 flex flex-col case-study-element">
             {/* Creator Profile - cleaner and flatter */}
             <div className="flex flex-col md:flex-row items-center gap-3 mb-4 p-4
-                      bg-[--bg-cream-darker]/20 dark:bg-[--bg-navy-darker]/40
-                      rounded-md border border-[--text-navy]/5 dark:border-white/5
+                      bg-[var(--theme-bg-secondary)]/20 dark:bg-[var(--theme-bg-secondary)]/40
+                      rounded-md border border-[var(--theme-text-primary)]/5 dark:border-white/5
                       shadow-[0_1px_3px_rgba(0,0,0,0.01)] dark:shadow-[0_1px_5px_rgba(0,0,0,0.15)]">
               <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden flex-shrink-0
                           ring-2 ring-[--primary-orange]/80 dark:ring-[--primary-orange]/80">
@@ -171,27 +170,27 @@ const CaseStudies = React.forwardRef((props, ref) => {
               </div>
 
               <div className="text-center md:text-left flex-1">
-                <h3 className="text-[--text-navy] dark:text-white text-lg md:text-xl font-medium mb-0.5">
+                <h3 className="text-[var(--theme-text-primary)] dark:text-white text-lg md:text-xl font-medium mb-0.5">
                   {currentCreator.name}
                 </h3>
-                <p className="text-[--text-navy]/70 dark:text-white/70 text-xs md:text-sm">
+                <p className="text-[var(--theme-text-primary)]/70 dark:text-white/70 text-xs md:text-sm">
                   {currentCreator.description}
                 </p>
               </div>
             </div>
           
             {/* Graph component */}
-            <div ref={chartRef} className="flex-1 bg-[--bg-cream-darker]/20 dark:bg-[--bg-navy-darker]/40
+            <div ref={chartRef} className="flex-1 bg-[var(--theme-bg-secondary)]/20 dark:bg-[var(--theme-bg-secondary)]/40
                         p-4 rounded-md
-                        border border-[--text-navy]/5 dark:border-white/5
+                        border border-[var(--theme-text-primary)]/5 dark:border-white/5
                         shadow-[0_1px_3px_rgba(0,0,0,0.01)] dark:shadow-[0_1px_5px_rgba(0,0,0,0.15)]">
               {/* Metric toggle buttons - moved inside graph */}
               <div className="flex flex-wrap justify-end gap-1.5 mb-3">
                 {[
-                  { id: "all", label: "All Metrics", color: "text-[--text-navy] dark:text-white" },
-                  { id: "views", label: "Views", color: "text-[--primary-orange] dark:text-[--primary-orange-light]" },
-                  { id: "followers", label: "Followers", color: "text-[--secondary-teal] dark:text-[--secondary-teal-light]" },
-                  { id: "interactions", label: "Interactions", color: "text-[--accent-coral]" },
+                  { id: "all", label: "All Metrics", color: "text-[var(--theme-text-primary)] dark:text-white" },
+                  { id: "views", label: "Views", color: "text-[var(--theme-primary)] dark:text-[var(--theme-primary-light)]" },
+                  { id: "followers", label: "Followers", color: "text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)]" },
+                  { id: "interactions", label: "Interactions", color: "text-[var(--theme-accent-tertiary)]" },
                 ].map((metric) => (
                   <button
                     key={metric.id}
@@ -199,13 +198,13 @@ const CaseStudies = React.forwardRef((props, ref) => {
                     className={`px-2 py-0.5 rounded-full text-xs transition-all
                               ${activeMetric === metric.id 
                                 ? metric.id === "all"
-                                  ? "bg-[--bg-cream-darker]/60 dark:bg-[--bg-navy]/80 text-[--text-navy] dark:text-white" 
+                                  ? "bg-[var(--theme-bg-secondary)]/60 dark:bg-[var(--theme-bg-primary)]/80 text-[var(--theme-text-primary)] dark:text-white" 
                                   : metric.id === "views"
-                                    ? "bg-[--primary-orange] text-white"
+                                    ? "bg-[var(--theme-primary)] text-white"
                                     : metric.id === "followers"
-                                      ? "bg-[--secondary-teal] text-white"
-                                      : "bg-[--accent-coral] text-white"
-                                : "bg-[--bg-cream-darker]/30 dark:bg-[--bg-navy]/50 hover:bg-[--bg-cream-darker]/40 hover:dark:bg-[--bg-navy]/70"}`}
+                                      ? "bg-[var(--theme-accent-secondary)] text-white"
+                                      : "bg-[var(--theme-accent-tertiary)] text-white"
+                                : "bg-[var(--theme-bg-secondary)]/30 dark:bg-[var(--theme-bg-primary)]/50 hover:bg-[var(--theme-bg-secondary)]/40 hover:dark:bg-[var(--theme-bg-primary)]/70"}`}
                   >
                     {metric.label}
                   </button>
@@ -234,12 +233,12 @@ const CaseStudies = React.forwardRef((props, ref) => {
                     />
                     <XAxis 
                       dataKey="month" 
-                      className="text-[--text-navy]/40 dark:text-white/40 text-xs"
+                      className="text-[var(--theme-text-primary)]/40 dark:text-white/40 text-xs"
                       tickLine={false}
                       axisLine={false}
                     />
                     <YAxis 
-                      className="text-[--text-navy]/40 dark:text-white/40 text-xs"
+                      className="text-[var(--theme-text-primary)]/40 dark:text-white/40 text-xs"
                       domain={getYAxisDomain()}
                       tickLine={false}
                       axisLine={false}
@@ -247,7 +246,7 @@ const CaseStudies = React.forwardRef((props, ref) => {
                     <Tooltip content={<CustomTooltip />} />
                     <Legend 
                       formatter={(value) => (
-                        <span className="text-[--text-navy] dark:text-white text-xs">{value}</span>
+                        <span className="text-[var(--theme-text-primary)] dark:text-white text-xs">{value}</span>
                       )}
                       iconSize={8}
                       wrapperStyle={{ fontSize: '12px', paddingTop: "8px" }}
@@ -322,18 +321,18 @@ const CaseStudies = React.forwardRef((props, ref) => {
             {/* Stats cards - flatter design */}
             <div className="grid grid-cols-2 gap-3 mb-4">
               {/* Views card */}
-              <div className="bg-[--bg-cream-darker]/20 dark:bg-[--bg-navy-darker]/40 
+              <div className="bg-[var(--theme-bg-secondary)]/20 dark:bg-[var(--theme-bg-secondary)]/40 
                           rounded-md p-3
-                          border border-[--text-navy]/5 dark:border-white/5
+                          border border-[var(--theme-text-primary)]/5 dark:border-white/5
                           shadow-[0_1px_2px_rgba(0,0,0,0.01)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.15)]
                           transition-all duration-200
-                          hover:bg-[--bg-cream-darker]/30 dark:hover:bg-[--bg-navy-darker]/60
+                          hover:bg-[var(--theme-bg-secondary)]/30 dark:hover:bg-[var(--theme-bg-secondary)]/60
                           overflow-hidden">
                 <div className="flex items-center">
-                  <div className="w-1.5 h-12 bg-[--primary-orange]/70 dark:bg-[--primary-orange] rounded-full mr-2.5"></div>
+                  <div className="w-1.5 h-12 bg-[var(--theme-primary)]/70  rounded-full mr-2.5"></div>
                   <div className="flex-1">
-                    <div className="text-[--text-navy]/60 dark:text-white/60 text-xs">Views</div>
-                    <div className="text-[--primary-orange] dark:text-[--primary-orange-light] text-lg font-semibold">
+                    <div className="text-[var(--theme-text-primary)]/60 dark:text-white/60 text-xs">Views</div>
+                    <div className="text-[var(--theme-primary)]  text-lg font-semibold">
                       {formatNumber(currentCreator.totals.views)}
                     </div>
                   </div>
@@ -341,18 +340,18 @@ const CaseStudies = React.forwardRef((props, ref) => {
               </div>
               
               {/* Followers card */}
-              <div className="bg-[--bg-cream-darker]/20 dark:bg-[--bg-navy-darker]/40 
+              <div className="bg-[var(--theme-bg-secondary)]/20 dark:bg-[var(--theme-bg-secondary)]/40 
                           rounded-md p-3
-                          border border-[--text-navy]/5 dark:border-white/5
+                          border border-[var(--theme-text-primary)]/5 dark:border-white/5
                           shadow-[0_1px_2px_rgba(0,0,0,0.01)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.15)]
                           transition-all duration-200
-                          hover:bg-[--bg-cream-darker]/30 dark:hover:bg-[--bg-navy-darker]/60
+                          hover:bg-[var(--theme-bg-secondary)]/30 dark:hover:bg-[var(--theme-bg-secondary)]/60
                           overflow-hidden">
                 <div className="flex items-center">
-                  <div className="w-1.5 h-12 bg-[--secondary-teal]/70 dark:bg-[--secondary-teal] rounded-full mr-2.5"></div>
+                  <div className="w-1.5 h-12 bg-[var(--theme-accent-secondary)]/70  rounded-full mr-2.5"></div>
                   <div className="flex-1">
-                    <div className="text-[--text-navy]/60 dark:text-white/60 text-xs">Followers</div>
-                    <div className="text-[--secondary-teal] dark:text-[--secondary-teal-light] text-lg font-semibold">
+                    <div className="text-[var(--theme-text-primary)]/60 dark:text-white/60 text-xs">Followers</div>
+                    <div className="text-[var(--theme-accent-secondary)]  text-lg font-semibold">
                       {formatNumber(currentCreator.totals.followers)}
                     </div>
                   </div>
@@ -360,21 +359,21 @@ const CaseStudies = React.forwardRef((props, ref) => {
               </div>
               
               {/* Interactions card - full width */}
-              <div className="col-span-2 bg-[--bg-cream-darker]/20 dark:bg-[--bg-navy-darker]/40 
+              <div className="col-span-2 bg-[var(--theme-bg-secondary)]/20 dark:bg-[var(--theme-bg-secondary)]/40 
                           rounded-md p-3
-                          border border-[--text-navy]/5 dark:border-white/5
+                          border border-[var(--theme-text-primary)]/5 dark:border-white/5
                           shadow-[0_1px_2px_rgba(0,0,0,0.01)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.15)]
                           transition-all duration-200
-                          hover:bg-[--bg-cream-darker]/30 dark:hover:bg-[--bg-navy-darker]/60">
+                          hover:bg-[var(--theme-bg-secondary)]/30 dark:hover:bg-[var(--theme-bg-secondary)]/60">
                 <div className="flex items-center">
-                  <div className="w-1.5 h-12 bg-[--accent-coral]/70 dark:bg-[--accent-coral] rounded-full mr-2.5"></div>
+                  <div className="w-1.5 h-12 bg-[var(--theme-accent-tertiary)]/70  rounded-full mr-2.5"></div>
                   <div className="flex-1">
-                    <div className="text-[--text-navy]/60 dark:text-white/60 text-xs">Interactions</div>
-                    <div className="text-[--accent-coral] dark:text-[--accent-coral] text-lg font-semibold">
+                    <div className="text-[var(--theme-text-primary)]/60 dark:text-white/60 text-xs">Interactions</div>
+                    <div className="text-[var(--theme-accent-tertiary)]  text-lg font-semibold">
                       {formatNumber(currentCreator.totals.interactions)}
                     </div>
                   </div>
-                  <div className="bg-[--accent-coral]/10 dark:bg-[--accent-coral]/20 p-1.5 rounded-full">
+                  <div className="bg-[var(--theme-accent-tertiary)]/10 /20 p-1.5 rounded-full">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z" stroke="#DE6B59" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
@@ -384,12 +383,12 @@ const CaseStudies = React.forwardRef((props, ref) => {
             </div>
 
             {/* Case study selector - flatter, more subtle */}
-            <div className="flex-1 bg-[--bg-cream-darker]/20 dark:bg-[--bg-navy-darker]/40 
+            <div className="flex-1 bg-[var(--theme-bg-secondary)]/20 dark:bg-[var(--theme-bg-secondary)]/40 
                       p-4 rounded-md 
-                      border border-[--text-navy]/5 dark:border-white/5
+                      border border-[var(--theme-text-primary)]/5 dark:border-white/5
                       shadow-[0_1px_3px_rgba(0,0,0,0.01)] dark:shadow-[0_1px_5px_rgba(0,0,0,0.15)]">
-              <h3 className="text-[--text-navy] dark:text-white text-sm font-medium mb-3 flex items-center">
-                <span className="inline-block w-1 h-4 bg-[--primary-orange]/70 dark:bg-[--primary-orange] mr-2 rounded-full"></span>
+              <h3 className="text-[var(--theme-text-primary)] dark:text-white text-sm font-medium mb-3 flex items-center">
+                <span className="inline-block w-1 h-4 bg-[var(--theme-primary)]/70  mr-2 rounded-full"></span>
                 Success Stories
               </h3>
 
@@ -399,16 +398,16 @@ const CaseStudies = React.forwardRef((props, ref) => {
                     key={creator.id}
                     onClick={() => setActiveCreator(index)}
                     className={`relative 
-                              bg-[--bg-cream-darker]/20 dark:bg-[--bg-navy]/50
+                              bg-[var(--theme-bg-secondary)]/20 dark:bg-[var(--theme-bg-primary)]/50
                               rounded-md py-1.5 px-2.5
                               border-l-2 ${activeCreator === index 
-                                ? 'border-[--primary-orange] dark:border-[--primary-orange]' 
+                                ? 'border-[var(--theme-primary)] dark:border-[var(--theme-primary)]' 
                                 : 'border-transparent'}
                               transition-all duration-300
-                              hover:translate-x-[2px] hover:bg-[--bg-cream-darker]/40 dark:hover:bg-[--bg-navy]/70
+                              hover:translate-x-[2px] hover:bg-[var(--theme-bg-secondary)]/40 dark:hover:bg-[var(--theme-bg-primary)]/70
                               flex items-center gap-2 text-left
                               ${activeCreator === index 
-                                ? 'bg-[--bg-cream-darker]/40 dark:bg-[--bg-navy]/70 shadow-[0_1px_2px_rgba(0,0,0,0.02)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.15)]' 
+                                ? 'bg-[var(--theme-bg-secondary)]/40 dark:bg-[var(--theme-bg-primary)]/70 shadow-[0_1px_2px_rgba(0,0,0,0.02)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.15)]' 
                                 : ''}`}
                   >
                     <div className={`w-10 h-10 rounded-full overflow-hidden flex-shrink-0 
@@ -422,15 +421,15 @@ const CaseStudies = React.forwardRef((props, ref) => {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-[--text-navy] dark:text-white font-medium text-sm truncate">
+                      <h4 className="text-[var(--theme-text-primary)] dark:text-white font-medium text-sm truncate">
                         {creator.name}
                       </h4>
-                      <p className="text-[--text-navy]/60 dark:text-white/60 text-xs truncate">
+                      <p className="text-[var(--theme-text-primary)]/60 dark:text-white/60 text-xs truncate">
                         {creator.description.split(".")[0].substring(0, 30)}...
                       </p>
                     </div>
                     {activeCreator === index && (
-                      <div className="h-4 w-1 bg-[--primary-orange] dark:bg-[--primary-orange] rounded-full"></div>
+                      <div className="h-4 w-1 bg-[var(--theme-primary)]  rounded-full"></div>
                     )}
                   </button>
                 ))}
@@ -442,10 +441,10 @@ const CaseStudies = React.forwardRef((props, ref) => {
       
       {/* Bottom decorative effects */}
       <div className="absolute bottom-0 left-0 right-0 h-20 
-                   bg-gradient-to-t from-[--bg-cream-darker]/10 to-transparent 
+                   bg-gradient-to-t from-[var(--theme-bg-secondary)]/10 to-transparent 
                    opacity-20 dark:opacity-0 pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 right-0 h-40 
-                   bg-gradient-to-t from-[--primary-orange]/5 to-transparent 
+                   bg-gradient-to-t from-[var(--theme-primary)]/5 to-transparent 
                    opacity-0 dark:opacity-30 pointer-events-none"></div>
     </Section>
   );

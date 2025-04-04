@@ -92,15 +92,15 @@ export default function VSCarousel() {
           </div>
           
           <h2 className="text-balance text-4xl md:text-5xl font-bold relative group">
-            <span className="text-[--text-navy] dark:text-white">
+            <span className="text-[var(--theme-text-primary)] dark:text-white">
               Master every aspect of <span className="relative inline-block">
                 short-form
-                <span className="absolute -bottom-1 left-0 w-full h-1 bg-[--primary-orange] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"></span>
+                <span className="absolute -bottom-1 left-0 w-full h-1 bg-[var(--theme-primary)] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"></span>
               </span>
             </span>
           </h2>
           
-          <p className="text-xl max-w-[720px] text-balance text-[--text-navy]/80 dark:text-white/80">
+          <p className="text-xl max-w-[720px] text-balance text-[var(--theme-text-primary)]/80 dark:text-white/80">
             Vertical Shortcut gives you comprehensive mastery over every element that makes short-form content convert, from psychological triggers to monetization strategies. With {totalModules}+ modules and {totalResources}+ resources.
           </p>
         </div>
@@ -142,7 +142,7 @@ export default function VSCarousel() {
                     />
                     {/* Hover effect overlay */}
                     <div
-                      className="absolute inset-0 bg-[--primary-orange]/20 scale-[2.5] opacity-0 transition-all duration-500 group-hover:opacity-40 animate-pulse"
+                      className="absolute inset-0 bg-[var(--theme-primary)]/20 scale-[2.5] opacity-0 transition-all duration-500 group-hover:opacity-40 animate-pulse"
                       aria-hidden="true"
                     />
                   </SlideVisual>
@@ -154,7 +154,7 @@ export default function VSCarousel() {
                   />
                   
                   <SlideContent isExpanded={expandedSlides[index]} className="p-6">
-                    <SlideDescription className="text-[--primary-orange] dark:text-[--primary-orange-light] text-sm font-medium uppercase tracking-wider mb-2 text-shadow-sm">
+                    <SlideDescription className="text-[var(--theme-primary)]  text-sm font-medium uppercase tracking-wider mb-2 text-shadow-sm">
                       {slide.tagline || ''}
                     </SlideDescription>
                     
@@ -173,7 +173,7 @@ export default function VSCarousel() {
                       <div className="mt-4 pt-4 border-t border-white/10">
                         <div className="text-sm text-over-image-secondary">
                           Learn this in our 
-                          <span className="text-[--primary-orange-light] font-medium text-shadow-sm"> {
+                          <span className="text-[var(--theme-primary-light)] font-medium text-shadow-sm"> {
                             findModuleTitle(slide.relatedModule)
                           } </span> 
                           module.

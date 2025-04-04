@@ -115,37 +115,37 @@ export function Pricing3ColsSubscription() {
             <div
               key={plan.name}
               className={cn(
-                "max-w-container relative flex flex-col gap-6 overflow-hidden rounded-2xl p-8 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] bg-gradient-to-br from-white to-[var(--bg-cream)]/80 dark:bg-gradient-to-br dark:from-[var(--bg-navy)] dark:to-[var(--bg-navy-darker)] border border-[var(--bg-cream-darker)]/10 dark:border-white/10 hover-bubbly",
+                "max-w-container relative flex flex-col gap-6 overflow-hidden rounded-2xl p-8 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] bg-gradient-to-br from-white to-[var(--theme-bg-primary)]/80 dark:bg-gradient-to-br dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)] border border-[var(--theme-bg-secondary)]/10 dark:border-white/10 hover-bubbly",
                 plan.classes,
               )}
             >
               {/* Add floating elements for visual interest */}
               <div className="absolute -z-10 bottom-8 right-8 w-16 h-16 rounded-[40%] rotate-12 opacity-5
-                           bg-[var(--primary-orange)] animate-float-slow hidden dark:hidden"></div>
+                           bg-[var(--theme-primary)] animate-float-slow hidden dark:hidden"></div>
               <div className="absolute -z-10 bottom-8 right-8 w-16 h-16 rounded-[40%] rotate-12 opacity-10
-                           bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-orange-hover)]
+                           vs-btn-primary-gradient
                            animate-float-slow hidden dark:block"></div>
               
               <hr
                 className={cn(
                   "via-foreground/60 absolute top-0 left-[10%] h-[1px] w-[80%] border-0 bg-linear-to-r from-transparent to-transparent",
-                  plan.featured && "via-[var(--primary-orange)] dark:via-[var(--primary-orange-light)]",
+                  plan.featured && "via-[var(--theme-primary)] dark:via-[var(--theme-primary-light)]",
                 )}
               />
               <div className="flex flex-col gap-7">
                 <div className="flex flex-col gap-2">
-                  <h2 className="flex items-center gap-2 font-bold text-[var(--text-navy)] dark:text-white">
+                  <h2 className="flex items-center gap-2 font-bold text-[var(--theme-text-primary)] dark:text-white">
                     {plan.icon && (
                       <div className="flex items-center justify-center w-8 h-8 rounded-full
-                                  bg-gradient-to-br from-[var(--bg-cream)] to-[var(--bg-cream-darker)] 
-                                  dark:bg-gradient-to-br dark:from-[var(--bg-navy)] dark:to-[var(--bg-navy-darker)]
+                                  vs-btn-primary-gradient 
+                                  dark:bg-gradient-to-br dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]
                                   shadow-sm dark:shadow-[0_0_5px_rgba(53,115,128,0.2)]">
                         {plan.icon}
                       </div>
                     )}
                     {plan.name}
                   </h2>
-                  <p className="text-[var(--text-navy)]/70 dark:text-white/70 max-w-[220px] text-sm">
+                  <p className="text-[var(--theme-text-primary)]/70 dark:text-white/70 max-w-[220px] text-sm">
                     {plan.description}
                   </p>
                 </div>
@@ -154,20 +154,20 @@ export function Pricing3ColsSubscription() {
                   <div className="absolute inset-0 -z-10 opacity-5 dot-bg dark:opacity-10"></div>
                   
                   <div className="flex items-baseline gap-1">
-                    <span className="text-[var(--text-navy)]/70 dark:text-white/70 text-2xl font-bold">
+                    <span className="text-[var(--theme-text-primary)]/70 dark:text-white/70 text-2xl font-bold">
                       $
                     </span>
-                    <span className="text-6xl font-bold text-[var(--primary-orange)] dark:text-[var(--primary-orange-light)]">
+                    <span className="text-6xl font-bold text-[var(--theme-primary)] ">
                       {isYearly
                         ? Math.round(plan.yearlyPrice / 12)
                         : plan.monthlyPrice}
                     </span>
                   </div>
                   <div className="flex min-h-[40px] flex-col">
-                    <span className="text-sm text-[var(--text-navy)] dark:text-white">
+                    <span className="text-sm text-[var(--theme-text-primary)] dark:text-white">
                       {plan.monthlyPrice > 0 ? "/ month" : "free"}
                     </span>
-                    <span className="text-[var(--text-navy)]/70 dark:text-white/70 text-sm">
+                    <span className="text-[var(--theme-text-primary)]/70 dark:text-white/70 text-sm">
                       {plan.monthlyPrice > 0
                         ? isYearly
                           ? "billed yearly"
@@ -179,7 +179,7 @@ export function Pricing3ColsSubscription() {
                 <Button variant={plan.cta.variant} size="lg" asChild className="vs-btn-primary-gradient text-white">
                   <Link href={plan.cta.href}>{plan.cta.label}</Link>
                 </Button>
-                <hr className="border-[var(--bg-cream-darker)]/10 dark:border-white/10" />
+                <hr className="border-[var(--theme-bg-secondary)]/10 dark:border-white/10" />
               </div>
               <div>
                 <ul className="flex flex-col gap-2">
@@ -188,8 +188,8 @@ export function Pricing3ColsSubscription() {
                       key={feature}
                       className="flex items-center gap-2 text-sm group hover:bg-white/5 dark:hover:bg-white/5 rounded-md p-1 transition-colors"
                     >
-                      <CircleCheckBig className="text-[var(--primary-orange)] dark:text-[var(--primary-orange-light)] size-4 shrink-0 group-hover:scale-110 transition-transform" />
-                      <span className="text-[var(--text-navy)]/80 dark:text-white/80">{feature}</span>
+                      <CircleCheckBig className="text-[var(--theme-primary)]  size-4 shrink-0 group-hover:scale-110 transition-transform" />
+                      <span className="text-[var(--theme-text-primary)]/80 dark:text-white/80">{feature}</span>
                     </li>
                   ))}
                 </ul>

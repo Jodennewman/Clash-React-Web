@@ -104,56 +104,56 @@ const VSModalExamples: React.FC = () => {
     <div className="py-12">
       <div className="container mx-auto px-4">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-[--text-navy] dark:text-white mb-4">VS Modal Components</h2>
-          <p className="text-[--text-navy]/70 dark:text-white/70 max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold text-[var(--theme-text-primary)] dark:text-white mb-4">VS Modal Components</h2>
+          <p className="text-[var(--theme-text-primary)]/70 dark:text-white/70 max-w-2xl mx-auto">
             A collection of modal components designed to match the VS style system with both light and dark mode support.
           </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Basic Modal Example */}
-          <div className="bg-gradient-to-br from-white to-[--bg-cream]/80 dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] rounded-[--border-radius-lg] p-6 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] hover-bubbly">
-            <h3 className="text-xl font-medium text-[--text-navy] dark:text-white mb-4">Basic Modal</h3>
-            <p className="text-[--text-navy]/70 dark:text-white/70 mb-6">A simple customizable modal with VS styling.</p>
+          <div className="bg-theme-gradient dark:from-[var(--theme-bg-primary)]  rounded-[--border-radius-lg] p-6 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] hover-bubbly">
+            <h3 className="text-xl font-medium text-[var(--theme-text-primary)] dark:text-white mb-4">Basic Modal</h3>
+            <p className="text-[var(--theme-text-primary)]/70 dark:text-white/70 mb-6">A simple customizable modal with VS styling.</p>
             <button
               onClick={() => setShowBasicModal(true)}
-              className="bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] dark:from-[--primary-orange] dark:to-[--primary-orange-hover] text-white px-4 py-2 rounded-full shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(254,163,93,0.2)] transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)] w-full"
+              className="vs-btn-primary-gradient dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)] text-white px-4 py-2 rounded-full shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(254,163,93,0.2)] transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)] w-full"
             >
               Open Basic Modal
             </button>
           </div>
           
           {/* Application Modal Example */}
-          <div className="bg-gradient-to-br from-white to-[--bg-cream]/80 dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] rounded-[--border-radius-lg] p-6 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] hover-bubbly">
-            <h3 className="text-xl font-medium text-[--text-navy] dark:text-white mb-4">Application Form</h3>
-            <p className="text-[--text-navy]/70 dark:text-white/70 mb-6">Multi-step application form with validation.</p>
+          <div className="bg-theme-gradient dark:from-[var(--theme-bg-primary)]  rounded-[--border-radius-lg] p-6 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] hover-bubbly">
+            <h3 className="text-xl font-medium text-[var(--theme-text-primary)] dark:text-white mb-4">Application Form</h3>
+            <p className="text-[var(--theme-text-primary)]/70 dark:text-white/70 mb-6">Multi-step application form with validation.</p>
             <button
               onClick={() => setShowApplicationModal(true)}
-              className="bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-hover] dark:from-[--secondary-teal] dark:to-[--secondary-teal-hover] text-white px-4 py-2 rounded-full shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(53,115,128,0.15)] transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(53,115,128,0.2)] w-full"
+              className="vs-btn-secondary-gradient dark:from-[var(--theme-accent-secondary)] dark:to-[var(--theme-accent-secondary-hover)] text-white px-4 py-2 rounded-full shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(53,115,128,0.15)] transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(53,115,128,0.2)] w-full"
             >
               Open Application Form
             </button>
           </div>
           
           {/* Submodule Modal Example */}
-          <div className="bg-gradient-to-br from-white to-[--bg-cream]/80 dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] rounded-[--border-radius-lg] p-6 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] hover-bubbly">
-            <h3 className="text-xl font-medium text-[--text-navy] dark:text-white mb-4">Module Viewer</h3>
-            <p className="text-[--text-navy]/70 dark:text-white/70 mb-6">Course module viewer with video player and navigation.</p>
+          <div className="bg-theme-gradient dark:from-[var(--theme-bg-primary)]  rounded-[--border-radius-lg] p-6 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] hover-bubbly">
+            <h3 className="text-xl font-medium text-[var(--theme-text-primary)] dark:text-white mb-4">Module Viewer</h3>
+            <p className="text-[var(--theme-text-primary)]/70 dark:text-white/70 mb-6">Course module viewer with video player and navigation.</p>
             <button
               onClick={() => setShowSubmoduleModal(true)}
-              className="border border-[--primary-orange] text-[--primary-orange] dark:border-[--primary-orange] dark:text-[--primary-orange] hover:bg-[--primary-orange]/5 dark:hover:bg-[--primary-orange]/10 px-4 py-2 rounded-full transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] w-full"
+              className="border border-[var(--theme-primary)] text-[var(--theme-primary)]  dark:text-[var(--theme-primary)] hover:bg-[var(--theme-primary)]/5 dark:hover:bg-[var(--theme-primary)]/10 px-4 py-2 rounded-full transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] w-full"
             >
               View Module
             </button>
           </div>
           
           {/* Quiz Modal Example */}
-          <div className="bg-gradient-to-br from-white to-[--bg-cream]/80 dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] rounded-[--border-radius-lg] p-6 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] hover-bubbly">
-            <h3 className="text-xl font-medium text-[--text-navy] dark:text-white mb-4">Knowledge Quiz</h3>
-            <p className="text-[--text-navy]/70 dark:text-white/70 mb-6">Interactive quiz with progress tracking and results.</p>
+          <div className="bg-theme-gradient dark:from-[var(--theme-bg-primary)]  rounded-[--border-radius-lg] p-6 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] hover-bubbly">
+            <h3 className="text-xl font-medium text-[var(--theme-text-primary)] dark:text-white mb-4">Knowledge Quiz</h3>
+            <p className="text-[var(--theme-text-primary)]/70 dark:text-white/70 mb-6">Interactive quiz with progress tracking and results.</p>
             <button
               onClick={() => setShowQuizModal(true)}
-              className="bg-gradient-to-r from-[--accent-coral] to-[--accent-red] dark:from-[--accent-coral] dark:to-[--accent-red] text-white px-4 py-2 rounded-full shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(222,107,89,0.2)] transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(222,107,89,0.3)] w-full"
+              className="vs-gradient-coral-diagonal dark:from-[var(--theme-accent-tertiary)] dark:to-[var(--theme-accent-quaternary)] text-white px-4 py-2 rounded-full shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(222,107,89,0.2)] transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(222,107,89,0.3)] w-full"
             >
               Take Quiz
             </button>
@@ -171,17 +171,17 @@ const VSModalExamples: React.FC = () => {
           width="md"
         >
           <div className="space-y-4">
-            <p className="text-[--text-navy] dark:text-white">
+            <p className="text-[var(--theme-text-primary)] dark:text-white">
               This is a basic modal component styled according to the VS design system. It supports both light and dark modes with the appropriate styling.
             </p>
             
-            <p className="text-[--text-navy]/80 dark:text-white/80">
+            <p className="text-[var(--theme-text-primary)]/80 dark:text-white/80">
               You can customize the width, add a title and description, and control whether the close button is shown. The modal also includes subtle floating elements and proper animations.
             </p>
             
-            <div className="bg-[--bg-cream]/30 dark:bg-white/5 p-4 rounded-[--border-radius-md] mt-4">
-              <h4 className="text-[--text-navy] dark:text-white text-sm font-medium mb-2">Pro Tip</h4>
-              <p className="text-[--text-navy]/70 dark:text-white/60 text-sm">
+            <div className="bg-[var(--theme-bg-primary)]/30 dark:bg-white/5 p-4 rounded-[--border-radius-md] mt-4">
+              <h4 className="text-[var(--theme-text-primary)] dark:text-white text-sm font-medium mb-2">Pro Tip</h4>
+              <p className="text-[var(--theme-text-primary)]/70 dark:text-white/60 text-sm">
                 Use this modal as a base for building more complex modal components that need to follow the VS styling guidelines.
               </p>
             </div>
@@ -189,7 +189,7 @@ const VSModalExamples: React.FC = () => {
             <div className="pt-4 flex justify-end">
               <button
                 onClick={() => setShowBasicModal(false)}
-                className="bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] dark:from-[--primary-orange] dark:to-[--primary-orange-hover] text-white px-6 py-2 rounded-[--border-radius-md] shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(254,163,93,0.2)] transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]"
+                className="vs-btn-primary-gradient dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)] text-white px-6 py-2 rounded-[--border-radius-md] shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(254,163,93,0.2)] transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]"
               >
                 Got it
               </button>

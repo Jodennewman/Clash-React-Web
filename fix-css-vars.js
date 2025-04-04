@@ -1,7 +1,12 @@
 // Save this as fix-css-vars.js in your project root
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Get the directory name properly in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Configuration
 const config = {
@@ -40,6 +45,24 @@ const replacements = [
   { pattern: /to-\[--([a-zA-Z0-9-]+)\]/g, replacement: 'to-[var(--$1)]' },
   { pattern: /via-\[--([a-zA-Z0-9-]+)\]/g, replacement: 'via-[var(--$1)]' },
   
+  // Theme-aware replacements - specific color mappings
+  { pattern: /text-\[var\(--text-navy\)\]/g, replacement: 'text-[var(--theme-text-primary)]' },
+  { pattern: /bg-\[var\(--bg-cream\)\]/g, replacement: 'bg-[var(--theme-bg-primary)]' },
+  { pattern: /bg-\[var\(--bg-navy\)\]/g, replacement: 'bg-[var(--theme-bg-primary)]' },
+  { pattern: /text-\[var\(--primary-orange\)\]/g, replacement: 'text-[var(--theme-primary)]' },
+  
+  // Replace competing light/dark mode styles
+  { pattern: /text-\[var\(--text-navy\)\] dark:text-white/g, replacement: 'text-[var(--theme-text-primary)]' },
+  { pattern: /bg-\[var\(--bg-cream\)\] dark:bg-\[var\(--bg-navy\)\]/g, replacement: 'bg-[var(--theme-bg-primary)]' },
+  
+  // Utility class replacements
+  { pattern: /vs-gradient-light dark:vs-gradient-dark/g, replacement: 'bg-theme-gradient' },
+  { pattern: /vs-btn-primary-gradient dark:vs-btn-primary-gradient/g, replacement: 'bg-theme-gradient-primary' },
+  
+  // Inline style pattern for backgrounds
+  { pattern: /style=\{\{ backgroundColor: ['"]var\(--bg-cream\)['"] \}\}/g, replacement: 'className="bg-[var(--theme-bg-primary)]"' },
+  { pattern: /style=\{\{ color: ['"]var\(--text-navy\)['"] \}\}/g, replacement: 'className="text-[var(--theme-text-primary)]"' },
+
   // Other properties that might use CSS variables but be careful with this one
   // Add only if you're sure you need it
   // { pattern: /\[--([a-zA-Z0-9-]+)\]/g, replacement: '[var(--$1)]' }
@@ -60,6 +83,49 @@ const tailwindThreeColorGradientPattern = /(bg-gradient-to-[rltrb]+)\s+(from-\[(
 
 // Mapping of color variable combinations to CSS classes
 const gradientClassMappings = [
+  {
+    from: 'primary-orange',
+    to: 'primary-orange-hover',
+    class: 'bg-theme-gradient-primary',
+    direction: 'r'
+  },
+  {
+    from: 'secondary-teal',
+    to: 'secondary-teal-hover',
+    class: 'bg-theme-gradient-secondary',
+    direction: 'r'
+  },
+  {
+    from: 'accent-coral',
+    to: 'primary-orange',
+    class: 'bg-theme-gradient-accent',
+    direction: 'r'
+  },
+  {
+    from: 'accent-red',
+    to: 'accent-coral',
+    class: 'bg-theme-gradient-accent',
+    direction: 'r'
+  },
+  {
+    from: 'primary-orange',
+    to: 'accent-coral',
+    class: 'bg-theme-gradient-primary',
+    direction: 'r'
+  },
+  {
+    from: 'white',
+    to: 'bg-cream',
+    class: 'bg-theme-gradient',
+    direction: 'br'
+  },
+  {
+    from: 'bg-navy',
+    to: 'bg-navy-darker',
+    class: 'bg-theme-gradient',
+    direction: 'br'
+  },
+  // Keep the original mappings for backward compatibility
   {
     from: 'primary-orange',
     to: 'primary-orange-hover',

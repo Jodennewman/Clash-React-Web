@@ -9,19 +9,19 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default:
-          "border-transparent bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] text-white dark:shadow-[0_0_8px_rgba(254,163,93,0.15)] dark:hover:shadow-[0_0_12px_rgba(254,163,93,0.2)]",
+          "border-transparent vs-btn-primary-gradient text-white dark:shadow-[0_0_8px_rgba(254,163,93,0.15)] dark:hover:shadow-[0_0_12px_rgba(254,163,93,0.2)]",
         secondary:
-          "border-transparent bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-hover] text-white dark:shadow-[0_0_8px_rgba(53,115,128,0.15)] dark:hover:shadow-[0_0_12px_rgba(53,115,128,0.2)]",
+          "border-transparent vs-btn-secondary-gradient text-white dark:shadow-[0_0_8px_rgba(53,115,128,0.15)] dark:hover:shadow-[0_0_12px_rgba(53,115,128,0.2)]",
         accent:
-          "border-transparent bg-gradient-to-r from-[--accent-coral] to-[--accent-red] text-white dark:shadow-[0_0_8px_rgba(222,107,89,0.15)] dark:hover:shadow-[0_0_12px_rgba(222,107,89,0.2)]",
+          "border-transparent vs-gradient-coral-diagonal text-white dark:shadow-[0_0_8px_rgba(222,107,89,0.15)] dark:hover:shadow-[0_0_12px_rgba(222,107,89,0.2)]",
         destructive:
-          "border-transparent bg-gradient-to-r from-[--accent-red] to-[--accent-coral] text-white dark:shadow-[0_0_8px_rgba(222,107,89,0.15)] dark:hover:shadow-[0_0_12px_rgba(222,107,89,0.25)]",
+          "border-transparent vs-btn-destructive-gradient text-white dark:shadow-[0_0_8px_rgba(222,107,89,0.15)] dark:hover:shadow-[0_0_12px_rgba(222,107,89,0.25)]",
         outline: 
-          "border-[--primary-orange]/25 dark:border-[--primary-orange]/30 bg-[--bg-cream-darker]/60 dark:bg-white/10 text-[--primary-orange] dark:text-[--primary-orange-light] backdrop-blur-sm",
+          "border-[var(--theme-primary)]/25 dark:border-[var(--theme-primary)]/30 bg-[var(--theme-bg-secondary)]/60 dark:bg-white/10 text-[var(--theme-primary)] dark:text-[var(--theme-primary-light)] backdrop-blur-sm",
         subtle:
-          "border-transparent bg-[--bg-cream-darker]/70 text-[--text-navy] dark:bg-white/10 dark:text-white dark:shadow-[0_0_8px_rgba(255,255,255,0.07)]",
+          "border-transparent bg-[var(--theme-bg-secondary)]/70 text-[var(--theme-text-primary)] dark:bg-white/10 dark:text-white dark:shadow-[0_0_8px_rgba(255,255,255,0.07)]",
         section:
-          "border-[--bg-cream-darker]/20 dark:border-white/10 bg-[--bg-cream-darker]/60 dark:bg-white/10 text-[--primary-orange] dark:text-[--primary-orange-light]",
+          "border-[var(--theme-bg-secondary)]/20 dark:border-white/10 bg-[var(--theme-bg-secondary)]/60 dark:bg-white/10 text-[var(--theme-primary)] dark:text-[var(--theme-primary-light)]",
       },
       size: {
         default: "px-2.5 py-1",

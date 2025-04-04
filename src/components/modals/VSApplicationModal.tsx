@@ -121,7 +121,7 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
       {/* Progress indicator */}
       <div className="mb-8">
         <div className="flex justify-between items-center mb-2">
-          <div className="text-sm text-[--text-navy]/70 dark:text-white/60">
+          <div className="text-sm text-[var(--theme-text-primary)]/70 dark:text-white/60">
             Step {step} of {totalSteps}
           </div>
           <div className="flex gap-2">
@@ -129,8 +129,8 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
               <div
                 key={idx}
                 className={`h-1.5 w-8 rounded-full transition-all duration-300 ${idx < step
-                  ? 'bg-[--primary-orange] dark:bg-[--primary-orange]'
-                  : 'bg-[--bg-cream-darker] dark:bg-white/10'
+                  ? 'bg-[var(--theme-primary)] dark:bg-[var(--theme-primary)]'
+                  : 'bg-[var(--theme-bg-secondary)] dark:bg-white/10'
                   }`}
               />
             ))}
@@ -144,7 +144,7 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
         {step === 1 && (
           <div className="space-y-6">
             <div>
-              <label htmlFor="fullName" className="block text-[--text-navy] dark:text-white text-sm font-medium mb-2">
+              <label htmlFor="fullName" className="block text-[var(--theme-text-primary)] dark:text-white text-sm font-medium mb-2">
                 Full Name
               </label>
               <input
@@ -153,19 +153,19 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 bg-white dark:bg-[--bg-navy]/50 border ${errors.fullName
-                  ? 'border-[--accent-red] dark:border-[--accent-red]'
-                  : 'border-[--bg-cream-darker]/50 dark:border-white/10'
-                  } rounded-[--border-radius-md] focus:outline-none focus:ring-2 focus:ring-[--primary-orange]/30 dark:focus:ring-[--primary-orange]/30 text-[--text-navy] dark:text-white`}
+                className={`w-full px-4 py-2 bg-white dark:bg-[var(--theme-bg-primary)]/50 border ${errors.fullName
+                  ? 'border-[var(--theme-accent-quaternary)] dark:border-[var(--theme-accent-quaternary)]'
+                  : 'border-[var(--theme-bg-secondary)]/50 dark:border-white/10'
+                  } rounded-[--border-radius-md] focus:outline-none focus:ring-2 focus:ring-[--primary-orange]/30 dark:focus:ring-[--primary-orange]/30 text-[var(--theme-text-primary)] dark:text-white`}
                 placeholder="Your full name"
               />
               {errors.fullName && (
-                <p className="mt-1 text-[--accent-red] text-sm">{errors.fullName}</p>
+                <p className="mt-1 text-[var(--theme-accent-quaternary)] text-sm">{errors.fullName}</p>
               )}
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-[--text-navy] dark:text-white text-sm font-medium mb-2">
+              <label htmlFor="email" className="block text-[var(--theme-text-primary)] dark:text-white text-sm font-medium mb-2">
                 Email Address
               </label>
               <input
@@ -174,14 +174,14 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 bg-white dark:bg-[--bg-navy]/50 border ${errors.email
-                  ? 'border-[--accent-red] dark:border-[--accent-red]'
-                  : 'border-[--bg-cream-darker]/50 dark:border-white/10'
-                  } rounded-[--border-radius-md] focus:outline-none focus:ring-2 focus:ring-[--primary-orange]/30 dark:focus:ring-[--primary-orange]/30 text-[--text-navy] dark:text-white`}
+                className={`w-full px-4 py-2 bg-white dark:bg-[var(--theme-bg-primary)]/50 border ${errors.email
+                  ? 'border-[var(--theme-accent-quaternary)] dark:border-[var(--theme-accent-quaternary)]'
+                  : 'border-[var(--theme-bg-secondary)]/50 dark:border-white/10'
+                  } rounded-[--border-radius-md] focus:outline-none focus:ring-2 focus:ring-[--primary-orange]/30 dark:focus:ring-[--primary-orange]/30 text-[var(--theme-text-primary)] dark:text-white`}
                 placeholder="your.email@example.com"
               />
               {errors.email && (
-                <p className="mt-1 text-[--accent-red] text-sm">{errors.email}</p>
+                <p className="mt-1 text-[var(--theme-accent-quaternary)] text-sm">{errors.email}</p>
               )}
             </div>
           </div>
@@ -191,7 +191,7 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
         {step === 2 && (
           <div className="space-y-6">
             <div>
-              <label htmlFor="experience" className="block text-[--text-navy] dark:text-white text-sm font-medium mb-2">
+              <label htmlFor="experience" className="block text-[var(--theme-text-primary)] dark:text-white text-sm font-medium mb-2">
                 Content Creation Experience
               </label>
               <select
@@ -199,10 +199,10 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
                 name="experience"
                 value={formData.experience}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 bg-white dark:bg-[--bg-navy]/50 border ${errors.experience
-                  ? 'border-[--accent-red] dark:border-[--accent-red]'
-                  : 'border-[--bg-cream-darker]/50 dark:border-white/10'
-                  } rounded-[--border-radius-md] focus:outline-none focus:ring-2 focus:ring-[--primary-orange]/30 dark:focus:ring-[--primary-orange]/30 text-[--text-navy] dark:text-white`}
+                className={`w-full px-4 py-2 bg-white dark:bg-[var(--theme-bg-primary)]/50 border ${errors.experience
+                  ? 'border-[var(--theme-accent-quaternary)] dark:border-[var(--theme-accent-quaternary)]'
+                  : 'border-[var(--theme-bg-secondary)]/50 dark:border-white/10'
+                  } rounded-[--border-radius-md] focus:outline-none focus:ring-2 focus:ring-[--primary-orange]/30 dark:focus:ring-[--primary-orange]/30 text-[var(--theme-text-primary)] dark:text-white`}
               >
                 <option value="">Select your experience level</option>
                 <option value="beginner">Beginner (0-6 months)</option>
@@ -211,19 +211,19 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
                 <option value="professional">Professional Creator</option>
               </select>
               {errors.experience && (
-                <p className="mt-1 text-[--accent-red] text-sm">{errors.experience}</p>
+                <p className="mt-1 text-[var(--theme-accent-quaternary)] text-sm">{errors.experience}</p>
               )}
             </div>
 
-            <div className="bg-[--bg-cream]/30 dark:bg-white/5 p-4 rounded-[--border-radius-md]">
-              <h4 className="text-[--text-navy] dark:text-white text-sm font-medium mb-2 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 mr-2 text-[--primary-orange] dark:text-[--primary-orange]">
+            <div className="bg-[var(--theme-bg-primary)]/30 dark:bg-white/5 p-4 rounded-[--border-radius-md]">
+              <h4 className="text-[var(--theme-text-primary)] dark:text-white text-sm font-medium mb-2 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 mr-2 text-[var(--theme-primary)] ">
                   <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                   <polyline points="22 4 12 14.01 9 11.01"></polyline>
                 </svg>
                 Why We're Asking
               </h4>
-              <p className="text-[--text-navy]/70 dark:text-white/60 text-sm">
+              <p className="text-[var(--theme-text-primary)]/70 dark:text-white/60 text-sm">
                 This helps us customize your learning experience and suggest the most relevant modules for your skill level.
               </p>
             </div>
@@ -234,7 +234,7 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
         {step === 3 && (
           <div className="space-y-6">
             <div>
-              <label htmlFor="goals" className="block text-[--text-navy] dark:text-white text-sm font-medium mb-2">
+              <label htmlFor="goals" className="block text-[var(--theme-text-primary)] dark:text-white text-sm font-medium mb-2">
                 What do you hope to achieve?
               </label>
               <textarea
@@ -243,27 +243,27 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
                 value={formData.goals}
                 onChange={handleChange}
                 rows={5}
-                className={`w-full px-4 py-2 bg-white dark:bg-[--bg-navy]/50 border ${errors.goals
-                  ? 'border-[--accent-red] dark:border-[--accent-red]'
-                  : 'border-[--bg-cream-darker]/50 dark:border-white/10'
-                  } rounded-[--border-radius-md] focus:outline-none focus:ring-2 focus:ring-[--primary-orange]/30 dark:focus:ring-[--primary-orange]/30 text-[--text-navy] dark:text-white`}
+                className={`w-full px-4 py-2 bg-white dark:bg-[var(--theme-bg-primary)]/50 border ${errors.goals
+                  ? 'border-[var(--theme-accent-quaternary)] dark:border-[var(--theme-accent-quaternary)]'
+                  : 'border-[var(--theme-bg-secondary)]/50 dark:border-white/10'
+                  } rounded-[--border-radius-md] focus:outline-none focus:ring-2 focus:ring-[--primary-orange]/30 dark:focus:ring-[--primary-orange]/30 text-[var(--theme-text-primary)] dark:text-white`}
                 placeholder="Share your content creation goals and what you hope to achieve..."
               />
               {errors.goals && (
-                <p className="mt-1 text-[--accent-red] text-sm">{errors.goals}</p>
+                <p className="mt-1 text-[var(--theme-accent-quaternary)] text-sm">{errors.goals}</p>
               )}
             </div>
 
-            <div className="bg-[--bg-cream]/30 dark:bg-white/5 p-4 rounded-[--border-radius-md]">
-              <h4 className="text-[--text-navy] dark:text-white text-sm font-medium mb-2 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 mr-2 text-[--primary-orange] dark:text-[--primary-orange]">
+            <div className="bg-[var(--theme-bg-primary)]/30 dark:bg-white/5 p-4 rounded-[--border-radius-md]">
+              <h4 className="text-[var(--theme-text-primary)] dark:text-white text-sm font-medium mb-2 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 mr-2 text-[var(--theme-primary)] ">
                   <circle cx="12" cy="12" r="10"></circle>
                   <line x1="12" y1="16" x2="12" y2="12"></line>
                   <line x1="12" y1="8" x2="12.01" y2="8"></line>
                 </svg>
                 Final Step
               </h4>
-              <p className="text-[--text-navy]/70 dark:text-white/60 text-sm">
+              <p className="text-[var(--theme-text-primary)]/70 dark:text-white/60 text-sm">
                 Your goals help us provide personalized guidance and track your progress throughout the program.
               </p>
             </div>
@@ -277,8 +277,8 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
             onClick={handlePrevious}
             disabled={step === 1}
             className={`px-4 py-2 rounded-[--border-radius-md] border ${step === 1
-              ? 'border-[--bg-cream-darker]/30 text-[--text-navy]/30 dark:border-white/5 dark:text-white/30 cursor-not-allowed'
-              : 'border-[--secondary-teal] text-[--secondary-teal] dark:border-white/20 dark:text-white hover:bg-[--secondary-teal]/5 dark:hover:bg-white/5 hover-bubbly-sm'
+              ? 'border-[var(--theme-bg-secondary)]/30 text-[var(--theme-text-primary)]/30 dark:border-white/5 dark:text-white/30 cursor-not-allowed'
+              : 'border-[var(--theme-accent-secondary)] text-[var(--theme-accent-secondary)] dark:border-white/20 dark:text-white hover:bg-[var(--theme-accent-secondary)]/5 dark:hover:bg-white/5 hover-bubbly-sm'
               }`}
           >
             Back
@@ -286,8 +286,8 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
 
           <button
             type="submit"
-            className="bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover]
-                     dark:bg-gradient-to-r dark:from-[--primary-orange] dark:to-[--primary-orange-hover]
+            className="vs-btn-primary-gradient
+                     dark:bg-gradient-to-r dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)]
                      text-white px-6 py-2 rounded-[--border-radius-md] 
                      shadow-[1px_1px_4px_rgba(0,0,0,0.1)]
                      dark:shadow-[0_0_8px_rgba(254,163,93,0.2)]

@@ -5,8 +5,8 @@ This document outlines our comprehensive approach to color management and theme 
 ## Core Implementation Principles
 
 1. **Single Source of Truth**: `globals.css` is the definitive source for all color variables and theme definitions
-2. **Direct CSS Variable References**: Use `text-[--var-name]` pattern for all Tailwind classes (not `var()` wrapper)
-3. **Complete Theme Definition**: Both light and dark modes are explicitly defined
+2. **Theme-Aware Variables**: Use theme variables that automatically update with theme changes
+3. **No Competing Styles**: Avoid conflicting light/dark mode class declarations
 4. **React Theme Provider**: Centralized theme management with system preference support
 5. **Isolated Component Support**: Solutions for components outside the main React tree
 
@@ -75,75 +75,154 @@ function YourComponent() {
 }
 ```
 
-## Using Theme Variables in Components
+## Using Theme-Aware Variables in Components
 
-### Correct Approach for Text Colors
-
-```jsx
-// ✅ CORRECT:
-<p className="text-[--text-navy] dark:text-white">Text with proper theming</p>
-
-// ❌ WRONG (will break in dark mode):
-<p className="text-[var(--text-navy)]">This won't work in dark mode</p>
-<p style={{ color: 'var(--text-navy)' }}>This won't toggle properly</p>
-```
-
-### Correct Approach for Backgrounds
+### Theme-Aware Approach for Text
 
 ```jsx
-// ✅ CORRECT:
-<div className="bg-[--bg-cream] dark:bg-[--bg-navy]">Background with proper theming</div>
+// ✅ RECOMMENDED:
+<p className="text-[var(--theme-text-primary)]">Text using theme-aware variable</p>
+<p className="text-theme-primary">Text using theme utility class</p>
 
-// ❌ WRONG:
-<div style={{ backgroundColor: 'var(--bg-cream)' }}>This won't toggle properly</div>
-<div className="bg-[var(--bg-cream)]">This uses the old var() wrapper</div>
+// ❌ PROBLEMATIC:
+<p className="text-[--text-navy] dark:text-white">Competing styles cause conflicts</p>
+<p style={{ color: 'var(--text-navy)' }}>Won't change with theme automatically</p>
 ```
 
-### Comprehensive Example
+### Theme-Aware Approach for Backgrounds
+
+```jsx
+// ✅ RECOMMENDED:
+<div className="bg-[var(--theme-bg-primary)]">Background with theme-aware variable</div>
+<div className="bg-theme-surface">Background with theme utility class</div>
+
+// ❌ PROBLEMATIC:
+<div className="bg-[--bg-cream] dark:bg-[--bg-navy]">Competing styles cause conflicts</div>
+<div style={{ backgroundColor: 'var(--bg-cream)' }}>Won't change with theme automatically</div>
+```
+
+### Creating Theme-Aware Variables
+
+Add these definitions to globals.css:
+
+```css
+:root {
+  /* Theme text colors */
+  --theme-text-primary: var(--text-navy);
+  --theme-text-secondary: var(--text-navy);
+  
+  /* Theme background colors */
+  --theme-bg-primary: var(--bg-cream);
+  --theme-bg-secondary: var(--bg-cream-darker);
+}
+
+@variant(dark) {
+  :root {
+    /* Theme text colors - dark mode */
+    --theme-text-primary: white;
+    --theme-text-secondary: rgba(255, 255, 255, 0.7);
+    
+    /* Theme background colors - dark mode */
+    --theme-bg-primary: var(--bg-navy);
+    --theme-bg-secondary: var(--bg-navy-darker);
+  }
+}
+```
+
+### Theme-Aware Comprehensive Example
 
 ```jsx
 <div className="relative overflow-hidden">
-  {/* Light mode floating elements */}
-  <div className="absolute top-20 left-5 w-16 h-16 rounded-[40%] rotate-12 opacity-5 
-                bg-[--primary-orange] animate-float-slow hidden dark:hidden"></div>
+  {/* Theme-aware floating elements */}
+  <div className="absolute top-20 left-5 w-16 h-16 rounded-[40%] rotate-12
+                opacity-[var(--theme-float-opacity)]
+                bg-[var(--theme-float-bg)]
+                animate-float-slow"></div>
   
-  {/* Dark mode floating elements */}
-  <div className="absolute top-20 left-5 w-16 h-16 rounded-[40%] rotate-12 opacity-10 
-                bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] 
-                animate-float-slow hidden dark:block"></div>
+  <div className="absolute bottom-10 right-5 w-24 h-24 rounded-[30%] -rotate-6
+                opacity-[var(--theme-float-opacity-secondary)]
+                bg-[var(--theme-float-bg-secondary)]
+                animate-float-medium"></div>
                 
-  {/* Card with proper styling for BOTH modes */}
-  <div className="relative z-10 bg-gradient-to-br from-white to-[--bg-cream]/80
-                dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]
-                rounded-[--border-radius-lg] p-6 
-                shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
-                dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
-                transition-all duration-[--transition-bounce]
-                hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] 
-                dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.2)]
-                hover:translate-y-[-4px] hover:scale-[1.02]">
-    <h3 className="text-[--text-navy] dark:text-white text-xl mb-2">
+  {/* Card with theme-aware styling */}
+  <div className="relative z-10 
+                bg-theme-card-gradient
+                rounded-lg p-6 
+                shadow-[var(--theme-shadow-card)]
+                transition-all duration-300
+                hover:shadow-[var(--theme-shadow-card-hover)]
+                hover-bubbly">
+    <h3 className="text-[var(--theme-text-primary)] text-xl mb-2">
       Card Title
     </h3>
     
-    <p className="text-[--text-navy] dark:text-white/70 mb-4">
-      This card has proper implementation for both light and dark mode.
+    <p className="text-[var(--theme-text-secondary)] mb-4">
+      This card uses theme-aware variables for consistent styling.
     </p>
     
-    <button 
-      className="bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover]
-               dark:bg-gradient-to-r dark:from-[--primary-orange] dark:to-[--primary-orange-hover]
-               text-white px-4 py-2 rounded-full 
-               shadow-[1px_1px_4px_rgba(0,0,0,0.1)]
-               dark:shadow-[0_0_8px_rgba(254,163,93,0.2)]
-               transition-all duration-[--transition-bounce]
-               hover:translate-y-[-3px] hover:scale-[1.03] 
-               hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)]
-               dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]">
+    <button className="btn-primary hover-bubbly-sm">
       Learn More
     </button>
   </div>
 </div>
+```
+
+You would define these theme variables and utility classes in your globals.css:
+
+```css
+:root {
+  /* Theme-aware variables for floating elements */
+  --theme-float-opacity: 0.05;
+  --theme-float-opacity-secondary: 0.08;
+  --theme-float-bg: var(--primary-orange);
+  --theme-float-bg-secondary: var(--primary-orange-hover);
+  
+  /* Theme-aware shadows */
+  --theme-shadow-card: 2px 2px 8px rgba(0,0,0,0.05);
+  --theme-shadow-card-hover: 2px 2px 12px rgba(0,0,0,0.08);
+  
+  /* Theme-aware text colors */
+  --theme-text-primary: var(--text-navy);
+  --theme-text-secondary: var(--text-navy);
+}
+
+@variant(dark) {
+  :root {
+    /* Dark mode values */
+    --theme-float-opacity: 0.1;
+    --theme-float-opacity-secondary: 0.15;
+    --theme-float-bg: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
+    --theme-float-bg-secondary: linear-gradient(to right, var(--secondary-teal), var(--secondary-teal-hover));
+    
+    --theme-shadow-card: 0 0 15px rgba(53,115,128,0.15);
+    --theme-shadow-card-hover: 0 0 20px rgba(53,115,128,0.2);
+    
+    --theme-text-primary: white;
+    --theme-text-secondary: rgba(255,255,255,0.7);
+  }
+}
+
+/* Utility classes */
+.bg-theme-card-gradient {
+  background: linear-gradient(to bottom right, var(--theme-gradient-start), var(--theme-gradient-end));
+}
+
+.btn-primary {
+  background: linear-gradient(to right, var(--theme-btn-primary-start), var(--theme-btn-primary-end));
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  box-shadow: var(--theme-shadow-sm);
+  transition: all 300ms var(--theme-transition-bounce);
+}
+
+.hover-bubbly:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+.hover-bubbly-sm:hover {
+  transform: translateY(-3px) scale(1.03);
+}
 ```
 
 ## Handling Isolated Components

@@ -68,8 +68,8 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
   return (
     <div ref={carouselRef} className="relative vs-testimonial-container p-8 md:p-12">
       <div className="absolute top-0 left-0 w-full h-full">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[--primary-orange]/5 to-transparent opacity-50"></div>
-        <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-[--accent-red]/10 to-transparent opacity-30 blur-3xl"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[var(--theme-primary)]/5 to-transparent opacity-50"></div>
+        <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-[var(--theme-accent-quaternary)]/10 to-transparent opacity-30 blur-3xl"></div>
       </div>
       
       <div className="relative z-10">
@@ -84,7 +84,7 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
             <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
               <div className="md:w-1/3">
                 <div className="relative">
-                  <div className="w-28 h-28 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-[--primary-orange]">
+                  <div className="w-28 h-28 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-[var(--theme-primary)]">
                     <img 
                       src={testimonial.image} 
                       alt={testimonial.name}
@@ -98,13 +98,13 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
               </div>
               
               <div className="md:w-2/3">
-                <blockquote className="text-xl md:text-2xl font-medium text-[--text-navy] dark:text-white mb-6 min-h-[150px] md:min-h-[200px]">
+                <blockquote className="text-xl md:text-2xl font-medium text-[var(--theme-text-primary)] dark:text-white mb-6 min-h-[150px] md:min-h-[200px]">
                   "{testimonial.quote}"
                 </blockquote>
                 <div className="flex items-center">
                   <div>
-                    <div className="font-bold text-[--text-navy] dark:text-white">{testimonial.name}</div>
-                    <div className="text-[--text-navy]/70 dark:text-white/70">{testimonial.role}</div>
+                    <div className="font-bold text-[var(--theme-text-primary)] dark:text-white">{testimonial.name}</div>
+                    <div className="text-[var(--theme-text-primary)]/70 dark:text-white/70">{testimonial.role}</div>
                   </div>
                 </div>
               </div>

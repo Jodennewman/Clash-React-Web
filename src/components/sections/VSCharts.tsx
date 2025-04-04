@@ -45,20 +45,20 @@ export default function VSCharts() {
   const chartConfig = {
     engagement: {
       label: "Engagement",
-      color: "var(--color-engagement)", 
+      color: "var(--theme-color-engagement)", 
     },
     conversion: {
       label: "Conversions",
-      color: "var(--color-conversion)",
+      color: "var(--theme-color-conversion)",
     },
   };
 
   // Success metrics data for pie chart
   const metricsData = [
-    { metric: "views", value: 45, fill: "var(--color-views)" },
-    { metric: "followers", value: 32, fill: "var(--color-followers)" },
-    { metric: "engagement", value: 18, fill: "var(--color-engagement)" },
-    { metric: "revenue", value: 25, fill: "var(--color-revenue)" },
+    { metric: "views", value: 45, fill: "var(--theme-color-views)" },
+    { metric: "followers", value: 32, fill: "var(--theme-color-followers)" },
+    { metric: "engagement", value: 18, fill: "var(--theme-color-engagement)" },
+    { metric: "revenue", value: 25, fill: "var(--theme-color-revenue)" },
   ];
   
   const metricsConfig = {
@@ -67,19 +67,19 @@ export default function VSCharts() {
     },
     views: {
       label: "Views (in millions)",
-      color: "var(--color-views)",
+      color: "var(--theme-color-views)",
     },
     followers: {
       label: "New Followers (in thousands)",
-      color: "var(--color-followers)",
+      color: "var(--theme-color-followers)",
     },
     engagement: {
       label: "Engagement Rate (%)",
-      color: "var(--color-engagement)",
+      color: "var(--theme-color-engagement)",
     },
     revenue: {
       label: "Revenue Growth (%)",
-      color: "var(--color-revenue)",
+      color: "var(--theme-color-revenue)",
     },
   };
 
@@ -112,15 +112,15 @@ export default function VSCharts() {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white dark:bg-[--bg-navy] p-3 rounded-md border border-[--text-navy]/5 dark:border-white/5 shadow-sm">
-          <p className="text-[--text-navy] dark:text-white font-medium mb-1">{label}</p>
+        <div className="bg-white dark:bg-[var(--theme-bg-primary)] p-3 rounded-md border border-[var(--theme-text-primary)]/5 dark:border-white/5 shadow-sm">
+          <p className="text-[var(--theme-text-primary)] dark:text-white font-medium mb-1">{label}</p>
           {payload.map((entry, index) => (
             <div key={`tooltip-${index}`} className="flex items-center gap-2">
               <div 
                 className="w-2 h-2 rounded-full" 
                 style={{ backgroundColor: entry.color }}
               />
-              <p className="text-[--text-navy]/80 dark:text-white/80 text-sm">
+              <p className="text-[var(--theme-text-primary)]/80 dark:text-white/80 text-sm">
                 {entry.name}: {entry.value}
               </p>
             </div>
@@ -132,11 +132,11 @@ export default function VSCharts() {
   };
 
   return (
-    <Section className="py-20 bg-[var(--bg-cream)] dark:bg-[var(--bg-navy)] border-t border-[var(--text-navy)]/10 dark:border-white/5" ref={containerRef}>
+    <Section className="py-20 bg-[var(--theme-bg-primary)]  border-t border-[var(--theme-text-primary)]/10 dark:border-white/5" ref={containerRef}>
       <div className="max-w-container mx-auto">
         <div className="text-center mb-10">
-          <h2 className="text-[--text-navy] dark:text-white text-3xl md:text-4xl font-medium mb-3">Case Studies</h2>
-          <p className="text-[--text-navy]/70 dark:text-white/70 max-w-2xl mx-auto">
+          <h2 className="text-[var(--theme-text-primary)] dark:text-white text-3xl md:text-4xl font-medium mb-3">Case Studies</h2>
+          <p className="text-[var(--theme-text-primary)]/70 dark:text-white/70 max-w-2xl mx-auto">
             Visualizing real-world impact and tracking growth metrics for content creators.
           </p>
         </div>
@@ -145,27 +145,27 @@ export default function VSCharts() {
           {/* Area Chart Card */}
           <div className="chart-container">
             <div className="mb-4">
-              <h3 className="text-[--text-navy] dark:text-white text-xl font-medium mb-1">Student Progress Trajectory</h3>
-              <p className="text-[--text-navy]/70 dark:text-white/70 text-sm">
+              <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-medium mb-1">Student Progress Trajectory</h3>
+              <p className="text-[var(--theme-text-primary)]/70 dark:text-white/70 text-sm">
                 Average growth over the 10-week program
               </p>
             </div>
             
-            <div className="bg-[--bg-cream-darker]/30 dark:bg-[--bg-navy-darker]/50 p-6 rounded-md border border-[--text-navy]/5 dark:border-white/5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.2)]">
+            <div className="bg-[var(--theme-bg-secondary)]/30 /50 p-6 rounded-md border border-[var(--theme-text-primary)]/5 dark:border-white/5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.2)]">
               <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center gap-4">
                   <div className="flex gap-2 items-center">
-                    <div className="w-2 h-2 rounded-full bg-[--primary-orange]"></div>
-                    <span className="text-[--text-navy] dark:text-white text-xs">Engagement</span>
+                    <div className="w-2 h-2 rounded-full bg-[var(--theme-primary)]"></div>
+                    <span className="text-[var(--theme-text-primary)] dark:text-white text-xs">Engagement</span>
                   </div>
                   <div className="flex gap-2 items-center">
-                    <div className="w-2 h-2 rounded-full bg-[--accent-red]"></div>
-                    <span className="text-[--text-navy] dark:text-white text-xs">Conversions</span>
+                    <div className="w-2 h-2 rounded-full bg-[var(--theme-accent-quaternary)]"></div>
+                    <span className="text-[var(--theme-text-primary)] dark:text-white text-xs">Conversions</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-1 bg-[--bg-cream-darker]/50 dark:bg-[--bg-navy]/70 px-2 py-0.5 rounded-full">
-                  <span className="text-[--primary-orange] dark:text-[--primary-orange-light] text-xs font-medium">+320%</span>
-                  <TrendingUp className="h-3 w-3 text-[--primary-orange] dark:text-[--primary-orange-light]" />
+                <div className="flex items-center gap-1 bg-[var(--theme-bg-secondary)]/50 /70 px-2 py-0.5 rounded-full">
+                  <span className="text-[var(--theme-primary)]  text-xs font-medium">+320%</span>
+                  <TrendingUp className="h-3 w-3 text-[var(--theme-primary)] " />
                 </div>
               </div>
               
@@ -185,7 +185,7 @@ export default function VSCharts() {
                     tickLine={false}
                     axisLine={false}
                     tickMargin={8}
-                    className="text-[--text-navy]/40 dark:text-white/40 text-xs"
+                    className="text-[var(--theme-text-primary)]/40 dark:text-white/40 text-xs"
                     tick={{fontSize: 11}}
                   />
                   <YAxis
@@ -193,7 +193,7 @@ export default function VSCharts() {
                     axisLine={false}
                     tickMargin={8}
                     tickCount={5}
-                    className="text-[--text-navy]/40 dark:text-white/40 text-xs"
+                    className="text-[var(--theme-text-primary)]/40 dark:text-white/40 text-xs"
                     tick={{fontSize: 11}}
                   />
                   <ChartTooltip 
@@ -205,21 +205,21 @@ export default function VSCharts() {
                     type="monotone"
                     dataKey="engagement"
                     name="Engagement"
-                    stroke="var(--primary-orange)"
+                    stroke="var(--theme-primary)"
                     strokeWidth={2}
-                    fill="var(--primary-orange)"
+                    fill="var(--theme-primary)"
                     fillOpacity={0.05}
-                    activeDot={{ r: 4, fill: "var(--primary-orange)", stroke: "white", strokeWidth: 2 }}
+                    activeDot={{ r: 4, fill: "var(--theme-primary)", stroke: "white", strokeWidth: 2 }}
                   />
                   <Area
                     type="monotone"
                     dataKey="conversion"
                     name="Conversions"
-                    stroke="var(--accent-red)"
+                    stroke="var(--theme-accent-quaternary)"
                     strokeWidth={2}
-                    fill="var(--accent-red)"
+                    fill="var(--theme-accent-quaternary)"
                     fillOpacity={0.05}
-                    activeDot={{ r: 4, fill: "var(--accent-red)", stroke: "white", strokeWidth: 2 }}
+                    activeDot={{ r: 4, fill: "var(--theme-accent-quaternary)", stroke: "white", strokeWidth: 2 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -230,13 +230,13 @@ export default function VSCharts() {
           <div className="chart-container">
             <ChartStyle id="metrics-pie" config={metricsConfig} />
             <div className="mb-4">
-              <h3 className="text-[--text-navy] dark:text-white text-xl font-medium mb-1">Success Metrics</h3>
-              <p className="text-[--text-navy]/70 dark:text-white/70 text-sm">
+              <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-medium mb-1">Success Metrics</h3>
+              <p className="text-[var(--theme-text-primary)]/70 dark:text-white/70 text-sm">
                 Average student outcomes after completion
               </p>
             </div>
             
-            <div className="bg-[--bg-cream-darker]/30 dark:bg-[--bg-navy-darker]/50 p-6 rounded-md border border-[--text-navy]/5 dark:border-white/5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.2)]">
+            <div className="bg-[var(--theme-bg-secondary)]/30 /50 p-6 rounded-md border border-[var(--theme-text-primary)]/5 dark:border-white/5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.2)]">
               <div className="flex flex-wrap gap-2 mb-4">
                 {metricsData.map((item) => (
                   <button 
@@ -244,7 +244,7 @@ export default function VSCharts() {
                     className={`text-xs font-medium px-3 py-1 rounded-full transition-colors ${
                       activeMetric === item.metric
                         ? `bg-[${item.fill}] text-white`
-                        : 'bg-[--bg-cream-darker]/30 dark:bg-[--bg-navy]/50 text-[--text-navy] dark:text-white hover:bg-[--bg-cream-darker]/50 hover:dark:bg-[--bg-navy]/70'
+                        : 'bg-[var(--theme-bg-secondary)]/30 dark:bg-[var(--theme-bg-primary)]/50 text-[var(--theme-text-primary)] dark:text-white hover:bg-[var(--theme-bg-secondary)]/50 hover:dark:bg-[var(--theme-bg-primary)]/70'
                     }`}
                     style={
                       activeMetric === item.metric 
@@ -298,21 +298,21 @@ export default function VSCharts() {
                 </div>
                 
                 <div className="flex flex-col items-start ml-4 mt-4">
-                  <div className="text-5xl font-bold text-[--text-navy] dark:text-white mb-1">
+                  <div className="text-5xl font-bold text-[var(--theme-text-primary)] dark:text-white mb-1">
                     {metricsData[activeIndex].value}
                   </div>
-                  <div className="text-sm text-[--text-navy]/70 dark:text-white/70">
+                  <div className="text-sm text-[var(--theme-text-primary)]/70 dark:text-white/70">
                     {metricsConfig[activeMetric].label}
                   </div>
-                  <div className="mt-4 pt-4 border-t border-[--text-navy]/5 dark:border-white/5 w-full">
+                  <div className="mt-4 pt-4 border-t border-[var(--theme-text-primary)]/5 dark:border-white/5 w-full">
                     <Select value={activeMetric} onValueChange={setActiveMetric}>
                       <SelectTrigger
-                        className="h-8 w-full rounded-md bg-[--bg-cream-darker]/30 dark:bg-[--bg-navy]/50 border-none text-[--text-navy] dark:text-white text-xs"
+                        className="h-8 w-full rounded-md bg-[var(--theme-bg-secondary)]/30 /50 border-none text-[var(--theme-text-primary)] dark:text-white text-xs"
                         aria-label="Select a metric"
                       >
                         <SelectValue placeholder="Select metric" />
                       </SelectTrigger>
-                      <SelectContent align="end" className="rounded-md bg-[--bg-cream] dark:bg-[--bg-navy-darker] border-[--text-navy]/10 dark:border-white/10">
+                      <SelectContent align="end" className="rounded-md bg-[var(--theme-bg-primary)]  border-[var(--theme-text-primary)]/10 dark:border-white/10">
                         {metrics.map((key) => {
                           const config = metricsConfig[key];
                           if (!config) {
@@ -347,41 +347,41 @@ export default function VSCharts() {
         
         {/* Case Studies Selector */}
         <div className="mt-12">
-          <h3 className="text-[--text-navy] dark:text-white text-xl font-medium mb-6">Creator Success Stories</h3>
+          <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-medium mb-6">Creator Success Stories</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[1, 2, 3, 4].map((i) => (
               <div 
                 key={i}
-                className={`group relative overflow-hidden rounded-md border border-[--text-navy]/5 dark:border-white/5 bg-[--bg-cream-darker]/30 dark:bg-[--bg-navy-darker]/50 p-4 cursor-pointer transition-all hover:shadow-sm ${i === 1 ? 'ring-2 ring-[--primary-orange]/50' : ''}`}
+                className={`group relative overflow-hidden rounded-md border border-[var(--theme-text-primary)]/5 dark:border-white/5 bg-[var(--theme-bg-secondary)]/30 dark:bg-[var(--theme-bg-secondary)]/50 p-4 cursor-pointer transition-all hover:shadow-sm ${i === 1 ? 'ring-2 ring-[--primary-orange]/50' : ''}`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full overflow-hidden bg-[--bg-cream-darker] dark:bg-[--bg-navy]">
-                    <div className="w-full h-full bg-[--primary-orange]/10 flex items-center justify-center">
-                      <span className="text-[--primary-orange] text-xs font-bold">
+                  <div className="w-10 h-10 rounded-full overflow-hidden bg-[var(--theme-bg-secondary)] ">
+                    <div className="w-full h-full bg-[var(--theme-primary)]/10 flex items-center justify-center">
+                      <span className="text-[var(--theme-primary)] text-xs font-bold">
                         {["JD", "TM", "KL", "AR"][i-1]}
                       </span>
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-[--text-navy] dark:text-white text-sm font-medium mb-1">
+                    <h4 className="text-[var(--theme-text-primary)] dark:text-white text-sm font-medium mb-1">
                       {["Joden Newman", "Tia Meyers", "Kyle Loft", "Alex Roth"][i-1]}
                     </h4>
-                    <p className="text-[--text-navy]/60 dark:text-white/60 text-xs">
+                    <p className="text-[var(--theme-text-primary)]/60 dark:text-white/60 text-xs">
                       {["Mentor", "Creator", "Student", "Coach"][i-1]}
                     </p>
                   </div>
                 </div>
                 
-                <div className="mt-3 pt-3 border-t border-[--text-navy]/5 dark:border-white/5 grid grid-cols-2 gap-2 text-xs">
+                <div className="mt-3 pt-3 border-t border-[var(--theme-text-primary)]/5 dark:border-white/5 grid grid-cols-2 gap-2 text-xs">
                   <div>
-                    <div className="text-[--text-navy]/50 dark:text-white/50">Views</div>
-                    <div className="text-[--primary-orange] dark:text-[--primary-orange-light] font-medium">
+                    <div className="text-[var(--theme-text-primary)]/50 dark:text-white/50">Views</div>
+                    <div className="text-[var(--theme-primary)]  font-medium">
                       {["3.2M", "1.8M", "950K", "4.6M"][i-1]}
                     </div>
                   </div>
                   <div>
-                    <div className="text-[--text-navy]/50 dark:text-white/50">Growth</div>
-                    <div className="text-[--accent-red] dark:text-[--accent-coral] font-medium">
+                    <div className="text-[var(--theme-text-primary)]/50 dark:text-white/50">Growth</div>
+                    <div className="text-[var(--theme-accent-quaternary)]  font-medium">
                       {["+620%", "+340%", "+280%", "+410%"][i-1]}
                     </div>
                   </div>

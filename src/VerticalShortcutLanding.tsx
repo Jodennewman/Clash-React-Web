@@ -567,8 +567,8 @@ const VerticalShortcutLanding = () => {
           as="div"
           id="smooth-content" 
           ref={contentRef} 
-          lightBg="bg-gradient-to-b from-white to-[--bg-cream-gradient]"
-          darkBg="dark:bg-gradient-to-b dark:from-[--bg-navy] dark:to-[--bg-navy-darker]"
+          lightBg="bg-gradient-to-b from-white to-[var(--theme-bg-cream-gradient)]"
+          darkBg="dark:bg-gradient-to-b dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]"
           className="min-h-screen overflow-hidden"
         >
           {/* Hero Section */}
@@ -580,22 +580,22 @@ const VerticalShortcutLanding = () => {
           {/* Stats Section with Social Proof */}
           <VSSection 
             ref={statsRef} 
-            lightBg="bg-gradient-to-br from-white to-[--bg-cream]/80"
-            darkBg="dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]"
-            className="py-20 border-t border-[--secondary-teal]/30 relative overflow-hidden"
+            lightBg="bg-gradient-to-br from-white to-[var(--theme-bg-primary)]/80"
+            darkBg="dark:bg-gradient-to-br dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]"
+            className="py-20 border-t border-[var(--theme-accent-secondary)]/30 relative overflow-hidden"
           >
             {/* Light mode floating elements */}
             <div className="absolute top-40 left-[15%] w-32 h-32 rounded-[40%] rotate-12 opacity-5 
-                           bg-[--primary-orange] animate-float-slow hidden md:block dark:hidden"></div>
+                           bg-[var(--theme-primary)] animate-float-slow hidden md:block dark:hidden"></div>
             <div className="absolute bottom-60 right-[10%] w-36 h-36 rounded-[30%] -rotate-6 opacity-8 
-                           bg-[var(--primary-orange-hover)] animate-float-medium hidden md:block dark:hidden"></div>
+                           bg-[var(--theme-primary-hover)] animate-float-medium hidden md:block dark:hidden"></div>
               
             {/* Dark mode floating elements */}
             <div className="absolute top-40 left-[15%] w-32 h-32 rounded-[40%] rotate-12 opacity-10 
-                           bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-orange-hover)] 
+                           vs-btn-primary-gradient 
                            animate-float-slow hidden md:dark:block"></div>
             <div className="absolute bottom-60 right-[10%] w-36 h-36 rounded-[30%] -rotate-6 opacity-15
-                           bg-gradient-to-r from-[var(--secondary-teal)] to-[var(--secondary-teal-hover)] 
+                           vs-btn-secondary-gradient 
                            animate-float-medium hidden md:dark:block"></div>
               
             
@@ -614,10 +614,10 @@ const VerticalShortcutLanding = () => {
 
           <div className="container mx-auto px-4">
               <div className="mb-12 text-center">
-                <h2 className="text-[var(--text-navy)] dark:text-white text-3xl md:text-4xl font-bold mb-6">
+                <h2 className="text-[var(--theme-text-primary)] dark:text-white text-3xl md:text-4xl font-bold mb-6">
                   Course Stats That Speak for Themselves
                 </h2>
-                <p className="text-[var(--text-navy)] dark:text-white/70 text-xl max-w-3xl mx-auto">
+                <p className="text-[var(--theme-text-primary)] dark:text-white/70 text-xl max-w-3xl mx-auto">
                   Vertical Shortcut isn't just another course. It's the culmination of years creating content that drove real business results.
                 </p>
               </div>
@@ -627,8 +627,8 @@ const VerticalShortcutLanding = () => {
               
               
               <div className="text-center mb-10">
-                <Badge variant="outline" className="bg-[var(--accent-coral)]/10 border-[var(--primary-orange)]/30 py-2 px-4">
-                  <span className="text-[var(--primary-orange)] dark:text-[var(--primary-orange)] font-bold">
+                <Badge variant="outline" className="bg-[var(--theme-accent-tertiary)]/10 border-[var(--theme-primary)]/30 py-2 px-4">
+                  <span className="text-[var(--theme-primary)]  font-bold">
                     Don't Just Take Our Word For It
                   </span>
                 </Badge>
@@ -648,22 +648,22 @@ const VerticalShortcutLanding = () => {
           {/* Core Benefits Section */}
           <VSSection 
             ref={benefitsRef} 
-            lightBg="bg-gradient-to-br from-white to-[--bg-cream]/80"
-            darkBg="dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]"
+            lightBg="bg-gradient-to-br from-white to-[var(--theme-bg-primary)]/80"
+            darkBg="dark:bg-gradient-to-br dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]"
             className="benefits-section py-24 relative overflow-hidden"
           >
             {/* Light mode floating elements */}
             <div className="absolute top-[15%] right-[10%] w-28 h-28 rounded-[40%] rotate-[-5deg] opacity-5 
-                           bg-[--primary-orange] animate-float-slow hidden md:block dark:hidden"></div>
+                           bg-[var(--theme-primary)] animate-float-slow hidden md:block dark:hidden"></div>
             <div className="absolute bottom-[20%] left-[5%] w-32 h-32 rounded-[35%] rotate-12 opacity-8 
-                           bg-[--secondary-teal-light] animate-float-medium hidden md:block dark:hidden"></div>
+                           bg-[var(--theme-accent-secondary-light)] animate-float-medium hidden md:block dark:hidden"></div>
               
             {/* Dark mode floating elements */}
             <div className="absolute top-[15%] right-[10%] w-28 h-28 rounded-[40%] rotate-[-5deg] opacity-10 
-                           bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] 
+                           vs-btn-primary-gradient 
                            animate-float-slow hidden md:dark:block"></div>
             <div className="absolute bottom-[20%] left-[5%] w-32 h-32 rounded-[35%] rotate-12 opacity-15
-                           bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-hover] 
+                           vs-btn-secondary-gradient 
                            animate-float-medium hidden md:dark:block"></div>
               
             <div className="container mx-auto px-4">
@@ -700,10 +700,10 @@ const VerticalShortcutLanding = () => {
                     >
                       {benefit.icon}
                     </div>
-                    <h3 className="text-white dark:text-white text-xl font-bold mb-4">
+                    <h3 className="text-theme-custom  text-xl font-bold mb-4">
                       {benefit.title}
                     </h3>
-                    <p className="text-white dark:text-white/70">
+                    <p className="text-theme-custom /70">
                       {benefit.description}
                     </p>
                   </VSCard>
@@ -1140,16 +1140,16 @@ const VerticalShortcutLanding = () => {
                       Follow Us
                     </VSHeading>
                     <div className="flex gap-4">
-                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] dark:text-white/60 dark:hover:text-[--primary-orange)] transition-colors">
+                      <a href="#" className="text-theme-custom/60 hover:text-[--primary-orange)] /60 dark:hover:text-[--primary-orange)] transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                       </a>
-                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] dark:text-white/60 dark:hover:text-[--primary-orange)] transition-colors">
+                      <a href="#" className="text-theme-custom/60 hover:text-[--primary-orange)] /60 dark:hover:text-[--primary-orange)] transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                       </a>
-                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] dark:text-white/60 dark:hover:text-[--primary-orange)] transition-colors">
+                      <a href="#" className="text-theme-custom/60 hover:text-[--primary-orange)] /60 dark:hover:text-[--primary-orange)] transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                       </a>
-                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] dark:text-white/60 dark:hover:text-[--primary-orange)] transition-colors">
+                      <a href="#" className="text-theme-custom/60 hover:text-[--primary-orange)] /60 dark:hover:text-[--primary-orange)] transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
                       </a>
                     </div>

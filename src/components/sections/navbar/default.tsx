@@ -12,7 +12,7 @@ import LaunchUI from "../../logos/launch-ui";
 export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 -mb-4 px-4 pb-4 bg-transparent overflow-hidden">
-      <div className="max-w-container relative mx-auto bg-white/75 dark:bg-[--bg-navy]/75 backdrop-blur-md rounded-xl overflow-hidden">
+      <div className="max-w-container relative mx-auto bg-white/75 dark:bg-[var(--theme-bg-primary)]/75 backdrop-blur-md rounded-xl overflow-hidden">
         <NavbarComponent>
           <NavbarLeft>
             <a

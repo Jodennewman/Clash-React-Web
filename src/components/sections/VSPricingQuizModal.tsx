@@ -85,7 +85,7 @@ export const VSPricingQuizModal = ({ onComplete }: PricingQuizProps) => {
       {/* Trigger Button */}
       <Button 
         onClick={handleOpen}
-        className="px-5 py-2 bg-[--bg-navy] border border-[--primary-orange]/30 text-white hover:bg-[--secondary-teal]/30 gap-2 hover-bubbly-sm"
+        className="px-5 py-2 bg-[var(--theme-bg-primary)] border border-[var(--theme-primary)]/30 text-white hover:bg-[var(--theme-accent-secondary)]/30 gap-2 hover-bubbly-sm"
       >
         <HelpCircle className="h-4 w-4" />
         Not sure which plan is right? Take the Quiz
@@ -100,7 +100,7 @@ export const VSPricingQuizModal = ({ onComplete }: PricingQuizProps) => {
         width="md"
         title="Find Your Perfect Plan"
       >
-        <div className="p-6 bg-[--bg-navy] text-white rounded-lg">
+        <div className="p-6 bg-[var(--theme-bg-primary)] text-white rounded-lg">
           {/* Progress Indicator */}
           <div className="flex justify-between items-center mb-6">
             <div className="text-sm text-white/60">
@@ -111,7 +111,7 @@ export const VSPricingQuizModal = ({ onComplete }: PricingQuizProps) => {
                 <div
                   key={idx}
                   className={`h-1.5 w-6 rounded-full transition-all duration-300 ${
-                    idx <= currentStep ? 'bg-[--primary-orange]' : 'bg-white/20'
+                    idx <= currentStep ? 'bg-[var(--theme-primary)]' : 'bg-white/20'
                   }`}
                 />
               ))}
@@ -128,7 +128,7 @@ export const VSPricingQuizModal = ({ onComplete }: PricingQuizProps) => {
                 key={idx}
                 className={`p-4 rounded-lg border cursor-pointer transition-all ${
                   answers[currentQuestion.key] === option.value
-                    ? 'border-[--primary-orange] bg-[--primary-orange]/10 hover:bg-[--primary-orange]/15'
+                    ? 'border-[var(--theme-primary)] bg-[var(--theme-primary)]/10 hover:bg-[var(--theme-primary)]/15'
                     : 'border-white/10 hover:border-white/30 hover:bg-white/5'
                 }`}
                 onClick={() => handleSelect(option.value)}

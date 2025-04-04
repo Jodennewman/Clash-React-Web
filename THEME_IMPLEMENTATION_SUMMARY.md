@@ -31,9 +31,9 @@
 
 1. **Component Audit**
    - Audit all existing components for proper theme implementation
-   - Check for outdated patterns like `style={{ color: 'var(--text-navy)' }}`
-   - Replace with `className="text-[--text-navy] dark:text-white"`
-   - Ensure all components have appropriate styles for both modes
+   - Identify competing light/dark mode styles that cause conflicts
+   - Replace with theme-aware variables: `className="text-[var(--theme-text-primary)]"`
+   - Add theme-aware utility classes to globals.css and use them consistently
 
 2. **Visual Refinement**
    - Add floating elements to major page sections
@@ -79,20 +79,22 @@
 
 ## Key Guidelines to Remember
 
-1. **Always specify styles for both modes**
-   - Light mode: `text-[--text-navy]`
-   - Dark mode: `dark:text-white`
+1. **Use theme-aware variables for consistent styling**
+   - Define in :root: `--theme-text-primary: var(--text-navy);`
+   - Override in dark mode: `--theme-text-primary: white;`
+   - Apply with: `text-[var(--theme-text-primary)]`
 
-2. **Use gradients instead of flat colors**
-   - Light mode: `bg-gradient-to-br from-white to-[--bg-cream]/80`
-   - Dark mode: `dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]`
+2. **Use theme-aware gradient classes**
+   - Define gradient variables: `--theme-gradient-start: white; --theme-gradient-end: var(--bg-cream);`
+   - Create utility class: `.bg-theme-gradient { background: linear-gradient(...) }`
+   - Apply with: `className="bg-theme-gradient"`
 
-3. **Add visual interest with floating elements**
-   - Different for each mode
-   - Low opacity in light mode (0.05-0.1)
-   - Slightly higher opacity in dark mode (0.1-0.15)
-   - Different gradients in dark mode
+3. **Add visual interest with theme-aware floating elements**
+   - Define opacity variables: `--theme-float-opacity: 0.05;`
+   - Override in dark mode: `--theme-float-opacity: 0.1;`
+   - Apply with: `opacity-[var(--theme-float-opacity)]`
 
-4. **Use appropriate shadows**
-   - Light mode: Subtle, directional shadows
-   - Dark mode: Soft, colorful glows with higher spread
+4. **Use theme-aware shadows**
+   - Define shadow variables: `--theme-shadow-card: 2px 2px 8px rgba(0,0,0,0.05);`
+   - Override in dark mode: `--theme-shadow-card: 0 0 15px rgba(53,115,128,0.15);`
+   - Apply with: `shadow-[var(--theme-shadow-card)]`

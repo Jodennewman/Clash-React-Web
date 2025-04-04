@@ -75,11 +75,11 @@ const ContentOverwhelmer: FC = () => {
 
   // Define tracks with their respective colors and Hero Icons
   const tracks: Track[] = [
-    { name: "FOUNDER", color: "var(--primary-orange)", icon: <UserIcon className="w-5 h-5" /> },
-    { name: "CREATOR", color: "var(--primary-orange-hover)", icon: <VideoCameraIcon className="w-5 h-5" /> },
-    { name: "WRITER", color: "var(--secondary-teal)", icon: <PencilIcon className="w-5 h-5" /> },
-    { name: "EDITOR", color: "var(--secondary-teal-light)", icon: <BeakerIcon className="w-5 h-5" /> },
-    { name: "VIDEOGRAPHER", color: "var(--accent-coral)", icon: <VideoCameraIcon className="w-5 h-5" /> },
+    { name: "FOUNDER", color: "var(--theme-primary)", icon: <UserIcon className="w-5 h-5" /> },
+    { name: "CREATOR", color: "var(--theme-primary-hover)", icon: <VideoCameraIcon className="w-5 h-5" /> },
+    { name: "WRITER", color: "var(--theme-accent-secondary)", icon: <PencilIcon className="w-5 h-5" /> },
+    { name: "EDITOR", color: "var(--theme-accent-secondary-light)", icon: <BeakerIcon className="w-5 h-5" /> },
+    { name: "VIDEOGRAPHER", color: "var(--theme-accent-tertiary)", icon: <VideoCameraIcon className="w-5 h-5" /> },
   ];
 
   // Generate sample modules for display
@@ -249,17 +249,17 @@ const ContentOverwhelmer: FC = () => {
   // Helper function to get resource color
   const getResourceColor = (type: string): string => {
     const colors: ResourceColors = {
-      'PDF': 'var(--primary-orange)',
-      'Workshop': 'var(--primary-orange-hover)',
-      'Test': 'var(--secondary-teal)',
-      'Video': 'var(--secondary-teal-light)',
-      'Template': 'var(--accent-coral)',
-      'Worksheet': 'var(--accent-red)',
-      'Code': 'var(--bg-navy)',
-      'System': 'var(--bg-navy-darker)',
-      'Framework': 'var(--text-cream)'
+      'PDF': 'var(--theme-primary)',
+      'Workshop': 'var(--theme-primary-hover)',
+      'Test': 'var(--theme-accent-secondary)',
+      'Video': 'var(--theme-accent-secondary-light)',
+      'Template': 'var(--theme-accent-tertiary)',
+      'Worksheet': 'var(--theme-accent-quaternary)',
+      'Code': 'var(--theme-bg-primary)',
+      'System': 'var(--theme-bg-secondary)',
+      'Framework': 'var(--theme-text-secondary)'
     };
-    return colors[type as keyof ResourceColors] || 'var(--primary-orange)';
+    return colors[type as keyof ResourceColors] || 'var(--theme-primary)';
   };
   
   // Helper function to get resource icon
@@ -279,25 +279,25 @@ const ContentOverwhelmer: FC = () => {
   };
 
   return (
-    <section className="vs-gradient-light dark:vs-gradient-dark py-24 border-t border-[var(--text-navy)]/10 dark:border-[var(--secondary-teal)]/30">
+    <section className="vs-gradient-light dark:vs-gradient-dark py-24 border-t border-[var(--theme-text-primary)]/10 /30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <div className="inline-block mb-6 bg-[var(--primary-orange)]/10 backdrop-blur-sm px-4 py-2 rounded-full max-w-max border border-[var(--primary-orange)]/20 mx-auto">
-            <span className="text-[var(--primary-orange)] dark:text-[var(--primary-orange-light)] font-semibold">Comprehensive Curriculum</span>
+          <div className="inline-block mb-6 bg-[var(--theme-primary)]/10 backdrop-blur-sm px-4 py-2 rounded-full max-w-max border border-[var(--theme-primary)]/20 mx-auto">
+            <span className="text-[var(--theme-primary)]  font-semibold">Comprehensive Curriculum</span>
           </div>
           
           <h2 className="text-4xl md:text-5xl font-bold mb-6 relative">
-            <span className="text-[var(--text-cream)] dark:text-white font-bold">
+            <span className="text-[var(--theme-text-secondary)] dark:text-white font-bold">
               Content That Overwhelms
             </span>
           </h2>
-          <p className="text-xl text-[var(--text-cream)]/70 dark:text-white/70 max-w-3xl mx-auto">
+          <p className="text-xl text-[var(--theme-text-secondary)]/70 dark:text-white/70 max-w-3xl mx-auto">
             See exactly what you'll learn in each module of the program.
           </p>
         </div>
 
         <div className={`transition-all duration-500 ${isExpanded ? 'max-h-[2000px]' : 'max-h-[500px] overflow-hidden relative'}`}>
-          <div className="vs-content-light dark:vs-content-dark text-[var(--text-navy)] dark:text-white py-14 w-full overflow-hidden relative transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">
+          <div className="vs-content-light dark:vs-content-dark text-[var(--theme-text-primary)] dark:text-white py-14 w-full overflow-hidden relative transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">
             {/* Floating background elements to create visual overwhelm */}
             <div className="absolute inset-0 pointer-events-none">
               {Array.from({ length: 30 }).map((_, i) => (
@@ -321,10 +321,10 @@ const ContentOverwhelmer: FC = () => {
               {/* Headline */}
               <div className="text-center mb-10">
                 <h2 className="text-4xl md:text-6xl font-bold mb-4 relative inline-block">
-                  <span className="text-[var(--primary-orange-light)] dark:text-[var(--primary-orange-light)]">INSANE AMOUNT OF CONTENT</span>
-                  <span className="absolute -bottom-2 left-0 w-full h-1 bg-[var(--primary-orange)] transform transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]"></span>
+                  <span className="text-[var(--theme-primary-light)] ">INSANE AMOUNT OF CONTENT</span>
+                  <span className="absolute -bottom-2 left-0 w-full h-1 bg-[var(--theme-primary)] transform transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]"></span>
                 </h2>
-                <p className="text-xl md:text-2xl max-w-4xl mx-auto text-[var(--text-cream)] dark:text-[var(--text-cream)] mb-6">
+                <p className="text-xl md:text-2xl max-w-4xl mx-auto text-[var(--theme-text-secondary)]  mb-6">
                   No fluff. <span className="font-bold vs-text-gradient-orange inline-block hover:scale-110 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">178+ modules</span>, <span className="font-bold vs-text-gradient-orange inline-block hover:scale-110 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">450+ resources</span>, and <span className="font-bold vs-text-gradient-orange inline-block hover:scale-110 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">1000+ hours</span> of content creation expertise.
                 </p>
                 
@@ -392,7 +392,7 @@ const ContentOverwhelmer: FC = () => {
                 
                 {/* Filtered Results Count */}
                 {activeTrack && (
-                  <div className="text-[var(--text-cream)] text-lg mb-6">
+                  <div className="text-[var(--theme-text-secondary)] text-lg mb-6">
                     Showing {filteredModules.length} modules for the {activeTrack} track
                   </div>
                 )}
@@ -406,7 +406,7 @@ const ContentOverwhelmer: FC = () => {
                     ref={pathRef}
                     d="M50,50 C150,100 250,150 350,100 S450,50 550,100 S650,150 750,100 S850,50 950,100"
                     fill="none"
-                    stroke="var(--primary-orange)"
+                    stroke="var(--theme-primary)"
                     strokeWidth="3"
                     strokeLinecap="round"
                     strokeDasharray="5,5"
@@ -452,8 +452,8 @@ const ContentOverwhelmer: FC = () => {
                       onClick={() => toggleModule(module.id)}
                       className={`module p-5 rounded-lg backdrop-blur-sm bg-black/30 border transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer group ${
                         expandedModuleId === module.id 
-                          ? 'border-[var(--primary-orange-light)] shadow-lg shadow-[var(--primary-orange)]/20 translate-y-[-8px] scale-[1.03] rotate-[0.5deg]'
-                          : 'border-[var(--secondary-teal)]/50 hover:border-[var(--secondary-teal)] hover:translate-y-[-6px] hover:scale-[1.03] hover:shadow-lg hover:shadow-[var(--primary-orange)]/10 hover:rotate-[0.5deg]'
+                          ? 'border-[var(--theme-primary-light)] shadow-lg shadow-[var(--theme-primary)]/20 translate-y-[-8px] scale-[1.03] rotate-[0.5deg]'
+                          : 'border-[var(--theme-accent-secondary)]/50 hover:border-[var(--theme-accent-secondary)] hover:translate-y-[-6px] hover:scale-[1.03] hover:shadow-lg hover:shadow-[var(--theme-primary)]/10 hover:rotate-[0.5deg]'
                       }`}
                       style={{
                         transform: `rotate(${Math.random() * 0.6 - 0.3}deg)`,
@@ -470,8 +470,8 @@ const ContentOverwhelmer: FC = () => {
                         >
                           {parseInt(module.id) + 1}
                         </div>
-                        <h3 className={`text-lg font-bold group-hover:text-[var(--primary-orange-light)] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
-                          expandedModuleId === module.id ? 'text-[var(--primary-orange-light)]' : ''
+                        <h3 className={`text-lg font-bold group-hover:text-[var(--theme-primary-light)] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                          expandedModuleId === module.id ? 'text-[var(--theme-primary-light)]' : ''
                         }`}>
                           {module.title}
                         </h3>
@@ -479,7 +479,7 @@ const ContentOverwhelmer: FC = () => {
                       
                       {/* Category tag */}
                       <div className="ml-12 mb-3">
-                        <span className="text-sm px-2.5 py-1 rounded bg-black/30 text-[var(--text-cream)]">
+                        <span className="text-sm px-2.5 py-1 rounded bg-black/30 text-[var(--theme-text-secondary)]">
                           {module.track.name}
                         </span>
                       </div>
@@ -521,7 +521,7 @@ const ContentOverwhelmer: FC = () => {
                         
                         {/* Resource count badge */}
                         <div 
-                          className="absolute right-0 -top-3 w-6 h-6 rounded-full bg-[var(--accent-red)] text-white text-xs flex items-center justify-center"
+                          className="absolute right-0 -top-3 w-6 h-6 rounded-full bg-[var(--theme-accent-quaternary)] text-white text-xs flex items-center justify-center"
                           title={`${module.submodules.length} resources`}
                         >
                           {module.submodules.length}
@@ -530,37 +530,37 @@ const ContentOverwhelmer: FC = () => {
                       
                       {/* Expanded view when clicked */}
                       <div className="module-expanded-content overflow-hidden h-0 opacity-0">
-                        <div className="mt-6 pt-4 border-t border-[var(--secondary-teal)]/50">
+                        <div className="mt-6 pt-4 border-t border-[var(--theme-accent-secondary)]/50">
                           {/* Module description */}
                           <div className="mb-4">
-                            <h4 className="text-base font-bold mb-2 text-[var(--primary-orange-light)]">About This Module:</h4>
-                            <p className="text-[var(--text-cream)]/90">{module.description}</p>
+                            <h4 className="text-base font-bold mb-2 text-[var(--theme-primary-light)]">About This Module:</h4>
+                            <p className="text-[var(--theme-text-secondary)]/90">{module.description}</p>
                           </div>
                           
                           {/* Module metadata */}
                           <div className="flex flex-wrap gap-3 mb-4">
                             <div className="flex items-center bg-black/30 px-3 py-1.5 rounded">
-                              <ChartBarIcon className="w-4 h-4 mr-1.5 text-[var(--primary-orange-light)]" />
+                              <ChartBarIcon className="w-4 h-4 mr-1.5 text-[var(--theme-primary-light)]" />
                               <span>{module.difficulty}</span>
                             </div>
                             <div className="flex items-center bg-black/30 px-3 py-1.5 rounded">
-                              <ClockIcon className="w-4 h-4 mr-1.5 text-[var(--primary-orange-light)]" />
+                              <ClockIcon className="w-4 h-4 mr-1.5 text-[var(--theme-primary-light)]" />
                               <span>{module.durationHours} hours</span>
                             </div>
                           </div>
                           
                           {/* Submodules */}
                           <div className="mb-4">
-                            <h4 className="text-base font-bold mb-2 text-[var(--primary-orange-light)]">What You'll Learn:</h4>
+                            <h4 className="text-base font-bold mb-2 text-[var(--theme-primary-light)]">What You'll Learn:</h4>
                             <ul className="space-y-2.5 ml-1">
                               {module.submodules.map((submodule, idx) => (
                                 <li key={idx} className="flex items-start">
-                                  <div className="min-w-5 w-5 h-5 rounded-full bg-[var(--secondary-teal)] flex items-center justify-center mr-3 mt-0.5">
+                                  <div className="min-w-5 w-5 h-5 rounded-full bg-[var(--theme-accent-secondary)] flex items-center justify-center mr-3 mt-0.5">
                                     <span className="text-xs">{idx + 1}</span>
                                   </div>
                                   <div>
                                     <div className="font-medium">{submodule.title}</div>
-                                    <div className="text-sm text-[var(--text-cream)]/70">{submodule.duration}</div>
+                                    <div className="text-sm text-[var(--theme-text-secondary)]/70">{submodule.duration}</div>
                                   </div>
                                 </li>
                               ))}
@@ -569,7 +569,7 @@ const ContentOverwhelmer: FC = () => {
                           
                           {/* Resources */}
                           <div>
-                            <h4 className="text-base font-bold mb-2 text-[var(--primary-orange-light)]">Included Resources:</h4>
+                            <h4 className="text-base font-bold mb-2 text-[var(--theme-primary-light)]">Included Resources:</h4>
                             <div className="grid grid-cols-2 gap-2">
                               {module.submodules.map((submodule, idx) => (
                                 <div 
@@ -590,8 +590,8 @@ const ContentOverwhelmer: FC = () => {
                 </div>
                 
                 {/* Overwhelming resource statistics */}
-                <div className="bg-black/20 backdrop-blur-sm mt-10 p-5 rounded-lg border border-[var(--primary-orange)]/30">
-                  <div className="text-xl font-bold mb-3 text-center text-[var(--text-cream)]">WHAT YOU'RE GETTING</div>
+                <div className="bg-black/20 backdrop-blur-sm mt-10 p-5 rounded-lg border border-[var(--theme-primary)]/30">
+                  <div className="text-xl font-bold mb-3 text-center text-[var(--theme-text-secondary)]">WHAT YOU'RE GETTING</div>
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                     {[
                       { count: 178, label: "Modules", icon: <DocumentIcon className="w-5 h-5" /> },
@@ -604,7 +604,7 @@ const ContentOverwhelmer: FC = () => {
                       <div key={i} className="text-center p-3 bg-black/20 rounded">
                         <div className="flex justify-center mb-1">{stat.icon}</div>
                         <div 
-                          className="stat-counter text-2xl font-bold text-[var(--primary-orange-light)]" 
+                          className="stat-counter text-2xl font-bold text-[var(--theme-primary-light)]" 
                           data-target={stat.count}
                         >
                           {stat.count}
@@ -618,38 +618,38 @@ const ContentOverwhelmer: FC = () => {
                 {/* Extra content metrics for overwhelming effect */}
                 <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
                   <div className="flex items-center gap-3 bg-black/20 p-3 rounded">
-                    <div className="w-10 h-10 rounded-full bg-[var(--primary-orange)] flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-[var(--theme-primary)] flex items-center justify-center">
                       <DocumentIcon className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <div className="text-sm text-[var(--text-cream)]/70">CONTENT LENGTH</div>
+                      <div className="text-sm text-[var(--theme-text-secondary)]/70">CONTENT LENGTH</div>
                       <div className="font-bold text-lg">1,000+ Hours</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 bg-black/20 p-3 rounded">
-                    <div className="w-10 h-10 rounded-full bg-[var(--secondary-teal)] flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-[var(--theme-accent-secondary)] flex items-center justify-center">
                       <BookOpenIcon className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <div className="text-sm text-[var(--text-cream)]/70">EXPERIENCE LEVEL</div>
+                      <div className="text-sm text-[var(--theme-text-secondary)]/70">EXPERIENCE LEVEL</div>
                       <div className="font-bold text-lg">Beginner to Expert</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 bg-black/20 p-3 rounded">
-                    <div className="w-10 h-10 rounded-full bg-[var(--accent-coral)] flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-[var(--theme-accent-tertiary)] flex items-center justify-center">
                       <CogIcon className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <div className="text-sm text-[var(--text-cream)]/70">UPDATES</div>
+                      <div className="text-sm text-[var(--theme-text-secondary)]/70">UPDATES</div>
                       <div className="font-bold text-lg">Monthly New Content</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 bg-black/20 p-3 rounded">
-                    <div className="w-10 h-10 rounded-full bg-[var(--accent-red)] flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-[var(--theme-accent-quaternary)] flex items-center justify-center">
                       <CurrencyPoundIcon className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <div className="text-sm text-[var(--text-cream)]/70">VALUE</div>
+                      <div className="text-sm text-[var(--theme-text-secondary)]/70">VALUE</div>
                       <div className="font-bold text-lg">£50,000+</div>
                     </div>
                   </div>
@@ -657,62 +657,62 @@ const ContentOverwhelmer: FC = () => {
               </div>
               
               {/* Content organization preview - to show structure amid overwhelm */}
-              <div className="max-w-5xl mx-auto my-10 bg-[var(--bg-navy)]/60 p-5 rounded-lg border border-[var(--secondary-teal)]">
+              <div className="max-w-5xl mx-auto my-10 bg-[var(--theme-bg-primary)]/60 p-5 rounded-lg border border-[var(--theme-accent-secondary)]">
                 <div className="text-center mb-5">
-                  <div className="text-2xl font-bold text-[var(--primary-orange-light)]">CONTENT ORGANIZATION</div>
-                  <p className="text-base text-[var(--text-cream)]/80">All meticulously structured for your learning journey</p>
+                  <div className="text-2xl font-bold text-[var(--theme-primary-light)]">CONTENT ORGANIZATION</div>
+                  <p className="text-base text-[var(--theme-text-secondary)]/80">All meticulously structured for your learning journey</p>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="p-4 bg-black/20 rounded-lg">
-                    <div className="text-lg text-[var(--primary-orange-light)] font-bold mb-3">FOUNDATIONS</div>
+                    <div className="text-lg text-[var(--theme-primary-light)] font-bold mb-3">FOUNDATIONS</div>
                     <ul className="space-y-2">
                       <li className="flex items-center">
-                        <span className="w-1.5 h-1.5 bg-[var(--primary-orange-light)] rounded-full mr-2"></span>
+                        <span className="w-1.5 h-1.5 bg-[var(--theme-primary-light)] rounded-full mr-2"></span>
                         <span>Theory Basics (12 modules)</span>
                       </li>
                       <li className="flex items-center">
-                        <span className="w-1.5 h-1.5 bg-[var(--primary-orange-light)] rounded-full mr-2"></span>
+                        <span className="w-1.5 h-1.5 bg-[var(--theme-primary-light)] rounded-full mr-2"></span>
                         <span>Platform Mechanics (9 modules)</span>
                       </li>
                       <li className="flex items-center">
-                        <span className="w-1.5 h-1.5 bg-[var(--primary-orange-light)] rounded-full mr-2"></span>
+                        <span className="w-1.5 h-1.5 bg-[var(--theme-primary-light)] rounded-full mr-2"></span>
                         <span>Content Framework (15 modules)</span>
                       </li>
                     </ul>
                   </div>
                   
                   <div className="p-4 bg-black/20 rounded-lg">
-                    <div className="text-lg text-[var(--accent-coral)] font-bold mb-3">PRODUCTION</div>
+                    <div className="text-lg text-[var(--theme-accent-tertiary)] font-bold mb-3">PRODUCTION</div>
                     <ul className="space-y-2">
                       <li className="flex items-center">
-                        <span className="w-1.5 h-1.5 bg-[var(--accent-coral)] rounded-full mr-2"></span>
+                        <span className="w-1.5 h-1.5 bg-[var(--theme-accent-tertiary)] rounded-full mr-2"></span>
                         <span>Filming & Editing (18 modules)</span>
                       </li>
                       <li className="flex items-center">
-                        <span className="w-1.5 h-1.5 bg-[var(--accent-coral)] rounded-full mr-2"></span>
+                        <span className="w-1.5 h-1.5 bg-[var(--theme-accent-tertiary)] rounded-full mr-2"></span>
                         <span>Script Writing (14 modules)</span>
                       </li>
                       <li className="flex items-center">
-                        <span className="w-1.5 h-1.5 bg-[var(--accent-coral)] rounded-full mr-2"></span>
+                        <span className="w-1.5 h-1.5 bg-[var(--theme-accent-tertiary)] rounded-full mr-2"></span>
                         <span>Production Value (11 modules)</span>
                       </li>
                     </ul>
                   </div>
                   
                   <div className="p-4 bg-black/20 rounded-lg">
-                    <div className="text-lg text-[var(--secondary-teal)] font-bold mb-3">GROWTH</div>
+                    <div className="text-lg text-[var(--theme-accent-secondary)] font-bold mb-3">GROWTH</div>
                     <ul className="space-y-2">
                       <li className="flex items-center">
-                        <span className="w-1.5 h-1.5 bg-[var(--secondary-teal)] rounded-full mr-2"></span>
+                        <span className="w-1.5 h-1.5 bg-[var(--theme-accent-secondary)] rounded-full mr-2"></span>
                         <span>Algorithmic Strategy (16 modules)</span>
                       </li>
                       <li className="flex items-center">
-                        <span className="w-1.5 h-1.5 bg-[var(--secondary-teal)] rounded-full mr-2"></span>
+                        <span className="w-1.5 h-1.5 bg-[var(--theme-accent-secondary)] rounded-full mr-2"></span>
                         <span>Audience Building (13 modules)</span>
                       </li>
                       <li className="flex items-center">
-                        <span className="w-1.5 h-1.5 bg-[var(--secondary-teal)] rounded-full mr-2"></span>
+                        <span className="w-1.5 h-1.5 bg-[var(--theme-accent-secondary)] rounded-full mr-2"></span>
                         <span>Monetization (15 modules)</span>
                       </li>
                     </ul>
@@ -731,7 +731,7 @@ const ContentOverwhelmer: FC = () => {
           <Button
             onClick={toggleExpanded}
             variant="glow"
-            className="gap-2 bg-[var(--primary-orange)]/10 border-[var(--primary-orange)]/30 text-[var(--primary-orange-light)] hover:bg-[var(--primary-orange)]/20 hover:border-[var(--primary-orange)]/50 hover:shadow-[0_0_20px_rgba(254,163,93,0.3)] hover:translate-y-[-6px] hover:scale-[1.04] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+            className="gap-2 bg-[var(--theme-primary)]/10 border-[var(--theme-primary)]/30 text-[var(--theme-primary-light)] hover:bg-[var(--theme-primary)]/20 hover:border-[var(--theme-primary)]/50 hover:shadow-[0_0_20px_rgba(254,163,93,0.3)] hover:translate-y-[-6px] hover:scale-[1.04] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]"
           >
             {isExpanded ? (
               <>

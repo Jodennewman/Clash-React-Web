@@ -64,10 +64,11 @@ To avoid the "hanging on npm run dev" problem:
    - Ensure all module components use proper course data
    - Implement consistent styling across all module components
 
-4. **Text Color Implementation**
-   - Remember: NEVER use `text-[var(--text-dark)]` as it won't work
-   - Instead use `style={{ color: "var(--text-dark)" }}` for text colors
-   - Use direct classes for dark mode: `className="dark:text-white"`
+4. **Theme-Aware Color Implementation**
+   - Remember: Use theme-aware variables for consistent styling
+   - Apply with syntax: `className="text-[var(--theme-text-primary)]"`
+   - Create utility classes: `className="text-theme-primary"`
+   - For isolated components: `style={{ color: isDarkMode ? 'white' : 'var(--text-navy)' }}`
 
 ## Returning to Team Mode
 

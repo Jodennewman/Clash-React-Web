@@ -56,8 +56,8 @@ const ModalTest: React.FC = () => {
   return (
     <div className="p-8 space-y-6">
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-[--text-navy] dark:text-white">Modal Test Panel</h2>
-        <p className="text-[--text-navy]/70 dark:text-white/70">
+        <h2 className="text-2xl font-bold text-[var(--theme-text-primary)] dark:text-white">Modal Test Panel</h2>
+        <p className="text-[var(--theme-text-primary)]/70 dark:text-white/70">
           Click the buttons below to test each modal type.
         </p>
       </div>
@@ -65,30 +65,30 @@ const ModalTest: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <button
           onClick={() => setShowBasicModal(true)}
-          className="p-4 bg-gradient-to-br from-white to-[--bg-cream]/80 dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] rounded-[--border-radius-md] shadow-md hover-bubbly"
+          className="p-4 bg-theme-gradient dark:from-[var(--theme-bg-primary)]  rounded-[--border-radius-md] shadow-md hover-bubbly"
         >
-          <span className="text-[--text-navy] dark:text-white">Basic Modal</span>
+          <span className="text-[var(--theme-text-primary)] dark:text-white">Basic Modal</span>
         </button>
 
         <button
           onClick={() => setShowApplicationModal(true)}
-          className="p-4 bg-gradient-to-br from-white to-[--bg-cream]/80 dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] rounded-[--border-radius-md] shadow-md hover-bubbly"
+          className="p-4 bg-theme-gradient dark:from-[var(--theme-bg-primary)]  rounded-[--border-radius-md] shadow-md hover-bubbly"
         >
-          <span className="text-[--text-navy] dark:text-white">Application Modal</span>
+          <span className="text-[var(--theme-text-primary)] dark:text-white">Application Modal</span>
         </button>
 
         <button
           onClick={() => setShowSubmoduleModal(true)}
-          className="p-4 bg-gradient-to-br from-white to-[--bg-cream]/80 dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] rounded-[--border-radius-md] shadow-md hover-bubbly"
+          className="p-4 bg-theme-gradient dark:from-[var(--theme-bg-primary)]  rounded-[--border-radius-md] shadow-md hover-bubbly"
         >
-          <span className="text-[--text-navy] dark:text-white">Submodule Modal</span>
+          <span className="text-[var(--theme-text-primary)] dark:text-white">Submodule Modal</span>
         </button>
 
         <button
           onClick={() => setShowQuizModal(true)}
-          className="p-4 bg-gradient-to-br from-white to-[--bg-cream]/80 dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] rounded-[--border-radius-md] shadow-md hover-bubbly"
+          className="p-4 bg-theme-gradient dark:from-[var(--theme-bg-primary)]  rounded-[--border-radius-md] shadow-md hover-bubbly"
         >
-          <span className="text-[--text-navy] dark:text-white">Quiz Modal</span>
+          <span className="text-[var(--theme-text-primary)] dark:text-white">Quiz Modal</span>
         </button>
       </div>
 
@@ -99,13 +99,13 @@ const ModalTest: React.FC = () => {
         title="Basic Modal"
       >
         <div>
-          <p className="text-[--text-navy] dark:text-white">
+          <p className="text-[var(--theme-text-primary)] dark:text-white">
             This is a simple basic modal with minimal content.
           </p>
           <div className="mt-6 flex justify-end">
             <button
               onClick={() => setShowBasicModal(false)}
-              className="bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] dark:from-[--primary-orange] dark:to-[--primary-orange-hover] text-white px-4 py-2 rounded-[--border-radius-md] shadow-md hover-bubbly"
+              className="vs-btn-primary-gradient dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)] text-white px-4 py-2 rounded-[--border-radius-md] shadow-md hover-bubbly"
             >
               Close
             </button>

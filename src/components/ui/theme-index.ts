@@ -45,8 +45,8 @@ export type { Theme } from './theme-provider';
  * 
  * 5. For themed elements, use VSThemeWrapper:
  *    <VSThemeWrapper 
- *      lightClassName="bg-[--bg-cream]" 
- *      darkClassName="bg-[--bg-navy]"
+ *      lightClassName="bg-[var(--theme-bg-primary)]" 
+ *      darkClassName="bg-[var(--theme-bg-primary)]"
  *    >
  *      <div>Content</div>
  *    </VSThemeWrapper>

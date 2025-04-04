@@ -85,17 +85,17 @@ export function AreaChartComponent({ className = "" }: AreaChartComponentProps) 
             <Area
               dataKey="mobile"
               type="natural"
-              fill="var(--color-mobile)"
+              fill="var(--theme-color-mobile)"
               fillOpacity={0.4}
-              stroke="var(--color-mobile)"
+              stroke="var(--theme-color-mobile)"
               stackId="a"
             />
             <Area
               dataKey="desktop"
               type="natural"
-              fill="var(--color-desktop)"
+              fill="var(--theme-color-desktop)"
               fillOpacity={0.4}
-              stroke="var(--color-desktop)"
+              stroke="var(--theme-color-desktop)"
               stackId="a"
             />
           </AreaChart>

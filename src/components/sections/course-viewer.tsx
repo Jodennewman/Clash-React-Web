@@ -161,37 +161,37 @@ export const CourseViewer: React.FC = () => {
   
   return (
     <VSSection 
-      lightBg="bg-gradient-to-br from-white to-[--bg-cream]/80" 
-      darkBg="dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]"
+      lightBg="bg-gradient-to-br from-white to-[var(--theme-bg-primary)]/80" 
+      darkBg="dark:bg-gradient-to-br dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]"
       className="py-24 md:py-32 relative overflow-hidden"
       ref={containerRef}
     >
       {/* Floating elements - light mode */}
-      <div className="floating-element absolute -z-10 top-40 left-[10%] w-32 h-32 rounded-[40%] rotate-12 opacity-5 bg-[--primary-orange] hidden dark:hidden"></div>
-      <div className="floating-element absolute -z-10 bottom-60 right-[10%] w-48 h-48 rounded-[30%] -rotate-6 opacity-8 bg-[--primary-orange-hover] hidden dark:hidden"></div>
-      <div className="floating-element absolute -z-10 bottom-[20%] left-[15%] w-36 h-36 rounded-[35%] rotate-[18deg] opacity-7 bg-[--secondary-teal-light] hidden dark:hidden"></div>
+      <div className="floating-element absolute -z-10 top-40 left-[10%] w-32 h-32 rounded-[40%] rotate-12 opacity-5 bg-[var(--theme-primary)] hidden dark:hidden"></div>
+      <div className="floating-element absolute -z-10 bottom-60 right-[10%] w-48 h-48 rounded-[30%] -rotate-6 opacity-8 bg-[var(--theme-primary-hover)] hidden dark:hidden"></div>
+      <div className="floating-element absolute -z-10 bottom-[20%] left-[15%] w-36 h-36 rounded-[35%] rotate-[18deg] opacity-7 bg-[var(--theme-accent-secondary-light)] hidden dark:hidden"></div>
       
       {/* Floating elements - dark mode */}
-      <div className="floating-element absolute -z-10 top-40 left-[10%] w-32 h-32 rounded-[40%] rotate-12 opacity-10 bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] hidden dark:block"></div>
-      <div className="floating-element absolute -z-10 bottom-60 right-[10%] w-48 h-48 rounded-[30%] -rotate-6 opacity-15 bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-hover] hidden dark:block"></div>
-      <div className="floating-element absolute -z-10 bottom-[20%] left-[15%] w-36 h-36 rounded-[35%] rotate-[18deg] opacity-12 bg-gradient-to-r from-[--accent-coral] to-[--accent-red] hidden dark:block"></div>
+      <div className="floating-element absolute -z-10 top-40 left-[10%] w-32 h-32 rounded-[40%] rotate-12 opacity-10 vs-btn-primary-gradient hidden dark:block"></div>
+      <div className="floating-element absolute -z-10 bottom-60 right-[10%] w-48 h-48 rounded-[30%] -rotate-6 opacity-15 vs-btn-secondary-gradient hidden dark:block"></div>
+      <div className="floating-element absolute -z-10 bottom-[20%] left-[15%] w-36 h-36 rounded-[35%] rotate-[18deg] opacity-12 vs-gradient-coral-diagonal hidden dark:block"></div>
       
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <Badge variant="outline" className="bg-white/5 text-[--primary-orange] dark:text-[--primary-orange-light] border-[--primary-orange]/30 mb-4 py-2 px-4 mx-auto">
+          <Badge variant="outline" className="bg-white/5 text-[var(--theme-primary)]  border-[var(--theme-primary)]/30 mb-4 py-2 px-4 mx-auto">
             Course Navigator
           </Badge>
           <VSGradientText
             variant="h2"
-            fromColor="var(--text-navy)"
-            toColor="var(--text-navy)"
+            fromColor="var(--theme-text-primary)"
+            toColor="var(--theme-text-primary)"
             darkFromColor="white"
             darkToColor="rgba(255,255,255,0.8)"
             className="text-4xl md:text-5xl font-bold mb-6"
           >
             Course Content
           </VSGradientText>
-          <VSHeading variant="h2" className="text-2xl md:text-3xl text-[--text-navy] dark:text-white/70 max-w-3xl mx-auto">
+          <VSHeading variant="h2" className="text-2xl md:text-3xl text-[var(--theme-text-primary)] dark:text-white/70 max-w-3xl mx-auto">
             And we mean <u>everything.</u>
           </VSHeading>
         </div>
@@ -221,12 +221,12 @@ export const CourseViewer: React.FC = () => {
         </div>
         
         <div className="text-center mt-16 md:mt-24 max-w-4xl mx-auto">
-          <p className="text-[--text-navy]/80 dark:text-white/60 text-lg mb-6">
+          <p className="text-[var(--theme-text-primary)]/80 dark:text-white/60 text-lg mb-6">
             Access our complete library of courses, tools, and systems to transform your content creation process. Everything you need to create, grow, and monetize.
           </p>
           <button 
-            className="bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover]
-                     dark:bg-gradient-to-r dark:from-[--primary-orange] dark:to-[--primary-orange-hover]
+            className="vs-btn-primary-gradient
+                     dark:bg-gradient-to-r dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)]
                      text-white px-6 py-3 rounded-[--border-radius-full] 
                      shadow-[1px_1px_4px_rgba(0,0,0,0.1)]
                      dark:shadow-[0_0_8px_rgba(254,163,93,0.2)]
@@ -253,16 +253,16 @@ export const CourseViewer: React.FC = () => {
         >
           <div 
             ref={modalRef}
-            className="w-full max-w-4xl bg-gradient-to-br from-white to-[--bg-cream]/80 dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] rounded-[--border-radius-lg] shadow-[2px_2px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_rgba(53,115,128,0.2)] overflow-hidden"
+            className="w-full max-w-4xl bg-theme-gradient dark:from-[var(--theme-bg-primary)]  rounded-[--border-radius-lg] shadow-[2px_2px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_rgba(53,115,128,0.2)] overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Floating elements inside modal - light mode */}
-            <div className="absolute -z-10 top-10 right-10 w-20 h-20 rounded-[40%] rotate-12 opacity-5 bg-[--primary-orange] hidden dark:hidden"></div>
-            <div className="absolute -z-10 bottom-10 left-10 w-28 h-28 rounded-[30%] -rotate-6 opacity-8 bg-[--primary-orange-hover] hidden dark:hidden"></div>
+            <div className="absolute -z-10 top-10 right-10 w-20 h-20 rounded-[40%] rotate-12 opacity-5 bg-[var(--theme-primary)] hidden dark:hidden"></div>
+            <div className="absolute -z-10 bottom-10 left-10 w-28 h-28 rounded-[30%] -rotate-6 opacity-8 bg-[var(--theme-primary-hover)] hidden dark:hidden"></div>
             
             {/* Floating elements inside modal - dark mode */}
-            <div className="absolute -z-10 top-10 right-10 w-20 h-20 rounded-[40%] rotate-12 opacity-10 bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] hidden dark:block"></div>
-            <div className="absolute -z-10 bottom-10 left-10 w-28 h-28 rounded-[30%] -rotate-6 opacity-15 bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-hover] hidden dark:block"></div>
+            <div className="absolute -z-10 top-10 right-10 w-20 h-20 rounded-[40%] rotate-12 opacity-10 vs-btn-primary-gradient hidden dark:block"></div>
+            <div className="absolute -z-10 bottom-10 left-10 w-28 h-28 rounded-[30%] -rotate-6 opacity-15 vs-btn-secondary-gradient hidden dark:block"></div>
             
             <div className="p-6 md:p-8 flex flex-col md:flex-row gap-6 relative">
               {/* Sidebar */}
@@ -275,13 +275,13 @@ export const CourseViewer: React.FC = () => {
                   />
                 </div>
                 
-                <h3 className="text-[--text-navy] dark:text-white text-lg font-medium mb-3">Submodules</h3>
+                <h3 className="text-[var(--theme-text-primary)] dark:text-white text-lg font-medium mb-3">Submodules</h3>
                 
                 <ul className="space-y-2">
                   {[1, 2, 3, 4].map(num => (
                     <li 
                       key={num}
-                      className="p-2 bg-white/40 dark:bg-white/5 rounded-[--border-radius-sm] text-[--text-navy] dark:text-white/80 cursor-pointer hover:bg-white/60 dark:hover:bg-white/10 transition-all duration-300 hover:translate-y-[-2px] shadow-[1px_1px_3px_rgba(0,0,0,0.03)] dark:shadow-[0_0_5px_rgba(53,115,128,0.05)]"
+                      className="p-2 bg-theme-custom/40 /5 rounded-[--border-radius-sm] text-[var(--theme-text-primary)] dark:text-white/80 cursor-pointer hover:bg-white/60 dark:hover:bg-white/10 transition-all duration-300 hover:translate-y-[-2px] shadow-[1px_1px_3px_rgba(0,0,0,0.03)] dark:shadow-[0_0_5px_rgba(53,115,128,0.05)]"
                     >
                       <div className="flex items-center">
                         <span className="font-medium mr-2">{num}.</span>
@@ -295,11 +295,11 @@ export const CourseViewer: React.FC = () => {
               {/* Main Content */}
               <div className="w-full md:w-2/3">
                 <div className="flex justify-between items-start mb-4">
-                  <h2 className="text-2xl font-bold text-[--text-navy] dark:text-white">{selectedModule.title}</h2>
+                  <h2 className="text-2xl font-bold text-[var(--theme-text-primary)] dark:text-white">{selectedModule.title}</h2>
                   
                   <button 
                     onClick={closeModal}
-                    className="text-[--text-navy]/60 dark:text-white/60 hover:text-[--text-navy] dark:hover:text-white transition-colors hover:scale-110 p-1"
+                    className="text-[var(--theme-text-primary)]/60 dark:text-white/60 hover:text-[var(--theme-text-primary)] dark:hover:text-white transition-colors hover:scale-110 p-1"
                     aria-label="Close modal"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -309,18 +309,18 @@ export const CourseViewer: React.FC = () => {
                   </button>
                 </div>
                 
-                <p className="text-[--text-navy]/80 dark:text-white/60 mb-6">{selectedModule.subtitle}</p>
+                <p className="text-[var(--theme-text-primary)]/80 dark:text-white/60 mb-6">{selectedModule.subtitle}</p>
                 
                 <div className="mb-6">
-                  <h3 className="text-[--text-navy] dark:text-white text-lg font-medium mb-4">What You'll Learn</h3>
+                  <h3 className="text-[var(--theme-text-primary)] dark:text-white text-lg font-medium mb-4">What You'll Learn</h3>
                   
                   <ul className="space-y-4">
                     {selectedModule.points.map((point, idx) => (
                       <li key={idx} className="flex items-start">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] dark:from-[--primary-orange] dark:to-[--primary-orange-hover] flex items-center justify-center text-white font-medium shrink-0 mt-0.5 mr-3 shadow-[1px_1px_3px_rgba(0,0,0,0.1)] dark:shadow-[0_0_6px_rgba(254,163,93,0.2)]">
+                        <div className="w-6 h-6 rounded-full vs-btn-primary-gradient dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)] flex items-center justify-center text-white font-medium shrink-0 mt-0.5 mr-3 shadow-[1px_1px_3px_rgba(0,0,0,0.1)] dark:shadow-[0_0_6px_rgba(254,163,93,0.2)]">
                           {idx + 1}
                         </div>
-                        <p className="text-[--text-navy]/90 dark:text-white/80">{point}</p>
+                        <p className="text-[var(--theme-text-primary)]/90 dark:text-white/80">{point}</p>
                       </li>
                     ))}
                   </ul>
@@ -328,8 +328,8 @@ export const CourseViewer: React.FC = () => {
                 
                 <div className="mt-auto pt-4">
                   <button 
-                    className="bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover]
-                           dark:bg-gradient-to-r dark:from-[--primary-orange] dark:to-[--primary-orange-hover]
+                    className="vs-btn-primary-gradient
+                           dark:bg-gradient-to-r dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)]
                            text-white px-6 py-3 rounded-[--border-radius-full] 
                            shadow-[1px_1px_4px_rgba(0,0,0,0.1)]
                            dark:shadow-[0_0_8px_rgba(254,163,93,0.2)]

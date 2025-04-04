@@ -22,17 +22,15 @@ import TabsLeft from './components/sections/tabs/left';
 import SocialProof from './components/sections/social-proof/marquee-2-rows';
 import TestimonialCarousel from './components/ui/testimonial-carousel';
 import LeadCaptureForm from './components/ui/lead-capture-form';
-import HeroLogo from './components/logos/Hero';
-import VerticalShortcutApplicationForm from './components/form/form-shadcn-claude';
-import { CourseViewer } from './components/sections/course-viewer';
-import { CaseStudies } from './components/sections';
+import VSApplicationFormModal from './components/form/VSApplicationFormModal';
+import { CaseStudies, VSPainPoints } from './components/sections';
 import { Link } from 'react-router-dom';
 import { AnimatedButton } from './components/marble-buttons/AnimatedButton';
+import { CourseViewer } from './components/sections/course-viewer';
 
 // Import VS helper components for correct light/dark mode implementation
 import { VSText, VSHeading, VSGradientText } from './components/ui/vs-text';
 import { VSBackground, VSCard, VSSection } from './components/ui/vs-background';
-import { VSButton, VSIconButton } from './components/ui/vs-button';
 
 // Import only the icons we're using
 import { 
@@ -313,9 +311,9 @@ function AnimationController({ children }: { children: React.ReactNode }) {
     <div ref={controllerRef} className="animation-controller">
       {/* Context provider approach - pass down the initialized state */}
       {React.Children.map(children, child => 
-        React.isValidElement(child) ? React.cloneElement(child as React.ReactElement<React.PropsWithChildren<{ gsapInitialized?: boolean }>>, { 
+        React.isValidElement(child) ? React.cloneElement(child as React.ReactElement<React.PropsWithChildren<{ "data-gsap-initialized"?: boolean }>>, { 
           ...(child.props as object),
-          gsapInitialized 
+          "data-gsap-initialized": gsapInitialized 
         }) : child
       )}
     </div>
@@ -347,40 +345,7 @@ const VerticalShortcutLanding = () => {
     const ctx = gsap.context(() => {
       // Hero section animations - centralized batch for performance
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      if (!(globalAnimations as any).heroSection) {
-        const heroTl = gsap.timeline({
-          defaults: { duration: 0.8, ease: "power2.out" }
-        });
-        heroTl.from(".hero-title", {
-          y: 40,
-          opacity: 0,
-        })
-        .from(".hero-accent", {
-          scale: 0.9,
-          opacity: 0,
-          duration: 0.6,
-          ease: "back.out(1.7)"
-        }, "-=0.4")
-        .from(".hero-description", {
-          y: 30,
-          opacity: 0,
-          duration: 0.7,
-        }, "-=0.3")
-        .from(".hero-badge", {
-          scale: 0.8,
-          opacity: 0,
-          duration: 0.5,
-          ease: "back.out(1.7)"
-        }, "-=0.5")
-        .from(".hero-cta", {
-          y: 20,
-          opacity: 0,
-          duration: 0.6,
-        }, "-=0.3");
-        
-        // Type assertion to allow dynamic property assignment
-        (globalAnimations as Record<string, gsap.core.Timeline | ScrollTrigger>).heroSection = heroTl;
-      }
+  
       
       // Stats section - register once
       if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).statsSection && statsRef.current) {
@@ -485,24 +450,6 @@ const VerticalShortcutLanding = () => {
         (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).videoSection = videoTrigger;
       }
       
-      // Case Studies section - register once
-      if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).caseStudiesSection && caseStudiesRef.current) {
-        const caseStudiesTrigger = ScrollTrigger.create({
-          trigger: ".case-study-element",
-          start: "top 75%",
-          once: true,
-          id: "case-studies-trigger",
-          onEnter: () => {
-            // Animation will be handled by the CaseStudies component itself
-            // using its own GSAP context and ScrollTrigger
-            console.log("Case studies section in view");
-          }
-        });
-        
-        // Type assertion to allow dynamic property assignment
-        (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).caseStudiesSection = caseStudiesTrigger;
-      }
-      
       // Testimonials - register once
       if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).testimonialsSection && testimonialsRef.current) {
         const testimonialsTrigger = ScrollTrigger.create({
@@ -604,33 +551,11 @@ const VerticalShortcutLanding = () => {
 
   return (
     <AnimationController>
-      {/* Application form modal */}
-      {showApplicationModal && (
-        <div 
-          className="fixed inset-0 z-[9999] bg-black/70 backdrop-blur-sm"
-          onClick={(e) => {
-            // Close modal when clicking the backdrop (outside the modal content)
-            if (e.target === e.currentTarget) {
-              closeApplicationModal();
-            }
-          }}
-        >
-          <div 
-            className="absolute inset-0 overflow-y-auto p-4 flex items-center justify-center"
-            style={{ paddingTop: '2vh', paddingBottom: '2vh' }}
-          >
-            <VSBackground
-              as="div"
-              lightBg="bg-[--deep-blue]"
-              darkBg="dark:bg-[--deep-blue]"
-              className="w-full max-w-5xl rounded-xl" 
-              onClick={(e) => e.stopPropagation()}
-            >
-              <VerticalShortcutApplicationForm onClose={closeApplicationModal} />
-            </VSBackground>
-          </div>
-        </div>
-      )}
+      {/* Enhanced Application Form Modal with Better UX */}
+      <VSApplicationFormModal
+        isOpen={showApplicationModal}
+        onClose={closeApplicationModal}
+      />
     
       {/* Main wrapper for ScrollSmoother */}
       <div id="smooth-wrapper" ref={mainRef} className="min-h-screen overflow-hidden">
@@ -642,46 +567,38 @@ const VerticalShortcutLanding = () => {
           as="div"
           id="smooth-content" 
           ref={contentRef} 
-          lightBg="bg-gradient-to-b from-white to-[--bg-cream-gradient]"
-          darkBg="dark:bg-gradient-to-b dark:from-[--bg-navy] dark:to-[--bg-navy-darker]"
+          lightBg="bg-gradient-to-b from-white to-[var(--theme-bg-cream-gradient)]"
+          darkBg="dark:bg-gradient-to-b dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]"
           className="min-h-screen overflow-hidden"
         >
           {/* Hero Section */}
           <SimpleHero ref={heroRef} onCtaClick={openApplicationModal} />
 
           {/* Course Viewer - Minimalist HUD Layout */}
-          <CourseViewer />
+          
           
           {/* Stats Section with Social Proof */}
           <VSSection 
             ref={statsRef} 
-            lightBg="bg-[color(display-p3_0.008_0.08_0.106)]"
-            darkBg="dark:bg-[color(display-p3_0.008_0.08_0.106)]"
-            className="py-20 border-t border-[--secondary-teal]/30"
+            lightBg="bg-gradient-to-br from-white to-[var(--theme-bg-primary)]/80"
+            darkBg="dark:bg-gradient-to-br dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]"
+            className="py-20 border-t border-[var(--theme-accent-secondary)]/30 relative overflow-hidden"
           >
-            <div className="container mx-auto px-4">
-              <div className="mb-12 text-center">
-                <h2 className="text-[--text-navy] dark:text-white text-3xl md:text-4xl font-bold mb-6">
-                  Course Stats That Speak for Themselves
-                </h2>
-                <p className="text-[--text-navy] dark:text-white/70 text-xl max-w-3xl mx-auto">
-                  Vertical Shortcut isn't just another course. It's the culmination of years creating content that drove real business results.
-                </p>
-              </div>
+            {/* Light mode floating elements */}
+            <div className="absolute top-40 left-[15%] w-32 h-32 rounded-[40%] rotate-12 opacity-5 
+                           bg-[var(--theme-primary)] animate-float-slow hidden md:block dark:hidden"></div>
+            <div className="absolute bottom-60 right-[10%] w-36 h-36 rounded-[30%] -rotate-6 opacity-8 
+                           bg-[var(--theme-primary-hover)] animate-float-medium hidden md:block dark:hidden"></div>
               
-              {/* CourseStats component - THIS COMPONENT MAINTAINS ITS OWN STYLING */}
-              {/* It has special styling rules for stats with vibrant colors */}
-              <CourseStats />
+            {/* Dark mode floating elements */}
+            <div className="absolute top-40 left-[15%] w-32 h-32 rounded-[40%] rotate-12 opacity-10 
+                           vs-btn-primary-gradient 
+                           animate-float-slow hidden md:dark:block"></div>
+            <div className="absolute bottom-60 right-[10%] w-36 h-36 rounded-[30%] -rotate-6 opacity-15
+                           vs-btn-secondary-gradient 
+                           animate-float-medium hidden md:dark:block"></div>
               
-              <div className="text-center mb-10">
-                <Badge variant="outline" className="bg-[--accent-crimson]/10 border-[--primary-orange]/30 py-2 px-4">
-                  <span className="text-[--primary-orange] dark:text-[--primary-orange]">
-                    Don't Just Take Our Word For It
-                  </span>
-                </Badge>
-              </div>
-            </div>
-          </VSSection>
+            
           
           {/* Video Showcase Section with Video Component */}
           {/* 
@@ -693,7 +610,37 @@ const VerticalShortcutLanding = () => {
           </div>
           
           {/* Case Studies Section - Shows real growth metrics */}
-          <CaseStudies ref={caseStudiesRef} />
+          <CaseStudies />
+
+          <div className="container mx-auto px-4">
+              <div className="mb-12 text-center">
+                <h2 className="text-[var(--theme-text-primary)] dark:text-white text-3xl md:text-4xl font-bold mb-6">
+                  Course Stats That Speak for Themselves
+                </h2>
+                <p className="text-[var(--theme-text-primary)] dark:text-white/70 text-xl max-w-3xl mx-auto">
+                  Vertical Shortcut isn't just another course. It's the culmination of years creating content that drove real business results.
+                </p>
+              </div>
+              
+              {/* CourseStats component - THIS COMPONENT MAINTAINS ITS OWN STYLING */}
+              {/* It has special styling rules for stats with vibrant colors */}
+              
+              
+              <div className="text-center mb-10">
+                <Badge variant="outline" className="bg-[var(--theme-accent-tertiary)]/10 border-[var(--theme-primary)]/30 py-2 px-4">
+                  <span className="text-[var(--theme-theme-primary)]  font-bold">
+                    Don't Just Take Our Word For It
+                  </span>
+                </Badge>
+              </div>
+            </div>
+          </VSSection>
+          <CourseStats />
+          
+          {/* Pain Points Section - For founders feeling fed up */}
+          <VSPainPoints />
+
+          <CourseViewer />
           
           {/* Bento Grid Section - Managed by the VSBentoGrid component */}
           <VSBentoGrid />
@@ -701,14 +648,28 @@ const VerticalShortcutLanding = () => {
           {/* Core Benefits Section */}
           <VSSection 
             ref={benefitsRef} 
-            lightBg="bg-gradient-to-b from-[color(display-p3_0.008_0.08_0.106)] to-[var(--deep-blue)]"
-            darkBg="dark:bg-gradient-to-b dark:from-[color(display-p3_0.008_0.08_0.106)] dark:to-[var(--deep-blue)]"
-            className="benefits-section py-24"
+            lightBg="bg-gradient-to-br from-white to-[var(--theme-bg-primary)]/80"
+            darkBg="dark:bg-gradient-to-br dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]"
+            className="benefits-section py-24 relative overflow-hidden"
           >
+            {/* Light mode floating elements */}
+            <div className="absolute top-[15%] right-[10%] w-28 h-28 rounded-[40%] rotate-[-5deg] opacity-5 
+                           bg-[var(--theme-primary)] animate-float-slow hidden md:block dark:hidden"></div>
+            <div className="absolute bottom-[20%] left-[5%] w-32 h-32 rounded-[35%] rotate-12 opacity-8 
+                           bg-[var(--theme-accent-secondary-light)] animate-float-medium hidden md:block dark:hidden"></div>
+              
+            {/* Dark mode floating elements */}
+            <div className="absolute top-[15%] right-[10%] w-28 h-28 rounded-[40%] rotate-[-5deg] opacity-10 
+                           vs-btn-primary-gradient 
+                           animate-float-slow hidden md:dark:block"></div>
+            <div className="absolute bottom-[20%] left-[5%] w-32 h-32 rounded-[35%] rotate-12 opacity-15
+                           vs-btn-secondary-gradient 
+                           animate-float-medium hidden md:dark:block"></div>
+              
             <div className="container mx-auto px-4">
               <div className="text-center mb-16">
-                <Badge variant="outline" className="bg-white/5 border-[var(--primary-orange)]/30 mb-4 py-2 px-4">
-                  <VSText color="var(--primary-orange)" className="dark:text-[var(--primary-orange)]">
+                <Badge variant="outline" className="bg-white/5 border-[--primary-orange)]/30 mb-4 py-2 px-4">
+                  <VSText color="--primary-orange)" className="dark:text-[--primary-orange)]">
                     What You'll Achieve
                   </VSText>
                 </Badge>
@@ -729,7 +690,7 @@ const VerticalShortcutLanding = () => {
                 {benefits.map((benefit, index) => (
                   <VSCard 
                     key={index} 
-                    className="benefit-item backdrop-blur-sm p-8 rounded-xl border border-white/10 hover:border-[var(--primary-orange)]/30"
+                    className="benefit-item backdrop-blur-sm p-8 rounded-xl border border-white/10 hover:border-[--primary-orange)]/30"
                     lightBg="bg-white/5"
                     darkBg="dark:bg-white/5"
                   >
@@ -739,10 +700,10 @@ const VerticalShortcutLanding = () => {
                     >
                       {benefit.icon}
                     </div>
-                    <h3 className="text-white dark:text-white text-xl font-bold mb-4">
+                    <h3 className="text-theme-custom  text-xl font-bold mb-4">
                       {benefit.title}
                     </h3>
-                    <p className="text-white dark:text-white/70">
+                    <p className="text-theme-custom /70">
                       {benefit.description}
                     </p>
                   </VSCard>
@@ -762,123 +723,27 @@ const VerticalShortcutLanding = () => {
             </div>
           </VSSection>
           
-
-          
-          {/* Learning Tracks Section */}
-          <VSSection 
-            ref={tracksRef} 
-            lightBg="bg-[--bg-navy]" 
-            darkBg="dark:bg-[--bg-navy]"
-            className="py-24 border-t border-[--secondary-teal]/30"
-          >
-            <div className="container mx-auto px-4">
-              <div className="text-center mb-16">
-                <Badge variant="outline" className="bg-white/5 border-[--primary-orange]/30 mb-4 py-2 px-4">
-                  <span className="text-[--primary-orange] dark:text-[--primary-orange]">
-                    Specialized Learning Paths
-                  </span>
-                </Badge>
-                <VSGradientText
-                  variant="h2"
-                  fromColor="white"
-                  toColor="rgba(255,255,255,0.7)"
-                  className="text-4xl md:text-5xl font-bold mb-6"
-                >
-                  Choose Your Path to Mastery
-                </VSGradientText>
-                <VSText color="white" className="text-xl dark:text-white/70 max-w-3xl mx-auto">
-                  Vertical Shortcut adapts to your specific goals, whether you're a founder with limited time or a dedicated creator looking to scale.
-                </VSText>
-              </div>
-              
-              <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                {tracks.map((track, index) => (
-                  <VSCard
-                    key={index} 
-                    className="track-item backdrop-blur-sm p-8 rounded-xl border border-white/10 hover:border-[var(--primary-orange)]/30"
-                    lightBg="bg-white/5"
-                    darkBg="dark:bg-white/5"
-                  >
-                    <div className="flex items-center gap-4 mb-4">
-                      <div 
-                        className="w-12 h-12 rounded-full flex items-center justify-center"
-                        style={{ backgroundColor: track.color }}
-                      >
-                        {track.icon}
-                      </div>
-                      <VSHeading variant="h3" color="white" className="text-xl">
-                        {track.name}
-                      </VSHeading>
-                    </div>
-                    <VSText color="white" className="dark:text-white/70">
-                      {track.description}
-                    </VSText>
-                  </VSCard>
-                ))}
-              </div>
-            </div>
-          </VSSection>
-          
-          {/* Curriculum Preview Section - Custom Module Breakdown */}
-          <VSSection 
-            lightBg="bg-[var(--bg-navy-dark)]" 
-            darkBg="dark:bg-[var(--bg-navy-dark)]"
-            className="py-24"
-          >
-            <div className="container mx-auto px-4">
-              <div className="max-w-6xl mx-auto">
-                {/* Module breakdown component */}
-                <ModuleBreakdownSimplified />
-              </div>
-              
-              <div className="mt-16 text-center">
-                <Alert className="bg-[var(--secondary-teal)]/50 border-[var(--primary-orange)] max-w-3xl mx-auto mb-8">
-                  <AlertTitle className="text-lg">
-                    <VSText color="var(--primary-orange)" className="dark:text-[var(--primary-orange)]">
-                      This is just a preview!
-                    </VSText>
-                  </AlertTitle>
-                  <AlertDescription>
-                    <VSText color="white" className="dark:text-white/90">
-                      The full Vertical Shortcut program contains over 178 modules across 10 categories, with new content added monthly.
-                    </VSText>
-                  </AlertDescription>
-                </Alert>
-                
-                <AnimatedButton 
-                  text="View Full Curriculum"
-                  variant="learn" 
-                  saturation="normal"
-                  size="lg"
-                  onClick={() => document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="w-auto"
-                />
-              </div>
-            </div>
-          </VSSection>
-          
           {/* Use VSCarousel component */}
           <VSCarousel />
           
-          {/* Add FeaturedModules component */}
-          <FeaturedModules />
           
           {/* Use Cases Section with Tabs */}
           <TabsLeft />
           
+          <FounderTrack />
           {/* ContentOverwhelmer section - with proper animation management */}
           <ContentOverwhelmer />
           
           {/* What You'll Learn Section */}
           <VSSection 
-            lightBg="bg-[var(--bg-navy)]" 
-            darkBg="dark:bg-[var(--bg-navy)]"
-            className="py-24 border-t border-[var(--secondary-teal)]/30"
+            lightBg="bg-[--bg-navy)]" 
+            darkBg="dark:bg-[--bg-navy)]"
+            className="py-24 border-t border-[--secondary-teal)]/30"
           >
             <div className="container mx-auto px-4">
               <div className="text-center mb-16">
-                <Badge variant="outline" className="bg-white/5 border-[var(--primary-orange)]/30 mb-4 py-2 px-4">
-                  <VSText color="var(--primary-orange)" className="dark:text-[var(--primary-orange)]">
+                <Badge variant="outline" className="bg-white/5 border-[--primary-orange)]/30 mb-4 py-2 px-4">
+                  <VSText color="--primary-orange)" className="dark:text-[--primary-orange)]">
                     Real-World Skills
                   </VSText>
                 </Badge>
@@ -899,11 +764,11 @@ const VerticalShortcutLanding = () => {
                 {learningOutcomes.map((outcome, index) => (
                   <VSCard 
                     key={index} 
-                    className="backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-[var(--primary-orange)]/30"
+                    className="backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-[--primary-orange)]/30"
                     lightBg="bg-white/5"
                     darkBg="dark:bg-white/5"
                   >
-                    <div style={{ color: 'var(--primary-orange)' }} className="dark:text-[var(--primary-orange)] mb-4">
+                    <div style={{ color: '--primary-orange)' }} className="dark:text-[--primary-orange)] mb-4">
                       {outcome.icon}
                     </div>
                     <VSHeading variant="h3" color="white" className="text-xl mb-2">
@@ -921,14 +786,14 @@ const VerticalShortcutLanding = () => {
           {/* Testimonials Full Section */}
           <VSSection 
             ref={testimonialsRef} 
-            lightBg="bg-[var(--bg-navy-dark)]" 
-            darkBg="dark:bg-[var(--bg-navy-dark)]"
-            className="testimonials-section py-24 border-t border-[var(--secondary-teal)]/30"
+            lightBg="bg-[--bg-navy-dark)]" 
+            darkBg="dark:bg-[--bg-navy-dark)]"
+            className="testimonials-section py-24 border-t border-[--secondary-teal)]/30"
           >
             <div className="container mx-auto px-4">
               <div className="text-center mb-16">
-                <Badge variant="outline" className="bg-white/5 border-[var(--primary-orange)]/30 mb-4 py-2 px-4">
-                  <VSText color="var(--primary-orange)" className="dark:text-[var(--primary-orange)]">
+                <Badge variant="outline" className="bg-white/5 border-[--primary-orange)]/30 mb-4 py-2 px-4">
+                  <VSText color="--primary-orange)" className="dark:text-[--primary-orange)]">
                     Success Stories
                   </VSText>
                 </Badge>
@@ -957,34 +822,22 @@ const VerticalShortcutLanding = () => {
                   </div>
                 ))}
               </div>
-              
-              {/* Testimonial Carousel */}
-              <div className="mt-16 text-center mb-8">
-                <VSHeading variant="h3" color="white" className="text-2xl mb-6">
-                  More Success Stories
-                </VSHeading>
-              </div>
-              
-              <div className="max-w-4xl mx-auto">
-                <TestimonialCarousel testimonials={carouselTestimonials} />
-              </div>
+        
             </div>
           </VSSection>
           
-          {/* Social Proof Marquee */}
-          <SocialProof />
           
           {/* Key Features Section */}
           <VSSection 
-            lightBg="bg-[var(--bg-navy)]" 
-            darkBg="dark:bg-[var(--bg-navy)]"
-            className="py-24 border-t border-[var(--secondary-teal)]/30"
+            lightBg="bg-[--bg-navy)]" 
+            darkBg="dark:bg-[--bg-navy)]"
+            className="py-24 border-t border-[--secondary-teal)]/30"
           >
             <div className="container mx-auto px-4">
               <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto items-center">
                 <div>
-                  <Badge variant="outline" className="bg-white/5 border-[var(--primary-orange)]/30 mb-4 py-2 px-4">
-                    <VSText color="var(--primary-orange)" className="dark:text-[var(--primary-orange)]">
+                  <Badge variant="outline" className="bg-white/5 border-[--primary-orange)]/30 mb-4 py-2 px-4">
+                    <VSText color="--primary-orange)" className="dark:text-[--primary-orange)]">
                       Program Features
                     </VSText>
                   </Badge>
@@ -1046,7 +899,7 @@ const VerticalShortcutLanding = () => {
                     
                     <div className="flex justify-between items-center pb-3 border-b border-white/10">
                       <VSText color="white" className="text-lg">Next Cohort</VSText>
-                      <VSText color="var(--accent-crimson)" className="text-lg font-bold dark:text-[var(--accent-crimson)]">
+                      <VSText color="--accent-crimson)" className="text-lg font-bold dark:text-[--accent-crimson)]">
                         March 25, 2025
                       </VSText>
                     </div>
@@ -1058,7 +911,7 @@ const VerticalShortcutLanding = () => {
                     
                     <div className="flex justify-between items-center">
                       <VSText color="white" className="text-lg">Investment</VSText>
-                      <VSText color="var(--primary-orange)" className="text-xl font-bold dark:text-[var(--primary-orange)]">
+                      <VSText color="--primary-orange)" className="text-xl font-bold dark:text-[--primary-orange)]">
                         £6,500
                       </VSText>
                     </div>
@@ -1090,42 +943,44 @@ const VerticalShortcutLanding = () => {
           <FAQUpdated />
           
           {/* Add Founder Track section before the final CTA */}
-          <FounderTrack />
+         
           
           {/* Final CTA Section */}
           <VSSection 
             ref={ctaRef} 
-            lightBg="bg-[var(--bg-navy-dark)]"
-            darkBg="dark:bg-[var(--bg-navy-dark)]"
-            className="py-24 border-t border-[var(--secondary-teal)]/30 relative overflow-hidden"
+            lightBg="bg-[--bg-navy-dark)]"
+            darkBg="dark:bg-[--bg-navy-dark)]"
+            className="py-24 border-t border-[--secondary-teal)]/30 relative overflow-hidden"
           >
             <div className="absolute inset-0">
-              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[var(--primary-orange)]/5 to-transparent opacity-50"></div>
-              <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-[var(--accent-crimson)]/10 to-transparent opacity-30 blur-3xl"></div>
+              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[--primary-orange)]/5 to-transparent opacity-50"></div>
+              <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-[--accent-crimson)]/10 to-transparent opacity-30 blur-3xl"></div>
             </div>
             
             <div className="container mx-auto px-4 relative z-10">
               <div className="flex flex-col lg:flex-row gap-12 items-center">
                 <div className="lg:w-1/2 text-center lg:text-left">
                   <Glow variant="center" />
-                  <div className="cta-badge inline-block mb-6 bg-[var(--primary-orange)]/10 px-6 py-3 rounded-full border border-[var(--primary-orange)]/30">
-                    <VSText color="var(--primary-orange)" className="font-semibold flex items-center gap-2 dark:text-[var(--primary-orange)]">
+                  <div className="cta-badge inline-block mb-6 bg-[--primary-orange)]/10 px-6 py-3 rounded-full border border-[--primary-orange)]/30">
+                    <VSText color="--primary-orange)" className="font-semibold flex items-center gap-2 dark:text-[--primary-orange)]">
                       <Clock className="h-4 w-4" /> Limited spots available for next cohort
                     </VSText>
                   </div>
                   
-                  <h2 className="cta-title">
-                    <VSHeading variant="h2" color="white" className="text-4xl md:text-5xl lg:text-6xl mb-6">
-                      Ready to <span className="inline-block">
-                        <VSGradientText
-                          fromColor="var(--primary-orange)" 
-                          toColor="var(--accent-coral)"
-                        >
-                          Transform
-                        </VSGradientText>
-                      </span> Your Content?
-                    </VSHeading>
-                  </h2>
+                  <VSHeading 
+                    variant="h2" 
+                    color="white" 
+                    className="cta-title text-4xl md:text-5xl lg:text-6xl mb-6"
+                  >
+                    Ready to <span className="inline-block">
+                      <VSGradientText
+                        fromColor="--primary-orange" 
+                        toColor="--accent-coral"
+                      >
+                        Transform
+                      </VSGradientText>
+                    </span> Your Content?
+                  </VSHeading>
                   
                   <VSText color="white" className="cta-description text-xl dark:text-white/80 mb-10">
                     Join Vertical Shortcut today and get access to our complete system for creating high-converting content that drives real business results.
@@ -1142,9 +997,9 @@ const VerticalShortcutLanding = () => {
           {/* Footer */}
           <VSBackground
             as="footer" 
-            lightBg="bg-[var(--bg-navy)]" 
-            darkBg="dark:bg-[var(--bg-navy)]"
-            className="py-16 border-t border-[var(--secondary-teal)]/30"
+            lightBg="bg-[--bg-navy)]" 
+            darkBg="dark:bg-[--bg-navy)]"
+            className="py-16 border-t border-[--secondary-teal)]/30"
           >
             <div className="container mx-auto px-4">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
@@ -1172,36 +1027,36 @@ const VerticalShortcutLanding = () => {
                   </VSHeading>
                   <ul className="space-y-3">
                     <li>
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] transition-colors">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Curriculum
                         </VSText>
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] transition-colors">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Pricing
                         </VSText>
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] transition-colors">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Success Stories
                         </VSText>
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] transition-colors">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           FAQ
                         </VSText>
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] transition-colors">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Apply Now
                         </VSText>
                       </a>
@@ -1216,35 +1071,35 @@ const VerticalShortcutLanding = () => {
                   <ul className="space-y-3">
                     <li>
                       <a href="#" className="transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           About Us
                         </VSText>
                       </a>
                     </li>
                     <li>
-                      <Link to="/marble-buttons" className="text-white/60 hover:text-[var(--primary-orange)] transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                      <Link to="/marble-buttons" className="text-white/60 hover:text-[--primary-orange)] transition-colors">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Marble Buttons Demo
                         </VSText>
                       </Link>
                     </li>
                     <li>
                       <a href="#" className="transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Blog
                         </VSText>
                       </a>
                     </li>
                     <li>
                       <a href="#" className="transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Careers
                         </VSText>
                       </a>
                     </li>
                     <li>
                       <a href="#" className="transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Contact
                         </VSText>
                       </a>
@@ -1259,21 +1114,21 @@ const VerticalShortcutLanding = () => {
                   <ul className="space-y-3">
                     <li>
                       <a href="#" className="transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Terms of Service
                         </VSText>
                       </a>
                     </li>
                     <li>
                       <a href="#" className="transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Privacy Policy
                         </VSText>
                       </a>
                     </li>
                     <li>
                       <a href="#" className="transition-colors">
-                        <VSText color="white" className="dark:text-white/60 hover:text-[var(--primary-orange)]">
+                        <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Cookie Policy
                         </VSText>
                       </a>
@@ -1285,16 +1140,16 @@ const VerticalShortcutLanding = () => {
                       Follow Us
                     </VSHeading>
                     <div className="flex gap-4">
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] dark:text-white/60 dark:hover:text-[var(--primary-orange)] transition-colors">
+                      <a href="#" className="text-theme-custom/60 hover:text-[--primary-orange)] /60 dark:hover:text-[--primary-orange)] transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                       </a>
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] dark:text-white/60 dark:hover:text-[var(--primary-orange)] transition-colors">
+                      <a href="#" className="text-theme-custom/60 hover:text-[--primary-orange)] /60 dark:hover:text-[--primary-orange)] transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                       </a>
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] dark:text-white/60 dark:hover:text-[var(--primary-orange)] transition-colors">
+                      <a href="#" className="text-theme-custom/60 hover:text-[--primary-orange)] /60 dark:hover:text-[--primary-orange)] transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                       </a>
-                      <a href="#" className="text-white/60 hover:text-[var(--primary-orange)] dark:text-white/60 dark:hover:text-[var(--primary-orange)] transition-colors">
+                      <a href="#" className="text-theme-custom/60 hover:text-[--primary-orange)] /60 dark:hover:text-[--primary-orange)] transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
                       </a>
                     </div>

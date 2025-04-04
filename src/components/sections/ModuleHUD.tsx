@@ -279,7 +279,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection }) => {
                   {section.name}
                 </div>
                 {index === 0 && (
-                  <div className="absolute -bottom-2 -right-2 w-[15px] h-[15px] bg-[#FF3C54] rounded-full shadow-[var(--shadow-sm)] dark:shadow-[0_0_5px_rgba(255,60,84,0.5)]"></div>
+                  <div className="absolute -bottom-2 -right-2 w-[15px] h-[15px] bg-[#FF3C54] rounded-full shadow-[var(--theme-shadow-sm)] dark:shadow-[0_0_5px_rgba(255,60,84,0.5)]"></div>
                 )}
               </div>
               
@@ -304,7 +304,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection }) => {
                         {module.title}
                       </div>
                       {module.founderMustWatch && (
-                        <div className="absolute -bottom-1 -right-1 w-[10px] h-[10px] bg-[#FF3C54] rounded-full shadow-[var(--shadow-sm)] dark:shadow-[0_0_3px_rgba(255,60,84,0.5)]"></div>
+                        <div className="absolute -bottom-1 -right-1 w-[10px] h-[10px] bg-[#FF3C54] rounded-full shadow-[var(--theme-shadow-sm)] dark:shadow-[0_0_3px_rgba(255,60,84,0.5)]"></div>
                       )}
                     </div>
                   ))

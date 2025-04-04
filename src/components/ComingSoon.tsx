@@ -189,7 +189,7 @@ export default function VerticalShortcutComingSoon() {
           <div class="formkit-field">
             <input class="formkit-input" aria-label="Surname" name="fields[surname]" placeholder="Surname" type="text" style="color: rgb(255, 255, 255); background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 1rem 1.5rem; font-size: 1rem; width: 100%; margin-bottom: 1.5rem;">
           </div>
-          <button data-element="submit" class="formkit-submit formkit-submit" style="color: rgb(255, 255, 255); background: linear-gradient(90deg, #E76662, #FEAF52); border-radius: 12px; padding: 1rem; font-size: 1rem; font-weight: 600; width: 100%; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.3s ease;">
+          <button data-element="submit" class="formkit-submit formkit-submit" className="vs-gradient-coral-orange" style="color: rgb(255, 255, 255);  border-radius: 12px; padding: 1rem; font-size: 1rem; font-weight: 600; width: 100%; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.3s ease">
             <div class="formkit-spinner"><div></div><div></div><div></div></div>
             <span class="">Join Waitlist</span>
           </button>

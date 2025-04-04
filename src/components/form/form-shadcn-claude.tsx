@@ -54,12 +54,12 @@ type ProgramBenefitProps = {
 // Program benefits component
 const ProgramBenefit = ({ number, title, description }: ProgramBenefitProps) => (
   <div className="flex gap-4 mb-5">
-    <div className="bg-[--primary-orange] dark:bg-[--primary-orange-hover] text-white font-bold rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">
+    <div className="bg-[var(--theme-primary)]  text-white font-bold rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">
       {number}
     </div>
     <div>
-      <h4 className="font-bold text-[--text-navy] dark:text-white mb-1">{title}</h4>
-      <p className="text-sm text-[--text-navy]/80 dark:text-white/80">{description}</p>
+      <h4 className="font-bold text-[var(--theme-text-primary)] dark:text-white mb-1">{title}</h4>
+      <p className="text-sm text-[var(--theme-text-primary)]/80 dark:text-white/80">{description}</p>
     </div>
   </div>
 );
@@ -95,18 +95,18 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
   };
 
   return (
-    <div className="rounded-xl overflow-y-auto max-h-[80vh] bg-white dark:bg-[--bg-navy]">
+    <div className="rounded-xl overflow-y-auto max-h-[80vh] bg-white dark:bg-[var(--theme-bg-primary)]">
       <div className="text-center p-8 pb-6">
-        <h1 className="text-3xl md:text-4xl font-bold mb-3 text-[--text-navy] dark:text-white">
+        <h1 className="text-3xl md:text-4xl font-bold mb-3 text-[var(--theme-text-primary)] dark:text-white">
           Vertical Shortcut: Transform Your Content into a Revenue Machine
         </h1>
-        <p className="text-xl text-[--text-navy] dark:text-white/80 md:max-w-2xl mx-auto">
+        <p className="text-xl text-[var(--theme-text-primary)] dark:text-white/80 md:max-w-2xl mx-auto">
           Complete this application to join our exclusive program and start your journey to content mastery.
         </p>
       </div>
       
-      <Card className="shadow-lg border-[--bg-cream-darker]/20 dark:border-white/10 mb-10 relative overflow-hidden">
-        <CardHeader className="bg-[--secondary-teal] dark:bg-[--secondary-teal-hover] text-white rounded-t-lg">
+      <Card className="shadow-lg border-[var(--theme-bg-secondary)]/20 dark:border-white/10 mb-10 relative overflow-hidden">
+        <CardHeader className="bg-[var(--theme-accent-secondary)]  text-white rounded-t-lg">
           <CardTitle className="text-2xl">Vertical Shortcut Application Form</CardTitle>
           <CardDescription className="text-white/80">
             Complete this short form to apply for our next cohort (Limited to 20 spots)
@@ -118,7 +118,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {/* Personal Information Section */}
               <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-[--text-navy] dark:text-white border-b pb-2 border-[--bg-cream-darker]/20 dark:border-white/10">Personal Information</h3>
+                <h3 className="text-xl font-semibold text-[var(--theme-text-primary)] dark:text-white border-b pb-2 border-[var(--theme-bg-secondary)]/20 dark:border-white/10">Personal Information</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
@@ -126,9 +126,9 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                     name="firstName"
                     render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "firstName"> }) => (
                       <FormItem>
-                        <FormLabel className="text-[--text-navy] dark:text-white">First Name</FormLabel>
+                        <FormLabel className="text-[var(--theme-text-primary)] dark:text-white">First Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="John" {...field} className="bg-white dark:bg-[--bg-navy]/70" />
+                          <Input placeholder="John" {...field} className="bg-white dark:bg-[var(--theme-bg-primary)]/70" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -140,9 +140,9 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                     name="lastName"
                     render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "lastName"> }) => (
                       <FormItem>
-                        <FormLabel className="text-[--text-navy] dark:text-white">Last Name</FormLabel>
+                        <FormLabel className="text-[var(--theme-text-primary)] dark:text-white">Last Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Doe" {...field} className="bg-white dark:bg-[--bg-navy]/70" />
+                          <Input placeholder="Doe" {...field} className="bg-white dark:bg-[var(--theme-bg-primary)]/70" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -156,9 +156,9 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                     name="email"
                     render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "email"> }) => (
                       <FormItem>
-                        <FormLabel className="text-[--text-navy] dark:text-white">Email Address</FormLabel>
+                        <FormLabel className="text-[var(--theme-text-primary)] dark:text-white">Email Address</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="you@example.com" {...field} className="bg-white dark:bg-[--bg-navy]/70" />
+                          <Input type="email" placeholder="you@example.com" {...field} className="bg-white dark:bg-[var(--theme-bg-primary)]/70" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -170,9 +170,9 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                     name="linkedin"
                     render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "linkedin"> }) => (
                       <FormItem>
-                        <FormLabel className="text-[--text-navy] dark:text-white">LinkedIn Profile</FormLabel>
+                        <FormLabel className="text-[var(--theme-text-primary)] dark:text-white">LinkedIn Profile</FormLabel>
                         <FormControl>
-                          <Input placeholder="linkedin.com/in/yourprofile" {...field} className="bg-white dark:bg-[--bg-navy]/70" />
+                          <Input placeholder="linkedin.com/in/yourprofile" {...field} className="bg-white dark:bg-[var(--theme-bg-primary)]/70" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -182,8 +182,8 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
               </div>
               
               {/* Program benefits section */}
-              <div className="p-5 rounded-lg border border-[--primary-orange]/20 dark:border-[--primary-orange-hover]/20 bg-gradient-to-br from-white to-[--bg-cream] dark:bg-gradient-to-br dark:from-[--bg-navy]/80 dark:to-[--bg-navy-darker]">
-                <h3 className="text-xl font-semibold text-[--text-navy] dark:text-white mb-4">What You'll Achieve in 10 Weeks:</h3>
+              <div className="p-5 rounded-lg border border-[var(--theme-primary)]/20 /20 bg-theme-gradient dark:from-[var(--theme-bg-primary)]/80 dark:to-[var(--theme-bg-secondary)]">
+                <h3 className="text-xl font-semibold text-[var(--theme-text-primary)] dark:text-white mb-4">What You'll Achieve in 10 Weeks:</h3>
                 
                 <ProgramBenefit 
                   number="1" 
@@ -206,14 +206,14 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
               
               {/* Qualification questions */}
               <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-[--text-navy] dark:text-white border-b pb-2 border-[--bg-cream-darker]/20 dark:border-white/10">Qualification Questions</h3>
+                <h3 className="text-xl font-semibold text-[var(--theme-text-primary)] dark:text-white border-b pb-2 border-[var(--theme-bg-secondary)]/20 dark:border-white/10">Qualification Questions</h3>
                 
                 <FormField
                   control={form.control}
                   name="commitment"
                   render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "commitment"> }) => (
                     <FormItem className="space-y-3">
-                      <FormLabel className="text-[--text-navy] dark:text-white">
+                      <FormLabel className="text-[var(--theme-text-primary)] dark:text-white">
                         Vertical Shortcut is about fast growth and monetisation. Are you prepared to work hard for 10 weeks and dedicate at least 4 hours per week?
                       </FormLabel>
                       <FormControl>
@@ -226,7 +226,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                             <FormControl>
                               <RadioGroupItem value="yes" />
                             </FormControl>
-                            <FormLabel className="font-normal text-[--text-navy] dark:text-white">
+                            <FormLabel className="font-normal text-[var(--theme-text-primary)] dark:text-white">
                               Yes, I can commit to this
                             </FormLabel>
                           </FormItem>
@@ -234,7 +234,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                             <FormControl>
                               <RadioGroupItem value="no" />
                             </FormControl>
-                            <FormLabel className="font-normal text-[--text-navy] dark:text-white">
+                            <FormLabel className="font-normal text-[var(--theme-text-primary)] dark:text-white">
                               No, I can't commit to this right now
                             </FormLabel>
                           </FormItem>
@@ -250,9 +250,9 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                   name="industry"
                   render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "industry"> }) => (
                     <FormItem>
-                      <FormLabel className="text-[--text-navy] dark:text-white">What kind of work do you do? (Industry, seniority, etc.)</FormLabel>
+                      <FormLabel className="text-[var(--theme-text-primary)] dark:text-white">What kind of work do you do? (Industry, seniority, etc.)</FormLabel>
                       <FormControl>
-                        <Input {...field} className="bg-white dark:bg-[--bg-navy]/70" />
+                        <Input {...field} className="bg-white dark:bg-[var(--theme-bg-primary)]/70" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -265,9 +265,9 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                     name="followerCount"
                     render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "followerCount"> }) => (
                       <FormItem>
-                        <FormLabel className="text-[--text-navy] dark:text-white">What are your total follower counts across all platforms?</FormLabel>
+                        <FormLabel className="text-[var(--theme-text-primary)] dark:text-white">What are your total follower counts across all platforms?</FormLabel>
                         <FormControl>
-                          <Input {...field} className="bg-white dark:bg-[--bg-navy]/70" />
+                          <Input {...field} className="bg-white dark:bg-[var(--theme-bg-primary)]/70" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -279,9 +279,9 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                     name="location"
                     render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "location"> }) => (
                       <FormItem>
-                        <FormLabel className="text-[--text-navy] dark:text-white">Where are you based?</FormLabel>
+                        <FormLabel className="text-[var(--theme-text-primary)] dark:text-white">Where are you based?</FormLabel>
                         <FormControl>
-                          <Input {...field} className="bg-white dark:bg-[--bg-navy]/70" />
+                          <Input {...field} className="bg-white dark:bg-[var(--theme-bg-primary)]/70" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -294,9 +294,9 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                   name="contentTopics"
                   render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "contentTopics"> }) => (
                     <FormItem>
-                      <FormLabel className="text-[--text-navy] dark:text-white">What topics do you create content about?</FormLabel>
+                      <FormLabel className="text-[var(--theme-text-primary)] dark:text-white">What topics do you create content about?</FormLabel>
                       <FormControl>
-                        <Input {...field} className="bg-white dark:bg-[--bg-navy]/70" />
+                        <Input {...field} className="bg-white dark:bg-[var(--theme-bg-primary)]/70" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -309,7 +309,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                   render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "goals"> }) => (
                     <FormItem>
                       <div className="mb-2">
-                        <FormLabel className="text-[--text-navy] dark:text-white">What do you want to achieve? (Select all that apply)</FormLabel>
+                        <FormLabel className="text-[var(--theme-text-primary)] dark:text-white">What do you want to achieve? (Select all that apply)</FormLabel>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         {[
@@ -335,7 +335,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                                 }}
                               />
                             </FormControl>
-                            <FormLabel className="font-normal text-[--text-navy] dark:text-white">
+                            <FormLabel className="font-normal text-[var(--theme-text-primary)] dark:text-white">
                               {item.label}
                             </FormLabel>
                           </FormItem>
@@ -351,7 +351,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                   name="revenueTarget"
                   render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "revenueTarget"> }) => (
                     <FormItem className="space-y-3">
-                      <FormLabel className="text-[--text-navy] dark:text-white">How much are you aiming to make per month?</FormLabel>
+                      <FormLabel className="text-[var(--theme-text-primary)] dark:text-white">How much are you aiming to make per month?</FormLabel>
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}
@@ -369,7 +369,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                               <FormControl>
                                 <RadioGroupItem value={item.value} />
                               </FormControl>
-                              <FormLabel className="font-normal text-[--text-navy] dark:text-white">
+                              <FormLabel className="font-normal text-[var(--theme-text-primary)] dark:text-white">
                                 {item.label}
                               </FormLabel>
                             </FormItem>
@@ -386,7 +386,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                   name="biggestChallenge"
                   render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "biggestChallenge"> }) => (
                     <FormItem className="space-y-3">
-                      <FormLabel className="text-[--text-navy] dark:text-white">What do you struggle with the most when it comes to scaling your brand?</FormLabel>
+                      <FormLabel className="text-[var(--theme-text-primary)] dark:text-white">What do you struggle with the most when it comes to scaling your brand?</FormLabel>
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}
@@ -404,7 +404,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                               <FormControl>
                                 <RadioGroupItem value={item.value} />
                               </FormControl>
-                              <FormLabel className="font-normal text-[--text-navy] dark:text-white">
+                              <FormLabel className="font-normal text-[var(--theme-text-primary)] dark:text-white">
                                 {item.label}
                               </FormLabel>
                             </FormItem>
@@ -418,29 +418,29 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
               </div>
               
               {/* Program details */}
-              <div className="p-6 rounded-lg bg-gradient-to-br from-[--bg-navy] to-[--bg-navy-darker] shadow-lg">
+              <div className="p-6 rounded-lg vs-btn-primary-gradient shadow-lg">
                 <h3 className="text-xl font-bold mb-4 text-white">The Vertical Shortcut Program:</h3>
                 
                 <ul className="space-y-3 mb-4">
                   <li className="flex gap-2">
-                    <CheckCircle className="text-[--primary-orange] h-5 w-5 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="text-[var(--theme-primary)] h-5 w-5 flex-shrink-0 mt-0.5" />
                     <span className="text-white/90">10-week transformation program that will deliver real business results</span>
                   </li>
                   <li className="flex gap-2">
-                    <CheckCircle className="text-[--primary-orange] h-5 w-5 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="text-[var(--theme-primary)] h-5 w-5 flex-shrink-0 mt-0.5" />
                     <span className="text-white/90">Program investment: £6,500 (10% discount for full payment, or 4 installments of £1,625)</span>
                   </li>
                   <li className="flex gap-2">
-                    <CheckCircle className="text-[--primary-orange] h-5 w-5 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="text-[var(--theme-primary)] h-5 w-5 flex-shrink-0 mt-0.5" />
                     <span className="text-white/90">Limited to 20 participants to ensure personalized attention</span>
                   </li>
                   <li className="flex gap-2">
-                    <CheckCircle className="text-[--primary-orange] h-5 w-5 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="text-[var(--theme-primary)] h-5 w-5 flex-shrink-0 mt-0.5" />
                     <span className="text-white/90">100% money-back guarantee if your application isn't accepted or spots are filled</span>
                   </li>
                 </ul>
                 
-                <Alert className="bg-[--accent-coral] border-none text-white mt-4">
+                <Alert className="bg-[var(--theme-accent-tertiary)] border-none text-white mt-4">
                   <AlertCircle className="h-5 w-5" />
                   <AlertTitle className="text-white font-bold">Application Closing Soon</AlertTitle>
                   <AlertDescription className="text-white/90">
@@ -462,8 +462,8 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                       />
                     </FormControl>
                     <div className="space-y-1 leading-none">
-                      <FormLabel className="text-[--text-navy] dark:text-white">
-                        I agree to the <a href="#" className="text-[--accent-coral] dark:text-[--accent-coral] underline">Terms and Conditions</a> and understand the program investment of £6,500
+                      <FormLabel className="text-[var(--theme-text-primary)] dark:text-white">
+                        I agree to the <a href="#" className="text-[var(--theme-accent-tertiary)]  underline">Terms and Conditions</a> and understand the program investment of £6,500
                       </FormLabel>
                     </div>
                     <FormMessage />
@@ -473,12 +473,12 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
               
               <Button 
                 type="submit" 
-                className="w-full py-6 text-lg bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] hover:from-[--primary-orange-hover] hover:to-[--primary-orange] text-white"
+                className="w-full py-6 text-lg vs-btn-primary-gradient hover:from-[var(--theme-primary-hover)] hover:to-[var(--theme-primary)] text-white"
               >
                 Submit Application Now
               </Button>
               
-              <p className="text-center text-sm text-[--text-navy]/70 dark:text-white/70">
+              <p className="text-center text-sm text-[var(--theme-text-primary)]/70 dark:text-white/70">
                 After submission, our team will review your application within 2 business days.
               </p>
             </form>

@@ -75,8 +75,8 @@ export function ThemeController({ className = "" }: { className?: string }) {
       aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
       className={`p-2 rounded-full transition-all duration-300 
         ${isDarkMode 
-          ? "bg-[--card-bg-navy] border-[--text-cream]/10 text-[--text-cream]" 
-          : "bg-[--bg-cream] border-[--text-navy]/10 text-[--text-navy]"
+          ? "bg-[var(--card-bg-navy)] border-[var(--text-cream)]/10 text-[var(--text-cream)]" 
+          : "bg-[var(--bg-cream)] border-[var(--text-navy)]/10 text-[var(--text-navy)]"
         } 
         border shadow-md hover:shadow-lg hover:scale-110 ${className}`}
       onClick={toggleTheme}

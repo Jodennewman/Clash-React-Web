@@ -2,6 +2,46 @@
 
 The VS Theme System is a comprehensive solution for implementing and managing themes in the VS application, with a focus on beautiful light and dark mode transitions. The system defaults to using the user's system theme preference ('system') rather than forcing light or dark mode.
 
+## Theme-Aware CSS Variables Approach
+
+Our theme system uses a **theme-aware variables approach** that provides several key benefits:
+
+1. **Single source of truth**: Variables automatically update with theme changes
+2. **No competing styles**: Avoid conflicting light/dark mode class declarations
+3. **Simplified maintenance**: Update themes by changing variables in one place
+4. **Cleaner components**: Component code is more readable without multiple theme variants
+
+### Key Concept: Theme-Aware Variables
+
+Instead of using competing styles like this:
+```jsx
+<div className="text-[--text-navy] dark:text-white">Competing styles</div>
+```
+
+We use theme-aware variables that automatically update:
+```jsx
+<div className="text-[var(--theme-text-primary)]">Theme-aware variable</div>
+```
+
+These theme-aware variables are defined in globals.css:
+```css
+:root {
+  --theme-text-primary: var(--text-navy);
+}
+
+@variant(dark) {
+  :root {
+    --theme-text-primary: white;
+  }
+}
+```
+
+### Implementation Methods
+
+1. **Direct theme variables**: `className="text-[var(--theme-text-primary)]"`
+2. **Theme utility classes**: `className="text-theme-primary"`
+3. **Component-specific theme classes**: `className="card-primary"`
+
 ## Quick Start Guide
 
 ### 1. Use the ThemeProvider at the root of your application
@@ -34,15 +74,25 @@ function Layout() {
 }
 ```
 
-### 3. Style your components for both light and dark modes
+### 3. Style your components with theme-aware variables
 
 ```jsx
-// Using direct CSS variable references
-<div className="bg-[--bg-cream] dark:bg-[--bg-navy] text-[--text-navy] dark:text-white">
-  Content with proper theming
+// Using theme-aware variables
+<div className="bg-[var(--theme-bg-primary)] text-[var(--theme-text-primary)]">
+  Content with theme-aware styling
 </div>
 
-// Using VSThemeWrapper for simplified theming
+// Using theme utility classes
+<div className="bg-theme-surface text-theme-primary p-4 rounded-lg">
+  Content with theme utility classes
+</div>
+
+// Using component-specific theme classes
+<div className="card-primary">
+  Card with complete theme styling
+</div>
+
+// For legacy components or isolated sections
 <VSThemeWrapper
   lightClassName="bg-[--bg-cream]"
   darkClassName="bg-[--bg-navy]"
