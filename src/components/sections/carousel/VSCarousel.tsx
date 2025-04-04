@@ -83,7 +83,7 @@ export default function VSCarousel() {
   };
 
   return (
-    <Section id="curriculum" className="w-full overflow-hidden py-24 bg-[--bg-navy]">
+    <Section id="curriculum" className="w-full overflow-hidden py-24 bg-[--bg-navy-gradient] dark:bg-[--bg-navy-gradient]">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-start gap-6 sm:gap-12 mb-12">
           {/* Accent badge */}

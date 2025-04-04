@@ -375,8 +375,8 @@ const CaseStudies = () => {
         {/* Creator Profile */}
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-10 case-study-element">
           <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden flex-shrink-0
-                        shadow-[0_0_0_3px_rgba(255,255,255,0.6),0_0_0_6px_var(--primary-orange),0_0_20px_rgba(254,163,93,0.2)]
-                        dark:shadow-[0_0_0_3px_rgba(12,67,99,0.8),0_0_0_6px_var(--primary-orange),0_0_20px_rgba(254,163,93,0.3)]">
+                        shadow-[0_0_0_3px_rgba(255,255,255,0.6),0_0_0_6px_#FEA35D,0_0_20px_rgba(254,163,93,0.2)]
+                        dark:shadow-[0_0_0_3px_rgba(12,67,99,0.8),0_0_0_6px_#FEA35D,0_0_20px_rgba(254,163,93,0.3)]">
             <img
               src={currentCreator.avatar}
               alt={currentCreator.name}
@@ -442,21 +442,21 @@ const CaseStudies = () => {
                     </feMerge>
                   </filter>
                   <linearGradient id="viewsGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="var(--primary-orange)" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="var(--primary-orange)" stopOpacity={0.2} />
+                    <stop offset="5%" stopColor="#FEA35D" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#FEA35D" stopOpacity={0.2} />
                   </linearGradient>
                   <linearGradient id="followersGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="var(--secondary-teal)" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="var(--secondary-teal)" stopOpacity={0.2} />
+                    <stop offset="5%" stopColor="#357380" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#357380" stopOpacity={0.2} />
                   </linearGradient>
                   <linearGradient id="interactionsGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="var(--accent-coral)" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="var(--accent-coral)" stopOpacity={0.2} />
+                    <stop offset="5%" stopColor="#DE6B59" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#DE6B59" stopOpacity={0.2} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid 
                   strokeDasharray="3 3" 
-                  stroke="var(--text-navy-rgb, rgba(18, 46, 59, 0.1))" 
+                  stroke="rgba(18, 46, 59, 0.1)" 
                   className="dark:stroke-white/10" 
                 />
                 <XAxis 
@@ -479,12 +479,12 @@ const CaseStudies = () => {
                     type="monotone"
                     dataKey="views"
                     name="Views"
-                    stroke="var(--primary-orange)"
+                    stroke="#FEA35D"
                     strokeWidth={3}
                     dot={false}
                     activeDot={{
                       r: 8,
-                      fill: "var(--primary-orange)",
+                      fill: "#FEA35D",
                       filter: "url(#glow)",
                     }}
                     isAnimationActive={animateGraph}
@@ -498,12 +498,12 @@ const CaseStudies = () => {
                     type="monotone"
                     dataKey="followers"
                     name="Followers"
-                    stroke="var(--secondary-teal)"
+                    stroke="#357380"
                     strokeWidth={3}
                     dot={false}
                     activeDot={{
                       r: 8,
-                      fill: "var(--secondary-teal)",
+                      fill: "#357380",
                       filter: "url(#glow)",
                     }}
                     isAnimationActive={animateGraph}
@@ -518,12 +518,12 @@ const CaseStudies = () => {
                     type="monotone"
                     dataKey="interactions"
                     name="Interactions"
-                    stroke="var(--accent-coral)"
+                    stroke="#DE6B59"
                     strokeWidth={3}
                     dot={false}
                     activeDot={{
                       r: 8,
-                      fill: "var(--accent-coral)",
+                      fill: "#DE6B59",
                       filter: "url(#glow)",
                     }}
                     isAnimationActive={animateGraph}
