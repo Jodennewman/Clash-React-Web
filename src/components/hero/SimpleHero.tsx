@@ -16,7 +16,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
     
     const heroRef = React.useRef<HTMLDivElement>(null);
     
-    
+
     // Auto-start content fade-in after a shorter delay for better flow with logo animation
     useEffect(() => {
       const timer = setTimeout(() => {
@@ -82,9 +82,9 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
           }}
         >
           {/* Color blocks positioned in grid */}
-          <div style={{ gridColumn: '5 / 6', gridRow: '1 / 2' }} className="w-full h-full bg-[var(--secondary-teal)] dark:bg-[var(--secondary-teal-light)] z-10" /> {/* Teal block */}
-          <div style={{ gridColumn: '6 / 8', gridRow: '1 / 3' }} className="w-full h-full bg-[var(--primary-orange)] dark:bg-[var(--primary-orange-light)] z-10" /> {/* Orange block */}
-          <div style={{ gridColumn: '8 / 10', gridRow: '1 / 4' }} className="w-full h-full bg-[var(--accent-red)] dark:bg-[var(--accent-coral)] z-10" /> {/* Red block */}
+          <div style={{ gridColumn: '5 / 6', gridRow: '1 / 3' }} className="w-full h-full bg-[var(--secondary-teal)] dark:bg-[var(--secondary-teal-light)] z-10" /> {/* Teal block */}
+          <div style={{ gridColumn: '6 / 8', gridRow: '1 / 4' }} className="w-full h-full bg-[var(--primary-orange)] dark:bg-[var(--primary-orange-light)] z-10" /> {/* Orange block */}
+          <div style={{ gridColumn: '8 / 10', gridRow: '1 / 5' }} className="w-full h-full bg-[var(--accent-red)] dark:bg-[var(--accent-coral)] z-10" /> {/* Red block */}
           
           {/* Animated VS Logo */}
           <div style={{ gridColumn: '1 / 5', gridRow: '1 / 7' }} className="flex items-center justify-center z-20">
