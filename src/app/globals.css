@@ -2,61 +2,7 @@
 @import "tailwindcss";
 /* Define dark mode variant using Tailwind v4 custom variant approach */
 
-/* Custom gradient classes - NEVER USE TAILWIND GRADIENTS! */
-.painPoints {
-  background: linear-gradient(to bottom, var(--bg-cream), var(--ui-peach-light));
-}
 
-.vs-gradient-light {
-  background: linear-gradient(to bottom right, white, var(--bg-cream));
-}
-
-.vs-gradient-dark {
-  background: linear-gradient(to bottom right, var(--bg-navy), var(--bg-navy-darker));
-}
-
-.vs-content-light {
-  background: linear-gradient(to bottom, white, var(--bg-cream));
-}
-
-.vs-content-dark {
-  background: linear-gradient(to bottom, var(--bg-navy), var(--bg-navy-darker));
-}
-
-/* Fade overlays */
-.vs-fade-overlay-light {
-  background: linear-gradient(to top, var(--bg-cream), transparent);
-}
-
-.vs-fade-overlay-dark {
-  background: linear-gradient(to top, var(--bg-navy), transparent);
-}
-
-/* Text highlight gradients */
-.vs-text-gradient-orange {
-  background: linear-gradient(to right, var(--primary-orange), var(--accent-coral));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-}
-
-.vs-text-gradient-teal {
-  background: linear-gradient(to right, var(--secondary-teal), var(--secondary-teal-light));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Floating elements with gradients */
-.vs-float-orange {
-  background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
-}
-
-.vs-float-teal {
-  background: linear-gradient(to right, var(--secondary-teal), var(--secondary-teal-hover));
-}
 
 /* Chart variables */
 :root {
@@ -1219,6 +1165,143 @@ a:hover {
 [data-theme="dark"] .marble-button-pattern {
   filter: brightness(1.2) contrast(1.1);
   opacity: 0.85;
+}
+
+/* Custom gradient classes - NEVER USE TAILWIND GRADIENTS! */
+.painPoints {
+  background: linear-gradient(to bottom, var(--bg-cream), var(--ui-peach-light));
+}
+
+.vs-gradient-light {
+  background: linear-gradient(to bottom right, white, var(--bg-cream));
+}
+
+.vs-gradient-dark {
+  background: linear-gradient(to bottom right, var(--bg-navy), var(--bg-navy-darker));
+}
+
+.vs-content-light {
+  background: linear-gradient(to bottom, white, var(--bg-cream));
+}
+
+.vs-content-dark {
+  background: linear-gradient(to bottom, var(--bg-navy), var(--bg-navy-darker));
+}
+
+/* Fade overlays */
+.vs-fade-overlay-light {
+  background: linear-gradient(to top, var(--bg-cream), transparent);
+}
+
+.vs-fade-overlay-dark {
+  background: linear-gradient(to top, var(--bg-navy), transparent);
+}
+
+/* Text highlight gradients */
+.vs-text-gradient-orange {
+  background: linear-gradient(to right, var(--primary-orange), var(--accent-coral));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.vs-text-gradient-teal {
+  background: linear-gradient(to right, var(--secondary-teal), var(--secondary-teal-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Floating elements with gradients */
+.vs-float-orange {
+  background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
+}
+
+.vs-float-teal {
+  background: linear-gradient(to right, var(--secondary-teal), var(--secondary-teal-hover));
+}
+
+/* Button gradients */
+.vs-btn-primary-gradient {
+  background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
+}
+
+.vs-btn-secondary-gradient {
+  background: linear-gradient(to right, var(--secondary-teal), var(--secondary-teal-hover));
+}
+
+.vs-btn-vibrant-gradient {
+  background: linear-gradient(to right, var(--accent-coral), var(--primary-orange));
+}
+
+.vs-btn-destructive-gradient {
+  background: linear-gradient(to right, var(--accent-red), var(--accent-coral));
+}
+
+/* Additional common gradients */
+.vs-gradient-orange {
+  background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
+}
+
+.vs-gradient-teal {
+  background: linear-gradient(to right, var(--secondary-teal), var(--secondary-teal-hover));
+}
+
+.vs-gradient-coral-red {
+  background: linear-gradient(to right, var(--accent-coral), var(--accent-red));
+}
+
+.vs-gradient-primary-accent {
+  background: linear-gradient(to right, var(--primary-orange), var(--accent-coral));
+}
+
+/* Direction variations */
+.vs-gradient-orange-diagonal {
+  background: linear-gradient(to bottom right, var(--primary-orange), var(--primary-orange-hover));
+}
+
+.vs-gradient-teal-diagonal {
+  background: linear-gradient(to bottom right, var(--secondary-teal), var(--secondary-teal-hover));
+}
+
+.vs-gradient-coral-diagonal {
+  background: linear-gradient(to bottom right, var(--accent-coral), var(--accent-red));
+}
+
+/* Card and module backgrounds */
+.vs-card-gradient-light {
+  background: linear-gradient(to bottom right, white, var(--bg-cream));
+}
+
+.vs-card-gradient-dark {
+  background: linear-gradient(to bottom right, var(--bg-navy), var(--bg-navy-darker));
+}
+
+.vs-module-gradient-light {
+  background: linear-gradient(120deg, white, var(--bg-cream));
+}
+
+.vs-module-gradient-dark {
+  background: linear-gradient(120deg, var(--bg-navy), var(--bg-navy-darker));
+}
+
+/* Text gradient effects */
+.vs-text-gradient-orange {
+  background: linear-gradient(120deg, var(--primary-orange), var(--accent-coral));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.vs-text-gradient-teal {
+  background: linear-gradient(120deg, var(--secondary-teal), var(--secondary-teal-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 /* Responsive adjustments */

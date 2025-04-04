@@ -82,9 +82,9 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
           }}
         >
           {/* Color blocks positioned in grid */}
-          <div style={{ gridColumn: '5 / 6', gridRow: '1 / 3' }} className="w-full h-full bg-[--secondary-teal] dark:bg-[--secondary-teal-light] z-10" /> {/* Teal block */}
-          <div style={{ gridColumn: '6 / 8', gridRow: '1 / 4' }} className="w-full h-full bg-[--primary-orange] dark:bg-[--primary-orange-light] z-10" /> {/* Orange block */}
-          <div style={{ gridColumn: '8 / 10', gridRow: '1 / 5' }} className="w-full h-full bg-[--accent-red] dark:bg-[--accent-coral] z-10" /> {/* Red block */}
+          <div style={{ gridColumn: '5 / 6', gridRow: '1 / 3' }} className="w-full h-full bg-[var(--secondary-teal)] dark:bg-[var(--secondary-teal-light)] z-10" /> {/* Teal block */}
+          <div style={{ gridColumn: '6 / 8', gridRow: '1 / 4' }} className="w-full h-full bg-[var(--primary-orange)] dark:bg-[var(--primary-orange-light)] z-10" /> {/* Orange block */}
+          <div style={{ gridColumn: '8 / 10', gridRow: '1 / 5' }} className="w-full h-full bg-[var(--accent-coral)] dark:bg-[var(--accent-red)] z-10" /> {/* Red block */}
           
           {/* Animated VS Logo */}
           <div style={{ gridColumn: '2 / 5', gridRow: '3 / 9' }} className="flex items-center justify-center z-20">
