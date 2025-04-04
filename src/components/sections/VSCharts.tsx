@@ -132,7 +132,7 @@ export default function VSCharts() {
   };
 
   return (
-    <Section className="py-20 bg-[--bg-cream] dark:bg-[--bg-navy] border-t border-[--text-navy]/10 dark:border-white/5" ref={containerRef}>
+    <Section className="py-20 bg-[var(--bg-cream)] dark:bg-[var(--bg-navy)] border-t border-[var(--text-navy)]/10 dark:border-white/5" ref={containerRef}>
       <div className="max-w-container mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-[--text-navy] dark:text-white text-3xl md:text-4xl font-medium mb-3">Case Studies</h2>

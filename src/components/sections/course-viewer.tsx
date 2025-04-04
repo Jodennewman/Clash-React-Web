@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import ModuleHUD from './ModuleHUD.tsx';
+import { ModuleHUD } from './ModuleHUD.tsx';
 import { Badge } from '../ui/badge';
 import { VSSection } from '../ui/vs-background';
 import { VSGradientText, VSHeading } from '../ui/vs-text';

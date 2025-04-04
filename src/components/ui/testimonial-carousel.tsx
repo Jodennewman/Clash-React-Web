@@ -66,10 +66,10 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
   };
 
   return (
-    <div ref={carouselRef} className="relative overflow-hidden bg-[#09232F]/50 backdrop-blur-sm border border-white/10 rounded-xl p-8 md:p-12">
+    <div ref={carouselRef} className="relative vs-testimonial-container p-8 md:p-12">
       <div className="absolute top-0 left-0 w-full h-full">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[#FEA35D]/5 to-transparent opacity-50"></div>
-        <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-[#B92234]/10 to-transparent opacity-30 blur-3xl"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[--primary-orange]/5 to-transparent opacity-50"></div>
+        <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-[--accent-red]/10 to-transparent opacity-30 blur-3xl"></div>
       </div>
       
       <div className="relative z-10">
@@ -84,27 +84,27 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
             <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
               <div className="md:w-1/3">
                 <div className="relative">
-                  <div className="w-28 h-28 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-[#FEA35D]">
+                  <div className="w-28 h-28 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-[--primary-orange]">
                     <img 
                       src={testimonial.image} 
                       alt={testimonial.name}
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-[#FEA35D] rounded-full flex items-center justify-center text-[#08141B]">
+                  <div className="absolute -bottom-2 -right-2 w-8 h-8 vs-testimonial-accent flex items-center justify-center">
                     "
                   </div>
                 </div>
               </div>
               
               <div className="md:w-2/3">
-                <blockquote className="text-xl md:text-2xl font-medium text-white mb-6 min-h-[150px] md:min-h-[200px]">
+                <blockquote className="text-xl md:text-2xl font-medium text-[--text-navy] dark:text-white mb-6 min-h-[150px] md:min-h-[200px]">
                   "{testimonial.quote}"
                 </blockquote>
                 <div className="flex items-center">
                   <div>
-                    <div className="font-bold text-white">{testimonial.name}</div>
-                    <div className="text-white/70">{testimonial.role}</div>
+                    <div className="font-bold text-[--text-navy] dark:text-white">{testimonial.name}</div>
+                    <div className="text-[--text-navy]/70 dark:text-white/70">{testimonial.role}</div>
                   </div>
                 </div>
               </div>
@@ -116,11 +116,11 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
       <div className="flex justify-center mt-8 gap-4">
         <Button 
           onClick={prevTestimonial} 
-          variant="outline" 
+          variant="ghost" 
           size="icon" 
-          className="rounded-full border border-white/20 hover:bg-white/10 hover:border-white/30"
+          className="rounded-full border border-white/20 hover:bg-white/10 dark:hover:bg-white/5 hover:border-white/30 hover-bubbly-sm"
         >
-          <ChevronLeft className="h-5 w-5" />
+          <ChevronLeft className="h-5 w-5 text-white" />
           <span className="sr-only">Previous testimonial</span>
         </Button>
         
@@ -129,10 +129,10 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
             <button
               key={index}
               onClick={() => setActiveIndex(index)}
-              className={`w-2 h-2 rounded-full transition-all ${
+              className={`h-2 rounded-full transition-all ${
                 index === activeIndex 
-                  ? 'bg-[#FEA35D] w-4' 
-                  : 'bg-white/30 hover:bg-white/50'
+                  ? 'vs-testimonial-dot-active' 
+                  : 'vs-testimonial-dot w-2'
               }`}
               aria-label={`Go to testimonial ${index + 1}`}
             />
@@ -141,11 +141,11 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
         
         <Button 
           onClick={nextTestimonial} 
-          variant="outline" 
+          variant="ghost" 
           size="icon" 
-          className="rounded-full border border-white/20 hover:bg-white/10 hover:border-white/30"
+          className="rounded-full border border-white/20 hover:bg-white/10 dark:hover:bg-white/5 hover:border-white/30 hover-bubbly-sm"
         >
-          <ChevronRight className="h-5 w-5" />
+          <ChevronRight className="h-5 w-5 text-white" />
           <span className="sr-only">Next testimonial</span>
         </Button>
       </div>

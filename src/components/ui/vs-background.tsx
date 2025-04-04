@@ -79,8 +79,8 @@ export const VSSection = forwardRef<HTMLElement, VSBackgroundProps & React.HTMLA
   ({
     children,
     className = '',
-    lightBg = 'bg-[var(--bg-cream-gradient)]',
-    darkBg = 'dark:bg-[var(--bg-navy-gradient)]',
+    lightBg = 'bg-[var(--bg-cream)]',
+    darkBg = 'dark:bg-[var(--bg-navy)]',
     ...props
   }, ref) => {
     return (

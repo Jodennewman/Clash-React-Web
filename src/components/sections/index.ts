@@ -1,7 +1,7 @@
 // Export all section components for easy importing
 import FAQ from "./faq-raised";
 import { Pricing3ColsSubscription } from "./pricing-3-cols-subscription";
-import ModuleHUD from "./ModuleHUD";
+import { ModuleHUD } from "./ModuleHUD";
 import CourseStats from "./course-stats";
 import CaseStudies from "./Case-Studies";
 import VSPainPoints from "./VSPainPoints";

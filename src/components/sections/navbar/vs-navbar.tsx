@@ -89,9 +89,9 @@ export default function VSNavbar() {
   return (
     <header 
       ref={navbarRef}
-      className="fixed top-0 w-full z-50 px-4 md:px-6 py-3 bg-gradient-to-br from-white to-[--bg-cream] dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]"
+      className="fixed top-0 w-full z-50 px-4 md:px-6 py-3"
     >
-      <div className="max-w-[1400px] bg-gradient-to-br from-white to-[--bg-cream] dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] border border-[--bg-cream-darker]/20 dark:border-white/10 relative mx-auto rounded-2xl p-2 py-3 px-4 md:px-6 backdrop-blur-lg shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_20px_rgba(53,115,128,0.15)] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.2)] transition-all duration-[--transition-bounce]">
+      <div className="max-w-[1400px] bg-[var(--bg-cream)] dark:bg-[var(--bg-navy)] backdrop-blur-md border border-[var(--bg-cream-darker)]/20 dark:border-white/10 relative mx-auto rounded-2xl p-2 py-3 px-4 md:px-6 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.2)] transition-all duration-300 overflow-hidden">
         <NavbarComponent className="py-1">
           <NavbarLeft>
             <img 
@@ -99,50 +99,43 @@ export default function VSNavbar() {
               alt="Clash Creation" 
               className="h-8 mr-3"
             />
-            <div className="w-8 h-8 rounded-full bg-[--primary-orange] dark:bg-gradient-to-r dark:from-[--primary-orange] dark:to-[--primary-orange-hover] flex items-center justify-center transition-all duration-[--transition-bounce] hover:scale-110 hover:rotate-[3deg] hover:shadow-md dark:hover:shadow-[0_0_8px_rgba(254,163,93,0.3)]">
-              <span className="text-white font-bold">VS</span>
+            <div className="w-8 h-8 rounded-full bg-[var(--primary-orange)] flex items-center justify-center shadow-[1px_1px_2px_rgba(0,0,0,0.1)] dark:shadow-[0_0_5px_rgba(254,163,93,0.3)]">
+              <span className="text-white font-bold text-sm">VS</span>
             </div>
-            <span className="text-[--text-navy] dark:text-white ml-2 font-medium">Vertical Shortcut</span>
+            <span className="text-[var(--text-navy)] dark:text-white ml-2 font-medium">Vertical Shortcut</span>
           </NavbarLeft>
           
-          <nav className="hidden md:flex ml-8 gap-8">
-            <a 
-              href="#benefits" 
-              className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]"
+          <nav className="hidden md:flex ml-8 gap-6">
+            <button 
               onClick={(e) => handleNavLinkClick(e, "benefits")}
+              className="px-3 py-1.5 rounded-md text-[var(--text-navy)] hover:bg-[var(--bg-cream-darker)]/30 dark:text-white dark:hover:bg-white/10 text-sm font-medium transition-all duration-300"
             >
               Benefits
-            </a>
-            <a 
-              href="#curriculum" 
-              className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]"
+            </button>
+            <button 
               onClick={(e) => handleNavLinkClick(e, "curriculum")}
+              className="px-3 py-1.5 rounded-md text-[var(--text-navy)] hover:bg-[var(--bg-cream-darker)]/30 dark:text-white dark:hover:bg-white/10 text-sm font-medium transition-all duration-300"
             >
               Curriculum
-            </a>
-            <a 
-              href="#testimonials" 
-              className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]"
+            </button>
+            <button 
               onClick={(e) => handleNavLinkClick(e, "testimonials")}
+              className="px-3 py-1.5 rounded-md text-[--text-navy] hover:bg-[--bg-cream-darker]/30 dark:text-white dark:hover:bg-white/10 text-sm font-medium transition-all duration-[--transition-bounce]"
             >
               Success Stories
-            </a>
-            <a 
-              href="#pricing" 
-              className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white text-sm relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[--primary-orange] dark:after:bg-[--primary-orange-light] hover:after:w-full after:transition-all after:duration-[--transition-bounce]"
+            </button>
+            <button 
               onClick={(e) => handleNavLinkClick(e, "pricing")}
+              className="px-3 py-1.5 rounded-md text-[--text-navy] hover:bg-[--bg-cream-darker]/30 dark:text-white dark:hover:bg-white/10 text-sm font-medium transition-all duration-[--transition-bounce]"
             >
               Pricing
-            </a>
+            </button>
           </nav>
           
           <NavbarRight>
-            <a href="#" className="text-sm text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white mr-4 transition-all duration-[--transition-bounce] hover:translate-y-[-2px] dark:text-shadow-sm dark:hover:text-shadow-md">
-              Sign in
-            </a>
             <Button 
               variant="default" 
-              className="bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] hover:from-[--primary-orange-light] hover:to-[--primary-orange] dark:bg-gradient-to-r dark:from-[--primary-orange] dark:to-[--primary-orange-hover] dark:hover:from-[--primary-orange-light] dark:hover:to-[--primary-orange] text-white px-5 py-2 shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(254,163,93,0.2)] transition-all duration-[--transition-bounce] hover:translate-y-[-4px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]"
+              className="bg-[--primary-orange] hover:bg-[--primary-orange-hover] dark:bg-[--primary-orange] dark:hover:bg-[--primary-orange-hover] text-white px-5 py-2 shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(254,163,93,0.2)] transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]"
               onClick={() => {
                 const applicationForm = document.getElementById("application-form");
                 if (applicationForm) {
@@ -172,10 +165,9 @@ export default function VSNavbar() {
                   <span className="sr-only">Toggle navigation menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="bg-gradient-to-br from-white to-[--bg-cream]/90 dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] border-[--bg-cream-darker]/20 dark:border-[--secondary-teal]/50">
-                <nav className="grid gap-6 text-lg font-medium">
-                  <a
-                    href="#"
+              <SheetContent side="right" className="bg-[--bg-cream] dark:bg-[--bg-navy] border-[--bg-cream-darker]/20 dark:border-[--secondary-teal]/50">
+                <nav className="grid gap-6 text-lg">
+                  <div
                     className="flex items-center gap-2 text-xl font-bold text-[--text-navy] dark:text-white dark:text-shadow-sm"
                   >
                     <img 
@@ -184,10 +176,10 @@ export default function VSNavbar() {
                       className="h-6 mr-2"
                     />
                     <span>Vertical Shortcut</span>
-                  </a>
-                  <a
-                    href="#benefits"
-                    className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white transition-all duration-[--transition-bounce] hover:translate-x-[4px]"
+                  </div>
+                  
+                  <button
+                    className="text-left px-3 py-2 rounded-md text-[--text-navy] hover:bg-[--bg-cream-darker]/30 dark:text-white dark:hover:bg-white/10 font-medium transition-all duration-[--transition-bounce]"
                     onClick={(e) => {
                       handleNavLinkClick(e, "benefits");
                       const sheet = document.querySelector('[data-state="open"]');
@@ -198,10 +190,10 @@ export default function VSNavbar() {
                     }}
                   >
                     Benefits
-                  </a>
-                  <a
-                    href="#curriculum"
-                    className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white transition-all duration-[--transition-bounce] hover:translate-x-[4px]"
+                  </button>
+                  
+                  <button
+                    className="text-left px-3 py-2 rounded-md text-[--text-navy] hover:bg-[--bg-cream-darker]/30 dark:text-white dark:hover:bg-white/10 font-medium transition-all duration-[--transition-bounce]"
                     onClick={(e) => {
                       handleNavLinkClick(e, "curriculum");
                       const sheet = document.querySelector('[data-state="open"]');
@@ -212,10 +204,10 @@ export default function VSNavbar() {
                     }}
                   >
                     Curriculum
-                  </a>
-                  <a
-                    href="#testimonials"
-                    className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white transition-all duration-[--transition-bounce] hover:translate-x-[4px]"
+                  </button>
+                  
+                  <button
+                    className="text-left px-3 py-2 rounded-md text-[--text-navy] hover:bg-[--bg-cream-darker]/30 dark:text-white dark:hover:bg-white/10 font-medium transition-all duration-[--transition-bounce]"
                     onClick={(e) => {
                       handleNavLinkClick(e, "testimonials");
                       const sheet = document.querySelector('[data-state="open"]');
@@ -226,10 +218,10 @@ export default function VSNavbar() {
                     }}
                   >
                     Success Stories
-                  </a>
-                  <a
-                    href="#pricing"
-                    className="text-[--text-navy]/70 hover:text-[--text-navy] dark:text-white/70 dark:hover:text-white transition-all duration-[--transition-bounce] hover:translate-x-[4px]"
+                  </button>
+                  
+                  <button
+                    className="text-left px-3 py-2 rounded-md text-[--text-navy] hover:bg-[--bg-cream-darker]/30 dark:text-white dark:hover:bg-white/10 font-medium transition-all duration-[--transition-bounce]"
                     onClick={(e) => {
                       handleNavLinkClick(e, "pricing");
                       const sheet = document.querySelector('[data-state="open"]');
@@ -240,9 +232,9 @@ export default function VSNavbar() {
                     }}
                   >
                     Pricing
-                  </a>
+                  </button>
                   <Button 
-                    className="mt-4 bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] hover:from-[--primary-orange-light] hover:to-[--primary-orange] dark:bg-gradient-to-r dark:from-[--primary-orange] dark:to-[--primary-orange-hover] dark:hover:from-[--primary-orange-light] dark:hover:to-[--primary-orange] text-white shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(254,163,93,0.2)] transition-all duration-[--transition-bounce] hover:translate-y-[-4px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]"
+                    className="mt-4 bg-[--primary-orange] hover:bg-[--primary-orange-hover] dark:bg-[--primary-orange] dark:hover:bg-[--primary-orange-hover] text-white shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(254,163,93,0.2)] transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]"
                     onClick={() => {
                       const applicationForm = document.getElementById("application-form");
                       const sheet = document.querySelector('[data-state="open"]');

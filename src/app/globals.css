@@ -3,6 +3,10 @@
 /* Define dark mode variant using Tailwind v4 custom variant approach */
 
 /* Custom gradient classes - NEVER USE TAILWIND GRADIENTS! */
+.painPoints {
+  background: linear-gradient(to bottom, var(--bg-cream), var(--ui-peach-light));
+}
+
 .vs-gradient-light {
   background: linear-gradient(to bottom right, white, var(--bg-cream));
 }
@@ -124,6 +128,9 @@
   --accent-coral-rgb: 222, 107, 89;
   --accent-red: oklch(0.48 0.21 25);
   --accent-red-rgb: 185, 34, 52;
+  --accent-red-dark: oklch(0.51 0.1846 21.29);
+  --accent-red-dark-rgb: 185, 34, 52;
+
   
   /* Text colors */
   --text-navy: oklch(0.30 0.03 230);
@@ -601,17 +608,46 @@ a:hover {
   animation: float-medium 6s ease-in-out infinite;
 }
 
-/* Text shadow utilities for dark mode */
+/* Text shadow utilities for both light and dark mode */
 .text-shadow-sm {
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .text-shadow-md {
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
 
 .text-shadow-lg {
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  text-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Dark mode variations might need different shadow colors */
+[data-theme="dark"] .text-shadow-sm {
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .text-shadow-md {
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .text-shadow-lg {
+  text-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+}
+
+/* Text over images - white with shadow for both modes */
+.text-over-image {
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.text-over-image-light {
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.text-over-image-secondary {
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* VS Bubbly hover utilities */
@@ -714,6 +750,190 @@ a:hover {
 
 [data-theme="dark"] .vs-card-shadow:hover {
   box-shadow: 0 0 20px rgba(53, 115, 128, 0.2);
+}
+
+/* Carousel styles */
+.vs-carousel-container {
+  background: linear-gradient(to bottom, white, var(--bg-cream));
+  overflow: hidden;
+}
+
+[data-theme="dark"] .vs-carousel-container {
+  background: linear-gradient(to bottom right, var(--bg-navy-darker), var(--bg-navy));
+  overflow: hidden;
+}
+
+.vs-carousel-slide {
+  background: linear-gradient(135deg, white, var(--bg-cream)/80);
+  border: 1px solid rgba(var(--bg-cream-darker-rgb), 0.2);
+  box-shadow: var(--shadow-md);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-bounce);
+}
+
+[data-theme="dark"] .vs-carousel-slide {
+  background: linear-gradient(135deg, rgba(var(--bg-navy-rgb), 0.7), rgba(var(--bg-navy-darker-rgb), 0.5));
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 15px rgba(53, 115, 128, 0.15);
+}
+
+.vs-carousel-slide:hover {
+  transform: translateY(-6px) scale(1.02) rotate(0.5deg);
+  box-shadow: var(--shadow-lg);
+}
+
+[data-theme="dark"] .vs-carousel-slide:hover {
+  box-shadow: 0 0 20px rgba(53, 115, 128, 0.2);
+}
+
+/* Image gradient overlays */
+.vs-fade-overlay-light {
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1));
+}
+
+.vs-fade-overlay-dark {
+  background: linear-gradient(to top, rgba(var(--bg-navy-rgb), 0.9), rgba(var(--bg-navy-rgb), 0.1));
+}
+
+/* Depth-enhanced backgrounds for dark mode */
+.vs-depth-bg-dark {
+  background: radial-gradient(circle at top left, rgba(var(--bg-navy-rgb), 0.7), rgba(var(--bg-navy-darker-rgb), 0.95));
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Accent Badge */
+.vs-accent-badge {
+  background-color: rgba(var(--primary-orange-rgb), 0.1);
+  border: 1px solid rgba(var(--primary-orange-rgb), 0.2);
+  color: var(--primary-orange);
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  transition: all var(--transition-bounce);
+}
+
+[data-theme="dark"] .vs-accent-badge {
+  background-color: rgba(var(--primary-orange-rgb), 0.15);
+  border: 1px solid rgba(var(--primary-orange-rgb), 0.25);
+  color: var(--primary-orange-light);
+}
+
+/* Carousel Navigation Buttons */
+.vs-carousel-btn {
+  background-color: rgba(var(--primary-orange-rgb), 0.1);
+  border: 1px solid rgba(var(--primary-orange-rgb), 0.2);
+  color: var(--primary-orange);
+  transition: all var(--transition-bounce);
+}
+
+.vs-carousel-btn:hover {
+  background-color: rgba(var(--primary-orange-rgb), 0.2);
+  transform: translateY(-3px) scale(1.1);
+}
+
+[data-theme="dark"] .vs-carousel-btn {
+  background-color: rgba(var(--primary-orange-rgb), 0.15);
+  border: 1px solid rgba(var(--primary-orange-rgb), 0.25);
+  color: var(--primary-orange-light);
+  box-shadow: 0 0 10px rgba(var(--primary-orange-rgb), 0.1);
+}
+
+[data-theme="dark"] .vs-carousel-btn:hover {
+  background-color: rgba(var(--primary-orange-rgb), 0.25);
+  box-shadow: 0 0 15px rgba(var(--primary-orange-rgb), 0.2);
+}
+
+/* Section Backgrounds */
+.vs-section-light {
+  background: linear-gradient(to bottom, white, var(--bg-cream));
+  color: var(--text-navy);
+}
+
+[data-theme="dark"] .vs-section-light {
+  background: linear-gradient(to bottom, var(--bg-navy), var(--bg-navy-darker)); 
+  color: white;
+}
+
+.vs-section-dark {
+  background: linear-gradient(to bottom, var(--text-navy), black);
+  color: var(--text-cream);
+}
+
+[data-theme="dark"] .vs-section-dark {
+  background: linear-gradient(to bottom, var(--bg-navy-darker), black);
+  color: white;
+}
+
+/* Carousel Slide Button */
+.vs-slide-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
+  border-radius: 9999px;
+  transition: all var(--transition-bounce);
+}
+
+.vs-slide-btn:hover {
+  background-color: var(--primary-orange);
+  transform: scale(1.1);
+}
+
+[data-theme="dark"] .vs-slide-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .vs-slide-btn:hover {
+  background-color: var(--primary-orange-light);
+  box-shadow: 0 0 10px rgba(var(--primary-orange-rgb), 0.3);
+}
+
+/* Testimonial container */
+.vs-testimonial-container {
+  background: linear-gradient(135deg, white, var(--bg-cream)/80);
+  border: 1px solid rgba(var(--bg-cream-darker-rgb), 0.2);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+[data-theme="dark"] .vs-testimonial-container {
+  background-color: rgba(var(--bg-navy-darker-rgb), 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 15px rgba(53, 115, 128, 0.15);
+}
+
+/* Testimonial accent elements */
+.vs-testimonial-accent {
+  background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
+  color: white;
+  border-radius: 50%;
+}
+
+[data-theme="dark"] .vs-testimonial-accent {
+  background: linear-gradient(to right, var(--primary-orange-light), var(--primary-orange));
+  box-shadow: 0 0 10px rgba(var(--primary-orange-rgb), 0.2);
+}
+
+/* Testimonial pagination dots */
+.vs-testimonial-dot {
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: all var(--transition-normal);
+}
+
+.vs-testimonial-dot:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.vs-testimonial-dot-active {
+  background-color: var(--primary-orange);
+  width: 1rem;
+}
+
+[data-theme="dark"] .vs-testimonial-dot-active {
+  background-color: var(--primary-orange-light);
+  box-shadow: 0 0 5px rgba(var(--primary-orange-rgb), 0.3);
 }
 
 /* Navbar styles */

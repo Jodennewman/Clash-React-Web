@@ -46,18 +46,39 @@ const ModulePreview = () => {
   const totalCategories = stats.totalCategories || 0;
 
   return (
-    <div className="bg-[#0F1A22] rounded-xl p-6 border border-white/10 mt-8">
-      <h3 className="text-xl font-semibold mb-6">Comprehensive Learning Tracks</h3>
+    <div className="relative overflow-hidden 
+                  bg-gradient-to-br from-[--bg-navy] to-[--bg-navy-darker]/80 
+                  dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]/80
+                  border border-white/10 dark:border-white/10
+                  shadow-[2px_2px_8px_rgba(0,0,0,0.1)] 
+                  dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
+                  rounded-xl p-6 mt-8">
+      
+      {/* Floating elements for visual interest */}
+      <div className="absolute -z-10 top-20 left-20 w-16 h-16 rounded-[40%] rotate-12 opacity-5 
+                    bg-[--primary-orange] animate-float-slow hidden dark:hidden"></div>
+      <div className="absolute -z-10 bottom-10 right-20 w-24 h-24 rounded-[30%] -rotate-6 opacity-5
+                    bg-[--accent-coral] animate-float-medium hidden dark:hidden"></div>
+                    
+      {/* Dark mode floating elements */}
+      <div className="absolute -z-10 top-20 left-20 w-16 h-16 rounded-[40%] rotate-12 opacity-10 
+                    bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] 
+                    animate-float-slow hidden dark:block"></div>
+      <div className="absolute -z-10 bottom-10 right-20 w-24 h-24 rounded-[30%] -rotate-6 opacity-10
+                    bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-hover] 
+                    animate-float-medium hidden dark:block"></div>
+      
+      <h3 className="text-xl font-semibold mb-6 text-white dark:text-white">Comprehensive Learning Tracks</h3>
       <div className="grid md:grid-cols-2 gap-6">
         {/* Column 1 */}
         <div className="space-y-2">
           {categoryNames.slice(0, midpoint).map((category, index) => (
             <div
               key={index}
-              className="flex justify-between items-center group rounded-lg p-2 hover:bg-white/5"
+              className="flex justify-between items-center group rounded-lg p-2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors"
             >
-              <div className="text-white/80">{category}</div>
-              <div className="text-[#FEA35D] text-sm">{moduleCategories[category]?.length || 0}</div>
+              <div className="text-white/80 dark:text-white/80">{category}</div>
+              <div className="text-[--primary-orange] dark:text-[--primary-orange-light] text-sm">{moduleCategories[category]?.length || 0}</div>
             </div>
           ))}
         </div>
@@ -67,30 +88,30 @@ const ModulePreview = () => {
           {categoryNames.slice(midpoint).map((category, index) => (
             <div
               key={index}
-              className="flex justify-between items-center group rounded-lg p-2 hover:bg-white/5"
+              className="flex justify-between items-center group rounded-lg p-2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors"
             >
-              <div className="text-white/80">{category}</div>
-              <div className="text-[#FEA35D] text-sm">{moduleCategories[category]?.length || 0}</div>
+              <div className="text-white/80 dark:text-white/80">{category}</div>
+              <div className="text-[--primary-orange] dark:text-[--primary-orange-light] text-sm">{moduleCategories[category]?.length || 0}</div>
             </div>
           ))}
         </div>
       </div>
 
       <div className="mt-8 flex justify-center">
-        <div className="bg-[#09232F] px-6 py-3 rounded-lg flex items-center gap-4">
+        <div className="bg-[--bg-navy-darker]/50 dark:bg-[--bg-navy-darker]/50 backdrop-blur-sm px-6 py-3 rounded-lg flex items-center gap-4 border border-white/5 vs-card-shadow">
           <div className="text-center">
-            <div className="text-2xl font-bold text-[#FEA35D]">{totalModules}+</div>
-            <div className="text-sm text-white/60">Lessons</div>
+            <div className="text-2xl font-bold text-[--primary-orange] dark:text-[--primary-orange-light]">{totalModules}+</div>
+            <div className="text-sm text-white/60 dark:text-white/60">Lessons</div>
           </div>
           <div className="h-10 w-px bg-white/10"></div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-[#FEA35D]">{totalCategories}</div>
-            <div className="text-sm text-white/60">Learning Tracks</div>
+            <div className="text-2xl font-bold text-[--primary-orange] dark:text-[--primary-orange-light]">{totalCategories}</div>
+            <div className="text-sm text-white/60 dark:text-white/60">Learning Tracks</div>
           </div>
           <div className="h-10 w-px bg-white/10"></div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-[#FEA35D]">{totalHours}+</div>
-            <div className="text-sm text-white/60">Hours</div>
+            <div className="text-2xl font-bold text-[--primary-orange] dark:text-[--primary-orange-light]">{totalHours}+</div>
+            <div className="text-sm text-white/60 dark:text-white/60">Hours</div>
           </div>
         </div>
       </div>
@@ -103,22 +124,26 @@ const ComparisonTable = () => {
   const categoryNames = Object.keys(moduleCategories);
 
   return (
-    <div className="mt-12 overflow-x-auto">
-      <h3 className="text-2xl font-semibold mb-6">Plan Comparison</h3>
-      <div className="min-w-full rounded-xl border border-white/10 overflow-hidden">
+    <div className="mt-12 overflow-x-auto relative">
+      <h3 className="text-2xl font-semibold mb-6 text-white dark:text-white">Plan Comparison</h3>
+      <div className="min-w-full rounded-xl overflow-hidden
+                      border border-white/10 dark:border-white/10
+                      shadow-[2px_2px_8px_rgba(0,0,0,0.1)] 
+                      dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]">
         <table className="w-full">
           <thead>
-            <tr className="bg-[#0F1A22]">
-              <th className="p-4 text-left">Feature</th>
-              <th className="p-4 text-center">Brand Blueprint</th>
-              <th className="p-4 text-center">Authority Automator</th>
-              <th className="p-4 text-center">Viral Growth Machine</th>
+            <tr className="bg-gradient-to-r from-[--bg-navy] to-[--bg-navy-darker] 
+                         dark:bg-gradient-to-r dark:from-[--bg-navy] dark:to-[--bg-navy-darker]">
+              <th className="p-4 text-left text-white dark:text-white">Feature</th>
+              <th className="p-4 text-center text-white dark:text-white">Brand Blueprint</th>
+              <th className="p-4 text-center text-white dark:text-white">Authority Automator</th>
+              <th className="p-4 text-center text-white dark:text-white">Viral Growth Machine</th>
             </tr>
           </thead>
           <tbody>
             {/* Learning tracks section */}
-            <tr className="bg-[#09232F]/50">
-              <td colSpan={4} className="p-4 font-semibold">
+            <tr className="bg-[--bg-navy-darker]/50 dark:bg-[--bg-navy-darker]/50">
+              <td colSpan={4} className="p-4 font-semibold text-white dark:text-white">
                 Learning Tracks
               </td>
             </tr>
@@ -132,27 +157,27 @@ const ComparisonTable = () => {
               const growthAccess = true;
 
               return (
-                <tr key={category} className="border-t border-white/5">
-                  <td className="p-4">{category}</td>
+                <tr key={category} className="border-t border-white/5 hover:bg-white/5 dark:hover:bg-white/5 transition-colors">
+                  <td className="p-4 text-white/80 dark:text-white/80">{category}</td>
                   <td className="p-4 text-center">
                     {blueprintAccess ? (
-                      <Check className="h-5 w-5 text-[#FEA35D] mx-auto" />
+                      <Check className="h-5 w-5 text-[--primary-orange] dark:text-[--primary-orange-light] mx-auto" />
                     ) : (
-                      <X className="h-5 w-5 text-white/30 mx-auto" />
+                      <X className="h-5 w-5 text-white/30 dark:text-white/30 mx-auto" />
                     )}
                   </td>
                   <td className="p-4 text-center">
                     {automatorAccess ? (
-                      <Check className="h-5 w-5 text-[#387292] mx-auto" />
+                      <Check className="h-5 w-5 text-[--secondary-teal] dark:text-[--secondary-teal-light] mx-auto" />
                     ) : (
-                      <X className="h-5 w-5 text-white/30 mx-auto" />
+                      <X className="h-5 w-5 text-white/30 dark:text-white/30 mx-auto" />
                     )}
                   </td>
                   <td className="p-4 text-center">
                     {growthAccess ? (
-                      <Check className="h-5 w-5 text-[#B92234] mx-auto" />
+                      <Check className="h-5 w-5 text-[--accent-red] dark:text-[--accent-coral] mx-auto" />
                     ) : (
-                      <X className="h-5 w-5 text-white/30 mx-auto" />
+                      <X className="h-5 w-5 text-white/30 dark:text-white/30 mx-auto" />
                     )}
                   </td>
                 </tr>
@@ -160,34 +185,34 @@ const ComparisonTable = () => {
             })}
 
             {/* Support features section */}
-            <tr className="bg-[#09232F]/50">
-              <td colSpan={4} className="p-4 font-semibold">
+            <tr className="bg-[--bg-navy-darker]/50 dark:bg-[--bg-navy-darker]/50">
+              <td colSpan={4} className="p-4 font-semibold text-white dark:text-white">
                 Support &amp; Features
               </td>
             </tr>
 
             {supportFeatures.map((feature, idx) => (
-              <tr key={idx} className="border-t border-white/5">
-                <td className="p-4">{feature.name}</td>
+              <tr key={idx} className="border-t border-white/5 hover:bg-white/5 dark:hover:bg-white/5 transition-colors">
+                <td className="p-4 text-white/80 dark:text-white/80">{feature.name}</td>
                 <td className="p-4 text-center">
                   {feature.blueprint ? (
-                    <Check className="h-5 w-5 text-[#FEA35D] mx-auto" />
+                    <Check className="h-5 w-5 text-[--primary-orange] dark:text-[--primary-orange-light] mx-auto" />
                   ) : (
-                    <X className="h-5 w-5 text-white/30 mx-auto" />
+                    <X className="h-5 w-5 text-white/30 dark:text-white/30 mx-auto" />
                   )}
                 </td>
                 <td className="p-4 text-center">
                   {feature.automator ? (
-                    <Check className="h-5 w-5 text-[#387292] mx-auto" />
+                    <Check className="h-5 w-5 text-[--secondary-teal] dark:text-[--secondary-teal-light] mx-auto" />
                   ) : (
-                    <X className="h-5 w-5 text-white/30 mx-auto" />
+                    <X className="h-5 w-5 text-white/30 dark:text-white/30 mx-auto" />
                   )}
                 </td>
                 <td className="p-4 text-center">
                   {feature.growth ? (
-                    <Check className="h-5 w-5 text-[#B92234] mx-auto" />
+                    <Check className="h-5 w-5 text-[--accent-red] dark:text-[--accent-coral] mx-auto" />
                   ) : (
-                    <X className="h-5 w-5 text-white/30 mx-auto" />
+                    <X className="h-5 w-5 text-white/30 dark:text-white/30 mx-auto" />
                   )}
                 </td>
               </tr>
@@ -202,14 +227,31 @@ const ComparisonTable = () => {
 // FAQ section
 const PricingFAQ = () => {
   return (
-    <div className="mt-16">
-      <h3 className="text-2xl font-semibold mb-6">Frequently Asked Questions</h3>
+    <div className="mt-16 relative">
+      {/* Add subtle floating elements */}
+      <div className="absolute -z-10 top-10 right-1/4 w-16 h-16 rounded-[40%] rotate-12 opacity-5 
+                    bg-[--primary-orange] animate-float-slow hidden dark:hidden"></div>
+      <div className="absolute -z-10 bottom-10 left-1/4 w-20 h-20 rounded-[30%] -rotate-6 opacity-5
+                    bg-[--accent-coral] animate-float-medium hidden dark:hidden"></div>
+                    
+      {/* Dark mode floating elements */}
+      <div className="absolute -z-10 top-10 right-1/4 w-16 h-16 rounded-[40%] rotate-12 opacity-10 
+                    bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] 
+                    animate-float-slow hidden dark:block"></div>
+      <div className="absolute -z-10 bottom-10 left-1/4 w-20 h-20 rounded-[30%] -rotate-6 opacity-10
+                    bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-hover] 
+                    animate-float-medium hidden dark:block"></div>
+    
+      <h3 className="text-2xl font-semibold mb-6 text-white dark:text-white">Frequently Asked Questions</h3>
       <Accordion type="single" collapsible className="w-full space-y-4">
-        <AccordionItem value="item-1" className="border border-white/10 rounded-lg overflow-hidden">
-          <AccordionTrigger className="px-4 py-4 hover:bg-white/5">
+        <AccordionItem value="item-1" className="border border-white/10 dark:border-white/10 rounded-lg overflow-hidden
+                                              shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
+                                              dark:shadow-[0_0_15px_rgba(53,115,128,0.1)]
+                                              bg-[--bg-navy]/50 dark:bg-[--bg-navy]/50 backdrop-blur-sm hover-bubbly-sm">
+          <AccordionTrigger className="px-4 py-4 hover:bg-white/5 dark:hover:bg-white/5 text-white dark:text-white">
             How is this different from other content courses?
           </AccordionTrigger>
-          <AccordionContent className="px-4 py-4 bg-[#09232F]/30">
+          <AccordionContent className="px-4 py-4 bg-[--bg-navy-darker]/50 dark:bg-[--bg-navy-darker]/50 text-white/80 dark:text-white/80">
             Unlike most courses that focus only on tactics, we teach a comprehensive system that's
             been proven with real founders across industries, generating over 800M organic views.
             This is the exact framework we use at our agency, not theory but battle-tested processes
@@ -217,11 +259,14 @@ const PricingFAQ = () => {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="item-2" className="border border-white/10 rounded-lg overflow-hidden">
-          <AccordionTrigger className="px-4 py-4 hover:bg-white/5">
+        <AccordionItem value="item-2" className="border border-white/10 dark:border-white/10 rounded-lg overflow-hidden
+                                              shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
+                                              dark:shadow-[0_0_15px_rgba(53,115,128,0.1)]
+                                              bg-[--bg-navy]/50 dark:bg-[--bg-navy]/50 backdrop-blur-sm hover-bubbly-sm">
+          <AccordionTrigger className="px-4 py-4 hover:bg-white/5 dark:hover:bg-white/5 text-white dark:text-white">
             How much time do I need to commit?
           </AccordionTrigger>
-          <AccordionContent className="px-4 py-4 bg-[#09232F]/30">
+          <AccordionContent className="px-4 py-4 bg-[--bg-navy-darker]/50 dark:bg-[--bg-navy-darker]/50 text-white/80 dark:text-white/80">
             The course is designed for busy founders. You can progress at your own pace, with most
             modules taking 20-30 minutes to complete. Implementing what you learn may take 2-4 hours
             per week, but this replaces inefficient content creation time you're likely already
@@ -229,11 +274,14 @@ const PricingFAQ = () => {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="item-3" className="border border-white/10 rounded-lg overflow-hidden">
-          <AccordionTrigger className="px-4 py-4 hover:bg-white/5">
+        <AccordionItem value="item-3" className="border border-white/10 dark:border-white/10 rounded-lg overflow-hidden
+                                              shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
+                                              dark:shadow-[0_0_15px_rgba(53,115,128,0.1)]
+                                              bg-[--bg-navy]/50 dark:bg-[--bg-navy]/50 backdrop-blur-sm hover-bubbly-sm">
+          <AccordionTrigger className="px-4 py-4 hover:bg-white/5 dark:hover:bg-white/5 text-white dark:text-white">
             Do I need to be on camera for this to work?
           </AccordionTrigger>
-          <AccordionContent className="px-4 py-4 bg-[#09232F]/30">
+          <AccordionContent className="px-4 py-4 bg-[--bg-navy-darker]/50 dark:bg-[--bg-navy-darker]/50 text-white/80 dark:text-white/80">
             While founder-led content often performs best, we have modules specifically covering
             different content approaches, including ways to create high-performing content without
             being on camera. Our system works regardless of your comfort level with being the face
@@ -241,11 +289,14 @@ const PricingFAQ = () => {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="item-4" className="border border-white/10 rounded-lg overflow-hidden">
-          <AccordionTrigger className="px-4 py-4 hover:bg-white/5">
+        <AccordionItem value="item-4" className="border border-white/10 dark:border-white/10 rounded-lg overflow-hidden
+                                              shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
+                                              dark:shadow-[0_0_15px_rgba(53,115,128,0.1)]
+                                              bg-[--bg-navy]/50 dark:bg-[--bg-navy]/50 backdrop-blur-sm hover-bubbly-sm">
+          <AccordionTrigger className="px-4 py-4 hover:bg-white/5 dark:hover:bg-white/5 text-white dark:text-white">
             Which plan is right for me?
           </AccordionTrigger>
-          <AccordionContent className="px-4 py-4 bg-[#09232F]/30">
+          <AccordionContent className="px-4 py-4 bg-[--bg-navy-darker]/50 dark:bg-[--bg-navy-darker]/50 text-white/80 dark:text-white/80">
             The Brand Blueprint is perfect if you're self-motivated and want the core system. The
             Authority Automator adds group coaching and feedback to accelerate results. The Viral
             Growth Machine is for founders who want maximum support with custom strategy and direct
@@ -253,22 +304,28 @@ const PricingFAQ = () => {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="item-5" className="border border-white/10 rounded-lg overflow-hidden">
-          <AccordionTrigger className="px-4 py-4 hover:bg-white/5">
+        <AccordionItem value="item-5" className="border border-white/10 dark:border-white/10 rounded-lg overflow-hidden
+                                              shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
+                                              dark:shadow-[0_0_15px_rgba(53,115,128,0.1)]
+                                              bg-[--bg-navy]/50 dark:bg-[--bg-navy]/50 backdrop-blur-sm hover-bubbly-sm">
+          <AccordionTrigger className="px-4 py-4 hover:bg-white/5 dark:hover:bg-white/5 text-white dark:text-white">
             How long do I have access to the course?
           </AccordionTrigger>
-          <AccordionContent className="px-4 py-4 bg-[#09232F]/30">
+          <AccordionContent className="px-4 py-4 bg-[--bg-navy-darker]/50 dark:bg-[--bg-navy-darker]/50 text-white/80 dark:text-white/80">
             You'll have lifetime access to the course materials, including all future updates. The
             coaching and support components of higher-tier plans run for the duration specified in
             each package (typically 3-6 months).
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="item-6" className="border border-white/10 rounded-lg overflow-hidden">
-          <AccordionTrigger className="px-4 py-4 hover:bg-white/5">
+        <AccordionItem value="item-6" className="border border-white/10 dark:border-white/10 rounded-lg overflow-hidden
+                                              shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
+                                              dark:shadow-[0_0_15px_rgba(53,115,128,0.1)]
+                                              bg-[--bg-navy]/50 dark:bg-[--bg-navy]/50 backdrop-blur-sm hover-bubbly-sm">
+          <AccordionTrigger className="px-4 py-4 hover:bg-white/5 dark:hover:bg-white/5 text-white dark:text-white">
             Can I upgrade my plan later?
           </AccordionTrigger>
-          <AccordionContent className="px-4 py-4 bg-[#09232F]/30">
+          <AccordionContent className="px-4 py-4 bg-[--bg-navy-darker]/50 dark:bg-[--bg-navy-darker]/50 text-white/80 dark:text-white/80">
             Yes! You can upgrade to a higher-tier plan at any time. We'll simply credit your initial
             investment toward the upgraded plan price.
           </AccordionContent>
@@ -496,39 +553,51 @@ export const PricingSection = () => {
   };
 
   return (
-    <Section id="pricing" className="py-24 bg-[#08141B] border-t border-[#154D59]/30">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <Badge variant="outline" className="bg-white/5 text-[#FEA35D] border-[#FEA35D]/30 mb-4 py-2 px-4">
+    <Section id="pricing" className="py-24 vs-section-dark border-t" style={{ borderColor: 'rgba(var(--secondary-teal-rgb), 0.3)' }}>
+      <div className="container mx-auto px-4 relative">
+        {/* Floating elements for visual interest - light mode */}
+        <div className="absolute top-20 left-10 w-16 h-16 rounded-[40%] rotate-12 opacity-5 vs-float-element-light-1"></div>
+        <div className="absolute bottom-20 right-10 w-24 h-24 rounded-[30%] -rotate-6 opacity-8 vs-float-element-light-2"></div>
+        
+        {/* Dark mode floating elements */}
+        <div className="absolute top-20 left-10 w-16 h-16 rounded-[40%] rotate-12 vs-float-element-dark-1"></div>
+        <div className="absolute bottom-20 right-10 w-24 h-24 rounded-[30%] -rotate-6 vs-float-element-dark-2"></div>
+                      
+        <div className="text-center mb-16 relative z-10">
+          <Badge variant="outline" className="vs-accent-badge mb-4 py-2 px-4">
             Your Growth Path
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">Choose Your Content Strategy</h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Choose Your Content Strategy</h2>
+          <p className="text-xl max-w-3xl mx-auto" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
             Access the proven system that has generated over 800M views and helped founders grow
             engaged communities and drive revenue.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-6 justify-center items-center">
-            <div className="flex items-center gap-4 bg-[#0F1A22] px-4 py-2 rounded-full">
+            <div className="flex items-center gap-4 backdrop-blur-sm px-4 py-2 rounded-full border vs-card-shadow" 
+                 style={{ 
+                   backgroundColor: 'rgba(var(--bg-navy-darker-rgb), 0.5)', 
+                   borderColor: 'rgba(255, 255, 255, 0.05)' 
+                 }}>
               <div className="text-center px-3">
-                <div className="text-2xl font-bold text-[#FEA35D]">{pricingStats.totalModules}+</div>
-                <div className="text-xs text-white/60">Lessons</div>
+                <div className="text-2xl font-bold" style={{ color: 'var(--primary-orange)' }}>{pricingStats.totalModules}+</div>
+                <div className="text-xs" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>Lessons</div>
               </div>
-              <div className="h-8 w-px bg-white/10"></div>
+              <div className="h-8 w-px" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}></div>
               <div className="text-center px-3">
-                <div className="text-2xl font-bold text-[#FEA35D]">{pricingStats.totalCategories}</div>
-                <div className="text-xs text-white/60">Tracks</div>
+                <div className="text-2xl font-bold" style={{ color: 'var(--primary-orange)' }}>{pricingStats.totalCategories}</div>
+                <div className="text-xs" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>Tracks</div>
               </div>
-              <div className="h-8 w-px bg-white/10"></div>
+              <div className="h-8 w-px" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}></div>
               <div className="text-center px-3">
-                <div className="text-2xl font-bold text-[#FEA35D]">{pricingStats.totalHours}+</div>
-                <div className="text-xs text-white/60">Hours</div>
+                <div className="text-2xl font-bold" style={{ color: 'var(--primary-orange)' }}>{pricingStats.totalHours}+</div>
+                <div className="text-xs" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>Hours</div>
               </div>
             </div>
 
             {/* Top Text & Quiz CTA */}
             <div className="text-center mb-16">
-              <p className="text-white/70 mb-6 max-w-2xl mx-auto">
+              <p className="mb-6 max-w-2xl mx-auto" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
                 Choose the plan that's right for your goals. All plans include personalized coaching, community access, and implementation resources.
               </p>
               <AnimatedButton 
@@ -538,8 +607,8 @@ export const PricingSection = () => {
                 size="md"
                 onClick={() => {
                   // Import and open the enhanced VS pricing quiz modal
-                  import('./VSPricingQuizModal').then(module => {
-                    const VSPricingQuizModal = module.VSPricingQuizModal;
+                  import('./pricing-quiz-modal').then(module => {
+                    const VSPricingQuizModal = module.PricingQuizModal;
                     // Create a div to mount the modal
                     const modalContainer = document.createElement('div');
                     document.body.appendChild(modalContainer);
@@ -571,19 +640,27 @@ export const PricingSection = () => {
           <>
             {/* Payment Option Toggle */}
             <div className="flex justify-center mb-10">
-              <div className="flex items-center gap-4 bg-[#0F1A22] px-6 py-3 rounded-full">
+              <div className="flex items-center gap-4 backdrop-blur-sm px-6 py-3 rounded-full border hover-bubbly-sm vs-card-shadow" 
+                   style={{ 
+                     backgroundColor: 'rgba(var(--bg-navy-darker-rgb), 0.5)', 
+                     borderColor: 'rgba(255, 255, 255, 0.05)' 
+                   }}>
                 <span
-                  className={`text-sm ${
-                    !useInstallments ? "text-white font-medium" : "text-white/60"
-                  }`}
+                  style={{ 
+                    color: !useInstallments ? 'white' : 'rgba(255, 255, 255, 0.6)',
+                    fontWeight: !useInstallments ? '500' : 'normal'
+                  }}
+                  className="text-sm"
                 >
                   One-time Payment
                 </span>
                 <Switch checked={useInstallments} onCheckedChange={setUseInstallments} />
                 <span
-                  className={`text-sm ${
-                    useInstallments ? "text-white font-medium" : "text-white/60"
-                  }`}
+                  style={{ 
+                    color: useInstallments ? 'white' : 'rgba(255, 255, 255, 0.6)',
+                    fontWeight: useInstallments ? '500' : 'normal'
+                  }}
+                  className="text-sm"
                 >
                   3-Month Installments
                 </span>
@@ -601,16 +678,30 @@ export const PricingSection = () => {
                   <Card
                     key={tier.id}
                     id={`plan-${tier.id}`}
-                    className={`bg-[#0F1A22] border-white/10 relative overflow-hidden transition-all duration-300 ${
-                      tier.popular ? "md:scale-105 md:-translate-y-2 z-10" : ""
-                    } ${isRecommended ? "ring-2 ring-[#FEA35D]" : ""}`}
+                    className={`relative overflow-hidden transition-all duration-300 hover-bubbly
+                      ${tier.popular ? "md:scale-105 md:-translate-y-2 z-10" : ""}
+                      ${isRecommended ? "ring-2" : ""}
+                      vs-card-shadow`}
+                    style={{
+                      background: 'var(--bg-navy-gradient)',
+                      borderColor: 'rgba(255, 255, 255, 0.1)',
+                      boxShadow: 'var(--shadow-md)',
+                      ...(isRecommended && {
+                        ringColor: 'var(--primary-orange)',
+                      })
+                    }}
                   >
+                    {/* Add floating element for visual interest */}
+                    <div className="absolute -z-10 bottom-10 right-10 w-20 h-20 rounded-[40%] rotate-12 vs-float-element-light-1"></div>
+                    <div className="absolute -z-10 bottom-10 right-10 w-20 h-20 rounded-[40%] rotate-12 vs-float-element-dark-1"></div>
+                    
                     {/* Top-right badge */}
                     {tier.badge && (
                       <div
-                        className={`absolute top-0 right-0 ${
-                          tier.popular ? "bg-[#FEA35D]" : "bg-[#09232F]/80"
-                        } text-xs font-medium text-white px-3 py-1 rounded-bl-lg`}
+                        className="absolute top-0 right-0 text-xs font-medium text-white px-3 py-1 rounded-bl-lg"
+                        style={{
+                          backgroundColor: tier.popular ? 'var(--primary-orange)' : 'rgba(var(--bg-navy-darker-rgb), 0.8)'
+                        }}
                       >
                         {tier.badge}
                       </div>
@@ -618,7 +709,11 @@ export const PricingSection = () => {
 
                     {/* Recommended badge */}
                     {isRecommended && (
-                      <div className="absolute top-0 left-0 bg-[#FEA35D] text-xs font-medium text-[#08141B] px-3 py-1 rounded-br-lg">
+                      <div className="absolute top-0 left-0 text-xs font-medium px-3 py-1 rounded-br-lg"
+                         style={{
+                           backgroundColor: 'var(--primary-orange)',
+                           color: 'var(--bg-navy)'
+                         }}>
                         Recommended
                       </div>
                     )}
@@ -626,15 +721,18 @@ export const PricingSection = () => {
                     <CardHeader>
                       <div className="flex items-center gap-2">
                         <div
-                          className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                            tier.color.split(" ")[1]
-                          }`}
+                          className="w-12 h-12 rounded-full flex items-center justify-center border"
+                          style={{
+                            background: 'var(--bg-navy-gradient)',
+                            borderColor: 'rgba(255, 255, 255, 0.05)',
+                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+                          }}
                         >
                           {getPlanIcon(tier.id)}
                         </div>
-                        <CardTitle className="text-xl">{tier.name}</CardTitle>
+                        <CardTitle className="text-xl text-white">{tier.name}</CardTitle>
                       </div>
-                      <CardDescription className="text-white/70 mt-2">
+                      <CardDescription className="mt-2" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
                         {tier.description}
                       </CardDescription>
                     </CardHeader>
@@ -642,22 +740,25 @@ export const PricingSection = () => {
                     <CardContent className="space-y-6">
                       {/* Price */}
                       {!isHidden ? (
-                        <div className="text-center py-4">
+                        <div className="text-center py-4 relative">
+                          {/* Add subtle pattern behind price */}
+                          <div className="absolute inset-0 -z-10 dot-bg" style={{ opacity: 0.05 }}></div>
+                          
                           {priceInfo.originalPrice && (
-                            <div className="text-white/60 line-through mb-1">
+                            <div className="line-through mb-1" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>
                               {priceInfo.originalPrice}
                             </div>
                           )}
 
-                          <div className="text-3xl font-bold">{priceInfo.displayPrice}</div>
+                          <div className="text-3xl font-bold text-white">{priceInfo.displayPrice}</div>
 
                           {priceInfo.perInstallment && (
-                            <div className="text-sm text-white/60 mt-1">{priceInfo.perInstallment}</div>
+                            <div className="text-sm mt-1" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>{priceInfo.perInstallment}</div>
                           )}
 
                           {pricingConfig.promotionalOffer && pricingConfig.promotionalOfferTiers[index] && (
                             <div className="mt-2">
-                              <Badge className="bg-[#B92234] text-white">
+                              <Badge className="text-white vs-btn-destructive-gradient">
                                 Save {pricingConfig.promotionalDiscount * 100}%
                               </Badge>
                             </div>
@@ -665,8 +766,8 @@ export const PricingSection = () => {
                         </div>
                       ) : (
                         <div className="text-center py-4">
-                          <div className="text-3xl font-bold">Custom</div>
-                          <div className="text-sm text-white/60 mt-1">Contact for pricing</div>
+                          <div className="text-3xl font-bold text-white">Custom</div>
+                          <div className="text-sm mt-1" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>Contact for pricing</div>
                         </div>
                       )}
 
@@ -676,9 +777,12 @@ export const PricingSection = () => {
                       {/* Features */}
                       <div className="space-y-3">
                         {tier.features.map((feature, idx) => (
-                          <div key={idx} className="flex items-start gap-2">
-                            <Check className="h-5 w-5 text-[#FEA35D] shrink-0 mt-0.5" />
-                            <div className="text-sm text-white/80">{feature}</div>
+                          <div key={idx} className="flex items-start gap-2 group hover:bg-white/5 rounded-md p-1 transition-colors">
+                            <Check 
+                              className="h-5 w-5 shrink-0 mt-0.5 group-hover:scale-110 transition-transform" 
+                              style={{ color: 'var(--primary-orange)' }}
+                            />
+                            <div className="text-sm" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>{feature}</div>
                           </div>
                         ))}
                       </div>
@@ -708,7 +812,7 @@ export const PricingSection = () => {
             </div>
 
             {/* Price range info */}
-            <div className="text-center mt-6 text-white/60 text-sm">
+            <div className="text-center mt-6 text-sm" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>
               Prices from {formatPrice(pricingConfig.lowestVisiblePrice)}
             </div>
 
@@ -721,9 +825,13 @@ export const PricingSection = () => {
             <ModulePreview />
 
             {/* Final CTA */}
-            <div className="mt-16 text-center">
-              <h3 className="text-2xl font-semibold mb-4">Ready to Transform Your Content Strategy?</h3>
-              <p className="text-white/70 max-w-2xl mx-auto mb-8">
+            <div className="mt-16 text-center relative">
+              {/* Add subtle floating elements */}
+              <div className="absolute top-5 left-1/4 w-16 h-16 rounded-[40%] rotate-12 vs-float-element-light-1"></div>
+              <div className="absolute bottom-5 right-1/4 w-16 h-16 rounded-[40%] rotate-12 vs-float-element-dark-1"></div>
+            
+              <h3 className="text-2xl font-semibold mb-4 text-white">Ready to Transform Your Content Strategy?</h3>
+              <p className="max-w-2xl mx-auto mb-8" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
                 Join hundreds of founders who have already used our proven system to build engaged
                 audiences and drive sustainable growth.
               </p>

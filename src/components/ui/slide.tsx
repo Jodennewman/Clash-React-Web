@@ -12,7 +12,7 @@ function Slide({
     <div
       data-slot="slide"
       className={cn(
-        "glass-3 group text-card-foreground relative flex flex-col overflow-hidden rounded-xl shadow-xl transition-all",
+        "group relative flex flex-col overflow-hidden rounded-xl shadow-md transition-all duration-[--transition-bounce]",
         className,
       )}
       {...props}
@@ -24,7 +24,7 @@ function SlideTitle({ className, ...props }: React.ComponentProps<"h3">) {
   return (
     <h3
       data-slot="slide-title"
-      className={cn("text-lg font-semibold tracking-tight", className)}
+      className={cn("text-lg font-semibold tracking-tight text-[--text-navy] dark:text-white", className)}
       {...props}
     />
   );
@@ -34,7 +34,7 @@ function SlideDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
       data-slot="slide-description"
-      className={cn("text-muted-foreground text-sm text-balance", className)}
+      className={cn("text-sm text-balance text-[--text-navy]/70 dark:text-white/70", className)}
       {...props}
     />
   );
@@ -85,7 +85,7 @@ function SlideExpandedContent({
     <div
       data-slot="slide-expanded-content"
       className={cn(
-        "text-muted-foreground absolute inset-6 text-lg text-balance transition-opacity duration-300",
+        "absolute inset-6 text-lg text-balance text-[--text-navy]/80 dark:text-white/80 transition-opacity duration-300",
         isExpanded ? "opacity-100" : "opacity-0",
         className,
       )}
@@ -108,16 +108,16 @@ function SlideButton({
       data-slot="slide-button"
       {...props}
       className={cn(
-        "bg-accent/50 pointer-events-none absolute right-6 bottom-6 z-10 block rounded-full p-4",
+        "vs-slide-btn pointer-events-none absolute right-6 bottom-6 z-10 block p-4",
         className,
       )}
     >
       {icon === "link" ? (
-        <ArrowUpRight className="size-4" />
+        <ArrowUpRight className="size-4 text-white" />
       ) : (
         <Plus
           className={cn(
-            "size-4 transition-all",
+            "size-4 transition-all text-white",
             isExpanded ? "rotate-45" : "group-hover:rotate-90",
           )}
         />

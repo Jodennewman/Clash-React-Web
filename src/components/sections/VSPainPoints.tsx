@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { useGSAP } from "@gsap/react";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
+import IsometricGridBackground from '../hero/IsometricPattern';
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
 
@@ -97,18 +97,19 @@ const VSPainPoints = () => {
   }, []);
   
   return (
-    <div ref={sectionRef} className="relative overflow-hidden py-24 bg-gradient-to-br from-white to-[--bg-cream]/80 dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]">
+    <div ref={sectionRef} className="painPoints relative overflow-hidden py-24 bg-[--bg-cream-darker] dark:bg[--bg-navy-darker]">
+      <IsometricGridBackground />
       <div className="container mx-auto px-4">
-        <h1 className="text-center text-[--text-navy] dark:text-white text-4xl md:text-5xl lg:text-6xl font-bold mb-16">
+        <h1 className="text-center text-[var(--text-navy)] dark:text-white text-4xl md:text-5xl lg:text-6xl font-bold mb-16">
           For Founders Feeling Fed Up
         </h1>
       </div>
       
       {/* Floating elements - light mode */}
-      <div className="absolute top-40 left-20 w-24 h-24 rounded-[40%] rotate-12 opacity-5 
-                    bg-[--primary-orange] animate-float-slow hidden dark:hidden"></div>
-      <div className="absolute bottom-60 right-10 w-32 h-32 rounded-[30%] -rotate-6 opacity-8
-                    bg-[--primary-orange-hover] animate-float-medium hidden dark:hidden"></div>
+      <div className="absolute top-40 left-20 w-8 h-24 rounded-[40%] rotate-12 opacity-9 
+                    bg-[var(--primary-orange)] animate-float-slow dark:hidden"></div>
+      <div className="absolute bottom-17 right-6 w-32 h-32 rounded-[30%] -rotate-6 opacity-12
+                    bg-[var(--primary-orange-hover)] animate-float-medium dark:hidden"></div>
                     
       {/* Dark mode floating elements */}
       <div className="absolute top-40 left-20 w-24 h-24 rounded-[40%] rotate-12 opacity-10 

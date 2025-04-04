@@ -36,23 +36,23 @@ export const AnimatedButton: React.FC<AnimatedButtonProps> = ({
   const variantStylesMap = {
     start: {
       normal: {
-        textColor: "text-[--text-cream]",
-        bgColor: "bg-gradient-to-r from-[--accent-coral] to-[--accent-coral-rgb,#E07559]",
+        textColor: "text-[var(--text-cream)]",
+        bgColor: "bg-gradient-to-r from-[var(--accent-coral)] to-[var(--accent-coral-rgb,#E07559)]",
         shadow: "shadow-[0_8px_16px_rgba(var(--accent-coral-rgb,222,107,89),0.3)]",
         border: "",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDEwMCwxMDAgTCA1MCw1MCBMIDE1MCw1MCBaIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz48L3N2Zz4=')",
       },
       high: {
-        textColor: "text-[--text-cream]",
-        bgColor: "bg-gradient-to-r from-[--hud-accent-red)] to-[--accent-red)]",
+        textColor: "text-[var(--text-cream)]",
+        bgColor: "bg-gradient-to-r from-[var(--hud-accent-red)] to-[var(--accent-red)]",
         shadow: "shadow-[0_8px_16px_rgba(var(--accent-red-rgb,185,34,52),0.35)]",
         border: "",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDEwMCwxMDAgTCA1MCw1MCBMIDE1MCw1MCBaIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMTUpIi8+PC9zdmc+')",
       },
       low: {
-        textColor: "text-[--text-cream]",
+        textColor: "text-[var(--text-cream)]",
         bgColor: "bg-gradient-to-r from-[#D87F70] to-[#E08B7A]",
         shadow: "shadow-[0_8px_16px_rgba(216,127,112,0.25)]",
         border: "",
@@ -60,112 +60,112 @@ export const AnimatedButton: React.FC<AnimatedButtonProps> = ({
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDEwMCwxMDAgTCA1MCw1MCBMIDE1MCw1MCBaIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDgpIi8+PC9zdmc+')",
       },
       subtle: {
-        textColor: "text-[--text-navy)] dark:text-[--text-cream]",
-        bgColor: "bg-[--card-bg-light)] dark:bg-[--card-bg-navy)]",
+        textColor: "text-[var(--text-navy)] dark:text-[var(--text-cream)]",
+        bgColor: "bg-[var(--card-bg-light)] dark:bg-[var(--card-bg-navy)]",
         shadow: "shadow-[0_8px_16px_rgba(0,0,0,0.1)]",
-        border: "border border-[--accent-coral)] border-opacity-30",
+        border: "border border-[var(--accent-coral)] border-opacity-30",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDEwMCwxMDAgTCA1MCw1MCBMIDE1MCw1MCBaIiBmaWxsPSJyZ2JhKDIyMiwxMDcsODksMC4wNSkiLz48L3N2Zz4=')",
       },
     },
     pro: {
       normal: {
-        textColor: "text-[--text-navy)] dark:text-[--text-cream]",
-        bgColor: "bg-gradient-to-r from-[--primary-orange)] to-[--primary-orange-light)]",
+        textColor: "text-[var(--text-navy)] dark:text-[var(--text-cream)]",
+        bgColor: "bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-orange-light)]",
         shadow: "shadow-[0_8px_16px_rgba(var(--primary-orange-rgb,254,163,93),0.3)]",
         border: "",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDAsMCBMIDUwLDUwIEwgMCwxMDAgWiIgZmlsbD0icmdiYSgwLDAsMCwwLjA1KSIvPjwvc3ZnPg==')",
       },
       high: {
-        textColor: "text-[--text-navy)] dark:text-[--text-cream]",
-        bgColor: "bg-gradient-to-r from-[--primary-orange-hover)] to-[--primary-orange)]",
+        textColor: "text-[var(--text-navy)] dark:text-[var(--text-cream)]",
+        bgColor: "bg-gradient-to-r from-[var(--primary-orange-hover)] to-[var(--primary-orange)]",
         shadow: "shadow-[0_8px_16px_rgba(var(--primary-orange-rgb,254,163,93),0.35)]",
         border: "",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDAsMCBMIDUwLDUwIEwgMCwxMDAgWiIgZmlsbD0icmdiYSgwLDAsMCwwLjA4KSIvPjwvc3ZnPg==')",
       },
       low: {
-        textColor: "text-[--text-navy)] dark:text-[--text-cream]",
-        bgColor: "bg-gradient-to-r from-[--ui-peach-light)] to-[--ui-peach-dark)]",
+        textColor: "text-[var(--text-navy)] dark:text-[var(--text-cream)]",
+        bgColor: "bg-gradient-to-r from-[var(--ui-peach-light)] to-[var(--ui-peach-dark)]",
         shadow: "shadow-[0_8px_16px_rgba(var(--primary-orange-rgb,254,163,93),0.2)]",
         border: "",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDAsMCBMIDUwLDUwIEwgMCwxMDAgWiIgZmlsbD0icmdiYSgyNTUsMTYzLDkzLDAuMDUpIi8+PC9zdmc+')",
       },
       subtle: {
-        textColor: "text-[--primary-orange)] dark:text-[--primary-orange-light)]",
-        bgColor: "bg-gradient-to-r from-[--bg-cream)] to-[--bg-cream-darker)]",
+        textColor: "text-[var(--primary-orange)] dark:text-[var(--primary-orange-light)]",
+        bgColor: "bg-gradient-to-r from-[var(--bg-cream)] to-[var(--bg-cream-darker)]",
         shadow: "shadow-[0_8px_16px_rgba(var(--primary-orange-rgb,254,163,93),0.1)]",
-        border: "border border-[--primary-orange)] border-opacity-20",
+        border: "border border-[var(--primary-orange)] border-opacity-20",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDAsMCBMIDUwLDUwIEwgMCwxMDAgWiIgZmlsbD0icmdiYSgyNTQsMTYzLDkzLDAuMDMpIi8+PC9zdmc+')",
       },
     },
     learn: {
       normal: {
-        textColor: "text-[--text-cream]",
-        bgColor: "bg-gradient-to-r from-[--secondary-teal)] to-[--secondary-teal-light)]",
+        textColor: "text-[var(--text-cream)]",
+        bgColor: "bg-gradient-to-r from-[var(--secondary-teal)] to-[var(--secondary-teal-light)]",
         shadow: "shadow-[0_8px_16px_rgba(var(--secondary-teal-rgb,53,115,128),0.3)]",
         border: "",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjUwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz48L3N2Zz4=')",
       },
       high: {
-        textColor: "text-[--text-cream]",
-        bgColor: "bg-gradient-to-r from-[--secondary-teal-hover)] to-[--secondary-teal)]",
+        textColor: "text-[var(--text-cream)]",
+        bgColor: "bg-gradient-to-r from-[var(--secondary-teal-hover)] to-[var(--secondary-teal)]",
         shadow: "shadow-[0_8px_16px_rgba(var(--secondary-teal-rgb,53,115,128),0.35)]",
         border: "",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjUwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMTUpIi8+PC9zdmc+')",
       },
       low: {
-        textColor: "text-[--text-cream]",
-        bgColor: "bg-gradient-to-r from-[--neutral-blue-1)] to-[--neutral-blue-2)]",
+        textColor: "text-[var(--text-cream)]",
+        bgColor: "bg-gradient-to-r from-[var(--neutral-blue-1)] to-[var(--neutral-blue-2)]",
         shadow: "shadow-[0_8px_16px_rgba(var(--secondary-teal-rgb,53,115,128),0.25)]",
         border: "",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjUwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDgpIi8+PC9zdmc+')",
       },
       subtle: {
-        textColor: "text-[--secondary-teal)] dark:text-[--secondary-teal-light)]",
-        bgColor: "bg-[--bg-cream)] dark:bg-[--bg-navy)]",
+        textColor: "text-[var(--secondary-teal)] dark:text-[var(--secondary-teal-light)]",
+        bgColor: "bg-[var(--bg-cream)] dark:bg-[var(--bg-navy)]",
         shadow: "shadow-[0_8px_16px_rgba(var(--secondary-teal-rgb,53,115,128),0.15)]",
-        border: "border border-[--secondary-teal)] border-opacity-30",
+        border: "border border-[var(--secondary-teal)] border-opacity-30",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjUwIiBmaWxsPSJyZ2JhKDUzLDExNSwxMjgsMC4wNSkiLz48L3N2Zz4=')",
       },
     },
     docs: {
       normal: {
-        textColor: "text-[--text-navy)] dark:text-[--text-cream]",
+        textColor: "text-[var(--text-navy)] dark:text-[var(--text-cream)]",
         bgColor: "bg-transparent dark:bg-transparent",
         shadow: "shadow-[0_8px_16px_rgba(var(--text-navy-rgb,18,46,59),0.1)]",
-        border: "border-[2px] border-[--text-navy)] dark:border-[--text-cream)]",
+        border: "border-[2px] border-[var(--text-navy)] dark:border-[var(--text-cream)]",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI1MCIgeT0iNTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJyZ2JhKDE4LDQ2LDU5LDAuMDUpIi8+PC9zdmc+')",
       },
       high: {
-        textColor: "text-[--bg-cream)] dark:text-[--bg-navy)]",
-        bgColor: "bg-[--text-navy)] dark:bg-[--text-cream)]",
+        textColor: "text-[var(--bg-cream)] dark:text-[var(--bg-navy)]",
+        bgColor: "bg-[var(--text-navy)] dark:bg-[var(--text-cream)]",
         shadow: "shadow-[0_8px_16px_rgba(var(--text-navy-rgb,18,46,59),0.2)]",
-        border: "border-[2px] border-[--text-navy)] dark:border-[--text-cream)]",
+        border: "border-[2px] border-[var(--text-navy)] dark:border-[var(--text-cream)]",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI1MCIgeT0iNTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDgpIi8+PC9zdmc+')",
       },
       low: {
-        textColor: "text-[--text-navy)] dark:text-[--text-cream]",
+        textColor: "text-[var(--text-navy)] dark:text-[var(--text-cream)]",
         bgColor: "bg-transparent dark:bg-transparent",
         shadow: "shadow-[0_4px_12px_rgba(var(--text-navy-rgb,18,46,59),0.08)]",
-        border: "border border-[--text-navy)] dark:border-[--text-cream)] border-opacity-60 dark:border-opacity-60",
+        border: "border border-[var(--text-navy)] dark:border-[var(--text-cream)] border-opacity-60 dark:border-opacity-60",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI1MCIgeT0iNTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJyZ2JhKDE4LDQ2LDU5LDAuMDIpIi8+PC9zdmc+')",
       },
       subtle: {
-        textColor: "text-[--text-navy)] dark:text-[--text-cream]",
+        textColor: "text-[var(--text-navy)] dark:text-[var(--text-cream)]",
         bgColor: "bg-transparent dark:bg-transparent",
         shadow: "shadow-[0_2px_8px_rgba(var(--text-navy-rgb,18,46,59),0.05)]",
-        border: "border border-[--text-navy)] dark:border-[--text-cream)] border-opacity-30 dark:border-opacity-30",
+        border: "border border-[var(--text-navy)] dark:border-[var(--text-cream)] border-opacity-30 dark:border-opacity-30",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI1MCIgeT0iNTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJyZ2JhKDE4LDQ2LDU5LDAuMDIpIi8+PC9zdmc+')",
       },

@@ -76,19 +76,38 @@ export const PricingQuizModal = ({ onComplete }: PricingQuizProps) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="px-5 py-2 bg-[#0F1A22] border border-[#FEA35D]/30 text-white hover:bg-[#154D59]/30 gap-2">
+        <Button className="px-5 py-2 bg-[--bg-navy]/75 backdrop-blur-sm border border-[--primary-orange]/30 dark:border-[--primary-orange-light]/30 text-white dark:text-white hover:bg-[--secondary-teal]/30 dark:hover:bg-[--secondary-teal]/30 gap-2 hover-bubbly-sm vs-card-shadow">
           <HelpCircle className="h-4 w-4" />
           Not sure which plan is right? Take the Quiz
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-[#09232F] border-[#154D59] w-full max-w-md">
+      <DialogContent className="bg-gradient-to-br from-[--bg-navy] to-[--bg-navy-darker]/80 
+                          dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]/80 
+                          border border-white/10 dark:border-white/10 
+                          shadow-[2px_2px_8px_rgba(0,0,0,0.1)] 
+                          dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] 
+                          w-full max-w-md relative overflow-hidden">
+        {/* Floating elements for visual interest */}
+        <div className="absolute -z-10 top-10 right-10 w-16 h-16 rounded-[40%] rotate-12 opacity-5 
+                     bg-[--primary-orange] animate-float-slow hidden dark:hidden"></div>
+        <div className="absolute -z-10 bottom-10 left-10 w-20 h-20 rounded-[30%] -rotate-6 opacity-5
+                     bg-[--accent-coral] animate-float-medium hidden dark:hidden"></div>
+                    
+        {/* Dark mode floating elements */}
+        <div className="absolute -z-10 top-10 right-10 w-16 h-16 rounded-[40%] rotate-12 opacity-10 
+                     bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] 
+                     animate-float-slow hidden dark:block"></div>
+        <div className="absolute -z-10 bottom-10 left-10 w-20 h-20 rounded-[30%] -rotate-6 opacity-10
+                     bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-hover] 
+                     animate-float-medium hidden dark:block"></div>
+                     
         <DialogHeader>
-          <DialogTitle className="text-2xl">Find Your Perfect Plan</DialogTitle>
+          <DialogTitle className="text-2xl text-white dark:text-white">Find Your Perfect Plan</DialogTitle>
         </DialogHeader>
 
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <div className="text-sm text-white/60">
+            <div className="text-sm text-white/60 dark:text-white/60">
               Step {currentStep + 1} of {quizSteps.length}
             </div>
             <div className="flex gap-2">
@@ -96,14 +115,14 @@ export const PricingQuizModal = ({ onComplete }: PricingQuizProps) => {
                 <div
                   key={idx}
                   className={`h-1.5 w-6 rounded-full ${
-                    idx <= currentStep ? 'bg-[#FEA35D]' : 'bg-white/20'
+                    idx <= currentStep ? 'bg-[--primary-orange] dark:bg-[--primary-orange-light]' : 'bg-white/20 dark:bg-white/20'
                   }`}
                 />
               ))}
             </div>
           </div>
 
-          <h3 className="text-xl font-semibold mb-6">{currentQuestion.question}</h3>
+          <h3 className="text-xl font-semibold mb-6 text-white dark:text-white">{currentQuestion.question}</h3>
 
           <div className="space-y-3 mb-8">
             {currentQuestion.options.map((option, idx) => (
@@ -111,12 +130,12 @@ export const PricingQuizModal = ({ onComplete }: PricingQuizProps) => {
                 key={idx}
                 className={`p-4 rounded-lg border cursor-pointer transition-all ${
                   answers[currentQuestion.key] === option.value
-                    ? 'border-[#FEA35D] bg-[#FEA35D]/10'
-                    : 'border-white/10 hover:border-white/30'
-                }`}
+                    ? 'border-[--primary-orange] dark:border-[--primary-orange-light] bg-[--primary-orange]/10 dark:bg-[--primary-orange]/10'
+                    : 'border-white/10 dark:border-white/10 hover:border-white/30 dark:hover:border-white/30'
+                } hover-bubbly-sm`}
                 onClick={() => handleSelect(option.value)}
               >
-                <span className="text-white/80">{option.label}</span>
+                <span className="text-white/80 dark:text-white/80">{option.label}</span>
               </div>
             ))}
           </div>

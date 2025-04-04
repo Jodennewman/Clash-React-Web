@@ -43,46 +43,78 @@ Refer to these files for comprehensive guidance on implementation standards and 
 
 ### TEXT COLORS - DIRECT CSS VARIABLE REFERENCE
 
-**❌ NEVER DO THIS - OUTDATED APPROACH:**
+**❌ INCORRECT APPROACH - DO NOT USE:**
 ```jsx
-<p style={{ color: 'var(--text-navy)' }} className="dark:text-white">OUTDATED: Don't use style attribute</p>
-<h2 style={{ color: 'var(--primary-orange)' }} className="dark:text-white">OUTDATED: Don't use style attribute</h2>
-<div className="text-[var(--text-navy)]">OUTDATED: Don't use var() wrapper</div>
+<p className="text-[--text-navy] dark:text-white">WRONG: Missing var() wrapper</p>
+<h2 className="text-[--primary-orange] dark:text-white">WRONG: Missing var() wrapper</h2>
+<div className="bg-[--bg-cream]">WRONG: Missing var() wrapper</div>
+<div className="bg-gradient-to-br from-[--bg-cream] to-white">WRONG: Don't use from/to with variables</div>
 ```
 
-**✅ ALWAYS DO THIS FOR TEXT:**
+**✅ CORRECT APPROACH - ALWAYS USE:**
 ```jsx
-<p className="text-[--text-navy] dark:text-white">CORRECT: Direct CSS variable reference</p>
-<h2 className="text-[--primary-orange] dark:text-white">CORRECT: Direct CSS variable reference</h2>
-<span className="text-[--accent-coral] dark:text-white/80">CORRECT: With opacity in dark mode</span>
+<!-- Option 1: Use style attribute with var() syntax (PREFERRED) -->
+<p style={{ color: 'var(--text-navy)' }} className="dark:text-white">CORRECT: Using style with var()</p>
+<h2 style={{ color: 'var(--primary-orange)' }} className="dark:text-white">CORRECT: Using style with var()</h2>
+
+<!-- Option 2: Use helper classes defined in globals.css (BEST PRACTICE) -->
+<div className="vs-text-navy dark:text-white">CORRECT: Using helper class</div>
+<div className="vs-bg-cream dark:vs-bg-navy">CORRECT: Using helper class</div>
+
+<!-- Option 3: Use Tailwind with var() wrapper (IF NECESSARY) -->
+<span className="text-[var(--accent-coral)] dark:text-white/80">CORRECT: Using var() wrapper in class</span>
+<div className="bg-[var(--bg-cream)] dark:bg-[var(--bg-navy)]">CORRECT: Using var() wrapper in class</div>
 ```
 
-## BACKGROUND COLORS - SAME DIRECT REFERENCE PATTERN
+## GRADIENT IMPLEMENTATION - NEVER USE TAILWIND GRADIENTS WITH VARIABLES
 
-**❌ NEVER DO THIS - OUTDATED APPROACH:**
+**❌ INCORRECT APPROACH - DO NOT USE:**
 ```jsx
-<div style={{ backgroundColor: 'var(--bg-cream)' }}>OUTDATED: Don't use style attribute</div>
-<div className="bg-[var(--bg-cream)]">OUTDATED: Don't use var() wrapper</div>
+<div className="bg-gradient-to-br from-white to-[--bg-cream]">WRONG: Using Tailwind gradient with variable</div>
+<div className="bg-gradient-to-r from-[--primary-orange] to-[--accent-coral]">WRONG: Using from/to with variables</div>
 ```
 
-**✅ ALWAYS DO THIS FOR BACKGROUNDS:**
+**✅ CORRECT APPROACH - ALWAYS USE:**
 ```jsx
-<div className="bg-[--bg-cream] dark:bg-[--bg-navy]">CORRECT: Direct CSS variable reference</div>
-<div className="bg-gradient-to-br from-white to-[--bg-cream] dark:from-[--bg-navy] dark:to-[--bg-navy-darker]">CORRECT: Will toggle in dark mode</div>
+<!-- Option 1: Use helper classes defined in globals.css (PREFERRED) -->
+<div className="vs-gradient-light dark:vs-gradient-dark">CORRECT: Using predefined gradient class</div>
+<div className="vs-btn-primary-gradient">CORRECT: Using component-specific gradient</div>
+
+<!-- Option 2: Use inline style with CSS variables (IF NECESSARY) -->
+<div style={{ 
+  background: 'linear-gradient(to bottom right, white, var(--bg-cream))' 
+}} className="dark:vs-gradient-dark">
+  CORRECT: Using style with proper gradient and var()
+</div>
 ```
 
 ## EVERY ELEMENT MUST HAVE BOTH LIGHT AND DARK MODE STYLES
 
 **❌ MISSING DARK MODE:**
 ```jsx
-<div className="bg-[--bg-cream]">BROKEN: No dark mode defined</div>
-<p className="text-[--text-navy]">BROKEN: No dark mode defined</p>
+<div style={{ backgroundColor: 'var(--bg-cream)' }}>BROKEN: No dark mode style</div>
+<p className="vs-text-navy">BROKEN: No dark mode class</p>
 ```
 
 **✅ COMPLETE IMPLEMENTATION:**
 ```jsx
-<div className="bg-[--bg-cream] dark:bg-[--bg-navy]">CORRECT: Both modes defined</div>
-<p className="text-[--text-navy] dark:text-white">CORRECT: Both modes defined</p>
+<!-- Option 1: Using style attribute with media query -->
+<div 
+  style={{ 
+    backgroundColor: 'var(--bg-cream)', 
+    '@media (prefers-color-scheme: dark)': {
+      backgroundColor: 'var(--bg-navy)'
+    }
+  }}
+>CORRECT: Both modes defined in style</div>
+
+<!-- Option 2: Using helper classes with dark variant -->
+<p className="vs-text-navy dark:text-white">CORRECT: Both modes defined with classes</p>
+
+<!-- Option 3: Using conditional styling with theme context -->
+<div style={{ backgroundColor: isDarkTheme ? 'var(--bg-navy)' : 'var(--bg-cream)' }}>
+  CORRECT: Both modes handled in logic
+</div>
 ```
 
 ## Complete Visual Design for BOTH Modes
@@ -172,24 +204,25 @@ function AnimatedComponent() {
 }
 ```
 
-## Critical Do's and Don'ts
+## Critical Do's and Don'ts - ⚠️⚠️⚠️ UPDATED & CLARIFIED ⚠️⚠️⚠️
 
 ### DO NOT:
-- Use `style` attribute for colors - Use `className="text-[--color-var]"` instead
-- Use `var()` wrapper in Tailwind classes - Use direct reference with `--` prefix
-- Use plain white backgrounds - ALWAYS use subtle gradients
-- Create animations without proper cleanup via useGSAP and gsap.context
-- Change grid layouts (grid-cols-*) under any circumstances
-- Implement quick fixes - identify and fix root causes
+- ❌ NEVER use `className="text-[--color-var]"` without var() wrapper
+- ❌ NEVER use Tailwind gradient classes with CSS variables
+- ❌ NEVER use plain white backgrounds - ALWAYS use subtle gradients
+- ❌ NEVER create animations without proper cleanup via useGSAP and gsap.context
+- ❌ NEVER change grid layouts (grid-cols-*) under any circumstances
+- ❌ NEVER implement quick fixes - identify and fix root causes
 
 ### DO:
-- Use direct CSS variable references: `className="text-[--text-navy]"`
-- Always add dark mode classes: `className="text-[--text-navy] dark:text-white"`
-- Implement both light AND dark mode for every component
-- Add subtle floating elements for visual interest
-- Use appropriate shadows for each mode (down-left for light, glow for dark)
-- Create a written plan and get approval before proceeding
-- Test in both light and dark mode
+- ✅ ALWAYS use style attributes with var(): `style={{ color: 'var(--text-navy)' }}`
+- ✅ ALWAYS use var() wrapper in Tailwind: `className="text-[var(--text-navy)]"`
+- ✅ ALWAYS use pre-defined helper classes for gradients: `className="vs-gradient-primary"` 
+- ✅ ALWAYS implement both light AND dark mode for every component
+- ✅ ALWAYS add subtle floating elements for visual interest
+- ✅ ALWAYS use appropriate shadows for each mode (down-left for light, glow for dark)
+- ✅ ALWAYS create a written plan and get approval before proceeding
+- ✅ ALWAYS test in both light and dark mode
 
 ## Tailwind v4 CSS Variables Structure
 
@@ -218,15 +251,28 @@ Our CSS variables use Tailwind v4's `@custom-variant` and `@variant` system:
 }
 ```
 
-### CSS Variable Usage Patterns
-- In CSS: `var(--primary-orange)` 
-- In JSX className: `text-[--primary-orange]` (no var wrapper)
-- Never in style prop: ❌ `style={{ color: 'var(--primary-orange)' }}`
+### CSS Variable Usage Patterns - CRITICAL CLARIFICATION
+- In CSS stylesheets: `var(--primary-orange)` ✅
+- In JSX style attributes: `style={{ color: 'var(--primary-orange)' }}` ✅
+- In Tailwind classes: NEVER use `text-[--primary-orange]` directly ❌
+- In Tailwind classes: ALWAYS use `text-[var(--primary-orange)]` with var() wrapper ✅
+- When possible, use helper classes defined in globals.css instead of inline styles
 
-### Gradient Patterns
-- Linear: `bg-gradient-to-r from-[--primary-orange] to-[--accent-coral]`
-- Radial: `bg-radial from-[--primary-orange] to-transparent`
-- Conic: `bg-conic from-[--primary-orange] to-[--accent-coral]`
+### Gradient Patterns - DO NOT USE DIRECTLY
+- ❌ NEVER use Tailwind gradients like: `bg-gradient-to-r from-[--primary-orange] to-[--accent-coral]`
+- ❌ NEVER use `from-[--variable]` syntax directly
+- ✅ ALWAYS use predefined CSS classes in globals.css like:
+  ```css
+  .vs-gradient-primary {
+    background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
+  }
+  ```
+- ✅ Or use inline styles with proper variable references:
+  ```jsx
+  style={{ 
+    background: 'linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover))' 
+  }}
+  ```
 
 ### Adding Plugins
 Add plugins to tailwind.config.js, not in CSS:
@@ -421,28 +467,61 @@ function ExampleCard() {
 
 ## Common Pitfalls to Avoid
 
-### Dark Mode Implementation
+### Dark Mode Implementation - UPDATED CRITICAL INFO
 ❌ **WRONG**:
 ```jsx
-<div style={{ backgroundColor: 'var(--bg-cream)' }}>Won't switch in dark mode</div>
-<p className="text-[var(--text-navy)]">Will cause variable resolution issues</p>
+<div style={{ backgroundColor: 'var(--bg-cream)' }}>Won't switch in dark mode without logic</div>
+<p className="text-[--text-navy]">WRONG - Missing var() wrapper</p>
+<div className="bg-gradient-to-r from-[--primary-orange]">WRONG - Don't use Tailwind gradients with variables</div>
 ```
 
 ✅ **CORRECT**:
 ```jsx
-<div className="bg-[--bg-cream] dark:bg-[--bg-navy]">Works correctly</div>
-<p className="text-[--text-navy] dark:text-white">Text visible in both modes</p>
+<!-- Option 1: Style with theme context or class conditionals -->
+<div 
+  className="dark-mode-container" 
+  style={{ backgroundColor: isDarkMode ? 'var(--bg-navy)' : 'var(--bg-cream)' }}
+>Works correctly with conditionals</div>
+
+<!-- Option 2: Helper classes (PREFERRED) -->
+<div className="vs-bg-cream dark:vs-bg-navy">
+  Works correctly with helper classes
+</div>
+<p className="vs-text-navy dark:text-white">
+  Text with helper class and dark mode
+</p>
+
+<!-- Option 3: When necessary, use Tailwind with var() wrapper -->
+<span className="text-[var(--primary-orange)] dark:text-white">
+  ONLY when helper classes unavailable
+</span>
 ```
 
-### Gradient Implementation
+### Gradient Implementation - UPDATED CRITICAL INFO
 ❌ **WRONG**:
 ```jsx
 <div className="bg-white">Plain white background</div>
+<div className="bg-gradient-to-br from-white to-[--bg-cream]/80">WRONG - Don't use CSS variables in Tailwind gradients</div>
 ```
 
 ✅ **CORRECT**:
 ```jsx
-<div className="bg-gradient-to-br from-white to-[--bg-cream]/80 dark:from-[--bg-navy] dark:to-[--bg-navy-darker]">Subtle gradient</div>
+<!-- Option 1: Use predefined helper classes (PREFERRED) -->
+<div className="vs-gradient-light dark:vs-gradient-dark">
+  Proper gradient with helper class for both modes
+</div>
+
+<!-- Option 2: Use inline style with CSS variables -->
+<div style={{ 
+  background: 'linear-gradient(to bottom right, white, var(--bg-cream))' 
+}} className="dark:vs-gradient-dark">
+  Proper gradient with inline styles
+</div>
+
+<!-- Option 3: Create component-specific gradient classes -->
+<div className="hero-gradient">
+  Proper gradient with custom class
+</div>
 ```
 
 ### Animation Implementation
@@ -583,49 +662,89 @@ Use these utility classes for common styling patterns:
 | `--grid-line` | rgba(18, 46, 59, 0.05) | rgba(255, 255, 255, 0.05) |
 | `--grid-dot` | rgba(18, 46, 59, 0.08) | rgba(255, 255, 255, 0.08) |
 
-### Usage Example: Text Color
+### Usage Example: Text Color - CORRECT APPROACHES
 
 ```jsx
-<p className="text-[--text-navy] dark:text-white">
+<!-- PREFERRED: Using helper class with dark mode variant -->
+<p className="vs-text-navy dark:text-white">
   This text is navy in light mode and white in dark mode
+</p>
+
+<!-- ACCEPTABLE: Using style attribute with var() -->
+<p style={{ color: 'var(--text-navy)' }} className="dark:text-white">
+  This text uses proper var() syntax
+</p>
+
+<!-- ACCEPTABLE: Using Tailwind with var() wrapper -->
+<p className="text-[var(--text-navy)] dark:text-white">
+  This text uses proper var() wrapper in Tailwind
 </p>
 ```
 
-### Usage Example: Background Color with Gradient
+### Usage Example: Background Color with Gradient - CORRECT APPROACHES
 
 ```jsx
-<div className="bg-gradient-to-br from-white to-[--bg-cream]/80 
-              dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]">
-  Content with gradient background that adapts to theme
+<!-- PREFERRED: Using predefined helper classes -->
+<div className="vs-gradient-light dark:vs-gradient-dark">
+  Content with gradient background that adapts to theme using helper classes
+</div>
+
+<!-- ACCEPTABLE: Using inline styles with var() -->
+<div style={{ 
+  background: 'linear-gradient(to bottom right, white, var(--bg-cream))'
+}} className="dark:vs-gradient-dark">
+  Content with inline gradient styles for light mode and helper class for dark
 </div>
 ```
 
-### Usage Example: Button with Theme-Specific Styling
+### Usage Example: Button with Theme-Specific Styling - CORRECT APPROACHES
 
 ```jsx
-<button className="bg-[--primary-orange] text-white 
-                 dark:bg-gradient-to-r dark:from-[--primary-orange] dark:to-[--primary-orange-hover]
-                 shadow-sm dark:shadow-[0_0_12px_rgba(254,163,93,0.2)]">
-  Primary Action
+<!-- PREFERRED: Using component-specific helper classes -->
+<button className="vs-btn-primary dark:vs-btn-primary-gradient text-white">
+  Primary Action using helper classes
+</button>
+
+<!-- ACCEPTABLE: Using style with conditional -->
+<button
+  style={{ 
+    backgroundColor: 'var(--primary-orange)',
+    boxShadow: isDarkMode ? '0 0 12px rgba(254,163,93,0.2)' : 'var(--shadow-sm)'
+  }}
+  className="text-white rounded-full py-2 px-4"
+>
+  Primary Action with proper styles
 </button>
 ```
 
-- search codebase by 'var(' to more quickly find old variables## Current Priority Issues
-1. Fix course-stats.tsx component styling with preserved vibrant colors
-2. Fix components that don't switch properly between light/dark mode
-3. Convert remaining hardcoded hex values to CSS variables
-
 ## ⚠️⚠️⚠️ CRITICAL: AVOID TAILWIND GRADIENT SYNTAX ⚠️⚠️⚠️
 
-**Tailwind gradient syntax (bg-gradient-to-*) is NOT WORKING properly in this project**
+**Tailwind gradient syntax (bg-gradient-to-*) is NOT WORKING properly in this project with CSS variables**
 
-- Do NOT use `bg-gradient-to-b`, `bg-gradient-to-r`, etc. as these break components
-- Instead, create and use explicit CSS classes for gradients with proper naming
-- The gradient syntax destroys component rendering, especially with transparency
-- Prefer solid colors with direct CSS variable references: `bg-[var(--bg-cream)]`
-4. **CRITICAL MISSION: Fix Color Variable Syntax Throughout Codebase**
-   - Change all instances of `text-[--color-var]` to `text-[var(--color-var)]`
-   - Replace all `bg-[--color-var]/80` with solid backgrounds `bg-[var(--color-var)]`
-   - Ensure all dark mode floating elements have `dark:block` class
-   - Make accent text (red, orange) `font-bold` for better visibility
-   - Fix all GSAP animations that use `autoAlpha: 0` to prevent invisible elements
+- ❌ Do NOT use `bg-gradient-to-b`, `bg-gradient-to-r`, etc. with CSS variables
+- ❌ Do NOT use `from-[--variable-name]` or `to-[--variable-name]` syntax
+- ❌ Do NOT use direct CSS variables in Tailwind classes without var() wrapper: `bg-[--var-name]` 
+- ✅ Instead, create and use explicit CSS classes for gradients with proper naming
+- ✅ Use inline styles with proper var() syntax: `style={{ background: 'linear-gradient(...)' }}`
+- ✅ Prefer predefined helper classes: `vs-gradient-light`, `vs-btn-primary-gradient`, etc.
+
+## CRITICAL MISSION: Fix Color Variable Syntax Throughout Codebase
+
+1. **Colors & Backgrounds:**
+   - ❌ Change all instances of `text-[--color-var]` to `style={{ color: 'var(--color-var)' }}` or helper class
+   - ❌ Change all instances of `bg-[--color-var]` to `style={{ backgroundColor: 'var(--color-var)' }}` or helper class
+   - ❌ Remove all `bg-gradient-to-*` that use CSS variables, replace with helper classes
+   - ✅ Ensure all components have proper light/dark mode styling
+
+2. **Floating Elements:**
+   - ✅ Use predefined `vs-float-element-light-1`, `vs-float-element-dark-1` helper classes
+   - ✅ Ensure all dark mode floating elements have `dark:block` class
+
+3. **Shadows & Effects:**
+   - ✅ Replace hardcoded shadow values with CSS variables or helper classes
+   - ✅ Use `vs-card-shadow` helper class for consistent shadows
+
+4. **IMPORTANT SEARCH TIPS:**
+   - Search for `text-[--` or `bg-[--` to find incorrect variable usage
+   - Search for `from-[--` to find incorrect gradient implementation
+   - Look for components that don't have dark mode alternatives
