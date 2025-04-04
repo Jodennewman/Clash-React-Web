@@ -9,7 +9,7 @@ import { ThemeToggle } from './components/ui/theme-toggle';
 import { DirectTest } from './components/DirectTest';
 import { DirectClassTest } from './components/DirectClassTest';
 import VSModalShowcase from './components/VSModalShowcase';
-import { VSPainPoints } from './components/sections';
+import { VSPainPoints, VSCharts } from './components/sections';
 
 function App() {
   // Load theme toggle script
@@ -46,6 +46,11 @@ function App() {
                   VS Pain Points Section
                 </Link>
               </div>
+              <div>
+                <Link to="/charts" className="px-6 py-2 bg-purple-500 text-white rounded-lg">
+                  VS Charts Section
+                </Link>
+              </div>
             </div>
           </div>
         } />
@@ -55,6 +60,7 @@ function App() {
         <Route path="/marble-buttons" element={<AnimatedButtonsDemo />} />
         <Route path="/modals" element={<VSModalShowcase />} />
         <Route path="/painpoints" element={<VSPainPoints />} />
+        <Route path="/charts" element={<VSCharts />} />
       </Routes>
       
       {/* Use the proper ThemeToggle component */}
