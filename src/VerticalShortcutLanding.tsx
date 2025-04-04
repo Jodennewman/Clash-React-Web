@@ -24,10 +24,10 @@ import TestimonialCarousel from './components/ui/testimonial-carousel';
 import LeadCaptureForm from './components/ui/lead-capture-form';
 import HeroLogo from './components/logos/Hero';
 import VerticalShortcutApplicationForm from './components/form/form-shadcn-claude';
-import { CourseViewer } from './components/sections/course-viewer';
 import { CaseStudies } from './components/sections';
 import { Link } from 'react-router-dom';
 import { AnimatedButton } from './components/marble-buttons/AnimatedButton';
+import { CourseViewer } from './components/sections/course-viewer';
 
 // Import VS helper components for correct light/dark mode implementation
 import { VSText, VSHeading, VSGradientText } from './components/ui/vs-text';
@@ -313,9 +313,9 @@ function AnimationController({ children }: { children: React.ReactNode }) {
     <div ref={controllerRef} className="animation-controller">
       {/* Context provider approach - pass down the initialized state */}
       {React.Children.map(children, child => 
-        React.isValidElement(child) ? React.cloneElement(child as React.ReactElement<React.PropsWithChildren<{ gsapInitialized?: boolean }>>, { 
+        React.isValidElement(child) ? React.cloneElement(child as React.ReactElement<React.PropsWithChildren<{ "data-gsap-initialized"?: boolean }>>, { 
           ...(child.props as object),
-          gsapInitialized 
+          "data-gsap-initialized": gsapInitialized 
         }) : child
       )}
     </div>
@@ -336,7 +336,6 @@ const VerticalShortcutLanding = () => {
   const testimonialsRef = useRef(null);
   const ctaRef = useRef(null);
   const videoRef = useRef(null);
-  const caseStudiesRef = useRef(null);
 
   // Add state for application modal
   const [showApplicationModal, setShowApplicationModal] = useState(false);
@@ -347,40 +346,7 @@ const VerticalShortcutLanding = () => {
     const ctx = gsap.context(() => {
       // Hero section animations - centralized batch for performance
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      if (!(globalAnimations as any).heroSection) {
-        const heroTl = gsap.timeline({
-          defaults: { duration: 0.8, ease: "power2.out" }
-        });
-        heroTl.from(".hero-title", {
-          y: 40,
-          opacity: 0,
-        })
-        .from(".hero-accent", {
-          scale: 0.9,
-          opacity: 0,
-          duration: 0.6,
-          ease: "back.out(1.7)"
-        }, "-=0.4")
-        .from(".hero-description", {
-          y: 30,
-          opacity: 0,
-          duration: 0.7,
-        }, "-=0.3")
-        .from(".hero-badge", {
-          scale: 0.8,
-          opacity: 0,
-          duration: 0.5,
-          ease: "back.out(1.7)"
-        }, "-=0.5")
-        .from(".hero-cta", {
-          y: 20,
-          opacity: 0,
-          duration: 0.6,
-        }, "-=0.3");
-        
-        // Type assertion to allow dynamic property assignment
-        (globalAnimations as Record<string, gsap.core.Timeline | ScrollTrigger>).heroSection = heroTl;
-      }
+  
       
       // Stats section - register once
       if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).statsSection && statsRef.current) {
@@ -483,24 +449,6 @@ const VerticalShortcutLanding = () => {
         
         // Type assertion to allow dynamic property assignment
         (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).videoSection = videoTrigger;
-      }
-      
-      // Case Studies section - register once
-      if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).caseStudiesSection && caseStudiesRef.current) {
-        const caseStudiesTrigger = ScrollTrigger.create({
-          trigger: ".case-study-element",
-          start: "top 75%",
-          once: true,
-          id: "case-studies-trigger",
-          onEnter: () => {
-            // Animation will be handled by the CaseStudies component itself
-            // using its own GSAP context and ScrollTrigger
-            console.log("Case studies section in view");
-          }
-        });
-        
-        // Type assertion to allow dynamic property assignment
-        (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).caseStudiesSection = caseStudiesTrigger;
       }
       
       // Testimonials - register once
@@ -693,7 +641,7 @@ const VerticalShortcutLanding = () => {
           </div>
           
           {/* Case Studies Section - Shows real growth metrics */}
-          <CaseStudies ref={caseStudiesRef} />
+          <CaseStudies />
           
           {/* Bento Grid Section - Managed by the VSBentoGrid component */}
           <VSBentoGrid />
@@ -1114,18 +1062,20 @@ const VerticalShortcutLanding = () => {
                     </VSText>
                   </div>
                   
-                  <h2 className="cta-title">
-                    <VSHeading variant="h2" color="white" className="text-4xl md:text-5xl lg:text-6xl mb-6">
-                      Ready to <span className="inline-block">
-                        <VSGradientText
-                          fromColor="var(--primary-orange)" 
-                          toColor="var(--accent-coral)"
-                        >
-                          Transform
-                        </VSGradientText>
-                      </span> Your Content?
-                    </VSHeading>
-                  </h2>
+                  <VSHeading 
+                    variant="h2" 
+                    color="white" 
+                    className="cta-title text-4xl md:text-5xl lg:text-6xl mb-6"
+                  >
+                    Ready to <span className="inline-block">
+                      <VSGradientText
+                        fromColor="--primary-orange" 
+                        toColor="--accent-coral"
+                      >
+                        Transform
+                      </VSGradientText>
+                    </span> Your Content?
+                  </VSHeading>
                   
                   <VSText color="white" className="cta-description text-xl dark:text-white/80 mb-10">
                     Join Vertical Shortcut today and get access to our complete system for creating high-converting content that drives real business results.

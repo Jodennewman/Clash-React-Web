@@ -16,7 +16,8 @@ export function ThemeDemo() {
                     dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] -z-10"></div>
       
       {/* Grid pattern background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--grid-line)_1px,transparent_1px),linear-gradient(to_bottom,var(--grid-line)_1px,transparent_1px)] 
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(18,46,59,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(18,46,59,0.05)_1px,transparent_1px)] 
+                    dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)]
                     bg-[size:20px_20px] -z-10"></div>
       
       {/* Floating elements - light mode */}
@@ -215,11 +216,25 @@ export function ThemeDemo() {
  * Helper component to display a color swatch
  */
 function ColorSwatch({ name }: { name: string }) {
+  // Map specific color variables to their inline styles
+  const getColorStyle = (colorName: string) => {
+    const colorMap: Record<string, string> = {
+      'primary-orange': '#FEA35D',
+      'secondary-teal': '#357380',
+      'accent-coral': '#DE6B59',
+      'accent-red': '#B92234',
+      'primary-orange-hover': '#F89A67',
+      'secondary-teal-hover': '#154D59'
+    };
+    
+    return colorMap[colorName] || '#FEA35D';
+  };
+  
   return (
     <div className="flex flex-col items-center">
       <div 
         className={`w-16 h-16 rounded-full shadow-md`}
-        style={{ backgroundColor: `var(--${name})` }}
+        style={{ backgroundColor: getColorStyle(name) }}
       ></div>
       <p className="mt-2 text-sm text-[--text-navy] dark:text-white/80">
         {name}
