@@ -49,36 +49,37 @@ const VideoEmbed = ({ videoUrl = "https://www.youtube.com/embed/your-video-id" }
   return (
     <section 
       ref={sectionRef} 
-      className="relative py-24 overflow-hidden bg-[var(--bg-cream-darker)] dark:bg-[var(--bg-navy-darker)]"
+      style={{backgroundColor: 'var(--bg-cream)'}}
+      className="relative py-24 overflow-hidden dark:bg-[var(--bg-navy)]"
     >
       {/* Light mode decorative elements - left side */}
       <div className="absolute left-0 bottom-0 w-1/3 h-full pointer-events-none dark:hidden">
-        <div className="absolute bottom-10 left-10 w-20 h-20 bg-[var(--primary-orange)] opacity-10 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-40 left-20 w-16 h-16 bg-[var(--primary-orange-light)] opacity-8 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-20 left-40 w-24 h-24 bg-[var(--secondary-teal)] opacity-5 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-60 left-8 w-14 h-14 bg-[var(--accent-coral)] opacity-5 rotate-45 rounded-md"></div>
+        <div className="absolute bottom-10 left-10 w-20 h-20 bg-[var(--primary-orange)] opacity-14 rotate-45 rounded-md"></div>
+        <div className="absolute bottom-40 left-20 w-16 h-6 bg-[var(--primary-orange-light)] opacity-9 rotate-45 rounded-md"></div>
+        <div className="absolute bottom-20 left-40 w-24 h-14 bg-[var(--secondary-teal)] opacity-10 rotate-45 rounded-md"></div>
+        <div className="absolute bottom-60 left-8 w-14 h-14 bg-[var(--accent-coral)] opacity-8 rotate-45 rounded-md"></div>
       </div>
       
       {/* Dark mode decorative elements - left side with gradients */}
       <div className="absolute left-0 bottom-0 w-1/3 h-full pointer-events-none hidden dark:block">
-        <div className="absolute bottom-10 left-10 w-20 h-20 bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] opacity-70 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-40 left-20 w-16 h-16 bg-gradient-to-r from-[--primary-orange-light] to-[--primary-orange] opacity-60 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-20 left-40 w-24 h-24 bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-light] opacity-50 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-60 left-8 w-14 h-14 bg-gradient-to-r from-[--accent-coral] to-[--accent-red] opacity-30 rotate-45 rounded-md"></div>
+        <div className="absolute bottom-10 left-10 w-20 h-20 bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-orange-hover)] opacity-70 rotate-45 rounded-md"></div>
+        <div className="absolute bottom-40 left-20 w-16 h-16 bg-gradient-to-r from-[var(--primary-orange-light)] to-[var(--primary-orange)] opacity-60 rotate-45 rounded-md"></div>
+        <div className="absolute bottom-20 left-40 w-24 h-24 bg-gradient-to-r from-[var(--secondary-teal)] to-[var(--secondary-teal-light)] opacity-50 rotate-45 rounded-md"></div>
+        <div className="absolute bottom-60 left-8 w-14 h-14 bg-gradient-to-r from-[var(--accent-coral)] to-[var(--accent-red)] opacity-30 rotate-45 rounded-md"></div>
       </div>
       
       {/* Light mode decorative elements - right side */}
       <div className="absolute right-0 top-0 w-1/3 h-full pointer-events-none dark:hidden">
-        <div className="absolute top-20 right-20 w-16 h-16 bg-[--secondary-teal-light] opacity-5 rotate-45 rounded-md"></div>
-        <div className="absolute top-60 right-40 w-20 h-20 bg-[--primary-orange-light] opacity-8 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-20 right-10 w-14 h-14 bg-[--primary-orange] opacity-10 rotate-45 rounded-md"></div>
+        <div className="absolute top-20 right-20 w-16 h-16 bg-[var(--secondary-teal-light)] opacity-5 rotate-45 rounded-md"></div>
+        <div className="absolute top-60 right-40 w-20 h-20 bg-[var(--primary-orange-light)] opacity-8 rotate-45 rounded-md"></div>
+        <div className="absolute bottom-20 right-10 w-14 h-14 bg-[var(--primary-orange)] opacity-10 rotate-45 rounded-md"></div>
       </div>
       
       {/* Dark mode decorative elements - right side with gradients */}
       <div className="absolute right-0 top-0 w-1/3 h-full pointer-events-none hidden dark:block">
-        <div className="absolute top-20 right-20 w-16 h-16 bg-gradient-to-r from-[--secondary-teal] to-[--secondary-teal-light] opacity-50 rotate-45 rounded-md"></div>
-        <div className="absolute top-60 right-40 w-20 h-20 bg-gradient-to-r from-[--primary-orange] to-[--primary-orange-hover] opacity-60 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-20 right-10 w-14 h-14 bg-gradient-to-r from-[--primary-orange-hover] to-[--primary-orange] opacity-40 rotate-45 rounded-md"></div>
+        <div className="absolute top-20 right-20 w-16 h-16 bg-gradient-to-r from-[var(--secondary-teal)] to-[var(--secondary-teal-light)] opacity-50 rotate-45 rounded-md"></div>
+        <div className="absolute top-60 right-40 w-20 h-20 bg-gradient-to-r from-[var(--primary-orange)] to-[var(--primary-orange-hover)] opacity-60 rotate-45 rounded-md"></div>
+        <div className="absolute bottom-20 right-10 w-14 h-14 bg-gradient-to-r from-[var(--primary-orange-hover)] to-[var(--primary-orange)] opacity-40 rotate-45 rounded-md"></div>
       </div>
       
       {/* Add subtle background patterns */}
@@ -88,7 +89,7 @@ const VideoEmbed = ({ videoUrl = "https://www.youtube.com/embed/your-video-id" }
         {/* Video container with curved border radius using CSS variables for consistent styling */}
         <div 
           ref={videoContainerRef} 
-          className="relative mx-auto max-w-5xl overflow-hidden rounded-xl bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] dark:bg-black shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_20px_rgba(0,0,0,0.3)]"
+          className="relative mx-auto max-w-5xl overflow-hidden rounded-xl bg-[var(--bg-cream)] dark:bg-black shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_20px_rgba(0,0,0,0.3)]"
         >
           {/* Video aspect ratio container */}
           <div className="aspect-[16/9] relative">

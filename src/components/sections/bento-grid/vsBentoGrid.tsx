@@ -5,7 +5,7 @@ import { Globe, Zap, Database, PieChart, VideoIcon, BarChart, Code, Smartphone, 
 
 export default function VSBentoGrid() {
   return (
-    <Section className="py-24 relative overflow-hidden vs-gradient-light dark:vs-gradient-dark">
+    <Section style={{backgroundColor: 'var(--bg-cream)'}} className="py-24 relative overflow-hidden dark:bg-[var(--bg-navy)]">
       {/* Background patterns */}
       <div className="absolute inset-0 opacity-10 dot-bg pointer-events-none dark:hidden" />
       <div className="absolute inset-0 opacity-0 dark:opacity-15 grid-bg pointer-events-none" />
@@ -37,7 +37,7 @@ export default function VSBentoGrid() {
         
         <div className="grid grid-cols-12 gap-4">
           {/* First row - 3 cards with col-span-4 each */}
-          <div className="col-span-4 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-white/5 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.2)] group relative overflow-hidden bg-white dark:bg-[var(--bg-navy)]">
+          <div className="col-span-4 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-white/5 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.2)] group relative overflow-hidden bg-[var(--bg-cream)] dark:bg-[var(--bg-navy)]">
             {/* Light mode floating element */}
             <div className="absolute -bottom-6 -right-6 w-20 h-20 rounded-[40%] rotate-12 opacity-5 
                          bg-[var(--secondary-teal-light)] dark:hidden"></div>
@@ -119,7 +119,7 @@ export default function VSBentoGrid() {
           <div className="col-span-6 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-white/5 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[-0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.2)] group relative overflow-hidden bg-gradient-to-br from-white to-[rgba(255,246,239,0.8)] dark:bg-gradient-to-br dark:from-[--card-bg-navy] dark:to-[rgba(12,67,99,0.8)]">
             {/* Light mode floating elements */}
             <div className="absolute bottom-16 right-16 w-24 h-24 rounded-[40%] rotate-12 opacity-5 
-                         bg-[--secondary-teal-light] dark:hidden"></div>
+                         bg-[var(--secondary-teal-light)] dark:hidden"></div>
             <div className="absolute top-10 left-20 w-16 h-16 rounded-[30%] -rotate-6 opacity-5
                          bg-[var(--secondary-teal)] dark:hidden"></div>
             

@@ -96,18 +96,17 @@ const CaseStudies = React.forwardRef((props, ref) => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-gradient-to-br from-white to-[--bg-cream]/80
-                      dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker]
-                      p-3 rounded-md shadow-[2px_2px_8px_rgba(0,0,0,0.05)]
-                      dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
-                      border border-white/40 dark:border-white/5">
-          <p className="font-semibold text-[--text-navy] dark:text-white border-b border-[--text-navy]/10 dark:border-white/10 pb-1 mb-2">
+        <div className="bg-[--bg-cream-darker]/80 dark:bg-[--bg-navy-darker]/90
+                      p-2.5 rounded-md shadow-[0_1px_3px_rgba(0,0,0,0.02)]
+                      dark:shadow-[0_2px_6px_rgba(0,0,0,0.3)]
+                      border border-[--text-navy]/5 dark:border-white/10">
+          <p className="font-medium text-sm text-[--text-navy] dark:text-white border-b border-[--text-navy]/5 dark:border-white/10 pb-1 mb-1.5">
             {label}
           </p>
           {payload.map((entry, index) => (
-            <div key={`item-${index}`} className="flex justify-between items-center my-1 font-medium">
-              <span className="mr-6" style={{ color: entry.color }}>{entry.name}:</span>
-              <span style={{ color: entry.color }}>{formatNumber(entry.value)}</span>
+            <div key={`item-${index}`} className="flex justify-between items-center my-0.5 text-xs">
+              <span className="mr-4" style={{ color: entry.color }}>{entry.name}:</span>
+              <span className="font-medium" style={{ color: entry.color }}>{formatNumber(entry.value)}</span>
             </div>
           ))}
         </div>
@@ -119,7 +118,8 @@ const CaseStudies = React.forwardRef((props, ref) => {
   return (
     <Section
       ref={mergeRefs([sectionRef, ref])}
-      className="min-h-screen flex flex-col justify-center py-12 bg-gradient-to-br from-white to-[--bg-cream]/80 dark:bg-gradient-to-br dark:from-[--bg-navy] dark:to-[--bg-navy-darker] relative overflow-hidden border-t border-[--text-navy]/10 dark:border-[--text-cream]/10"
+      style={{backgroundColor: 'var(--bg-cream)'}}
+      className="min-h-screen flex flex-col justify-center py-20 dark:bg-[var(--bg-navy)] relative overflow-hidden border-t border-[var(--text-navy)]/10 dark:border-white/5"
     >
       {/* Background patterns */}
       <div className="absolute inset-0 dot-bg opacity-30 dark:opacity-10 pointer-events-none"></div>
@@ -156,16 +156,13 @@ const CaseStudies = React.forwardRef((props, ref) => {
         <div className="flex flex-col lg:flex-row gap-6 mb-6">
           {/* Left column - Creator Profile + Graph */}
           <div className="lg:w-2/3 flex flex-col case-study-element">
-            {/* Creator Profile - moved to top left */}
-            <div className="flex flex-col md:flex-row items-center gap-4 mb-5 p-5
-                      bg-gradient-to-br from-white to-[--bg-cream]/90 
-                      dark:bg-gradient-to-br dark:from-[--bg-navy-darker] dark:to-[rgba(12,67,99,0.95)]
-                      rounded-2xl border border-white/40 dark:border-white/15
-                      shadow-[3px_3px_10px_rgba(0,0,0,0.03)] 
-                      dark:shadow-[0_0_20px_rgba(53,115,128,0.15)]">
-              <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden flex-shrink-0
-                          shadow-[0_0_0_3px_rgba(255,255,255,0.6),0_0_0_5px_#FEA35D,0_0_20px_rgba(254,163,93,0.2)]
-                          dark:shadow-[0_0_0_3px_rgba(12,67,99,0.8),0_0_0_5px_#FEA35D,0_0_20px_rgba(254,163,93,0.3)]">
+            {/* Creator Profile - cleaner and flatter */}
+            <div className="flex flex-col md:flex-row items-center gap-3 mb-4 p-4
+                      bg-[--bg-cream-darker]/20 dark:bg-[--bg-navy-darker]/40
+                      rounded-md border border-[--text-navy]/5 dark:border-white/5
+                      shadow-[0_1px_3px_rgba(0,0,0,0.01)] dark:shadow-[0_1px_5px_rgba(0,0,0,0.15)]">
+              <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden flex-shrink-0
+                          ring-2 ring-[--primary-orange]/80 dark:ring-[--primary-orange]/80">
                 <img
                   src={currentCreator.avatar}
                   alt={currentCreator.name}
@@ -174,44 +171,43 @@ const CaseStudies = React.forwardRef((props, ref) => {
               </div>
 
               <div className="text-center md:text-left flex-1">
-                <h3 className="text-[--text-navy] dark:text-white text-xl md:text-3xl font-bold mb-2">
+                <h3 className="text-[--text-navy] dark:text-white text-lg md:text-xl font-medium mb-0.5">
                   {currentCreator.name}
                 </h3>
-                <p className="text-[--text-navy]/80 dark:text-white/70 md:text-base max-w-2xl">
+                <p className="text-[--text-navy]/70 dark:text-white/70 text-xs md:text-sm">
                   {currentCreator.description}
                 </p>
               </div>
             </div>
           
             {/* Graph component */}
-            <div ref={chartRef} className="flex-1 bg-gradient-to-br from-white to-[--bg-cream]/95
-                        dark:bg-gradient-to-br dark:from-[--bg-navy-darker] dark:to-[rgba(12,67,99,0.95)]
-                        p-5 rounded-2xl
-                        border border-white/40 dark:border-white/15
-                        shadow-[3px_3px_10px_rgba(0,0,0,0.03)] 
-                        dark:shadow-[0_0_20px_rgba(53,115,128,0.15)]">
+            <div ref={chartRef} className="flex-1 bg-[--bg-cream-darker]/20 dark:bg-[--bg-navy-darker]/40
+                        p-4 rounded-md
+                        border border-[--text-navy]/5 dark:border-white/5
+                        shadow-[0_1px_3px_rgba(0,0,0,0.01)] dark:shadow-[0_1px_5px_rgba(0,0,0,0.15)]">
               {/* Metric toggle buttons - moved inside graph */}
-              <div className="flex flex-wrap justify-end gap-2 mb-2">
+              <div className="flex flex-wrap justify-end gap-1.5 mb-3">
                 {[
                   { id: "all", label: "All Metrics", color: "text-[--text-navy] dark:text-white" },
-                  { id: "views", label: "Views", color: "text-[--primary-orange]" },
-                  { id: "followers", label: "Followers", color: "text-[--secondary-teal]" },
+                  { id: "views", label: "Views", color: "text-[--primary-orange] dark:text-[--primary-orange-light]" },
+                  { id: "followers", label: "Followers", color: "text-[--secondary-teal] dark:text-[--secondary-teal-light]" },
                   { id: "interactions", label: "Interactions", color: "text-[--accent-coral]" },
                 ].map((metric) => (
                   <button
                     key={metric.id}
                     onClick={() => setActiveMetric(metric.id)}
-                    className={`px-3 py-1 rounded-full text-sm border transition-all duration-[--transition-bounce]
+                    className={`px-2 py-0.5 rounded-full text-xs transition-all
                               ${activeMetric === metric.id 
-                                ? `border-[--primary-orange] dark:border-[--primary-orange-light] 
-                                   bg-white/50 dark:bg-[--bg-navy-darker]/50
-                                   shadow-[0_4px_8px_rgba(254,163,93,0.15)] dark:shadow-[0_4px_8px_rgba(254,163,93,0.2)]` 
-                                : `border-transparent bg-white/20 dark:bg-white/5`}
-                              hover:translate-y-[-2px]`}
+                                ? metric.id === "all"
+                                  ? "bg-[--bg-cream-darker]/60 dark:bg-[--bg-navy]/80 text-[--text-navy] dark:text-white" 
+                                  : metric.id === "views"
+                                    ? "bg-[--primary-orange] text-white"
+                                    : metric.id === "followers"
+                                      ? "bg-[--secondary-teal] text-white"
+                                      : "bg-[--accent-coral] text-white"
+                                : "bg-[--bg-cream-darker]/30 dark:bg-[--bg-navy]/50 hover:bg-[--bg-cream-darker]/40 hover:dark:bg-[--bg-navy]/70"}`}
                   >
-                    <span className={metric.color}>
-                      {metric.label}
-                    </span>
+                    {metric.label}
                   </button>
                 ))}
               </div>
@@ -233,27 +229,28 @@ const CaseStudies = React.forwardRef((props, ref) => {
                     </defs>
                     <CartesianGrid 
                       strokeDasharray="3 3" 
-                      stroke="rgba(18, 46, 59, 0.15)" 
-                      className="dark:stroke-white/15" 
+                      stroke="rgba(0,0,0,0.03)" 
+                      className="dark:stroke-white/5" 
                     />
                     <XAxis 
                       dataKey="month" 
-                      className="text-[--text-navy]/70 dark:text-white/50 font-medium"
-                      stroke="#357380"
-                      strokeWidth={1.5}
+                      className="text-[--text-navy]/40 dark:text-white/40 text-xs"
+                      tickLine={false}
+                      axisLine={false}
                     />
                     <YAxis 
-                      className="text-[--text-navy]/70 dark:text-white/50 font-medium"
+                      className="text-[--text-navy]/40 dark:text-white/40 text-xs"
                       domain={getYAxisDomain()}
-                      stroke="#357380"
-                      strokeWidth={1.5}
+                      tickLine={false}
+                      axisLine={false}
                     />
                     <Tooltip content={<CustomTooltip />} />
                     <Legend 
                       formatter={(value) => (
-                        <span className="text-[--text-navy] dark:text-white font-medium">{value}</span>
+                        <span className="text-[--text-navy] dark:text-white text-xs">{value}</span>
                       )}
-                      wrapperStyle={{ paddingTop: "5px" }}
+                      iconSize={8}
+                      wrapperStyle={{ fontSize: '12px', paddingTop: "8px" }}
                     />
                     {(activeMetric === "all" || activeMetric === "views") && (
                       <Line
@@ -261,17 +258,17 @@ const CaseStudies = React.forwardRef((props, ref) => {
                         dataKey="views"
                         name="Views"
                         stroke="#FEA35D"
-                        strokeWidth={4}
+                        strokeWidth={2}
                         dot={false}
                         activeDot={{
-                          r: 8,
+                          r: 6,
                           fill: "#FEA35D",
-                          filter: "url(#glow)",
+                          stroke: "white",
+                          strokeWidth: 2
                         }}
                         isAnimationActive={animateGraph}
                         animationDuration={1500}
                         animationEasing="ease-out"
-                        filter="url(#glow)"
                       />
                     )}
                     {(activeMetric === "all" || activeMetric === "followers") && (
@@ -279,19 +276,19 @@ const CaseStudies = React.forwardRef((props, ref) => {
                         type="monotone"
                         dataKey="followers"
                         name="Followers"
-                        stroke="#357380"
-                        strokeWidth={4}
+                        stroke="#387292"
+                        strokeWidth={2}
                         dot={false}
                         activeDot={{
-                          r: 8,
-                          fill: "#357380",
-                          filter: "url(#glow)",
+                          r: 6,
+                          fill: "#387292",
+                          stroke: "white",
+                          strokeWidth: 2
                         }}
                         isAnimationActive={animateGraph}
                         animationDuration={1500}
                         animationEasing="ease-out"
                         animationBegin={300}
-                        filter="url(#glow)"
                       />
                     )}
                     {(activeMetric === "all" || activeMetric === "interactions") && (
@@ -300,18 +297,18 @@ const CaseStudies = React.forwardRef((props, ref) => {
                         dataKey="interactions"
                         name="Interactions"
                         stroke="#DE6B59"
-                        strokeWidth={4}
+                        strokeWidth={2}
                         dot={false}
                         activeDot={{
-                          r: 8,
+                          r: 6,
                           fill: "#DE6B59",
-                          filter: "url(#glow)",
+                          stroke: "white",
+                          strokeWidth: 2
                         }}
                         isAnimationActive={animateGraph}
                         animationDuration={1500}
                         animationEasing="ease-out"
                         animationBegin={600}
-                        filter="url(#glow)"
                       />
                     )}
                   </LineChart>
@@ -322,111 +319,102 @@ const CaseStudies = React.forwardRef((props, ref) => {
 
           {/* Right column - Stats + Case Studies */}
           <div className="lg:w-1/3 flex flex-col justify-between case-study-element">
-            {/* Stats cards */}
-            <div className="space-y-4 mb-6">
+            {/* Stats cards - flatter design */}
+            <div className="grid grid-cols-2 gap-3 mb-4">
               {/* Views card */}
-              <div className="relative bg-gradient-to-br from-white to-[--bg-cream]/95
-                          dark:bg-gradient-to-br dark:from-[--bg-navy-darker] dark:to-[rgba(12,67,99,0.95)]
-                          rounded-2xl p-5 flex items-center
-                          border border-white/40 dark:border-white/15 
-                          shadow-[3px_3px_10px_rgba(0,0,0,0.03)] 
-                          dark:shadow-[0_0_20px_rgba(53,115,128,0.15)]
-                          transition-all duration-[--transition-bounce]
-                          hover:translate-y-[-5px] hover:scale-[1.03] hover:rotate-[0.5deg]
-                          hover:shadow-[3px_3px_15px_rgba(0,0,0,0.08)] 
-                          dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.2)] overflow-hidden
-                          h-[110px] md:h-[120px]">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[--primary-orange]/10 dark:bg-[--primary-orange]/20 
-                            rounded-full -translate-x-1/3 -translate-y-1/3 opacity-60"></div>
-                <div className="relative z-10 w-full">
-                  <div className="text-[--text-navy]/60 dark:text-white/70 mb-2 text-lg font-semibold">Total Views</div>
-                  <div className="text-[--primary-orange] dark:text-[--primary-orange-light] text-4xl md:text-5xl lg:text-6xl font-extrabold 
-                              drop-shadow-sm dark:drop-shadow-[0_2px_4px_rgba(254,163,93,0.3)]">
-                    {formatNumber(currentCreator.totals.views)}
+              <div className="bg-[--bg-cream-darker]/20 dark:bg-[--bg-navy-darker]/40 
+                          rounded-md p-3
+                          border border-[--text-navy]/5 dark:border-white/5
+                          shadow-[0_1px_2px_rgba(0,0,0,0.01)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.15)]
+                          transition-all duration-200
+                          hover:bg-[--bg-cream-darker]/30 dark:hover:bg-[--bg-navy-darker]/60
+                          overflow-hidden">
+                <div className="flex items-center">
+                  <div className="w-1.5 h-12 bg-[--primary-orange]/70 dark:bg-[--primary-orange] rounded-full mr-2.5"></div>
+                  <div className="flex-1">
+                    <div className="text-[--text-navy]/60 dark:text-white/60 text-xs">Views</div>
+                    <div className="text-[--primary-orange] dark:text-[--primary-orange-light] text-lg font-semibold">
+                      {formatNumber(currentCreator.totals.views)}
+                    </div>
                   </div>
                 </div>
               </div>
               
               {/* Followers card */}
-              <div className="relative bg-gradient-to-br from-white to-[--bg-cream]/95
-                          dark:bg-gradient-to-br dark:from-[--bg-navy-darker] dark:to-[rgba(12,67,99,0.95)]
-                          rounded-2xl p-5 flex items-center
-                          border border-white/40 dark:border-white/15 
-                          shadow-[3px_3px_10px_rgba(0,0,0,0.03)] 
-                          dark:shadow-[0_0_20px_rgba(53,115,128,0.15)]
-                          transition-all duration-[--transition-bounce]
-                          hover:translate-y-[-5px] hover:scale-[1.03] hover:rotate-[0.5deg]
-                          hover:shadow-[3px_3px_15px_rgba(0,0,0,0.08)] 
-                          dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.2)] overflow-hidden
-                          h-[110px] md:h-[120px]">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[--secondary-teal]/10 dark:bg-[--secondary-teal]/20 
-                            rounded-full -translate-x-1/3 -translate-y-1/3 opacity-60"></div>
-                <div className="relative z-10 w-full">
-                  <div className="text-[--text-navy]/60 dark:text-white/70 mb-2 text-lg font-semibold">Total Followers</div>
-                  <div className="text-[--secondary-teal] dark:text-[--secondary-teal-light] text-4xl md:text-5xl lg:text-6xl font-extrabold 
-                              drop-shadow-sm dark:drop-shadow-[0_2px_4px_rgba(53,115,128,0.3)]">
-                    {formatNumber(currentCreator.totals.followers)}
+              <div className="bg-[--bg-cream-darker]/20 dark:bg-[--bg-navy-darker]/40 
+                          rounded-md p-3
+                          border border-[--text-navy]/5 dark:border-white/5
+                          shadow-[0_1px_2px_rgba(0,0,0,0.01)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.15)]
+                          transition-all duration-200
+                          hover:bg-[--bg-cream-darker]/30 dark:hover:bg-[--bg-navy-darker]/60
+                          overflow-hidden">
+                <div className="flex items-center">
+                  <div className="w-1.5 h-12 bg-[--secondary-teal]/70 dark:bg-[--secondary-teal] rounded-full mr-2.5"></div>
+                  <div className="flex-1">
+                    <div className="text-[--text-navy]/60 dark:text-white/60 text-xs">Followers</div>
+                    <div className="text-[--secondary-teal] dark:text-[--secondary-teal-light] text-lg font-semibold">
+                      {formatNumber(currentCreator.totals.followers)}
+                    </div>
                   </div>
                 </div>
               </div>
               
-              {/* Interactions card */}
-              <div className="relative bg-gradient-to-br from-white to-[--bg-cream]/95
-                          dark:bg-gradient-to-br dark:from-[--bg-navy-darker] dark:to-[rgba(12,67,99,0.95)]
-                          rounded-2xl p-5 flex items-center
-                          border border-white/40 dark:border-white/15
-                          shadow-[3px_3px_10px_rgba(0,0,0,0.03)] 
-                          dark:shadow-[0_0_20px_rgba(53,115,128,0.15)]
-                          transition-all duration-[--transition-bounce]
-                          hover:translate-y-[-5px] hover:scale-[1.03] hover:rotate-[0.5deg]
-                          hover:shadow-[3px_3px_15px_rgba(0,0,0,0.08)] 
-                          dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.2)] overflow-hidden
-                          h-[110px] md:h-[120px]">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[--accent-coral]/10 dark:bg-[--accent-coral]/20 
-                            rounded-full -translate-x-1/3 -translate-y-1/3 opacity-60"></div>
-                <div className="relative z-10 w-full">
-                  <div className="text-[--text-navy]/60 dark:text-white/70 mb-2 text-lg font-semibold">Total Interactions</div>
-                  <div className="text-[--accent-coral] dark:text-[--accent-coral] text-4xl md:text-5xl lg:text-6xl font-extrabold 
-                              drop-shadow-sm dark:drop-shadow-[0_2px_4px_rgba(222,107,89,0.3)]">
-                    {formatNumber(currentCreator.totals.interactions)}
+              {/* Interactions card - full width */}
+              <div className="col-span-2 bg-[--bg-cream-darker]/20 dark:bg-[--bg-navy-darker]/40 
+                          rounded-md p-3
+                          border border-[--text-navy]/5 dark:border-white/5
+                          shadow-[0_1px_2px_rgba(0,0,0,0.01)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.15)]
+                          transition-all duration-200
+                          hover:bg-[--bg-cream-darker]/30 dark:hover:bg-[--bg-navy-darker]/60">
+                <div className="flex items-center">
+                  <div className="w-1.5 h-12 bg-[--accent-coral]/70 dark:bg-[--accent-coral] rounded-full mr-2.5"></div>
+                  <div className="flex-1">
+                    <div className="text-[--text-navy]/60 dark:text-white/60 text-xs">Interactions</div>
+                    <div className="text-[--accent-coral] dark:text-[--accent-coral] text-lg font-semibold">
+                      {formatNumber(currentCreator.totals.interactions)}
+                    </div>
+                  </div>
+                  <div className="bg-[--accent-coral]/10 dark:bg-[--accent-coral]/20 p-1.5 rounded-full">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z" stroke="#DE6B59" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Case study selector */}
-            <div className="bg-gradient-to-br from-white to-[--bg-cream]/95
-                        dark:bg-gradient-to-br dark:from-[--bg-navy-darker] dark:to-[rgba(12,67,99,0.95)]
-                        p-5 rounded-2xl
-                        border border-white/40 dark:border-white/15
-                        shadow-[3px_3px_10px_rgba(0,0,0,0.03)] 
-                        dark:shadow-[0_0_20px_rgba(53,115,128,0.15)]">
-              <h3 className="text-[--text-navy] dark:text-white text-lg font-bold mb-3">
-                More Success Stories
+            {/* Case study selector - flatter, more subtle */}
+            <div className="flex-1 bg-[--bg-cream-darker]/20 dark:bg-[--bg-navy-darker]/40 
+                      p-4 rounded-md 
+                      border border-[--text-navy]/5 dark:border-white/5
+                      shadow-[0_1px_3px_rgba(0,0,0,0.01)] dark:shadow-[0_1px_5px_rgba(0,0,0,0.15)]">
+              <h3 className="text-[--text-navy] dark:text-white text-sm font-medium mb-3 flex items-center">
+                <span className="inline-block w-1 h-4 bg-[--primary-orange]/70 dark:bg-[--primary-orange] mr-2 rounded-full"></span>
+                Success Stories
               </h3>
 
-              <div className="grid grid-cols-1 gap-3">
+              <div className="grid grid-cols-1 gap-1.5">
                 {creators.map((creator, index) => (
                   <button
                     key={creator.id}
                     onClick={() => setActiveCreator(index)}
                     className={`relative 
-                              bg-gradient-to-r from-white/40 to-transparent dark:from-white/5 dark:to-transparent
-                              rounded-xl py-2 px-3
-                              border-l-4 ${activeCreator === index 
+                              bg-[--bg-cream-darker]/20 dark:bg-[--bg-navy]/50
+                              rounded-md py-1.5 px-2.5
+                              border-l-2 ${activeCreator === index 
                                 ? 'border-[--primary-orange] dark:border-[--primary-orange]' 
                                 : 'border-transparent'}
-                              transition-all duration-[--transition-bounce]
-                              hover:translate-x-[3px] hover:bg-white/60 dark:hover:bg-white/10
-                              flex items-center gap-3 text-left cursor-pointer
+                              transition-all duration-300
+                              hover:translate-x-[2px] hover:bg-[--bg-cream-darker]/40 dark:hover:bg-[--bg-navy]/70
+                              flex items-center gap-2 text-left
                               ${activeCreator === index 
-                                ? 'bg-white/60 dark:bg-white/10' 
+                                ? 'bg-[--bg-cream-darker]/40 dark:bg-[--bg-navy]/70 shadow-[0_1px_2px_rgba(0,0,0,0.02)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.15)]' 
                                 : ''}`}
                   >
-                    <div className={`w-12 h-12 rounded-full overflow-hidden flex-shrink-0 
-                                  border-2 ${activeCreator === index 
-                                    ? 'border-[--primary-orange]' 
-                                    : 'border-[--text-navy]/10 dark:border-white/20'}`}>
+                    <div className={`w-10 h-10 rounded-full overflow-hidden flex-shrink-0 
+                                  ${activeCreator === index 
+                                    ? 'ring-1 ring-[--primary-orange] dark:ring-[--primary-orange]' 
+                                    : 'ring-1 ring-[--text-navy]/5 dark:ring-white/10'}`}>
                       <img
                         src={creator.avatar}
                         alt={creator.name}
@@ -434,15 +422,15 @@ const CaseStudies = React.forwardRef((props, ref) => {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-[--text-navy] dark:text-white font-semibold text-base truncate">
+                      <h4 className="text-[--text-navy] dark:text-white font-medium text-sm truncate">
                         {creator.name}
                       </h4>
-                      <p className="text-[--text-navy]/60 dark:text-white/60 text-sm truncate">
+                      <p className="text-[--text-navy]/60 dark:text-white/60 text-xs truncate">
                         {creator.description.split(".")[0].substring(0, 30)}...
                       </p>
                     </div>
                     {activeCreator === index && (
-                      <div className="w-2 h-2 bg-[--primary-orange] dark:bg-[--primary-orange] rounded-full"></div>
+                      <div className="h-4 w-1 bg-[--primary-orange] dark:bg-[--primary-orange] rounded-full"></div>
                     )}
                   </button>
                 ))}

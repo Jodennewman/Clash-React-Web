@@ -3,6 +3,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import AnimatedLogo from '../logos/AnimatedLogo';
 import IsometricGridBackground from './IsometricPattern';
+import { AnimatedButton } from '../marble-buttons/AnimatedButton';
 
 interface SimpleHeroProps {
   onCtaClick?: () => void;
@@ -40,12 +41,10 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
             { 
               y: 30, 
               opacity: 0,
-              visibility: "hidden"
             }, 
             { 
               y: 0, 
               opacity: 1,
-              visibility: "visible",
               duration: 0.8, 
               stagger: 0.15,
               ease: "power2.out"
@@ -60,7 +59,8 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
     return (
       <section 
         ref={ref} 
-        className="relative h-screen w-full bg-[var(--bg-cream)] shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]"
+        style={{backgroundColor: 'var(--bg-cream)'}} 
+        className="relative h-screen w-full shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] dark:bg-[var(--bg-navy-darker)]"
       >
         <IsometricGridBackground />
         {/* Floating background elements for visual interest */}
@@ -82,15 +82,15 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
           }}
         >
           {/* Color blocks positioned in grid */}
-          <div style={{ gridColumn: '5 / 6', gridRow: '1 / 3' }} className="w-full h-full bg-[var(--secondary-teal)] dark:bg-[var(--secondary-teal-light)] z-10" /> {/* Teal block */}
-          <div style={{ gridColumn: '6 / 8', gridRow: '1 / 4' }} className="w-full h-full bg-[var(--primary-orange)] dark:bg-[var(--primary-orange-light)] z-10" /> {/* Orange block */}
-          <div style={{ gridColumn: '8 / 10', gridRow: '1 / 5' }} className="w-full h-full bg-[var(--accent-red)] dark:bg-[var(--accent-coral)] z-10" /> {/* Red block */}
+          <div style={{ gridColumn: '5 / 6', gridRow: '1 / 3' }} className="w-full h-full bg-[--secondary-teal] dark:bg-[--secondary-teal-light] z-10" /> {/* Teal block */}
+          <div style={{ gridColumn: '6 / 8', gridRow: '1 / 4' }} className="w-full h-full bg-[--primary-orange] dark:bg-[--primary-orange-light] z-10" /> {/* Orange block */}
+          <div style={{ gridColumn: '8 / 10', gridRow: '1 / 5' }} className="w-full h-full bg-[--accent-red] dark:bg-[--accent-coral] z-10" /> {/* Red block */}
           
           {/* Animated VS Logo */}
-          <div style={{ gridColumn: '1 / 5', gridRow: '1 / 7' }} className="flex items-center justify-center z-20">
+          <div style={{ gridColumn: '2 / 5', gridRow: '3 / 9' }} className="flex items-center justify-center z-20">
             <div className="relative w-full h-full flex items-center justify-center">
               <AnimatedLogo 
-                className="w-full max-w h-auto lg:max-w-[600px] md:max-w-[450px] sm:max-w-[350px]" 
+                className="w-auto h-auto lg:max-w-[800px] md:max-w-[450px] sm:max-w-[350px]" 
                 onAnimationComplete={() => {/* Keep for reference but no longer needed */}}
               />
             </div>
@@ -131,46 +131,50 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
 
           {/* VS Logo Header - Now hidden as we have the animated logo */}
           <header style={{ gridColumn: '2 / 3', gridRow: '2 / 3' }} className="flex items-center">
-            <div className="text-5xl text-[var(--text-navy)] dark:text-white max-sm:text-4xl opacity-0">VS</div>
+            <div className="text-5xl text-[--text-navy] dark:text-white max-sm:text-4xl opacity-0">VS</div>
           </header>
 
           {/* HeroHeadline */}
-          <div style={{ gridColumn: '5 / 8', gridRow: '4 / 6' }} className="flex items-center z-10">
-            <h1 className={`hero-content mb-6 lg:mb-10 text-5xl lg:text-7xl leading-tight text-[var(--text-navy)] dark:text-white max-md:text-4xl max-sm:text-3xl `}>
-              <span className="text-6xl lg:text-8xl text-[var(--accent-red)] dark:text-[var(--accent-coral)] max-md:text-5xl max-sm:text-4xl font-bold">
-                800 million
+          <div style={{ gridColumn: '5 / 8', gridRow: '4 / 6' }} className="flex items-center z-20">
+            <h1 className={`hero-content z-20 mb-6 lg:mb-10 text-5xl lg:text-7xl leading-tight text-[--text-navy] dark:text-white max-md:text-4xl max-sm:text-3xl `}>
+              <span className="text-6xl z-20 lg:text-8xl text-[var(--accent-coral)]  max-md:text-5xl max-sm:text-4xl font-bold dark:text-[var(--accent-red)]">
+                Over 1 billion
               </span>
               <span> views,</span>
-              <span className="block text-5xl lg:text-7xl max-md:text-4xl max-sm:text-3xl">
+              <span className="block z-20 text-5xl lg:text-7xl max-md:text-4xl max-sm:text-3xl">
                 zero spent on ads
               </span>
             </h1>
           </div>
 
           {/* HeroSubheading */}
-          <div style={{ gridColumn: '5 / 9', gridRow: '6 / 7' }} className="z-10">
-            <p className={`hero-content text-4xl lg:text-4xl leading-tight max-md:text-xl max-sm:text-lg mb-6 lg:mb-10 text-[var(--text-navy)] dark:text-white `}>
+          <div style={{ gridColumn: '5 / 9', gridRow: '6' }} className="z-10">
+            <p className={`hero-content text-4xl lg:text-4xl max-md:text-xl max-sm:text-lg mb-6 lg:mb-10 text-[--text-navy] dark:text-white `}>
               <span>A </span>
-              <span className="text-[var(--accent-red)] dark:text-[var(--primary-orange-light)] font-bold">proven, turn-key system </span>
+              <span className="text-[--accent-red] dark:text-[--primary-orange-light] font-bold">proven, turn-key system </span>
               <span className="inline md:hidden">for short form content.</span>
               <span className="hidden md:inline">to survive, thrive, and </span>
               <span className="hidden md:inline">monetise </span>
               <span className="hidden md:inline">with short form content, for founders.</span>
             </p>
             
-            {/* Buttons - more tasteful, aligned with the design */}
+            {/* Animated Buttons - more professional and consistent with the design system */}
             <div className={`hero-content flex flex-wrap gap-3 lg:gap-4`}>
-              <button 
+              <AnimatedButton 
+                text="Apply Now"
+                variant="start"
+                saturation="high"
+                size="md"
                 onClick={onCtaClick}
-                className="px-4 lg:px-6 py-2 lg:py-3 text-sm lg:text-base bg-[var(--primary-orange)] dark:bg-[var(--primary-orange)] text-white rounded-lg font-medium transition-all duration-300 hover:bg-[var(--primary-orange-hover)] dark:hover:bg-[var(--primary-orange-hover)] hover:shadow-md dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.25)]"
-              >
-                Apply Now
-              </button>
-              <button 
-                className="px-4 lg:px-6 py-2 lg:py-3 text-sm lg:text-base bg-transparent border border-[var(--text-navy)] dark:border-white text-[var(--text-navy)] dark:text-white rounded-lg font-medium transition-all duration-300 hover:bg-[var(--text-navy)] dark:hover:bg-white/10 hover:text-white"
-              >
-                Book a Call
-              </button>
+                className="w-auto"
+              />
+              <AnimatedButton 
+                text="Book a Call"
+                variant="docs"
+                saturation="normal"
+                size="md"
+                className="w-auto"
+              />
             </div>
           </div>
         </div>
