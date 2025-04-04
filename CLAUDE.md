@@ -292,6 +292,17 @@ The theme-toggle.js script will automatically handle the icons/text change and l
 3. Convert any remaining inline style attributes for colors to Tailwind classes
 4. Verify all components render correctly in both light and dark mode with our new implementation
 
+## Remaining CSS Variable Conversion Tasks
+1. **Remaining landing page components**: Some landing page components still have `var(--variable)` references that need to be updated to the direct `--variable` format.
+2. **Animations & transitions**: Need to verify all animations work properly with CSS variables, especially those using `duration-[--transition-*]`.
+3. **Helper components**: Many VS* helper components still need updates or should be phased out when refactoring is complete.
+4. **Interactive elements**: Validate hover/active states in both light and dark mode across interactive elements.
+5. **Error states & validation**: Forms and input components need to be tested with the new variable system.
+6. **Background patterns**: Some components use `bg-[linear-gradient(to_right,var(--grid-line)_1px,...)]` syntax which needs careful refactoring.
+7. **Animation components**: Components using GSAP often use `var(--variable)` in inline styles which need special handling.
+8. **Border radius standardization**: Standardize to use direct utility classes like `rounded-xl` rather than CSS variables.
+9. **UI consistency check**: After conversion, review all components for visual consistency in light and dark modes.
+
 ## Required Git Workflow
 
 ### Commit ALL Changes
@@ -598,3 +609,5 @@ Use these utility classes for common styling patterns:
   Primary Action
 </button>
 ```
+
+- search codebase by 'var(' to more quickly find old variables
