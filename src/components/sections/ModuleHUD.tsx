@@ -225,25 +225,68 @@ const ModuleGrid: React.FC<ModuleGridProps> = ({ sectionId, modules, moduleRefs 
     if (count <= 20) return 5; // 5x5 grid
     return 6; // 6x6 grid for very large module sets
   }, [modules.length]);
+  
+  // Reference to grid container for animations
+  const gridRef = React.useRef<HTMLDivElement>(null);
+  
+  // GSAP animations for module grid
+  useGSAP(() => {
+    if (!gridRef.current) return;
+    
+    const ctx = gsap.context(() => {
+      // Subtle background pulse effect
+      gsap.to(gridRef.current, {
+        backgroundColor: 'var(--theme-bg-secondary-subtle)',
+        duration: 8,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+      
+      // Floating elements animation
+      gsap.to(".grid-float-element", {
+        y: "-=15",
+        duration: 4,
+        stagger: 0.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+      
+      // Subtle rotation of indicators
+      gsap.to(".duration-indicator", {
+        rotation: 360,
+        duration: 20,
+        repeat: -1,
+        ease: "none"
+      });
+    }, gridRef);
+    
+    return () => ctx.revert();
+  }, [modules]);
 
   return (
     <div 
-      className="grid gap-2 p-3 bg-theme-surface/10 rounded-xl shadow-theme-sm border border-theme-border-light"
+      ref={gridRef}
+      className="grid gap-2 p-4 bg-theme-surface/10 rounded-xl shadow-theme-md border border-theme-border-light 
+                 backdrop-blur-[2px] transition-all duration-500"
       style={{ 
         gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
         gridTemplateRows: `repeat(${gridSize}, minmax(0, 1fr))`
       }}
     >
       {/* Floating decorative elements for visual interest */}
-      <div className="absolute -z-10 top-5 right-5 w-10 h-10 rounded-[40%] rotate-12 
+      <div className="grid-float-element absolute -z-10 top-5 right-5 w-10 h-10 rounded-[40%] rotate-12 
           opacity-[var(--theme-float-opacity)] 
-          bg-[var(--theme-float-bg-primary)]
-          animate-float-slow"></div>
+          bg-[var(--theme-float-bg-primary)]"></div>
           
-      <div className="absolute -z-10 bottom-5 left-8 w-12 h-12 rounded-[35%] -rotate-6 
+      <div className="grid-float-element absolute -z-10 bottom-5 left-8 w-12 h-12 rounded-[35%] -rotate-6 
           opacity-[var(--theme-float-opacity-secondary)] 
-          bg-[var(--theme-float-bg-secondary)]
-          animate-float-medium"></div>
+          bg-[var(--theme-float-bg-secondary)]"></div>
+      
+      <div className="grid-float-element absolute -z-10 top-1/2 right-1/4 w-8 h-8 rounded-[45%] rotate-45 
+          opacity-[var(--theme-float-opacity-tertiary)] 
+          bg-[var(--theme-float-bg-tertiary)]"></div>
           
       {modules.map((module, index) => {
         // Determine if this module should be featured (larger) based on duration or featured flags
@@ -261,6 +304,9 @@ const ModuleGrid: React.FC<ModuleGridProps> = ({ sectionId, modules, moduleRefs 
         const moduleColor = module.color || 'var(--theme-accent-secondary)';
         const gradientBg = `linear-gradient(135deg, ${moduleColor}, ${moduleColor}CC)`;
         
+        // Stagger animation delay based on index
+        const animDelay = index * 0.05;
+        
         return (
           <div 
             key={module.id}
@@ -269,13 +315,23 @@ const ModuleGrid: React.FC<ModuleGridProps> = ({ sectionId, modules, moduleRefs 
               return undefined;
             }}
             data-id={module.id}
-            className={`module-item rounded-lg shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden ${spanClasses}`}
-            style={{ background: gradientBg }}
+            className={`module-item rounded-lg shadow-theme-sm cursor-pointer relative 
+                       transition-all duration-[var(--theme-transition-bounce)] 
+                       overflow-hidden ${spanClasses}
+                       hover:shadow-theme-md hover:translate-y-[-4px] hover:scale-[1.02]`}
+            style={{ 
+              background: gradientBg,
+              animationDelay: `${animDelay}s`,
+              opacity: 0, // Will be animated by GSAP
+              transform: 'scale(0.85)' // Will be animated by GSAP
+            }}
           >
             {/* Module title - visible on hover */}
             <div 
               id={`name-${module.id}`} 
-              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center whitespace-normal opacity-0 text-white font-medium text-sm z-10 px-2"
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+                        text-center whitespace-normal opacity-0 text-white font-medium text-sm z-10 px-2
+                        transition-all duration-300 ease-out"
             >
               {module.title}
             </div>
@@ -290,8 +346,8 @@ const ModuleGrid: React.FC<ModuleGridProps> = ({ sectionId, modules, moduleRefs 
               <div className="absolute -bottom-1.5 -right-1.5 w-[10px] h-[10px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
             )}
             
-            {/* Duration indicator - subtle visual cue */}
-            <div className="absolute bottom-2 left-2 flex items-center space-x-1 opacity-70">
+            {/* Duration indicator - subtle visual cue with animation */}
+            <div className="duration-indicator absolute bottom-2 left-2 flex items-center space-x-1 opacity-70">
               <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
               {hasLongDuration && (
                 <>
@@ -381,7 +437,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     return () => ctx.revert();
   }, []);
   
-  // Handle section expansion/collapse animation
+  // Handle section expansion/collapse animation with enhanced transitions
   useEffect(() => {
     // Get computed theme variables for animation
     const styles = getComputedStyle(document.documentElement);
@@ -392,45 +448,60 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     const contentBelow = document.querySelector('.mt-16.md\\:mt-24');
     
     if (!selectedSection) {
-      // Collapse all sections
+      // Collapse all sections with improved transitions
       mainSections.forEach(section => {
         const container = document.getElementById(`${section.id}-modules`);
         if (container) {
-          // Animate content back to original position
-          if (contentBelow) {
-            gsap.to(contentBelow, {
-              marginTop: '4rem', // Return to original margin
-              duration: 0.4,
-              ease: "power3.out"
-            });
-          }
-          
-          gsap.to(container, {
+          // First fade out the modules with staggered effect
+          const moduleEls = container.querySelectorAll(".module-item");
+          gsap.to(moduleEls, {
             opacity: 0,
-            duration: 0.3,
-            ease: "power3.out",
-            transform: 'translateX(-50%) scale(0.6)',
+            scale: 0.85,
+            stagger: 0.02,
+            duration: 0.25,
+            ease: "power2.in",
             onComplete: () => {
-              container.style.display = "none";
+              // Then collapse the container with smooth animation
+              gsap.to(container, {
+                opacity: 0,
+                duration: 0.3,
+                ease: "power3.out",
+                transform: 'translateX(-50%) scale(0.6)',
+                onComplete: () => {
+                  container.style.display = "none";
+                  
+                  // Animate content back to original position after container collapse
+                  if (contentBelow) {
+                    gsap.to(contentBelow, {
+                      marginTop: '4rem', // Return to original margin
+                      duration: 0.5,
+                      ease: "power3.out"
+                    });
+                  }
+                }
+              });
             }
           });
         }
         
-        // Reset section animation
+        // Reset section animation with subtle bounce
         const sectionEl = sectionRefs.current[section.id];
         if (sectionEl) {
           gsap.to(sectionEl, {
             scale: 1,
-            duration: 0.3,
-            ease: "power3.out"
+            duration: 0.4,
+            ease: "back.out(1.2)"
           });
         }
       });
     } else {
-      // Expand selected section
+      // Expand selected section with enhanced transitions
       const container = document.getElementById(`${selectedSection}-modules`);
       if (container) {
+        // First make container visible but transparent
         container.style.display = "block";
+        container.style.opacity = "0";
+        container.style.transform = "translateX(-50%) scale(0.8)";
         
         // Get the grid size to determine how much space we need
         const moduleCount = container.querySelectorAll(".module-item").length;
@@ -441,66 +512,106 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         if (moduleCount > 7) pushDistance = 280;
         if (moduleCount > 11) pushDistance = 320;
         
-        // Push content below to make room for the expanded section
-        if (contentBelow) {
-          gsap.to(contentBelow, {
-            marginTop: `${pushDistance}px`, // Push content down based on module count
-            duration: 0.5,
-            ease: "power2.out"
-          });
-        }
-        
-        gsap.to(container, {
-          opacity: 1,
-          transform: 'translateX(-50%) scale(1)',
-          duration: 0.4,
-          ease: "back.out(1.4)"
-        });
-        
-        // Animate modules with a staggered effect
-        const moduleEls = container.querySelectorAll(".module-item");
-        gsap.from(moduleEls, {
-          scale: 0.7,
-          opacity: 0,
-          stagger: 0.05,
-          duration: 0.4,
-          ease: "back.out(1.7)"
-        });
-        
-        // Add bubbly animation to the section
+        // Add bubbly animation to the selected section first
         const sectionEl = sectionRefs.current[selectedSection];
         if (sectionEl) {
           gsap.to(sectionEl, {
             scale: 1.08,
-            duration: 0.4,
+            y: -4,
+            boxShadow: "var(--theme-shadow-md)",
+            duration: 0.5,
             ease: "back.out(1.7)"
           });
         }
+        
+        // Add small delay to make the animation sequence more natural
+        gsap.delayedCall(0.15, () => {
+          // Push content below to make room for the expanded section
+          if (contentBelow) {
+            gsap.to(contentBelow, {
+              marginTop: `${pushDistance}px`, // Push content down based on module count
+              duration: 0.6,
+              ease: "power2.out"
+            });
+          }
+          
+          // Animate container with bouncy effect
+          gsap.to(container, {
+            opacity: 1,
+            transform: 'translateX(-50%) scale(1)',
+            duration: 0.5,
+            ease: "back.out(1.4)",
+            onComplete: () => {
+              // Then animate modules with a staggered effect
+              const moduleEls = container.querySelectorAll(".module-item");
+              gsap.to(moduleEls, {
+                opacity: 1,
+                scale: 1,
+                stagger: 0.05,
+                duration: 0.4,
+                ease: "back.out(1.7)"
+              });
+              
+              // Add subtle pulse to the indicators inside modules
+              gsap.to(container.querySelectorAll(".duration-indicator"), {
+                scale: 1.2,
+                duration: 0.3,
+                stagger: 0.05,
+                repeat: 1,
+                yoyo: true,
+                ease: "power2.inOut"
+              });
+            }
+          });
+        });
+        
+        // Create connection line animation
+        const connectionLine = container.querySelector(".connection-line");
+        if (connectionLine) {
+          gsap.fromTo(connectionLine, 
+            { height: 0 },
+            { height: 8, duration: 0.3, ease: "power2.out", delay: 0.2 }
+          );
+        }
       }
       
-      // Collapse other sections
+      // Collapse other sections with subtle transitions
       mainSections.forEach(section => {
         if (section.id !== selectedSection) {
           const container = document.getElementById(`${section.id}-modules`);
           if (container) {
-            gsap.to(container, {
+            // Fade out modules first
+            const moduleEls = container.querySelectorAll(".module-item");
+            gsap.to(moduleEls, {
               opacity: 0,
-              transform: 'translateX(-50%) scale(0.6)',
-              duration: 0.3,
-              ease: "power3.out",
+              scale: 0.85,
+              stagger: 0.02,
+              duration: 0.25,
+              ease: "power2.in",
               onComplete: () => {
-                container.style.display = "none";
+                // Then collapse the container
+                gsap.to(container, {
+                  opacity: 0,
+                  transform: 'translateX(-50%) scale(0.6)',
+                  duration: 0.3,
+                  ease: "power3.out",
+                  onComplete: () => {
+                    container.style.display = "none";
+                  }
+                });
               }
             });
           }
           
-          // Reset section animation
+          // Reset section animation with subtle transition
           const sectionEl = sectionRefs.current[section.id];
           if (sectionEl) {
             gsap.to(sectionEl, {
               scale: 1,
-              duration: 0.3,
-              ease: "power3.out"
+              y: 0,
+              boxShadow: "var(--theme-shadow-sm)",
+              duration: 0.4,
+              ease: "power2.out"
             });
           }
         }
@@ -796,8 +907,10 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             }}
           >
             <div className="relative">
-              {/* Connection line from section to module grid */}
-              <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-0.5 h-8 bg-[var(--theme-border-primary)] opacity-50"></div>
+              {/* Connection line from section to module grid with enhanced animation */}
+              <div className="connection-line absolute -top-8 left-1/2 transform -translate-x-1/2 w-1 h-8 
+                  bg-gradient-to-b from-[var(--theme-accent-secondary)] to-[var(--theme-border-primary)] 
+                  rounded-t-full opacity-60"></div>
               
               {/* Module grid content */}
               <ModuleGrid 

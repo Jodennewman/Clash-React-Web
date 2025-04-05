@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { VSModal } from '../ui/vs-modal';
 import { PlayCircle, CheckCircle, Star, Clock, Award, ExternalLink } from 'lucide-react';
 import courseUtils, { Module, Submodule } from '../../lib/course-utils';
@@ -29,16 +29,46 @@ const ModuleModal: React.FC<ModuleModalProps> = ({
 }) => {
   const [selectedSubmoduleIndex, setSelectedSubmoduleIndex] = useState<number>(-1);
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const thumbnailRef = React.useRef<HTMLImageElement>(null);
   
   // Get module data
   const module = courseUtils.getModuleById(moduleId);
   const submodules = moduleId ? courseUtils.getSubmodulesForModule(moduleId) : [];
   
+  // Reset selected submodule when modal opens with new module
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedSubmoduleIndex(-1);
+    }
+  }, [isOpen, moduleId]);
+  
+  // Get computed theme variables for animation
+  const getThemeVariables = () => {
+    const styles = getComputedStyle(document.documentElement);
+    return {
+      animDuration: parseFloat(styles.getPropertyValue('--theme-anim-duration') || '0.35'),
+      animScale: parseFloat(styles.getPropertyValue('--theme-anim-scale') || '1.02'),
+      bgHover: styles.getPropertyValue('--theme-bg-hover') || 'rgba(0,0,0,0.05)'
+    };
+  };
+  
   // GSAP animations
   useGSAP(() => {
     if (!isOpen || !containerRef.current) return;
+    
+    const { animDuration, animScale, bgHover } = getThemeVariables();
 
     const ctx = gsap.context(() => {
+      // Initial fade-in animation for thumbnail
+      if (thumbnailRef.current) {
+        gsap.from(thumbnailRef.current, {
+          opacity: 0,
+          scale: 1.05,
+          duration: 0.6,
+          ease: "power2.out"
+        });
+      }
+    
       // Animate points and submodules with stagger
       gsap.from(".module-point", {
         opacity: 0,
@@ -46,7 +76,7 @@ const ModuleModal: React.FC<ModuleModalProps> = ({
         duration: 0.5,
         stagger: 0.1,
         ease: "power3.out",
-        delay: 0.3
+        delay: 0.2
       });
       
       gsap.from(".submodule-item", {
@@ -55,26 +85,39 @@ const ModuleModal: React.FC<ModuleModalProps> = ({
         duration: 0.5,
         stagger: 0.05,
         ease: "back.out(1.2)",
-        delay: 0.4
+        delay: 0.3
       });
 
-      // Subtle hover animation for submodules
+      // Subtle hover animation for submodules with VS Bubbly effect
       document.querySelectorAll(".submodule-item").forEach(el => {
         el.addEventListener("mouseenter", () => {
           gsap.to(el, {
-            backgroundColor: "var(--theme-bg-hover)",
-            duration: 0.3,
-            ease: "power2.out"
+            backgroundColor: bgHover,
+            y: -2,
+            scale: 1.01,
+            duration: animDuration,
+            ease: "back.out(1.7)"
           });
         });
         
         el.addEventListener("mouseleave", () => {
           gsap.to(el, {
             backgroundColor: "transparent",
-            duration: 0.3,
+            y: 0,
+            scale: 1,
+            duration: animDuration * 0.8,
             ease: "power2.out"
           });
         });
+      });
+      
+      // Floating elements animation
+      gsap.to(".modal-float-element", {
+        y: -10,
+        duration: 3,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true
       });
     }, containerRef);
     
@@ -94,13 +137,23 @@ const ModuleModal: React.FC<ModuleModalProps> = ({
       onClose={onClose}
       width="lg"
     >
-      <div ref={containerRef} className="relative">
+      <div ref={containerRef} className="relative overflow-hidden">
+        {/* Theme-aware floating elements for visual interest */}
+        <div className="modal-float-element absolute -z-10 top-5 right-10 w-16 h-16 rounded-[40%] rotate-12 
+             opacity-[var(--theme-float-opacity)] 
+             bg-[var(--theme-float-bg-primary)]"></div>
+             
+        <div className="modal-float-element absolute -z-10 bottom-10 left-12 w-20 h-20 rounded-[35%] -rotate-6 
+             opacity-[var(--theme-float-opacity-secondary)] 
+             bg-[var(--theme-float-bg-secondary)]"></div>
+      
         {/* Thumbnail section with title overlay */}
         <div className="rounded-[--border-radius-lg] overflow-hidden aspect-video relative mb-6 shadow-theme-md">
           <img 
+            ref={thumbnailRef}
             src={courseUtils.getThumbnailPath(module.thumbnail || '')} 
             alt={module.title}
-            className="w-full h-full object-cover" 
+            className="w-full h-full object-cover transition-all duration-500" 
           />
           
           {/* Title overlay at the base of thumbnail as per MODULE-HUD.md */}
@@ -228,10 +281,15 @@ const ModuleModal: React.FC<ModuleModalProps> = ({
                 ))}
               </ul>
               
-              {/* Call to action button */}
-              <button className="mt-4 w-full bg-theme-gradient-primary text-white py-2 px-4 rounded-[--border-radius-md] shadow-theme-sm hover-bubbly flex items-center justify-center">
-                <PlayCircle className="h-5 w-5 mr-2" />
-                Start Learning
+              {/* Call to action button with enhanced hover effect */}
+              <button 
+                className="mt-4 w-full bg-theme-gradient-primary text-white py-2 px-4 rounded-[--border-radius-md] shadow-theme-sm 
+                           transition-all duration-300 group
+                           hover:shadow-theme-md hover:translate-y-[-4px] hover:scale-[1.02]
+                           flex items-center justify-center"
+              >
+                <PlayCircle className="h-5 w-5 mr-2 group-hover:animate-pulse" />
+                <span>Start Learning</span>
               </button>
             </div>
           </div>
