@@ -165,7 +165,7 @@ const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, i
     >
       <div 
         id={`name-${section.id}`} 
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-90 whitespace-nowrap text-white font-medium text-lg z-10"
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-white font-medium text-lg z-10"
       >
         {section.name}
       </div>
@@ -194,7 +194,7 @@ const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ sect
     >
       <div 
         id={`name-${section.id}`} 
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-90 whitespace-nowrap text-white font-medium text-base z-10"
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-white font-medium text-base z-10"
       >
         {section.name}
       </div>
@@ -220,9 +220,9 @@ const ModuleGrid: React.FC<ModuleGridProps> = ({ sectionId, modules, moduleRefs 
   const gridSize = useMemo(() => {
     const count = modules.length;
     if (count <= 4) return 2; // 2x2 grid
-    if (count <= 7) return 3; // 3x3 grid (9 cells) as per spec
-    if (count <= 11) return 4; // 4x4 grid (16 cells) as per spec
-    if (count <= 20) return 5; // 5x5 grid
+    if (count <= 9) return 3; // 3x3 grid (9 cells) as per spec
+    if (count <= 16) return 4; // 4x4 grid (16 cells) as per spec
+    if (count <= 25) return 5; // 5x5 grid
     return 6; // 6x6 grid for very large module sets
   }, [modules.length]);
   
@@ -373,7 +373,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   const [selectedModuleId, setSelectedModuleId] = useState<string>('');
   
   // Calculate square dimensions for the layout
-  const normalSquareWidth = 85; // Base width in px
+  const normalSquareWidth = 40; // Base width in px
   const squareGapX = normalSquareWidth * 1.5; // Horizontal gap (1.5x width)
   const squareGapY = normalSquareWidth * 1; // Vertical gap (1x width)
   
@@ -815,7 +815,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           flex direction changes (the outer l-r row becomes a t-b column && the tinner t-b column 
           becomes a l-r row)" 
         */}
-        <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-[var(--square-gap-y)] md:gap-[var(--square-gap-x)]">
+        <div className="flex flex-col md:flex-row h-max items-center justify-center content-center md:items-start gap-[var(--square-gap-y)] md:gap-[var(--square-gap-x)]">
           {/* First big square (Basic Theory) */}
           <BigSquare 
             section={mainSections[0]} 
@@ -881,7 +881,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             
             <div 
               id={`name-${mainSections[6].id}`} 
-              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-90 whitespace-nowrap text-white font-medium text-lg z-10"
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-white font-medium text-lg z-10"
             >
               {mainSections[6].name}
             </div>

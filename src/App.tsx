@@ -10,6 +10,8 @@ import { DirectTest } from './components/DirectTest';
 import { DirectClassTest } from './components/DirectClassTest';
 import VSModalShowcase from './components/VSModalShowcase';
 import { VSPainPoints, VSCharts } from './components/sections';
+import CalendlyDemo from './components/Calendly/CalendlyDemo';
+import ModuleHUDShowcase from './components/sections/ModuleHUDShowcase';
 
 function App() {
   // Load theme toggle script
@@ -51,6 +53,16 @@ function App() {
                   VS Charts Section
                 </Link>
               </div>
+              <div>
+                <Link to="/modulehud" className="px-6 py-2 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-accent-secondary)] text-white rounded-lg">
+                  Module HUD Showcase
+                </Link>
+              </div>
+              <div>
+                <Link to="/calendly" className="px-6 py-2 bg-gradient-to-r from-[var(--primary-orange)] to-[var(--accent-coral)] text-white rounded-lg">
+                  Calendly Scheduling Demo
+                </Link>
+              </div>
             </div>
           </div>
         } />
@@ -61,6 +73,8 @@ function App() {
         <Route path="/modals" element={<VSModalShowcase />} />
         <Route path="/painpoints" element={<VSPainPoints />} />
         <Route path="/charts" element={<VSCharts />} />
+        <Route path="/calendly" element={<CalendlyDemo />} />
+        <Route path="/modulehud" element={<ModuleHUDShowcase />} />
       </Routes>
       
       {/* Use the proper ThemeToggle component */}
@@ -71,7 +85,7 @@ function App() {
         
       
       <div className="fixed bottom-4 left-4 z-50">
-        <Link to="/marble-buttons" className="flex items-center justify-center w-10 h-10 rounded-full bg-primary-orange shadow-lg hover:scale-110 transition-transform">
+        <Link to="/marble-buttons" className="flex items-center justify-center w-10 h-10 rounded-full bg-theme-primary shadow-lg hover:scale-110 transition-transform">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
             <circle cx="12" cy="12" r="10" />
             <circle cx="12" cy="12" r="4" />
