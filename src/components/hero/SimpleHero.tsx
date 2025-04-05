@@ -113,7 +113,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                 cy="347.484"
                 r="231.656"
                 transform="rotate(-90 331.484 347.484)"
-                fill="white"
+                fill="var(--theme-eyeball-outer)"
               />
               <ellipse
                 cx="387.704"
@@ -121,11 +121,11 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                 rx="143.553"
                 ry="143.168"
                 transform="rotate(-90 387.704 307.815)"
-                fill="#5F949F"
+                fill="var(--theme-eyeball-iris)"
               />
               <path
                 d="M324.537 240.611C337.361 218.609 357.976 202.262 382.267 194.834C406.558 187.406 432.737 189.444 455.577 200.541C478.417 211.637 496.239 230.976 505.483 254.697C514.727 278.417 514.714 304.773 505.446 328.503C496.178 352.233 478.337 371.59 455.485 382.711C432.634 393.832 406.453 395.897 382.169 388.495C357.886 381.092 337.287 364.767 324.486 342.778C311.684 320.789 307.622 294.755 313.109 269.872L411.566 291.649L324.537 240.611Z"
-                fill="#122E3B"
+                fill="var(--theme-eyeball-pupil)"
               />
             </svg>
           </div>
@@ -138,7 +138,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
           {/* HeroHeadline */}
           <div style={{ gridColumn: '5 / 8', gridRow: '4 / 6' }} className="flex items-center z-20">
             <h1 className="hero-content z-20 mb-6 lg:mb-10 text-5xl lg:text-7xl leading-tight text-theme-primary max-md:text-4xl max-sm:text-3xl">
-              <span className="text-6xl z-20 lg:text-8xl text-[var(--theme-accent-tertiary)] max-md:text-5xl max-sm:text-4xl font-bold">
+              <span className="text-6xl z-20 lg:text-8xl text-theme-accent-tertiary max-md:text-5xl max-sm:text-4xl font-bold transition-colors duration-[var(--theme-transition-normal)]">
                 Over 1 billion
               </span>
               <span> views,</span>
