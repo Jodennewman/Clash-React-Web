@@ -91,7 +91,7 @@ export default function VSNavbar() {
       ref={navbarRef}
       className="fixed top-0 w-full z-50 px-4 md:px-6 py-3"
     >
-      <div className="max-w-[1400px] bg-[var(--theme-bg-primary)]  backdrop-blur-md border border-[var(--theme-bg-secondary)]/20 dark:border-white/10 relative mx-auto rounded-2xl p-2 py-3 px-4 md:px-6 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.2)] transition-all duration-300 overflow-hidden">
+      <div className="max-w-[1400px] bg-theme-primary backdrop-blur-md border border-theme-border relative mx-auto rounded-2xl p-2 py-3 px-4 md:px-6 shadow-theme-sm hover:shadow-theme-md transition-all duration-300 overflow-hidden">
         <NavbarComponent className="py-1">
           <NavbarLeft>
             <img 
@@ -99,34 +99,34 @@ export default function VSNavbar() {
               alt="Clash Creation" 
               className="h-8 mr-3"
             />
-            <div className="w-8 h-8 rounded-full bg-[var(--theme-primary)] flex items-center justify-center shadow-[1px_1px_2px_rgba(0,0,0,0.1)] dark:shadow-[0_0_5px_rgba(254,163,93,0.3)]">
+            <div className="w-8 h-8 rounded-full bg-theme-primary flex items-center justify-center shadow-theme-sm">
               <span className="text-white font-bold text-sm">VS</span>
             </div>
-            <span className="text-[var(--theme-text-primary)] dark:text-white ml-2 font-medium">Vertical Shortcut</span>
+            <span className="text-theme-primary ml-2 font-medium">Vertical Shortcut</span>
           </NavbarLeft>
           
           <nav className="hidden md:flex ml-8 gap-6">
             <button 
               onClick={(e) => handleNavLinkClick(e, "benefits")}
-              className="px-3 py-1.5 rounded-md text-[var(--theme-text-primary)] hover:bg-[var(--theme-bg-secondary)]/30 dark:text-white dark:hover:bg-white/10 text-sm font-medium transition-all duration-300"
+              className="px-3 py-1.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 text-sm font-medium transition-all duration-300"
             >
               Benefits
             </button>
             <button 
               onClick={(e) => handleNavLinkClick(e, "curriculum")}
-              className="px-3 py-1.5 rounded-md text-[var(--theme-text-primary)] hover:bg-[var(--theme-bg-secondary)]/30 dark:text-white dark:hover:bg-white/10 text-sm font-medium transition-all duration-300"
+              className="px-3 py-1.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 text-sm font-medium transition-all duration-300"
             >
               Curriculum
             </button>
             <button 
               onClick={(e) => handleNavLinkClick(e, "testimonials")}
-              className="px-3 py-1.5 rounded-md text-[var(--theme-text-primary)] hover:bg-[var(--theme-bg-secondary)]/30 dark:text-white dark:hover:bg-white/10 text-sm font-medium transition-all duration-[--transition-bounce]"
+              className="px-3 py-1.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 text-sm font-medium transition-all duration-[--transition-bounce]"
             >
               Success Stories
             </button>
             <button 
               onClick={(e) => handleNavLinkClick(e, "pricing")}
-              className="px-3 py-1.5 rounded-md text-[var(--theme-text-primary)] hover:bg-[var(--theme-bg-secondary)]/30 dark:text-white dark:hover:bg-white/10 text-sm font-medium transition-all duration-[--transition-bounce]"
+              className="px-3 py-1.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 text-sm font-medium transition-all duration-[--transition-bounce]"
             >
               Pricing
             </button>
@@ -135,7 +135,7 @@ export default function VSNavbar() {
           <NavbarRight>
             <Button 
               variant="default" 
-              className="bg-[var(--theme-primary)] hover:bg-[var(--theme-primary-hover)]  dark:hover:bg-[var(--theme-primary-hover)] text-white px-5 py-2 shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(254,163,93,0.2)] transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]"
+              className="bg-theme-primary hover:bg-theme-primary-hover text-white px-5 py-2 shadow-theme-sm transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-theme-md"
               onClick={() => {
                 const applicationForm = document.getElementById("application-form");
                 if (applicationForm) {
@@ -159,16 +159,16 @@ export default function VSNavbar() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="shrink-0 md:hidden ml-2 text-[var(--theme-text-primary)] dark:text-white hover:bg-[var(--theme-bg-secondary)]/20 dark:hover:bg-white/10 transition-all duration-[--transition-bounce]"
+                  className="shrink-0 md:hidden ml-2 text-theme-primary hover:bg-theme-secondary/20 transition-all duration-[--transition-bounce]"
                 >
                   <Menu className="size-5" />
                   <span className="sr-only">Toggle navigation menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="bg-[var(--theme-bg-primary)]  border-[var(--theme-bg-secondary)]/20 dark:border-[var(--theme-accent-secondary)]/50">
+              <SheetContent side="right" className="bg-theme-primary border-theme-border">
                 <nav className="grid gap-6 text-lg">
                   <div
-                    className="flex items-center gap-2 text-xl font-bold text-[var(--theme-text-primary)] dark:text-white dark:text-shadow-sm"
+                    className="flex items-center gap-2 text-xl font-bold text-theme-primary"
                   >
                     <img 
                       src="/Clash-Logo-One-Line-Light-for-Dark.png" 
@@ -179,7 +179,7 @@ export default function VSNavbar() {
                   </div>
                   
                   <button
-                    className="text-left px-3 py-2 rounded-md text-[var(--theme-text-primary)] hover:bg-[var(--theme-bg-secondary)]/30 dark:text-white dark:hover:bg-white/10 font-medium transition-all duration-[--transition-bounce]"
+                    className="text-left px-3 py-2 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce]"
                     onClick={(e) => {
                       handleNavLinkClick(e, "benefits");
                       const sheet = document.querySelector('[data-state="open"]');
@@ -193,7 +193,7 @@ export default function VSNavbar() {
                   </button>
                   
                   <button
-                    className="text-left px-3 py-2 rounded-md text-[var(--theme-text-primary)] hover:bg-[var(--theme-bg-secondary)]/30 dark:text-white dark:hover:bg-white/10 font-medium transition-all duration-[--transition-bounce]"
+                    className="text-left px-3 py-2 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce]"
                     onClick={(e) => {
                       handleNavLinkClick(e, "curriculum");
                       const sheet = document.querySelector('[data-state="open"]');
@@ -207,7 +207,7 @@ export default function VSNavbar() {
                   </button>
                   
                   <button
-                    className="text-left px-3 py-2 rounded-md text-[var(--theme-text-primary)] hover:bg-[var(--theme-bg-secondary)]/30 dark:text-white dark:hover:bg-white/10 font-medium transition-all duration-[--transition-bounce]"
+                    className="text-left px-3 py-2 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce]"
                     onClick={(e) => {
                       handleNavLinkClick(e, "testimonials");
                       const sheet = document.querySelector('[data-state="open"]');
@@ -221,7 +221,7 @@ export default function VSNavbar() {
                   </button>
                   
                   <button
-                    className="text-left px-3 py-2 rounded-md text-[var(--theme-text-primary)] hover:bg-[var(--theme-bg-secondary)]/30 dark:text-white dark:hover:bg-white/10 font-medium transition-all duration-[--transition-bounce]"
+                    className="text-left px-3 py-2 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce]"
                     onClick={(e) => {
                       handleNavLinkClick(e, "pricing");
                       const sheet = document.querySelector('[data-state="open"]');
@@ -234,7 +234,7 @@ export default function VSNavbar() {
                     Pricing
                   </button>
                   <Button 
-                    className="mt-4 bg-[var(--theme-primary)] hover:bg-[var(--theme-primary-hover)]  dark:hover:bg-[var(--theme-primary-hover)] text-white shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(254,163,93,0.2)] transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]"
+                    className="mt-4 bg-theme-primary hover:bg-theme-primary-hover text-white shadow-theme-sm transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-theme-md"
                     onClick={() => {
                       const applicationForm = document.getElementById("application-form");
                       const sheet = document.querySelector('[data-state="open"]');
