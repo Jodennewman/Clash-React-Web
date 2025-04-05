@@ -555,7 +555,7 @@ When working on a component:
 
 ## IMPORTANT: QUALIFICATION MODAL IMPLEMENTATION STATUS
 
-Current progress:
+### Current Status
 - Implemented VSQualificationModal.tsx with complete theme-aware styling, GSAP animations, and Calendly integration
 - Created ModalImplementation.tsx with theme-aware styling for demonstration purposes
 - Added route in App.tsx to access the qualification modal at /qualification
@@ -578,25 +578,48 @@ Current progress:
   - Added new shimmer animation to progress bar
 - Implemented CRM integration with the ability to pass qualification data to external systems
 
-Next steps to further enhance engagement:
-- Add subtle sound effects to key interactions for multi-sensory engagement
-- Create micro-animations for selection states (when answers are clicked)
-- Add confidence-building social proof elements to strategic stages
-- Further enhance visual feedback for data processing between sections
-- Create an even more distinctive visual treatment for the final recommendation
-- Optimize performance for mobile devices with responsive design enhancements
-- Consider adding a dark/light mode toggle for better accessibility
+### ⚠️ STRATEGIC UPGRADE PLANNED ⚠️
 
-The qualification journey now follows this optimized flow:
-1. Introduction with clear value proposition
+**IMPORTANT: The qualification modal requires a comprehensive upgrade as detailed in `qualification-modal-upgrade.md`. Future agents MUST read this file before making implementation changes.**
+
+The strategic upgrade includes the following key enhancements:
+
+1. **Product Context Enhancement**
+   - Add mini feature showcase to intro stage
+   - Add "Learn More" option at intro stage
+
+2. **Lead Qualification and Routing Improvements**
+   - Update recommendation algorithm to route leads differently based on score
+   - Create differentiated recommendation views (Foundation vs Premium tiers)
+   - Implement Foundation tier with direct purchase option
+
+3. **Analysis Animation and Breakdown Sequence**
+   - Add processing animation between questionnaire and recommendation
+   - Create visualization of how answers contributed to recommendation
+   - Implement enhanced visual feedback during processing
+
+4. **Copy Improvements Throughout**
+   - Update all headers, descriptions, and option text
+   - Implement more strategic, conversion-focused messaging
+   - Create recommendation-specific copy for each tier
+
+5. **Visual Design Enhancements**
+   - Add more dynamic animations and micro-interactions
+   - Improve visual hierarchy for better user experience
+   - Implement enhanced progress indicators
+
+The qualification journey will follow this updated flow:
+1. Introduction with product context and clear value proposition
 2. Team size assessment (2x2 grid)
 3. Implementation support preferences (2x2 grid)
 4. Timeline evaluation (2x2 grid)
 5. Content volume analysis (2x2 grid)
 6. Brief contact information collection (two-column layout)
-7. Personalized recommendation with embedded Calendly scheduling
+7. Analysis animation showing processing
+8. Analysis breakdown with visualization of score factors
+9. Personalized recommendation with:
+   - Executive Partnership (8-11 points): Calendly scheduling
+   - Comprehensive Implementation (5-7 points): Calendly scheduling
+   - Foundation Program (1-4 points): Direct purchase option
 
-The recommendation algorithm scores user responses (1-11 points) to match them with the appropriate implementation approach:
-- Executive Partnership (8-11 points)
-- Comprehensive Implementation (5-7 points) 
-- Foundation Program (1-4 points)
+All future agents working on the qualification modal implementation must follow the detailed implementation plan in `qualification-modal-upgrade.md`.
