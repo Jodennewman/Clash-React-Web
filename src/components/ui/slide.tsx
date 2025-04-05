@@ -12,7 +12,7 @@ function Slide({
     <div
       data-slot="slide"
       className={cn(
-        "group relative flex flex-col overflow-hidden rounded-xl shadow-md transition-all duration-[--transition-bounce]",
+        "group relative flex flex-col overflow-hidden rounded-xl shadow-theme-md bg-theme-gradient transition-all duration-[var(--theme-transition-bounce)]",
         className,
       )}
       {...props}
@@ -24,7 +24,7 @@ function SlideTitle({ className, ...props }: React.ComponentProps<"h3">) {
   return (
     <h3
       data-slot="slide-title"
-      className={cn("text-lg font-semibold tracking-tight text-[var(--theme-text-primary)] dark:text-white", className)}
+      className={cn("text-lg font-semibold tracking-tight text-theme-primary transition-colors duration-[var(--theme-transition-normal)]", className)}
       {...props}
     />
   );
@@ -34,7 +34,7 @@ function SlideDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
       data-slot="slide-description"
-      className={cn("text-sm text-balance text-[var(--theme-text-primary)]/70 dark:text-white/70", className)}
+      className={cn("text-sm text-balance text-theme-secondary transition-colors duration-[var(--theme-transition-normal)]", className)}
       {...props}
     />
   );
@@ -85,7 +85,7 @@ function SlideExpandedContent({
     <div
       data-slot="slide-expanded-content"
       className={cn(
-        "absolute inset-6 text-lg text-balance text-[var(--theme-text-primary)]/80 dark:text-white/80 transition-opacity duration-300",
+        "absolute inset-6 text-lg text-balance text-theme-secondary transition-all duration-[var(--theme-transition-normal)]",
         isExpanded ? "opacity-100" : "opacity-0",
         className,
       )}
@@ -108,7 +108,7 @@ function SlideButton({
       data-slot="slide-button"
       {...props}
       className={cn(
-        "vs-slide-btn pointer-events-none absolute right-6 bottom-6 z-10 block p-4",
+        "bg-theme-accent-secondary pointer-events-none absolute right-6 bottom-6 z-10 block p-4 rounded-full transition-all duration-[var(--theme-transition-normal)] shadow-theme-sm",
         className,
       )}
     >
