@@ -566,6 +566,11 @@ When working on a component:
 - [x] button.tsx - Converted all variants to theme-aware styling
 - [x] card.tsx - Removed competing light/dark modes for theme-aware variables
 - [x] theme-toggle.tsx - Simplified with theme utility classes
+- [x] dialog.tsx - Updated with theme-aware border and shadow styles
+- [x] vs-background.tsx - Refactored to use single theme-aware prop for background
+- [x] vs-button.tsx - Converted all variants to theme-aware styling
+- [x] vs-modal.tsx - Updated with theme-aware floating elements and animations
+- [x] vs-text.tsx - Replaced dual-mode styles with theme utility classes
 - [ ] accordion.tsx
 - [ ] accordion-raised.tsx
 - [ ] alert.tsx
@@ -574,7 +579,6 @@ When working on a component:
 - [ ] carousel.tsx
 - [ ] chart.tsx
 - [ ] checkbox.tsx
-- [ ] dialog.tsx
 - [ ] dropdown-menu.tsx
 - [ ] footer.tsx
 - [ ] form.tsx
@@ -607,16 +611,13 @@ When working on a component:
 - [ ] tile.tsx
 - [ ] tooltip.tsx
 - [ ] video-embed.tsx
-- [ ] vs-background.tsx
-- [ ] vs-button.tsx
 - [ ] vs-components.tsx
-- [ ] vs-modal.tsx
-- [ ] vs-text.tsx
 
 ### Sections Components (src/components/sections/)
 - [x] featured-modules.tsx - Fixed gradient and text styles for theme compatibility
 - [x] navbar/vs-navbar.tsx - Navbar fully converted to theme-aware styling
 - [x] VSCharts.tsx - Updated charts to use theme-aware styling
+- [x] VSPainPoints.tsx - Updated with theme-aware animations and floating elements
 - [ ] bento-grid/vsBentoGrid.tsx
 - [ ] carousel/VSCarousel.tsx
 - [ ] carousel/external.tsx
@@ -641,15 +642,14 @@ When working on a component:
 - [ ] pricing-section.tsx
 - [ ] social-proof/* (all files)
 - [ ] tabs/* (all files)
-- [ ] VSPainPoints.tsx
 - [ ] VSPricingQuizModal.tsx
 
 ### Modal Components (src/components/modals/)
+- [x] TimelineModal.tsx - Already using theme-aware styling
+- [x] VSModalExamples.tsx - Updated with theme-aware styling for cards and modals
 - [ ] ModalTest.tsx
 - [ ] ModalsImplementation.tsx
-- [ ] TimelineModal.tsx
 - [ ] VSApplicationModal.tsx
-- [ ] VSModalExamples.tsx
 - [ ] VSQuizModal.tsx
 - [ ] VSSubmoduleModal.tsx
 
