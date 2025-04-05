@@ -16,10 +16,15 @@ This file guides Claude Code when working with this repository. Follow these ins
    - Static color values
    - Tailwind gradient patterns
    - Shadow implementations
-5. Create custom scripts/functions when necessary to accelerate the process
-6. Regularly check progress against the refactoring checklist
+5. Use the CSS class checker utility (`node css-class-checker.js`) to:
+   - Identify missing theme-aware classes
+   - Find components using undefined theme variables
+   - Guide implementation of missing classes in globals.css
+   - Maintain consistent naming conventions
+6. Address missing theme-aware classes identified by the checker in globals.css
+7. Regularly check progress against the refactoring checklist
 
-**Success Criteria**: All components working with a single source of truth for styling that automatically adapts to theme changes, without competing style declarations.
+**Success Criteria**: All components working with a single source of truth for styling that automatically adapts to theme changes, without competing style declarations. All theme-aware classes properly defined in globals.css.
 
 ## Initial Requirements
 
@@ -570,9 +575,9 @@ When working on a component:
    - Verified hover states and animations in VSExampleComponent.tsx
 
 Next components to update:
-- mockup.tsx
-- mode-toggle.tsx
-- navbar.tsx
+- navigation-menu.tsx
+- navigation.tsx
+- radio-group.tsx
 
 Completed components:
 - VSExampleComponent.tsx - Fully theme-aware (5/4/2025)
@@ -619,9 +624,9 @@ Completed components:
 - [x] item.tsx - Updated with theme-aware text colors and transitions (5/4/2025)
 - [x] logo.tsx - Updated with theme-aware text colors and transitions (5/4/2025)
 - [x] marquee.tsx - Updated with theme-aware background and animation duration (5/4/2025)
-- [ ] mockup.tsx
-- [ ] mode-toggle.tsx
-- [ ] navbar.tsx
+- [x] mockup.tsx - Updated with theme-aware shadow and border colors (5/4/2025)
+- [x] mode-toggle.tsx - Updated theme toggle button with theme-aware gradient (5/4/2025)
+- [x] navbar.tsx - Updated navbar with theme-aware text colors (5/4/2025)
 - [ ] navigation-menu.tsx
 - [ ] navigation.tsx
 - [ ] radio-group.tsx
