@@ -147,33 +147,33 @@ export default function LeadCaptureForm({ onSubmit, className }: LeadCaptureForm
   };
   
   return (
-    <div className={`bg-[#09232F]/70 backdrop-blur-sm border border-white/10 rounded-xl p-6 ${className}`}>
+    <div className={`bg-theme-bg-dark/70 backdrop-blur-sm border border-theme-border-light rounded-xl p-6 shadow-theme-md ${className}`}>
       {isSuccess ? (
         <div className="text-center py-8">
-          <div className="w-16 h-16 bg-[#FEA35D]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-[#FEA35D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="w-16 h-16 bg-theme-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-theme-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h3 className="text-2xl font-bold text-white mb-2">Thank You!</h3>
-          <p className="text-white/70 mb-6">
+          <h3 className="text-2xl font-bold text-theme-primary mb-2">Thank You!</h3>
+          <p className="text-theme-secondary mb-6">
             We've received your information and will be in touch soon about the next steps.
           </p>
           <Button 
             onClick={() => setIsSuccess(false)} 
             variant="outline"
-            className="border-[#FEA35D]/30 text-[#FEA35D] hover:bg-[#FEA35D]/10"
+            className="border-theme-primary/30 text-theme-primary hover:bg-theme-primary/10 hover-bubbly-sm"
           >
             Submit Another Response
           </Button>
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
-          <h3 className="text-xl font-bold text-white mb-6">Get Started Today</h3>
+          <h3 className="text-xl font-bold text-theme-primary mb-6">Get Started Today</h3>
           
           {errors.submit && (
-            <Alert className="mb-4 bg-red-900/20 border-red-500">
-              <AlertDescription className="text-red-300">
+            <Alert className="mb-4 bg-theme-error/20 border-theme-error">
+              <AlertDescription className="text-theme-error">
                 {errors.submit}
               </AlertDescription>
             </Alert>
@@ -181,25 +181,25 @@ export default function LeadCaptureForm({ onSubmit, className }: LeadCaptureForm
           
           <div className="space-y-4 mb-6">
             <div>
-              <Label htmlFor="name" className="text-white mb-1 block">
-                Full Name <span className="text-[#FEA35D]">*</span>
+              <Label htmlFor="name" className="mb-1 block">
+                Full Name <span className="text-theme-primary">*</span>
               </Label>
               <Input
                 id="name"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className={`bg-[#08141B] border-white/20 text-white ${errors.name ? 'border-red-500' : ''}`}
+                className={errors.name ? 'border-theme-error' : ''}
                 placeholder="Your name"
               />
               {errors.name && (
-                <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+                <p className="text-theme-error text-sm mt-1">{errors.name}</p>
               )}
             </div>
             
             <div>
-              <Label htmlFor="email" className="text-white mb-1 block">
-                Email <span className="text-[#FEA35D]">*</span>
+              <Label htmlFor="email" className="mb-1 block">
+                Email <span className="text-theme-primary">*</span>
               </Label>
               <Input
                 id="email"
@@ -207,16 +207,16 @@ export default function LeadCaptureForm({ onSubmit, className }: LeadCaptureForm
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`bg-[#08141B] border-white/20 text-white ${errors.email ? 'border-red-500' : ''}`}
+                className={errors.email ? 'border-theme-error' : ''}
                 placeholder="your.email@example.com"
               />
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                <p className="text-theme-error text-sm mt-1">{errors.email}</p>
               )}
             </div>
             
             <div>
-              <Label htmlFor="phone" className="text-white mb-1 block">
+              <Label htmlFor="phone" className="mb-1 block">
                 Phone (Optional)
               </Label>
               <Input
@@ -225,14 +225,13 @@ export default function LeadCaptureForm({ onSubmit, className }: LeadCaptureForm
                 type="tel"
                 value={formData.phone}
                 onChange={handleChange}
-                className="bg-[#08141B] border-white/20 text-white"
                 placeholder="+1 (555) 123-4567"
               />
             </div>
             
             <div>
-              <Label className="text-white mb-2 block">
-                Areas of Interest <span className="text-[#FEA35D]">*</span>
+              <Label className="mb-2 block">
+                Areas of Interest <span className="text-theme-primary">*</span>
               </Label>
               <div className="space-y-2">
                 {interestOptions.map(option => (
@@ -241,11 +240,11 @@ export default function LeadCaptureForm({ onSubmit, className }: LeadCaptureForm
                       id={option.id}
                       checked={formData.interests.includes(option.id)}
                       onCheckedChange={() => handleInterestChange(option.id)}
-                      className="border-white/30 data-[state=checked]:bg-[#FEA35D] data-[state=checked]:border-[#FEA35D]"
+                      className="border-theme-border-medium data-[state=checked]:bg-theme-primary data-[state=checked]:border-theme-primary"
                     />
                     <label
                       htmlFor={option.id}
-                      className="ml-2 text-sm font-medium text-white/80"
+                      className="ml-2 text-sm font-medium text-theme-secondary"
                     >
                       {option.label}
                     </label>
@@ -253,7 +252,7 @@ export default function LeadCaptureForm({ onSubmit, className }: LeadCaptureForm
                 ))}
               </div>
               {errors.interests && (
-                <p className="text-red-500 text-sm mt-1">{errors.interests}</p>
+                <p className="text-theme-error text-sm mt-1">{errors.interests}</p>
               )}
             </div>
             
@@ -263,17 +262,17 @@ export default function LeadCaptureForm({ onSubmit, className }: LeadCaptureForm
                   id="consent"
                   checked={formData.consent}
                   onCheckedChange={handleConsentChange}
-                  className="border-white/30 data-[state=checked]:bg-[#FEA35D] data-[state=checked]:border-[#FEA35D] mt-1"
+                  className="border-theme-border-medium data-[state=checked]:bg-theme-primary data-[state=checked]:border-theme-primary mt-1"
                 />
                 <label
                   htmlFor="consent"
-                  className={`ml-2 text-sm text-white/70 ${errors.consent ? 'text-red-400' : ''}`}
+                  className={`ml-2 text-sm text-theme-secondary ${errors.consent ? 'text-theme-error' : ''}`}
                 >
-                  I agree to receive communications about Vertical Shortcut. You can unsubscribe at any time. <span className="text-[#FEA35D]">*</span>
+                  I agree to receive communications about Vertical Shortcut. You can unsubscribe at any time. <span className="text-theme-primary">*</span>
                 </label>
               </div>
               {errors.consent && (
-                <p className="text-red-500 text-sm mt-1">{errors.consent}</p>
+                <p className="text-theme-error text-sm mt-1">{errors.consent}</p>
               )}
             </div>
           </div>
@@ -281,13 +280,13 @@ export default function LeadCaptureForm({ onSubmit, className }: LeadCaptureForm
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-[#B92234] hover:bg-[#DE6B59] text-white font-semibold py-3"
+            className="w-full bg-theme-gradient-primary text-white font-semibold py-3 shadow-theme-sm hover-bubbly"
           >
             {isSubmitting ? 'Submitting...' : 'Apply Now'}
           </Button>
           
-          <p className="text-white/50 text-xs mt-4 text-center">
-            By submitting this form, you agree to our <a href="#" className="text-[#FEA35D] hover:underline">Terms of Service</a> and <a href="#" className="text-[#FEA35D] hover:underline">Privacy Policy</a>.
+          <p className="text-theme-secondary/50 text-xs mt-4 text-center">
+            By submitting this form, you agree to our <a href="#" className="text-theme-primary hover:underline">Terms of Service</a> and <a href="#" className="text-theme-primary hover:underline">Privacy Policy</a>.
           </p>
         </form>
       )}

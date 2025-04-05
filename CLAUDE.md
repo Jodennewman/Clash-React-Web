@@ -569,9 +569,9 @@ When working on a component:
    - Verified hover states and animations in VSExampleComponent.tsx
 
 Next components to update:
-- label.tsx
-- lead-capture-form.tsx
-- link.tsx
+- footer.tsx
+- image.tsx
+- item.tsx
 
 Completed components:
 - VSExampleComponent.tsx - Fully theme-aware (5/4/2025)
@@ -582,6 +582,9 @@ Completed components:
 - form.tsx - Updated with theme-aware text and border styles (5/4/2025)
 - glow.tsx - Updated with theme-aware glow effects and opacity variables (5/4/2025)
 - input.tsx - Updated with theme-aware borders, backgrounds and focus states (5/4/2025)
+- label.tsx - Updated with theme-aware text colors and transitions (5/4/2025)
+- lead-capture-form.tsx - Updated with theme-aware backgrounds, borders and error states (5/4/2025)
+- link.tsx - Added theme-aware variants with transition variables (5/4/2025)
 
 ## Theme-Aware Component Refactoring Progress
 
@@ -607,12 +610,12 @@ Completed components:
 - [x] form.tsx - Updated with theme-aware text and border styles (5/4/2025)
 - [x] glow.tsx - Updated with theme-aware glow effects and opacity variables (5/4/2025)
 - [x] input.tsx - Updated with theme-aware borders, backgrounds and focus states (5/4/2025)
+- [x] label.tsx - Updated with theme-aware text colors and transitions (5/4/2025)
+- [x] lead-capture-form.tsx - Updated with theme-aware backgrounds, borders and error states (5/4/2025)
+- [x] link.tsx - Added theme-aware variants with transition variables (5/4/2025)
 - [ ] footer.tsx
 - [ ] image.tsx
 - [ ] item.tsx
-- [ ] label.tsx
-- [ ] lead-capture-form.tsx
-- [ ] link.tsx
 - [ ] logo.tsx
 - [ ] marquee.tsx
 - [ ] mockup.tsx
