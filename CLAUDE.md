@@ -571,15 +571,15 @@ When working on a component:
 - [x] vs-button.tsx - Converted all variants to theme-aware styling
 - [x] vs-modal.tsx - Updated with theme-aware floating elements and animations
 - [x] vs-text.tsx - Replaced dual-mode styles with theme utility classes
-- [ ] accordion.tsx
-- [ ] accordion-raised.tsx
-- [ ] alert.tsx
-- [ ] avatar.tsx
-- [ ] beam.tsx
-- [ ] carousel.tsx
-- [ ] chart.tsx
-- [ ] checkbox.tsx
-- [ ] dropdown-menu.tsx
+- [x] accordion.tsx - Updated with theme-aware border and text colors
+- [x] accordion-raised.tsx - Converted to theme-aware background, shadow, and text
+- [x] alert.tsx - Updated all alert variants with theme-aware styling
+- [x] avatar.tsx - Updated with theme-aware background and text colors
+- [x] beam.tsx - Updated with theme-aware radial gradients
+- [x] carousel.tsx - Already using theme-aware approach (uses cn utility)
+- [x] chart.tsx - Updated with theme-aware tooltip and text colors
+- [x] checkbox.tsx - Updated with theme-aware border, background, and text colors
+- [x] dropdown-menu.tsx - Updated all dropdown elements with theme-aware styling
 - [ ] footer.tsx
 - [ ] form.tsx
 - [ ] glow.tsx
