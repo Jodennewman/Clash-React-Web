@@ -38,7 +38,7 @@ function InputWithClearButton({
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
-        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+        className="w-full px-4 py-2 border border-[var(--theme-border-light)] rounded-md bg-theme-surface text-theme-primary focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)]"
       />
       {value && (
         <div className="absolute inset-y-0 right-0 flex items-center pr-3">
