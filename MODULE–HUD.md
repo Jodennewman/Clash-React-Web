@@ -24,6 +24,49 @@
   - ✅ Added expandable submodule details on click
   - ✅ Integrated with ModuleHUD using proper state management
 
+### HUD Layout Structure and Section Mapping
+
+The ModuleHUD follows this specific layout pattern with sections mapped to the following course areas:
+
+1. **First BigSquare**: Basic Theory / Core Concepts
+   - This is the foundational learning material (ID: "basic_theory")
+   
+2. **Column of 3 Squares**: Three Upskillers
+   - Research & Writing (ID: "upskiller_authentic_research_writer")
+   - Shooting (ID: "upskiller_shorts_ready_videographer")
+   - Editing (ID: "upskiller_vertical_video_editors")
+   
+3. **Column of 2 Squares**: PR/Authority & Delegation
+   - PR & Authority (ID: "pr_authority")
+   - Delegation (ID: "delegation")
+   
+4. **Second BigSquare**: Advanced Theory / Core Concepts Mastery
+   - This is the advanced theoretical material (ID: "advanced_theory")
+   
+5. **Third Column**: Business Scaling
+   - Delegation (ID: "delegation")
+   - Monetisation (ID: "monetisation")
+   - Conversion (ID: "conversion")
+   
+6. **Third BigSquare**: System & Products
+   - This represents the complete frameworks/systems (ID: "delegation" or could be visually represented as 3 small squares for different product aspects)
+
+### Utility Scripts
+
+Two validation scripts have been added to confirm data structure compatibility:
+
+1. **test-course-data.js**
+   - Validates that module and submodule data has all required fields for the modal
+   - Tests compatibility of section IDs with course-data.json
+   - Helps identify mismatches between component expectations and actual data
+
+2. **list-sections.js**
+   - Lists all categories and sections from course-data.json
+   - Provides a clear overview of available sections and their IDs
+   - Helps with mapping section IDs to the correct visual elements
+
+These scripts enable verification without running the dev server, ensuring data compatibility.
+
 ### Next Steps
 1. **Testing and Integration Refinement**
    - ✅ Fixed section IDs to match course-data.json structure 

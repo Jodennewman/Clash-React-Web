@@ -31,6 +31,7 @@ interface ModuleData {
 
 // Configure our main sections based on the spec in MODULE-HUD.md and matching course-data.json
 const mainSections: SectionData[] = [
+  // First BigSquare - Basic Theory/Core Concepts
   {
     id: "basic_theory",
     name: "Basic Theory",
@@ -39,10 +40,56 @@ const mainSections: SectionData[] = [
     size: 'double',
     featured: true
   },
+  // First Column - Upskillers
   {
-    id: "advanced_theory",  // Updated from "theory_advanced" to match course data
+    id: "upskiller_authentic_research_writer",
+    name: "Research & Writing",
+    color: "var(--secondary-teal)",
+    type: 'normalSquare',
+    size: 'normal'
+  },
+  {
+    id: "upskiller_shorts_ready_videographer",
+    name: "Shooting",
+    color: "var(--hud-pink)",
+    type: 'normalSquare',
+    size: 'normal'
+  },
+  {
+    id: "upskiller_vertical_video_editors",
+    name: "Editing",
+    color: "var(--accent-coral)",
+    type: 'normalSquare',
+    size: 'normal'
+  },
+  // Second Column - PR/Authority & Delegation
+  {
+    id: "pr_authority",
+    name: "PR & Authority",
+    color: "var(--hud-coral)",
+    type: 'normalSquare',
+    size: 'normal'
+  },
+  {
+    id: "delegation",
+    name: "Delegation",
+    color: "var(--hud-navy)",
+    type: 'normalSquare',
+    size: 'normal'
+  },
+  // Second BigSquare - Advanced Theory
+  {
+    id: "advanced_theory",
     name: "Advanced Theory",
     color: "var(--hud-coral)",
+    type: 'bigSquare',
+    size: 'double'
+  },
+  // Third Column - Business Scaling
+  {
+    id: "delegation",
+    name: "Team Building",
+    color: "var(--hud-navy)",
     type: 'normalSquare',
     size: 'normal'
   },
@@ -54,29 +101,16 @@ const mainSections: SectionData[] = [
     size: 'normal'
   },
   {
-    id: "upskiller_authentic_research_writer", // Updated from "repurposing" to use a research-related section
-    name: "Research & Writing",  // Simplified name for display
+    id: "conversion",
+    name: "Conversion",
     color: "var(--secondary-teal)",
-    type: 'bigSquare',
-    size: 'double'
-  },
-  {
-    id: "upskiller_shorts_ready_videographer", // Updated from "shooting" to match course data
-    name: "Shooting",  // Simplified name for display
-    color: "var(--hud-pink)",
     type: 'normalSquare',
     size: 'normal'
   },
+  // Third BigSquare - System & Products
   {
-    id: "upskiller_vertical_video_editors", // Updated from "editing" to match course data
-    name: "Editing",  // Simplified name for display
-    color: "var(--accent-coral)",
-    type: 'bigSquare',
-    size: 'double'
-  },
-  {
-    id: "delegation", // Updated from "system_notion" to use a real section
-    name: "Systems & Delegation", // Modified name to match original intent
+    id: "delegation", // Reused for Systems representation
+    name: "Systems & Products",
     color: "var(--hud-navy)",
     type: 'bigSquare',
     size: 'double',
@@ -282,10 +316,10 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   const squareGapY = normalSquareWidth * 1; // Vertical gap (1x width)
   
   // Group sections into columns as per the layout spec from MODULE-HUD.md:
-  // Bigsquare ||| column of 3 squares ||| column of 2 squares ||| Bigsquare ||| column of 2 squares ||| BigSquare
-  const column1 = useMemo(() => [mainSections[1], mainSections[2], mainSections[4]], []); // First column of 3 squares (Advanced Theory, Monetisation, Shooting)
-  const column2 = useMemo(() => [mainSections[2], mainSections[4]], []); // Second column of 2 squares (Monetisation, Shooting)
-  const column3 = useMemo(() => [mainSections[1], mainSections[2]], []); // Third column of 2 squares (Advanced Theory, Monetisation)
+  // Bigsquare ||| column of 3 squares ||| column of 2 squares ||| Bigsquare ||| column of 3 squares ||| BigSquare
+  const column1 = useMemo(() => [mainSections[1], mainSections[2], mainSections[3]], []); // First column - Three Upskillers
+  const column2 = useMemo(() => [mainSections[4], mainSections[5]], []); // Second column - PR/Authority & Delegation
+  const column3 = useMemo(() => [mainSections[7], mainSections[8], mainSections[9]], []); // Third column - Business Scaling
   
   // Get modules for the selected section
   const selectedSectionModules = useMemo(() => {
@@ -647,56 +681,46 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             }}
           />
           
-          {/* First column of squares (3 normal squares) */}
+          {/* First column of squares (3 Upskillers) */}
           <SquareColumn 
             squares={column1}
             selectedSection={selectedSection}
             sectionRefs={sectionRefs}
           />
           
-          {/* Second column of squares (2 normal squares) */}
+          {/* Second column of squares (PR/Authority & Delegation) */}
           <SquareColumn 
             squares={column2}
             selectedSection={selectedSection}
             sectionRefs={sectionRefs}
           />
           
-          {/* Third big square */}
+          {/* Second big square (Advanced Theory) */}
           <BigSquare 
-            section={mainSections[3]} 
-            isSelected={selectedSection === mainSections[3].id}
+            section={mainSections[6]} 
+            isSelected={selectedSection === mainSections[6].id}
             ref={(el) => { 
-              if (el) sectionRefs.current[mainSections[3].id] = el;
+              if (el) sectionRefs.current[mainSections[6].id] = el;
               return undefined;
             }}
           />
           
-          {/* Third column of squares (2 normal squares) */}
+          {/* Third column of squares (Business Scaling) */}
           <SquareColumn 
             squares={column3}
             selectedSection={selectedSection}
             sectionRefs={sectionRefs}
           />
           
-          {/* Editing big square */}
-          <BigSquare 
-            section={mainSections[5]} 
-            isSelected={selectedSection === mainSections[5].id}
-            ref={(el) => { 
-              if (el) sectionRefs.current[mainSections[5].id] = el;
-              return undefined;
-            }}
-          />
-          
           {/* System big square (Final special square) - Special design to connote the 3 parts of product/turn key system */}
           <div 
             ref={(el) => { 
-              if (el) sectionRefs.current[mainSections[6].id] = el;
+              if (el) sectionRefs.current[mainSections[10].id] = el;
               return undefined;
             }}
-            data-id={mainSections[6].id}
+            data-id={mainSections[10].id}
             className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden"
-            style={{ backgroundColor: mainSections[6].color }}
+            style={{ backgroundColor: mainSections[10].color }}
           >
             {/* Three parts/subsections to represent the turn key system */}
             <div className="absolute top-0 left-0 w-full h-1/3 bg-[var(--theme-float-bg-primary)] opacity-20"></div>
