@@ -197,6 +197,7 @@
   --theme-text-secondary: var(--text-navy);
   --theme-text-tertiary: rgba(18, 46, 59, 0.7);
   --theme-text-subtle: rgba(18, 46, 59, 0.5);
+  --theme-text-on-primary: white;
   
   /* Chart colors */
   --chart-1: var(--primary-orange);
@@ -385,6 +386,7 @@
     --theme-text-secondary: rgba(255, 255, 255, 0.7);
     --theme-text-tertiary: rgba(255, 255, 255, 0.6);
     --theme-text-subtle: rgba(255, 255, 255, 0.4);
+    --theme-text-on-primary: white;
     
     /* Add missing variables for dark mode */
     --theme-transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -439,6 +441,52 @@
     /* Theme grid patterns - dark mode */
     --theme-grid-line: var(--grid-line);
     --theme-grid-dot: var(--grid-dot);
+    --theme-grid-dot-opacity: 0.1;
+    
+    /* Missing theme variables for dark mode */
+    --theme-primary: var(--primary-orange);
+    --theme-primary-hover: var(--primary-orange-hover);
+    --theme-primary-light: var(--primary-orange-light);
+    --theme-accent-secondary: var(--secondary-teal);
+    --theme-accent-secondary-hover: var(--secondary-teal-hover);
+    --theme-accent-secondary-light: var(--secondary-teal-light);
+    --theme-accent-tertiary: var(--accent-coral);
+    --theme-accent-quaternary: var(--accent-red);
+    --theme-border-medium: rgba(255, 255, 255, 0.1);
+    --theme-border-radius-md: var(--border-radius-md);
+    --theme-border-radius-lg: var(--border-radius-lg);
+    --theme-card-bg-navy: var(--card-bg-navy);
+    --theme-color-desktop: var(--primary-orange);
+    --theme-color-mobile: var(--secondary-teal);
+    --theme-glow-opacity: 0.3;
+    --theme-glow-opacity-sm: 0.15;
+    --theme-glow-opacity-lg: 0.45;
+    --theme-overlay-opacity: 0.65;
+    --theme-anim-distance-sm: -3px;
+    --theme-anim-distance-md: -7px;
+    --theme-anim-scale-sm: 1.02;
+    --theme-anim-duration-med: 0.45;
+    --theme-anim-duration-slow: 0.6;
+    --theme-anim-duration-marquee: 25s;
+    --theme-transition-bounce: 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    
+    /* Additional missing theme variables */
+    --theme-blue: var(--secondary-teal);
+    --theme-orange: var(--primary-orange);
+    --theme-pink: var(--accent-coral);
+    --theme-color-views: var(--primary-orange);
+    --theme-color-followers: var(--hud-teal);
+    --theme-color-engagement: var(--accent-red);
+    --theme-color-revenue: var(--secondary-teal);
+    --theme-bg-navy-gradient: linear-gradient(213deg, var(--bg-navy) 0%, var(--bg-navy-darker) 100%);
+    --theme-bg-cream-gradient: linear-gradient(to bottom right, var(--bg-navy), var(--bg-navy-darker));
+    --theme-accent: var(--theme-accent-secondary);
+    --theme-accent-coral-dark: var(--accent-coral);
+    --theme-var-name: 'dark-example-value';
+    --theme-radix-navigation-menu-viewport-width: 600px;
+    --theme-radix-navigation-menu-viewport-height: 400px;
+    --theme-radix-select-trigger-width: 100%;
+    --theme-radix-select-trigger-height: 2.5rem;
   }
 }
 
