@@ -1,7 +1,8 @@
-import React, { useRef, useEffect, useMemo } from "react";
+import React, { useRef, useEffect, useMemo, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import courseUtils from "../../lib/course-utils";
+import { ModuleModal } from "../modals/TimelineModal";
 
 interface ModuleHUDProps {
   selectedSection?: string | null;
@@ -270,6 +271,10 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
   const moduleRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
+  
+  // State for modal management
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedModuleId, setSelectedModuleId] = useState<string>('');
   
   // Calculate square dimensions for the layout
   const normalSquareWidth = 85; // Base width in px
@@ -575,12 +580,24 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   // Handle module click
   const handleModuleClick = (e: React.MouseEvent) => {
     const moduleItem = (e.target as HTMLElement).closest('.module-item');
-    if (moduleItem && onModuleClick) {
+    if (moduleItem) {
       const moduleId = moduleItem.getAttribute('data-id');
       if (moduleId) {
-        onModuleClick(moduleId);
+        // Set the selected module ID and open the modal
+        setSelectedModuleId(moduleId);
+        setIsModalOpen(true);
+        
+        // Also call the external callback if provided
+        if (onModuleClick) {
+          onModuleClick(moduleId);
+        }
       }
     }
+  };
+  
+  // Close modal handler
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
   
   return (
@@ -743,6 +760,13 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
            opacity-[var(--theme-float-opacity-secondary)] 
            bg-[var(--theme-float-bg-secondary)]
            animate-float-medium"></div>
+      
+      {/* Module modal */}
+      <ModuleModal 
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        moduleId={selectedModuleId}
+      />
     </div>
   );
 };
