@@ -18,6 +18,11 @@ const VSPainPoints = () => {
     const section = sectionRef.current;
     const pathLength = path.getTotalLength();
     
+    // Get computed theme variables for animation
+    const styles = getComputedStyle(document.documentElement);
+    const animDistance = styles.getPropertyValue('--theme-anim-distance') || '-4px';
+    const animDuration = styles.getPropertyValue('--theme-anim-duration') || '0.35';
+    
     // Initial setup
     gsap.set(path, {
       strokeDasharray: `${pathLength} ${pathLength}`,
@@ -61,11 +66,11 @@ const VSPainPoints = () => {
           }
         });
         
-        // Animate the heading
+        // Animate the heading with theme-aware values
         tl.from(element, {
-          y: 60,
+          y: parseFloat(animDistance) * -15, // Amplify the effect
           opacity: 0,
-          duration: 0.8,
+          duration: parseFloat(animDuration) * 2, // Slower for emphasis
           ease: "power3.out"
         });
       });
@@ -81,11 +86,11 @@ const VSPainPoints = () => {
           }
         });
         
-        // Animate the description with a slight delay after the heading
+        // Animate the description with theme-aware values
         tl.from(element, {
-          y: 30,
+          y: parseFloat(animDistance) * -7.5, // Half the heading movement
           opacity: 0,
-          duration: 0.6,
+          duration: parseFloat(animDuration) * 1.5, // Slightly slower
           delay: 0.2,
           ease: "power2.out"
         });
@@ -97,27 +102,23 @@ const VSPainPoints = () => {
   }, []);
   
   return (
-    <div ref={sectionRef} className="painPoints relative overflow-hidden py-24 bg-[var(--theme-bg-secondary)] dark:bg[--bg-navy-darker]">
+    <div ref={sectionRef} className="painPoints relative overflow-hidden py-24 bg-theme-secondary">
       <IsometricGridBackground />
       <div className="container mx-auto px-4">
-        <h1 className="text-center text-[var(--theme-text-primary)] dark:text-white text-4xl md:text-5xl lg:text-6xl font-bold mb-16">
+        <h1 className="text-center text-theme-primary text-4xl md:text-5xl lg:text-6xl font-bold mb-16">
           For Founders Feeling Fed Up
         </h1>
       </div>
       
-      {/* Floating elements - light mode */}
-      <div className="absolute top-40 left-20 w-8 h-24 rounded-[40%] rotate-12 opacity-9 
-                    bg-[var(--theme-primary)] animate-float-slow dark:hidden"></div>
-      <div className="absolute bottom-17 right-6 w-32 h-32 rounded-[30%] -rotate-6 opacity-12
-                    bg-[var(--theme-primary-hover)] animate-float-medium dark:hidden"></div>
-                    
-      {/* Dark mode floating elements */}
-      <div className="absolute top-40 left-20 w-24 h-24 rounded-[40%] rotate-12 opacity-10 
-                    vs-btn-primary-gradient 
-                    animate-float-slow hidden dark:block"></div>
-      <div className="absolute bottom-60 right-10 w-32 h-32 rounded-[30%] -rotate-6 opacity-15
-                    vs-btn-secondary-gradient 
-                    animate-float-medium hidden dark:block"></div>
+      {/* Theme-aware floating elements */}
+      <div className="absolute top-40 left-20 w-24 h-24 rounded-[40%] rotate-12 
+                    opacity-[var(--theme-float-opacity)] 
+                    bg-[var(--theme-float-bg-primary)]
+                    animate-float-slow"></div>
+      <div className="absolute bottom-60 right-10 w-32 h-32 rounded-[30%] -rotate-6 
+                    opacity-[var(--theme-float-opacity)] 
+                    bg-[var(--theme-float-bg-secondary)]
+                    animate-float-medium"></div>
       
       {/* SVG Line Animation Container */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -126,7 +127,7 @@ const VSPainPoints = () => {
              xmlns="http://www.w3.org/2000/svg">
           <path 
             ref={pathRef}
-            className="stroke-[--secondary-teal] dark:stroke-[--secondary-teal-hover]"
+            className="stroke-theme-accent"
             strokeWidth="4"
             strokeLinecap="round"
             fill="none"
@@ -135,12 +136,12 @@ const VSPainPoints = () => {
         </svg>
       </div>
       
-      {/* Top fade effect */}
-      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[var(--theme-bg-primary)] to-transparent  dark:to-transparent z-10"></div>
+      {/* Top fade effect - theme-aware */}
+      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-theme-primary to-transparent z-10"></div>
       
       {/* Pain Point Sections */}
       <div className="relative z-20 container mx-auto max-w-5xl px-4">
-        <div className="text-[var(--theme-text-primary)] dark:text-white/80 text-lg mb-20 mx-auto max-w-4xl text-center">
+        <div className="text-theme-secondary text-lg mb-20 mx-auto max-w-4xl text-center">
           Founders complain a lot. And despite what certain, less hard working people think of them, sometimes they actually have a point. Being a founder is hard. Making content that actually gets views on top of that is impossible. We've worked with people just like you if you are:
         </div>
         
@@ -148,12 +149,12 @@ const VSPainPoints = () => {
         <div className="my-40">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6 items-center">
             <div className="md:text-right order-2 md:order-1">
-              <h2 className="pain-heading text-[var(--theme-text-primary)] dark:text-white text-3xl md:text-4xl lg:text-5xl font-bold">
-                Bored of <br />Failing Content<span className="text-[var(--theme-primary)]  text-5xl">.</span>
+              <h2 className="pain-heading text-theme-primary text-3xl md:text-4xl lg:text-5xl font-bold">
+                Bored of <br />Failing Content<span className="text-theme-accent text-5xl">.</span>
               </h2>
             </div>
             <div className="order-1 md:order-2">
-              <p className="pain-desc text-[var(--theme-text-primary)] dark:text-white/80">
+              <p className="pain-desc text-theme-secondary">
                 Ploughing time, money and personnel into the dream of working out the "algorithm" and going from optimism to plain confusion every time your content tanks.
               </p>
             </div>
@@ -164,13 +165,13 @@ const VSPainPoints = () => {
         <div className="my-40">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6 items-center">
             <div>
-              <p className="pain-desc text-[var(--theme-text-primary)] dark:text-white/80">
+              <p className="pain-desc text-theme-secondary">
                 Without organic content that works, you're forced to push unimaginable funds into paid ads just to generate leads.
               </p>
             </div>
             <div>
-              <h2 className="pain-heading text-[var(--theme-text-primary)] dark:text-white text-3xl md:text-4xl lg:text-5xl font-bold">
-                Fighting Meta's <br />Money Pit<span className="text-[var(--theme-primary)]  text-5xl">.</span>
+              <h2 className="pain-heading text-theme-primary text-3xl md:text-4xl lg:text-5xl font-bold">
+                Fighting Meta's <br />Money Pit<span className="text-theme-accent text-5xl">.</span>
               </h2>
             </div>
           </div>
@@ -180,12 +181,12 @@ const VSPainPoints = () => {
         <div className="my-40">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6 items-center">
             <div className="md:text-right order-2 md:order-1">
-              <h2 className="pain-heading text-[var(--theme-text-primary)] dark:text-white text-3xl md:text-4xl lg:text-5xl font-bold">
-                Struggling With <br />Your Socials Team<span className="text-[var(--theme-primary)]  text-5xl">.</span>
+              <h2 className="pain-heading text-theme-primary text-3xl md:text-4xl lg:text-5xl font-bold">
+                Struggling With <br />Your Socials Team<span className="text-theme-accent text-5xl">.</span>
               </h2>
             </div>
             <div className="order-1 md:order-2">
-              <p className="pain-desc text-[var(--theme-text-primary)] dark:text-white/80">
+              <p className="pain-desc text-theme-secondary">
                 Whether your team are top level marketers or just starting out, nailing social media video is a niche, high value skill that has only been around since 2020.
               </p>
             </div>
@@ -196,21 +197,21 @@ const VSPainPoints = () => {
         <div className="my-40">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6 items-center">
             <div>
-              <p className="pain-desc text-[var(--theme-text-primary)] dark:text-white/80">
+              <p className="pain-desc text-theme-secondary">
                 Your audience doesn't even know that you exist, and you dream of the advantages that come from being the best known in your category.
               </p>
             </div>
             <div>
-              <h2 className="pain-heading text-[var(--theme-text-primary)] dark:text-white text-3xl md:text-4xl lg:text-5xl font-bold">
-                A Life <br />Without Leads<span className="text-[var(--theme-primary)]  text-5xl">.</span>
+              <h2 className="pain-heading text-theme-primary text-3xl md:text-4xl lg:text-5xl font-bold">
+                A Life <br />Without Leads<span className="text-theme-accent text-5xl">.</span>
               </h2>
             </div>
           </div>
         </div>
       </div>
       
-      {/* Bottom fade effect */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[var(--theme-bg-primary)] to-transparent  dark:to-transparent z-10"></div>
+      {/* Bottom fade effect - theme-aware */}
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-theme-primary to-transparent z-10"></div>
     </div>
   );
 };
