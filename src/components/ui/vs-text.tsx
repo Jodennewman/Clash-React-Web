@@ -13,21 +13,21 @@ interface VSTextProps {
 }
 
 /**
- * VS Text Component - Implements the required styling pattern for text elements
+ * VS Text Component - Implements theme-aware styling for text elements
  * 
- * Uses the mandatory pattern of direct CSS variable references for light mode + dark: classes for dark mode
+ * Uses theme-aware variables that automatically update based on the current theme
  * 
  * @example
- * <VSText>Regular text with navy color</VSText>
- * <VSText color="--primary-orange">Orange text</VSText>
+ * <VSText>Regular text with theme-aware styling</VSText>
+ * <VSText color="theme-primary">Primary colored text</VSText>
  * <VSText variant="h2">Heading with correct styling</VSText>
  */
 export function VSText({
   children,
   variant = 'p',
-  color = '--text-navy',
+  color = 'theme-primary',
   className = '',
-  darkClassName = 'dark:text-white',
+  darkClassName = '', // No longer needed with theme-aware approach
   as,
   style = {},
   ...props
@@ -37,7 +37,7 @@ export function VSText({
   
   return (
     <Component
-      className={`text-[${color}] ${darkClassName} ${className}`} // Apply light mode and dark mode styling
+      className={`text-${color} ${className}`} // Use theme-aware utility class
       style={{
         ...style, // Support additional styles
       }}
@@ -49,14 +49,14 @@ export function VSText({
 }
 
 /**
- * VS Heading Component - Wrapper for heading elements with correct styling
+ * VS Heading Component - Wrapper for heading elements with theme-aware styling
  */
 export function VSHeading({
   children,
   variant = 'h2',
-  color = '--text-navy',
+  color = 'theme-primary',
   className = '',
-  darkClassName = 'dark:text-white',
+  darkClassName = '', // No longer needed with theme-aware approach
   ...props
 }: VSTextProps) {
   // Choose the element type based on the variant
@@ -64,7 +64,7 @@ export function VSHeading({
   
   return (
     <Component
-      className={`text-[${color}] ${darkClassName} font-bold ${className}`}
+      className={`text-${color} font-bold ${className}`}
       {...props}
     >
       {children}
@@ -73,30 +73,31 @@ export function VSHeading({
 }
 
 /**
- * VS Gradient Text - Creates a gradient text effect with proper dark mode support
+ * VS Gradient Text - Creates a gradient text effect with theme-aware styling
  */
 export function VSGradientText({
   children,
   variant = 'span',
   className = '',
-  fromColor = '--primary-orange',
-  toColor = '--accent-coral',
-  darkFromColor = '--primary-orange-light',
-  darkToColor = '--accent-coral-dark',
+  gradientType = 'primary',
   as,
   style = {},
   ...props
 }: VSTextProps & {
-  fromColor?: string;
-  toColor?: string;
-  darkFromColor?: string;
-  darkToColor?: string;
+  gradientType?: 'primary' | 'secondary' | 'accent';
 }) {
   const Component = as || variant;
   
+  // Use predefined theme-aware gradient classes
+  const gradientClasses = {
+    primary: 'text-theme-gradient-primary',
+    secondary: 'text-theme-gradient-secondary', 
+    accent: 'text-theme-gradient-accent'
+  };
+  
   return (
     <Component
-      className={`inline-block bg-gradient-to-r from-[${fromColor}] to-[${toColor}] bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-white dark:to-white/70 dark:bg-clip-text dark:text-transparent ${className}`}
+      className={`inline-block bg-clip-text text-transparent ${gradientClasses[gradientType]} ${className}`}
       style={style}
       {...props}
     >
