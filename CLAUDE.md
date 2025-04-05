@@ -575,9 +575,9 @@ When working on a component:
    - Verified hover states and animations in VSExampleComponent.tsx
 
 Next components to update:
-- slide.tsx
-- social-proof-item.tsx
-- social-stats.tsx
+- switch.tsx
+- tabs.tsx
+- testimonial-carousel.tsx
 
 Completed components:
 - VSExampleComponent.tsx - Fully theme-aware (5/4/2025)
@@ -633,9 +633,9 @@ Completed components:
 - [x] section.tsx - Updated with theme-aware background, text and floating element (5/4/2025)
 - [x] select.tsx - Updated select menu components with theme-aware styling (5/4/2025)
 - [x] sheet.tsx - Updated sheet dialog with theme-aware borders, background and overlay (5/4/2025)
-- [ ] slide.tsx
-- [ ] social-proof-item.tsx
-- [ ] social-stats.tsx
+- [x] slide.tsx - Updated with theme-aware gradient, text, and button styling (5/4/2025)
+- [x] social-proof-item.tsx - Updated with theme-aware card and text styling (5/4/2025)
+- [x] social-stats.tsx - Updated with theme-aware tooltip and text styling (5/4/2025)
 - [ ] switch.tsx
 - [ ] tabs.tsx
 - [ ] testimonial-carousel.tsx
