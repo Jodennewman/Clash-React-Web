@@ -575,9 +575,9 @@ When working on a component:
    - Verified hover states and animations in VSExampleComponent.tsx
 
 Next components to update:
-- tooltip.tsx
-- video-embed.tsx
-- vs-components.tsx
+- Modal components: ModalsImplementation.tsx, VSApplicationModal.tsx, VSSubmoduleModal.tsx
+- Form components: ApplicationFormWrapper.tsx
+- Hero components: IsometricPattern.tsx, SimpleHero.tsx
 
 Completed components:
 - VSExampleComponent.tsx - Fully theme-aware (5/4/2025)
@@ -642,9 +642,9 @@ Completed components:
 - [x] textarea.tsx - Updated with theme-aware borders, shadows, and transitions (5/4/2025)
 - [x] theme-provider.tsx - Already theme-aware (manages theme switching) (5/4/2025)
 - [x] tile.tsx - Updated with theme-aware gradients, floating elements, and hover states (5/4/2025)
-- [ ] tooltip.tsx
-- [ ] video-embed.tsx
-- [ ] vs-components.tsx
+- [x] tooltip.tsx - Updated with theme-aware border, shadow, and background (5/4/2025)
+- [x] video-embed.tsx - Updated with theme-aware floating elements and gradients (5/4/2025)
+- [x] vs-components.tsx - Already theme-aware (imports vs-text, vs-background, vs-button) (5/4/2025)
 
 ### Sections Components (src/components/sections/)
 - [x] featured-modules.tsx - Fixed gradient and text styles for theme compatibility
