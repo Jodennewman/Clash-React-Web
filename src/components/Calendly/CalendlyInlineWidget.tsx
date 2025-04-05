@@ -148,7 +148,7 @@ const CalendlyInlineWidget: React.FC<CalendlyInlineWidgetProps> = ({
       <div className={`relative z-10 
                  ${getBackgroundClass()}
                  rounded-[--border-radius-lg] p-6 md:p-8
-                 shadow-[var(--theme-shadow-${cardStyle === 'elevated' ? 'lg' : cardStyle === 'minimal' ? 'sm' : 'card'})]
+                 ${cardStyle === 'elevated' ? 'shadow-theme-lg' : cardStyle === 'minimal' ? 'shadow-theme-sm' : 'shadow-theme-card'}
                  ${cardStyle !== 'borderless' ? 'border border-[var(--theme-border-light)]' : ''}
                  transition-all duration-[--transition-bounce]`}>
         {/* Header section */}

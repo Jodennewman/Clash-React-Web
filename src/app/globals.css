@@ -72,10 +72,16 @@
   /* Accent colors */
   --accent-coral: oklch(0.62 0.15 27);
   --accent-coral-rgb: 222, 107, 89;
+  --accent-coral-glow: oklch(0.65 0.16 27);
   --accent-red: oklch(0.48 0.21 25);
   --accent-red-rgb: 185, 34, 52;
   --accent-red-dark: oklch(0.51 0.1846 21.29);
   --accent-red-dark-rgb: 185, 34, 52;
+  
+  /* Theme color aliases for pricing component */
+  --theme-blue: var(--secondary-teal);
+  --theme-orange: var(--primary-orange);
+  --theme-pink: var(--accent-coral);
 
   
   /* Text colors */
@@ -191,6 +197,12 @@
   --theme-text-secondary: var(--text-navy);
   --theme-text-tertiary: rgba(18, 46, 59, 0.7);
   --theme-text-subtle: rgba(18, 46, 59, 0.5);
+  
+  /* Chart colors */
+  --chart-1: var(--primary-orange);
+  --chart-2: var(--secondary-teal);
+  --theme-color-desktop: var(--primary-orange);
+  --theme-color-mobile: var(--secondary-teal);
   
   /* Theme background colors */
   --theme-bg-primary: var(--bg-cream);
@@ -1366,6 +1378,19 @@ a:hover {
 
 .text-theme-secondary {
   color: var(--theme-text-secondary);
+}
+
+/* CSS Reset for common variables */
+:root {
+  --gap: 1rem;
+  --tw-rotate: 0;
+  --theme-accent: var(--theme-accent-secondary);
+  --theme-accent-coral-dark: oklch(0.58 0.18 27);
+  --theme-var-name: 'example-value';
+  --theme-radix-navigation-menu-viewport-width: 600px;
+  --theme-radix-navigation-menu-viewport-height: 400px;
+  --theme-radix-select-trigger-width: 100%;
+  --theme-radix-select-trigger-height: 2.5rem;
 }
 
 .text-theme-tertiary {

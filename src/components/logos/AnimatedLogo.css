@@ -1,4 +1,9 @@
 /* AnimatedLogo.css */
+:root {
+  --secondary-200: var(--secondary-teal);
+  --secondary-400: var(--secondary-teal-hover);
+}
+
 .dash-line, 
 .vs-letters path,
 .dashed-path {
