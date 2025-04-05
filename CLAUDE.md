@@ -575,9 +575,9 @@ When working on a component:
    - Verified hover states and animations in VSExampleComponent.tsx
 
 Next components to update:
-- textarea.tsx
-- theme-provider.tsx
-- tile.tsx
+- tooltip.tsx
+- video-embed.tsx
+- vs-components.tsx
 
 Completed components:
 - VSExampleComponent.tsx - Fully theme-aware (5/4/2025)
@@ -639,9 +639,9 @@ Completed components:
 - [x] switch.tsx - Updated with theme-aware styles, transitions, and shadows (5/4/2025)
 - [x] tabs.tsx - Updated tab components with theme-aware backgrounds and borders (5/4/2025)
 - [x] testimonial-carousel.tsx - Updated testimonial carousel with theme-aware styling (5/4/2025)
-- [ ] textarea.tsx
-- [ ] theme-provider.tsx
-- [ ] tile.tsx
+- [x] textarea.tsx - Updated with theme-aware borders, shadows, and transitions (5/4/2025)
+- [x] theme-provider.tsx - Already theme-aware (manages theme switching) (5/4/2025)
+- [x] tile.tsx - Updated with theme-aware gradients, floating elements, and hover states (5/4/2025)
 - [ ] tooltip.tsx
 - [ ] video-embed.tsx
 - [ ] vs-components.tsx
