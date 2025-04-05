@@ -36,6 +36,8 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
     timeline: '',
     contentVolume: ''
   });
+  // Define the sequence of stages
+  const stageSequence = ['intro', 'teamSize', 'implementationSupport', 'timeline', 'contentVolume', 'contact', 'recommendation'];
   const [errors, setErrors] = useState({
     name: '',
     email: '',
@@ -124,7 +126,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
     });
   };
 
-  // Handle user answers with validation
+  // Handle user answers with validation and auto-advance
   const handleAnswerChange = (key: string, value: string) => {
     setAnswers(prev => ({
       ...prev,
@@ -151,6 +153,22 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
       stage: stage,
       interactionCount: engagement.questionInteractions + 1
     });
+    
+    // Auto-advance for multiple-choice questions
+    if (['teamSize', 'implementationSupport', 'timeline', 'contentVolume'].includes(stage)) {
+      // Track the stage completion event
+      trackEvent('qualification_step_completed', {
+        stage: stage,
+        timeSpent: engagement.timeSpent,
+        interactionCount: engagement.questionInteractions
+      });
+      
+      // Get the next stage in the sequence
+      const currentIndex = stageSequence.indexOf(stage);
+      if (currentIndex >= 0 && currentIndex < stageSequence.length - 1) {
+        setStage(stageSequence[currentIndex + 1]);
+      }
+    }
   };
   
   // Validate form fields
@@ -514,25 +532,21 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
     // Proceed to next stage based on current stage
     switch (stage) {
       case 'intro':
-        setStage('contact');
+        setStage('teamSize');
         trackEvent('qualification_started');
         break;
       case 'contact':
-        setStage('teamSize');
-        break;
-      case 'teamSize':
-        setStage('implementationSupport');
-        break;
-      case 'implementationSupport':
-        setStage('timeline');
-        break;
-      case 'timeline':
-        setStage('contentVolume');
-        break;
-      case 'contentVolume':
         processAnswers(); // Calculate recommendation and go to recommendation stage
         break;
+      case 'contentVolume':
+        setStage('contact');
+        break;
       default:
+        // Use the stage sequence for the default case
+        const currentIndex = stageSequence.indexOf(stage);
+        if (currentIndex >= 0 && currentIndex < stageSequence.length - 1) {
+          setStage(stageSequence[currentIndex + 1]);
+        }
         break;
     }
   };
@@ -545,27 +559,10 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
       timeSpent: engagement.timeSpent
     });
     
-    switch (stage) {
-      case 'contact':
-        setStage('intro');
-        break;
-      case 'teamSize':
-        setStage('contact');
-        break;
-      case 'implementationSupport':
-        setStage('teamSize');
-        break;
-      case 'timeline':
-        setStage('implementationSupport');
-        break;
-      case 'contentVolume':
-        setStage('timeline');
-        break;
-      case 'recommendation':
-        setStage('contentVolume');
-        break;
-      default:
-        break;
+    // Use the stage sequence
+    const currentIndex = stageSequence.indexOf(stage);
+    if (currentIndex > 0) {
+      setStage(stageSequence[currentIndex - 1]);
     }
   };
 
@@ -711,61 +708,78 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         <div className="p-6">
           {/* Introduction Stage */}
           {stage === 'intro' && (
-            <div className="space-y-4">
-              <p className="text-theme-primary">
-                Answer a few questions to receive a personalized implementation strategy for your content production needs. This helps us understand your specific situation and recommend the right approach.
-              </p>
+            <div className="space-y-6">
+              <div className="bg-theme-primary/5 p-5 rounded-lg">
+                <h3 className="text-xl font-medium text-theme-primary mb-3">
+                  Personalize Your Experience
+                </h3>
+                <p className="text-theme-secondary">
+                  Tell us about your goals to get a tailored solution that perfectly matches your situation. Content production isn't one-size-fits-all, and neither are our recommendations.
+                </p>
+              </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="bg-theme-bg-primary rounded-lg p-4 border border-[var(--theme-border-light)]">
                   <h3 className="text-lg font-medium text-theme-primary mb-2">
-                    You'll discover:
+                    You'll receive:
                   </h3>
-                  <ul className="space-y-2">
+                  <ul className="space-y-3">
                     <li className="flex items-start gap-2">
                       <Check className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                      <span className="text-theme-secondary">Your ideal implementation approach</span>
+                      <span className="text-theme-secondary">Custom-fit solution based on your unique needs</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Check className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                      <span className="text-theme-secondary">Personalized strategy recommendations</span>
+                      <span className="text-theme-secondary">Tailored approach to match your team structure</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Check className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                      <span className="text-theme-secondary">Support level that matches your needs</span>
+                      <span className="text-theme-secondary">Personalized implementation timeline</span>
                     </li>
                   </ul>
                 </div>
                 
                 <div className="bg-theme-bg-primary rounded-lg p-4 border border-[var(--theme-border-light)]">
                   <h3 className="text-lg font-medium text-theme-primary mb-2">
-                    Quick process:
+                    How it works:
                   </h3>
-                  <ul className="space-y-2">
+                  <ul className="space-y-3">
                     <li className="flex items-start gap-2">
                       <div className="flex items-center justify-center h-5 w-5 rounded-full bg-theme-primary text-white text-xs shrink-0 mt-0.5">1</div>
-                      <span className="text-theme-secondary">Answer a few strategic questions</span>
+                      <span className="text-theme-secondary">Answer a few quick questions about your needs</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <div className="flex items-center justify-center h-5 w-5 rounded-full bg-theme-primary text-white text-xs shrink-0 mt-0.5">2</div>
-                      <span className="text-theme-secondary">Get your personalized recommendation</span>
+                      <span className="text-theme-secondary">Get your personalized solution recommendation</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <div className="flex items-center justify-center h-5 w-5 rounded-full bg-theme-primary text-white text-xs shrink-0 mt-0.5">3</div>
-                      <span className="text-theme-secondary">Book a call with the right specialist</span>
+                      <span className="text-theme-secondary">Schedule a tailored strategy session if desired</span>
                     </li>
                   </ul>
                 </div>
               </div>
+
+              <p className="text-theme-tertiary text-sm text-center mt-2">
+                Takes less than a minute to complete. No obligation.
+              </p>
             </div>
           )}
           
           {/* Contact Information Stage */}
           {stage === 'contact' && (
             <div className="space-y-4">
-              <p className="text-theme-secondary mb-4">
-                Let's start with some basic information about you and your company.
-              </p>
+              <div className="bg-theme-primary/5 p-4 rounded-lg mb-6">
+                <div className="flex items-start gap-3">
+                  <Info className="h-5 w-5 text-theme-primary shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-medium text-theme-primary mb-1">Almost there!</h3>
+                    <p className="text-theme-secondary text-sm">
+                      We've prepared your personalized recommendation. Please share your details so we can show you the most relevant solution.
+                    </p>
+                  </div>
+                </div>
+              </div>
               
               <div className="space-y-4">
                 <div>
@@ -804,7 +818,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 <div>
                   <label htmlFor="company" className="block text-sm font-medium text-theme-primary mb-1">
-                    Company Name*
+                    Company/Brand Name*
                   </label>
                   <input
                     id="company"
@@ -812,7 +826,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                     value={answers.company}
                     onChange={(e) => handleAnswerChange('company', e.target.value)}
                     className={`w-full rounded-lg border ${errors.company ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent`}
-                    placeholder="Company name"
+                    placeholder="Company or brand name"
                   />
                   {errors.company && (
                     <p className="mt-1 text-red-500 dark:text-red-400 text-sm">{errors.company}</p>
@@ -821,7 +835,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 <div>
                   <label htmlFor="position" className="block text-sm font-medium text-theme-primary mb-1">
-                    Your Position
+                    Your Role <span className="text-theme-tertiary">(optional)</span>
                   </label>
                   <input
                     id="position"
@@ -829,14 +843,17 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                     value={answers.position}
                     onChange={(e) => handleAnswerChange('position', e.target.value)}
                     className="w-full rounded-lg border border-[var(--theme-border-light)] bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent"
-                    placeholder="Job title"
+                    placeholder="Your role or position"
                   />
                 </div>
               </div>
               
-              <p className="text-theme-tertiary text-sm mt-4">
-                *Required fields
-              </p>
+              <div className="flex items-center gap-2 mt-4">
+                <CheckCircle className="h-4 w-4 text-theme-primary" />
+                <p className="text-theme-tertiary text-sm">
+                  Your information is secure and never shared without permission
+                </p>
+              </div>
             </div>
           )}
           
@@ -844,76 +861,76 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {stage === 'teamSize' && (
             <div className="space-y-4">
               <p className="text-theme-secondary mb-6">
-                How would you describe your content team structure?
+                What's your team structure like? This helps us personalize your experience.
               </p>
               
-              <div className="space-y-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button
                   onClick={() => handleAnswerChange('teamSize', '1')}
-                  className={`w-full flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.teamSize === '1' 
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   }`}
                 >
-                  <div className="flex-1 text-left">
-                    <h3 className="text-theme-primary font-medium">Solo Creator or Founder</h3>
-                    <p className="text-theme-secondary text-sm">You handle most content creation yourself or with 1-2 freelancers</p>
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-theme-primary font-medium">Solo Creator</h3>
+                    {answers.teamSize === '1' && (
+                      <CheckCircle className="h-5 w-5 text-theme-primary" />
+                    )}
                   </div>
-                  {answers.teamSize === '1' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary" />
-                  )}
+                  <p className="text-theme-secondary text-sm">You create content yourself or with 1-2 freelancers</p>
                 </button>
                 
                 <button
                   onClick={() => handleAnswerChange('teamSize', '5')}
-                  className={`w-full flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.teamSize === '5' 
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   }`}
                 >
-                  <div className="flex-1 text-left">
+                  <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">Small Team</h3>
-                    <p className="text-theme-secondary text-sm">You have a small in-house team (2-9 people) producing content</p>
+                    {answers.teamSize === '5' && (
+                      <CheckCircle className="h-5 w-5 text-theme-primary" />
+                    )}
                   </div>
-                  {answers.teamSize === '5' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary" />
-                  )}
+                  <p className="text-theme-secondary text-sm">You have a small team (2-9 people)</p>
                 </button>
                 
                 <button
                   onClick={() => handleAnswerChange('teamSize', '15')}
-                  className={`w-full flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.teamSize === '15' 
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   }`}
                 >
-                  <div className="flex-1 text-left">
+                  <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">Mid-Size Team</h3>
-                    <p className="text-theme-secondary text-sm">Your content team consists of 10-19 people across various roles</p>
+                    {answers.teamSize === '15' && (
+                      <CheckCircle className="h-5 w-5 text-theme-primary" />
+                    )}
                   </div>
-                  {answers.teamSize === '15' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary" />
-                  )}
+                  <p className="text-theme-secondary text-sm">Your team consists of 10-19 people</p>
                 </button>
                 
                 <button
                   onClick={() => handleAnswerChange('teamSize', '25')}
-                  className={`w-full flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.teamSize === '25' 
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   }`}
                 >
-                  <div className="flex-1 text-left">
+                  <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">Large Organization</h3>
-                    <p className="text-theme-secondary text-sm">You have 20+ people involved in content production or multiple teams</p>
+                    {answers.teamSize === '25' && (
+                      <CheckCircle className="h-5 w-5 text-theme-primary" />
+                    )}
                   </div>
-                  {answers.teamSize === '25' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary" />
-                  )}
+                  <p className="text-theme-secondary text-sm">20+ people across multiple teams</p>
                 </button>
               </div>
             </div>
@@ -923,59 +940,76 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {stage === 'implementationSupport' && (
             <div className="space-y-4">
               <p className="text-theme-secondary mb-6">
-                What level of implementation support would best serve your team?
+                How do you prefer to approach new tools and systems?
               </p>
               
-              <div className="space-y-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button
                   onClick={() => handleAnswerChange('implementationSupport', 'self_directed')}
-                  className={`w-full flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.implementationSupport === 'self_directed' 
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   }`}
                 >
-                  <div className="flex-1 text-left">
-                    <h3 className="text-theme-primary font-medium">Self-Directed Implementation</h3>
-                    <p className="text-theme-secondary text-sm">You prefer to implement systems yourself with documentation and resources</p>
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-theme-primary font-medium">Self-Directed</h3>
+                    {answers.implementationSupport === 'self_directed' && (
+                      <CheckCircle className="h-5 w-5 text-theme-primary" />
+                    )}
                   </div>
-                  {answers.implementationSupport === 'self_directed' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary" />
-                  )}
+                  <p className="text-theme-secondary text-sm">I like exploring and implementing systems independently</p>
                 </button>
                 
                 <button
                   onClick={() => handleAnswerChange('implementationSupport', 'guided')}
-                  className={`w-full flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.implementationSupport === 'guided' 
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   }`}
                 >
-                  <div className="flex-1 text-left">
-                    <h3 className="text-theme-primary font-medium">Guided Implementation</h3>
-                    <p className="text-theme-secondary text-sm">You want regular coaching and guidance while your team implements</p>
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-theme-primary font-medium">Guided Approach</h3>
+                    {answers.implementationSupport === 'guided' && (
+                      <CheckCircle className="h-5 w-5 text-theme-primary" />
+                    )}
                   </div>
-                  {answers.implementationSupport === 'guided' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary" />
-                  )}
+                  <p className="text-theme-secondary text-sm">I value coaching and guided implementation</p>
                 </button>
                 
                 <button
                   onClick={() => handleAnswerChange('implementationSupport', 'full_service')}
-                  className={`w-full flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.implementationSupport === 'full_service' 
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   }`}
                 >
-                  <div className="flex-1 text-left">
-                    <h3 className="text-theme-primary font-medium">Full-Service Implementation</h3>
-                    <p className="text-theme-secondary text-sm">You want dedicated support and done-for-you implementation assistance</p>
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-theme-primary font-medium">Done-For-You</h3>
+                    {answers.implementationSupport === 'full_service' && (
+                      <CheckCircle className="h-5 w-5 text-theme-primary" />
+                    )}
                   </div>
-                  {answers.implementationSupport === 'full_service' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary" />
-                  )}
+                  <p className="text-theme-secondary text-sm">I prefer hands-on assistance and full implementation support</p>
+                </button>
+                
+                <button
+                  onClick={() => handleAnswerChange('implementationSupport', 'undecided')}
+                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.implementationSupport === 'undecided' 
+                      ? 'border-theme-primary bg-theme-primary/10' 
+                      : 'border-theme-border-light bg-theme-bg-surface'
+                  }`}
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-theme-primary font-medium">Not Sure Yet</h3>
+                    {answers.implementationSupport === 'undecided' && (
+                      <CheckCircle className="h-5 w-5 text-theme-primary" />
+                    )}
+                  </div>
+                  <p className="text-theme-secondary text-sm">I'd like to discuss options based on my specific needs</p>
                 </button>
               </div>
             </div>
@@ -985,59 +1019,76 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {stage === 'timeline' && (
             <div className="space-y-4">
               <p className="text-theme-secondary mb-6">
-                When are you looking to implement these new content systems?
+                What's your ideal timeframe for starting a new project?
               </p>
               
-              <div className="space-y-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button
                   onClick={() => handleAnswerChange('timeline', 'immediate')}
-                  className={`w-full flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.timeline === 'immediate' 
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   }`}
                 >
-                  <div className="flex-1 text-left">
-                    <h3 className="text-theme-primary font-medium">Immediate (0-4 weeks)</h3>
-                    <p className="text-theme-secondary text-sm">You're ready to begin implementation immediately</p>
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-theme-primary font-medium">ASAP</h3>
+                    {answers.timeline === 'immediate' && (
+                      <CheckCircle className="h-5 w-5 text-theme-primary" />
+                    )}
                   </div>
-                  {answers.timeline === 'immediate' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary" />
-                  )}
+                  <p className="text-theme-secondary text-sm">I'm ready to start right away (0-4 weeks)</p>
                 </button>
                 
                 <button
                   onClick={() => handleAnswerChange('timeline', 'next_quarter')}
-                  className={`w-full flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.timeline === 'next_quarter' 
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   }`}
                 >
-                  <div className="flex-1 text-left">
-                    <h3 className="text-theme-primary font-medium">Next Quarter (1-3 months)</h3>
-                    <p className="text-theme-secondary text-sm">You're planning implementation in the next quarter</p>
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-theme-primary font-medium">Next Quarter</h3>
+                    {answers.timeline === 'next_quarter' && (
+                      <CheckCircle className="h-5 w-5 text-theme-primary" />
+                    )}
                   </div>
-                  {answers.timeline === 'next_quarter' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary" />
-                  )}
+                  <p className="text-theme-secondary text-sm">I'm planning for the near future (1-3 months)</p>
                 </button>
                 
                 <button
                   onClick={() => handleAnswerChange('timeline', 'exploratory')}
-                  className={`w-full flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.timeline === 'exploratory' 
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   }`}
                 >
-                  <div className="flex-1 text-left">
-                    <h3 className="text-theme-primary font-medium">Exploratory (3+ months)</h3>
-                    <p className="text-theme-secondary text-sm">You're researching options for future implementation</p>
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-theme-primary font-medium">Future Planning</h3>
+                    {answers.timeline === 'exploratory' && (
+                      <CheckCircle className="h-5 w-5 text-theme-primary" />
+                    )}
                   </div>
-                  {answers.timeline === 'exploratory' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary" />
-                  )}
+                  <p className="text-theme-secondary text-sm">I'm exploring options for later implementation (3+ months)</p>
+                </button>
+                
+                <button
+                  onClick={() => handleAnswerChange('timeline', 'flexible')}
+                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.timeline === 'flexible' 
+                      ? 'border-theme-primary bg-theme-primary/10' 
+                      : 'border-theme-border-light bg-theme-bg-surface'
+                  }`}
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-theme-primary font-medium">Flexible</h3>
+                    {answers.timeline === 'flexible' && (
+                      <CheckCircle className="h-5 w-5 text-theme-primary" />
+                    )}
+                  </div>
+                  <p className="text-theme-secondary text-sm">I'm open to recommendations based on what works best</p>
                 </button>
               </div>
             </div>
@@ -1047,59 +1098,76 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {stage === 'contentVolume' && (
             <div className="space-y-4">
               <p className="text-theme-secondary mb-6">
-                What are your monthly content production goals?
+                What are your content creation ambitions?
               </p>
               
-              <div className="space-y-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button
                   onClick={() => handleAnswerChange('contentVolume', 'low')}
-                  className={`w-full flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.contentVolume === 'low' 
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   }`}
                 >
-                  <div className="flex-1 text-left">
-                    <h3 className="text-theme-primary font-medium">Focused Output (1-9 pieces/month)</h3>
-                    <p className="text-theme-secondary text-sm">You create a few high-impact pieces of content monthly</p>
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-theme-primary font-medium">Quality Focus</h3>
+                    {answers.contentVolume === 'low' && (
+                      <CheckCircle className="h-5 w-5 text-theme-primary" />
+                    )}
                   </div>
-                  {answers.contentVolume === 'low' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary" />
-                  )}
+                  <p className="text-theme-secondary text-sm">A few high-impact pieces each month (1-9 pieces)</p>
                 </button>
                 
                 <button
                   onClick={() => handleAnswerChange('contentVolume', 'medium')}
-                  className={`w-full flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.contentVolume === 'medium' 
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   }`}
                 >
-                  <div className="flex-1 text-left">
-                    <h3 className="text-theme-primary font-medium">Moderate Volume (10-49 pieces/month)</h3>
-                    <p className="text-theme-secondary text-sm">You maintain consistent content across multiple channels</p>
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-theme-primary font-medium">Balanced Approach</h3>
+                    {answers.contentVolume === 'medium' && (
+                      <CheckCircle className="h-5 w-5 text-theme-primary" />
+                    )}
                   </div>
-                  {answers.contentVolume === 'medium' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary" />
-                  )}
+                  <p className="text-theme-secondary text-sm">Consistent content across channels (10-49 pieces)</p>
                 </button>
                 
                 <button
                   onClick={() => handleAnswerChange('contentVolume', 'high')}
-                  className={`w-full flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.contentVolume === 'high' 
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   }`}
                 >
-                  <div className="flex-1 text-left">
-                    <h3 className="text-theme-primary font-medium">High Volume (50+ pieces/month)</h3>
-                    <p className="text-theme-secondary text-sm">You need systems for large-scale content production</p>
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-theme-primary font-medium">High Volume</h3>
+                    {answers.contentVolume === 'high' && (
+                      <CheckCircle className="h-5 w-5 text-theme-primary" />
+                    )}
                   </div>
-                  {answers.contentVolume === 'high' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary" />
-                  )}
+                  <p className="text-theme-secondary text-sm">Scaling content production across platforms (50+ pieces)</p>
+                </button>
+                
+                <button
+                  onClick={() => handleAnswerChange('contentVolume', 'undecided')}
+                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.contentVolume === 'undecided' 
+                      ? 'border-theme-primary bg-theme-primary/10' 
+                      : 'border-theme-border-light bg-theme-bg-surface'
+                  }`}
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-theme-primary font-medium">Still Deciding</h3>
+                    {answers.contentVolume === 'undecided' && (
+                      <CheckCircle className="h-5 w-5 text-theme-primary" />
+                    )}
+                  </div>
+                  <p className="text-theme-secondary text-sm">I'd like advice on the right content volume for my goals</p>
                 </button>
               </div>
             </div>
@@ -1358,22 +1426,22 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 onClick={handleClose}
                 className="text-theme-secondary hover:text-theme-primary px-4 py-2 rounded-lg transition-colors hover-bubbly-sm"
               >
-                {stage === 'intro' ? 'Not now' : 'Close'}
+                {stage === 'intro' ? 'Maybe later' : 'Close'}
               </button>
             )}
             
-            {/* Next or Finish button - not on recommendation stage */}
-            {stage !== 'recommendation' && (
+            {/* Next or Finish button for intro and contact stages */}
+            {['intro', 'contact'].includes(stage) && (
               <button
                 onClick={goToNextStage}
-                disabled={!canProceed()}
+                disabled={stage === 'contact' && !canProceed()}
                 className={`flex items-center gap-2 px-6 py-2 rounded-lg transition-colors hover-bubbly-sm ${
-                  canProceed()
-                    ? 'bg-theme-primary hover:bg-theme-primary-hover text-white'
-                    : 'bg-theme-bg-secondary text-theme-tertiary cursor-not-allowed'
+                  stage === 'contact' && !canProceed()
+                    ? 'bg-theme-bg-secondary text-theme-tertiary cursor-not-allowed'
+                    : 'bg-theme-primary hover:bg-theme-primary-hover text-white'
                 }`}
               >
-                {stage === 'contentVolume' ? 'Get Recommendation' : 'Continue'}
+                {stage === 'intro' ? 'Start Personalization' : 'Show My Recommendation'}
                 <ChevronRight className="h-4 w-4" />
               </button>
             )}
