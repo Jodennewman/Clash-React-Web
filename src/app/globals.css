@@ -89,6 +89,7 @@
   --card-bg-light-rgb: 255, 237, 224;
   --card-bg-navy: oklch(0.31 0.05 227);
   --card-bg-navy-rgb: linear-gradient(145deg, rgba(12, 67, 99, 1) 0%, rgba(9, 48, 69, 1) 100%);
+  --bg-navy-darker-rgb: 8, 29, 39;
   
   /* UI Element colors */
   --ui-peach-light: oklch(0.83 0.07 60);
@@ -122,6 +123,12 @@
   --color-revenue: var(--secondary-teal);
   --color-conversion: var(--accent-red);
   
+  /* Theme-aware chart colors */
+  --theme-color-views: var(--primary-orange);
+  --theme-color-followers: var(--hud-teal);
+  --theme-color-engagement: var(--accent-red);
+  --theme-color-revenue: var(--secondary-teal);
+  
   /* Common */
   --border-radius-sm: 0.5rem; /* 8px */
   --border-radius-md: 0.75rem; /* 12px */
@@ -149,18 +156,33 @@
   --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-bounce: 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
   
+  /* Theme-aware transitions */
+  --theme-transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --theme-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  
   /* Additional variables not defined yet (referenced in dark mode) */
   --bg-navy: oklch(0.16 0.03 235);
   --bg-navy-rgb: 9, 35, 47;
   --bg-navy-gradient: linear-gradient(213deg, oklch(0.16 0.03 235) 0%, oklch(0.12 0.02 235) 100%);
   --bg-navy-gradient-rgb: linear-gradient(213deg, rgba(9, 35, 47, 1) 0%, rgba(8, 29, 39, 1) 100%);
+  --theme-bg-navy-gradient: linear-gradient(213deg, oklch(0.16 0.03 235) 0%, oklch(0.12 0.02 235) 100%);
   --bg-navy-darker: oklch(0.12 0.02 235);
   --module-bg-gradient: linear-gradient(to bottom right, white, var(--bg-cream));
   --module-accent-gradient: linear-gradient(to bottom right, var(--bg-cream), var(--bg-cream-darker));
+  --theme-bg-cream-gradient: linear-gradient(to bottom right, white, var(--bg-cream));
   --glow-accent: none;
   --glow-primary: none;
   --glow-blue: none;
   --card-bg-dark: white;
+  
+  /* Pattern variables */
+  --theme-pattern-color: var(--primary-orange);
+  --theme-pattern-opacity: 0.05;
+  
+  /* Eyeball component variables */
+  --theme-eyeball-outer: white;
+  --theme-eyeball-iris: var(--theme-accent-secondary);
+  --theme-eyeball-pupil: var(--theme-primary);
   
   /* Theme-aware variables that update automatically with theme */
   
@@ -214,17 +236,38 @@
   
   /* Theme animation variables */
   --theme-anim-distance: -4px;
+  --theme-anim-distance-sm: -2px;
+  --theme-anim-distance-md: -6px;
   --theme-anim-scale: 1.02;
+  --theme-anim-scale-sm: 1.01;
   --theme-anim-duration: 0.35;
+  --theme-anim-duration-slow: 0.5;
+  --theme-anim-duration-med: 0.4;
+  --theme-anim-duration-marquee: 30s;
   --theme-transition-bounce: var(--transition-bounce);
   
   /* Theme border colors */
   --theme-border-light: rgba(0, 0, 0, 0.05);
+  --theme-border-medium: rgba(0, 0, 0, 0.1);
   --theme-border-primary: rgba(var(--primary-orange-rgb), 0.2);
+  
+  /* Theme border radius */
+  --theme-border-radius-md: var(--border-radius-md);
+  --theme-border-radius-lg: var(--border-radius-lg);
   
   /* Theme grid patterns */
   --theme-grid-line: var(--grid-line);
   --theme-grid-dot: var(--grid-dot);
+  --theme-grid-dot-opacity: 0.08;
+  
+  /* Theme opacity values */
+  --theme-overlay-opacity: 0.5;
+  --theme-glow-opacity: 0.3;
+  --theme-glow-opacity-sm: 0.15;
+  --theme-glow-opacity-lg: 0.45;
+  
+  /* Theme card styles */
+  --theme-card-bg-navy: var(--card-bg-navy);
 }
 
 /* Root variables that define our theme */
@@ -330,6 +373,15 @@
     --theme-text-secondary: rgba(255, 255, 255, 0.7);
     --theme-text-tertiary: rgba(255, 255, 255, 0.6);
     --theme-text-subtle: rgba(255, 255, 255, 0.4);
+    
+    /* Add missing variables for dark mode */
+    --theme-transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --theme-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --theme-eyeball-outer: var(--bg-navy-darker);
+    --theme-eyeball-iris: var(--theme-accent-secondary-light);
+    --theme-eyeball-pupil: var(--theme-primary-light);
+    --theme-pattern-color: var(--theme-primary-light);
+    --theme-pattern-opacity: 0.08;
     
     /* Theme background colors - dark mode */
     --theme-bg-primary: var(--bg-navy);
@@ -1508,6 +1560,117 @@ a:hover {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
+}
+
+/* Missing theme-aware classes from checker */
+.bg-theme-content {
+  background-color: var(--theme-bg-primary);
+  opacity: 0.98;
+}
+
+.bg-theme-on {
+  background-color: var(--theme-primary);
+  opacity: 0.95;
+}
+
+.border-theme-on {
+  border: 1px solid var(--theme-primary);
+}
+
+.shadow-theme-glow {
+  box-shadow: 0 0 15px rgba(var(--primary-orange-rgb), 0.15);
+}
+
+.shadow-theme-primary {
+  box-shadow: 0 0 10px rgba(var(--primary-orange-rgb), 0.1);
+}
+
+.text-theme-on {
+  color: white;
+}
+
+/* Frequently used theme-aware classes */
+.text-theme-primary-light {
+  color: var(--theme-primary-light);
+}
+
+.text-theme-on-primary {
+  color: white;
+}
+
+.border-theme-on-primary {
+  border: 1px solid var(--theme-primary);
+}
+
+.bg-theme-accent-quaternary {
+  background-color: var(--theme-accent-quaternary);
+}
+
+.border-theme-accent-secondary {
+  border: 1px solid var(--theme-accent-secondary);
+}
+
+.bg-theme-accent-secondary {
+  background-color: var(--theme-accent-secondary);
+}
+
+.bg-theme-accent-tertiary {
+  background-color: var(--theme-accent-tertiary);
+}
+
+.bg-theme-bg-primary {
+  background-color: var(--theme-bg-primary);
+}
+
+.bg-theme-primary-light {
+  background-color: var(--theme-primary-light);
+}
+
+.text-theme-accent-tertiary {
+  color: var(--theme-accent-tertiary);
+}
+
+.text-theme-accent-secondary {
+  color: var(--theme-accent-secondary);
+}
+
+.text-theme-accent-quaternary {
+  color: var(--theme-accent-quaternary);
+}
+
+.bg-theme-bg-light {
+  background-color: var(--theme-bg-surface);
+}
+
+.bg-theme-gradient-overlay-light {
+  background: linear-gradient(to bottom, transparent, var(--theme-bg-primary));
+}
+
+.bg-theme-gradient-text {
+  background: linear-gradient(to right, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.border-theme-border-medium {
+  border: 1px solid var(--theme-border-medium);
+}
+
+.bg-theme-border-light {
+  background-color: var(--theme-border-light);
+}
+
+.bg-theme-primary-hover {
+  background-color: var(--theme-primary-hover);
+}
+
+.bg-theme-accent-secondary-light {
+  background-color: var(--theme-accent-secondary-light);
+}
+
+.border-theme-border-light {
+  border: 1px solid var(--theme-border-light);
 }
 
 /* Fade overlays */

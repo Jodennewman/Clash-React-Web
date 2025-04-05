@@ -1,13 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, ReactElement } from "react";
 import { Section } from "../ui/section";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-  } from '../ui/card';
 import {
     Select,
     SelectTrigger,
@@ -17,22 +9,60 @@ import {
 } from "../ui/select";
 import { TrendingUp } from "lucide-react";
 import {
-    ChartContainer,
     ChartStyle,
     ChartTooltip,
-    ChartTooltipContent,
 } from '../ui/chart';
 
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-import { Label, Pie, PieChart, Sector } from 'recharts';
+import { Pie, PieChart, Sector } from 'recharts';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
-export default function VSCharts() {
-  const containerRef = useRef(null);
+// Define types for chart data
+interface ChartDataPoint {
+  month: string;
+  engagement: number;
+  conversion: number;
+}
+
+// Define types for metrics data
+interface MetricDataPoint {
+  metric: string;
+  value: number;
+  fill: string;
+}
+
+// Define the type for chart configuration
+interface ChartConfigItem {
+  label: string;
+  color?: string;
+}
+
+interface ChartConfig {
+  [key: string]: ChartConfigItem;
+}
+
+// Type for recharts tooltip payload item
+interface TooltipPayloadItem {
+  name?: string;
+  value?: number | string;
+  payload?: MetricDataPoint;
+  dataKey?: string;
+  color?: string;
+}
+
+// Type for recharts tooltip props
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+}
+
+export default function VSCharts(): ReactElement {
+  const containerRef = useRef<HTMLDivElement>(null);
   
   // Chart data for student progress
-  const chartData = [
+  const chartData: ChartDataPoint[] = [
     { month: "Week 1", engagement: 10, conversion: 0 },
     { month: "Week 2", engagement: 35, conversion: 5 },
     { month: "Week 4", engagement: 70, conversion: 15 },
@@ -41,27 +71,15 @@ export default function VSCharts() {
     { month: "Week 10", engagement: 320, conversion: 140 },
   ];
   
-  // Chart configuration with CSS variables
-  const chartConfig = {
-    engagement: {
-      label: "Engagement",
-      color: "var(--theme-color-engagement)", 
-    },
-    conversion: {
-      label: "Conversions",
-      color: "var(--theme-color-conversion)",
-    },
-  };
-
   // Success metrics data for pie chart
-  const metricsData = [
+  const metricsData: MetricDataPoint[] = [
     { metric: "views", value: 45, fill: "var(--theme-color-views)" },
     { metric: "followers", value: 32, fill: "var(--theme-color-followers)" },
     { metric: "engagement", value: 18, fill: "var(--theme-color-engagement)" },
     { metric: "revenue", value: 25, fill: "var(--theme-color-revenue)" },
   ];
   
-  const metricsConfig = {
+  const metricsConfig: ChartConfig = {
     metrics: {
       label: "Metrics",
     },
@@ -83,7 +101,7 @@ export default function VSCharts() {
     },
   };
 
-  const [activeMetric, setActiveMetric] = useState(metricsData[0].metric);
+  const [activeMetric, setActiveMetric] = useState<string>(metricsData[0].metric);
   const activeIndex = metricsData.findIndex((item) => item.metric === activeMetric);
   const metrics = metricsData.map((item) => item.metric);
 
@@ -109,7 +127,7 @@ export default function VSCharts() {
   }, []);
 
   // Custom tooltip component
-  const CustomTooltip = ({ active, payload, label }) => {
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps): ReactElement | null => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-theme-primary p-3 rounded-md border border-theme-border shadow-theme-sm">
@@ -275,20 +293,16 @@ export default function VSCharts() {
                         paddingAngle={2}
                         strokeWidth={0}
                         activeIndex={activeIndex}
-                        activeShape={({
-                          cx, cy, innerRadius, outerRadius, startAngle, endAngle, fill, payload, value,
-                          ...rest
-                        }) => (
+                        activeShape={(props: { cx: number; cy: number; innerRadius: number; outerRadius: number; startAngle: number; endAngle: number; fill: string; }) => (
                           <g>
                             <Sector
-                              cx={cx}
-                              cy={cy}
-                              innerRadius={innerRadius}
-                              outerRadius={outerRadius + 3}
-                              startAngle={startAngle}
-                              endAngle={endAngle}
-                              fill={fill}
-                              {...rest}
+                              cx={props.cx}
+                              cy={props.cy}
+                              innerRadius={props.innerRadius}
+                              outerRadius={props.outerRadius + 3}
+                              startAngle={props.startAngle}
+                              endAngle={props.endAngle}
+                              fill={props.fill}
                             />
                           </g>
                         )}
@@ -302,7 +316,7 @@ export default function VSCharts() {
                     {metricsData[activeIndex].value}
                   </div>
                   <div className="text-sm text-theme-secondary">
-                    {metricsConfig[activeMetric].label}
+                    {metricsConfig[activeMetric]?.label}
                   </div>
                   <div className="mt-4 pt-4 border-t border-theme-border w-full">
                     <Select value={activeMetric} onValueChange={setActiveMetric}>
