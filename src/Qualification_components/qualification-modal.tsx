@@ -134,18 +134,43 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         stagger: 0.4
       });
 
-      // Stage transition animation
+      // Stage transition animation - sequential fade with no overlap
       if (lastStageRef.current !== stage && contentRef.current) {
-        gsap.fromTo(contentRef.current,
-          { opacity: 0, y: 15 },
-          { 
-            opacity: 1, 
-            y: 0, 
-            duration: 0.45, 
-            ease: "power3.out",
-            clearProps: "all" 
-          }
-        );
+        // Wait until any existing animations are complete to prevent double animations
+        if (contentRef.current.style.opacity !== "0") {
+          // First fade out the current content completely
+          gsap.to(contentRef.current, {
+            opacity: 0,
+            y: -10,
+            duration: 0.25,
+            ease: "power2.in",
+            onComplete: () => {
+              // Then fade in the new content only after old content is gone
+              gsap.fromTo(contentRef.current,
+                { opacity: 0, y: 10 },
+                { 
+                  opacity: 1, 
+                  y: 0, 
+                  duration: 0.3, 
+                  ease: "power2.out",
+                  clearProps: "all"
+                }
+              );
+            }
+          });
+        } else {
+          // If content is already faded out, just fade in the new content
+          gsap.fromTo(contentRef.current,
+            { opacity: 0, y: 10 },
+            { 
+              opacity: 1, 
+              y: 0, 
+              duration: 0.3, 
+              ease: "power2.out",
+              clearProps: "all"
+            }
+          );
+        }
 
         // Add particle effect animation to signify processing
         const createProcessingEffect = () => {
@@ -307,7 +332,8 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
       const progressDot = document.querySelector(`.progress-dot-${visibleDotIndex}`);
       
       if (selectedButton && optionButtons.length && progressDot) {
-        // Create a timeline for the animation
+        
+        // Create a complete timeline that properly handles stage transition
         const tl = gsap.timeline({
           onComplete: () => {
             // Reset animation state
@@ -321,62 +347,53 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               interactionCount: engagement.questionInteractions
             });
             
-            // Get the next stage in the sequence - delayed to allow animation to complete
-            const currentIndex = stageSequence.indexOf(stage);
-            if (currentIndex >= 0 && currentIndex < stageSequence.length - 1) {
-              setStage(stageSequence[currentIndex + 1]);
+            // Process animation only if we haven't already changed stage
+            if (stage === lastStageRef.current) {
+              // Get the next stage in the sequence - delayed to allow animation to complete
+              const currentIndex = stageSequence.indexOf(stage);
+              if (currentIndex >= 0 && currentIndex < stageSequence.length - 1) {
+                setStage(stageSequence[currentIndex + 1]);
+              }
             }
           }
         });
-        
-        // 1. Fade out unselected options
-        optionButtons.forEach(btn => {
-          if (btn !== selectedButton) {
-            tl.to(btn, {
-              opacity: 0,
-              scale: 0.95,
-              duration: 0.3,
-              ease: "power2.out"
-            }, 0);
-          }
-        });
-        
-        // 2. Highlight selected option
+
+        // 1. First just highlight the selected option (don't fade others yet)
         tl.to(selectedButton, {
           backgroundColor: 'var(--theme-primary)',
           color: 'white',
           borderColor: 'var(--theme-primary)',
           scale: 1.05,
-          duration: 0.3,
+          duration: 0.2,
           ease: "power2.out"
-        }, 0);
+        });
         
-        // 3. Shrink selected option while fading it
-        tl.to(selectedButton, {
-          scale: 0,
-          opacity: 0,
-          duration: 0.4,
-          ease: "back.in(1.2)",
-          delay: 0.2
-        }, "selection");
+        // 2. Now fade out EVERYTHING together
+        optionButtons.forEach(btn => {
+          tl.to(btn, {
+            opacity: 0,
+            scale: btn === selectedButton ? 0 : 0.95,
+            duration: 0.25,
+            ease: btn === selectedButton ? "back.in(1.2)" : "power2.out",
+          }, "fadeAll");
+        });
         
-        // 4. Highlight the progress dot to show connection
+        // 3. Highlight the progress dot to show connection
         tl.to(progressDot, {
           scale: 1.5,
           backgroundColor: 'var(--theme-primary)',
           boxShadow: '0 0 10px var(--theme-primary)',
-          duration: 0.4,
+          duration: 0.25,
           ease: "back.out(1.2)"
-        }, "selection+=0.1");
+        }, "fadeAll");
         
-        // 5. Return progress dot to normal
+        // 4. Return progress dot to normal
         tl.to(progressDot, {
           scale: 1.1,
           boxShadow: 'none',
-          duration: 0.3,
+          duration: 0.2,
           ease: "power2.out",
-          delay: 0.1
-        });
+        }, "+=0.05");
       } else {
         // If animation isn't working, fall back to immediate stage change
         setIsAnimatingSelection(false);
@@ -916,10 +933,10 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         onClick={handleClose}
       />
       
-      {/* Modal content */}
+      {/* Modal content - expand for recommendation stage */}
       <div 
         ref={modalRef}
-        className="relative z-10 w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-theme-gradient rounded-2xl shadow-theme-md opacity-0 transition-all duration-500"
+        className={`relative z-10 w-full ${stage === 'recommendation' ? 'max-w-5xl' : 'max-w-3xl'} max-h-[90vh] overflow-y-auto bg-theme-gradient rounded-2xl shadow-theme-md opacity-0 transition-all duration-500`}
       >
         {/* Floating elements for visual interest */}
         <div className="modal-floating-element absolute top-10 right-10 -z-10 w-20 h-20 rounded-[40%] rotate-12 opacity-[var(--theme-float-opacity)] bg-[var(--theme-float-bg-primary)]"></div>
@@ -965,20 +982,62 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               </div>
             </div>
             
-            {/* Progress markers for each stage */}
+            {/* Progress markers for each stage - explicitly include exactly 5 dots */}
             <div className="absolute top-0 left-0 w-full h-full flex justify-between px-1">
-              {stageSequence.filter(s => s !== 'intro' && s !== 'recommendation').map((s, index) => (
-                <div 
-                  key={s}
-                  className={`progress-dot-${index} h-5 w-5 rounded-full -mt-1.5 transition-all duration-500 ${
-                    stageSequence.indexOf(stage) > stageSequence.indexOf(s)
-                      ? 'bg-theme-primary scale-100 shadow-theme-sm' 
-                      : stageSequence.indexOf(stage) === stageSequence.indexOf(s)
-                        ? 'bg-theme-primary scale-110 ring-3 ring-theme-primary/40 shadow-theme-md' 
-                        : 'bg-theme-bg-surface border-2 border-theme-border-light'
-                  }`}
-                />
-              ))}
+              {/* Team Size dot */}
+              <div 
+                className={`progress-dot-0 h-5 w-5 rounded-full -mt-1.5 transition-all duration-500 ${
+                  stageSequence.indexOf(stage) > stageSequence.indexOf('teamSize')
+                    ? 'bg-theme-primary scale-100 shadow-theme-sm' 
+                    : stageSequence.indexOf(stage) === stageSequence.indexOf('teamSize')
+                      ? 'bg-theme-primary scale-110 ring-3 ring-theme-primary/40 shadow-theme-md' 
+                      : 'bg-theme-bg-surface border-2 border-theme-border-light'
+                }`}
+              />
+              
+              {/* Implementation Support dot */}
+              <div 
+                className={`progress-dot-1 h-5 w-5 rounded-full -mt-1.5 transition-all duration-500 ${
+                  stageSequence.indexOf(stage) > stageSequence.indexOf('implementationSupport')
+                    ? 'bg-theme-primary scale-100 shadow-theme-sm' 
+                    : stageSequence.indexOf(stage) === stageSequence.indexOf('implementationSupport')
+                      ? 'bg-theme-primary scale-110 ring-3 ring-theme-primary/40 shadow-theme-md' 
+                      : 'bg-theme-bg-surface border-2 border-theme-border-light'
+                }`}
+              />
+              
+              {/* Timeline dot */}
+              <div 
+                className={`progress-dot-2 h-5 w-5 rounded-full -mt-1.5 transition-all duration-500 ${
+                  stageSequence.indexOf(stage) > stageSequence.indexOf('timeline')
+                    ? 'bg-theme-primary scale-100 shadow-theme-sm' 
+                    : stageSequence.indexOf(stage) === stageSequence.indexOf('timeline')
+                      ? 'bg-theme-primary scale-110 ring-3 ring-theme-primary/40 shadow-theme-md' 
+                      : 'bg-theme-bg-surface border-2 border-theme-border-light'
+                }`}
+              />
+              
+              {/* Content Volume dot */}
+              <div 
+                className={`progress-dot-3 h-5 w-5 rounded-full -mt-1.5 transition-all duration-500 ${
+                  stageSequence.indexOf(stage) > stageSequence.indexOf('contentVolume')
+                    ? 'bg-theme-primary scale-100 shadow-theme-sm' 
+                    : stageSequence.indexOf(stage) === stageSequence.indexOf('contentVolume')
+                      ? 'bg-theme-primary scale-110 ring-3 ring-theme-primary/40 shadow-theme-md' 
+                      : 'bg-theme-bg-surface border-2 border-theme-border-light'
+                }`}
+              />
+              
+              {/* Contact dot */}
+              <div 
+                className={`progress-dot-4 h-5 w-5 rounded-full -mt-1.5 transition-all duration-500 ${
+                  stageSequence.indexOf(stage) > stageSequence.indexOf('contact')
+                    ? 'bg-theme-primary scale-100 shadow-theme-sm' 
+                    : stageSequence.indexOf(stage) === stageSequence.indexOf('contact')
+                      ? 'bg-theme-primary scale-110 ring-3 ring-theme-primary/40 shadow-theme-md' 
+                      : 'bg-theme-bg-surface border-2 border-theme-border-light'
+                }`}
+              />
             </div>
           </div>
         )}
@@ -1495,131 +1554,211 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
             </div>
           )}
           
-          {/* Recommendation Stage */}
+          {/* Recommendation Stage - Complete redesign with no scrolling */}
           {stage === 'recommendation' && recommendation && (
-            <div className="space-y-4">
-              {/* Stage illustration */}
-              <div className="flex justify-center mb-4">
-                <div className="w-20 h-20 rounded-full bg-theme-primary/10 flex items-center justify-center">
-                  <Award size={40} className="text-theme-primary" />
-                </div>
-              </div>
-            
-              {/* Recommendation Header - Visual Badge with minimal explanation */}
-              <div className="bg-theme-gradient-start to-theme-gradient-end p-4 rounded-t-lg border border-[var(--theme-border-light)] border-b-0 flex items-center justify-between">
-                <div className="flex items-center gap-3">
+            <div className="h-[68vh] overflow-hidden flex flex-col">
+              {/* Recommendation Header - More visual with badge design */}
+              <div className="p-5 flex items-center justify-between border-b border-[var(--theme-border-light)] bg-theme-gradient-primary/10">
+                <div className="flex items-center gap-4">
                   <div className={`
-                    p-2.5 rounded-full
+                    p-3.5 rounded-full shadow-theme-sm
                     ${recommendation.type === 'executive' ? 'bg-[#B92234]/10 text-[#B92234] dark:bg-[#B92234]/20 dark:text-[#D72D41]' : 
-                      recommendation.type === 'comprehensive' ? 'bg-[#FEA35D]/10 text-[#FEA35D] dark:bg-[#FEA35D]/20 dark:text-[#FEB77D]' : 
-                      'bg-[#357380]/10 text-[#357380] dark:bg-[#357380]/20 dark:text-[#4789A0]'}
+                    recommendation.type === 'comprehensive' ? 'bg-[#FEA35D]/10 text-[#FEA35D] dark:bg-[#FEA35D]/20 dark:text-[#FEB77D]' : 
+                    'bg-[#357380]/10 text-[#357380] dark:bg-[#357380]/20 dark:text-[#4789A0]'}
                   `}>
-                    <CheckCircle className="h-6 w-6" />
+                    <Award className="h-8 w-8" />
                   </div>
                   
                   <div>
-                    <h3 className="font-medium text-theme-primary text-lg leading-tight">
+                    <span className="text-sm text-theme-tertiary">Your Personalized Recommendation</span>
+                    <h3 className="font-bold text-theme-primary text-2xl leading-tight">
                       {recommendation.type === 'executive' ? 'Executive Partnership' : 
-                      recommendation.type === 'comprehensive' ? 'Comprehensive Implementation' : 
-                      'Foundation Program'}
+                       recommendation.type === 'comprehensive' ? 'Comprehensive Implementation' : 
+                       'Foundation Program'}
                     </h3>
-                    <p className="text-theme-secondary text-sm">Perfect match for your needs</p>
                   </div>
                 </div>
                 
-                <div className="text-xl font-bold text-theme-primary">
-                  {recommendation.pricing}
+                <div className="bg-theme-primary/10 p-3 rounded-xl">
+                  <span className="text-sm text-theme-tertiary block">Starting at</span>
+                  <span className="text-2xl font-bold text-theme-primary">{recommendation.pricing}</span>
                 </div>
               </div>
               
-              {/* Combined compact layout with key features alongside Calendly */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-x border-b border-[var(--theme-border-light)] rounded-b-lg">
-                {/* Key Features - Left side */}
-                <div className="bg-theme-bg-surface p-4 border-r border-[var(--theme-border-light)]">
-                  <h4 className="text-sm uppercase text-theme-tertiary tracking-wide mb-3">Key Features</h4>
-                  <div className="space-y-2">
-                    {recommendation.type === 'executive' ? (
-                      <>
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                          <p className="text-theme-secondary text-sm">Dedicated implementation manager</p>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                          <p className="text-theme-secondary text-sm">Customized implementation plan</p>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                          <p className="text-theme-secondary text-sm">6 months of support & optimization</p>
-                        </div>
-                      </>
-                    ) : recommendation.type === 'comprehensive' ? (
-                      <>
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                          <p className="text-theme-secondary text-sm">Weekly coaching with experts</p>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                          <p className="text-theme-secondary text-sm">Complete system implementation</p>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                          <p className="text-theme-secondary text-sm">3 months of support & community</p>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                          <p className="text-theme-secondary text-sm">Self-paced implementation guides</p>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                          <p className="text-theme-secondary text-sm">Core templates & workflows</p>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                          <p className="text-theme-secondary text-sm">Monthly Q&A and community access</p>
-                        </div>
-                      </>
-                    )}
+              {/* Horizontal split layout to avoid scrolling */}
+              <div className="flex-grow grid grid-cols-5 gap-0 h-full">
+                {/* Left side - Features and description */}
+                <div className="col-span-2 p-5 flex flex-col">
+                  {/* Top features with tooltips */}
+                  <div className="mb-4">
+                    <h4 className="text-sm font-medium text-theme-primary mb-3 border-b border-[var(--theme-border-light)] pb-1">Key Features</h4>
+                    
+                    <ul className="space-y-3">
+                      {recommendation.type === 'executive' ? (
+                        <>
+                          <li className="flex items-start gap-2">
+                            <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                            <div className="group relative">
+                              <p className="text-theme-secondary text-sm">Dedicated implementation manager</p>
+                              <div className="hidden group-hover:block absolute left-0 top-full mt-1 p-2 bg-theme-bg-surface shadow-theme-md rounded-md text-xs text-theme-secondary z-10 w-64">
+                                Your dedicated manager guides every step of your implementation process for maximum efficiency and success.
+                              </div>
+                            </div>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                            <div className="group relative">
+                              <p className="text-theme-secondary text-sm">Custom strategy development</p>
+                              <div className="hidden group-hover:block absolute left-0 top-full mt-1 p-2 bg-theme-bg-surface shadow-theme-md rounded-md text-xs text-theme-secondary z-10 w-64">
+                                We'll develop a fully customized content strategy tailored to your specific audience and goals.
+                              </div>
+                            </div>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                            <div className="group relative">
+                              <p className="text-theme-secondary text-sm">6 months premium support</p>
+                              <div className="hidden group-hover:block absolute left-0 top-full mt-1 p-2 bg-theme-bg-surface shadow-theme-md rounded-md text-xs text-theme-secondary z-10 w-64">
+                                Our premium support package includes weekly check-ins, priority response times, and regular optimization sessions.
+                              </div>
+                            </div>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                            <div className="group relative">
+                              <p className="text-theme-secondary text-sm">Advanced analytics & reporting</p>
+                              <div className="hidden group-hover:block absolute left-0 top-full mt-1 p-2 bg-theme-bg-surface shadow-theme-md rounded-md text-xs text-theme-secondary z-10 w-64">
+                                In-depth content performance analytics and KPI dashboards with monthly performance reviews.
+                              </div>
+                            </div>
+                          </li>
+                        </>
+                      ) : recommendation.type === 'comprehensive' ? (
+                        <>
+                          <li className="flex items-start gap-2">
+                            <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                            <div className="group relative">
+                              <p className="text-theme-secondary text-sm">Group coaching sessions</p>
+                              <div className="hidden group-hover:block absolute left-0 top-full mt-1 p-2 bg-theme-bg-surface shadow-theme-md rounded-md text-xs text-theme-secondary z-10 w-64">
+                                Weekly group sessions with industry experts to guide your implementation and answer questions.
+                              </div>
+                            </div>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                            <div className="group relative">
+                              <p className="text-theme-secondary text-sm">Complete system templates</p>
+                              <div className="hidden group-hover:block absolute left-0 top-full mt-1 p-2 bg-theme-bg-surface shadow-theme-md rounded-md text-xs text-theme-secondary z-10 w-64">
+                                Full suite of content templates, workflows, and SOPs for efficient content production.
+                              </div>
+                            </div>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                            <div className="group relative">
+                              <p className="text-theme-secondary text-sm">3-month support package</p>
+                              <div className="hidden group-hover:block absolute left-0 top-full mt-1 p-2 bg-theme-bg-surface shadow-theme-md rounded-md text-xs text-theme-secondary z-10 w-64">
+                                Three months of implementation support with bi-weekly check-ins and troubleshooting assistance.
+                              </div>
+                            </div>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                            <div className="group relative">
+                              <p className="text-theme-secondary text-sm">Private community access</p>
+                              <div className="hidden group-hover:block absolute left-0 top-full mt-1 p-2 bg-theme-bg-surface shadow-theme-md rounded-md text-xs text-theme-secondary z-10 w-64">
+                                Access to our private community of implementers for networking, support, and idea-sharing.
+                              </div>
+                            </div>
+                          </li>
+                        </>
+                      ) : (
+                        <>
+                          <li className="flex items-start gap-2">
+                            <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                            <div className="group relative">
+                              <p className="text-theme-secondary text-sm">Self-paced implementation</p>
+                              <div className="hidden group-hover:block absolute left-0 top-full mt-1 p-2 bg-theme-bg-surface shadow-theme-md rounded-md text-xs text-theme-secondary z-10 w-64">
+                                Comprehensive documentation and video guides for self-paced implementation on your schedule.
+                              </div>
+                            </div>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                            <div className="group relative">
+                              <p className="text-theme-secondary text-sm">Core content templates</p>
+                              <div className="hidden group-hover:block absolute left-0 top-full mt-1 p-2 bg-theme-bg-surface shadow-theme-md rounded-md text-xs text-theme-secondary z-10 w-64">
+                                Essential templates for content planning, scripting, and optimization for immediate use.
+                              </div>
+                            </div>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                            <div className="group relative">
+                              <p className="text-theme-secondary text-sm">Monthly Q&A sessions</p>
+                              <div className="hidden group-hover:block absolute left-0 top-full mt-1 p-2 bg-theme-bg-surface shadow-theme-md rounded-md text-xs text-theme-secondary z-10 w-64">
+                                Join our monthly live Q&A sessions to get answers to your implementation questions.
+                              </div>
+                            </div>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                            <div className="group relative">
+                              <p className="text-theme-secondary text-sm">Community forum access</p>
+                              <div className="hidden group-hover:block absolute left-0 top-full mt-1 p-2 bg-theme-bg-surface shadow-theme-md rounded-md text-xs text-theme-secondary z-10 w-64">
+                                Access to our implementation community forum for peer support and knowledge sharing.
+                              </div>
+                            </div>
+                          </li>
+                        </>
+                      )}
+                    </ul>
                   </div>
                   
-                  {/* Explanation - Very brief */}
-                  <div className="mt-4 pt-3 border-t border-theme-border-light">
-                    <p className="text-theme-secondary text-sm">{recommendation.explanation.split('.')[0]}.</p>
-                  </div>
-                  
-                  {/* Book now button for mobile - only shows on small screens */}
-                  <div className="mt-4 block md:hidden">
-                    <button 
-                      className="w-full py-2 px-4 rounded-lg bg-theme-primary text-white font-medium text-center hover-bubbly-sm shadow-theme-sm"
-                      onClick={() => document.querySelector('.calendly-inline-widget')?.scrollIntoView({ behavior: 'smooth' })}
-                    >
-                      Schedule Strategy Session
-                    </button>
+                  {/* Social proof section */}
+                  <div className="mt-auto mb-4 bg-theme-bg-surface p-3 rounded-lg border border-[var(--theme-border-light)]">
+                    <p className="text-theme-secondary text-sm italic mb-2">
+                      "{recommendation.type === 'executive' ? 
+                        'The Executive Partnership transformed our approach to content in just weeks.' : 
+                        recommendation.type === 'comprehensive' ? 
+                        'The comprehensive program gave us exactly the right balance of guidance and autonomy.' : 
+                        'The Foundation Program gave us everything we needed to get started quickly.'}"
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs text-theme-tertiary">
+                        {recommendation.type === 'executive' ? 'Sarah J., CMO' : 
+                         recommendation.type === 'comprehensive' ? 'Michael T., Content Director' : 
+                         'Alex R., Creator'}
+                      </p>
+                      <div className="flex">
+                        {[1, 2, 3, 4, 5].map(star => (
+                          <div key={star} className="text-[#FEA35D]">★</div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
                 
-                {/* Calendly Widget - Right side */}
-                <div className="flex flex-col">
-                  <div className="p-3 text-center">
-                    <h3 className="text-theme-primary font-medium text-lg">
-                      Schedule Your Strategy Session
-                    </h3>
+                {/* Right side - Calendly */}
+                <div className="col-span-3 border-l border-[var(--theme-border-light)] h-full"> 
+                  <div className="h-full flex flex-col">
+                    {/* Calendly header */}
+                    <div className="p-3 border-b border-[var(--theme-border-light)] flex justify-between items-center">
+                      <h3 className="text-lg font-medium text-theme-primary">Schedule Your Strategy Session</h3>
+                      <div className="text-sm text-theme-tertiary">30 min • Free</div>
+                    </div>
+                    
+                    {/* Calendly Widget - Takes up remaining height */}
+                    <div 
+                      className="calendly-inline-widget w-full flex-grow" 
+                      data-url={`https://calendly.com/jodenclashnewman/vertical-shortcut-discovery-call?hide_gdpr_banner=1&primary_color=FEA35D${
+                        recommendation.type === 'executive' ? '&name=Executive_Partnership' : 
+                        recommendation.type === 'comprehensive' ? '&name=Comprehensive_Implementation' : 
+                        '&name=Foundation_Program'
+                      }`}
+                      style={{ height: "100%", minWidth: "320px" }}
+                    />
                   </div>
-                  
-                  {/* Calendly Widget - directly embedded, but more compact */}
-                  <div 
-                    className="calendly-inline-widget w-full rounded-br-lg overflow-hidden flex-grow" 
-                    data-url={`https://calendly.com/jodenclashnewman/vertical-shortcut-discovery-call?hide_gdpr_banner=1&primary_color=FEA35D${
-                      recommendation.type === 'executive' ? '&name=Executive_Partnership' : 
-                      recommendation.type === 'comprehensive' ? '&name=Comprehensive_Implementation' : 
-                      '&name=Foundation_Program'
-                    }`}
-                    style={{ height: "280px", minWidth: "320px" }}
-                  />
                 </div>
               </div>
             </div>
