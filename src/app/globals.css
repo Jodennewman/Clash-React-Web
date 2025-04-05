@@ -1324,6 +1324,30 @@ a:hover {
   color: var(--theme-text-subtle);
 }
 
+.text-theme-accent {
+  color: var(--theme-accent-secondary);
+}
+
+.text-theme-error {
+  color: var(--accent-red);
+}
+
+.text-theme-bg {
+  color: var(--theme-bg-primary);
+}
+
+.text-theme-gradient {
+  background: linear-gradient(to right, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-theme-custom {
+  /* Custom text color with dynamic theming - specific per instance */
+  color: var(--primary-orange);
+}
+
 /* Theme-aware backgrounds */
 .bg-theme-primary {
   background-color: var(--theme-bg-primary);
@@ -1339,6 +1363,32 @@ a:hover {
 
 .bg-theme-card {
   background-color: var(--theme-bg-card);
+}
+
+.bg-theme-accent {
+  background-color: var(--theme-accent-secondary);
+}
+
+.bg-theme-error {
+  background-color: var(--accent-red);
+}
+
+.bg-theme-bg {
+  background-color: var(--theme-bg-primary);
+}
+
+.bg-theme-border {
+  background-color: var(--theme-border-light);
+}
+
+.bg-theme-custom {
+  /* Custom background with dynamic theming - specific per instance */
+  background-color: var(--primary-orange);
+}
+
+.bg-theme-glow {
+  background: radial-gradient(circle, var(--theme-primary) 0%, transparent 70%);
+  opacity: var(--theme-float-opacity);
 }
 
 /* Theme-aware gradients */
@@ -1410,6 +1460,22 @@ a:hover {
   border: 1px solid var(--theme-border-primary);
 }
 
+.border-theme-border {
+  border: 1px solid var(--theme-border-light);
+}
+
+.border-theme-accent {
+  border: 1px solid var(--theme-accent-secondary);
+}
+
+.border-theme-destructive {
+  border: 1px solid var(--accent-red);
+}
+
+.border-theme-error {
+  border: 1px solid var(--accent-red);
+}
+
 /* Theme-aware shadows */
 .shadow-theme-sm {
   box-shadow: var(--theme-shadow-sm);
@@ -1425,6 +1491,14 @@ a:hover {
 
 .shadow-theme-card {
   box-shadow: var(--theme-shadow-card);
+}
+
+.shadow-theme-btn {
+  box-shadow: var(--theme-shadow-btn);
+}
+
+.shadow-theme-input {
+  box-shadow: 0 0 0 2px var(--theme-border-primary);
 }
 
 /* Theme-aware text gradient */
