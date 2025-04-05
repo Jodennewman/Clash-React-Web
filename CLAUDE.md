@@ -575,9 +575,9 @@ When working on a component:
    - Verified hover states and animations in VSExampleComponent.tsx
 
 Next components to update:
-- navigation-menu.tsx
-- navigation.tsx
-- radio-group.tsx
+- slide.tsx
+- social-proof-item.tsx
+- social-stats.tsx
 
 Completed components:
 - VSExampleComponent.tsx - Fully theme-aware (5/4/2025)
@@ -627,12 +627,12 @@ Completed components:
 - [x] mockup.tsx - Updated with theme-aware shadow and border colors (5/4/2025)
 - [x] mode-toggle.tsx - Updated theme toggle button with theme-aware gradient (5/4/2025)
 - [x] navbar.tsx - Updated navbar with theme-aware text colors (5/4/2025)
-- [ ] navigation-menu.tsx
-- [ ] navigation.tsx
-- [ ] radio-group.tsx
-- [ ] section.tsx
-- [ ] select.tsx
-- [ ] sheet.tsx
+- [x] navigation-menu.tsx - Updated with theme-aware styling for menu triggers and viewports (5/4/2025)
+- [x] navigation.tsx - Updated navigation items with theme-aware backgrounds and text (5/4/2025)
+- [x] radio-group.tsx - Updated radio inputs with theme-aware borders and icons (5/4/2025)
+- [x] section.tsx - Updated with theme-aware background, text and floating element (5/4/2025)
+- [x] select.tsx - Updated select menu components with theme-aware styling (5/4/2025)
+- [x] sheet.tsx - Updated sheet dialog with theme-aware borders, background and overlay (5/4/2025)
 - [ ] slide.tsx
 - [ ] social-proof-item.tsx
 - [ ] social-stats.tsx
