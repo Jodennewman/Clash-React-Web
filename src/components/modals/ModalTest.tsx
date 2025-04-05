@@ -56,8 +56,8 @@ const ModalTest: React.FC = () => {
   return (
     <div className="p-8 space-y-6">
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-[var(--theme-text-primary)] dark:text-white">Modal Test Panel</h2>
-        <p className="text-[var(--theme-text-primary)]/70 dark:text-white/70">
+        <h2 className="text-2xl font-bold text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">Modal Test Panel</h2>
+        <p className="text-theme-secondary transition-colors duration-[var(--theme-transition-normal)]">
           Click the buttons below to test each modal type.
         </p>
       </div>
@@ -65,30 +65,30 @@ const ModalTest: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <button
           onClick={() => setShowBasicModal(true)}
-          className="p-4 bg-theme-gradient dark:from-[var(--theme-bg-primary)]  rounded-[--border-radius-md] shadow-md hover-bubbly"
+          className="p-4 bg-theme-gradient rounded-md shadow-theme-md hover-bubbly transition-all duration-[var(--theme-transition-bounce)]"
         >
-          <span className="text-[var(--theme-text-primary)] dark:text-white">Basic Modal</span>
+          <span className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">Basic Modal</span>
         </button>
 
         <button
           onClick={() => setShowApplicationModal(true)}
-          className="p-4 bg-theme-gradient dark:from-[var(--theme-bg-primary)]  rounded-[--border-radius-md] shadow-md hover-bubbly"
+          className="p-4 bg-theme-gradient rounded-md shadow-theme-md hover-bubbly transition-all duration-[var(--theme-transition-bounce)]"
         >
-          <span className="text-[var(--theme-text-primary)] dark:text-white">Application Modal</span>
+          <span className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">Application Modal</span>
         </button>
 
         <button
           onClick={() => setShowSubmoduleModal(true)}
-          className="p-4 bg-theme-gradient dark:from-[var(--theme-bg-primary)]  rounded-[--border-radius-md] shadow-md hover-bubbly"
+          className="p-4 bg-theme-gradient rounded-md shadow-theme-md hover-bubbly transition-all duration-[var(--theme-transition-bounce)]"
         >
-          <span className="text-[var(--theme-text-primary)] dark:text-white">Submodule Modal</span>
+          <span className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">Submodule Modal</span>
         </button>
 
         <button
           onClick={() => setShowQuizModal(true)}
-          className="p-4 bg-theme-gradient dark:from-[var(--theme-bg-primary)]  rounded-[--border-radius-md] shadow-md hover-bubbly"
+          className="p-4 bg-theme-gradient rounded-md shadow-theme-md hover-bubbly transition-all duration-[var(--theme-transition-bounce)]"
         >
-          <span className="text-[var(--theme-text-primary)] dark:text-white">Quiz Modal</span>
+          <span className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">Quiz Modal</span>
         </button>
       </div>
 
@@ -99,13 +99,13 @@ const ModalTest: React.FC = () => {
         title="Basic Modal"
       >
         <div>
-          <p className="text-[var(--theme-text-primary)] dark:text-white">
+          <p className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">
             This is a simple basic modal with minimal content.
           </p>
           <div className="mt-6 flex justify-end">
             <button
               onClick={() => setShowBasicModal(false)}
-              className="vs-btn-primary-gradient dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)] text-white px-4 py-2 rounded-[--border-radius-md] shadow-md hover-bubbly"
+              className="bg-theme-gradient-primary text-white px-4 py-2 rounded-md shadow-theme-btn hover-bubbly transition-all duration-[var(--theme-transition-bounce)]"
             >
               Close
             </button>

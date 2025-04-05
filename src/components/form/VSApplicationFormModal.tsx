@@ -27,7 +27,7 @@ const VSApplicationFormModal: React.FC<VSApplicationFormModalProps> = ({
       title="Vertical Shortcut: Transform Your Content into a Revenue Machine"
       description="Complete this application to join our exclusive program and start your journey to content mastery."
     >
-      <div className="bg-white dark:bg-[var(--theme-bg-primary)] rounded-lg overflow-hidden">
+      <div className="bg-theme-surface rounded-lg overflow-hidden shadow-theme-sm transition-all duration-[var(--theme-transition-normal)]">
         <VerticalShortcutApplicationForm onClose={onClose} />
       </div>
     </VSModal>
