@@ -29,7 +29,7 @@ interface ModuleData {
   duration?: number; // Add duration property for module sizing
 }
 
-// Configure our main sections based on the spec in MODULE-HUD.md
+// Configure our main sections based on the spec in MODULE-HUD.md and matching course-data.json
 const mainSections: SectionData[] = [
   {
     id: "basic_theory",
@@ -40,7 +40,7 @@ const mainSections: SectionData[] = [
     featured: true
   },
   {
-    id: "theory_advanced",
+    id: "advanced_theory",  // Updated from "theory_advanced" to match course data
     name: "Advanced Theory",
     color: "var(--hud-coral)",
     type: 'normalSquare',
@@ -54,29 +54,29 @@ const mainSections: SectionData[] = [
     size: 'normal'
   },
   {
-    id: "repurposing",
-    name: "Repurposing",
+    id: "upskiller_authentic_research_writer", // Updated from "repurposing" to use a research-related section
+    name: "Research & Writing",  // Simplified name for display
     color: "var(--secondary-teal)",
     type: 'bigSquare',
     size: 'double'
   },
   {
-    id: "shooting",
-    name: "Shooting",
+    id: "upskiller_shorts_ready_videographer", // Updated from "shooting" to match course data
+    name: "Shooting",  // Simplified name for display
     color: "var(--hud-pink)",
     type: 'normalSquare',
     size: 'normal'
   },
   {
-    id: "editing",
-    name: "Editing",
+    id: "upskiller_vertical_video_editors", // Updated from "editing" to match course data
+    name: "Editing",  // Simplified name for display
     color: "var(--accent-coral)",
     type: 'bigSquare',
     size: 'double'
   },
   {
-    id: "system_notion",
-    name: "System: Notion",
+    id: "delegation", // Updated from "system_notion" to use a real section
+    name: "Systems & Delegation", // Modified name to match original intent
     color: "var(--hud-navy)",
     type: 'bigSquare',
     size: 'double',
@@ -283,9 +283,9 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   
   // Group sections into columns as per the layout spec from MODULE-HUD.md:
   // Bigsquare ||| column of 3 squares ||| column of 2 squares ||| Bigsquare ||| column of 2 squares ||| BigSquare
-  const column1 = useMemo(() => [mainSections[1], mainSections[2], mainSections[4]], []); // First column of 3 squares (Theory Advanced, Monetisation, Shooting)
+  const column1 = useMemo(() => [mainSections[1], mainSections[2], mainSections[4]], []); // First column of 3 squares (Advanced Theory, Monetisation, Shooting)
   const column2 = useMemo(() => [mainSections[2], mainSections[4]], []); // Second column of 2 squares (Monetisation, Shooting)
-  const column3 = useMemo(() => [mainSections[3], mainSections[1]], []); // Third column of 2 squares (Repurposing, Theory Advanced)
+  const column3 = useMemo(() => [mainSections[1], mainSections[2]], []); // Third column of 2 squares (Advanced Theory, Monetisation)
   
   // Get modules for the selected section
   const selectedSectionModules = useMemo(() => {
