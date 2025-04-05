@@ -67,11 +67,42 @@ Two validation scripts have been added to confirm data structure compatibility:
 
 These scripts enable verification without running the dev server, ensuring data compatibility.
 
+### Special Implementation Notes
+
+#### Duplicate Section ID Handling
+
+The Delegation section (ID: "delegation") appears in multiple UI contexts:
+1. As "Delegation" in the second column
+2. As "Team Building" in the third column 
+3. As "Systems & Products" for the third BigSquare
+
+To handle this, we implemented a `displayKey` property to differentiate these occurrences:
+```jsx
+{
+  id: "delegation",
+  name: "Delegation",
+  displayKey: 'delegation-col2'
+},
+{
+  id: "delegation",
+  name: "Team Building",  
+  displayKey: 'delegation-col3'
+},
+{
+  id: "delegation",
+  name: "Systems & Products",
+  displayKey: 'delegation-systems'
+}
+```
+
+This allows multiple visual representations while still connecting to the correct course data.
+
 ### Next Steps
 1. **Testing and Integration Refinement**
    - ✅ Fixed section IDs to match course-data.json structure 
    - ✅ Created validation scripts to test data compatibility
    - ✅ Aligned column structure with corrected section IDs
+   - ✅ Implemented solution for duplicate section IDs
    - Test modal display with actual course data when dev server is available
    - Ensure proper transitions between module grid and modal
 

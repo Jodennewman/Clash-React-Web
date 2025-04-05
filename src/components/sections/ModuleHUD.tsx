@@ -17,6 +17,7 @@ interface SectionData {
   type: 'bigSquare' | 'normalSquare'; // Type to determine rendering
   size: 'normal' | 'double'; // Size: normal or double scale
   featured?: boolean; // For showing red circle notification
+  displayKey?: string; // Optional key to differentiate sections with same ID but different display contexts
 }
 
 // Module data structure
@@ -75,7 +76,8 @@ const mainSections: SectionData[] = [
     name: "Delegation",
     color: "var(--hud-navy)",
     type: 'normalSquare',
-    size: 'normal'
+    size: 'normal',
+    displayKey: 'delegation-col2' // Add a display key to differentiate
   },
   // Second BigSquare - Advanced Theory
   {
@@ -91,7 +93,8 @@ const mainSections: SectionData[] = [
     name: "Team Building",
     color: "var(--hud-navy)",
     type: 'normalSquare',
-    size: 'normal'
+    size: 'normal',
+    displayKey: 'delegation-col3' // Add a display key to differentiate 
   },
   {
     id: "monetisation",
@@ -114,7 +117,8 @@ const mainSections: SectionData[] = [
     color: "var(--hud-navy)",
     type: 'bigSquare',
     size: 'double',
-    featured: true
+    featured: true,
+    displayKey: 'delegation-systems' // Add a display key to differentiate
   }
 ];
 
@@ -155,6 +159,7 @@ const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, i
     <div 
       ref={ref}
       data-id={section.id}
+      data-display-key={section.displayKey}
       className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)]"
       style={{ backgroundColor: section.color }}
     >
@@ -183,6 +188,7 @@ const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ sect
     <div 
       ref={ref}
       data-id={section.id}
+      data-display-key={section.displayKey}
       className="section-module module-item w-[var(--normal-square-width)] h-[var(--normal-square-width)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)]"
       style={{ backgroundColor: section.color }}
     >
@@ -320,6 +326,21 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   const column1 = useMemo(() => [mainSections[1], mainSections[2], mainSections[3]], []); // First column - Three Upskillers
   const column2 = useMemo(() => [mainSections[4], mainSections[5]], []); // Second column - PR/Authority & Delegation
   const column3 = useMemo(() => [mainSections[7], mainSections[8], mainSections[9]], []); // Third column - Business Scaling
+  
+  // Find the selected section object based on ID and optional displayKey
+  const getSelectedSectionObject = useMemo(() => {
+    if (!selectedSection) return null;
+    
+    // First, check if any section has this ID and a displayKey
+    const sectionWithDisplayKey = mainSections.find(
+      section => section.id === selectedSection && section.displayKey === selectedSection
+    );
+    
+    if (sectionWithDisplayKey) return sectionWithDisplayKey;
+    
+    // If not found with displayKey, just find by ID
+    return mainSections.find(section => section.id === selectedSection);
+  }, [selectedSection]);
   
   // Get modules for the selected section
   const selectedSectionModules = useMemo(() => {
@@ -616,14 +637,27 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     const moduleItem = (e.target as HTMLElement).closest('.module-item');
     if (moduleItem) {
       const moduleId = moduleItem.getAttribute('data-id');
+      const displayKey = moduleItem.getAttribute('data-display-key');
+      
       if (moduleId) {
-        // Set the selected module ID and open the modal
-        setSelectedModuleId(moduleId);
-        setIsModalOpen(true);
-        
-        // Also call the external callback if provided
-        if (onModuleClick) {
-          onModuleClick(moduleId);
+        // For submodule clicks, use moduleId directly
+        if (moduleItem.classList.contains('submodule-item')) {
+          // Set the selected module ID and open the modal
+          setSelectedModuleId(moduleId);
+          setIsModalOpen(true);
+          
+          // Also call the external callback if provided
+          if (onModuleClick) {
+            onModuleClick(moduleId);
+          }
+        } else {
+          // For section clicks, use the moduleId and respect displayKey if available
+          const sectionIdentifier = displayKey || moduleId;
+          
+          // Also call the external callback if provided
+          if (onModuleClick) {
+            onModuleClick(sectionIdentifier);
+          }
         }
       }
     }
@@ -715,10 +749,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           {/* System big square (Final special square) - Special design to connote the 3 parts of product/turn key system */}
           <div 
             ref={(el) => { 
-              if (el) sectionRefs.current[mainSections[10].id] = el;
+              if (el) sectionRefs.current[mainSections[10].id + '-' + mainSections[10].displayKey] = el;
               return undefined;
             }}
             data-id={mainSections[10].id}
+            data-display-key={mainSections[10].displayKey}
             className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden"
             style={{ backgroundColor: mainSections[10].color }}
           >
