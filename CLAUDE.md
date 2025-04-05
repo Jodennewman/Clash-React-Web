@@ -2,30 +2,6 @@
 
 This file guides Claude Code when working with this repository. Follow these instructions PRECISELY.
 
-## Current Mission: Theme-Aware Styling Refactoring
-
-**Primary Goal**: Efficiently convert the entire codebase to use theme-aware styling, ensuring consistent appearance in both light and dark modes.
-
-**Approach**:
-1. Use search tools (GrepTool, GlobTool, dispatch_agent) to identify non-compliant styling patterns
-2. Prioritize search-and-replace operations to efficiently update common patterns
-3. Focus on UI components first, then sections, then other components
-4. Apply systematic replacements for:
-   - Competing light/dark mode classes (`dark:`)
-   - Direct CSS variable references without theme awareness
-   - Static color values
-   - Tailwind gradient patterns
-   - Shadow implementations
-5. Use the CSS class checker utility (`node css-class-checker.js`) to:
-   - Identify missing theme-aware classes
-   - Find components using undefined theme variables
-   - Guide implementation of missing classes in globals.css
-   - Maintain consistent naming conventions
-6. Address missing theme-aware classes identified by the checker in globals.css
-7. Regularly check progress against the refactoring checklist
-
-**Success Criteria**: All components working with a single source of truth for styling that automatically adapts to theme changes, without competing style declarations. All theme-aware classes properly defined in globals.css.
-
 ## Initial Requirements
 
 - Before providing advice or making changes, state: "I have read and will fully comply with CLAUDE.md."
