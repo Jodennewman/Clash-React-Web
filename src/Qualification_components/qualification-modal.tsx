@@ -773,85 +773,95 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 <div className="flex items-start gap-3">
                   <Info className="h-5 w-5 text-theme-primary shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-medium text-theme-primary mb-1">Almost there!</h3>
+                    <h3 className="font-medium text-theme-primary mb-1">Let's connect the dots...</h3>
                     <p className="text-theme-secondary text-sm">
-                      We've prepared your personalized recommendation. Please share your details so we can show you the most relevant solution.
+                      Your personalized solution is ready! Just tell us where to send it.
                     </p>
                   </div>
                 </div>
               </div>
               
-              <div className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-theme-primary mb-1">
-                    Your Name*
-                  </label>
-                  <input
-                    id="name"
-                    type="text"
-                    value={answers.name}
-                    onChange={(e) => handleAnswerChange('name', e.target.value)}
-                    className={`w-full rounded-lg border ${errors.name ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent`}
-                    placeholder="Full name"
-                  />
-                  {errors.name && (
-                    <p className="mt-1 text-red-500 dark:text-red-400 text-sm">{errors.name}</p>
-                  )}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                {/* Left Column - About You */}
+                <div className="space-y-4">
+                  <h3 className="text-sm font-medium text-theme-primary border-b border-[var(--theme-border-light)] pb-1">About You</h3>
+                  
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-theme-primary mb-1">
+                      Name*
+                    </label>
+                    <input
+                      id="name"
+                      type="text"
+                      value={answers.name}
+                      onChange={(e) => handleAnswerChange('name', e.target.value)}
+                      className={`w-full rounded-lg border ${errors.name ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent`}
+                      placeholder="Your name"
+                    />
+                    {errors.name && (
+                      <p className="mt-1 text-red-500 dark:text-red-400 text-sm">{errors.name}</p>
+                    )}
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-theme-primary mb-1">
+                      Email*
+                    </label>
+                    <input
+                      id="email"
+                      type="email"
+                      value={answers.email}
+                      onChange={(e) => handleAnswerChange('email', e.target.value)}
+                      className={`w-full rounded-lg border ${errors.email ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent`}
+                      placeholder="you@example.com"
+                    />
+                    {errors.email && (
+                      <p className="mt-1 text-red-500 dark:text-red-400 text-sm">{errors.email}</p>
+                    )}
+                  </div>
                 </div>
                 
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-theme-primary mb-1">
-                    Email Address*
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    value={answers.email}
-                    onChange={(e) => handleAnswerChange('email', e.target.value)}
-                    className={`w-full rounded-lg border ${errors.email ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent`}
-                    placeholder="you@company.com"
-                  />
-                  {errors.email && (
-                    <p className="mt-1 text-red-500 dark:text-red-400 text-sm">{errors.email}</p>
-                  )}
-                </div>
-                
-                <div>
-                  <label htmlFor="company" className="block text-sm font-medium text-theme-primary mb-1">
-                    Company/Brand Name*
-                  </label>
-                  <input
-                    id="company"
-                    type="text"
-                    value={answers.company}
-                    onChange={(e) => handleAnswerChange('company', e.target.value)}
-                    className={`w-full rounded-lg border ${errors.company ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent`}
-                    placeholder="Company or brand name"
-                  />
-                  {errors.company && (
-                    <p className="mt-1 text-red-500 dark:text-red-400 text-sm">{errors.company}</p>
-                  )}
-                </div>
-                
-                <div>
-                  <label htmlFor="position" className="block text-sm font-medium text-theme-primary mb-1">
-                    Your Role <span className="text-theme-tertiary">(optional)</span>
-                  </label>
-                  <input
-                    id="position"
-                    type="text"
-                    value={answers.position}
-                    onChange={(e) => handleAnswerChange('position', e.target.value)}
-                    className="w-full rounded-lg border border-[var(--theme-border-light)] bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent"
-                    placeholder="Your role or position"
-                  />
+                {/* Right Column - About the Brand */}
+                <div className="space-y-4">
+                  <h3 className="text-sm font-medium text-theme-primary border-b border-[var(--theme-border-light)] pb-1">About the Brand</h3>
+                  
+                  <div>
+                    <label htmlFor="company" className="block text-sm font-medium text-theme-primary mb-1">
+                      Brand/Company Name*
+                    </label>
+                    <input
+                      id="company"
+                      type="text"
+                      value={answers.company}
+                      onChange={(e) => handleAnswerChange('company', e.target.value)}
+                      className={`w-full rounded-lg border ${errors.company ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent`}
+                      placeholder="Brand or company name"
+                    />
+                    {errors.company && (
+                      <p className="mt-1 text-red-500 dark:text-red-400 text-sm">{errors.company}</p>
+                    )}
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="position" className="block text-sm font-medium text-theme-primary mb-1">
+                      Your Position <span className="text-theme-tertiary">(optional)</span>
+                    </label>
+                    <input
+                      id="position"
+                      type="text"
+                      value={answers.position}
+                      onChange={(e) => handleAnswerChange('position', e.target.value)}
+                      className="w-full rounded-lg border border-[var(--theme-border-light)] bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent"
+                      placeholder="Your role in the organization"
+                    />
+                  </div>
                 </div>
               </div>
               
               <div className="flex items-center gap-2 mt-4">
                 <CheckCircle className="h-4 w-4 text-theme-primary" />
                 <p className="text-theme-tertiary text-sm">
-                  Your information is secure and never shared without permission
+                  Your information is secure and never shared with third parties
                 </p>
               </div>
             </div>
