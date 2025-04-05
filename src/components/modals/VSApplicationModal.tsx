@@ -287,7 +287,7 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
           <button
             type="submit"
             className="bg-theme-gradient-primary
-                     text-white px-6 py-2 rounded-md 
+                     text-theme-on-primary px-6 py-2 rounded-md 
                      shadow-theme-btn
                      transition-all duration-[var(--theme-transition-bounce)]
                      hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] 

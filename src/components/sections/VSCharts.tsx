@@ -135,7 +135,7 @@ export default function VSCharts(): ReactElement {
           {payload.map((entry, index) => (
             <div key={`tooltip-${index}`} className="flex items-center gap-2">
               <div 
-                className="w-2 h-2 rounded-full bg-theme-accent" 
+                className={`w-2 h-2 rounded-full ${entry.color ? '' : 'bg-theme-accent'}`} 
                 style={entry.color ? { backgroundColor: entry.color } : {}}
               />
               <p className="text-theme-secondary text-sm">
@@ -227,7 +227,7 @@ export default function VSCharts(): ReactElement {
                     strokeWidth={2}
                     fill="var(--theme-primary)"
                     fillOpacity={0.05}
-                    activeDot={{ r: 4, fill: "var(--theme-primary)", stroke: "white", strokeWidth: 2 }}
+                    activeDot={{ r: 4, fill: "var(--theme-primary)", stroke: "var(--theme-text-on-primary)", strokeWidth: 2 }}
                   />
                   <Area
                     type="monotone"
@@ -237,7 +237,7 @@ export default function VSCharts(): ReactElement {
                     strokeWidth={2}
                     fill="var(--theme-accent-quaternary)"
                     fillOpacity={0.05}
-                    activeDot={{ r: 4, fill: "var(--theme-accent-quaternary)", stroke: "white", strokeWidth: 2 }}
+                    activeDot={{ r: 4, fill: "var(--theme-accent-quaternary)", stroke: "var(--theme-text-on-primary)", strokeWidth: 2 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -261,7 +261,7 @@ export default function VSCharts(): ReactElement {
                     key={item.metric}
                     className={`text-xs font-medium px-3 py-1 rounded-full transition-colors ${
                       activeMetric === item.metric
-                        ? `bg-theme-accent text-white`
+                        ? `bg-theme-accent text-theme-on-primary`
                         : 'bg-theme-secondary/30 text-theme-primary hover:bg-theme-secondary/50'
                     }`}
                     style={
@@ -402,7 +402,7 @@ export default function VSCharts(): ReactElement {
                 </div>
                 
                 {i === 1 && (
-                  <div className="absolute top-0 right-0 w-0 h-0 border-t-8 border-r-8 border-t-[--theme-primary] border-r-transparent"></div>
+                  <div className="absolute top-0 right-0 w-0 h-0 border-t-8 border-r-8 border-t-[var(--theme-primary)] border-r-transparent"></div>
                 )}
               </div>
             ))}
