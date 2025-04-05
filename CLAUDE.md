@@ -248,6 +248,7 @@ function AnimatedComponent() {
 - ✅ ALWAYS verify components in both light and dark modes before committing
 - ✅ ALWAYS add subtle floating elements using theme-aware opacity and colors
 - ✅ ALWAYS create a written plan and get approval before proceeding
+- ✅ ALWAYS COMMIT CHANGES TO THE CSS-REFACTOR BRANCH
 
 ## Theme-Aware CSS Structure
 

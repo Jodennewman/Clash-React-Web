@@ -6,7 +6,7 @@ function Item({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="item"
-      className={cn("text-foreground flex flex-col gap-4 p-4", className)}
+      className={cn("text-theme-primary flex flex-col gap-4 p-4 transition-colors duration-[var(--theme-transition-normal)]", className)}
       {...props}
     />
   );
@@ -17,7 +17,7 @@ function ItemTitle({ className, ...props }: React.ComponentProps<"h3">) {
     <h3
       data-slot="item-title"
       className={cn(
-        "text-sm leading-none font-semibold tracking-tight sm:text-base",
+        "text-theme-primary text-sm leading-none font-semibold tracking-tight sm:text-base transition-colors duration-[var(--theme-transition-normal)]",
         className,
       )}
       {...props}
@@ -30,7 +30,7 @@ function ItemDescription({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="item-description"
       className={cn(
-        "text-muted-foreground flex max-w-[240px] flex-col gap-2 text-sm text-balance",
+        "text-theme-secondary/70 flex max-w-[240px] flex-col gap-2 text-sm text-balance transition-colors duration-[var(--theme-transition-normal)]",
         className,
       )}
       {...props}

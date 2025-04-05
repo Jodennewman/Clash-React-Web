@@ -26,17 +26,17 @@ export default function Logo({
   return (
     <div
       data-slot="logo"
-      className={cn("flex items-center gap-2 text-sm font-medium", className)}
+      className={cn("flex items-center gap-2 text-sm text-theme-primary font-medium transition-colors duration-[var(--theme-transition-normal)]", className)}
       {...props}
     >
       <SvgImage
         width={width}
         height={height}
         aria-hidden="true"
-        className="max-h-full max-w-full opacity-70"
+        className="max-h-full max-w-full opacity-70 transition-opacity duration-[var(--theme-transition-normal)]"
       />
       <span className={cn(!showName && "sr-only")}>{name}</span>
-      {version && <span className="text-muted-foreground">{version}</span>}
+      {version && <span className="text-theme-secondary/70 transition-colors duration-[var(--theme-transition-normal)]">{version}</span>}
       {badge && (
         <Badge variant="brand" size="sm">
           {badge}
