@@ -27,12 +27,14 @@ export const VSBackground = forwardRef<HTMLElement, VSBackgroundProps & React.HT
   }, ref) => {
     const Component = as;
     
+    // Filter out non-DOM props before passing to the component
+    const { lightBg, darkBg, ...domProps } = props;
+    
     return (
       <Component
         ref={ref}
         className={`${background} ${className}`}
-        {...props}
-      >
+        {...domProps}>
         {children}
       </Component>
     );

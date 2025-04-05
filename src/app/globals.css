@@ -7,31 +7,32 @@
 /* Chart variables */
 :root {
 
+
   --chart-grid-light: rgba(0, 0, 0, 0.05);
   --chart-grid-dark: rgba(255, 255, 255, 0.05);
 
 
   /* Additional theme variables */
-  --theme-text-primary: var(--text-navy);
+  --theme-text-primary: oklch(0.30 0.03 230);
   --theme-text-secondary: rgba(18, 46, 59, 0.7);
   --theme-text-tertiary: rgba(18, 46, 59, 0.6);
   --theme-text-subtle: rgba(18, 46, 59, 0.4);
   --theme-text-on-primary: var(--text-navy);
   --theme-transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   --theme-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --theme-eyeball-outer: var(--bg-cream-darker);
+  --theme-eyeball-outer: var(--theme-bg-secondary);
   --theme-eyeball-iris: var(--theme-accent-secondary-light);
   --theme-eyeball-pupil: var(--theme-primary-light);
   --theme-pattern-color: var(--theme-primary-light);
   --theme-pattern-opacity: 0.08;
-  --theme-bg-primary: var(--bg-cream);
-  --theme-bg-secondary: var(--bg-cream-darker);
-  --theme-bg-surface: var(--bg-cream);
+  --theme-bg-primary: var(--theme-bg-primary);
+  --theme-bg-secondary: var(--theme-bg-secondary);
+  --theme-bg-surface: var(--theme-bg-primary);
   --theme-bg-card: var(--card-bg-light);
-  --theme-gradient-start: var(--bg-cream);
-  --theme-gradient-end: var(--bg-cream-darker);
+  --theme-gradient-start: var(--theme-bg-primary);
+  --theme-gradient-end: var(--theme-bg-secondary);
   --theme-gradient-card-start: var(--card-bg-light);
-  --theme-gradient-card-end: var(--bg-cream-darker);
+  --theme-gradient-card-end: var(--theme-bg-secondary);
   --theme-primary-gradient-start: var(--primary-orange);
   --theme-primary-gradient-end: var(--primary-orange-hover);
   --theme-secondary-gradient-start: var(--secondary-teal);
@@ -88,8 +89,8 @@
   --theme-color-followers: var(--hud-teal);
   --theme-color-engagement: var(--accent-red);
   --theme-color-revenue: var(--secondary-teal);
-  --theme-bg-navy-gradient: linear-gradient(213deg, var(--bg-cream) 0%, var(--bg-cream-darker) 100%);
-  --theme-bg-cream-gradient: linear-gradient(to bottom right, var(--bg-cream), var(--bg-cream-darker));
+  --theme-bg-navy-gradient: linear-gradient(213deg, var(--theme-bg-primary) 0%, var(--theme-bg-secondary) 100%);
+  --theme-bg-cream-gradient: linear-gradient(to bottom right, var(--theme-bg-primary), var(--theme-bg-secondary));
   --theme-accent: var(--theme-accent-secondary);
   --theme-accent-coral-dark: var(--accent-coral);
   --theme-var-name: 'dark-example-value';
@@ -97,6 +98,18 @@
   --theme-radix-navigation-menu-viewport-height: 400px;
   --theme-radix-select-trigger-width: 100%;
   --theme-radix-select-trigger-height: 2.5rem;
+
+  /* Theme-aware variables - LIGHT MODE */
+  --theme-bg-primary: oklch(0.96 0.02 85) !important;
+  --theme-bg-secondary: oklch(0.94 0.03 80) !important;
+  --theme-bg-surface: white !important;
+  --theme-text-primary: oklch(0.30 0.03 230) !important;
+  --theme-text-secondary: rgba(18, 46, 59, 0.8) !important;
+  --theme-text-tertiary: rgba(18, 46, 59, 0.6) !important;
+  --theme-gradient-start: white !important;
+  --theme-gradient-end: oklch(0.96 0.02 85) !important;
+  --theme-border: rgba(0, 0, 0, 0.1) !important;
+  
 }
 
 /* Button gradients */
@@ -262,9 +275,9 @@
   --bg-navy-gradient-rgb: linear-gradient(213deg, rgba(9, 35, 47, 1) 0%, rgba(8, 29, 39, 1) 100%);
   --theme-bg-navy-gradient: linear-gradient(213deg, oklch(0.16 0.03 235) 0%, oklch(0.12 0.02 235) 100%);
   --bg-navy-darker: oklch(0.12 0.02 235);
-  --module-bg-gradient: linear-gradient(to bottom right, white, var(--bg-cream));
-  --module-accent-gradient: linear-gradient(to bottom right, var(--bg-cream), var(--bg-cream-darker));
-  --theme-bg-cream-gradient: linear-gradient(to bottom right, white, var(--bg-cream));
+  --module-bg-gradient: linear-gradient(to bottom right, white, var(--theme-bg-primary));
+  --module-accent-gradient: linear-gradient(to bottom right, var(--theme-bg-primary), var(--theme-bg-secondary));
+  --theme-bg-cream-gradient: linear-gradient(to bottom right, white, var(--theme-bg-primary));
   --glow-accent: none;
   --glow-primary: none;
   --glow-blue: none;
@@ -295,16 +308,16 @@
   --theme-color-mobile: var(--secondary-teal);
   
   /* Theme background colors */
-  --theme-bg-primary: var(--bg-cream);
-  --theme-bg-secondary: var(--bg-cream-darker);
+  --theme-bg-primary: var(--theme-bg-primary);
+  --theme-bg-secondary: var(--theme-bg-secondary);
   --theme-bg-surface: white;
   --theme-bg-card: white;
   
   /* Theme gradient variables */
   --theme-gradient-start: white;
-  --theme-gradient-end: var(--bg-cream);
+  --theme-gradient-end: var(--theme-bg-primary);
   --theme-gradient-card-start: white;
-  --theme-gradient-card-end: var(--bg-cream);
+  --theme-gradient-card-end: var(--theme-bg-primary);
   --theme-primary-gradient-start: var(--primary-orange);
   --theme-primary-gradient-end: var(--primary-orange-hover);
   --theme-secondary-gradient-start: var(--secondary-teal);
@@ -381,6 +394,7 @@
 
 @layer base {
   .dark, [data-theme="dark"] {
+
     /* Background colors */
     --bg-cream: oklch(12% 0.03 240);
     --bg-cream-rgb: 9, 35, 47;
@@ -471,7 +485,7 @@
     /* Theme-aware variables for dark mode */
     
     /* Theme text colors - dark mode */
-    --theme-text-primary: white;
+    --theme-text-primary: oklch(0.96 0.01 90);
     --theme-text-secondary: rgba(255, 255, 255, 0.7);
     --theme-text-tertiary: rgba(255, 255, 255, 0.6);
     --theme-text-subtle: rgba(255, 255, 255, 0.4);
@@ -480,23 +494,23 @@
     /* Add missing variables for dark mode */
     --theme-transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
     --theme-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    --theme-eyeball-outer: var(--bg-navy-darker);
+    --theme-eyeball-outer: var(--theme-bg-secondary);
     --theme-eyeball-iris: var(--theme-accent-secondary-light);
     --theme-eyeball-pupil: var(--theme-primary-light);
     --theme-pattern-color: var(--theme-primary-light);
     --theme-pattern-opacity: 0.08;
     
     /* Theme background colors - dark mode */
-    --theme-bg-primary: var(--bg-navy);
-    --theme-bg-secondary: var(--bg-navy-darker);
-    --theme-bg-surface: var(--bg-navy);
+    --theme-bg-primary: var(--theme-bg-primary);
+    --theme-bg-secondary: var(--theme-bg-secondary);
+    --theme-bg-surface: var(--theme-bg-primary);
     --theme-bg-card: var(--card-bg-light);
     
     /* Theme gradient variables - dark mode */
-    --theme-gradient-start: var(--bg-navy);
-    --theme-gradient-end: var(--bg-navy-darker);
+    --theme-gradient-start: var(--theme-bg-primary);
+    --theme-gradient-end: var(--theme-bg-secondary);
     --theme-gradient-card-start: var(--card-bg-light);
-    --theme-gradient-card-end: var(--bg-navy-darker);
+    --theme-gradient-card-end: var(--theme-bg-secondary);
     --theme-primary-gradient-start: var(--primary-orange);
     --theme-primary-gradient-end: var(--primary-orange-hover);
     --theme-secondary-gradient-start: var(--secondary-teal);
@@ -567,8 +581,8 @@
     --theme-color-followers: var(--hud-teal);
     --theme-color-engagement: var(--accent-red);
     --theme-color-revenue: var(--secondary-teal);
-    --theme-bg-navy-gradient: linear-gradient(213deg, var(--bg-navy) 0%, var(--bg-navy-darker) 100%);
-    --theme-bg-cream-gradient: linear-gradient(to bottom right, var(--bg-navy), var(--bg-navy-darker));
+    --theme-bg-navy-gradient: linear-gradient(213deg, var(--theme-bg-primary) 0%, var(--theme-bg-secondary) 100%);
+    --theme-bg-cream-gradient: linear-gradient(to bottom right, var(--theme-bg-primary), var(--theme-bg-secondary));
     --theme-accent: var(--theme-accent-secondary);
     --theme-accent-coral-dark: var(--accent-coral);
     --theme-var-name: 'dark-example-value';
@@ -576,12 +590,24 @@
     --theme-radix-navigation-menu-viewport-height: 400px;
     --theme-radix-select-trigger-width: 100%;
     --theme-radix-select-trigger-height: 2.5rem;
-  }
+  
+    /* Theme-aware variables - DARK MODE */
+    --theme-bg-primary: oklch(0.16 0.03 235) !important;
+    --theme-bg-secondary: oklch(0.12 0.02 235) !important;
+    --theme-bg-surface: oklch(0.16 0.03 235) !important;
+    --theme-text-primary: white !important;
+    --theme-text-secondary: rgba(255, 255, 255, 0.8) !important;
+    --theme-text-tertiary: rgba(255, 255, 255, 0.6) !important;
+    --theme-gradient-start: oklch(0.16 0.03 235) !important;
+    --theme-gradient-end: oklch(0.12 0.02 235) !important;
+    --theme-border: rgba(255, 255, 255, 0.1) !important;
+  
+}
 }
 
 html {
   font-family: var(--font-sans);
-  background-color: var(--bg-cream);
+  background-color: var(--theme-bg-primary);
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -591,7 +617,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: var(--font-sans);
-  background: linear-gradient(to bottom right, white, var(--bg-cream));
+  background: linear-gradient(to bottom right, white, var(--theme-bg-primary));
   color: var(--text-navy);
   min-height: 100vh;
   line-height: 1.5;
@@ -1020,17 +1046,17 @@ a:hover {
 
 /* Carousel styles */
 .vs-carousel-container {
-  background: linear-gradient(to bottom, white, var(--bg-cream));
+  background: linear-gradient(to bottom, white, var(--theme-bg-primary));
   overflow: hidden;
 }
 
 .dark .vs-carousel-container , [data-theme="dark"] .vs-carousel-container {
-  background: linear-gradient(to bottom right, var(--bg-navy-darker), var(--bg-navy));
+  background: linear-gradient(to bottom right, var(--theme-bg-secondary), var(--theme-bg-primary));
   overflow: hidden;
 }
 
 .vs-carousel-slide {
-  background: linear-gradient(135deg, white, var(--bg-cream)/80);
+  background: linear-gradient(135deg, white, var(--theme-bg-primary)/80);
   border: 1px solid rgba(var(--bg-cream-darker-rgb), 0.2);
   box-shadow: var(--shadow-md);
   border-radius: var(--border-radius-lg);
@@ -1113,12 +1139,12 @@ a:hover {
 
 /* Section Backgrounds */
 .vs-section-light {
-  background: linear-gradient(to bottom, white, var(--bg-cream));
+  background: linear-gradient(to bottom, white, var(--theme-bg-primary));
   color: var(--text-navy);
 }
 
 .dark .vs-section-light , [data-theme="dark"] .vs-section-light {
-  background: linear-gradient(to bottom, var(--bg-navy), var(--bg-navy-darker)); 
+  background: linear-gradient(to bottom, var(--theme-bg-primary), var(--theme-bg-secondary)); 
   color: white;
 }
 
@@ -1128,7 +1154,7 @@ a:hover {
 }
 
 .dark .vs-section-dark , [data-theme="dark"] .vs-section-dark {
-  background: linear-gradient(to bottom, var(--bg-navy-darker), black);
+  background: linear-gradient(to bottom, var(--theme-bg-secondary), black);
   color: white;
 }
 
@@ -1156,7 +1182,7 @@ a:hover {
 
 /* Testimonial container */
 .vs-testimonial-container {
-  background: linear-gradient(135deg, white, var(--bg-cream)/80);
+  background: linear-gradient(135deg, white, var(--theme-bg-primary)/80);
   border: 1px solid rgba(var(--bg-cream-darker-rgb), 0.2);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-md);
@@ -1279,7 +1305,7 @@ a:hover {
 
 /* Base elements */
 .dark body, .dark body , [data-theme="dark"] body {
-  background: linear-gradient(to bottom right, var(--bg-navy), var(--bg-navy-darker));
+  background: linear-gradient(to bottom right, var(--theme-bg-primary), var(--theme-bg-secondary));
   color: var(--text-cream);
 }
   
@@ -1494,23 +1520,23 @@ a:hover {
 
 /* Custom gradient classes - NEVER USE TAILWIND GRADIENTS! */
 .painPoints {
-  background: linear-gradient(to bottom, var(--bg-cream), var(--ui-peach-light));
+  background: linear-gradient(to bottom, var(--theme-bg-primary), var(--ui-peach-light));
 }
 
 .vs-gradient-light {
-  background: linear-gradient(to bottom right, white, var(--bg-cream));
+  background: linear-gradient(to bottom right, white, var(--theme-bg-primary));
 }
 
 .vs-gradient-dark {
-  background: linear-gradient(to bottom right, var(--bg-navy), var(--bg-navy-darker));
+  background: linear-gradient(to bottom right, var(--theme-bg-primary), var(--theme-bg-secondary));
 }
 
 .vs-content-light {
-  background: linear-gradient(to bottom, white, var(--bg-cream));
+  background: linear-gradient(to bottom, white, var(--theme-bg-primary));
 }
 
 .vs-content-dark {
-  background: linear-gradient(to bottom, var(--bg-navy), var(--bg-navy-darker));
+  background: linear-gradient(to bottom, var(--theme-bg-primary), var(--theme-bg-secondary));
 }
 
 /* Theme-aware utility classes */
@@ -1844,11 +1870,11 @@ a:hover {
 
 /* Fade overlays */
 .vs-fade-overlay-light {
-  background: linear-gradient(to top, var(--bg-cream), transparent);
+  background: linear-gradient(to top, var(--theme-bg-primary), transparent);
 }
 
 .vs-fade-overlay-dark {
-  background: linear-gradient(to top, var(--bg-navy), transparent);
+  background: linear-gradient(to top, var(--theme-bg-primary), transparent);
 }
 
 /* Text highlight gradients */
@@ -1926,19 +1952,19 @@ a:hover {
 
 /* Card and module backgrounds */
 .vs-card-gradient-light {
-  background: linear-gradient(to bottom right, white, var(--bg-cream));
+  background: linear-gradient(to bottom right, white, var(--theme-bg-primary));
 }
 
 .vs-card-gradient-dark {
-  background: linear-gradient(to bottom right, var(--bg-navy), var(--bg-navy-darker));
+  background: linear-gradient(to bottom right, var(--theme-bg-primary), var(--theme-bg-secondary));
 }
 
 .vs-module-gradient-light {
-  background: linear-gradient(120deg, white, var(--bg-cream));
+  background: linear-gradient(120deg, white, var(--theme-bg-primary));
 }
 
 .vs-module-gradient-dark {
-  background: linear-gradient(120deg, var(--bg-navy), var(--bg-navy-darker));
+  background: linear-gradient(120deg, var(--theme-bg-primary), var(--theme-bg-secondary));
 }
 
 /* Text gradient effects */
@@ -2019,3 +2045,47 @@ a:hover {
   }
 }
 
+
+/* Theme-aware background utility classes */
+.bg-theme-primary {
+  background-color: var(--theme-bg-primary) !important;
+}
+
+.bg-theme-secondary {
+  background-color: var(--theme-bg-secondary) !important;
+}
+
+.bg-theme-surface {
+  background-color: var(--theme-bg-surface) !important;
+}
+
+/* Theme-aware gradient utility classes */
+.bg-theme-gradient {
+  background: linear-gradient(to bottom right, var(--theme-gradient-start), var(--theme-gradient-end)) !important;
+}
+
+.bg-theme-gradient-primary {
+  background: linear-gradient(to right, var(--theme-primary, var(--primary-orange)), var(--theme-primary-hover, var(--primary-orange-hover))) !important;
+}
+
+.bg-theme-gradient-secondary {
+  background: linear-gradient(to right, var(--theme-accent-secondary, var(--secondary-teal)), var(--theme-accent-secondary-hover, var(--secondary-teal-hover))) !important;
+}
+
+/* Theme-aware text utility classes */
+.text-theme-primary {
+  color: var(--theme-text-primary) !important;
+}
+
+.text-theme-secondary {
+  color: var(--theme-text-secondary) !important;
+}
+
+.text-theme-tertiary {
+  color: var(--theme-text-tertiary) !important;
+}
+
+/* Theme-aware border utility classes */
+.border-theme-border {
+  border-color: var(--theme-border) !important;
+}

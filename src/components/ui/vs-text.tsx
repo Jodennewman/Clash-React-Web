@@ -35,13 +35,16 @@ export function VSText({
   // Choose the element type based on the variant or the 'as' prop
   const Component = as || variant;
   
+  // Filter out non-DOM props
+  const { fromColor, toColor, darkFromColor, darkToColor, gradientType, ...domProps } = props;
+  
   return (
     <Component
       className={`text-${color} ${className}`} // Use theme-aware utility class
       style={{
         ...style, // Support additional styles
       }}
-      {...props}
+      {...domProps}
     >
       {children}
     </Component>
@@ -65,7 +68,7 @@ export function VSHeading({
   return (
     <Component
       className={`text-${color} font-bold ${className}`}
-      {...props}
+      {...domProps}
     >
       {children}
     </Component>
@@ -99,7 +102,7 @@ export function VSGradientText({
     <Component
       className={`inline-block bg-clip-text text-transparent ${gradientClasses[gradientType]} ${className}`}
       style={style}
-      {...props}
+      {...domProps}
     >
       {children}
     </Component>
