@@ -31,6 +31,8 @@ export function ThemeScript() {
             
             // Apply theme immediately to prevent flash  
             document.documentElement.classList.add(resolvedTheme);
+            // IMPORTANT: Also set the data-theme attribute for CSS variables
+            document.documentElement.setAttribute('data-theme', resolvedTheme);
             
             // Set up system preference change listener if needed
             if (theme === 'system') {
@@ -38,6 +40,8 @@ export function ThemeScript() {
                 const newTheme = e.matches ? 'dark' : 'light';
                 document.documentElement.classList.remove('light', 'dark');
                 document.documentElement.classList.add(newTheme);
+                // Also update data-theme attribute
+                document.documentElement.setAttribute('data-theme', newTheme);
               });
             }
           })();
