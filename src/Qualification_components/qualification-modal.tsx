@@ -95,6 +95,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
   
   // Stage transition animation refs
   const contentRef = useRef<HTMLDivElement>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
   const lastStageRef = useRef<string>(stage);
 
   // Handle animation with GSAP
@@ -193,6 +194,31 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         createProcessingEffect();
       }
 
+      // Animate the progress bar when stage changes
+      if (progressBarRef.current && 
+          lastStageRef.current !== stage && 
+          stage !== 'intro' && 
+          stage !== 'recommendation') {
+        // Calculate progress for animation
+        const progress = getProgress();
+        
+        // Helper function to get progress for a specific stage
+        const getProgressForStage = (stg: string) => {
+          const stgIndex = stageSequence.indexOf(stg);
+          return Math.round((stgIndex / (stageSequence.length - 1)) * 100);
+        };
+        
+        // Animate the progress bar with a bounce effect
+        gsap.fromTo(progressBarRef.current,
+          { width: `${lastStageRef.current !== 'intro' ? getProgressForStage(lastStageRef.current) : 0}%` },
+          { 
+            width: `${progress}%`, 
+            duration: 0.6, 
+            ease: "power2.out"
+          }
+        );
+      }
+
       // Update last stage
       lastStageRef.current = stage;
     }, containerRef);
@@ -271,7 +297,9 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
       // Get all option buttons
       const optionButtons = document.querySelectorAll(`.${stage}-option`);
       const selectedButton = document.querySelector(`.${stage}-option[data-value="${value}"]`);
-      const progressDot = document.querySelector(`.progress-dot-${stageSequence.indexOf(stage)}`);
+      // Get the index within the visible dots (excluding intro and recommendation)
+      const visibleDotIndex = stageSequence.filter(s => s !== 'intro' && s !== 'recommendation').indexOf(stage);
+      const progressDot = document.querySelector(`.progress-dot-${visibleDotIndex}`);
       
       if (selectedButton && optionButtons.length && progressDot) {
         // Create a timeline for the animation
@@ -427,7 +455,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
     }
   }, [isOpen, stage, answers, engagement]);
   
-  // Check for abandoned journey on load
+  // Handle saved progress quietly without alert
   useEffect(() => {
     if (!isOpen) return;
     
@@ -438,24 +466,18 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         const progress = JSON.parse(savedProgress);
         
         // If journey was abandoned recently (within 24 hours)
-        if (Date.now() - progress.lastActive < 24 * 60 * 60 * 1000) {
-          // Ask if user wants to continue
-          const wantsToContinue = window.confirm(
-            'Would you like to continue where you left off?'
-          );
-          
-          if (wantsToContinue) {
-            setStage(progress.stage);
-            setAnswers(progress.answers);
-            setEngagement(prev => ({
-              ...prev,
-              timeSpent: progress.engagement.timeSpent,
-              questionInteractions: progress.engagement.questionInteractions
-            }));
-          } else {
-            // Clear saved progress if user doesn't want to continue
-            localStorage.removeItem('qualificationProgress');
-          }
+        // and user is beyond intro stage, we might restore progress
+        if (Date.now() - progress.lastActive < 24 * 60 * 60 * 1000 && 
+            progress.stage !== 'intro' && progress.stage !== 'recommendation') {
+            
+          // For now, just always continue - no need to interrupt
+          setStage(progress.stage);
+          setAnswers(progress.answers);
+          setEngagement(prev => ({
+            ...prev,
+            timeSpent: progress.engagement.timeSpent,
+            questionInteractions: progress.engagement.questionInteractions
+          }));
         } else {
           // Clear old progress
           localStorage.removeItem('qualificationProgress');
@@ -832,9 +854,23 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
   
   // Determine current progress percentage
   const getProgress = () => {
-    const stages = ['intro', 'contact', 'teamSize', 'implementationSupport', 'timeline', 'contentVolume', 'recommendation'];
-    const currentIndex = stages.indexOf(stage);
-    return Math.round((currentIndex / (stages.length - 1)) * 100);
+    // Only count the active question stages (team size to contact) for progress calculation
+    const currentIndex = stageSequence.indexOf(stage);
+    // For intro stage, show 0 progress
+    if (stage === 'intro') return 0;
+    // For recommendation stage, show 100% progress
+    if (stage === 'recommendation') return 100;
+    
+    // Calculate how far along we are between first question and recommendation
+    const firstQuestionIndex = stageSequence.indexOf('teamSize');
+    const lastQuestionIndex = stageSequence.indexOf('contact');
+    // If before questions, show 0
+    if (currentIndex < firstQuestionIndex) return 0;
+    
+    // Calculate progress percentage through the question stages
+    const progress = (currentIndex - firstQuestionIndex) / 
+                    (lastQuestionIndex - firstQuestionIndex + 1);
+    return Math.round(progress * 100);
   };
   
   // If modal is not open, don't render anything
@@ -914,8 +950,9 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         {stage !== 'intro' && stage !== 'recommendation' && (
           <div className="w-full h-2 bg-theme-bg-secondary relative">
             <div 
-              className="h-full bg-theme-primary relative overflow-hidden"
+              className="h-full bg-theme-primary relative overflow-hidden transition-all duration-700 ease-out"
               style={{ width: `${getProgress()}%` }}
+              ref={progressBarRef}
             >
               {/* Add decorative elements within the progress bar */}
               <div className="absolute inset-0 overflow-hidden">
@@ -925,13 +962,13 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
             
             {/* Progress markers for each stage */}
             <div className="absolute top-0 left-0 w-full h-full flex justify-between px-1">
-              {stageSequence.slice(1, -1).map((s, index) => (
+              {stageSequence.filter(s => s !== 'intro' && s !== 'recommendation').map((s, index) => (
                 <div 
                   key={s}
-                  className={`progress-dot-${index + 1} h-5 w-5 rounded-full -mt-1.5 transition-all duration-500 ${
-                    stageSequence.indexOf(stage) > index + 1 
+                  className={`progress-dot-${index} h-5 w-5 rounded-full -mt-1.5 transition-all duration-500 ${
+                    stageSequence.indexOf(stage) > stageSequence.indexOf(s)
                       ? 'bg-theme-primary scale-100 shadow-theme-sm' 
-                      : stageSequence.indexOf(stage) === index + 1
+                      : stageSequence.indexOf(stage) === stageSequence.indexOf(s)
                         ? 'bg-theme-primary scale-110 ring-3 ring-theme-primary/40 shadow-theme-md' 
                         : 'bg-theme-bg-surface border-2 border-theme-border-light'
                   }`}
@@ -943,9 +980,9 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         
         {/* Modal content - changes based on current stage */}
         <div className="p-6" ref={contentRef}>
-          {/* Introduction Stage */}
+          {/* Introduction Stage - Simplified to reduce text and scrolling */}
           {stage === 'intro' && (
-            <div className="space-y-6">
+            <div className="max-h-[70vh] overflow-hidden">
               {/* Stage illustration */}
               <div className="flex justify-center mb-6">
                 <div className="w-20 h-20 rounded-full bg-theme-primary/10 flex items-center justify-center">
@@ -953,59 +990,34 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 </div>
               </div>
               
-              <div className="bg-theme-primary/5 p-5 rounded-lg shadow-theme-sm">
+              <div className="bg-theme-primary/5 p-5 rounded-lg shadow-theme-sm mb-8">
                 <h3 className="text-xl font-medium text-theme-primary mb-3 text-center">
-                  Personalize Your Experience
+                  Find Your Perfect Implementation
                 </h3>
                 <p className="text-theme-secondary text-center">
-                  Tell us about your goals to get a tailored solution that perfectly matches your situation. Content production isn't one-size-fits-all, and neither are our recommendations.
+                  Answer a few quick questions to get a personalized recommendation that fits your exact needs.
                 </p>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-theme-bg-primary rounded-lg p-4 border border-[var(--theme-border-light)]">
-                  <h3 className="text-lg font-medium text-theme-primary mb-2">
-                    You'll receive:
-                  </h3>
-                  <ul className="space-y-3">
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                      <span className="text-theme-secondary">Custom-fit solution based on your unique needs</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                      <span className="text-theme-secondary">Tailored approach to match your team structure</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                      <span className="text-theme-secondary">Personalized implementation timeline</span>
-                    </li>
-                  </ul>
+              <div className="grid grid-cols-3 gap-4 mb-8">
+                <div className="flex flex-col items-center text-center">
+                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-theme-primary text-white text-sm mb-3">1</div>
+                  <span className="text-theme-secondary text-sm">Tell us about<br />your needs</span>
                 </div>
                 
-                <div className="bg-theme-bg-primary rounded-lg p-4 border border-[var(--theme-border-light)]">
-                  <h3 className="text-lg font-medium text-theme-primary mb-2">
-                    How it works:
-                  </h3>
-                  <ul className="space-y-3">
-                    <li className="flex items-start gap-2">
-                      <div className="flex items-center justify-center h-5 w-5 rounded-full bg-theme-primary text-white text-xs shrink-0 mt-0.5">1</div>
-                      <span className="text-theme-secondary">Answer a few quick questions about your needs</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <div className="flex items-center justify-center h-5 w-5 rounded-full bg-theme-primary text-white text-xs shrink-0 mt-0.5">2</div>
-                      <span className="text-theme-secondary">Get your personalized solution recommendation</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <div className="flex items-center justify-center h-5 w-5 rounded-full bg-theme-primary text-white text-xs shrink-0 mt-0.5">3</div>
-                      <span className="text-theme-secondary">Schedule a tailored strategy session if desired</span>
-                    </li>
-                  </ul>
+                <div className="flex flex-col items-center text-center">
+                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-theme-primary text-white text-sm mb-3">2</div>
+                  <span className="text-theme-secondary text-sm">Get your<br />recommendation</span>
+                </div>
+                
+                <div className="flex flex-col items-center text-center">
+                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-theme-primary text-white text-sm mb-3">3</div>
+                  <span className="text-theme-secondary text-sm">Schedule your<br />strategy call</span>
                 </div>
               </div>
 
-              <p className="text-theme-tertiary text-sm text-center mt-2">
-                Takes less than a minute to complete. No obligation.
+              <p className="text-theme-tertiary text-sm text-center">
+                Takes less than a minute. No obligation.
               </p>
             </div>
           )}
