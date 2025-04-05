@@ -2,27 +2,25 @@ import React, { forwardRef } from 'react';
 
 interface VSBackgroundProps {
   children: React.ReactNode;
-  lightBg?: string;
-  darkBg?: string;
+  background?: string; // Theme-aware background
   className?: string;
   as?: React.ElementType;
   ref?: React.Ref<HTMLElement>;
 }
 
 /**
- * VS Background Component - Implements the required styling pattern for background elements
+ * VS Background Component - Implements theme-aware styling for background elements
  * 
- * Uses the mandatory pattern of className for CSS variables + dark: variants
+ * Uses single theme-aware variables instead of competing light/dark variants
  * 
  * @example
  * <VSBackground>Content with proper background</VSBackground>
- * <VSBackground lightBg="bg-[var(--theme-card-bg-light)]" darkBg="dark:bg-[var(--theme-card-bg-navy)]">Card</VSBackground>
+ * <VSBackground background="bg-theme-secondary">Card with theme-aware bg</VSBackground>
  */
 export const VSBackground = forwardRef<HTMLElement, VSBackgroundProps & React.HTMLAttributes<HTMLElement>>(
   ({
     children,
-    lightBg = 'bg-[var(--theme-bg-primary)]',
-    darkBg = 'dark:bg-[var(--theme-bg-primary)]',
+    background = 'bg-theme-primary',
     className = '',
     as = 'div',
     ...props
@@ -32,7 +30,7 @@ export const VSBackground = forwardRef<HTMLElement, VSBackgroundProps & React.HT
     return (
       <Component
         ref={ref}
-        className={`${lightBg} ${darkBg} ${className}`}
+        className={`${background} ${className}`}
         {...props}
       >
         {children}
@@ -42,27 +40,24 @@ export const VSBackground = forwardRef<HTMLElement, VSBackgroundProps & React.HT
 );
 
 /**
- * VS Card Component - Properly styled card with correct dark mode support
+ * VS Card Component - Theme-aware card with consistent styling across light/dark modes
  */
 export const VSCard = forwardRef<HTMLElement, VSBackgroundProps & React.HTMLAttributes<HTMLElement>>(
   ({
     children,
     className = '',
-    lightBg = 'bg-gradient-to-br from-white to-[var(--theme-bg-primary)]',
-    darkBg = 'dark:bg-gradient-to-br dark:from-[var(--theme-card-bg-navy)] dark:to-[var(--theme-bg-secondary)]',
+    background = 'bg-theme-gradient',
     ...props
   }, ref) => {
     return (
       <VSBackground
         ref={ref}
-        lightBg={lightBg}
-        darkBg={darkBg}
+        background={background}
         className={`rounded-[var(--theme-border-radius-lg)] p-6 
-                   border border-[rgba(0,0,0,0.03)] dark:border-white/5 
-                   shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
+                   border border-theme-border
+                   shadow-theme-md
                    transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]
-                   hover:translate-y-[-4px] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] 
-                   dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.2)]
+                   hover:translate-y-[-4px] hover:scale-[1.02] hover:shadow-theme-lg
                    ${className}`}
         {...props}
       >
@@ -73,24 +68,22 @@ export const VSCard = forwardRef<HTMLElement, VSBackgroundProps & React.HTMLAttr
 );
 
 /**
- * VS Section Component - Creates a full section with proper background styling
+ * VS Section Component - Creates a full section with theme-aware background styling
  */
 export const VSSection = forwardRef<HTMLElement, VSBackgroundProps & React.HTMLAttributes<HTMLElement>>(
   ({
     children,
     className = '',
-    lightBg = 'bg-[var(--theme-bg-primary)]',
-    darkBg = 'dark:bg-[var(--theme-bg-primary)]',
+    background = 'bg-theme-primary',
     ...props
   }, ref) => {
     return (
       <VSBackground
         as="section"
         ref={ref}
-        lightBg={lightBg}
-        darkBg={darkBg}
-        className={`py-24 relative overflow-hidden border-t border-[var(--theme-text-primary)]/10 
-                   dark:border-[var(--theme-text-secondary)]/10 ${className}`}
+        background={background}
+        className={`py-24 relative overflow-hidden border-t border-theme-border
+                   ${className}`}
         {...props}
       >
         {children}
