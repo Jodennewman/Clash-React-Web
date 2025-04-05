@@ -75,14 +75,14 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
             />
             
             {/* Play button overlay */}
-            <div className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors cursor-pointer group">
+            <div className="absolute inset-0 flex items-center justify-center bg-theme-bg-secondary/20 hover:bg-theme-bg-secondary/30 transition-colors cursor-pointer group">
               <div className="bg-theme-surface rounded-full w-16 h-16 flex items-center justify-center shadow-theme-sm transform transition-transform group-hover:scale-110">
                 <Play className="h-8 w-8 text-theme-primary fill-current ml-1" />
               </div>
             </div>
             
             {/* Title overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent text-white">
+            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent text-theme-on-primary">
               <h3 className="text-lg md:text-xl font-semibold">
                 {selectedSubmoduleId
                   ? submodules.find(s => s.id === selectedSubmoduleId)?.title
@@ -182,7 +182,7 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
           <div className="mt-6 flex flex-col gap-3">
             <button
               className="bg-theme-gradient-primary
-                       text-white px-4 py-2 rounded-md 
+                       text-theme-on-primary-4 py-2 rounded-md 
                        shadow-theme-btn
                        transition-all duration-[var(--theme-transition-bounce)]
                        hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] 

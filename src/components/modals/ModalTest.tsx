@@ -105,7 +105,7 @@ const ModalTest: React.FC = () => {
           <div className="mt-6 flex justify-end">
             <button
               onClick={() => setShowBasicModal(false)}
-              className="bg-theme-gradient-primary text-white px-4 py-2 rounded-md shadow-theme-btn hover-bubbly transition-all duration-[var(--theme-transition-bounce)]"
+              className="bg-theme-gradient-primary text-theme-on-primary-4 py-2 rounded-md shadow-theme-btn hover-bubbly transition-all duration-[var(--theme-transition-bounce)]"
             >
               Close
             </button>

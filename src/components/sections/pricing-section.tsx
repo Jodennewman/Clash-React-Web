@@ -48,10 +48,9 @@ const ModulePreview = () => {
   return (
     <div className="relative overflow-hidden 
                   vs-btn-primary-gradient/80 
-                  dark:bg-gradient-to-br dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]/80
-                  border border-white/10 dark:border-white/10
-                  shadow-[2px_2px_8px_rgba(0,0,0,0.1)] 
-                  dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
+                  bg-theme-gradient
+                  border border-white/10
+                  shadow-theme-sm
                   rounded-xl p-6 mt-8">
       
       {/* Floating elements for visual interest */}
@@ -75,7 +74,7 @@ const ModulePreview = () => {
           {categoryNames.slice(0, midpoint).map((category, index) => (
             <div
               key={index}
-              className="flex justify-between items-center group rounded-lg p-2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors"
+              className="flex justify-between items-center group rounded-lg p-2 hover:bg-theme-bg-surface/10 dark:hover:bg-theme-bg-surface/10 transition-colors"
             >
               <div className="text-theme-custom/80 /80">{category}</div>
               <div className="text-[var(--theme-primary)]  text-sm">{moduleCategories[category]?.length || 0}</div>
@@ -88,7 +87,7 @@ const ModulePreview = () => {
           {categoryNames.slice(midpoint).map((category, index) => (
             <div
               key={index}
-              className="flex justify-between items-center group rounded-lg p-2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors"
+              className="flex justify-between items-center group rounded-lg p-2 hover:bg-theme-bg-surface/10 dark:hover:bg-theme-bg-surface/10 transition-colors"
             >
               <div className="text-theme-custom/80 /80">{category}</div>
               <div className="text-[var(--theme-primary)]  text-sm">{moduleCategories[category]?.length || 0}</div>
@@ -98,17 +97,17 @@ const ModulePreview = () => {
       </div>
 
       <div className="mt-8 flex justify-center">
-        <div className="bg-[var(--theme-bg-secondary)]/50 /50 backdrop-blur-sm px-6 py-3 rounded-lg flex items-center gap-4 border border-white/5 vs-card-shadow">
+        <div className="bg-[var(--theme-bg-secondary)]/50 /50 backdrop-blur-sm px-6 py-3 rounded-lg flex items-center gap-4 border border-theme-border-light-card-shadow">
           <div className="text-center">
             <div className="text-2xl font-bold text-[var(--theme-primary)] ">{totalModules}+</div>
             <div className="text-sm text-theme-custom/60 /60">Lessons</div>
           </div>
-          <div className="h-10 w-px bg-white/10"></div>
+          <div className="h-10 w-px bg-theme-bg-surface/10"></div>
           <div className="text-center">
             <div className="text-2xl font-bold text-[var(--theme-primary)] ">{totalCategories}</div>
             <div className="text-sm text-theme-custom/60 /60">Learning Tracks</div>
           </div>
-          <div className="h-10 w-px bg-white/10"></div>
+          <div className="h-10 w-px bg-theme-bg-surface/10"></div>
           <div className="text-center">
             <div className="text-2xl font-bold text-[var(--theme-primary)] ">{totalHours}+</div>
             <div className="text-sm text-theme-custom/60 /60">Hours</div>
@@ -127,13 +126,12 @@ const ComparisonTable = () => {
     <div className="mt-12 overflow-x-auto relative">
       <h3 className="text-2xl font-semibold mb-6 text-theme-custom ">Plan Comparison</h3>
       <div className="min-w-full rounded-xl overflow-hidden
-                      border border-white/10 dark:border-white/10
-                      shadow-[2px_2px_8px_rgba(0,0,0,0.1)] 
-                      dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]">
+                      border border-white/10 dark:border-theme-border-light-[2px_2px_8px_rgba(0,0,0,0.1)] 
+                      shadow-theme-">
         <table className="w-full">
           <thead>
             <tr className="vs-btn-primary-gradient 
-                         dark:bg-gradient-to-r dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]">
+                         bg-theme-gradient dark:from-[var(--theme-bg-primary)]">
               <th className="p-4 text-left text-theme-custom ">Feature</th>
               <th className="p-4 text-center text-theme-custom ">Brand Blueprint</th>
               <th className="p-4 text-center text-theme-custom ">Authority Automator</th>
@@ -157,7 +155,7 @@ const ComparisonTable = () => {
               const growthAccess = true;
 
               return (
-                <tr key={category} className="border-t border-white/5 hover:bg-white/5 dark:hover:bg-white/5 transition-colors">
+                <tr key={category} className="border-t border-theme-border-light-theme-bg-surface/5 dark:hover:bg-theme-bg-surface/5 transition-colors">
                   <td className="p-4 text-theme-custom/80 /80">{category}</td>
                   <td className="p-4 text-center">
                     {blueprintAccess ? (
@@ -192,7 +190,7 @@ const ComparisonTable = () => {
             </tr>
 
             {supportFeatures.map((feature, idx) => (
-              <tr key={idx} className="border-t border-white/5 hover:bg-white/5 dark:hover:bg-white/5 transition-colors">
+              <tr key={idx} className="border-t border-theme-border-light-theme-bg-surface/5 dark:hover:bg-theme-bg-surface/5 transition-colors">
                 <td className="p-4 text-theme-custom/80 /80">{feature.name}</td>
                 <td className="p-4 text-center">
                   {feature.blueprint ? (
@@ -244,11 +242,11 @@ const PricingFAQ = () => {
     
       <h3 className="text-2xl font-semibold mb-6 text-theme-custom ">Frequently Asked Questions</h3>
       <Accordion type="single" collapsible className="w-full space-y-4">
-        <AccordionItem value="item-1" className="border border-white/10 dark:border-white/10 rounded-lg overflow-hidden
+        <AccordionItem value="item-1" className="border border-white/10 dark:border-theme-border-light-lg overflow-hidden
                                               shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
-                                              dark:shadow-[0_0_15px_rgba(53,115,128,0.1)]
+                                              shadow-theme-
                                               bg-[var(--theme-bg-primary)]/50 dark:bg-[var(--theme-bg-primary)]/50 backdrop-blur-sm hover-bubbly-sm">
-          <AccordionTrigger className="px-4 py-4 hover:bg-white/5 dark:hover:bg-white/5 text-theme-custom ">
+          <AccordionTrigger className="px-4 py-4 hover:bg-theme-bg-surface/5 dark:hover:bg-theme-bg-surface/5 text-theme-custom ">
             How is this different from other content courses?
           </AccordionTrigger>
           <AccordionContent className="px-4 py-4 bg-[var(--theme-bg-secondary)]/50 /50 text-theme-custom/80 /80">
@@ -259,11 +257,11 @@ const PricingFAQ = () => {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="item-2" className="border border-white/10 dark:border-white/10 rounded-lg overflow-hidden
+        <AccordionItem value="item-2" className="border border-white/10 dark:border-theme-border-light-lg overflow-hidden
                                               shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
-                                              dark:shadow-[0_0_15px_rgba(53,115,128,0.1)]
+                                              shadow-theme-
                                               bg-[var(--theme-bg-primary)]/50 dark:bg-[var(--theme-bg-primary)]/50 backdrop-blur-sm hover-bubbly-sm">
-          <AccordionTrigger className="px-4 py-4 hover:bg-white/5 dark:hover:bg-white/5 text-theme-custom ">
+          <AccordionTrigger className="px-4 py-4 hover:bg-theme-bg-surface/5 dark:hover:bg-theme-bg-surface/5 text-theme-custom ">
             How much time do I need to commit?
           </AccordionTrigger>
           <AccordionContent className="px-4 py-4 bg-[var(--theme-bg-secondary)]/50 /50 text-theme-custom/80 /80">
@@ -274,11 +272,11 @@ const PricingFAQ = () => {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="item-3" className="border border-white/10 dark:border-white/10 rounded-lg overflow-hidden
+        <AccordionItem value="item-3" className="border border-white/10 dark:border-theme-border-light-lg overflow-hidden
                                               shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
-                                              dark:shadow-[0_0_15px_rgba(53,115,128,0.1)]
+                                              shadow-theme-
                                               bg-[var(--theme-bg-primary)]/50 dark:bg-[var(--theme-bg-primary)]/50 backdrop-blur-sm hover-bubbly-sm">
-          <AccordionTrigger className="px-4 py-4 hover:bg-white/5 dark:hover:bg-white/5 text-theme-custom ">
+          <AccordionTrigger className="px-4 py-4 hover:bg-theme-bg-surface/5 dark:hover:bg-theme-bg-surface/5 text-theme-custom ">
             Do I need to be on camera for this to work?
           </AccordionTrigger>
           <AccordionContent className="px-4 py-4 bg-[var(--theme-bg-secondary)]/50 /50 text-theme-custom/80 /80">
@@ -289,11 +287,11 @@ const PricingFAQ = () => {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="item-4" className="border border-white/10 dark:border-white/10 rounded-lg overflow-hidden
+        <AccordionItem value="item-4" className="border border-white/10 dark:border-theme-border-light-lg overflow-hidden
                                               shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
-                                              dark:shadow-[0_0_15px_rgba(53,115,128,0.1)]
+                                              shadow-theme-
                                               bg-[var(--theme-bg-primary)]/50 dark:bg-[var(--theme-bg-primary)]/50 backdrop-blur-sm hover-bubbly-sm">
-          <AccordionTrigger className="px-4 py-4 hover:bg-white/5 dark:hover:bg-white/5 text-theme-custom ">
+          <AccordionTrigger className="px-4 py-4 hover:bg-theme-bg-surface/5 dark:hover:bg-theme-bg-surface/5 text-theme-custom ">
             Which plan is right for me?
           </AccordionTrigger>
           <AccordionContent className="px-4 py-4 bg-[var(--theme-bg-secondary)]/50 /50 text-theme-custom/80 /80">
@@ -304,11 +302,11 @@ const PricingFAQ = () => {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="item-5" className="border border-white/10 dark:border-white/10 rounded-lg overflow-hidden
+        <AccordionItem value="item-5" className="border border-white/10 dark:border-theme-border-light-lg overflow-hidden
                                               shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
-                                              dark:shadow-[0_0_15px_rgba(53,115,128,0.1)]
+                                              shadow-theme-
                                               bg-[var(--theme-bg-primary)]/50 dark:bg-[var(--theme-bg-primary)]/50 backdrop-blur-sm hover-bubbly-sm">
-          <AccordionTrigger className="px-4 py-4 hover:bg-white/5 dark:hover:bg-white/5 text-theme-custom ">
+          <AccordionTrigger className="px-4 py-4 hover:bg-theme-bg-surface/5 dark:hover:bg-theme-bg-surface/5 text-theme-custom ">
             How long do I have access to the course?
           </AccordionTrigger>
           <AccordionContent className="px-4 py-4 bg-[var(--theme-bg-secondary)]/50 /50 text-theme-custom/80 /80">
@@ -318,11 +316,11 @@ const PricingFAQ = () => {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="item-6" className="border border-white/10 dark:border-white/10 rounded-lg overflow-hidden
+        <AccordionItem value="item-6" className="border border-white/10 dark:border-theme-border-light-lg overflow-hidden
                                               shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
-                                              dark:shadow-[0_0_15px_rgba(53,115,128,0.1)]
+                                              shadow-theme-
                                               bg-[var(--theme-bg-primary)]/50 dark:bg-[var(--theme-bg-primary)]/50 backdrop-blur-sm hover-bubbly-sm">
-          <AccordionTrigger className="px-4 py-4 hover:bg-white/5 dark:hover:bg-white/5 text-theme-custom ">
+          <AccordionTrigger className="px-4 py-4 hover:bg-theme-bg-surface/5 dark:hover:bg-theme-bg-surface/5 text-theme-custom ">
             Can I upgrade my plan later?
           </AccordionTrigger>
           <AccordionContent className="px-4 py-4 bg-[var(--theme-bg-secondary)]/50 /50 text-theme-custom/80 /80">
@@ -395,7 +393,7 @@ const PlanQuiz = ({ onComplete }: { onComplete: (result: number) => void }) => {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <div className="text-sm text-white/60">
+        <div className="text-sm text-theme-on-primary/60">
           Step {currentStep + 1} of {quizSteps.length}
         </div>
         <div className="flex gap-2">
@@ -435,7 +433,7 @@ const PlanQuiz = ({ onComplete }: { onComplete: (result: number) => void }) => {
           variant="outline"
           onClick={handlePrevious}
           disabled={currentStep === 0}
-          className="border-white/20"
+          className="border-theme-border-light"
         >
           Back
         </Button>
@@ -531,9 +529,9 @@ export const PricingSection = () => {
     const plan = pricingTiers[tierIndex];
     if (plan.trackAccess === "all") {
       return (
-        <div className="text-white/80 mt-2">
+        <div className="text-theme-on-primary/80 mt-2">
           <p>
-            <span className="text-white font-semibold">
+            <span className="text-theme-on-primary-semibold">
               All {totalCategories} learning tracks
             </span>{" "}
             with {totalModules}+ lessons
@@ -542,9 +540,9 @@ export const PricingSection = () => {
       );
     } else {
       return (
-        <div className="text-white/80 mt-2">
+        <div className="text-theme-on-primary/80 mt-2">
           <p>
-            <span className="text-white font-semibold">{plan.trackAccess.length} key learning tracks</span>{" "}
+            <span className="text-theme-on-primary-semibold">{plan.trackAccess.length} key learning tracks</span>{" "}
             with focus on core skills
           </p>
         </div>
@@ -567,7 +565,7 @@ export const PricingSection = () => {
           <Badge variant="outline" className="vs-accent-badge mb-4 py-2 px-4">
             Your Growth Path
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Choose Your Content Strategy</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-theme-on-primary">Choose Your Content Strategy</h2>
           <p className="text-xl max-w-3xl mx-auto" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
             Access the proven system that has generated over 800M views and helped founders grow
             engaged communities and drive revenue.
@@ -698,7 +696,7 @@ export const PricingSection = () => {
                     {/* Top-right badge */}
                     {tier.badge && (
                       <div
-                        className="absolute top-0 right-0 text-xs font-medium text-white px-3 py-1 rounded-bl-lg bg-[var(--theme-primary)]"
+                        className="absolute top-0 right-0 text-xs font-medium text-theme-on-primary-3 py-1 rounded-bl-lg bg-[var(--theme-primary)]"
                       >
                         {tier.badge}
                       </div>
@@ -718,7 +716,7 @@ export const PricingSection = () => {
                         >
                           {getPlanIcon(tier.id)}
                         </div>
-                        <CardTitle className="text-xl text-white">{tier.name}</CardTitle>
+                        <CardTitle className="text-xl text-theme-on-primary">{tier.name}</CardTitle>
                       </div>
                       <CardDescription className="mt-2" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
                         {tier.description}
@@ -738,7 +736,7 @@ export const PricingSection = () => {
                             </div>
                           )}
 
-                          <div className="text-3xl font-bold text-white">{priceInfo.displayPrice}</div>
+                          <div className="text-3xl font-bold text-theme-on-primary">{priceInfo.displayPrice}</div>
 
                           {priceInfo.perInstallment && (
                             <div className="text-sm mt-1" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>{priceInfo.perInstallment}</div>
@@ -746,7 +744,7 @@ export const PricingSection = () => {
 
                           {pricingConfig.promotionalOffer && pricingConfig.promotionalOfferTiers[index] && (
                             <div className="mt-2">
-                              <Badge className="text-white vs-btn-destructive-gradient">
+                              <Badge className="text-theme-on-primary-btn-destructive-gradient">
                                 Save {pricingConfig.promotionalDiscount * 100}%
                               </Badge>
                             </div>
@@ -754,7 +752,7 @@ export const PricingSection = () => {
                         </div>
                       ) : (
                         <div className="text-center py-4">
-                          <div className="text-3xl font-bold text-white">Custom</div>
+                          <div className="text-3xl font-bold text-theme-on-primary">Custom</div>
                           <div className="text-sm mt-1" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>Contact for pricing</div>
                         </div>
                       )}
@@ -765,7 +763,7 @@ export const PricingSection = () => {
                       {/* Features */}
                       <div className="space-y-3">
                         {tier.features.map((feature, idx) => (
-                          <div key={idx} className="flex items-start gap-2 group hover:bg-white/5 rounded-md p-1 transition-colors">
+                          <div key={idx} className="flex items-start gap-2 group hover:bg-theme-bg-surface/5 rounded-md p-1 transition-colors">
                             <Check 
                               className="h-5 w-5 shrink-0 mt-0.5 group-hover:scale-110 transition-transform bg-[var(--theme-primary)]"
                             />
@@ -817,7 +815,7 @@ export const PricingSection = () => {
               <div className="absolute top-5 left-1/4 w-16 h-16 rounded-[40%] rotate-12 vs-float-element-light-1"></div>
               <div className="absolute bottom-5 right-1/4 w-16 h-16 rounded-[40%] rotate-12 vs-float-element-dark-1"></div>
             
-              <h3 className="text-2xl font-semibold mb-4 text-white">Ready to Transform Your Content Strategy?</h3>
+              <h3 className="text-2xl font-semibold mb-4 text-theme-on-primary">Ready to Transform Your Content Strategy?</h3>
               <p className="max-w-2xl mx-auto mb-8" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
                 Join hundreds of founders who have already used our proven system to build engaged
                 audiences and drive sustainable growth.

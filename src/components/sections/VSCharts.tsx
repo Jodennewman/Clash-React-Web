@@ -71,12 +71,20 @@ export default function VSCharts(): ReactElement {
     { month: "Week 10", engagement: 320, conversion: 140 },
   ];
   
+  // Theme-aware chart colors for metrics
+  const chartColors = {
+    views: "var(--theme-color-views)",
+    followers: "var(--theme-color-followers)",
+    engagement: "var(--theme-color-engagement)",
+    revenue: "var(--theme-color-revenue)"
+  };
+  
   // Success metrics data for pie chart
   const metricsData: MetricDataPoint[] = [
-    { metric: "views", value: 45, fill: "var(--theme-color-views)" },
-    { metric: "followers", value: 32, fill: "var(--theme-color-followers)" },
-    { metric: "engagement", value: 18, fill: "var(--theme-color-engagement)" },
-    { metric: "revenue", value: 25, fill: "var(--theme-color-revenue)" },
+    { metric: "views", value: 45, fill: chartColors.views },
+    { metric: "followers", value: 32, fill: chartColors.followers },
+    { metric: "engagement", value: 18, fill: chartColors.engagement },
+    { metric: "revenue", value: 25, fill: chartColors.revenue },
   ];
   
   const metricsConfig: ChartConfig = {
@@ -85,19 +93,19 @@ export default function VSCharts(): ReactElement {
     },
     views: {
       label: "Views (in millions)",
-      color: "var(--theme-color-views)",
+      color: chartColors.views,
     },
     followers: {
       label: "New Followers (in thousands)",
-      color: "var(--theme-color-followers)",
+      color: chartColors.followers,
     },
     engagement: {
       label: "Engagement Rate (%)",
-      color: "var(--theme-color-engagement)",
+      color: chartColors.engagement,
     },
     revenue: {
       label: "Revenue Growth (%)",
-      color: "var(--theme-color-revenue)",
+      color: chartColors.revenue,
     },
   };
 
@@ -106,17 +114,22 @@ export default function VSCharts(): ReactElement {
   const metrics = metricsData.map((item) => item.metric);
 
   useGSAP(() => {
+    // Get computed theme variables for animation
+    const styles = getComputedStyle(document.documentElement);
+    const distance = styles.getPropertyValue('--theme-anim-distance-md') || '-7px';
+    const duration = styles.getPropertyValue('--theme-anim-duration-med') || '0.45';
+    
     const ctx = gsap.context(() => {
-      // Animate charts on load with staggered timing
+      // Animate charts on load with staggered timing using theme variables
       gsap.fromTo(".chart-container", 
         { 
           opacity: 0, 
-          y: 30 
+          y: Math.abs(parseInt(distance)) * 4 // Use theme distance but make it positive and larger for initial state
         }, 
         { 
           opacity: 1, 
           y: 0, 
-          duration: 0.8, 
+          duration: parseFloat(duration), 
           stagger: 0.2, 
           ease: "power2.out" 
         }
@@ -132,17 +145,28 @@ export default function VSCharts(): ReactElement {
       return (
         <div className="bg-theme-primary p-3 rounded-md border border-theme-border shadow-theme-sm">
           <p className="text-theme-primary font-medium mb-1">{label}</p>
-          {payload.map((entry, index) => (
-            <div key={`tooltip-${index}`} className="flex items-center gap-2">
-              <div 
-                className={`w-2 h-2 rounded-full ${entry.color ? '' : 'bg-theme-accent'}`} 
-                style={entry.color ? { backgroundColor: entry.color } : {}}
-              />
-              <p className="text-theme-secondary text-sm">
-                {entry.name}: {entry.value}
-              </p>
-            </div>
-          ))}
+          {payload.map((entry, index) => {
+            // Determine color class based on data key or use theme accent as fallback
+            const colorKey = entry.dataKey as string || "";
+            const tooltipColorClass = colorKey.includes("engagement") ? "bg-theme-accent-quaternary" : 
+                                      colorKey.includes("conversion") ? "bg-theme-accent-tertiary" :
+                                      colorKey.includes("views") ? "bg-theme-primary" :
+                                      colorKey.includes("followers") ? "bg-theme-accent-secondary" :
+                                      colorKey.includes("revenue") ? "bg-theme-accent-secondary" :
+                                      "bg-theme-accent";
+            
+            return (
+              <div key={`tooltip-${index}`} className="flex items-center gap-2">
+                <div 
+                  className={`w-2 h-2 rounded-full ${tooltipColorClass}`} 
+                  style={entry.color && !colorKey ? { backgroundColor: entry.color } : {}}
+                />
+                <p className="text-theme-secondary text-sm">
+                  {entry.name}: {entry.value}
+                </p>
+              </div>
+            );
+          })}
         </div>
       );
     }
@@ -150,8 +174,18 @@ export default function VSCharts(): ReactElement {
   };
 
   return (
-    <Section className="py-20 bg-theme-primary border-t border-theme-border" ref={containerRef}>
-      <div className="max-w-container mx-auto">
+    <Section className="py-20 bg-theme-primary border-t border-theme-border relative overflow-hidden" ref={containerRef}>
+      {/* Theme-aware floating elements for visual interest */}
+      <div className="absolute -z-10 top-20 right-10 w-20 h-20 rounded-[40%] rotate-12 
+                   opacity-[var(--theme-float-opacity)]
+                   bg-[var(--theme-float-bg-primary)]
+                   animate-float-slow"></div>
+      <div className="absolute -z-10 bottom-40 left-10 w-32 h-32 rounded-[30%] -rotate-6 
+                   opacity-[var(--theme-float-opacity-secondary)]
+                   bg-[var(--theme-float-bg-secondary)]
+                   animate-float-medium"></div>
+                   
+      <div className="max-w-container mx-auto relative">
         <div className="text-center mb-10">
           <h2 className="text-theme-primary text-3xl md:text-4xl font-medium mb-3">Case Studies</h2>
           <p className="text-theme-secondary max-w-2xl mx-auto">
@@ -227,7 +261,12 @@ export default function VSCharts(): ReactElement {
                     strokeWidth={2}
                     fill="var(--theme-primary)"
                     fillOpacity={0.05}
-                    activeDot={{ r: 4, fill: "var(--theme-primary)", stroke: "var(--theme-text-on-primary)", strokeWidth: 2 }}
+                    activeDot={{ 
+                      r: 4, 
+                      fill: "var(--theme-primary)", 
+                      stroke: "var(--theme-text-on-primary)", 
+                      strokeWidth: 2 
+                    }}
                   />
                   <Area
                     type="monotone"
@@ -237,7 +276,12 @@ export default function VSCharts(): ReactElement {
                     strokeWidth={2}
                     fill="var(--theme-accent-quaternary)"
                     fillOpacity={0.05}
-                    activeDot={{ r: 4, fill: "var(--theme-accent-quaternary)", stroke: "var(--theme-text-on-primary)", strokeWidth: 2 }}
+                    activeDot={{ 
+                      r: 4, 
+                      fill: "var(--theme-accent-quaternary)", 
+                      stroke: "var(--theme-text-on-primary)", 
+                      strokeWidth: 2 
+                    }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -259,14 +303,17 @@ export default function VSCharts(): ReactElement {
                 {metricsData.map((item) => (
                   <button 
                     key={item.metric}
-                    className={`text-xs font-medium px-3 py-1 rounded-full transition-colors ${
+                    className={`text-xs font-medium px-3 py-1 rounded-full transition-all duration-[var(--theme-transition-normal)] ${
                       activeMetric === item.metric
-                        ? `bg-theme-accent text-theme-on-primary`
+                        ? `text-theme-on-primary`
                         : 'bg-theme-secondary/30 text-theme-primary hover:bg-theme-secondary/50'
                     }`}
                     style={
                       activeMetric === item.metric 
-                        ? { backgroundColor: item.fill } 
+                        ? { 
+                            backgroundColor: item.fill,
+                            boxShadow: 'var(--theme-shadow-btn)'
+                          } 
                         : {}
                     }
                     onClick={() => setActiveMetric(item.metric)}
@@ -402,7 +449,7 @@ export default function VSCharts(): ReactElement {
                 </div>
                 
                 {i === 1 && (
-                  <div className="absolute top-0 right-0 w-0 h-0 border-t-8 border-r-8 border-t-[var(--theme-primary)] border-r-transparent"></div>
+                  <div className="absolute top-0 right-0 w-0 h-0 border-t-8 border-r-8 border-t-theme-primary border-r-transparent"></div>
                 )}
               </div>
             ))}

@@ -100,7 +100,7 @@ export default function VSNavbar() {
               className="h-8 mr-3"
             />
             <div className="w-8 h-8 rounded-full bg-theme-primary flex items-center justify-center shadow-theme-sm">
-              <span className="text-white font-bold text-sm">VS</span>
+              <span className="text-theme-on-primary-bold text-sm">VS</span>
             </div>
             <span className="text-theme-primary ml-2 font-medium">Vertical Shortcut</span>
           </NavbarLeft>
@@ -135,7 +135,7 @@ export default function VSNavbar() {
           <NavbarRight>
             <Button 
               variant="default" 
-              className="bg-theme-primary hover:bg-theme-primary-hover text-white px-5 py-2 shadow-theme-sm transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-theme-md"
+              className="bg-theme-primary hover:bg-theme-primary-hover text-theme-on-primary-5 py-2 shadow-theme-sm transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-theme-md"
               onClick={() => {
                 const applicationForm = document.getElementById("application-form");
                 if (applicationForm) {
@@ -234,7 +234,7 @@ export default function VSNavbar() {
                     Pricing
                   </button>
                   <Button 
-                    className="mt-4 bg-theme-primary hover:bg-theme-primary-hover text-white shadow-theme-sm transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-theme-md"
+                    className="mt-4 bg-theme-primary hover:bg-theme-primary-hover text-theme-on-primary-theme-sm transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-theme-md"
                     onClick={() => {
                       const applicationForm = document.getElementById("application-form");
                       const sheet = document.querySelector('[data-state="open"]');

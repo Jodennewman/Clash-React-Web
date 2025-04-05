@@ -171,7 +171,7 @@ const ModalsImplementation: React.FC = () => {
               
               <div className="space-y-3 mb-6">
                 <div className="flex items-center">
-                  <div className="w-5 h-5 rounded-full bg-theme-primary flex items-center justify-center text-white text-sm mr-3">1</div>
+                  <div className="w-5 h-5 rounded-full bg-theme-primary flex items-center justify-center text-theme-on-primary-sm mr-3">1</div>
                   <span className="text-theme-primary">Personal Details</span>
                 </div>
                 <div className="flex items-center">
@@ -186,7 +186,7 @@ const ModalsImplementation: React.FC = () => {
               
               <button
                 onClick={() => setShowApplicationModal(true)}
-                className="bg-theme-gradient-primary text-white px-4 py-2 rounded-full shadow-theme-btn transition-all duration-[var(--theme-transition-bounce)] hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-md w-full"
+                className="bg-theme-gradient-primary text-theme-on-primary-4 py-2 rounded-full shadow-theme-btn transition-all duration-[var(--theme-transition-bounce)] hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-md w-full"
               >
                 Open Application Form
               </button>
@@ -209,7 +209,7 @@ const ModalsImplementation: React.FC = () => {
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-12 h-12 rounded-full bg-theme-primary flex items-center justify-center shadow-theme-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-white ml-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-theme-on-primary-1">
                       <polygon points="5 3 19 12 5 21 5 3"></polygon>
                     </svg>
                   </div>
@@ -218,7 +218,7 @@ const ModalsImplementation: React.FC = () => {
               
               <button
                 onClick={() => setShowSubmoduleModal(true)}
-                className="bg-theme-gradient-secondary text-white px-4 py-2 rounded-full shadow-theme-btn transition-all duration-[var(--theme-transition-bounce)] hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-md w-full"
+                className="bg-theme-gradient-secondary text-theme-on-primary-4 py-2 rounded-full shadow-theme-btn transition-all duration-[var(--theme-transition-bounce)] hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-md w-full"
               >
                 View Module Content
               </button>
@@ -249,7 +249,7 @@ const ModalsImplementation: React.FC = () => {
               
               <button
                 onClick={() => setShowQuizModal(true)}
-                className="bg-theme-gradient-accent text-white px-4 py-2 rounded-full shadow-theme-btn transition-all duration-[var(--theme-transition-bounce)] hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-md w-full"
+                className="bg-theme-gradient-accent text-theme-on-primary-4 py-2 rounded-full shadow-theme-btn transition-all duration-[var(--theme-transition-bounce)] hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-md w-full"
               >
                 Take Knowledge Quiz
               </button>

@@ -280,7 +280,7 @@ export default function LeadCaptureForm({ onSubmit, className }: LeadCaptureForm
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-theme-gradient-primary text-white font-semibold py-3 shadow-theme-sm hover-bubbly"
+            className="w-full bg-theme-gradient-primary text-theme-on-primary-semibold py-3 shadow-theme-sm hover-bubbly"
           >
             {isSubmitting ? 'Submitting...' : 'Apply Now'}
           </Button>
@@ -292,4 +292,4 @@ export default function LeadCaptureForm({ onSubmit, className }: LeadCaptureForm
       )}
     </div>
   );
-} 
+}

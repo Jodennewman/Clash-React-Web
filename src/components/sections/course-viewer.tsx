@@ -178,7 +178,7 @@ export const CourseViewer: React.FC = () => {
       
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <Badge variant="outline" className="bg-white/5 text-[var(--theme-primary)]  border-[var(--theme-primary)]/30 mb-4 py-2 px-4 mx-auto">
+          <Badge variant="outline" className="bg-theme-bg-surface/5 text-[var(--theme-primary)]  border-[var(--theme-primary)]/30 mb-4 py-2 px-4 mx-auto">
             Course Navigator
           </Badge>
           <VSGradientText
@@ -191,7 +191,7 @@ export const CourseViewer: React.FC = () => {
           >
             Course Content
           </VSGradientText>
-          <VSHeading variant="h2" className="text-2xl md:text-3xl text-[var(--theme-text-primary)] dark:text-white/70 max-w-3xl mx-auto">
+          <VSHeading variant="h2" className="text-2xl md:text-3xl text-[var(--theme-text-primary)] dark:text-theme-on-primary/70 max-w-3xl mx-auto">
             And we mean <u>everything.</u>
           </VSHeading>
         </div>
@@ -221,15 +221,14 @@ export const CourseViewer: React.FC = () => {
         </div>
         
         <div className="text-center mt-16 md:mt-24 max-w-4xl mx-auto">
-          <p className="text-[var(--theme-text-primary)]/80 dark:text-white/60 text-lg mb-6">
+          <p className="text-[var(--theme-text-primary)]/80 dark:text-theme-on-primary/60 text-lg mb-6">
             Access our complete library of courses, tools, and systems to transform your content creation process. Everything you need to create, grow, and monetize.
           </p>
           <button 
             className="vs-btn-primary-gradient
-                     dark:bg-gradient-to-r dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)]
-                     text-white px-6 py-3 rounded-[--border-radius-full] 
+                     bg-theme-gradient dark:from-[var(--theme-primary)] s-full] 
                      shadow-[1px_1px_4px_rgba(0,0,0,0.1)]
-                     dark:shadow-[0_0_8px_rgba(254,163,93,0.2)]
+                     shadow-theme-
                      transition-all duration-[--transition-bounce]
                      hover:translate-y-[-3px] hover:scale-[1.03] 
                      hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)]
@@ -244,7 +243,7 @@ export const CourseViewer: React.FC = () => {
       {showModal && selectedModule && (
         <div 
           ref={modalOverlayRef}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-theme-bg-secondary/40"
           onClick={(e) => {
             if (e.target === modalOverlayRef.current) {
               closeModal();
@@ -253,7 +252,7 @@ export const CourseViewer: React.FC = () => {
         >
           <div 
             ref={modalRef}
-            className="w-full max-w-4xl bg-theme-gradient dark:from-[var(--theme-bg-primary)]  rounded-[--border-radius-lg] shadow-[2px_2px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_rgba(53,115,128,0.2)] overflow-hidden"
+            className="w-full max-w-4xl bg-theme-gradient s-lg] shadow-[2px_2px_12px_rgba(0,0,0,0.1)] shadow-theme- overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Floating elements inside modal - light mode */}
@@ -267,7 +266,7 @@ export const CourseViewer: React.FC = () => {
             <div className="p-6 md:p-8 flex flex-col md:flex-row gap-6 relative">
               {/* Sidebar */}
               <div className="w-full md:w-1/3">
-                <div className="aspect-video rounded-[--border-radius-md] overflow-hidden mb-4 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]">
+                <div className="aspect-video rounded-[--border-radius-md] overflow-hidden mb-4 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] shadow-theme-">
                   <img 
                     src={courseUtils.getThumbnailPath(selectedModule.thumbnail)} 
                     alt={selectedModule.title}
@@ -275,13 +274,13 @@ export const CourseViewer: React.FC = () => {
                   />
                 </div>
                 
-                <h3 className="text-[var(--theme-text-primary)] dark:text-white text-lg font-medium mb-3">Submodules</h3>
+                <h3 className="text-[var(--theme-text-primary)] dark:text-theme-on-primary font-medium mb-3">Submodules</h3>
                 
                 <ul className="space-y-2">
                   {[1, 2, 3, 4].map(num => (
                     <li 
                       key={num}
-                      className="p-2 bg-theme-custom/40 /5 rounded-[--border-radius-sm] text-[var(--theme-text-primary)] dark:text-white/80 cursor-pointer hover:bg-white/60 dark:hover:bg-white/10 transition-all duration-300 hover:translate-y-[-2px] shadow-[1px_1px_3px_rgba(0,0,0,0.03)] dark:shadow-[0_0_5px_rgba(53,115,128,0.05)]"
+                      className="p-2 bg-theme-custom/40 /5 rounded-[--border-radius-sm] text-[var(--theme-text-primary)] dark:text-theme-on-primary/80 cursor-pointer hover:bg-theme-bg-surface/60 dark:hover:bg-theme-bg-surface/10 transition-all duration-300 hover:translate-y-[-2px] shadow-[1px_1px_3px_rgba(0,0,0,0.03)] shadow-theme-"
                     >
                       <div className="flex items-center">
                         <span className="font-medium mr-2">{num}.</span>
@@ -295,11 +294,11 @@ export const CourseViewer: React.FC = () => {
               {/* Main Content */}
               <div className="w-full md:w-2/3">
                 <div className="flex justify-between items-start mb-4">
-                  <h2 className="text-2xl font-bold text-[var(--theme-text-primary)] dark:text-white">{selectedModule.title}</h2>
+                  <h2 className="text-2xl font-bold text-[var(--theme-text-primary)] dark:text-theme-on-primary">{selectedModule.title}</h2>
                   
                   <button 
                     onClick={closeModal}
-                    className="text-[var(--theme-text-primary)]/60 dark:text-white/60 hover:text-[var(--theme-text-primary)] dark:hover:text-white transition-colors hover:scale-110 p-1"
+                    className="text-[var(--theme-text-primary)]/60 dark:text-theme-on-primary/60 hover:text-[var(--theme-text-primary)] dark:hover:text-theme-on-primary-colors hover:scale-110 p-1"
                     aria-label="Close modal"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -309,18 +308,18 @@ export const CourseViewer: React.FC = () => {
                   </button>
                 </div>
                 
-                <p className="text-[var(--theme-text-primary)]/80 dark:text-white/60 mb-6">{selectedModule.subtitle}</p>
+                <p className="text-[var(--theme-text-primary)]/80 dark:text-theme-on-primary/60 mb-6">{selectedModule.subtitle}</p>
                 
                 <div className="mb-6">
-                  <h3 className="text-[var(--theme-text-primary)] dark:text-white text-lg font-medium mb-4">What You'll Learn</h3>
+                  <h3 className="text-[var(--theme-text-primary)] dark:text-theme-on-primary font-medium mb-4">What You'll Learn</h3>
                   
                   <ul className="space-y-4">
                     {selectedModule.points.map((point, idx) => (
                       <li key={idx} className="flex items-start">
-                        <div className="w-6 h-6 rounded-full vs-btn-primary-gradient dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)] flex items-center justify-center text-white font-medium shrink-0 mt-0.5 mr-3 shadow-[1px_1px_3px_rgba(0,0,0,0.1)] dark:shadow-[0_0_6px_rgba(254,163,93,0.2)]">
+                        <div className="w-6 h-6 rounded-full vs-btn-primary-gradient dark:from-[var(--theme-primary)] s-center justify-center text-theme-on-primary-medium shrink-0 mt-0.5 mr-3 shadow-[1px_1px_3px_rgba(0,0,0,0.1)] shadow-theme-">
                           {idx + 1}
                         </div>
-                        <p className="text-[var(--theme-text-primary)]/90 dark:text-white/80">{point}</p>
+                        <p className="text-[var(--theme-text-primary)]/90 dark:text-theme-on-primary/80">{point}</p>
                       </li>
                     ))}
                   </ul>
@@ -329,10 +328,9 @@ export const CourseViewer: React.FC = () => {
                 <div className="mt-auto pt-4">
                   <button 
                     className="vs-btn-primary-gradient
-                           dark:bg-gradient-to-r dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)]
-                           text-white px-6 py-3 rounded-[--border-radius-full] 
+                           bg-theme-gradient dark:from-[var(--theme-primary)] s-full] 
                            shadow-[1px_1px_4px_rgba(0,0,0,0.1)]
-                           dark:shadow-[0_0_8px_rgba(254,163,93,0.2)]
+                           shadow-theme-
                            transition-all duration-[--transition-bounce]
                            hover:translate-y-[-3px] hover:scale-[1.03] 
                            hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)]

@@ -17,7 +17,7 @@ export default function Navbar() {
             </a>
           </NavbarLeft>
           <NavbarRight>
-            <Button variant="default" className="vs-btn-primary-gradient text-white">Get Started</Button>
+            <Button variant="default" className="vs-btn-primary-gradient text-theme-on-primary">Get Started</Button>
           </NavbarRight>
         </NavbarComponent>
       </div>

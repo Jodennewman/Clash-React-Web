@@ -141,7 +141,7 @@ const VSQuizModal: React.FC<VSQuizModalProps> = ({
                         : 'border-theme-border-medium'
                       } flex-shrink-0 mr-3 flex items-center justify-center`}>
                       {answers[currentQuestion.id] === option.value && (
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 text-theme-on-primary">
                           <polyline points="20 6 9 17 4 12"></polyline>
                         </svg>
                       )}
@@ -252,7 +252,7 @@ const VSQuizModal: React.FC<VSQuizModalProps> = ({
             
             <button
               onClick={handleComplete}
-              className="px-6 py-2 bg-theme-gradient-primary text-white rounded-[--border-radius-md] shadow-theme-sm transition-all duration-[var(--theme-transition-bounce)] hover-bubbly"
+              className="px-6 py-2 bg-theme-gradient-primary text-theme-on-primary-[--border-radius-md] shadow-theme-sm transition-all duration-[var(--theme-transition-bounce)] hover-bubbly"
             >
               Continue Learning
             </button>

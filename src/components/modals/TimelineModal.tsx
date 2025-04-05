@@ -41,7 +41,7 @@ export function VSTimelineModal() {
               {/* Timeline Item 1 */}
               <div className="relative pb-2">
                 <div className="absolute -left-[29px] p-1 rounded-full bg-theme-gradient-primary">
-                  <HomeIcon className="h-4 w-4 text-white" />
+                  <HomeIcon className="h-4 w-4 text-theme-on-primary" />
                 </div>
                 <div>
                   <h4 className="font-semibold text-theme-primary">$2,400, Design Changes</h4>
@@ -52,7 +52,7 @@ export function VSTimelineModal() {
               {/* Timeline Item 2 */}
               <div className="relative pb-2">
                 <div className="absolute -left-[29px] p-1 rounded-full bg-theme-gradient-secondary">
-                  <BellIcon className="h-4 w-4 text-white" />
+                  <BellIcon className="h-4 w-4 text-theme-on-primary" />
                 </div>
                 <div>
                   <h4 className="font-semibold text-theme-primary">New order #1832412</h4>
@@ -63,7 +63,7 @@ export function VSTimelineModal() {
               {/* Timeline Item 3 */}
               <div className="relative">
                 <div className="absolute -left-[29px] p-1 rounded-full bg-theme-gradient-accent">
-                  <CurrencyDollarIcon className="h-4 w-4 text-white" />
+                  <CurrencyDollarIcon className="h-4 w-4 text-theme-on-primary" />
                 </div>
                 <div>
                   <h4 className="font-semibold text-theme-primary">Payment Completed</h4>

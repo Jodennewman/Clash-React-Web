@@ -87,7 +87,7 @@ const VSExampleComponent = () => {
                         hover-bubbly">
             <div className="w-12 h-12 rounded-full bg-theme-gradient-primary
                          flex items-center justify-center mb-4">
-              <CheckCircle className="h-6 w-6 text-white" />
+              <CheckCircle className="h-6 w-6 text-theme-on-primary" />
             </div>
             
             <h3 className="text-theme-primary text-xl font-medium mb-2">
@@ -102,7 +102,7 @@ const VSExampleComponent = () => {
             </p>
             
             <button className="bg-theme-gradient-primary
-                             text-white px-4 py-2 rounded-full
+                             text-theme-on-primary-4 py-2 rounded-full
                              shadow-theme-sm
                              transition-all duration-[var(--theme-transition-bounce)]
                              hover-bubbly-sm">
@@ -118,7 +118,7 @@ const VSExampleComponent = () => {
                         hover-bubbly">
             <div className="w-12 h-12 rounded-full bg-theme-gradient-secondary
                          flex items-center justify-center mb-4">
-              <ArrowRightCircle className="h-6 w-6 text-white" />
+              <ArrowRightCircle className="h-6 w-6 text-theme-on-primary" />
             </div>
             
             <h3 className="text-theme-primary text-xl font-medium mb-2">
@@ -134,7 +134,7 @@ const VSExampleComponent = () => {
             </p>
             
             <button className="bg-theme-gradient-secondary
-                             text-white px-4 py-2 rounded-full
+                             text-theme-on-primary-4 py-2 rounded-full
                              shadow-theme-sm
                              transition-all duration-[var(--theme-transition-bounce)]
                              hover-bubbly-sm">
@@ -150,7 +150,7 @@ const VSExampleComponent = () => {
                         hover-bubbly">
             <div className="w-12 h-12 rounded-full bg-theme-gradient-accent
                          flex items-center justify-center mb-4">
-              <Zap className="h-6 w-6 text-white" />
+              <Zap className="h-6 w-6 text-theme-on-primary" />
             </div>
             
             <h3 className="text-theme-primary text-xl font-medium mb-2">
@@ -162,7 +162,7 @@ const VSExampleComponent = () => {
             </p>
             
             <button className="bg-theme-gradient-accent
-                             text-white px-4 py-2 rounded-full
+                             text-theme-on-primary-4 py-2 rounded-full
                              shadow-theme-sm
                              transition-all duration-[var(--theme-transition-bounce)]
                              hover-bubbly-sm">
@@ -234,16 +234,16 @@ const VSExampleComponent = () => {
         
         {/* Pro tip */}
         <div className="mt-12 bg-theme-gradient-accent
-                     text-white p-6 rounded-lg
+                     text-theme-on-primary-6 rounded-lg
                      shadow-theme-md
                      max-w-4xl mx-auto">
           <div className="flex">
-            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-4 flex-shrink-0">
+            <div className="w-10 h-10 rounded-full bg-theme-bg-surface-center justify-center mr-4 flex-shrink-0">
               <span className="text-[var(--theme-accent-tertiary)] font-bold">!</span>
             </div>
             <div>
               <h4 className="text-xl font-medium mb-2">Pro Tip</h4>
-              <p className="text-white/90">
+              <p className="text-theme-on-primary/90">
                 Always test your components in both light and dark mode. The most common issue is 
                 forgetting to provide theme-aware variables or using competing light/dark mode styles
                 instead of a single source of truth.

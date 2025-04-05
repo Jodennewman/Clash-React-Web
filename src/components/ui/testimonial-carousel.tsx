@@ -91,7 +91,7 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-theme-gradient-primary flex items-center justify-center rounded-full text-white shadow-theme-sm">
+                  <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-theme-gradient-primary flex items-center justify-center rounded-full text-theme-on-primary-theme-sm">
                     "
                   </div>
                 </div>
@@ -151,4 +151,4 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
       </div>
     </div>
   );
-} 
+}

@@ -117,7 +117,7 @@ const VSModalExamples: React.FC = () => {
             <p className="text-theme-secondary mb-6">A simple customizable modal with VS styling.</p>
             <button
               onClick={() => setShowBasicModal(true)}
-              className="bg-theme-gradient-primary text-white px-4 py-2 rounded-full shadow-theme-sm hover-bubbly-sm w-full"
+              className="bg-theme-gradient-primary text-theme-on-primary-4 py-2 rounded-full shadow-theme-sm hover-bubbly-sm w-full"
             >
               Open Basic Modal
             </button>
@@ -129,7 +129,7 @@ const VSModalExamples: React.FC = () => {
             <p className="text-theme-secondary mb-6">Multi-step application form with validation.</p>
             <button
               onClick={() => setShowApplicationModal(true)}
-              className="bg-theme-gradient-secondary text-white px-4 py-2 rounded-full shadow-theme-sm hover-bubbly-sm w-full"
+              className="bg-theme-gradient-secondary text-theme-on-primary-4 py-2 rounded-full shadow-theme-sm hover-bubbly-sm w-full"
             >
               Open Application Form
             </button>
@@ -153,7 +153,7 @@ const VSModalExamples: React.FC = () => {
             <p className="text-theme-secondary mb-6">Interactive quiz with progress tracking and results.</p>
             <button
               onClick={() => setShowQuizModal(true)}
-              className="bg-theme-gradient-accent text-white px-4 py-2 rounded-full shadow-theme-sm hover-bubbly-sm w-full"
+              className="bg-theme-gradient-accent text-theme-on-primary-4 py-2 rounded-full shadow-theme-sm hover-bubbly-sm w-full"
             >
               Take Quiz
             </button>
@@ -189,7 +189,7 @@ const VSModalExamples: React.FC = () => {
             <div className="pt-4 flex justify-end">
               <button
                 onClick={() => setShowBasicModal(false)}
-                className="bg-theme-gradient-primary text-white px-6 py-2 rounded-[var(--theme-border-radius-md)] shadow-theme-sm hover-bubbly-sm"
+                className="bg-theme-gradient-primary text-theme-on-primary-6 py-2 rounded-[var(--theme-border-radius-md)] shadow-theme-sm hover-bubbly-sm"
               >
                 Got it
               </button>

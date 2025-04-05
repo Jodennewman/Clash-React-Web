@@ -269,17 +269,17 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection }) => {
               <div 
                 ref={el => sectionRefs.current[section.id] = el}
                 data-id={section.id}
-                className="section-module module-item w-[calc(7vw+40px)] h-[calc(7vw+40px)] sm:w-[85px] sm:h-[85px] rounded-xl shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] cursor-pointer relative transition-all duration-[--transition-bounce]"
+                className="section-module module-item w-[calc(7vw+40px)] h-[calc(7vw+40px)] sm:w-[85px] sm:h-[85px] rounded-xl shadow-[2px_2px_8px_rgba(0,0,0,0.05)] shadow-theme- cursor-pointer relative transition-all duration-[--transition-bounce]"
                 style={{ backgroundColor: section.color }}
               >
                 <div 
                   id={`name-${section.id}`} 
-                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-90 whitespace-nowrap text-white font-medium text-base z-10"
+                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-90 whitespace-nowrap text-theme-on-primary-medium text-base z-10"
                 >
                   {section.name}
                 </div>
                 {index === 0 && (
-                  <div className="absolute -bottom-2 -right-2 w-[15px] h-[15px] bg-[#FF3C54] rounded-full shadow-[var(--theme-shadow-sm)] dark:shadow-[0_0_5px_rgba(255,60,84,0.5)]"></div>
+                  <div className="absolute -bottom-2 -right-2 w-[15px] h-[15px] bg-[#FF3C54] rounded-full shadow-[var(--theme-shadow-sm)] shadow-theme-"></div>
                 )}
               </div>
               
@@ -294,17 +294,17 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection }) => {
                       key={module.id}
                       ref={el => moduleRefs.current[module.id] = el}
                       data-id={module.id}
-                      className="module-item w-[calc(4vw+20px)] h-[calc(4vw+20px)] sm:w-[45px] sm:h-[45px] rounded-xl shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] cursor-pointer relative transition-all duration-[--transition-bounce]"
+                      className="module-item w-[calc(4vw+20px)] h-[calc(4vw+20px)] sm:w-[45px] sm:h-[45px] rounded-xl shadow-[2px_2px_8px_rgba(0,0,0,0.05)] shadow-theme- cursor-pointer relative transition-all duration-[--transition-bounce]"
                       style={{ backgroundColor: module.color }}
                     >
                       <div 
                         id={`name-${module.id}`} 
-                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-90 whitespace-nowrap opacity-0 text-white font-medium text-sm z-10"
+                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-90 whitespace-nowrap opacity-0 text-theme-on-primary-medium text-sm z-10"
                       >
                         {module.title}
                       </div>
                       {module.founderMustWatch && (
-                        <div className="absolute -bottom-1 -right-1 w-[10px] h-[10px] bg-[#FF3C54] rounded-full shadow-[var(--theme-shadow-sm)] dark:shadow-[0_0_3px_rgba(255,60,84,0.5)]"></div>
+                        <div className="absolute -bottom-1 -right-1 w-[10px] h-[10px] bg-[#FF3C54] rounded-full shadow-[var(--theme-shadow-sm)] shadow-theme-"></div>
                       )}
                     </div>
                   ))

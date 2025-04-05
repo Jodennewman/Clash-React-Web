@@ -127,7 +127,7 @@ export default function SocialProof() {
           <h2 className="max-w-[800px] text-3xl font-bold leading-tight sm:text-5xl sm:leading-tight bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
             Real People, Real Results. No Bullsh*t.
           </h2>
-          <p className="text-md max-w-[700px] text-white/70 sm:text-xl">
+          <p className="text-md max-w-[700px] text-theme-on-primary/70 sm:text-xl">
             Our students aren't just getting views—they're building businesses, booking clients, and generating real revenue with short-form content.
           </p>
         </div>

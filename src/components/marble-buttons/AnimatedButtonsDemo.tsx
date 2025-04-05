@@ -13,7 +13,7 @@ const AnimatedButtonsDemo: React.FC = () => {
       <button 
         data-theme-toggle
         className="fixed top-4 right-4 px-4 py-2 rounded-md 
-          bg-[var(--theme-primary)] text-white font-medium
+          bg-[var(--theme-primary)] text-theme-on-primary-medium
           hover:bg-[var(--theme-primary-hover)] transition-colors"
       >
         <span data-theme-dark>Dark Mode</span>

@@ -113,7 +113,7 @@ function SlideButton({
       )}
     >
       {icon === "link" ? (
-        <ArrowUpRight className="size-4 text-white" />
+        <ArrowUpRight className="size-4 text-theme-on-primary" />
       ) : (
         <Plus
           className={cn(

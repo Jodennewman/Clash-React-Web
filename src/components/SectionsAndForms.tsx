@@ -27,7 +27,7 @@ const SectionsAndForms = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-theme-bg-primary">
       <div className="container mx-auto p-4">
         <h1 className="text-3xl font-bold mb-8 text-center">Sections and Forms</h1>
         
@@ -52,7 +52,7 @@ const SectionsAndForms = () => {
           </button>
         </div>
         
-        <div className="bg-white rounded-lg shadow-lg">
+        <div className="bg-theme-bg-surface-lg shadow-lg">
           {renderComponent()}
         </div>
       </div>

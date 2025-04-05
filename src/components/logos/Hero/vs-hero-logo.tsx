@@ -4,7 +4,7 @@ import React from "react";
 export default function VSLogo() {
   return (
     <div className="relative">
-      <div className="text-[80px] font-bold leading-none text-white/90 tracking-tighter">
+      <div className="text-[80px] font-bold leading-none text-theme-on-primary/90 tracking-tighter">
         <span className="bg-gradient-to-b from-white to-[#FDEBDD] bg-clip-text text-transparent">V</span>
         <span className="bg-gradient-to-b from-[#FEA35D] to-[#DE6B59] bg-clip-text text-transparent">S</span>
       </div>

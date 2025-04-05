@@ -224,7 +224,7 @@ const CourseStats = () => {
                         backgroundColor: item.color,
                       }}
                     >
-                      <Icon className="h-6 w-6 text-white" />
+                      <Icon className="h-6 w-6 text-theme-on-primary" />
                     </div>
                     <div 
                       className="stat-counter text-3xl sm:text-4xl md:text-5xl font-bold mb-2 text-theme-primary"

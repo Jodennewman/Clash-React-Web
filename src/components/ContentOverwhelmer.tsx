@@ -479,7 +479,7 @@ const ContentOverwhelmer: FC = () => {
                       
                       {/* Category tag */}
                       <div className="ml-12 mb-3">
-                        <span className="text-sm px-2.5 py-1 rounded bg-black/30 text-theme-secondary transition-colors duration-[var(--theme-transition-normal)]">
+                        <span className="text-sm px-2.5 py-1 rounded bg-theme-bg-secondary/30 text-theme-secondary transition-colors duration-[var(--theme-transition-normal)]">
                           {module.track.name}
                         </span>
                       </div>
@@ -539,11 +539,11 @@ const ContentOverwhelmer: FC = () => {
                           
                           {/* Module metadata */}
                           <div className="flex flex-wrap gap-3 mb-4">
-                            <div className="flex items-center bg-black/30 px-3 py-1.5 rounded">
+                            <div className="flex items-center bg-theme-bg-secondary/30 px-3 py-1.5 rounded">
                               <ChartBarIcon className="w-4 h-4 mr-1.5 text-theme-primary-light transition-colors duration-[var(--theme-transition-normal)]" />
                               <span>{module.difficulty}</span>
                             </div>
-                            <div className="flex items-center bg-black/30 px-3 py-1.5 rounded">
+                            <div className="flex items-center bg-theme-bg-secondary/30 px-3 py-1.5 rounded">
                               <ClockIcon className="w-4 h-4 mr-1.5 text-theme-primary-light transition-colors duration-[var(--theme-transition-normal)]" />
                               <span>{module.durationHours} hours</span>
                             </div>
@@ -590,7 +590,7 @@ const ContentOverwhelmer: FC = () => {
                 </div>
                 
                 {/* Overwhelming resource statistics */}
-                <div className="bg-black/20 backdrop-blur-sm mt-10 p-5 rounded-lg border border-theme-primary/30 transition-colors duration-[var(--theme-transition-normal)]">
+                <div className="bg-theme-bg-secondary/20 backdrop-blur-sm mt-10 p-5 rounded-lg border border-theme-primary/30 transition-colors duration-[var(--theme-transition-normal)]">
                   <div className="text-xl font-bold mb-3 text-center text-theme-secondary transition-colors duration-[var(--theme-transition-normal)]">WHAT YOU'RE GETTING</div>
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                     {[
@@ -601,7 +601,7 @@ const ContentOverwhelmer: FC = () => {
                       { count: 37, label: "Systems", icon: <CogIcon className="w-5 h-5" /> },
                       { count: 146, label: "Resources", icon: <CheckCircleIcon className="w-5 h-5" /> },
                     ].map((stat, i) => (
-                      <div key={i} className="text-center p-3 bg-black/20 rounded">
+                      <div key={i} className="text-center p-3 bg-theme-bg-secondary/20 rounded">
                         <div className="flex justify-center mb-1">{stat.icon}</div>
                         <div 
                           className="stat-counter text-2xl font-bold text-theme-primary-light transition-colors duration-[var(--theme-transition-normal)]" 
@@ -617,7 +617,7 @@ const ContentOverwhelmer: FC = () => {
                 
                 {/* Extra content metrics for overwhelming effect */}
                 <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-                  <div className="flex items-center gap-3 bg-black/20 p-3 rounded">
+                  <div className="flex items-center gap-3 bg-theme-bg-secondary/20 p-3 rounded">
                     <div className="w-10 h-10 rounded-full bg-theme-primary flex items-center justify-center transition-colors duration-[var(--theme-transition-normal)]">
                       <DocumentIcon className="w-6 h-6 text-theme-on-primary" />
                     </div>
@@ -626,7 +626,7 @@ const ContentOverwhelmer: FC = () => {
                       <div className="font-bold text-lg">1,000+ Hours</div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 bg-black/20 p-3 rounded">
+                  <div className="flex items-center gap-3 bg-theme-bg-secondary/20 p-3 rounded">
                     <div className="w-10 h-10 rounded-full bg-theme-accent-secondary flex items-center justify-center transition-colors duration-[var(--theme-transition-normal)]">
                       <BookOpenIcon className="w-6 h-6 text-theme-on-primary" />
                     </div>
@@ -635,7 +635,7 @@ const ContentOverwhelmer: FC = () => {
                       <div className="font-bold text-lg">Beginner to Expert</div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 bg-black/20 p-3 rounded">
+                  <div className="flex items-center gap-3 bg-theme-bg-secondary/20 p-3 rounded">
                     <div className="w-10 h-10 rounded-full bg-theme-accent-tertiary flex items-center justify-center transition-colors duration-[var(--theme-transition-normal)]">
                       <CogIcon className="w-6 h-6 text-theme-on-primary" />
                     </div>
@@ -644,7 +644,7 @@ const ContentOverwhelmer: FC = () => {
                       <div className="font-bold text-lg">Monthly New Content</div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 bg-black/20 p-3 rounded">
+                  <div className="flex items-center gap-3 bg-theme-bg-secondary/20 p-3 rounded">
                     <div className="w-10 h-10 rounded-full bg-theme-accent-quaternary flex items-center justify-center transition-colors duration-[var(--theme-transition-normal)]">
                       <CurrencyPoundIcon className="w-6 h-6 text-theme-on-primary" />
                     </div>
@@ -664,7 +664,7 @@ const ContentOverwhelmer: FC = () => {
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="p-4 bg-black/20 rounded-lg">
+                  <div className="p-4 bg-theme-bg-secondary/20 rounded-lg">
                     <div className="text-lg text-theme-primary-light font-bold mb-3 transition-colors duration-[var(--theme-transition-normal)]">FOUNDATIONS</div>
                     <ul className="space-y-2">
                       <li className="flex items-center">
@@ -682,7 +682,7 @@ const ContentOverwhelmer: FC = () => {
                     </ul>
                   </div>
                   
-                  <div className="p-4 bg-black/20 rounded-lg">
+                  <div className="p-4 bg-theme-bg-secondary/20 rounded-lg">
                     <div className="text-lg text-theme-accent-tertiary font-bold mb-3 transition-colors duration-[var(--theme-transition-normal)]">PRODUCTION</div>
                     <ul className="space-y-2">
                       <li className="flex items-center">
@@ -700,7 +700,7 @@ const ContentOverwhelmer: FC = () => {
                     </ul>
                   </div>
                   
-                  <div className="p-4 bg-black/20 rounded-lg">
+                  <div className="p-4 bg-theme-bg-secondary/20 rounded-lg">
                     <div className="text-lg text-theme-accent-secondary font-bold mb-3 transition-colors duration-[var(--theme-transition-normal)]">GROWTH</div>
                     <ul className="space-y-2">
                       <li className="flex items-center">

@@ -54,7 +54,7 @@ type ProgramBenefitProps = {
 // Program benefits component
 const ProgramBenefit = ({ number, title, description }: ProgramBenefitProps) => (
   <div className="flex gap-4 mb-5">
-    <div className="bg-theme-primary text-white font-bold rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 transition-colors duration-[var(--theme-transition-normal)]">
+    <div className="bg-theme-primary text-theme-on-primary-bold rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 transition-colors duration-[var(--theme-transition-normal)]">
       {number}
     </div>
     <div>
@@ -106,9 +106,9 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
       </div>
       
       <Card className="shadow-theme-md border-theme-border mb-10 relative overflow-hidden transition-all duration-[var(--theme-transition-normal)]">
-        <CardHeader className="bg-theme-accent-secondary text-white rounded-t-lg transition-colors duration-[var(--theme-transition-normal)]">
+        <CardHeader className="bg-theme-accent-secondary text-theme-on-primary-t-lg transition-colors duration-[var(--theme-transition-normal)]">
           <CardTitle className="text-2xl">Vertical Shortcut Application Form</CardTitle>
-          <CardDescription className="text-white/80">
+          <CardDescription className="text-theme-on-primary/80">
             Complete this short form to apply for our next cohort (Limited to 20 spots)
           </CardDescription>
         </CardHeader>
@@ -118,7 +118,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {/* Personal Information Section */}
               <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-[var(--theme-text-primary)] dark:text-white border-b pb-2 border-[var(--theme-bg-secondary)]/20 dark:border-white/10">Personal Information</h3>
+                <h3 className="text-xl font-semibold text-[var(--theme-text-primary)] dark:text-theme-on-primary-b pb-2 border-[var(--theme-bg-secondary)]/20 dark:border-theme-border-light">Personal Information</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
@@ -419,31 +419,31 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
               
               {/* Program details */}
               <div className="p-6 rounded-lg bg-theme-gradient-primary shadow-theme-md transition-all duration-[var(--theme-transition-normal)]">
-                <h3 className="text-xl font-bold mb-4 text-white">The Vertical Shortcut Program:</h3>
+                <h3 className="text-xl font-bold mb-4 text-theme-on-primary">The Vertical Shortcut Program:</h3>
                 
                 <ul className="space-y-3 mb-4">
                   <li className="flex gap-2">
-                    <CheckCircle className="text-white h-5 w-5 flex-shrink-0 mt-0.5" />
-                    <span className="text-white/90">10-week transformation program that will deliver real business results</span>
+                    <CheckCircle className="text-theme-on-primary-5 w-5 flex-shrink-0 mt-0.5" />
+                    <span className="text-theme-on-primary/90">10-week transformation program that will deliver real business results</span>
                   </li>
                   <li className="flex gap-2">
-                    <CheckCircle className="text-white h-5 w-5 flex-shrink-0 mt-0.5" />
-                    <span className="text-white/90">Program investment: £6,500 (10% discount for full payment, or 4 installments of £1,625)</span>
+                    <CheckCircle className="text-theme-on-primary-5 w-5 flex-shrink-0 mt-0.5" />
+                    <span className="text-theme-on-primary/90">Program investment: £6,500 (10% discount for full payment, or 4 installments of £1,625)</span>
                   </li>
                   <li className="flex gap-2">
-                    <CheckCircle className="text-white h-5 w-5 flex-shrink-0 mt-0.5" />
-                    <span className="text-white/90">Limited to 20 participants to ensure personalized attention</span>
+                    <CheckCircle className="text-theme-on-primary-5 w-5 flex-shrink-0 mt-0.5" />
+                    <span className="text-theme-on-primary/90">Limited to 20 participants to ensure personalized attention</span>
                   </li>
                   <li className="flex gap-2">
-                    <CheckCircle className="text-white h-5 w-5 flex-shrink-0 mt-0.5" />
-                    <span className="text-white/90">100% money-back guarantee if your application isn't accepted or spots are filled</span>
+                    <CheckCircle className="text-theme-on-primary-5 w-5 flex-shrink-0 mt-0.5" />
+                    <span className="text-theme-on-primary/90">100% money-back guarantee if your application isn't accepted or spots are filled</span>
                   </li>
                 </ul>
                 
-                <Alert className="bg-theme-accent-tertiary border-none text-white mt-4 transition-colors duration-[var(--theme-transition-normal)]">
+                <Alert className="bg-theme-accent-tertiary border-none text-theme-on-primary-4 transition-colors duration-[var(--theme-transition-normal)]">
                   <AlertCircle className="h-5 w-5" />
-                  <AlertTitle className="text-white font-bold">Application Closing Soon</AlertTitle>
-                  <AlertDescription className="text-white/90">
+                  <AlertTitle className="text-theme-on-primary-bold">Application Closing Soon</AlertTitle>
+                  <AlertDescription className="text-theme-on-primary/90">
                     We're filling spots for our next cohort now. Submit your application today to be considered.
                   </AlertDescription>
                 </Alert>
@@ -473,7 +473,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
               
               <Button 
                 type="submit" 
-                className="w-full py-6 text-lg bg-theme-gradient-primary text-white shadow-theme-btn hover-bubbly transition-all duration-[var(--theme-transition-bounce)]"
+                className="w-full py-6 text-lg bg-theme-gradient-primary text-theme-on-primary-theme-btn hover-bubbly transition-all duration-[var(--theme-transition-bounce)]"
               >
                 Submit Application Now
               </Button>

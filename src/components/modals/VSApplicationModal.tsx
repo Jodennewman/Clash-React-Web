@@ -118,6 +118,15 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
       description="Tell us about yourself and your goals"
       width="lg"
     >
+      {/* Theme-aware floating elements for visual interest */}
+      <div className="absolute -z-10 top-10 right-10 w-16 h-16 rounded-[40%] rotate-12 
+                   opacity-[var(--theme-float-opacity)]
+                   bg-[var(--theme-float-bg-primary)]
+                   animate-float-slow"></div>
+      <div className="absolute -z-10 bottom-20 left-10 w-24 h-24 rounded-[35%] -rotate-6 
+                   opacity-[var(--theme-float-opacity-secondary)]
+                   bg-[var(--theme-float-bg-secondary)]
+                   animate-float-medium"></div>
       {/* Progress indicator */}
       <div className="mb-8">
         <div className="flex justify-between items-center mb-2">
@@ -156,7 +165,7 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
                 className={`w-full px-4 py-2 bg-theme-surface border ${errors.fullName
                   ? 'border-theme-error'
                   : 'border-theme-border'
-                  } rounded-md focus:outline-none focus:ring-2 focus:ring-theme-primary/30 text-theme-primary transition-all duration-[var(--theme-transition-normal)] shadow-theme-sm`}
+                  } rounded-md focus:outline-none focus:ring-2 focus:ring-theme-primary focus:ring-opacity-[0.3] text-theme-primary transition-all duration-[var(--theme-transition-normal)] shadow-theme-sm`}
                 placeholder="Your full name"
               />
               {errors.fullName && (
@@ -177,7 +186,7 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
                 className={`w-full px-4 py-2 bg-theme-surface border ${errors.email
                   ? 'border-theme-error'
                   : 'border-theme-border'
-                  } rounded-md focus:outline-none focus:ring-2 focus:ring-theme-primary/30 text-theme-primary transition-all duration-[var(--theme-transition-normal)] shadow-theme-sm`}
+                  } rounded-md focus:outline-none focus:ring-2 focus:ring-theme-primary focus:ring-opacity-[0.3] text-theme-primary transition-all duration-[var(--theme-transition-normal)] shadow-theme-sm`}
                 placeholder="your.email@example.com"
               />
               {errors.email && (
@@ -202,7 +211,7 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
                 className={`w-full px-4 py-2 bg-theme-surface border ${errors.experience
                   ? 'border-theme-error'
                   : 'border-theme-border'
-                  } rounded-md focus:outline-none focus:ring-2 focus:ring-theme-primary/30 text-theme-primary transition-all duration-[var(--theme-transition-normal)] shadow-theme-sm`}
+                  } rounded-md focus:outline-none focus:ring-2 focus:ring-theme-primary focus:ring-opacity-[0.3] text-theme-primary transition-all duration-[var(--theme-transition-normal)] shadow-theme-sm`}
               >
                 <option value="">Select your experience level</option>
                 <option value="beginner">Beginner (0-6 months)</option>
@@ -246,7 +255,7 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
                 className={`w-full px-4 py-2 bg-theme-surface border ${errors.goals
                   ? 'border-theme-error'
                   : 'border-theme-border'
-                  } rounded-md focus:outline-none focus:ring-2 focus:ring-theme-primary/30 text-theme-primary transition-all duration-[var(--theme-transition-normal)] shadow-theme-sm`}
+                  } rounded-md focus:outline-none focus:ring-2 focus:ring-theme-primary focus:ring-opacity-[0.3] text-theme-primary transition-all duration-[var(--theme-transition-normal)] shadow-theme-sm`}
                 placeholder="Share your content creation goals and what you hope to achieve..."
               />
               {errors.goals && (

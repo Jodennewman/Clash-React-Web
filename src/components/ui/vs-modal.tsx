@@ -132,7 +132,7 @@ const VSModal: React.FC<VSModalProps> = ({
       {/* Backdrop/Overlay */}
       <div
         ref={overlayRef}
-        className="fixed inset-0 bg-black/60 backdrop-blur-[2px] opacity-0 transition-opacity"
+        className="fixed inset-0 bg-theme-bg-secondary/60 backdrop-blur-[2px] opacity-0 transition-opacity"
         onClick={closeOnOverlayClick ? handleClose : undefined}
       />
 
