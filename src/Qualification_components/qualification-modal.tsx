@@ -258,12 +258,17 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
 
   // Handle user answers with validation, animation, and auto-advance
   const handleAnswerChange = (key: string, value: string) => {
-    // Don't allow new selections during animation
-    if (isAnimatingSelection) return;
+    // Special handling for form fields (name, email, company, position)
+    const isFormField = ['name', 'email', 'company', 'position'].includes(key);
     
-    // Set the newly selected choice
-    setSelectedChoice(value);
-    setIsAnimatingSelection(true);
+    // For form fields, we don't want animation or blocking during animation
+    if (!isFormField && isAnimatingSelection) return;
+    
+    // Only set animation state for multiple choice options, not form fields
+    if (!isFormField) {
+      setSelectedChoice(value);
+      setIsAnimatingSelection(true);
+    }
     
     // Update actual answer
     setAnswers(prev => ({
@@ -292,8 +297,8 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
       interactionCount: engagement.questionInteractions + 1
     });
     
-    // Animate selection for multiple-choice questions
-    if (['teamSize', 'implementationSupport', 'timeline', 'contentVolume'].includes(stage)) {
+    // Animate selection for multiple-choice questions only (not form fields)
+    if (!isFormField && ['teamSize', 'implementationSupport', 'timeline', 'contentVolume'].includes(stage)) {
       // Get all option buttons
       const optionButtons = document.querySelectorAll(`.${stage}-option`);
       const selectedButton = document.querySelector(`.${stage}-option[data-value="${value}"]`);
