@@ -1,7 +1,38 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, ChevronRight, Check, Info, Calendar, CheckCircle, Moon, Sun } from 'lucide-react';
+import { 
+  X, ChevronRight, Check, Info, Calendar, CheckCircle, Moon, Sun,
+  Users, Compass, Clock, BarChart4, Mail, Award, Briefcase
+} from 'lucide-react';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+
+// Stage icon component to render the appropriate icon for each stage
+interface StageIconProps {
+  stage: string;
+  className?: string;
+  size?: number;
+}
+
+const StageIcon: React.FC<StageIconProps> = ({ stage, className = '', size = 24 }) => {
+  switch (stage) {
+    case 'intro':
+      return <Compass className={className} size={size} />;
+    case 'teamSize':
+      return <Users className={className} size={size} />;
+    case 'implementationSupport':
+      return <Briefcase className={className} size={size} />;
+    case 'timeline':
+      return <Clock className={className} size={size} />;
+    case 'contentVolume':
+      return <BarChart4 className={className} size={size} />;
+    case 'contact':
+      return <Mail className={className} size={size} />;
+    case 'recommendation':
+      return <Award className={className} size={size} />;
+    default:
+      return <Info className={className} size={size} />;
+  }
+};
 
 interface VSQualificationModalProps {
   isOpen: boolean;
@@ -370,6 +401,33 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
       sessionStorage.setItem('utmParams', JSON.stringify(utmParams));
     }
   }, []);
+  
+  // Process CRM integration for recommendation stage
+  useEffect(() => {
+    if (stage === 'recommendation' && recommendation) {
+      processCrmIntegration();
+    }
+  }, [stage, recommendation]);
+  
+  // Calendly script loading
+  useEffect(() => {
+    // Load Calendly script when needed
+    if (stage === 'recommendation') {
+      const script = document.createElement('script');
+      script.src = 'https://assets.calendly.com/assets/external/widget.js';
+      script.async = true;
+      script.id = 'calendly-script';
+      document.head.appendChild(script);
+      
+      return () => {
+        // Clean up script when component unmounts
+        const existingScript = document.getElementById('calendly-script');
+        if (existingScript) {
+          existingScript.remove();
+        }
+      };
+    }
+  }, [stage]);
   
   // Calculate recommendation based on answers and engagement
   const processAnswers = () => {
@@ -742,15 +800,20 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         
         {/* Modal header */}
         <div className="flex items-center justify-between border-b border-[var(--theme-border-light)] p-6">
-          <h2 className="text-xl font-medium text-theme-primary">
-            {stage === 'intro' && 'Find Your Implementation Strategy'}
-            {stage === 'contact' && 'Your Information'}
-            {stage === 'teamSize' && 'Team Structure'}
-            {stage === 'implementationSupport' && 'Implementation Support'}
-            {stage === 'timeline' && 'Implementation Timeline'}
-            {stage === 'contentVolume' && 'Content Production Goals'}
-            {stage === 'recommendation' && 'Your Personalized Recommendation'}
-          </h2>
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-full bg-theme-primary/10 text-theme-primary">
+              <StageIcon stage={stage} size={20} />
+            </div>
+            <h2 className="text-xl font-medium text-theme-primary">
+              {stage === 'intro' && 'Find Your Implementation Strategy'}
+              {stage === 'contact' && 'Your Information'}
+              {stage === 'teamSize' && 'Team Structure'}
+              {stage === 'implementationSupport' && 'Implementation Support'}
+              {stage === 'timeline' && 'Implementation Timeline'}
+              {stage === 'contentVolume' && 'Content Production Goals'}
+              {stage === 'recommendation' && 'Your Personalized Recommendation'}
+            </h2>
+          </div>
           
           <button 
             onClick={handleClose}
@@ -763,11 +826,32 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         
         {/* Progress bar - only show during questions */}
         {stage !== 'intro' && stage !== 'recommendation' && (
-          <div className="w-full h-1 bg-theme-bg-secondary">
+          <div className="w-full h-2 bg-theme-bg-secondary relative">
             <div 
-              className="h-full bg-theme-primary"
+              className="h-full bg-theme-primary relative overflow-hidden"
               style={{ width: `${getProgress()}%` }}
-            />
+            >
+              {/* Add decorative elements within the progress bar */}
+              <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute -inset-1 bg-theme-primary-hover/30 rotate-45 blur-sm transform -translate-x-full animate-[progress-shimmer_3s_infinite]"></div>
+              </div>
+            </div>
+            
+            {/* Progress markers for each stage */}
+            <div className="absolute top-0 left-0 w-full h-full flex justify-between px-1">
+              {stageSequence.slice(1, -1).map((s, index) => (
+                <div 
+                  key={s}
+                  className={`h-3 w-3 rounded-full -mt-0.5 ${
+                    stageSequence.indexOf(stage) > index + 1 
+                      ? 'bg-theme-primary' 
+                      : stageSequence.indexOf(stage) === index + 1
+                        ? 'bg-theme-primary ring-2 ring-theme-primary/30' 
+                        : 'bg-theme-bg-surface border border-theme-border-light'
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         )}
         
@@ -776,11 +860,18 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {/* Introduction Stage */}
           {stage === 'intro' && (
             <div className="space-y-6">
-              <div className="bg-theme-primary/5 p-5 rounded-lg">
-                <h3 className="text-xl font-medium text-theme-primary mb-3">
+              {/* Stage illustration */}
+              <div className="flex justify-center mb-6">
+                <div className="w-20 h-20 rounded-full bg-theme-primary/10 flex items-center justify-center">
+                  <Compass size={40} className="text-theme-primary" />
+                </div>
+              </div>
+              
+              <div className="bg-theme-primary/5 p-5 rounded-lg shadow-theme-sm">
+                <h3 className="text-xl font-medium text-theme-primary mb-3 text-center">
                   Personalize Your Experience
                 </h3>
-                <p className="text-theme-secondary">
+                <p className="text-theme-secondary text-center">
                   Tell us about your goals to get a tailored solution that perfectly matches your situation. Content production isn't one-size-fits-all, and neither are our recommendations.
                 </p>
               </div>
@@ -836,7 +927,14 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {/* Contact Information Stage */}
           {stage === 'contact' && (
             <div className="space-y-4">
-              <div className="bg-theme-primary/5 p-4 rounded-lg mb-6">
+              {/* Stage illustration */}
+              <div className="flex justify-center mb-4">
+                <div className="w-16 h-16 rounded-full bg-theme-primary/10 flex items-center justify-center">
+                  <Mail size={32} className="text-theme-primary" />
+                </div>
+              </div>
+              
+              <div className="bg-theme-primary/5 p-4 rounded-lg mb-4">
                 <div className="flex items-start gap-3">
                   <Info className="h-5 w-5 text-theme-primary shrink-0 mt-1" />
                   <div>
@@ -937,7 +1035,14 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {/* Team Size Stage */}
           {stage === 'teamSize' && (
             <div className="space-y-4">
-              <p className="text-theme-secondary mb-6">
+              {/* Stage illustration */}
+              <div className="flex justify-center mb-4">
+                <div className="w-16 h-16 rounded-full bg-theme-primary/10 flex items-center justify-center">
+                  <Users size={32} className="text-theme-primary" />
+                </div>
+              </div>
+              
+              <p className="text-theme-secondary mb-4 text-center">
                 What's your team structure like? This helps us personalize your experience.
               </p>
               
@@ -1016,7 +1121,14 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {/* Implementation Support Stage */}
           {stage === 'implementationSupport' && (
             <div className="space-y-4">
-              <p className="text-theme-secondary mb-6">
+              {/* Stage illustration */}
+              <div className="flex justify-center mb-4">
+                <div className="w-16 h-16 rounded-full bg-theme-primary/10 flex items-center justify-center">
+                  <Briefcase size={32} className="text-theme-primary" />
+                </div>
+              </div>
+              
+              <p className="text-theme-secondary mb-4 text-center">
                 How do you prefer to approach new tools and systems?
               </p>
               
@@ -1095,7 +1207,14 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {/* Timeline Stage */}
           {stage === 'timeline' && (
             <div className="space-y-4">
-              <p className="text-theme-secondary mb-6">
+              {/* Stage illustration */}
+              <div className="flex justify-center mb-4">
+                <div className="w-16 h-16 rounded-full bg-theme-primary/10 flex items-center justify-center">
+                  <Clock size={32} className="text-theme-primary" />
+                </div>
+              </div>
+              
+              <p className="text-theme-secondary mb-4 text-center">
                 What's your ideal timeframe for starting a new project?
               </p>
               
@@ -1174,7 +1293,14 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {/* Content Volume Stage */}
           {stage === 'contentVolume' && (
             <div className="space-y-4">
-              <p className="text-theme-secondary mb-6">
+              {/* Stage illustration */}
+              <div className="flex justify-center mb-4">
+                <div className="w-16 h-16 rounded-full bg-theme-primary/10 flex items-center justify-center">
+                  <BarChart4 size={32} className="text-theme-primary" />
+                </div>
+              </div>
+              
+              <p className="text-theme-secondary mb-4 text-center">
                 What are your content creation ambitions?
               </p>
               
@@ -1252,14 +1378,14 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           
           {/* Recommendation Stage */}
           {stage === 'recommendation' && recommendation && (
-            <div className="space-y-0">
-              {/* Process CRM integration first */}
-              {useEffect(() => {
-                if (stage === 'recommendation') {
-                  processCrmIntegration();
-                }
-              }, [stage])}
-              
+            <div className="space-y-4">
+              {/* Stage illustration */}
+              <div className="flex justify-center mb-4">
+                <div className="w-20 h-20 rounded-full bg-theme-primary/10 flex items-center justify-center">
+                  <Award size={40} className="text-theme-primary" />
+                </div>
+              </div>
+            
               {/* Recommendation Header - Visual Badge with minimal explanation */}
               <div className="bg-theme-gradient-start to-theme-gradient-end p-4 rounded-t-lg border border-[var(--theme-border-light)] border-b-0 flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -1407,26 +1533,6 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           </div>
         </div>
       </div>
-      
-      {/* Calendly Script Loading */}
-      {useEffect(() => {
-        // Load Calendly script when needed
-        if (stage === 'recommendation') {
-          const script = document.createElement('script');
-          script.src = 'https://assets.calendly.com/assets/external/widget.js';
-          script.async = true;
-          script.id = 'calendly-script';
-          document.head.appendChild(script);
-          
-          return () => {
-            // Clean up script when component unmounts
-            const existingScript = document.getElementById('calendly-script');
-            if (existingScript) {
-              existingScript.remove();
-            }
-          };
-        }
-      }, [stage])}
     </div>
   );
 };
