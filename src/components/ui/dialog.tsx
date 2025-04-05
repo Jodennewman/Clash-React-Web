@@ -55,7 +55,7 @@ function DialogContent({
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          "vs-gradient-light dark:vs-gradient-dark relative overflow-hidden data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-[--border-radius-lg] border border-white/20 dark:border-white/5 p-6 shadow-[--shadow-md] dark:shadow-[0_0_20px_rgba(53,115,128,0.2)] duration-200 sm:max-w-lg text-[var(--theme-text-primary)] dark:text-white",
+          "bg-theme-gradient relative overflow-hidden data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-[--border-radius-lg] border border-theme-border p-6 shadow-theme-md duration-200 sm:max-w-lg text-theme-primary",
           className
         )}
         {...props}
@@ -70,7 +70,7 @@ function DialogContent({
           {children}
         </div>
         
-        <DialogPrimitive.Close className="absolute top-4 right-4 rounded-full opacity-70 transition-opacity hover:opacity-100 focus:outline-hidden disabled:pointer-events-none hover-bubbly-sm text-[var(--theme-text-primary)] dark:text-white [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+        <DialogPrimitive.Close className="absolute top-4 right-4 rounded-full opacity-70 transition-opacity hover:opacity-100 focus:outline-hidden disabled:pointer-events-none hover-bubbly-sm text-theme-primary [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
           <XIcon />
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>
@@ -109,7 +109,7 @@ function DialogTitle({
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn("text-lg leading-none font-semibold text-[var(--theme-text-primary)] dark:text-white", className)}
+      className={cn("text-lg leading-none font-semibold text-theme-primary", className)}
       {...props}
     />
   )
@@ -122,7 +122,7 @@ function DialogDescription({
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"
-      className={cn("text-[var(--theme-text-primary)]/70 dark:text-white/70 text-sm", className)}
+      className={cn("text-theme-secondary text-sm", className)}
       {...props}
     />
   )

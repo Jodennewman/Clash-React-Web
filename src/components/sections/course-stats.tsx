@@ -12,20 +12,20 @@ import { Badge } from "../ui/badge";
 const floatingAnimationsStyle = `
   @keyframes float-slow {
     0%, 100% { transform: translateY(0) rotate(var(--tw-rotate, 12deg)); }
-    50% { transform: translateY(-10px) rotate(var(--tw-rotate, 12deg)); }
+    50% { transform: translateY(var(--theme-anim-distance-md, -10px)) rotate(var(--tw-rotate, 12deg)); }
   }
   
   @keyframes float-medium {
     0%, 100% { transform: translateY(0) rotate(var(--tw-rotate, -6deg)); }
-    50% { transform: translateY(-8px) rotate(var(--tw-rotate, -6deg)); }
+    50% { transform: translateY(var(--theme-anim-distance-sm, -8px)) rotate(var(--tw-rotate, -6deg)); }
   }
   
   .animate-float-slow {
-    animation: float-slow 8s ease-in-out infinite;
+    animation: float-slow var(--theme-anim-duration-slow, 8s) ease-in-out infinite;
   }
   
   .animate-float-medium {
-    animation: float-medium 6s ease-in-out infinite;
+    animation: float-medium var(--theme-anim-duration-med, 6s) ease-in-out infinite;
   }
 `;
 
@@ -86,11 +86,12 @@ const CourseStats = () => {
   // Get stats from courseUtils, with backup from direct import if needed
   const courseStats = courseUtils.courseStats || courseStatsData;
   
-  // Debug logging to check if courseStats is available
-  console.log("CourseStats Component - Stats Data:", courseStats);
-  
   // Use useGSAP hook for proper animation lifecycle management
   useGSAP(() => {
+    // Get computed theme variables for animation
+    const styles = getComputedStyle(document.documentElement);
+    const duration = parseFloat(styles.getPropertyValue('--theme-anim-duration') || '0.6');
+    
     // Create a GSAP context for proper cleanup
     const ctx = gsap.context(() => {
       if (!statsRef.current) return;
@@ -98,14 +99,18 @@ const CourseStats = () => {
       // Enhanced VS Bubbly animation on mount - more pronounced (20% more)
       gsap.fromTo(
         ".stat-item",
-        { y: 40, opacity: 0, scale: 0.95 }, // More pronounced starting position
+        { 
+          y: 40, 
+          opacity: 0, 
+          scale: 0.95 
+        }, 
         { 
           y: 0, 
           opacity: 1,
           scale: 1,
-          stagger: 0.12, // Slightly longer stagger
-          duration: 0.6,  // Slightly longer duration 
-          ease: "back.out(1.2)", // More springy easing
+          stagger: 0.12, 
+          duration: duration,  
+          ease: "back.out(1.2)", 
           onComplete: () => {
             // After items appear, animate the counters
             animateCounters();
@@ -164,35 +169,33 @@ const CourseStats = () => {
 
   return (
     <Section 
-      className="bg-[var(--theme-bg-primary)] py-24 dark:bg-[var(--theme-bg-primary)] border-t border-[var(--theme-text-primary)]/10 /10 relative overflow-hidden"
+      className="bg-theme-primary py-24 border-t border-theme-border-light relative overflow-hidden"
     >
       {/* Apply float animations via style tag */}
       <style dangerouslySetInnerHTML={{ __html: floatingAnimationsStyle }} />
       
       {/* Add subtle background pattern for visual interest */}
-      <div className="absolute inset-0 dot-bg opacity-30 dark:opacity-10 pointer-events-none"></div>
+      <div className="absolute inset-0 dot-bg opacity-[var(--theme-pattern-opacity)] pointer-events-none"></div>
       
-      {/* Light mode floating elements */}
-      <div className="absolute top-20 left-10 w-24 h-24 rounded-[40%] rotate-12 opacity-5 
-                     bg-[var(--theme-primary)] animate-float-slow hidden md:block dark:hidden"></div>
-      <div className="absolute bottom-40 right-20 w-32 h-32 rounded-[30%] -rotate-6 opacity-8
-                    bg-[var(--theme-accent-secondary-light)] animate-float-medium hidden md:block dark:hidden"></div>
-      
-      {/* Dark mode floating elements */}
-      <div className="absolute top-20 left-10 w-24 h-24 rounded-[40%] rotate-12 opacity-10 
-                     vs-float-orange animate-float-slow hidden dark:block"></div>
-      <div className="absolute bottom-40 right-20 w-32 h-32 rounded-[30%] -rotate-6 opacity-15
-                     vs-float-teal animate-float-medium hidden dark:block"></div>
+      {/* Theme-aware floating elements */}
+      <div className="absolute top-20 left-10 w-24 h-24 rounded-[40%] rotate-12 
+                    opacity-[var(--theme-float-opacity)]
+                    bg-[var(--theme-float-bg-primary)]
+                    animate-float-slow hidden md:block"></div>
+      <div className="absolute bottom-40 right-20 w-32 h-32 rounded-[30%] -rotate-6 
+                    opacity-[var(--theme-float-opacity)]
+                    bg-[var(--theme-float-bg-secondary)]
+                    animate-float-medium hidden md:block"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <Badge variant="section" size="xl" className="mb-4">
             Program Overview
           </Badge>
-          <h2 className="text-[var(--theme-text-primary)] dark:text-white text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-theme-primary text-4xl md:text-5xl font-bold mb-6">
             By The Numbers
           </h2>
-          <p className="text-[var(--theme-text-primary)] dark:text-white/70 text-xl mb-2 max-w-3xl mx-auto">
+          <p className="text-theme-secondary text-xl mb-2 max-w-3xl mx-auto">
             Vertical Shortcut isn't just another course. It's a comprehensive system built on real-world results and years of testing.
           </p>
         </div>
@@ -205,15 +208,13 @@ const CourseStats = () => {
             
             return (
               <div key={item.key} className="stat-item">
-                <div className="relative bg-[var(--theme-bg-primary)] dark:bg-[var(--theme-bg-primary)]
+                <div className="relative bg-theme-gradient-card
                                rounded-xl p-5 
-                               border border-white/40 dark:border-white/5 
-                               shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
-                               dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
-                               transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]
+                               border border-theme-border-light
+                               shadow-theme-md
+                               transition-all duration-[var(--theme-transition-bounce)]
                                hover:translate-y-[-6px] hover:scale-[1.03] hover:rotate-[0.5deg]
-                               hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] 
-                               dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.2)]
+                               hover:shadow-theme-lg
                                group min-h-[160px] md:min-h-[200px] text-center overflow-hidden">
                  
                   <div className="relative z-10 flex flex-col items-center justify-center h-full">
@@ -223,15 +224,15 @@ const CourseStats = () => {
                         backgroundColor: item.color,
                       }}
                     >
-                      <Icon className="h-6 w-6 text-white" />
+                      <Icon className="h-6 w-6 text-theme-on-primary" />
                     </div>
                     <div 
-                      className="stat-counter text-3xl sm:text-4xl md:text-5xl font-bold mb-2 text-[oklch(75%_0.13_57)] dark:text-white"
+                      className="stat-counter text-3xl sm:text-4xl md:text-5xl font-bold mb-2 text-theme-primary"
                     >
                       {animatedCounters ? value : '0'}
                     </div>
                     <div 
-                      className="text-[var(--theme-text-primary)] dark:text-white/80 text-sm md:text-base font-medium"
+                      className="text-theme-secondary text-sm md:text-base font-medium"
                     >
                       {item.label}
                     </div>
@@ -243,15 +244,15 @@ const CourseStats = () => {
         </div>
       </div>
       
-      {/* Add textured light mode decorative elements at the bottom */}
+      {/* Theme-aware decorative elements at the bottom */}
       <div className="absolute bottom-0 left-0 right-0 h-20 
-                    vs-fade-overlay-light
-                    opacity-20 dark:opacity-0 pointer-events-none"></div>
+                    bg-theme-gradient-overlay-light
+                    opacity-[var(--theme-overlay-opacity)] pointer-events-none"></div>
       
-      {/* Add subtle dark mode glow at bottom */}
+      {/* Subtle glow at bottom - theme-aware */}
       <div className="absolute bottom-0 left-0 right-0 h-40 
-                    bg-[var(--theme-primary)]/5
-                    opacity-0 dark:opacity-30 pointer-events-none"></div>
+                    bg-theme-primary/5
+                    opacity-[var(--theme-glow-opacity)] pointer-events-none"></div>
     </Section>
   );
 };

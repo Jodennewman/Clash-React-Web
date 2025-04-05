@@ -6,8 +6,12 @@
   function setTheme(theme) {
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
+      // IMPORTANT: Also set the data-theme attribute for CSS variables
+      document.documentElement.setAttribute('data-theme', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
+      // IMPORTANT: Remove the data-theme attribute or set it to light
+      document.documentElement.setAttribute('data-theme', 'light');
     }
     
     // Store the preference
@@ -43,7 +47,9 @@
     
     toggleButtons.forEach(button => {
       button.addEventListener('click', () => {
-        const isDark = document.documentElement.classList.contains('dark');
+        // Check both the class and data-theme attribute
+        const isDark = document.documentElement.classList.contains('dark') || 
+                      document.documentElement.getAttribute('data-theme') === 'dark';
         setTheme(isDark ? 'light' : 'dark');
       });
     });

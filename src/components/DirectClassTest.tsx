@@ -1,62 +1,54 @@
 import React from 'react';
 
-export function DirectClassTest() {
+export const DirectClassTest = () => {
   return (
-    <div className="p-8 space-y-6">
-      <h2 className="text-2xl font-bold">Direct CSS Class Test</h2>
+    <div className="p-6 bg-theme-bg-surface rounded-lg">
+      <h2 className="text-xl font-bold text-theme-primary mb-4">Direct CSS Classes Test</h2>
       
-      {/* Test elements with direct CSS classes */}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="bg-primary-orange p-4 rounded-lg text-white font-medium">
+      <div className="space-y-4 mb-8">
+        <div className="bg-primary-orange p-4 rounded-lg text-theme-on-primary">
           Primary Orange - Direct CSS Class
         </div>
         
-        <div className="bg-secondary-teal p-4 rounded-lg text-white font-medium">
+        <div className="bg-secondary-teal p-4 rounded-lg text-theme-on-primary-medium">
           Secondary Teal - Direct CSS Class
         </div>
         
-        <div className="bg-white p-4 rounded-lg text-navy font-medium border border-gray-200">
+        <div className="bg-theme-bg-surface-4 rounded-lg text-navy font-medium border border-theme-border">
           Text Navy - Direct CSS Class
         </div>
         
-        <div className="bg-white p-4 rounded-lg text-accent-coral font-medium border border-gray-200">
+        <div className="bg-theme-bg-surface-4 rounded-lg text-accent-coral font-medium border border-theme-border">
           Accent Coral - Direct CSS Class
         </div>
       </div>
       
       {/* Test gradient classes */}
-      <div className="grid grid-cols-2 gap-4 mt-8">
-        <div className="bg-gradient-primary p-4 rounded-lg text-white font-medium">
-          Primary Gradient - Direct CSS Class
+      <div className="space-y-4 mb-8">
+        <div className="bg-gradient-to-r from-primary-orange to-accent-coral p-4 rounded-lg text-white">
+          Orange to Coral Gradient - Direct CSS
         </div>
         
-        <div className="bg-gradient-secondary p-4 rounded-lg text-white font-medium">
-          Secondary Gradient - Direct CSS Class
-        </div>
-        
-        <div className="bg-gradient-accent p-4 rounded-lg text-white font-medium">
-          Accent Gradient - Direct CSS Class
-        </div>
-        
-        <div className="bg-white p-4 rounded-lg font-medium border border-gray-200">
-          <span className="text-gradient-primary">
-            Text Gradient - Direct CSS Class
-          </span>
+        <div className="bg-gradient-to-r from-secondary-teal to-secondary-teal-light p-4 rounded-lg text-white">
+          Teal Gradient - Direct CSS
         </div>
       </div>
       
-      {/* Instructions */}
-      <div className="bg-gray-100 p-4 rounded-lg mt-8">
-        <h3 className="text-lg font-medium mb-2">Usage Instructions</h3>
-        <p className="mb-2">
-          Use these direct CSS classes instead of Tailwind bracket notation:
+      {/* Educational section */}
+      <div className="mt-8 p-4 bg-theme-bg-surface-4/10 rounded-lg border border-theme-border">
+        <h3 className="text-lg font-semibold text-theme-primary mb-2">⚠️ Using Direct CSS Variables</h3>
+        <p className="text-theme-secondary mb-4">
+          The classes above use direct color names from globals.css which won't adapt to theme changes.
+          Instead, use theme-aware classes:
         </p>
-        <ul className="space-y-1 font-mono text-sm">
-          <li>Use <code className="bg-gray-200 px-1 rounded">bg-primary-orange</code> instead of <code className="bg-gray-200 px-1 rounded">bg-[var(--theme-primary)]</code></li>
-          <li>Use <code className="bg-gray-200 px-1 rounded">text-navy</code> instead of <code className="bg-gray-200 px-1 rounded">text-[var(--theme-text-primary)]</code></li>
-          <li>Use <code className="bg-gray-200 px-1 rounded">bg-gradient-primary</code> for gradients</li>
+        <ul className="list-disc pl-6 space-y-2 text-theme-secondary">
+          <li>Use <code className="bg-theme-bg-primary-1 rounded">text-theme-primary</code> instead of <code className="bg-theme-bg-primary-1 rounded">text-navy</code></li>
+          <li>Use <code className="bg-theme-bg-primary-1 rounded">bg-theme-primary</code> instead of <code className="bg-theme-bg-primary-1 rounded">bg-primary-orange</code></li>
+          <li>Use <code className="bg-theme-bg-primary-1 rounded">bg-theme-gradient-primary</code> for gradients</li>
         </ul>
       </div>
     </div>
   );
-} 
+}
+
+export default DirectClassTest;

@@ -32,50 +32,50 @@ export function SocialStats() {
         <TooltipTrigger>
           <div
             data-slot="social-stats"
-            className="hover:bg-foreground/10 flex items-center rounded-md p-2"
+            className="hover:bg-theme-accent/10 flex items-center rounded-md p-2 transition-all duration-[var(--theme-transition-normal)]"
           >
             {avatars.map((avatar) => (
-              <Avatar key={avatar.name} className="-mr-2 size-8 shadow-md">
+              <Avatar key={avatar.name} className="-mr-2 size-8 shadow-theme-sm">
                 <AvatarImage src={avatar.image} />
                 <AvatarFallback>{avatar.name.charAt(0)}</AvatarFallback>
               </Avatar>
             ))}
             <div className="ml-4 flex flex-col gap-1">
               <div className="flex gap-1">
-                <StarIcon className="fill-foreground size-3" />
-                <StarIcon className="fill-foreground size-3" />
-                <StarIcon className="fill-foreground size-3" />
-                <StarIcon className="fill-foreground size-3" />
-                <StarIcon className="fill-foreground size-3" />
+                <StarIcon className="fill-theme-primary size-3" />
+                <StarIcon className="fill-theme-primary size-3" />
+                <StarIcon className="fill-theme-primary size-3" />
+                <StarIcon className="fill-theme-primary size-3" />
+                <StarIcon className="fill-theme-primary size-3" />
               </div>
-              <p className="text-muted-foreground text-left text-xs font-medium">
+              <p className="text-theme-secondary text-left text-xs font-medium">
                 Used by x designers and developers
               </p>
             </div>
           </div>
         </TooltipTrigger>
-        <TooltipContent className="flex w-64 flex-col gap-2 p-4 text-xs">
+        <TooltipContent className="flex w-64 flex-col gap-2 p-4 text-xs bg-theme-gradient-card border border-theme-border shadow-theme-md">
           <div className="flex">
-            <p className="flex grow items-center gap-0.5">
+            <p className="flex grow items-center gap-0.5 text-theme-primary">
               <Figma className="mr-2 size-3" /> Figma users
             </p>
-            <p className="text-muted-foreground">x</p>
+            <p className="text-theme-secondary">x</p>
           </div>
           <div className="flex">
-            <p className="flex grow items-center gap-0.5">
+            <p className="flex grow items-center gap-0.5 text-theme-primary">
               <Github className="mr-2 size-3" /> Github clones
-              <span className="text-muted-foreground italic">unique</span>
+              <span className="text-theme-secondary italic">unique</span>
             </p>
-            <p className="text-muted-foreground">x</p>
+            <p className="text-theme-secondary">x</p>
           </div>
           <div className="flex">
-            <p className="flex grow items-center gap-0.5">
+            <p className="flex grow items-center gap-0.5 text-theme-primary">
               <Terminal className="mr-2 size-3" /> CLI installations
-              <span className="text-muted-foreground italic">unique</span>
+              <span className="text-theme-secondary italic">unique</span>
             </p>
-            <p className="text-muted-foreground">x</p>
+            <p className="text-theme-secondary">x</p>
           </div>
-          <p className="text-muted-foreground pt-4 text-xs">
+          <p className="text-theme-secondary pt-4 text-xs">
             Data updated x
           </p>
         </TooltipContent>

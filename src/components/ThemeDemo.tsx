@@ -12,7 +12,7 @@ export function ThemeDemo() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Background with proper light/dark mode styling */}
-      <div className="absolute inset-0 bg-theme-gradient dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)] -z-10"></div>
+      <div className="absolute inset-0 bg-theme-gradient dark:from-[var(--theme-bg-primary)] -z-10"></div>
       
       {/* Grid pattern background */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(18,46,59,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(18,46,59,0.05)_1px,transparent_1px)] 
@@ -40,13 +40,13 @@ export function ThemeDemo() {
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-medium mb-6 text-[var(--theme-text-primary)] dark:text-white">
+            <h1 className="text-4xl md:text-5xl font-medium mb-6 text-[var(--theme-text-primary)] dark:text-theme-on-primary">
               VS Theme System
             </h1>
-            <p className="text-xl text-[var(--theme-text-primary)] dark:text-white/80 mb-2">
+            <p className="text-xl text-[var(--theme-text-primary)] dark:text-theme-on-primary/80 mb-2">
               Current theme: <span className="font-medium">{theme}</span> (resolved to: <span className="font-medium">{resolvedTheme}</span>)
             </p>
-            <p className="text-[var(--theme-text-primary)] dark:text-white/70 mb-4">
+            <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/70 mb-4">
               Click the theme toggle in the corner to switch between light, dark, and system modes.
             </p>
             
@@ -88,21 +88,21 @@ export function ThemeDemo() {
           {/* Demo cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
             {/* Card demonstrating direct CSS variable references */}
-            <div className="bg-theme-gradient dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]
+            <div className="bg-theme-gradient dark:from-[var(--theme-bg-primary)]
                          rounded-xl p-6 
                          shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
-                         dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
+                         shadow-theme-
                          transition-all duration-[--transition-bounce]
                          hover-bubbly">
-              <h2 className="text-xl font-medium mb-4 text-[var(--theme-text-primary)] dark:text-white">
+              <h2 className="text-xl font-medium mb-4 text-[var(--theme-text-primary)] dark:text-theme-on-primary">
                 Direct CSS Variable References
               </h2>
               <div className="mb-4 p-3 bg-theme-custom/50 /5 rounded-md">
-                <code className="text-sm text-[var(--theme-text-primary)] dark:text-white/90 font-mono">
-                  className="text-[var(--theme-text-primary)] dark:text-white"
+                <code className="text-sm text-[var(--theme-text-primary)] dark:text-theme-on-primary/90 font-mono">
+                  className="text-[var(--theme-text-primary)] dark:text-theme-on-primary"
                 </code>
               </div>
-              <p className="text-[var(--theme-text-primary)] dark:text-white/80 mb-4">
+              <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/80 mb-4">
                 This pattern uses direct CSS variable references with dark mode variants.
                 It ensures proper theming in both light and dark modes.
               </p>
@@ -115,15 +115,15 @@ export function ThemeDemo() {
               defaultClassName="rounded-xl p-6 transition-all duration-[--transition-bounce] hover-bubbly"
             >
               <div>
-                <h2 className="text-xl font-medium mb-4 text-[var(--theme-text-primary)] dark:text-white">
+                <h2 className="text-xl font-medium mb-4 text-[var(--theme-text-primary)] dark:text-theme-on-primary">
                   Using VSThemeWrapper
                 </h2>
                 <div className="mb-4 p-3 bg-theme-custom/50 /5 rounded-md">
-                  <code className="text-sm text-[var(--theme-text-primary)] dark:text-white/90 font-mono">
+                  <code className="text-sm text-[var(--theme-text-primary)] dark:text-theme-on-primary/90 font-mono">
                     {'<VSThemeWrapper lightClassName="..." darkClassName="...">'}
                   </code>
                 </div>
-                <p className="text-[var(--theme-text-primary)] dark:text-white/80 mb-4">
+                <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/80 mb-4">
                   VSThemeWrapper makes it easy to apply different styles based on the current theme.
                 </p>
               </div>
@@ -131,11 +131,11 @@ export function ThemeDemo() {
           </div>
           
           {/* Color palette demo */}
-          <div className="bg-theme-gradient dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]
+          <div className="bg-theme-gradient dark:from-[var(--theme-bg-primary)]
                        rounded-xl p-6 mb-12
                        shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
-                       dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]">
-            <h2 className="text-xl font-medium mb-6 text-[var(--theme-text-primary)] dark:text-white">
+                       shadow-theme-">
+            <h2 className="text-xl font-medium mb-6 text-[var(--theme-text-primary)] dark:text-theme-on-primary">
               Color Palette
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -147,19 +147,17 @@ export function ThemeDemo() {
           </div>
           
           {/* Button examples */}
-          <div className="bg-theme-gradient dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]
+          <div className="bg-theme-gradient dark:from-[var(--theme-bg-primary)]
                        rounded-xl p-6
                        shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
-                       dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]">
-            <h2 className="text-xl font-medium mb-6 text-[var(--theme-text-primary)] dark:text-white">
+                       shadow-theme-">
+            <h2 className="text-xl font-medium mb-6 text-[var(--theme-text-primary)] dark:text-theme-on-primary">
               Button Styling
             </h2>
             <div className="flex flex-wrap gap-4">
               <button className="bg-[var(--theme-primary)]
-                               dark:bg-gradient-to-r dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)]
-                               text-white px-4 py-2 rounded-full
-                               shadow-[1px_1px_4px_rgba(0,0,0,0.1)]
-                               dark:shadow-[0_0_8px_rgba(254,163,93,0.2)]
+                               bg-theme-gradient dark:from-[var(--theme-primary)] shadow-[1px_1px_4px_rgba(0,0,0,0.1)]
+                               shadow-theme-
                                transition-all duration-[--transition-bounce]
                                hover:translate-y-[-3px] hover:scale-[1.03]
                                hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)]
@@ -168,10 +166,10 @@ export function ThemeDemo() {
               </button>
               
               <button className="bg-[var(--theme-accent-secondary)]
-                               dark:bg-gradient-to-r dark:from-[var(--theme-accent-secondary)] dark:to-[var(--theme-accent-secondary-hover)]
-                               text-white px-4 py-2 rounded-full
+                               bg-theme-gradient dark:from-[var(--theme-accent-secondary)]
+                               text-theme-on-primary-4 py-2 rounded-full
                                shadow-[1px_1px_4px_rgba(0,0,0,0.1)]
-                               dark:shadow-[0_0_8px_rgba(53,115,128,0.15)]
+                               shadow-theme-
                                transition-all duration-[--transition-bounce]
                                hover:translate-y-[-3px] hover:scale-[1.03]
                                hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)]
@@ -180,10 +178,8 @@ export function ThemeDemo() {
               </button>
               
               <button className="vs-gradient-coral-diagonal
-                               dark:bg-gradient-to-r dark:from-[var(--theme-accent-tertiary)] dark:to-[var(--theme-accent-quaternary)]
-                               text-white px-4 py-2 rounded-full
-                               shadow-[1px_1px_4px_rgba(0,0,0,0.1)]
-                               dark:shadow-[0_0_8px_rgba(222,107,89,0.2)]
+                               bg-theme-gradient dark:from-[var(--theme-accent-tertiary)] shadow-[1px_1px_4px_rgba(0,0,0,0.1)]
+                               shadow-theme-
                                transition-all duration-[--transition-bounce]
                                hover:translate-y-[-3px] hover:scale-[1.03]
                                hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)]
@@ -192,12 +188,10 @@ export function ThemeDemo() {
               </button>
               
               <button className="bg-transparent 
-                               border border-[var(--theme-text-primary)]/20 dark:border-white/20
-                               text-[var(--theme-text-primary)] dark:text-white
-                               px-4 py-2 rounded-full
+                               border border-[var(--theme-text-primary)]/20 dark:border-theme-border-light-[var(--theme-text-primary)] dark:text-theme-on-primary-4 py-2 rounded-full
                                transition-all duration-[--transition-bounce]
                                hover:translate-y-[-3px] hover:scale-[1.03]
-                               hover:bg-[var(--theme-text-primary)]/5 dark:hover:bg-white/5">
+                               hover:bg-[var(--theme-text-primary)]/5 dark:hover:bg-theme-bg-surface/5">
                 Ghost Button
               </button>
             </div>
@@ -232,7 +226,7 @@ function ColorSwatch({ name }: { name: string }) {
         className={`w-16 h-16 rounded-full shadow-md`}
         style={{ backgroundColor: getColorStyle(name) }}
       ></div>
-      <p className="mt-2 text-sm text-[var(--theme-text-primary)] dark:text-white/80">
+      <p className="mt-2 text-sm text-[var(--theme-text-primary)] dark:text-theme-on-primary/80">
         {name}
       </p>
     </div>

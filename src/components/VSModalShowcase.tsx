@@ -9,7 +9,7 @@ import ModalsImplementation from './modals/ModalsImplementation';
  */
 const VSModalShowcase: React.FC = () => {
   return (
-    <div className="bg-theme-gradient dark:from-[var(--theme-bg-primary)]  min-h-screen">
+    <div className="bg-theme-gradient screen">
       <div className="pt-20 pb-32">
         <ModalsImplementation />
       </div>

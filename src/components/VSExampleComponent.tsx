@@ -46,143 +46,126 @@ const VSExampleComponent = () => {
   return (
     <section 
       ref={containerRef}
-      className="bg-theme-gradient dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)] 
-                py-24 relative overflow-hidden"
+      className="bg-theme-gradient py-24 relative overflow-hidden"
     >
-      {/* Light mode floating elements */}
-      <div className="absolute top-20 left-10 w-24 h-24 rounded-[40%] rotate-12 opacity-5 
-                     bg-[var(--theme-primary)] animate-float-slow hidden dark:hidden"></div>
-      <div className="absolute bottom-40 right-20 w-32 h-32 rounded-[30%] -rotate-6 opacity-8
-                     bg-[var(--theme-accent-secondary-light)] animate-float-medium hidden dark:hidden"></div>
-      
-      {/* Dark mode floating elements */}
-      <div className="absolute top-20 left-10 w-24 h-24 rounded-[40%] rotate-12 opacity-10 
-                     vs-btn-primary-gradient 
-                     animate-float-slow hidden dark:block"></div>
-      <div className="absolute bottom-40 right-20 w-32 h-32 rounded-[30%] -rotate-6 opacity-15
-                     vs-btn-secondary-gradient 
-                     animate-float-medium hidden dark:block"></div>
+      {/* Theme-aware floating elements */}
+      <div className="absolute top-20 left-10 w-24 h-24 rounded-[40%] rotate-12 
+                     opacity-[var(--theme-float-opacity)]
+                     bg-[var(--theme-float-bg-primary)]
+                     animate-float-slow"></div>
+      <div className="absolute bottom-40 right-20 w-32 h-32 rounded-[30%] -rotate-6 
+                     opacity-[var(--theme-float-opacity-secondary)]
+                     bg-[var(--theme-float-bg-secondary)]
+                     animate-float-medium"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <div className="bg-[var(--theme-bg-secondary)] dark:bg-[var(--theme-text-secondary)]/5 
-                       border border-[var(--theme-primary)]/30 mb-4 py-2 px-4 
+          <div className="bg-[var(--theme-bg-secondary)]/10 
+                       border border-[var(--theme-border-primary)] mb-4 py-2 px-4 
                        inline-block rounded-full">
-            <span className="text-[var(--theme-primary)] dark:text-white">
+            <span className="text-theme-primary">
               Example Component
             </span>
           </div>
           
-          <h2 className="text-[var(--theme-text-primary)] dark:text-white text-4xl md:text-5xl 
+          <h2 className="text-theme-primary text-4xl md:text-5xl 
                        font-bold mb-6 example-heading">
             Tailwind v4 Styling Example
           </h2>
           
-          <p className="text-[var(--theme-text-primary)] dark:text-white/70 text-xl mb-2 max-w-3xl mx-auto">
+          <p className="text-theme-secondary text-xl mb-2 max-w-3xl mx-auto">
             This example demonstrates proper implementation of VS styling using Tailwind v4 patterns.
           </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Card 1 */}
-          <div className="example-card relative bg-theme-gradient dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]
-                        rounded-[--border-radius-lg] p-6 
-                        border border-white/40 dark:border-white/5
-                        shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
-                        dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
+          <div className="example-card relative bg-theme-gradient-card
+                        rounded-lg p-6 
+                        border border-theme-border-light
+                        shadow-theme-md
                         hover-bubbly">
-            <div className="w-12 h-12 rounded-full bg-[var(--theme-primary)]
-                         dark:bg-gradient-to-r dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)]
+            <div className="w-12 h-12 rounded-full bg-theme-gradient-primary
                          flex items-center justify-center mb-4">
-              <CheckCircle className="h-6 w-6 text-white" />
+              <CheckCircle className="h-6 w-6 text-theme-on-primary" />
             </div>
             
-            <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-medium mb-2">
+            <h3 className="text-theme-primary text-xl font-medium mb-2">
               Direct Variable References
             </h3>
             
-            <p className="text-[var(--theme-text-primary)] dark:text-white/70 mb-4">
+            <p className="text-theme-secondary mb-4">
               Tailwind v4 allows direct CSS variable references with the format 
-              <code className="text-[var(--theme-accent-tertiary)]  mx-1 px-1 bg-theme-custom/5 /10 rounded">
+              <code className="text-[var(--theme-accent-tertiary)] mx-1 px-1 bg-[var(--theme-bg-secondary)]/10 rounded">
                 text-[var(--theme-var-name)]
               </code>
             </p>
             
-            <button className="bg-[var(--theme-primary)] hover:bg-[var(--theme-primary-hover)]
-                             dark:bg-gradient-to-r dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)]
-                             text-white px-4 py-2 rounded-full
-                             shadow-[1px_1px_4px_rgba(0,0,0,0.1)]
-                             dark:shadow-[0_0_8px_rgba(254,163,93,0.2)]
-                             transition-all duration-[--transition-bounce]
-                             hover:translate-y-[-3px] hover:scale-[1.03]">
+            <button className="bg-theme-gradient-primary
+                             text-theme-on-primary-4 py-2 rounded-full
+                             shadow-theme-sm
+                             transition-all duration-[var(--theme-transition-bounce)]
+                             hover-bubbly-sm">
               Learn More
             </button>
           </div>
           
           {/* Card 2 */}
-          <div className="example-card relative bg-theme-gradient dark:from-[var(--theme-card-bg-navy)] dark:to-[rgba(12,67,99,0.8)]
-                        rounded-[--border-radius-lg] p-6 
-                        border border-white/40 dark:border-white/5
-                        shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
-                        dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
+          <div className="example-card relative bg-theme-gradient-card
+                        rounded-lg p-6 
+                        border border-theme-border-light
+                        shadow-theme-md
                         hover-bubbly">
-            <div className="w-12 h-12 rounded-full bg-[var(--theme-accent-secondary)]
-                         dark:bg-gradient-to-r dark:from-[var(--theme-accent-secondary)] dark:to-[var(--theme-accent-secondary-hover)]
+            <div className="w-12 h-12 rounded-full bg-theme-gradient-secondary
                          flex items-center justify-center mb-4">
-              <ArrowRightCircle className="h-6 w-6 text-white" />
+              <ArrowRightCircle className="h-6 w-6 text-theme-on-primary" />
             </div>
             
-            <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-medium mb-2">
+            <h3 className="text-theme-primary text-xl font-medium mb-2">
               Helper Utilities
             </h3>
             
-            <p className="text-[var(--theme-text-primary)] dark:text-white/70 mb-4">
+            <p className="text-theme-secondary mb-4">
               Use utility classes like 
-              <code className="text-[var(--theme-accent-tertiary)]  mx-1 px-1 bg-theme-custom/5 /10 rounded">
+              <code className="text-[var(--theme-accent-tertiary)] mx-1 px-1 bg-[var(--theme-bg-secondary)]/10 rounded">
                 hover-bubbly
               </code>
               to implement VS animation patterns easily.
             </p>
             
-            <button className="bg-[var(--theme-accent-secondary)] hover:bg-[var(--theme-accent-secondary-hover)]
-                             dark:bg-gradient-to-r dark:from-[var(--theme-accent-secondary)] dark:to-[var(--theme-accent-secondary-hover)]
-                             text-white px-4 py-2 rounded-full
-                             shadow-[1px_1px_4px_rgba(0,0,0,0.1)]
-                             dark:shadow-[0_0_8px_rgba(53,115,128,0.15)]
-                             transition-all duration-[--transition-bounce]
-                             hover:translate-y-[-3px] hover:scale-[1.03]">
+            <button className="bg-theme-gradient-secondary
+                             text-theme-on-primary-4 py-2 rounded-full
+                             shadow-theme-sm
+                             transition-all duration-[var(--theme-transition-bounce)]
+                             hover-bubbly-sm">
               Explore Utilities
             </button>
           </div>
           
           {/* Card 3 */}
-          <div className="example-card relative bg-theme-gradient dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]
-                        rounded-[--border-radius-lg] p-6 
-                        border border-white/40 dark:border-white/5
-                        shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
-                        dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
+          <div className="example-card relative bg-theme-gradient-card
+                        rounded-lg p-6 
+                        border border-theme-border-light
+                        shadow-theme-md
                         hover-bubbly">
-            <div className="w-12 h-12 rounded-full bg-[var(--theme-accent-tertiary)]
-                         dark:bg-gradient-to-r dark:from-[var(--theme-accent-tertiary)] dark:to-[var(--theme-accent-quaternary)]
+            <div className="w-12 h-12 rounded-full bg-theme-gradient-accent
                          flex items-center justify-center mb-4">
-              <Zap className="h-6 w-6 text-white" />
+              <Zap className="h-6 w-6 text-theme-on-primary" />
             </div>
             
-            <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-medium mb-2">
+            <h3 className="text-theme-primary text-xl font-medium mb-2">
               Professional Animation
             </h3>
             
-            <p className="text-[var(--theme-text-primary)] dark:text-white/70 mb-4">
+            <p className="text-theme-secondary mb-4">
               Always use useGSAP with proper context for animations, ensuring correct component lifecycle management.
             </p>
             
-            <button className="vs-gradient-coral-diagonal
-                             dark:bg-gradient-to-r dark:from-[var(--theme-accent-tertiary)] dark:to-[var(--theme-accent-quaternary)]
-                             text-white px-4 py-2 rounded-full
-                             shadow-[1px_1px_4px_rgba(0,0,0,0.1)]
-                             dark:shadow-[0_0_8px_rgba(222,107,89,0.2)]
-                             transition-all duration-[--transition-bounce]
-                             hover:translate-y-[-3px] hover:scale-[1.03]">
+            <button className="bg-theme-gradient-accent
+                             text-theme-on-primary-4 py-2 rounded-full
+                             shadow-theme-sm
+                             transition-all duration-[var(--theme-transition-bounce)]
+                             hover-bubbly-sm">
               See Animation Guide
             </button>
           </div>
@@ -190,58 +173,57 @@ const VSExampleComponent = () => {
         
         {/* Additional feature table */}
         <div className="mt-16 max-w-4xl mx-auto">
-          <h3 className="text-[var(--theme-text-primary)] dark:text-white text-2xl font-medium mb-6 text-center">
+          <h3 className="text-theme-primary text-2xl font-medium mb-6 text-center">
             Key Implementation Features
           </h3>
           
-          <div className="overflow-hidden rounded-[--border-radius-lg] 
-                        shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
-                        dark:shadow-[0_0_15px_rgba(0,0,0,0.15)]">
+          <div className="overflow-hidden rounded-lg 
+                        shadow-theme-md">
             <table className="w-full">
               <thead>
-                <tr className="bg-[var(--theme-accent-secondary)]/5 dark:bg-white/5 border-b border-theme-custom/5 /5">
-                  <th className="p-4 text-left text-[var(--theme-text-primary)] dark:text-white">Feature</th>
-                  <th className="p-4 text-left text-[var(--theme-text-primary)] dark:text-white">Old Approach</th>
-                  <th className="p-4 text-left text-[var(--theme-text-primary)] dark:text-white">New Approach</th>
+                <tr className="bg-[var(--theme-accent-secondary)]/5 border-b border-theme-border-light">
+                  <th className="p-4 text-left text-theme-primary">Feature</th>
+                  <th className="p-4 text-left text-theme-primary">Old Approach</th>
+                  <th className="p-4 text-left text-theme-primary">New Approach</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-theme-custom/5 /5">
-                  <td className="p-4 text-[var(--theme-text-primary)] dark:text-white">Text Colors</td>
-                  <td className="p-4 text-[var(--theme-text-primary)] dark:text-white/70">
-                    <code className="px-2 py-1 bg-theme-custom/5 /10 rounded text-sm">
+                <tr className="border-b border-theme-border-light">
+                  <td className="p-4 text-theme-primary">Text Colors</td>
+                  <td className="p-4 text-theme-secondary">
+                    <code className="px-2 py-1 bg-[var(--theme-bg-secondary)]/10 rounded text-sm">
                       style=&#123;&#123; color: 'var(--theme-text-primary)' &#125;&#125;
                     </code>
                   </td>
-                  <td className="p-4 text-[var(--theme-text-primary)] dark:text-white/70">
-                    <code className="px-2 py-1 bg-theme-custom/5 /10 rounded text-sm">
+                  <td className="p-4 text-theme-secondary">
+                    <code className="px-2 py-1 bg-[var(--theme-bg-secondary)]/10 rounded text-sm">
                       className="text-[var(--theme-text-primary)]"
                     </code>
                   </td>
                 </tr>
-                <tr className="border-b border-theme-custom/5 /5">
-                  <td className="p-4 text-[var(--theme-text-primary)] dark:text-white">Backgrounds</td>
-                  <td className="p-4 text-[var(--theme-text-primary)] dark:text-white/70">
-                    <code className="px-2 py-1 bg-theme-custom/5 /10 rounded text-sm">
+                <tr className="border-b border-theme-border-light">
+                  <td className="p-4 text-theme-primary">Backgrounds</td>
+                  <td className="p-4 text-theme-secondary">
+                    <code className="px-2 py-1 bg-[var(--theme-bg-secondary)]/10 rounded text-sm">
                       className="bg-[var(--theme-bg-primary)]"
                     </code>
                   </td>
-                  <td className="p-4 text-[var(--theme-text-primary)] dark:text-white/70">
-                    <code className="px-2 py-1 bg-theme-custom/5 /10 rounded text-sm">
-                      className="bg-[var(--theme-bg-primary)]"
+                  <td className="p-4 text-theme-secondary">
+                    <code className="px-2 py-1 bg-[var(--theme-bg-secondary)]/10 rounded text-sm">
+                      className="bg-theme-primary"
                     </code>
                   </td>
                 </tr>
                 <tr>
-                  <td className="p-4 text-[var(--theme-text-primary)] dark:text-white">Transitions</td>
-                  <td className="p-4 text-[var(--theme-text-primary)] dark:text-white/70">
-                    <code className="px-2 py-1 bg-theme-custom/5 /10 rounded text-sm">
+                  <td className="p-4 text-theme-primary">Transitions</td>
+                  <td className="p-4 text-theme-secondary">
+                    <code className="px-2 py-1 bg-[var(--theme-bg-secondary)]/10 rounded text-sm">
                       duration-[350ms] ease-cubic...
                     </code>
                   </td>
-                  <td className="p-4 text-[var(--theme-text-primary)] dark:text-white/70">
-                    <code className="px-2 py-1 bg-theme-custom/5 /10 rounded text-sm">
-                      duration-[--transition-bounce]
+                  <td className="p-4 text-theme-secondary">
+                    <code className="px-2 py-1 bg-[var(--theme-bg-secondary)]/10 rounded text-sm">
+                      duration-[var(--theme-transition-bounce)]
                     </code>
                   </td>
                 </tr>
@@ -251,21 +233,20 @@ const VSExampleComponent = () => {
         </div>
         
         {/* Pro tip */}
-        <div className="mt-12 bg-[var(--theme-accent-tertiary)] dark:bg-gradient-to-r dark:from-[var(--theme-accent-tertiary)] dark:to-[var(--theme-accent-quaternary)]
-                     text-white p-6 rounded-[--border-radius-lg] 
-                     shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
-                     dark:shadow-[0_0_15px_rgba(222,107,89,0.15)]
+        <div className="mt-12 bg-theme-gradient-accent
+                     text-theme-on-primary-6 rounded-lg
+                     shadow-theme-md
                      max-w-4xl mx-auto">
           <div className="flex">
-            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-4 flex-shrink-0">
+            <div className="w-10 h-10 rounded-full bg-theme-bg-surface-center justify-center mr-4 flex-shrink-0">
               <span className="text-[var(--theme-accent-tertiary)] font-bold">!</span>
             </div>
             <div>
               <h4 className="text-xl font-medium mb-2">Pro Tip</h4>
-              <p className="text-white/90">
+              <p className="text-theme-on-primary/90">
                 Always test your components in both light and dark mode. The most common issue is 
-                forgetting to provide dark mode styles or using the old var() wrapper pattern 
-                which doesn't work correctly with Tailwind v4.
+                forgetting to provide theme-aware variables or using competing light/dark mode styles
+                instead of a single source of truth.
               </p>
             </div>
           </div>

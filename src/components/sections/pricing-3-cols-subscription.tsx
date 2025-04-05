@@ -134,27 +134,27 @@ export function Pricing3ColsSubscription() {
               />
               <div className="flex flex-col gap-7">
                 <div className="flex flex-col gap-2">
-                  <h2 className="flex items-center gap-2 font-bold text-[var(--theme-text-primary)] dark:text-white">
+                  <h2 className="flex items-center gap-2 font-bold text-[var(--theme-text-primary)] dark:text-theme-on-primary">
                     {plan.icon && (
                       <div className="flex items-center justify-center w-8 h-8 rounded-full
                                   vs-btn-primary-gradient 
-                                  dark:bg-gradient-to-br dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]
-                                  shadow-sm dark:shadow-[0_0_5px_rgba(53,115,128,0.2)]">
+                                  bg-theme-gradient
+                                  shadow-sm">
                         {plan.icon}
                       </div>
                     )}
                     {plan.name}
                   </h2>
-                  <p className="text-[var(--theme-text-primary)]/70 dark:text-white/70 max-w-[220px] text-sm">
+                  <p className="text-[var(--theme-text-primary)]/70 dark:text-theme-on-primary/70 max-w-[220px] text-sm">
                     {plan.description}
                   </p>
                 </div>
                 <div className="flex items-center gap-3 lg:flex-col lg:items-start xl:flex-row xl:items-center relative">
                   {/* Add subtle pattern behind price */}
-                  <div className="absolute inset-0 -z-10 opacity-5 dot-bg dark:opacity-10"></div>
+                  <div className="absolute inset-0 -z-10 opacity-5 dot-bg opacity-"></div>
                   
                   <div className="flex items-baseline gap-1">
-                    <span className="text-[var(--theme-text-primary)]/70 dark:text-white/70 text-2xl font-bold">
+                    <span className="text-[var(--theme-text-primary)]/70 dark:text-theme-on-primary/70 text-2xl font-bold">
                       $
                     </span>
                     <span className="text-6xl font-bold text-[var(--theme-primary)] ">
@@ -164,10 +164,10 @@ export function Pricing3ColsSubscription() {
                     </span>
                   </div>
                   <div className="flex min-h-[40px] flex-col">
-                    <span className="text-sm text-[var(--theme-text-primary)] dark:text-white">
+                    <span className="text-sm text-[var(--theme-text-primary)] dark:text-theme-on-primary">
                       {plan.monthlyPrice > 0 ? "/ month" : "free"}
                     </span>
-                    <span className="text-[var(--theme-text-primary)]/70 dark:text-white/70 text-sm">
+                    <span className="text-[var(--theme-text-primary)]/70 dark:text-theme-on-primary/70 text-sm">
                       {plan.monthlyPrice > 0
                         ? isYearly
                           ? "billed yearly"
@@ -176,20 +176,20 @@ export function Pricing3ColsSubscription() {
                     </span>
                   </div>
                 </div>
-                <Button variant={plan.cta.variant} size="lg" asChild className="vs-btn-primary-gradient text-white">
+                <Button variant={plan.cta.variant} size="lg" asChild className="vs-btn-primary-gradient text-theme-on-primary">
                   <Link href={plan.cta.href}>{plan.cta.label}</Link>
                 </Button>
-                <hr className="border-[var(--theme-bg-secondary)]/10 dark:border-white/10" />
+                <hr className="border-[var(--theme-bg-secondary)]/10 dark:border-theme-border-light" />
               </div>
               <div>
                 <ul className="flex flex-col gap-2">
                   {plan.features.map((feature) => (
                     <li
                       key={feature}
-                      className="flex items-center gap-2 text-sm group hover:bg-white/5 dark:hover:bg-white/5 rounded-md p-1 transition-colors"
+                      className="flex items-center gap-2 text-sm group hover:bg-theme-bg-surface/5 dark:hover:bg-theme-bg-surface/5 rounded-md p-1 transition-colors"
                     >
                       <CircleCheckBig className="text-[var(--theme-primary)]  size-4 shrink-0 group-hover:scale-110 transition-transform" />
-                      <span className="text-[var(--theme-text-primary)]/80 dark:text-white/80">{feature}</span>
+                      <span className="text-[var(--theme-text-primary)]/80 dark:text-theme-on-primary/80">{feature}</span>
                     </li>
                   ))}
                 </ul>

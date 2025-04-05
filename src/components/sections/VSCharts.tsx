@@ -1,13 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, ReactElement } from "react";
 import { Section } from "../ui/section";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-  } from '../ui/card';
 import {
     Select,
     SelectTrigger,
@@ -17,22 +9,60 @@ import {
 } from "../ui/select";
 import { TrendingUp } from "lucide-react";
 import {
-    ChartContainer,
     ChartStyle,
     ChartTooltip,
-    ChartTooltipContent,
 } from '../ui/chart';
 
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-import { Label, Pie, PieChart, Sector } from 'recharts';
+import { Pie, PieChart, Sector } from 'recharts';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
-export default function VSCharts() {
-  const containerRef = useRef(null);
+// Define types for chart data
+interface ChartDataPoint {
+  month: string;
+  engagement: number;
+  conversion: number;
+}
+
+// Define types for metrics data
+interface MetricDataPoint {
+  metric: string;
+  value: number;
+  fill: string;
+}
+
+// Define the type for chart configuration
+interface ChartConfigItem {
+  label: string;
+  color?: string;
+}
+
+interface ChartConfig {
+  [key: string]: ChartConfigItem;
+}
+
+// Type for recharts tooltip payload item
+interface TooltipPayloadItem {
+  name?: string;
+  value?: number | string;
+  payload?: MetricDataPoint;
+  dataKey?: string;
+  color?: string;
+}
+
+// Type for recharts tooltip props
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+}
+
+export default function VSCharts(): ReactElement {
+  const containerRef = useRef<HTMLDivElement>(null);
   
   // Chart data for student progress
-  const chartData = [
+  const chartData: ChartDataPoint[] = [
     { month: "Week 1", engagement: 10, conversion: 0 },
     { month: "Week 2", engagement: 35, conversion: 5 },
     { month: "Week 4", engagement: 70, conversion: 15 },
@@ -41,64 +71,65 @@ export default function VSCharts() {
     { month: "Week 10", engagement: 320, conversion: 140 },
   ];
   
-  // Chart configuration with CSS variables
-  const chartConfig = {
-    engagement: {
-      label: "Engagement",
-      color: "var(--theme-color-engagement)", 
-    },
-    conversion: {
-      label: "Conversions",
-      color: "var(--theme-color-conversion)",
-    },
+  // Theme-aware chart colors for metrics
+  const chartColors = {
+    views: "var(--theme-color-views)",
+    followers: "var(--theme-color-followers)",
+    engagement: "var(--theme-color-engagement)",
+    revenue: "var(--theme-color-revenue)"
   };
-
+  
   // Success metrics data for pie chart
-  const metricsData = [
-    { metric: "views", value: 45, fill: "var(--theme-color-views)" },
-    { metric: "followers", value: 32, fill: "var(--theme-color-followers)" },
-    { metric: "engagement", value: 18, fill: "var(--theme-color-engagement)" },
-    { metric: "revenue", value: 25, fill: "var(--theme-color-revenue)" },
+  const metricsData: MetricDataPoint[] = [
+    { metric: "views", value: 45, fill: chartColors.views },
+    { metric: "followers", value: 32, fill: chartColors.followers },
+    { metric: "engagement", value: 18, fill: chartColors.engagement },
+    { metric: "revenue", value: 25, fill: chartColors.revenue },
   ];
   
-  const metricsConfig = {
+  const metricsConfig: ChartConfig = {
     metrics: {
       label: "Metrics",
     },
     views: {
       label: "Views (in millions)",
-      color: "var(--theme-color-views)",
+      color: chartColors.views,
     },
     followers: {
       label: "New Followers (in thousands)",
-      color: "var(--theme-color-followers)",
+      color: chartColors.followers,
     },
     engagement: {
       label: "Engagement Rate (%)",
-      color: "var(--theme-color-engagement)",
+      color: chartColors.engagement,
     },
     revenue: {
       label: "Revenue Growth (%)",
-      color: "var(--theme-color-revenue)",
+      color: chartColors.revenue,
     },
   };
 
-  const [activeMetric, setActiveMetric] = useState(metricsData[0].metric);
+  const [activeMetric, setActiveMetric] = useState<string>(metricsData[0].metric);
   const activeIndex = metricsData.findIndex((item) => item.metric === activeMetric);
   const metrics = metricsData.map((item) => item.metric);
 
   useGSAP(() => {
+    // Get computed theme variables for animation
+    const styles = getComputedStyle(document.documentElement);
+    const distance = styles.getPropertyValue('--theme-anim-distance-md') || '-7px';
+    const duration = styles.getPropertyValue('--theme-anim-duration-med') || '0.45';
+    
     const ctx = gsap.context(() => {
-      // Animate charts on load with staggered timing
+      // Animate charts on load with staggered timing using theme variables
       gsap.fromTo(".chart-container", 
         { 
           opacity: 0, 
-          y: 30 
+          y: Math.abs(parseInt(distance)) * 4 // Use theme distance but make it positive and larger for initial state
         }, 
         { 
           opacity: 1, 
           y: 0, 
-          duration: 0.8, 
+          duration: parseFloat(duration), 
           stagger: 0.2, 
           ease: "power2.out" 
         }
@@ -109,22 +140,33 @@ export default function VSCharts() {
   }, []);
 
   // Custom tooltip component
-  const CustomTooltip = ({ active, payload, label }) => {
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps): ReactElement | null => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white dark:bg-[var(--theme-bg-primary)] p-3 rounded-md border border-[var(--theme-text-primary)]/5 dark:border-white/5 shadow-sm">
-          <p className="text-[var(--theme-text-primary)] dark:text-white font-medium mb-1">{label}</p>
-          {payload.map((entry, index) => (
-            <div key={`tooltip-${index}`} className="flex items-center gap-2">
-              <div 
-                className="w-2 h-2 rounded-full" 
-                style={{ backgroundColor: entry.color }}
-              />
-              <p className="text-[var(--theme-text-primary)]/80 dark:text-white/80 text-sm">
-                {entry.name}: {entry.value}
-              </p>
-            </div>
-          ))}
+        <div className="bg-theme-primary p-3 rounded-md border border-theme-border shadow-theme-sm">
+          <p className="text-theme-primary font-medium mb-1">{label}</p>
+          {payload.map((entry, index) => {
+            // Determine color class based on data key or use theme accent as fallback
+            const colorKey = entry.dataKey as string || "";
+            const tooltipColorClass = colorKey.includes("engagement") ? "bg-theme-accent-quaternary" : 
+                                      colorKey.includes("conversion") ? "bg-theme-accent-tertiary" :
+                                      colorKey.includes("views") ? "bg-theme-primary" :
+                                      colorKey.includes("followers") ? "bg-theme-accent-secondary" :
+                                      colorKey.includes("revenue") ? "bg-theme-accent-secondary" :
+                                      "bg-theme-accent";
+            
+            return (
+              <div key={`tooltip-${index}`} className="flex items-center gap-2">
+                <div 
+                  className={`w-2 h-2 rounded-full ${tooltipColorClass}`} 
+                  style={entry.color && !colorKey ? { backgroundColor: entry.color } : {}}
+                />
+                <p className="text-theme-secondary text-sm">
+                  {entry.name}: {entry.value}
+                </p>
+              </div>
+            );
+          })}
         </div>
       );
     }
@@ -132,11 +174,21 @@ export default function VSCharts() {
   };
 
   return (
-    <Section className="py-20 bg-[var(--theme-bg-primary)]  border-t border-[var(--theme-text-primary)]/10 dark:border-white/5" ref={containerRef}>
-      <div className="max-w-container mx-auto">
+    <Section className="py-20 bg-theme-primary border-t border-theme-border relative overflow-hidden" ref={containerRef}>
+      {/* Theme-aware floating elements for visual interest */}
+      <div className="absolute -z-10 top-20 right-10 w-20 h-20 rounded-[40%] rotate-12 
+                   opacity-[var(--theme-float-opacity)]
+                   bg-[var(--theme-float-bg-primary)]
+                   animate-float-slow"></div>
+      <div className="absolute -z-10 bottom-40 left-10 w-32 h-32 rounded-[30%] -rotate-6 
+                   opacity-[var(--theme-float-opacity-secondary)]
+                   bg-[var(--theme-float-bg-secondary)]
+                   animate-float-medium"></div>
+                   
+      <div className="max-w-container mx-auto relative">
         <div className="text-center mb-10">
-          <h2 className="text-[var(--theme-text-primary)] dark:text-white text-3xl md:text-4xl font-medium mb-3">Case Studies</h2>
-          <p className="text-[var(--theme-text-primary)]/70 dark:text-white/70 max-w-2xl mx-auto">
+          <h2 className="text-theme-primary text-3xl md:text-4xl font-medium mb-3">Case Studies</h2>
+          <p className="text-theme-secondary max-w-2xl mx-auto">
             Visualizing real-world impact and tracking growth metrics for content creators.
           </p>
         </div>
@@ -145,27 +197,27 @@ export default function VSCharts() {
           {/* Area Chart Card */}
           <div className="chart-container">
             <div className="mb-4">
-              <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-medium mb-1">Student Progress Trajectory</h3>
-              <p className="text-[var(--theme-text-primary)]/70 dark:text-white/70 text-sm">
+              <h3 className="text-theme-primary text-xl font-medium mb-1">Student Progress Trajectory</h3>
+              <p className="text-theme-secondary text-sm">
                 Average growth over the 10-week program
               </p>
             </div>
             
-            <div className="bg-[var(--theme-bg-secondary)]/30 /50 p-6 rounded-md border border-[var(--theme-text-primary)]/5 dark:border-white/5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.2)]">
+            <div className="bg-theme-secondary/30 p-6 rounded-md border border-theme-border shadow-theme-sm">
               <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center gap-4">
                   <div className="flex gap-2 items-center">
-                    <div className="w-2 h-2 rounded-full bg-[var(--theme-primary)]"></div>
-                    <span className="text-[var(--theme-text-primary)] dark:text-white text-xs">Engagement</span>
+                    <div className="w-2 h-2 rounded-full bg-theme-primary"></div>
+                    <span className="text-theme-primary text-xs">Engagement</span>
                   </div>
                   <div className="flex gap-2 items-center">
-                    <div className="w-2 h-2 rounded-full bg-[var(--theme-accent-quaternary)]"></div>
-                    <span className="text-[var(--theme-text-primary)] dark:text-white text-xs">Conversions</span>
+                    <div className="w-2 h-2 rounded-full bg-theme-accent-quaternary"></div>
+                    <span className="text-theme-primary text-xs">Conversions</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-1 bg-[var(--theme-bg-secondary)]/50 /70 px-2 py-0.5 rounded-full">
-                  <span className="text-[var(--theme-primary)]  text-xs font-medium">+320%</span>
-                  <TrendingUp className="h-3 w-3 text-[var(--theme-primary)] " />
+                <div className="flex items-center gap-1 bg-theme-secondary/50 px-2 py-0.5 rounded-full">
+                  <span className="text-theme-primary text-xs font-medium">+320%</span>
+                  <TrendingUp className="h-3 w-3 text-theme-primary" />
                 </div>
               </div>
               
@@ -179,13 +231,13 @@ export default function VSCharts() {
                     bottom: 0,
                   }}
                 >
-                  <CartesianGrid vertical={false} stroke="rgba(0,0,0,0.03)" className="dark:stroke-white/5" />
+                  <CartesianGrid vertical={false} stroke="var(--theme-grid-line)" />
                   <XAxis
                     dataKey="month"
                     tickLine={false}
                     axisLine={false}
                     tickMargin={8}
-                    className="text-[var(--theme-text-primary)]/40 dark:text-white/40 text-xs"
+                    className="text-theme-tertiary text-xs"
                     tick={{fontSize: 11}}
                   />
                   <YAxis
@@ -193,11 +245,11 @@ export default function VSCharts() {
                     axisLine={false}
                     tickMargin={8}
                     tickCount={5}
-                    className="text-[var(--theme-text-primary)]/40 dark:text-white/40 text-xs"
+                    className="text-theme-tertiary text-xs"
                     tick={{fontSize: 11}}
                   />
                   <ChartTooltip 
-                    cursor={{stroke: "rgba(0,0,0,0.05)", strokeDasharray: '3 3'}} 
+                    cursor={{stroke: "var(--theme-grid-dot)", strokeDasharray: '3 3'}} 
                     content={<CustomTooltip />} 
                     wrapperStyle={{ outline: 'none' }}
                   />
@@ -209,7 +261,12 @@ export default function VSCharts() {
                     strokeWidth={2}
                     fill="var(--theme-primary)"
                     fillOpacity={0.05}
-                    activeDot={{ r: 4, fill: "var(--theme-primary)", stroke: "white", strokeWidth: 2 }}
+                    activeDot={{ 
+                      r: 4, 
+                      fill: "var(--theme-primary)", 
+                      stroke: "var(--theme-text-on-primary)", 
+                      strokeWidth: 2 
+                    }}
                   />
                   <Area
                     type="monotone"
@@ -219,7 +276,12 @@ export default function VSCharts() {
                     strokeWidth={2}
                     fill="var(--theme-accent-quaternary)"
                     fillOpacity={0.05}
-                    activeDot={{ r: 4, fill: "var(--theme-accent-quaternary)", stroke: "white", strokeWidth: 2 }}
+                    activeDot={{ 
+                      r: 4, 
+                      fill: "var(--theme-accent-quaternary)", 
+                      stroke: "var(--theme-text-on-primary)", 
+                      strokeWidth: 2 
+                    }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -230,25 +292,28 @@ export default function VSCharts() {
           <div className="chart-container">
             <ChartStyle id="metrics-pie" config={metricsConfig} />
             <div className="mb-4">
-              <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-medium mb-1">Success Metrics</h3>
-              <p className="text-[var(--theme-text-primary)]/70 dark:text-white/70 text-sm">
+              <h3 className="text-theme-primary text-xl font-medium mb-1">Success Metrics</h3>
+              <p className="text-theme-secondary text-sm">
                 Average student outcomes after completion
               </p>
             </div>
             
-            <div className="bg-[var(--theme-bg-secondary)]/30 /50 p-6 rounded-md border border-[var(--theme-text-primary)]/5 dark:border-white/5 shadow-[0_2px_4px_rgba(0,0,0,0.02)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.2)]">
+            <div className="bg-theme-secondary/30 p-6 rounded-md border border-theme-border shadow-theme-sm">
               <div className="flex flex-wrap gap-2 mb-4">
                 {metricsData.map((item) => (
                   <button 
                     key={item.metric}
-                    className={`text-xs font-medium px-3 py-1 rounded-full transition-colors ${
+                    className={`text-xs font-medium px-3 py-1 rounded-full transition-all duration-[var(--theme-transition-normal)] ${
                       activeMetric === item.metric
-                        ? `bg-[${item.fill}] text-white`
-                        : 'bg-[var(--theme-bg-secondary)]/30 dark:bg-[var(--theme-bg-primary)]/50 text-[var(--theme-text-primary)] dark:text-white hover:bg-[var(--theme-bg-secondary)]/50 hover:dark:bg-[var(--theme-bg-primary)]/70'
+                        ? `text-theme-on-primary`
+                        : 'bg-theme-secondary/30 text-theme-primary hover:bg-theme-secondary/50'
                     }`}
                     style={
                       activeMetric === item.metric 
-                        ? { backgroundColor: item.fill } 
+                        ? { 
+                            backgroundColor: item.fill,
+                            boxShadow: 'var(--theme-shadow-btn)'
+                          } 
                         : {}
                     }
                     onClick={() => setActiveMetric(item.metric)}
@@ -275,20 +340,16 @@ export default function VSCharts() {
                         paddingAngle={2}
                         strokeWidth={0}
                         activeIndex={activeIndex}
-                        activeShape={({
-                          cx, cy, innerRadius, outerRadius, startAngle, endAngle, fill, payload, value,
-                          ...rest
-                        }) => (
+                        activeShape={(props: { cx: number; cy: number; innerRadius: number; outerRadius: number; startAngle: number; endAngle: number; fill: string; }) => (
                           <g>
                             <Sector
-                              cx={cx}
-                              cy={cy}
-                              innerRadius={innerRadius}
-                              outerRadius={outerRadius + 3}
-                              startAngle={startAngle}
-                              endAngle={endAngle}
-                              fill={fill}
-                              {...rest}
+                              cx={props.cx}
+                              cy={props.cy}
+                              innerRadius={props.innerRadius}
+                              outerRadius={props.outerRadius + 3}
+                              startAngle={props.startAngle}
+                              endAngle={props.endAngle}
+                              fill={props.fill}
                             />
                           </g>
                         )}
@@ -298,21 +359,21 @@ export default function VSCharts() {
                 </div>
                 
                 <div className="flex flex-col items-start ml-4 mt-4">
-                  <div className="text-5xl font-bold text-[var(--theme-text-primary)] dark:text-white mb-1">
+                  <div className="text-5xl font-bold text-theme-primary mb-1">
                     {metricsData[activeIndex].value}
                   </div>
-                  <div className="text-sm text-[var(--theme-text-primary)]/70 dark:text-white/70">
-                    {metricsConfig[activeMetric].label}
+                  <div className="text-sm text-theme-secondary">
+                    {metricsConfig[activeMetric]?.label}
                   </div>
-                  <div className="mt-4 pt-4 border-t border-[var(--theme-text-primary)]/5 dark:border-white/5 w-full">
+                  <div className="mt-4 pt-4 border-t border-theme-border w-full">
                     <Select value={activeMetric} onValueChange={setActiveMetric}>
                       <SelectTrigger
-                        className="h-8 w-full rounded-md bg-[var(--theme-bg-secondary)]/30 /50 border-none text-[var(--theme-text-primary)] dark:text-white text-xs"
+                        className="h-8 w-full rounded-md bg-theme-secondary/30 border-none text-theme-primary text-xs"
                         aria-label="Select a metric"
                       >
                         <SelectValue placeholder="Select metric" />
                       </SelectTrigger>
-                      <SelectContent align="end" className="rounded-md bg-[var(--theme-bg-primary)]  border-[var(--theme-text-primary)]/10 dark:border-white/10">
+                      <SelectContent align="end" className="rounded-md bg-theme-primary border-theme-border">
                         {metrics.map((key) => {
                           const config = metricsConfig[key];
                           if (!config) {
@@ -347,48 +408,48 @@ export default function VSCharts() {
         
         {/* Case Studies Selector */}
         <div className="mt-12">
-          <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-medium mb-6">Creator Success Stories</h3>
+          <h3 className="text-theme-primary text-xl font-medium mb-6">Creator Success Stories</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[1, 2, 3, 4].map((i) => (
               <div 
                 key={i}
-                className={`group relative overflow-hidden rounded-md border border-[var(--theme-text-primary)]/5 dark:border-white/5 bg-[var(--theme-bg-secondary)]/30 dark:bg-[var(--theme-bg-secondary)]/50 p-4 cursor-pointer transition-all hover:shadow-sm ${i === 1 ? 'ring-2 ring-[--primary-orange]/50' : ''}`}
+                className={`group relative overflow-hidden rounded-md border border-theme-border bg-theme-secondary/30 p-4 cursor-pointer transition-all hover:shadow-theme-sm ${i === 1 ? 'ring-2 ring-theme-primary/50' : ''}`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full overflow-hidden bg-[var(--theme-bg-secondary)] ">
-                    <div className="w-full h-full bg-[var(--theme-primary)]/10 flex items-center justify-center">
-                      <span className="text-[var(--theme-primary)] text-xs font-bold">
+                  <div className="w-10 h-10 rounded-full overflow-hidden bg-theme-secondary">
+                    <div className="w-full h-full bg-theme-primary/10 flex items-center justify-center">
+                      <span className="text-theme-primary text-xs font-bold">
                         {["JD", "TM", "KL", "AR"][i-1]}
                       </span>
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-[var(--theme-text-primary)] dark:text-white text-sm font-medium mb-1">
+                    <h4 className="text-theme-primary text-sm font-medium mb-1">
                       {["Joden Newman", "Tia Meyers", "Kyle Loft", "Alex Roth"][i-1]}
                     </h4>
-                    <p className="text-[var(--theme-text-primary)]/60 dark:text-white/60 text-xs">
+                    <p className="text-theme-tertiary text-xs">
                       {["Mentor", "Creator", "Student", "Coach"][i-1]}
                     </p>
                   </div>
                 </div>
                 
-                <div className="mt-3 pt-3 border-t border-[var(--theme-text-primary)]/5 dark:border-white/5 grid grid-cols-2 gap-2 text-xs">
+                <div className="mt-3 pt-3 border-t border-theme-border grid grid-cols-2 gap-2 text-xs">
                   <div>
-                    <div className="text-[var(--theme-text-primary)]/50 dark:text-white/50">Views</div>
-                    <div className="text-[var(--theme-primary)]  font-medium">
+                    <div className="text-theme-tertiary">Views</div>
+                    <div className="text-theme-primary font-medium">
                       {["3.2M", "1.8M", "950K", "4.6M"][i-1]}
                     </div>
                   </div>
                   <div>
-                    <div className="text-[var(--theme-text-primary)]/50 dark:text-white/50">Growth</div>
-                    <div className="text-[var(--theme-accent-quaternary)]  font-medium">
+                    <div className="text-theme-tertiary">Growth</div>
+                    <div className="text-theme-accent-quaternary font-medium">
                       {["+620%", "+340%", "+280%", "+410%"][i-1]}
                     </div>
                   </div>
                 </div>
                 
                 {i === 1 && (
-                  <div className="absolute top-0 right-0 w-0 h-0 border-t-8 border-r-8 border-t-[--primary-orange] border-r-transparent"></div>
+                  <div className="absolute top-0 right-0 w-0 h-0 border-t-8 border-r-8 border-t-theme-primary border-r-transparent"></div>
                 )}
               </div>
             ))}

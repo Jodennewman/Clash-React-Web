@@ -85,7 +85,7 @@ export const VSPricingQuizModal = ({ onComplete }: PricingQuizProps) => {
       {/* Trigger Button */}
       <Button 
         onClick={handleOpen}
-        className="px-5 py-2 bg-[var(--theme-bg-primary)] border border-[var(--theme-primary)]/30 text-white hover:bg-[var(--theme-accent-secondary)]/30 gap-2 hover-bubbly-sm"
+        className="px-5 py-2 bg-[var(--theme-bg-primary)] border border-[var(--theme-primary)]/30 text-theme-on-primary-[var(--theme-accent-secondary)]/30 gap-2 hover-bubbly-sm"
       >
         <HelpCircle className="h-4 w-4" />
         Not sure which plan is right? Take the Quiz
@@ -100,10 +100,10 @@ export const VSPricingQuizModal = ({ onComplete }: PricingQuizProps) => {
         width="md"
         title="Find Your Perfect Plan"
       >
-        <div className="p-6 bg-[var(--theme-bg-primary)] text-white rounded-lg">
+        <div className="p-6 bg-[var(--theme-bg-primary)] text-theme-on-primary">
           {/* Progress Indicator */}
           <div className="flex justify-between items-center mb-6">
-            <div className="text-sm text-white/60">
+            <div className="text-sm text-theme-on-primary/60">
               Step {currentStep + 1} of {quizSteps.length}
             </div>
             <div className="flex gap-2">
@@ -133,7 +133,7 @@ export const VSPricingQuizModal = ({ onComplete }: PricingQuizProps) => {
                 }`}
                 onClick={() => handleSelect(option.value)}
               >
-                <span className="text-white/80">{option.label}</span>
+                <span className="text-theme-on-primary/80">{option.label}</span>
               </div>
             ))}
           </div>
@@ -161,7 +161,7 @@ export const VSPricingQuizModal = ({ onComplete }: PricingQuizProps) => {
           </div>
           
           {/* Escape instruction */}
-          <div className="text-center mt-6 text-sm text-white/50 flex justify-center items-center gap-1">
+          <div className="text-center mt-6 text-sm text-theme-on-primary/50 flex justify-center items-center gap-1">
             <XCircle className="h-3 w-3" /> Press ESC or click outside to close quiz
           </div>
         </div>

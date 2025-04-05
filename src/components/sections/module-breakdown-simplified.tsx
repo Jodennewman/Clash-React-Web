@@ -86,13 +86,13 @@ const ModuleBreakdown = () => {
     <Section className="py-24 bg-[#08141B]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <Badge variant="outline" className="bg-white/5 text-[#FEA35D] border-[#FEA35D]/30 mb-4 py-2 px-4">
+          <Badge variant="outline" className="bg-theme-bg-surface/5 text-[#FEA35D] border-[#FEA35D]/30 mb-4 py-2 px-4">
             Inside The Program
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-theme-on-primary">
             Curriculum Preview
           </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+          <p className="text-xl text-theme-on-primary/70 max-w-3xl mx-auto">
             Explore the key modules that will transform your content strategy and production capabilities.
           </p>
         </div>
@@ -114,7 +114,7 @@ const ModuleBreakdown = () => {
                 >
                   <Icon size={18} />
                   <span className="font-medium">{section.name || 'Section'}</span>
-                  <span className="ml-1 bg-[#0F1A22] text-gray-300 rounded-full px-2 py-0.5 text-xs font-medium">
+                  <span className="ml-1 bg-[#0F1A22] text-theme-secondary-full px-2 py-0.5 text-xs font-medium">
                     {section.modules || 0}
                   </span>
                 </button>
@@ -130,14 +130,14 @@ const ModuleBreakdown = () => {
           }}>
             {activeSectionData?.name || 'Section'}
           </h3>
-          <p className="text-gray-400">
+          <p className="text-theme-secondary">
             {getSectionDescription(activeSection) || 'Explore the content in this section.'}
           </p>
         </div>
         
         {/* Learning tracks */}
         <div className="mb-8 bg-[#0F1A22] p-4 rounded-lg border border-[#154D59]/30">
-          <h4 className="font-semibold mb-3 text-white">Learning Tracks</h4>
+          <h4 className="font-semibold mb-3 text-theme-on-primary">Learning Tracks</h4>
           <div className="flex flex-wrap gap-4">
             {(tracks || []).map((track, idx) => (
               <div key={idx} className="flex items-center gap-2">
@@ -145,7 +145,7 @@ const ModuleBreakdown = () => {
                   className="w-3 h-3 rounded-full"
                   style={{ backgroundColor: track.color || '#888' }}
                 ></div>
-                <span className="text-sm text-gray-300">{track.name || ''}</span>
+                <span className="text-sm text-theme-secondary">{track.name || ''}</span>
               </div>
             ))}
           </div>
@@ -160,20 +160,20 @@ const ModuleBreakdown = () => {
                 className="bg-[#0F1A22] p-5 rounded-lg border border-[#154D59]/30 hover:border-[#154D59] transition-all"
               >
                 <div className="flex justify-between items-start mb-3">
-                  <h3 className="font-semibold text-white text-lg">{module.title || 'Module'}</h3>
-                  <div className="flex items-center gap-1 text-sm bg-[#154D59]/50 text-white rounded-full px-2 py-1">
+                  <h3 className="font-semibold text-theme-on-primary">{module.title || 'Module'}</h3>
+                  <div className="flex items-center gap-1 text-sm bg-[#154D59]/50 text-theme-on-primary-full px-2 py-1">
                     <Clock size={14} />
                     <span>{module.duration || 0} min</span>
                   </div>
                 </div>
-                <p className="text-gray-400 text-sm mb-4">{module.subtitle || ''}</p>
+                <p className="text-theme-secondary-sm mb-4">{module.subtitle || ''}</p>
                 
                 {/* Module points/highlights */}
                 {module.points && module.points.length > 0 && (
                   <div className="mb-4">
                     <ul className="space-y-1">
                       {module.points.slice(0, 2).map((point: string, i: number) => (
-                        <li key={i} className="text-xs text-gray-400 flex items-start gap-2">
+                        <li key={i} className="text-xs text-theme-secondary-start gap-2">
                           <CheckCircle size={12} className="text-[#FEA35D] mt-0.5 shrink-0" />
                           <span>{point}</span>
                         </li>
@@ -188,7 +188,7 @@ const ModuleBreakdown = () => {
                     return (
                       <span 
                         key={i} 
-                        className="text-xs py-1 px-2 rounded-full text-white"
+                        className="text-xs py-1 px-2 rounded-full text-theme-on-primary"
                         style={{ backgroundColor: trackData?.color || '#888' }}
                       >
                         {track}
@@ -199,7 +199,7 @@ const ModuleBreakdown = () => {
                 
                 {/* Submodules count */}
                 {module.submodules && module.submodules.length > 0 && (
-                  <div className="mt-3 pt-3 border-t border-[#154D59]/30 text-xs text-gray-400">
+                  <div className="mt-3 pt-3 border-t border-[#154D59]/30 text-xs text-theme-secondary">
                     {module.submodules.length} lessons included
                   </div>
                 )}
@@ -223,7 +223,7 @@ const ModuleBreakdown = () => {
                 <span>Previous</span>
               </button>
               
-              <div className="text-gray-400 text-sm">
+              <div className="text-theme-secondary-sm">
                 Page {currentPage + 1} of {totalPages}
               </div>
               
@@ -246,7 +246,7 @@ const ModuleBreakdown = () => {
         {/* Preview notice */}
         <div className="bg-[#0F1A22] border border-[#FEA35D]/30 rounded-lg p-6 mb-8 text-center">
           <h3 className="text-[#FEA35D] text-xl font-bold mb-2">This is just a preview!</h3>
-          <p className="text-white/70">
+          <p className="text-theme-on-primary/70">
             The full Vertical Shortcut program contains over {totalModuleCount} modules across 10 categories, with new content added monthly.
           </p>
         </div>

@@ -8,11 +8,11 @@ const alertVariants = cva(
   {
     variants: {
       variant: {
-        default: "vs-gradient-light dark:vs-gradient-dark border-white/20 dark:border-white/5 text-[var(--theme-text-primary)] dark:text-white shadow-[--shadow-sm] dark:shadow-[0_0_10px_rgba(53,115,128,0.1)]",
+        default: "bg-theme-gradient border-theme-border/20 text-theme-primary shadow-theme-sm",
         destructive:
-          "vs-btn-destructive-gradient text-white [&>svg]:text-white *:data-[slot=alert-description]:text-white/80 shadow-[--shadow-sm] dark:shadow-[0_0_10px_rgba(222,107,89,0.15)]",
-        primary: "vs-btn-primary-gradient text-white [&>svg]:text-white *:data-[slot=alert-description]:text-white/80 shadow-[--shadow-sm] dark:shadow-[0_0_10px_rgba(254,163,93,0.15)]",
-        secondary: "vs-btn-secondary-gradient text-white [&>svg]:text-white *:data-[slot=alert-description]:text-white/80 shadow-[--shadow-sm] dark:shadow-[0_0_10px_rgba(53,115,128,0.15)]",
+          "bg-theme-gradient-destructive text-white [&>svg]:text-white *:data-[slot=alert-description]:text-white/80 shadow-theme-sm",
+        primary: "bg-theme-gradient-primary text-white [&>svg]:text-white *:data-[slot=alert-description]:text-white/80 shadow-theme-sm",
+        secondary: "bg-theme-gradient-secondary text-white [&>svg]:text-white *:data-[slot=alert-description]:text-white/80 shadow-theme-sm",
       },
     },
     defaultVariants: {
@@ -41,7 +41,7 @@ function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="alert-title"
       className={cn(
-        "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight text-[var(--theme-text-primary)] dark:text-white",
+        "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight text-theme-primary",
         className
       )}
       {...props}
@@ -57,7 +57,7 @@ function AlertDescription({
     <div
       data-slot="alert-description"
       className={cn(
-        "col-start-2 grid justify-items-start gap-1 text-sm text-[var(--theme-text-primary)]/70 dark:text-white/70 [&_p]:leading-relaxed",
+        "col-start-2 grid justify-items-start gap-1 text-sm text-theme-secondary [&_p]:leading-relaxed",
         className
       )}
       {...props}

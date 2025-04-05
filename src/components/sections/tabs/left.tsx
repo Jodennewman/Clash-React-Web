@@ -107,7 +107,7 @@ const AudienceVisual = ({
       <div className="relative z-10 w-full h-full flex flex-col">
         {/* Header */}
         <div className="text-center mb-6">
-          <h3 className="text-2xl font-bold text-white mb-2">
+          <h3 className="text-2xl font-bold text-theme-on-primary-2">
             {audience === "creators" && "Content Creator Track"}
             {audience === "business" && "Business Owner Track"}
             {audience === "agency" && "Agency/Marketer Track"}
@@ -122,24 +122,24 @@ const AudienceVisual = ({
         {/* Metrics visualization */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-8">
           {metrics.map((metric, index) => (
-            <div key={index} className="metric-item bg-white/5 backdrop-blur-sm p-4 rounded-lg border border-white/10">
+            <div key={index} className="metric-item bg-theme-bg-surface/5 backdrop-blur-sm p-4 rounded-lg border border-theme-border-light">
               <div className="flex items-center gap-3 mb-1">
                 <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: metric.color }}>
                   {metric.icon}
                 </div>
-                <h4 className="font-semibold text-white/80">{metric.label}</h4>
+                <h4 className="font-semibold text-theme-on-primary/80">{metric.label}</h4>
               </div>
               <div className="highlight-value text-3xl font-bold" style={{ color: metric.color }}>
                 {metric.value}
               </div>
-              <p className="text-white/60 text-sm mt-1">{metric.description}</p>
+              <p className="text-theme-on-primary/60 text-sm mt-1">{metric.description}</p>
             </div>
           ))}
         </div>
         
         {/* Pathway visualization */}
         <div className="flex flex-col gap-4 mt-auto">
-          <h4 className="text-lg font-semibold text-white">Sample Learning Path:</h4>
+          <h4 className="text-lg font-semibold text-theme-on-primary">Sample Learning Path:</h4>
           <div className="relative flex items-center mb-2">
             {/* Path line */}
             <div className="absolute top-1/2 left-4 right-4 h-0.5 bg-gradient-to-r from-[#FEA35D] to-[#DE6B59] transform -translate-y-1/2"></div>
@@ -150,21 +150,21 @@ const AudienceVisual = ({
                 <>
                   <div className="path-step flex flex-col items-center">
                     <div className="w-10 h-10 rounded-full bg-[#FEA35D] flex items-center justify-center mb-2">
-                      <Video className="w-5 h-5 text-white" />
+                      <Video className="w-5 h-5 text-theme-on-primary" />
                     </div>
-                    <span className="text-white/80 text-sm text-center">Hook Mastery</span>
+                    <span className="text-theme-on-primary/80 text-sm text-center">Hook Mastery</span>
                   </div>
                   <div className="path-step flex flex-col items-center">
                     <div className="w-10 h-10 rounded-full bg-[#B92234] flex items-center justify-center mb-2">
-                      <TrendingUp className="w-5 h-5 text-white" />
+                      <TrendingUp className="w-5 h-5 text-theme-on-primary" />
                     </div>
-                    <span className="text-white/80 text-sm text-center">Audience Growth</span>
+                    <span className="text-theme-on-primary/80 text-sm text-center">Audience Growth</span>
                   </div>
                   <div className="path-step flex flex-col items-center">
                     <div className="w-10 h-10 rounded-full bg-[#387292] flex items-center justify-center mb-2">
-                      <LineChart className="w-5 h-5 text-white" />
+                      <LineChart className="w-5 h-5 text-theme-on-primary" />
                     </div>
-                    <span className="text-white/80 text-sm text-center">Monetization</span>
+                    <span className="text-theme-on-primary/80 text-sm text-center">Monetization</span>
                   </div>
                 </>
               )}
@@ -173,21 +173,21 @@ const AudienceVisual = ({
                 <>
                   <div className="path-step flex flex-col items-center">
                     <div className="w-10 h-10 rounded-full bg-[#FEA35D] flex items-center justify-center mb-2">
-                      <BriefcaseBusiness className="w-5 h-5 text-white" />
+                      <BriefcaseBusiness className="w-5 h-5 text-theme-on-primary" />
                     </div>
-                    <span className="text-white/80 text-sm text-center">Authority Building</span>
+                    <span className="text-theme-on-primary/80 text-sm text-center">Authority Building</span>
                   </div>
                   <div className="path-step flex flex-col items-center">
                     <div className="w-10 h-10 rounded-full bg-[#B92234] flex items-center justify-center mb-2">
-                      <Clock className="w-5 h-5 text-white" />
+                      <Clock className="w-5 h-5 text-theme-on-primary" />
                     </div>
-                    <span className="text-white/80 text-sm text-center">Time Optimization</span>
+                    <span className="text-theme-on-primary/80 text-sm text-center">Time Optimization</span>
                   </div>
                   <div className="path-step flex flex-col items-center">
                     <div className="w-10 h-10 rounded-full bg-[#387292] flex items-center justify-center mb-2">
-                      <ArrowRightLeft className="w-5 h-5 text-white" />
+                      <ArrowRightLeft className="w-5 h-5 text-theme-on-primary" />
                     </div>
-                    <span className="text-white/80 text-sm text-center">Lead Generation</span>
+                    <span className="text-theme-on-primary/80 text-sm text-center">Lead Generation</span>
                   </div>
                 </>
               )}
@@ -196,21 +196,21 @@ const AudienceVisual = ({
                 <>
                   <div className="path-step flex flex-col items-center">
                     <div className="w-10 h-10 rounded-full bg-[#FEA35D] flex items-center justify-center mb-2">
-                      <Users className="w-5 h-5 text-white" />
+                      <Users className="w-5 h-5 text-theme-on-primary" />
                     </div>
-                    <span className="text-white/80 text-sm text-center">Client Acquisition</span>
+                    <span className="text-theme-on-primary/80 text-sm text-center">Client Acquisition</span>
                   </div>
                   <div className="path-step flex flex-col items-center">
                     <div className="w-10 h-10 rounded-full bg-[#B92234] flex items-center justify-center mb-2">
-                      <Rocket className="w-5 h-5 text-white" />
+                      <Rocket className="w-5 h-5 text-theme-on-primary" />
                     </div>
-                    <span className="text-white/80 text-sm text-center">Content Scaling</span>
+                    <span className="text-theme-on-primary/80 text-sm text-center">Content Scaling</span>
                   </div>
                   <div className="path-step flex flex-col items-center">
                     <div className="w-10 h-10 rounded-full bg-[#387292] flex items-center justify-center mb-2">
-                      <BarChart3 className="w-5 h-5 text-white" />
+                      <BarChart3 className="w-5 h-5 text-theme-on-primary" />
                     </div>
-                    <span className="text-white/80 text-sm text-center">ROI Reporting</span>
+                    <span className="text-theme-on-primary/80 text-sm text-center">ROI Reporting</span>
                   </div>
                 </>
               )}
@@ -232,21 +232,21 @@ export default function TabsLeft() {
       label: "Followers", 
       value: "10K+", 
       description: "Average growth in 90 days",
-      icon: <Users className="w-4 h-4 text-white" />,
+      icon: <Users className="w-4 h-4 text-theme-on-primary" />,
       color: "#FEA35D" 
     },
     { 
       label: "Engagement", 
       value: "300%", 
       description: "Increase in first 30 days", 
-      icon: <TrendingUp className="w-4 h-4 text-white" />,
+      icon: <TrendingUp className="w-4 h-4 text-theme-on-primary" />,
       color: "#B92234" 
     },
     { 
       label: "Revenue", 
       value: "£5K+", 
       description: "Monthly after implementation", 
-      icon: <LineChart className="w-4 h-4 text-white" />,
+      icon: <LineChart className="w-4 h-4 text-theme-on-primary" />,
       color: "#387292" 
     }
   ];
@@ -256,21 +256,21 @@ export default function TabsLeft() {
       label: "Time Saved", 
       value: "85%", 
       description: "Less time creating content", 
-      icon: <Clock className="w-4 h-4 text-white" />,
+      icon: <Clock className="w-4 h-4 text-theme-on-primary" />,
       color: "#FEA35D" 
     },
     { 
       label: "Leads", 
       value: "3.5X", 
       description: "More leads per month", 
-      icon: <Users className="w-4 h-4 text-white" />,
+      icon: <Users className="w-4 h-4 text-theme-on-primary" />,
       color: "#B92234" 
     },
     { 
       label: "Sales", 
       value: "42%", 
       description: "Increase in conversion rate", 
-      icon: <BarChart3 className="w-4 h-4 text-white" />,
+      icon: <BarChart3 className="w-4 h-4 text-theme-on-primary" />,
       color: "#387292" 
     }
   ];
@@ -280,21 +280,21 @@ export default function TabsLeft() {
       label: "Client Results", 
       value: "4.8X", 
       description: "Better than industry average", 
-      icon: <TrendingUp className="w-4 h-4 text-white" />,
+      icon: <TrendingUp className="w-4 h-4 text-theme-on-primary" />,
       color: "#FEA35D" 
     },
     { 
       label: "Pricing", 
       value: "75%", 
       description: "Higher rates for services", 
-      icon: <LineChart className="w-4 h-4 text-white" />,
+      icon: <LineChart className="w-4 h-4 text-theme-on-primary" />,
       color: "#B92234" 
     },
     { 
       label: "Retention", 
       value: "92%", 
       description: "Client retention rate", 
-      icon: <Users className="w-4 h-4 text-white" />,
+      icon: <Users className="w-4 h-4 text-theme-on-primary" />,
       color: "#387292" 
     }
   ];
@@ -318,13 +318,13 @@ export default function TabsLeft() {
     <Section className="py-24 bg-[#09232F] border-t border-[#154D59]/30">
       <div className="container mx-auto px-4 flex flex-col gap-8 sm:gap-16">
         <div className="flex flex-col items-center gap-4 text-center sm:gap-8">
-          <Badge variant="outline" className="bg-white/5 text-[#FEA35D] border-[#FEA35D]/30 mb-2 py-2 px-4">
+          <Badge variant="outline" className="bg-theme-bg-surface/5 text-[#FEA35D] border-[#FEA35D]/30 mb-2 py-2 px-4">
             Tailored Learning
           </Badge>
-          <h2 className="text-center text-4xl md:text-5xl font-bold text-white max-w-[800px]">
+          <h2 className="text-center text-4xl md:text-5xl font-bold text-theme-on-primary-w-[800px]">
             <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">One System, Three Paths to Mastery</span>
           </h2>
-          <p className="text-xl text-white/70 max-w-[720px] text-center">
+          <p className="text-xl text-theme-on-primary/70 max-w-[720px] text-center">
             Whether you're a creator, business owner, or agency marketer, Vertical Shortcut delivers specialized training for your specific goals and challenges.
           </p>
         </div>
@@ -341,13 +341,13 @@ export default function TabsLeft() {
                 className="flex w-full flex-row gap-2 p-3 bg-[#08141B]/80 data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#FEA35D]/20 data-[state=active]:to-[#09232F]/40"
               >
                 <div className="p-1 bg-[#FEA35D] rounded-full">
-                  <Video className="size-4 shrink-0 stroke-1 md:h-5 md:w-5 text-white" />
+                  <Video className="size-4 shrink-0 stroke-1 md:h-5 md:w-5 text-theme-on-primary" />
                 </div>
                 <div className="flex flex-col gap-1 text-left">
-                  <h3 className="font-semibold md:text-lg text-white">
+                  <h3 className="font-semibold md:text-lg text-theme-on-primary">
                     Content Creators
                   </h3>
-                  <p className="text-white/70 text-xs md:text-sm">
+                  <p className="text-theme-on-primary/70 text-xs md:text-sm">
                     Rapidly grow your audience and monetize with authentic content that converts.
                   </p>
                 </div>
@@ -358,11 +358,11 @@ export default function TabsLeft() {
                 className="flex flex-row gap-2 p-3 bg-[#08141B]/80 data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#FEA35D]/20 data-[state=active]:to-[#09232F]/40"
               >
                 <div className="p-1 bg-[#B92234] rounded-full">
-                  <BriefcaseBusiness className="size-4 shrink-0 stroke-1 md:h-5 md:w-5 text-white" />
+                  <BriefcaseBusiness className="size-4 shrink-0 stroke-1 md:h-5 md:w-5 text-theme-on-primary" />
                 </div>
                 <div className="flex flex-col gap-1 text-left">
-                  <h3 className="font-semibold md:text-lg text-white">Business Owners</h3>
-                  <p className="text-white/70 text-xs md:text-sm">
+                  <h3 className="font-semibold md:text-lg text-theme-on-primary">Business Owners</h3>
+                  <p className="text-theme-on-primary/70 text-xs md:text-sm">
                     Drive leads and sales with minimal time investment - the ultimate founder's solution.
                   </p>
                 </div>
@@ -373,11 +373,11 @@ export default function TabsLeft() {
                 className="flex flex-row gap-2 p-3 bg-[#08141B]/80 data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#FEA35D]/20 data-[state=active]:to-[#09232F]/40"
               >
                 <div className="p-1 bg-[#387292] rounded-full">
-                  <Users className="size-4 shrink-0 stroke-1 md:h-5 md:w-5 text-white" />
+                  <Users className="size-4 shrink-0 stroke-1 md:h-5 md:w-5 text-theme-on-primary" />
                 </div>
                 <div className="flex flex-col gap-1 text-left">
-                  <h3 className="font-semibold md:text-lg text-white">Agencies & Marketers</h3>
-                  <p className="text-white/70 text-xs md:text-sm">
+                  <h3 className="font-semibold md:text-lg text-theme-on-primary">Agencies & Marketers</h3>
+                  <p className="text-theme-on-primary/70 text-xs md:text-sm">
                     Scale client results, charge premium rates, and build systems that deliver consistently.
                   </p>
                 </div>

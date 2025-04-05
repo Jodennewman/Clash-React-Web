@@ -59,16 +59,18 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
     return (
       <section 
         ref={ref} 
-        className="bg-[var(--theme-bg-primary)] relative h-screen w-full shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] dark:bg-[var(--theme-bg-secondary)]"
+        className="bg-theme-primary relative h-screen w-full shadow-theme-md"
       >
         <IsometricGridBackground />
-        {/* Floating background elements for visual interest */}
-        <div className="absolute top-40 left-[15%] w-28 h-28 rounded-[40%] rotate-12 opacity-10 bg-[var(--theme-primary)] animate-float-slow md:block"></div>
-        <div className="absolute bottom-40 right-[10%] w-36 h-36 rounded-[30%] -rotate-6 opacity-5 bg-[var(--theme-primary-hover)] animate-float-medium md:block"></div>
-        
-        {/* Dark mode floating elements */}
-        <div className="absolute top-10 left-[43%] w-28 h-28 rounded-[40%] rotate-8 opacity-25 vs-float-orange animate-float-slow hidden dark:block"></div>
-        <div className="absolute bottom-3 right-[24%] w-36 h-36 rounded-[30%] -rotate-6 opacity-12 vs-float-teal animate-float-medium hidden dark:block"></div>
+        {/* Theme-aware floating elements for visual interest */}
+        <div className="absolute top-40 left-[15%] w-28 h-28 rounded-[40%] rotate-12
+                       opacity-[var(--theme-float-opacity)]
+                       bg-[var(--theme-float-bg-primary)]
+                       animate-float-slow md:block"></div>
+        <div className="absolute bottom-40 right-[10%] w-36 h-36 rounded-[30%] -rotate-6
+                       opacity-[var(--theme-float-opacity-secondary)]
+                       bg-[var(--theme-float-bg-secondary)]
+                       animate-float-medium md:block"></div>
         {/* Grid Layout */}
         <div 
           ref={heroRef}
@@ -81,9 +83,9 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
           }}
         >
           {/* Color blocks positioned in grid */}
-          <div style={{ gridColumn: '5 / 6', gridRow: '1 / 3' }} className="w-full h-full bg-[var(--theme-accent-secondary)]  z-10" /> {/* Teal block */}
-          <div style={{ gridColumn: '6 / 8', gridRow: '1 / 4' }} className="w-full h-full bg-[var(--theme-primary)]  z-10" /> {/* Orange block */}
-          <div style={{ gridColumn: '8 / 10', gridRow: '1 / 5' }} className="w-full h-full bg-[var(--theme-accent-tertiary)]  z-10" /> {/* Red block */}
+          <div style={{ gridColumn: '5 / 6', gridRow: '1 / 3' }} className="w-full h-full bg-theme-accent-secondary z-10" /> {/* Teal block */}
+          <div style={{ gridColumn: '6 / 8', gridRow: '1 / 4' }} className="w-full h-full bg-theme-primary z-10" /> {/* Orange block */}
+          <div style={{ gridColumn: '8 / 10', gridRow: '1 / 5' }} className="w-full h-full bg-[var(--theme-accent-tertiary)] z-10" /> {/* Red block */}
           
           {/* Animated VS Logo */}
           <div style={{ gridColumn: '2 / 5', gridRow: '3 / 9' }} className="flex items-center justify-center z-20">
@@ -111,7 +113,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                 cy="347.484"
                 r="231.656"
                 transform="rotate(-90 331.484 347.484)"
-                fill="white"
+                fill="var(--theme-eyeball-outer)"
               />
               <ellipse
                 cx="387.704"
@@ -119,24 +121,24 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                 rx="143.553"
                 ry="143.168"
                 transform="rotate(-90 387.704 307.815)"
-                fill="#5F949F"
+                fill="var(--theme-eyeball-iris)"
               />
               <path
                 d="M324.537 240.611C337.361 218.609 357.976 202.262 382.267 194.834C406.558 187.406 432.737 189.444 455.577 200.541C478.417 211.637 496.239 230.976 505.483 254.697C514.727 278.417 514.714 304.773 505.446 328.503C496.178 352.233 478.337 371.59 455.485 382.711C432.634 393.832 406.453 395.897 382.169 388.495C357.886 381.092 337.287 364.767 324.486 342.778C311.684 320.789 307.622 294.755 313.109 269.872L411.566 291.649L324.537 240.611Z"
-                fill="#122E3B"
+                fill="var(--theme-eyeball-pupil)"
               />
             </svg>
           </div>
 
           {/* VS Logo Header - Now hidden as we have the animated logo */}
           <header style={{ gridColumn: '2 / 3', gridRow: '2 / 3' }} className="flex items-center">
-            <div className="text-5xl text-[var(--theme-text-primary)] dark:text-white max-sm:text-4xl opacity-0">VS</div>
+            <div className="text-5xl text-theme-primary max-sm:text-4xl opacity-0">VS</div>
           </header>
 
           {/* HeroHeadline */}
           <div style={{ gridColumn: '5 / 8', gridRow: '4 / 6' }} className="flex items-center z-20">
-            <h1 className={`hero-content z-20 mb-6 lg:mb-10 text-5xl lg:text-7xl leading-tight text-[var(--theme-text-primary)] dark:text-white max-md:text-4xl max-sm:text-3xl `}>
-              <span className="text-6xl z-20 lg:text-8xl text-[var(--theme-accent-tertiary)]  max-md:text-5xl max-sm:text-4xl font-bold ">
+            <h1 className="hero-content z-20 mb-6 lg:mb-10 text-5xl lg:text-7xl leading-tight text-theme-primary max-md:text-4xl max-sm:text-3xl">
+              <span className="text-6xl z-20 lg:text-8xl text-theme-accent-tertiary max-md:text-5xl max-sm:text-4xl font-bold transition-colors duration-[var(--theme-transition-normal)]">
                 Over 1 billion
               </span>
               <span> views,</span>
@@ -148,9 +150,9 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
 
           {/* HeroSubheading */}
           <div style={{ gridColumn: '5 / 9', gridRow: '6' }} className="z-10">
-            <p className={`hero-content text-4xl lg:text-4xl max-md:text-xl max-sm:text-lg mb-6 lg:mb-10 text-[var(--theme-text-primary)] dark:text-white `}>
+            <p className="hero-content text-4xl lg:text-4xl max-md:text-xl max-sm:text-lg mb-6 lg:mb-10 text-theme-primary">
               <span>A </span>
-              <span className="text-[var(--theme-accent-quaternary)]  font-bold">proven, turn-key system </span>
+              <span className="text-theme-accent-quaternary font-bold">proven, turn-key system </span>
               <span className="inline md:hidden">for short form content.</span>
               <span className="hidden md:inline">to survive, thrive, and </span>
               <span className="hidden md:inline">monetise </span>

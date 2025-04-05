@@ -43,35 +43,34 @@ export function VSButton({
     ${sizeClasses[size]}
   `;
   
-  // Variant-specific classes with proper dark mode support
+  // Variant-specific classes with theme-aware styling
   const variantClasses = {
     primary: `
-      bg-[var(--theme-primary)] dark:bg-gradient-to-r dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)]
+      bg-theme-gradient-primary
       text-white
-      shadow-[--shadow-btn] dark:shadow-[0_0_15px_rgba(254,163,93,0.15)]
-      hover:bg-[var(--theme-primary-hover)] dark:hover:shadow-[0_0_20px_rgba(254,163,93,0.25)]
+      shadow-theme-btn
+      hover:shadow-theme-md
     `,
     secondary: `
-      bg-[var(--theme-accent-secondary)] dark:bg-gradient-to-r dark:from-[var(--theme-accent-secondary)] dark:to-[var(--theme-accent-secondary-hover)]
+      bg-theme-gradient-secondary
       text-white
-      shadow-[--shadow-btn] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
-      hover:bg-[var(--theme-accent-secondary-hover)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.25)]
+      shadow-theme-btn
+      hover:shadow-theme-md
     `,
     outline: `
       bg-transparent
-      border-2 border-[var(--theme-accent-secondary)] dark:border-white/20
-      hover:bg-[var(--theme-accent-secondary)]/5 dark:hover:bg-white/5
+      border-2 border-theme-border
+      hover:bg-theme-secondary/10
     `,
     ghost: `
       bg-transparent
-      hover:bg-black/5 dark:hover:bg-white/5
+      hover:bg-theme-secondary/10
     `,
     vibrant: `
-      vs-btn-vibrant-gradient
-      dark:bg-gradient-to-r dark:from-[var(--theme-accent-tertiary)] dark:to-[var(--theme-primary)]
+      bg-theme-gradient-accent
       text-white
-      shadow-[--shadow-btn] dark:shadow-[0_0_15px_rgba(222,107,89,0.15)]
-      hover:shadow-lg dark:hover:shadow-[0_0_20px_rgba(222,107,89,0.25)]
+      shadow-theme-btn
+      hover:shadow-theme-md
     `
   };
   
@@ -91,9 +90,9 @@ export function VSButton({
   const getTextColorClass = () => {
     switch (variant) {
       case 'outline':
-        return 'text-[var(--theme-accent-secondary)] dark:text-white';
+        return 'text-theme-accent-secondary';
       case 'ghost':
-        return 'text-[var(--theme-text-primary)] dark:text-white';
+        return 'text-theme-primary';
       default:
         return ''; // No text color class needed for variants with text-white
     }

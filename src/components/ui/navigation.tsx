@@ -64,14 +64,14 @@ export default function Navigation() {
               <li className="row-span-3">
                 <NavigationMenuLink asChild>
                   <a
-                    className="from-muted/30 to-muted/10 flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-6 no-underline outline-hidden select-none focus:shadow-md"
+                    className="flex h-full w-full flex-col justify-end rounded-md bg-theme-gradient p-6 no-underline outline-hidden select-none focus:shadow-theme-md transition-all duration-[var(--theme-transition-normal)]"
                     href="/"
                   >
                     <LaunchUI />
                     <div className="mt-4 mb-2 text-lg font-medium">
                       Launch UI
                     </div>
-                    <p className="text-muted-foreground text-sm leading-tight">
+                    <p className="text-theme-secondary/70 text-sm leading-tight transition-colors duration-[var(--theme-transition-normal)]">
                       Landing page template built with React, Shadcn/ui and
                       Tailwind that you can copy/paste into your project.
                     </p>
@@ -130,13 +130,13 @@ function ListItem({
         <a
           data-slot="list-item"
           className={cn(
-            "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground block space-y-1 rounded-md p-3 leading-none no-underline outline-hidden transition-colors select-none",
+            "hover:bg-theme-accent/10 hover:text-theme-accent focus:bg-theme-accent/10 focus:text-theme-accent block space-y-1 rounded-md p-3 leading-none no-underline outline-hidden transition-all duration-[var(--theme-transition-normal)] select-none",
             className,
           )}
           {...props}
         >
-          <div className="text-sm leading-none font-medium">{title}</div>
-          <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
+          <div className="text-sm leading-none font-medium text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">{title}</div>
+          <p className="text-theme-secondary/70 line-clamp-2 text-sm leading-snug transition-colors duration-[var(--theme-transition-normal)]">
             {children}
           </p>
         </a>

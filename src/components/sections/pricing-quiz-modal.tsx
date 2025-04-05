@@ -82,10 +82,9 @@ export const PricingQuizModal = ({ onComplete }: PricingQuizProps) => {
         </Button>
       </DialogTrigger>
       <DialogContent className="vs-btn-primary-gradient/80 
-                          dark:bg-gradient-to-br dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]/80 
-                          border border-white/10 dark:border-white/10 
-                          shadow-[2px_2px_8px_rgba(0,0,0,0.1)] 
-                          dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] 
+                          bg-theme-gradient dark:from-[var(--theme-bg-primary)]/80 
+                          border border-white/10 dark:border-theme-border-light-[2px_2px_8px_rgba(0,0,0,0.1)] 
+                          shadow-theme- 
                           w-full max-w-md relative overflow-hidden">
         {/* Floating elements for visual interest */}
         <div className="absolute -z-10 top-10 right-10 w-16 h-16 rounded-[40%] rotate-12 opacity-5 

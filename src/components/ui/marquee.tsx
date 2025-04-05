@@ -24,7 +24,7 @@ export default function Marquee({
       {...props}
       data-slot="marquee"
       className={cn(
-        "group flex [gap:var(--gap)] overflow-hidden p-2 [--duration:40s] [--gap:1rem]",
+        "group flex [gap:var(--gap)] overflow-hidden p-2 [--duration:var(--theme-anim-duration-marquee,40s)] [--gap:1rem] bg-theme-bg-light/20 backdrop-blur-sm",
         {
           "flex-row": !vertical,
           "flex-col": vertical,

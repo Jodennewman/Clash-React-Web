@@ -60,7 +60,13 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
       <div className="flex flex-col md:flex-row gap-6">
         {/* Left panel - Video player area */}
         <div className="w-full md:w-2/3">
-          <div className="aspect-video relative rounded-[--border-radius-lg] overflow-hidden shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]">
+          <div className="aspect-video relative rounded-lg overflow-hidden shadow-theme-md transition-all duration-[var(--theme-transition-normal)]">
+            {/* Theme-aware floating element for visual interest */}
+            <div className="absolute -z-10 top-10 right-10 w-20 h-20 rounded-[40%] rotate-12 
+                          opacity-[var(--theme-float-opacity)]
+                          bg-[var(--theme-float-bg-primary)]
+                          animate-float-slow"></div>
+            
             {/* Video thumbnail/player */}
             <img
               src={thumbnailUrl}
@@ -69,14 +75,14 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
             />
             
             {/* Play button overlay */}
-            <div className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors cursor-pointer group">
-              <div className="bg-white dark:bg-[var(--theme-primary)] rounded-full w-16 h-16 flex items-center justify-center shadow-md transform transition-transform group-hover:scale-110">
-                <Play className="h-8 w-8 text-[var(--theme-primary)] dark:text-white fill-current ml-1" />
+            <div className="absolute inset-0 flex items-center justify-center bg-theme-bg-secondary/20 hover:bg-theme-bg-secondary/30 transition-colors cursor-pointer group">
+              <div className="bg-theme-surface rounded-full w-16 h-16 flex items-center justify-center shadow-theme-sm transform transition-transform group-hover:scale-110">
+                <Play className="h-8 w-8 text-theme-primary fill-current ml-1" />
               </div>
             </div>
             
             {/* Title overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent text-white">
+            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent text-theme-on-primary">
               <h3 className="text-lg md:text-xl font-semibold">
                 {selectedSubmoduleId
                   ? submodules.find(s => s.id === selectedSubmoduleId)?.title
@@ -87,36 +93,36 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
           
           {/* Module description */}
           <div className="mt-6">
-            <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-semibold mb-3">About This Module</h3>
-            <p className="text-[var(--theme-text-primary)]/80 dark:text-white/70">
+            <h3 className="text-theme-primary text-xl font-semibold mb-3 transition-colors duration-[var(--theme-transition-normal)]">About This Module</h3>
+            <p className="text-theme-secondary transition-colors duration-[var(--theme-transition-normal)]">
               This module covers essential techniques to create engaging content for your audience. You'll learn proven methods to increase retention and gain more followers through strategic content planning.
             </p>
             
             <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-4">
               {/* Module stats */}
-              <div className="bg-theme-custom/50 /5 rounded-[--border-radius-md] p-4 flex flex-col items-center text-center">
-                <div className="text-[var(--theme-primary)]  text-2xl font-bold mb-1">
+              <div className="bg-theme-surface/50 rounded-md p-4 flex flex-col items-center text-center border border-theme-border shadow-theme-sm transition-all duration-[var(--theme-transition-normal)]">
+                <div className="text-theme-primary text-2xl font-bold mb-1 transition-colors duration-[var(--theme-transition-normal)]">
                   {submodules.length}
                 </div>
-                <div className="text-[var(--theme-text-primary)]/70 dark:text-white/60 text-sm">
+                <div className="text-theme-secondary text-sm transition-colors duration-[var(--theme-transition-normal)]">
                   Lessons
                 </div>
               </div>
               
-              <div className="bg-theme-custom/50 /5 rounded-[--border-radius-md] p-4 flex flex-col items-center text-center">
-                <div className="text-[var(--theme-primary)]  text-2xl font-bold mb-1">
+              <div className="bg-theme-surface/50 rounded-md p-4 flex flex-col items-center text-center border border-theme-border shadow-theme-sm transition-all duration-[var(--theme-transition-normal)]">
+                <div className="text-theme-primary text-2xl font-bold mb-1 transition-colors duration-[var(--theme-transition-normal)]">
                   {submodules.filter(s => s.isCompleted).length} / {submodules.length}
                 </div>
-                <div className="text-[var(--theme-text-primary)]/70 dark:text-white/60 text-sm">
+                <div className="text-theme-secondary text-sm transition-colors duration-[var(--theme-transition-normal)]">
                   Completed
                 </div>
               </div>
               
-              <div className="bg-theme-custom/50 /5 rounded-[--border-radius-md] p-4 flex flex-col items-center text-center">
-                <div className="text-[var(--theme-primary)]  text-2xl font-bold mb-1">
+              <div className="bg-theme-surface/50 rounded-md p-4 flex flex-col items-center text-center border border-theme-border shadow-theme-sm transition-all duration-[var(--theme-transition-normal)]">
+                <div className="text-theme-primary text-2xl font-bold mb-1 transition-colors duration-[var(--theme-transition-normal)]">
                   1h 24m
                 </div>
-                <div className="text-[var(--theme-text-primary)]/70 dark:text-white/60 text-sm">
+                <div className="text-theme-secondary text-sm transition-colors duration-[var(--theme-transition-normal)]">
                   Total Duration
                 </div>
               </div>
@@ -126,41 +132,41 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
         
         {/* Right panel - Submodule list */}
         <div className="w-full md:w-1/3">
-          <div className="bg-white/50 dark:bg-[var(--theme-bg-primary)]/50 rounded-[--border-radius-lg] overflow-hidden border border-[var(--theme-bg-secondary)]/30 dark:border-white/5">
-            <div className="p-4 border-b border-[var(--theme-bg-secondary)]/30 dark:border-white/5">
-              <h3 className="text-[var(--theme-text-primary)] dark:text-white font-semibold">Module Content</h3>
+          <div className="bg-theme-surface/80 rounded-lg overflow-hidden border border-theme-border shadow-theme-sm transition-all duration-[var(--theme-transition-normal)]">
+            <div className="p-4 border-b border-theme-border transition-colors duration-[var(--theme-transition-normal)]">
+              <h3 className="text-theme-primary font-semibold transition-colors duration-[var(--theme-transition-normal)]">Module Content</h3>
             </div>
             
             <div className="max-h-[500px] overflow-y-auto">
-              <ul className="divide-y divide-[--bg-cream-darker]/30 dark:divide-white/5">
+              <ul className="divide-y divide-theme-border/50 transition-colors duration-[var(--theme-transition-normal)]">
                 {submodules.map((submodule, index) => (
                   <li
                     key={submodule.id}
-                    className={`p-4 flex items-center hover:bg-[var(--theme-bg-primary)]/30 dark:hover:bg-white/5 cursor-pointer transition-colors ${selectedSubmoduleId === submodule.id ? 'bg-[var(--theme-bg-primary)]/50 dark:bg-white/10' : ''}`}
+                    className={`p-4 flex items-center hover:bg-theme-accent/5 cursor-pointer transition-all duration-[var(--theme-transition-normal)] ${selectedSubmoduleId === submodule.id ? 'bg-theme-accent/10' : ''}`}
                     onClick={() => handlePlayModule(submodule.id)}
                   >
-                    <div className="flex-shrink-0 mr-3 text-[var(--theme-primary)] ">
+                    <div className="flex-shrink-0 mr-3 text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">
                       {submodule.isLocked ? (
                         <Lock className="h-5 w-5" />
                       ) : submodule.isCompleted ? (
                         <CheckCircle className="h-5 w-5" />
                       ) : (
-                        <div className="w-5 h-5 rounded-full border-2 border-[var(--theme-primary)]  flex items-center justify-center">
+                        <div className="w-5 h-5 rounded-full border-2 border-theme-primary flex items-center justify-center transition-colors duration-[var(--theme-transition-normal)]">
                           <span className="text-xs font-semibold">{index + 1}</span>
                         </div>
                       )}
                     </div>
                     
                     <div className="flex-grow">
-                      <h4 className={`text-sm font-medium ${submodule.isLocked ? 'text-[var(--theme-text-primary)]/50 dark:text-white/40' : 'text-[var(--theme-text-primary)] dark:text-white'}`}>
+                      <h4 className={`text-sm font-medium transition-colors duration-[var(--theme-transition-normal)] ${submodule.isLocked ? 'text-theme-primary/50' : 'text-theme-primary'}`}>
                         {submodule.title}
                       </h4>
                       <div className="flex items-center mt-1">
-                        <span className={`text-xs ${submodule.isLocked ? 'text-[var(--theme-text-primary)]/40 dark:text-white/30' : 'text-[var(--theme-text-primary)]/60 dark:text-white/50'}`}>
+                        <span className={`text-xs transition-colors duration-[var(--theme-transition-normal)] ${submodule.isLocked ? 'text-theme-secondary/50' : 'text-theme-secondary'}`}>
                           {submodule.duration}
                         </span>
                         {submodule.isLocked && (
-                          <span className="ml-2 text-xs px-2 py-0.5 bg-[var(--theme-bg-secondary)]/30 dark:bg-white/10 rounded-full text-[var(--theme-text-primary)]/60 dark:text-white/60">
+                          <span className="ml-2 text-xs px-2 py-0.5 bg-theme-accent/10 rounded-full text-theme-secondary transition-colors duration-[var(--theme-transition-normal)]">
                             Premium
                           </span>
                         )}
@@ -175,15 +181,12 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
           {/* Actions */}
           <div className="mt-6 flex flex-col gap-3">
             <button
-              className="vs-btn-primary-gradient
-                       dark:bg-gradient-to-r dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)]
-                       text-white px-4 py-2 rounded-[--border-radius-md] 
-                       shadow-[1px_1px_4px_rgba(0,0,0,0.1)]
-                       dark:shadow-[0_0_8px_rgba(254,163,93,0.2)]
-                       transition-all duration-[--transition-bounce]
-                       hover:translate-y-[-3px] hover:scale-[1.03] 
-                       hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)]
-                       dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]
+              className="bg-theme-gradient-primary
+                       text-theme-on-primary-4 py-2 rounded-md 
+                       shadow-theme-btn
+                       transition-all duration-[var(--theme-transition-bounce)]
+                       hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] 
+                       hover:shadow-theme-md
                        w-full flex items-center justify-center gap-2"
             >
               <Play className="h-4 w-4" />
@@ -191,12 +194,11 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
             </button>
             
             <button
-              className="border border-[var(--theme-accent-secondary)] text-[var(--theme-accent-secondary)]
-                       dark:border-white/20 dark:text-white
-                       px-4 py-2 rounded-[--border-radius-md] 
-                       hover:bg-[var(--theme-accent-secondary)]/5 dark:hover:bg-white/5
-                       transition-all duration-[--transition-bounce]
-                       hover:translate-y-[-2px] hover:scale-[1.02] 
+              className="border border-theme-accent-secondary text-theme-accent-secondary
+                       px-4 py-2 rounded-md 
+                       hover:bg-theme-accent-secondary/5
+                       transition-all duration-[var(--theme-transition-bounce)]
+                       hover:translate-y-[var(--theme-anim-distance-sm)] hover:scale-[var(--theme-anim-scale-sm)] 
                        w-full"
             >
               View Resources

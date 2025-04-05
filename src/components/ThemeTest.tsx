@@ -29,7 +29,7 @@ export function ThemeTest() {
   }, []);
 
   return (
-    <div className="fixed top-20 right-4 z-50 p-4 w-80 bg-theme-custom/90 /90 border border-gray-200 dark:border-gray-800 rounded-lg shadow-lg">
+    <div className="fixed top-20 right-4 z-50 p-4 w-80 bg-theme-custom/90 /90 border border-theme-border shadow-lg">
       <h3 className="text-lg font-bold mb-2 text-theme-custom ">Theme Debug</h3>
       <div className="space-y-2 text-xs">
         <p className="text-theme-custom ">
@@ -51,8 +51,8 @@ export function ThemeTest() {
           <span className="font-bold">--text-navy value:</span> {cssVarText}
         </p>
         <div className="mt-2">
-          <div className="h-4 w-full bg-[var(--theme-bg-primary)] border border-gray-300" title="--bg-cream"></div>
-          <div className="h-4 w-full bg-[var(--theme-text-primary)] mt-1 border border-gray-300" title="--text-navy"></div>
+          <div className="h-4 w-full bg-[var(--theme-bg-primary)] border border-theme-border" title="--bg-cream"></div>
+          <div className="h-4 w-full bg-[var(--theme-text-primary)] mt-1 border border-theme-border" title="--text-navy"></div>
         </div>
       </div>
     </div>
