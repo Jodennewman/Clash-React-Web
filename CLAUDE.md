@@ -570,9 +570,9 @@ When working on a component:
    - Verified hover states and animations in VSExampleComponent.tsx
 
 Next components to update:
-- footer.tsx
-- image.tsx
-- item.tsx
+- mockup.tsx
+- mode-toggle.tsx
+- navbar.tsx
 
 Completed components:
 - VSExampleComponent.tsx - Fully theme-aware (5/4/2025)
@@ -614,11 +614,11 @@ Completed components:
 - [x] label.tsx - Updated with theme-aware text colors and transitions (5/4/2025)
 - [x] lead-capture-form.tsx - Updated with theme-aware backgrounds, borders and error states (5/4/2025)
 - [x] link.tsx - Added theme-aware variants with transition variables (5/4/2025)
-- [ ] footer.tsx
-- [ ] image.tsx
-- [ ] item.tsx
-- [ ] logo.tsx
-- [ ] marquee.tsx
+- [x] footer.tsx - Updated with theme-aware background and text colors (5/4/2025)
+- [x] image.tsx - Added transition properties for smoother theme changes (5/4/2025)
+- [x] item.tsx - Updated with theme-aware text colors and transitions (5/4/2025)
+- [x] logo.tsx - Updated with theme-aware text colors and transitions (5/4/2025)
+- [x] marquee.tsx - Updated with theme-aware background and animation duration (5/4/2025)
 - [ ] mockup.tsx
 - [ ] mode-toggle.tsx
 - [ ] navbar.tsx

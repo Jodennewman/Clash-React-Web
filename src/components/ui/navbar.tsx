@@ -5,7 +5,7 @@ function Navbar({ className, ...props }: React.ComponentProps<"nav">) {
   return (
     <nav
       data-slot="navbar"
-      className={cn("flex items-center justify-between py-4 text-[var(--theme-text-primary)] dark:text-white", className)}
+      className={cn("flex items-center justify-between py-4 text-theme-primary transition-colors duration-[var(--theme-transition-normal)]", className)}
       {...props}
     />
   );
