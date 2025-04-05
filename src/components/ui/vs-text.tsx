@@ -65,6 +65,9 @@ export function VSHeading({
   // Choose the element type based on the variant
   const Component = variant;
   
+  // Filter out non-DOM props
+  const { fromColor, toColor, darkFromColor, darkToColor, gradientType, ...domProps } = props;
+  
   return (
     <Component
       className={`text-${color} font-bold ${className}`}
@@ -85,9 +88,17 @@ export function VSGradientText({
   gradientType = 'primary',
   as,
   style = {},
-  ...props
+  fromColor,
+  toColor,
+  darkFromColor,
+  darkToColor,
+  ...domProps
 }: VSTextProps & {
   gradientType?: 'primary' | 'secondary' | 'accent';
+  fromColor?: string;
+  toColor?: string;
+  darkFromColor?: string;
+  darkToColor?: string;
 }) {
   const Component = as || variant;
   
