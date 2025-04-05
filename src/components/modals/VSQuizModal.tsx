@@ -99,17 +99,18 @@ const VSQuizModal: React.FC<VSQuizModalProps> = ({
         <>
           {/* Progress indicator */}
           <div className="flex justify-between items-center mb-6">
-            <div className="text-sm text-[var(--theme-text-primary)]/70 dark:text-white/60">
+            <div className="text-theme-secondary/70">
               Question {currentStep + 1} of {totalSteps}
             </div>
             <div className="flex gap-2">
               {Array(totalSteps).fill(0).map((_, idx) => (
                 <div
                   key={idx}
-                  className={`h-1.5 w-6 rounded-full transition-all duration-300 ${idx <= currentStep
-                    ? 'bg-[var(--theme-primary)] dark:bg-[var(--theme-primary)]'
-                    : 'bg-[var(--theme-bg-secondary)]/30 dark:bg-white/10'
-                    }`}
+                  className={`h-1.5 w-6 rounded-full transition-all duration-300 ${
+                    idx <= currentStep
+                      ? 'bg-theme-primary'
+                      : 'bg-theme-bg-secondary/30'
+                  }`}
                 />
               ))}
             </div>
@@ -117,7 +118,7 @@ const VSQuizModal: React.FC<VSQuizModalProps> = ({
 
           {/* Question */}
           <div className="mb-8">
-            <h3 className="text-xl font-semibold mb-6 text-[var(--theme-text-primary)] dark:text-white">
+            <h3 className="text-xl font-semibold mb-6 text-theme-primary">
               {currentQuestion.question}
             </h3>
 
@@ -126,16 +127,18 @@ const VSQuizModal: React.FC<VSQuizModalProps> = ({
               {currentQuestion.options.map((option, idx) => (
                 <div
                   key={idx}
-                  className={`p-4 rounded-[--border-radius-md] border cursor-pointer transition-all ${answers[currentQuestion.id] === option.value
-                    ? 'border-[var(--theme-primary)] bg-[var(--theme-primary)]/10 dark:border-[var(--theme-primary)] dark:bg-[var(--theme-primary)]/10'
-                    : 'border-[var(--theme-bg-secondary)]/30 dark:border-white/10 hover:border-[var(--theme-bg-secondary)] dark:hover:border-white/30'
-                    }`}
+                  className={`p-4 rounded-[--border-radius-md] border cursor-pointer transition-all ${
+                    answers[currentQuestion.id] === option.value
+                      ? 'border-theme-primary bg-theme-primary/10'
+                      : 'border-theme-border-light hover:border-theme-border-medium'
+                  }`}
                   onClick={() => handleSelect(option.value)}
                 >
                   <div className="flex items-center">
-                    <div className={`w-5 h-5 rounded-full border ${answers[currentQuestion.id] === option.value
-                      ? 'border-[var(--theme-primary)] bg-[var(--theme-primary)] dark:border-[var(--theme-primary)] dark:bg-[var(--theme-primary)]'
-                      : 'border-[var(--theme-text-primary)]/30 dark:border-white/30'
+                    <div className={`w-5 h-5 rounded-full border ${
+                      answers[currentQuestion.id] === option.value
+                        ? 'border-theme-primary bg-theme-primary'
+                        : 'border-theme-border-medium'
                       } flex-shrink-0 mr-3 flex items-center justify-center`}>
                       {answers[currentQuestion.id] === option.value && (
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 text-white">
@@ -143,7 +146,7 @@ const VSQuizModal: React.FC<VSQuizModalProps> = ({
                         </svg>
                       )}
                     </div>
-                    <span className="text-[var(--theme-text-primary)]/80 dark:text-white/80">{option.label}</span>
+                    <span className="text-theme-secondary/80">{option.label}</span>
                   </div>
                 </div>
               ))}
@@ -151,16 +154,16 @@ const VSQuizModal: React.FC<VSQuizModalProps> = ({
 
             {/* Explanation (if available) */}
             {currentQuestion.explanation && answers[currentQuestion.id] && (
-              <div className="mt-6 p-4 bg-[var(--theme-bg-primary)]/30 dark:bg-white/5 rounded-[--border-radius-md] border border-[var(--theme-bg-secondary)]/20 dark:border-white/5">
-                <h4 className="text-[var(--theme-text-primary)] dark:text-white text-sm font-medium mb-2 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 mr-2 text-[var(--theme-primary)] ">
+              <div className="mt-6 p-4 bg-theme-bg-light rounded-[--border-radius-md] border border-theme-border-light">
+                <h4 className="text-theme-primary text-sm font-medium mb-2 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 mr-2 text-theme-primary">
                     <circle cx="12" cy="12" r="10"></circle>
                     <line x1="12" y1="16" x2="12" y2="12"></line>
                     <line x1="12" y1="8" x2="12.01" y2="8"></line>
                   </svg>
                   Explanation
                 </h4>
-                <p className="text-[var(--theme-text-primary)]/70 dark:text-white/60 text-sm">
+                <p className="text-theme-secondary/70 text-sm">
                   {currentQuestion.explanation}
                 </p>
               </div>
@@ -173,10 +176,11 @@ const VSQuizModal: React.FC<VSQuizModalProps> = ({
               type="button"
               onClick={handlePrevious}
               disabled={currentStep === 0}
-              className={`px-4 py-2 rounded-[--border-radius-md] border ${currentStep === 0
-                ? 'border-[var(--theme-bg-secondary)]/30 text-[var(--theme-text-primary)]/30 dark:border-white/5 dark:text-white/30 cursor-not-allowed'
-                : 'border-[var(--theme-accent-secondary)] text-[var(--theme-accent-secondary)] dark:border-white/20 dark:text-white hover:bg-[var(--theme-accent-secondary)]/5 dark:hover:bg-white/5 hover-bubbly-sm'
-                }`}
+              className={`px-4 py-2 rounded-[--border-radius-md] border ${
+                currentStep === 0
+                  ? 'border-theme-border-light text-theme-secondary/30 cursor-not-allowed'
+                  : 'border-theme-accent-secondary text-theme-accent-secondary hover:bg-theme-accent-secondary/5 hover-bubbly-sm'
+              }`}
             >
               Back
             </button>
@@ -185,10 +189,11 @@ const VSQuizModal: React.FC<VSQuizModalProps> = ({
               type="button"
               onClick={handleNext}
               disabled={!answers[currentQuestion.id]}
-              className={`px-6 py-2 rounded-[--border-radius-md] ${!answers[currentQuestion.id]
-                ? 'bg-[var(--theme-primary)]/30 cursor-not-allowed text-white'
-                : 'vs-btn-primary-gradient dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)] text-white shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(254,163,93,0.2)] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]'
-                } transition-all duration-[--transition-bounce]`}
+              className={`px-6 py-2 rounded-[--border-radius-md] ${
+                !answers[currentQuestion.id]
+                  ? 'bg-theme-primary/30 cursor-not-allowed text-white'
+                  : 'bg-theme-gradient-primary text-white shadow-theme-sm hover-bubbly'
+              } transition-all duration-[var(--theme-transition-bounce)]`}
             >
               {currentStep === totalSteps - 1 ? 'Finish Quiz' : 'Next Question'}
             </button>
@@ -204,9 +209,8 @@ const VSQuizModal: React.FC<VSQuizModalProps> = ({
                 cy="18"
                 r="16"
                 fill="none"
-                stroke="#F3F4F6"
+                stroke="var(--theme-bg-secondary)"
                 strokeWidth="2"
-                className="dark:stroke-white/10"
               />
               <circle
                 cx="18"
@@ -218,19 +222,19 @@ const VSQuizModal: React.FC<VSQuizModalProps> = ({
                 strokeDasharray={`${2 * Math.PI * 16}`}
                 strokeDashoffset={`${2 * Math.PI * 16 * (1 - score / 100)}`}
                 strokeLinecap="round"
-                className="text-[var(--theme-primary)] "
+                className="text-theme-primary"
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-3xl font-bold text-[var(--theme-text-primary)] dark:text-white">{score}%</span>
+              <span className="text-3xl font-bold text-theme-primary">{score}%</span>
             </div>
           </div>
 
-          <h3 className="text-2xl font-bold mb-3 text-[var(--theme-text-primary)] dark:text-white">
+          <h3 className="text-2xl font-bold mb-3 text-theme-primary">
             {score >= 80 ? 'Great job!' : score >= 50 ? 'Good effort!' : 'Keep practicing!'}
           </h3>
           
-          <p className="text-[var(--theme-text-primary)]/70 dark:text-white/70 mb-8 max-w-md mx-auto">
+          <p className="text-theme-secondary/70 mb-8 max-w-md mx-auto">
             {score >= 80
               ? 'Excellent work! You have a strong understanding of this topic.'
               : score >= 50
@@ -241,14 +245,14 @@ const VSQuizModal: React.FC<VSQuizModalProps> = ({
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={handleReset}
-              className="px-6 py-2 border border-[var(--theme-accent-secondary)] text-[var(--theme-accent-secondary)] dark:border-white/20 dark:text-white rounded-[--border-radius-md] hover:bg-[var(--theme-accent-secondary)]/5 dark:hover:bg-white/5 transition-all duration-[--transition-bounce] hover:translate-y-[-2px] hover:scale-[1.02]"
+              className="px-6 py-2 border border-theme-accent-secondary text-theme-accent-secondary rounded-[--border-radius-md] hover:bg-theme-accent-secondary/5 transition-all duration-[var(--theme-transition-bounce)] hover-bubbly-sm"
             >
               Retake Quiz
             </button>
             
             <button
               onClick={handleComplete}
-              className="px-6 py-2 vs-btn-primary-gradient dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)] text-white rounded-[--border-radius-md] shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(254,163,93,0.2)] transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]"
+              className="px-6 py-2 bg-theme-gradient-primary text-white rounded-[--border-radius-md] shadow-theme-sm transition-all duration-[var(--theme-transition-bounce)] hover-bubbly"
             >
               Continue Learning
             </button>
