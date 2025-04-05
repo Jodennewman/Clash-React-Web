@@ -226,8 +226,20 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
     });
   };
 
-  // Handle user answers with validation and auto-advance
+  // State to track selection animation
+  const [isAnimatingSelection, setIsAnimatingSelection] = useState(false);
+  const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
+
+  // Handle user answers with validation, animation, and auto-advance
   const handleAnswerChange = (key: string, value: string) => {
+    // Don't allow new selections during animation
+    if (isAnimatingSelection) return;
+    
+    // Set the newly selected choice
+    setSelectedChoice(value);
+    setIsAnimatingSelection(true);
+    
+    // Update actual answer
     setAnswers(prev => ({
       ...prev,
       [key]: value
@@ -254,19 +266,93 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
       interactionCount: engagement.questionInteractions + 1
     });
     
-    // Auto-advance for multiple-choice questions
+    // Animate selection for multiple-choice questions
     if (['teamSize', 'implementationSupport', 'timeline', 'contentVolume'].includes(stage)) {
-      // Track the stage completion event
-      trackEvent('qualification_step_completed', {
-        stage: stage,
-        timeSpent: engagement.timeSpent,
-        interactionCount: engagement.questionInteractions
-      });
+      // Get all option buttons
+      const optionButtons = document.querySelectorAll(`.${stage}-option`);
+      const selectedButton = document.querySelector(`.${stage}-option[data-value="${value}"]`);
+      const progressDot = document.querySelector(`.progress-dot-${stageSequence.indexOf(stage)}`);
       
-      // Get the next stage in the sequence
-      const currentIndex = stageSequence.indexOf(stage);
-      if (currentIndex >= 0 && currentIndex < stageSequence.length - 1) {
-        setStage(stageSequence[currentIndex + 1]);
+      if (selectedButton && optionButtons.length && progressDot) {
+        // Create a timeline for the animation
+        const tl = gsap.timeline({
+          onComplete: () => {
+            // Reset animation state
+            setIsAnimatingSelection(false);
+            setSelectedChoice(null);
+            
+            // Track the stage completion event
+            trackEvent('qualification_step_completed', {
+              stage: stage,
+              timeSpent: engagement.timeSpent,
+              interactionCount: engagement.questionInteractions
+            });
+            
+            // Get the next stage in the sequence - delayed to allow animation to complete
+            const currentIndex = stageSequence.indexOf(stage);
+            if (currentIndex >= 0 && currentIndex < stageSequence.length - 1) {
+              setStage(stageSequence[currentIndex + 1]);
+            }
+          }
+        });
+        
+        // 1. Fade out unselected options
+        optionButtons.forEach(btn => {
+          if (btn !== selectedButton) {
+            tl.to(btn, {
+              opacity: 0,
+              scale: 0.95,
+              duration: 0.3,
+              ease: "power2.out"
+            }, 0);
+          }
+        });
+        
+        // 2. Highlight selected option
+        tl.to(selectedButton, {
+          backgroundColor: 'var(--theme-primary)',
+          color: 'white',
+          borderColor: 'var(--theme-primary)',
+          scale: 1.05,
+          duration: 0.3,
+          ease: "power2.out"
+        }, 0);
+        
+        // 3. Shrink selected option while fading it
+        tl.to(selectedButton, {
+          scale: 0,
+          opacity: 0,
+          duration: 0.4,
+          ease: "back.in(1.2)",
+          delay: 0.2
+        }, "selection");
+        
+        // 4. Highlight the progress dot to show connection
+        tl.to(progressDot, {
+          scale: 1.5,
+          backgroundColor: 'var(--theme-primary)',
+          boxShadow: '0 0 10px var(--theme-primary)',
+          duration: 0.4,
+          ease: "back.out(1.2)"
+        }, "selection+=0.1");
+        
+        // 5. Return progress dot to normal
+        tl.to(progressDot, {
+          scale: 1.1,
+          boxShadow: 'none',
+          duration: 0.3,
+          ease: "power2.out",
+          delay: 0.1
+        });
+      } else {
+        // If animation isn't working, fall back to immediate stage change
+        setIsAnimatingSelection(false);
+        
+        // Get the next stage in the sequence
+        const currentIndex = stageSequence.indexOf(stage);
+        if (currentIndex >= 0 && currentIndex < stageSequence.length - 1) {
+          setStage(stageSequence[currentIndex + 1]);
+        }
       }
     }
   };
@@ -792,7 +878,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
       {/* Modal content */}
       <div 
         ref={modalRef}
-        className="relative z-10 w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-theme-gradient rounded-2xl shadow-theme-md opacity-0"
+        className="relative z-10 w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-theme-gradient rounded-2xl shadow-theme-md opacity-0 transition-all duration-500"
       >
         {/* Floating elements for visual interest */}
         <div className="modal-floating-element absolute top-10 right-10 -z-10 w-20 h-20 rounded-[40%] rotate-12 opacity-[var(--theme-float-opacity)] bg-[var(--theme-float-bg-primary)]"></div>
@@ -842,12 +928,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               {stageSequence.slice(1, -1).map((s, index) => (
                 <div 
                   key={s}
-                  className={`h-3 w-3 rounded-full -mt-0.5 ${
+                  className={`progress-dot-${index + 1} h-5 w-5 rounded-full -mt-1.5 transition-all duration-500 ${
                     stageSequence.indexOf(stage) > index + 1 
-                      ? 'bg-theme-primary' 
+                      ? 'bg-theme-primary scale-100 shadow-theme-sm' 
                       : stageSequence.indexOf(stage) === index + 1
-                        ? 'bg-theme-primary ring-2 ring-theme-primary/30' 
-                        : 'bg-theme-bg-surface border border-theme-border-light'
+                        ? 'bg-theme-primary scale-110 ring-3 ring-theme-primary/40 shadow-theme-md' 
+                        : 'bg-theme-bg-surface border-2 border-theme-border-light'
                   }`}
                 />
               ))}
@@ -1049,11 +1135,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button
                   onClick={() => handleAnswerChange('teamSize', '1')}
-                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.teamSize === '1' 
+                  data-value="1"
+                  className={`teamSize-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.teamSize === '1' || selectedChoice === '1'
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
-                  }`}
+                  } ${isAnimatingSelection && selectedChoice !== '1' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">Solo Creator</h3>
@@ -1066,11 +1153,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 <button
                   onClick={() => handleAnswerChange('teamSize', '5')}
-                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.teamSize === '5' 
+                  data-value="5"
+                  className={`teamSize-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.teamSize === '5' || selectedChoice === '5'
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
-                  }`}
+                  } ${isAnimatingSelection && selectedChoice !== '5' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">Small Team</h3>
@@ -1083,11 +1171,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 <button
                   onClick={() => handleAnswerChange('teamSize', '15')}
-                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.teamSize === '15' 
+                  data-value="15"
+                  className={`teamSize-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.teamSize === '15' || selectedChoice === '15'
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
-                  }`}
+                  } ${isAnimatingSelection && selectedChoice !== '15' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">Mid-Size Team</h3>
@@ -1100,11 +1189,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 <button
                   onClick={() => handleAnswerChange('teamSize', '25')}
-                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.teamSize === '25' 
+                  data-value="25"
+                  className={`teamSize-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.teamSize === '25' || selectedChoice === '25'
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
-                  }`}
+                  } ${isAnimatingSelection && selectedChoice !== '25' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">Large Organization</h3>
@@ -1135,11 +1225,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button
                   onClick={() => handleAnswerChange('implementationSupport', 'self_directed')}
-                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.implementationSupport === 'self_directed' 
+                  data-value="self_directed"
+                  className={`implementationSupport-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.implementationSupport === 'self_directed' || selectedChoice === 'self_directed'
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
-                  }`}
+                  } ${isAnimatingSelection && selectedChoice !== 'self_directed' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">Self-Directed</h3>
@@ -1152,11 +1243,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 <button
                   onClick={() => handleAnswerChange('implementationSupport', 'guided')}
-                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.implementationSupport === 'guided' 
+                  data-value="guided"
+                  className={`implementationSupport-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.implementationSupport === 'guided' || selectedChoice === 'guided'
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
-                  }`}
+                  } ${isAnimatingSelection && selectedChoice !== 'guided' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">Guided Approach</h3>
@@ -1169,11 +1261,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 <button
                   onClick={() => handleAnswerChange('implementationSupport', 'full_service')}
-                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.implementationSupport === 'full_service' 
+                  data-value="full_service"
+                  className={`implementationSupport-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.implementationSupport === 'full_service' || selectedChoice === 'full_service'
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
-                  }`}
+                  } ${isAnimatingSelection && selectedChoice !== 'full_service' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">Done-For-You</h3>
@@ -1186,11 +1279,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 <button
                   onClick={() => handleAnswerChange('implementationSupport', 'undecided')}
-                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.implementationSupport === 'undecided' 
+                  data-value="undecided"
+                  className={`implementationSupport-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.implementationSupport === 'undecided' || selectedChoice === 'undecided'
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
-                  }`}
+                  } ${isAnimatingSelection && selectedChoice !== 'undecided' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">Not Sure Yet</h3>
@@ -1221,11 +1315,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button
                   onClick={() => handleAnswerChange('timeline', 'immediate')}
-                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.timeline === 'immediate' 
+                  data-value="immediate"
+                  className={`timeline-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.timeline === 'immediate' || selectedChoice === 'immediate'
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
-                  }`}
+                  } ${isAnimatingSelection && selectedChoice !== 'immediate' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">ASAP</h3>
@@ -1238,11 +1333,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 <button
                   onClick={() => handleAnswerChange('timeline', 'next_quarter')}
-                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.timeline === 'next_quarter' 
+                  data-value="next_quarter"
+                  className={`timeline-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.timeline === 'next_quarter' || selectedChoice === 'next_quarter'
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
-                  }`}
+                  } ${isAnimatingSelection && selectedChoice !== 'next_quarter' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">Next Quarter</h3>
@@ -1255,11 +1351,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 <button
                   onClick={() => handleAnswerChange('timeline', 'exploratory')}
-                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.timeline === 'exploratory' 
+                  data-value="exploratory"
+                  className={`timeline-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.timeline === 'exploratory' || selectedChoice === 'exploratory'
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
-                  }`}
+                  } ${isAnimatingSelection && selectedChoice !== 'exploratory' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">Future Planning</h3>
@@ -1272,11 +1369,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 <button
                   onClick={() => handleAnswerChange('timeline', 'flexible')}
-                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.timeline === 'flexible' 
+                  data-value="flexible"
+                  className={`timeline-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.timeline === 'flexible' || selectedChoice === 'flexible'
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
-                  }`}
+                  } ${isAnimatingSelection && selectedChoice !== 'flexible' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">Flexible</h3>
@@ -1307,11 +1405,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button
                   onClick={() => handleAnswerChange('contentVolume', 'low')}
-                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.contentVolume === 'low' 
+                  data-value="low"
+                  className={`contentVolume-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.contentVolume === 'low' || selectedChoice === 'low'
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
-                  }`}
+                  } ${isAnimatingSelection && selectedChoice !== 'low' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">Quality Focus</h3>
@@ -1324,11 +1423,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 <button
                   onClick={() => handleAnswerChange('contentVolume', 'medium')}
-                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.contentVolume === 'medium' 
+                  data-value="medium"
+                  className={`contentVolume-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.contentVolume === 'medium' || selectedChoice === 'medium'
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
-                  }`}
+                  } ${isAnimatingSelection && selectedChoice !== 'medium' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">Balanced Approach</h3>
@@ -1341,11 +1441,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 <button
                   onClick={() => handleAnswerChange('contentVolume', 'high')}
-                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.contentVolume === 'high' 
+                  data-value="high"
+                  className={`contentVolume-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.contentVolume === 'high' || selectedChoice === 'high'
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
-                  }`}
+                  } ${isAnimatingSelection && selectedChoice !== 'high' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">High Volume</h3>
@@ -1358,11 +1459,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 <button
                   onClick={() => handleAnswerChange('contentVolume', 'undecided')}
-                  className={`flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.contentVolume === 'undecided' 
+                  data-value="undecided"
+                  className={`contentVolume-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                    answers.contentVolume === 'undecided' || selectedChoice === 'undecided'
                       ? 'border-theme-primary bg-theme-primary/10' 
                       : 'border-theme-border-light bg-theme-bg-surface'
-                  }`}
+                  } ${isAnimatingSelection && selectedChoice !== 'undecided' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-theme-primary font-medium">Still Deciding</h3>
@@ -1413,80 +1515,95 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 </div>
               </div>
               
-              {/* Key Features - Top 3 only to reduce text */}
-              <div className="bg-theme-bg-surface p-4 border-x border-[var(--theme-border-light)]">
-                <h4 className="text-sm uppercase text-theme-tertiary tracking-wide mb-3">Key Features</h4>
-                <div className="space-y-2">
-                  {recommendation.type === 'executive' ? (
-                    <>
-                      <div className="flex items-start gap-2">
-                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                        <p className="text-theme-secondary text-sm">Dedicated implementation manager & personalized support</p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                        <p className="text-theme-secondary text-sm">Customized implementation plan for your team</p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                        <p className="text-theme-secondary text-sm">6 months of implementation support & optimization</p>
-                      </div>
-                    </>
-                  ) : recommendation.type === 'comprehensive' ? (
-                    <>
-                      <div className="flex items-start gap-2">
-                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                        <p className="text-theme-secondary text-sm">Weekly group coaching sessions with experts</p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                        <p className="text-theme-secondary text-sm">Complete system implementation with all templates</p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                        <p className="text-theme-secondary text-sm">3 months of implementation support & private community</p>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="flex items-start gap-2">
-                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                        <p className="text-theme-secondary text-sm">Self-paced implementation with comprehensive guides</p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                        <p className="text-theme-secondary text-sm">Core system templates and production workflows</p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                        <p className="text-theme-secondary text-sm">Monthly Q&A sessions and community access</p>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
-              
-              {/* Embedded Calendly Widget */}
-              <div className="border-x border-b border-[var(--theme-border-light)] rounded-b-lg">
-                <div className="pt-3 px-4 pb-0">
-                  <h3 className="text-center text-theme-primary font-medium text-lg mb-1">
-                    Schedule Your Strategy Session
-                  </h3>
-                  <p className="text-center text-theme-secondary text-sm mb-2">
-                    Choose a time to discuss your personalized {recommendation.type} solution
-                  </p>
+              {/* Combined compact layout with key features alongside Calendly */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-x border-b border-[var(--theme-border-light)] rounded-b-lg">
+                {/* Key Features - Left side */}
+                <div className="bg-theme-bg-surface p-4 border-r border-[var(--theme-border-light)]">
+                  <h4 className="text-sm uppercase text-theme-tertiary tracking-wide mb-3">Key Features</h4>
+                  <div className="space-y-2">
+                    {recommendation.type === 'executive' ? (
+                      <>
+                        <div className="flex items-start gap-2">
+                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                          <p className="text-theme-secondary text-sm">Dedicated implementation manager</p>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                          <p className="text-theme-secondary text-sm">Customized implementation plan</p>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                          <p className="text-theme-secondary text-sm">6 months of support & optimization</p>
+                        </div>
+                      </>
+                    ) : recommendation.type === 'comprehensive' ? (
+                      <>
+                        <div className="flex items-start gap-2">
+                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                          <p className="text-theme-secondary text-sm">Weekly coaching with experts</p>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                          <p className="text-theme-secondary text-sm">Complete system implementation</p>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                          <p className="text-theme-secondary text-sm">3 months of support & community</p>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="flex items-start gap-2">
+                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                          <p className="text-theme-secondary text-sm">Self-paced implementation guides</p>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                          <p className="text-theme-secondary text-sm">Core templates & workflows</p>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                          <p className="text-theme-secondary text-sm">Monthly Q&A and community access</p>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  
+                  {/* Explanation - Very brief */}
+                  <div className="mt-4 pt-3 border-t border-theme-border-light">
+                    <p className="text-theme-secondary text-sm">{recommendation.explanation.split('.')[0]}.</p>
+                  </div>
+                  
+                  {/* Book now button for mobile - only shows on small screens */}
+                  <div className="mt-4 block md:hidden">
+                    <button 
+                      className="w-full py-2 px-4 rounded-lg bg-theme-primary text-white font-medium text-center hover-bubbly-sm shadow-theme-sm"
+                      onClick={() => document.querySelector('.calendly-inline-widget')?.scrollIntoView({ behavior: 'smooth' })}
+                    >
+                      Schedule Strategy Session
+                    </button>
+                  </div>
                 </div>
                 
-                {/* Calendly Widget - directly embedded */}
-                <div 
-                  className="calendly-inline-widget w-full rounded-b-lg overflow-hidden" 
-                  data-url={`https://calendly.com/jodenclashnewman/vertical-shortcut-discovery-call?hide_gdpr_banner=1&primary_color=FEA35D${
-                    recommendation.type === 'executive' ? '&name=Executive_Partnership' : 
-                    recommendation.type === 'comprehensive' ? '&name=Comprehensive_Implementation' : 
-                    '&name=Foundation_Program'
-                  }`}
-                  style={{ height: "400px", minWidth: "320px" }}
-                />
+                {/* Calendly Widget - Right side */}
+                <div className="flex flex-col">
+                  <div className="p-3 text-center">
+                    <h3 className="text-theme-primary font-medium text-lg">
+                      Schedule Your Strategy Session
+                    </h3>
+                  </div>
+                  
+                  {/* Calendly Widget - directly embedded, but more compact */}
+                  <div 
+                    className="calendly-inline-widget w-full rounded-br-lg overflow-hidden flex-grow" 
+                    data-url={`https://calendly.com/jodenclashnewman/vertical-shortcut-discovery-call?hide_gdpr_banner=1&primary_color=FEA35D${
+                      recommendation.type === 'executive' ? '&name=Executive_Partnership' : 
+                      recommendation.type === 'comprehensive' ? '&name=Comprehensive_Implementation' : 
+                      '&name=Foundation_Program'
+                    }`}
+                    style={{ height: "280px", minWidth: "320px" }}
+                  />
+                </div>
               </div>
             </div>
           )}
