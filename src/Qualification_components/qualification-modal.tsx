@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, ChevronRight, Check, Info, Calendar, CheckCircle, Moon, Sun } from 'lucide-react';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { CalendlyPopupWidget } from '../components/Calendly';
 
 interface VSQualificationModalProps {
   isOpen: boolean;
@@ -63,6 +62,10 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
     focusChanges: 0
   });
   
+  // Stage transition animation refs
+  const contentRef = useRef<HTMLDivElement>(null);
+  const lastStageRef = useRef<string>(stage);
+
   // Handle animation with GSAP
   useGSAP(() => {
     if (!isOpen || !modalRef.current || !overlayRef.current) return;
@@ -73,18 +76,21 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
     const animDuration = parseFloat(styles.getPropertyValue('--theme-anim-duration') || '0.35');
 
     const ctx = gsap.context(() => {
-      // Animate overlay
-      gsap.to(overlayRef.current, {
-        opacity: 1,
-        duration: 0.3,
-        ease: "power2.out"
-      });
+      // Initial modal animation
+      if (!modalRef.current.style.opacity || modalRef.current.style.opacity === '0') {
+        // Animate overlay
+        gsap.to(overlayRef.current, {
+          opacity: 1,
+          duration: 0.3,
+          ease: "power2.out"
+        });
 
-      // Animate modal
-      gsap.fromTo(modalRef.current,
-        { opacity: 0, y: -animDistance * 5, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1, duration: animDuration + 0.05, ease: "back.out(1.2)" }
-      );
+        // Animate modal
+        gsap.fromTo(modalRef.current,
+          { opacity: 0, y: -animDistance * 5, scale: 0.95 },
+          { opacity: 1, y: 0, scale: 1, duration: animDuration + 0.05, ease: "back.out(1.2)" }
+        );
+      }
 
       // Floating elements animation
       gsap.to(".modal-floating-element", {
@@ -95,10 +101,73 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         yoyo: true, 
         stagger: 0.4
       });
+
+      // Stage transition animation
+      if (lastStageRef.current !== stage && contentRef.current) {
+        gsap.fromTo(contentRef.current,
+          { opacity: 0, y: 15 },
+          { 
+            opacity: 1, 
+            y: 0, 
+            duration: 0.45, 
+            ease: "power3.out",
+            clearProps: "all" 
+          }
+        );
+
+        // Add particle effect animation to signify processing
+        const createProcessingEffect = () => {
+          // Only create the effect for question stages
+          if (['teamSize', 'implementationSupport', 'timeline', 'contentVolume'].includes(stage)) {
+            // Get the container dimensions
+            const container = contentRef.current;
+            if (!container) return;
+            
+            const rect = container.getBoundingClientRect();
+            
+            // Create and animate 12-15 particles
+            const particleCount = gsap.utils.random(12, 15, 1);
+            
+            for (let i = 0; i < particleCount; i++) {
+              // Create a particle
+              const particle = document.createElement('div');
+              particle.className = 'absolute rounded-full bg-theme-primary/40 z-10';
+              particle.style.width = `${gsap.utils.random(3, 8)}px`;
+              particle.style.height = particle.style.width;
+              
+              // Position it randomly within the container
+              particle.style.left = `${gsap.utils.random(10, rect.width - 20)}px`;
+              particle.style.top = `${gsap.utils.random(10, rect.height - 20)}px`;
+              
+              container.appendChild(particle);
+              
+              // Animate the particle
+              gsap.to(particle, {
+                y: gsap.utils.random(-40, -100),
+                x: gsap.utils.random(-50, 50),
+                opacity: 0,
+                scale: gsap.utils.random(0.2, 0.8),
+                duration: gsap.utils.random(0.8, 1.5),
+                ease: "power2.out",
+                onComplete: () => {
+                  if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                  }
+                }
+              });
+            }
+          }
+        };
+        
+        createProcessingEffect();
+      }
+
+      // Update last stage
+      lastStageRef.current = stage;
     }, containerRef);
 
     return () => ctx.revert();
-  }, [isOpen]);
+  }, [isOpen, stage]);
   
   // Timer for tracking time spent in qualification process
   useEffect(() => {
@@ -401,10 +470,8 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
     setStage('recommendation');
   };
   
-  // Open Calendly when booking a call
-  const handleBookCall = () => {
-    setShowCalendly(true);
-    
+  // Process CRM integration for lead data
+  const processCrmIntegration = () => {
     // Build comprehensive lead data for CRM integration
     const leadData = {
       contact: {
@@ -458,7 +525,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
     sessionStorage.setItem('qualificationData', JSON.stringify(leadData));
     
     // Track the booking event
-    trackEvent('calendly_opened', {
+    trackEvent('calendly_viewed', {
       recommendation: recommendation?.type,
       score: recommendation?.score,
       journeyDuration: engagement.timeSpent,
@@ -705,7 +772,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         )}
         
         {/* Modal content - changes based on current stage */}
-        <div className="p-6">
+        <div className="p-6" ref={contentRef}>
           {/* Introduction Stage */}
           {stage === 'intro' && (
             <div className="space-y-6">
@@ -1185,233 +1252,115 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           
           {/* Recommendation Stage */}
           {stage === 'recommendation' && recommendation && (
-            <div className="space-y-6">
-              {/* Personalized header based on recommendation */}
-              <div className="bg-theme-gradient-start to-theme-gradient-end p-6 rounded-lg border border-[var(--theme-border-light)]">
-                <div className="flex items-center gap-2 mb-2">
+            <div className="space-y-0">
+              {/* Process CRM integration first */}
+              {useEffect(() => {
+                if (stage === 'recommendation') {
+                  processCrmIntegration();
+                }
+              }, [stage])}
+              
+              {/* Recommendation Header - Visual Badge with minimal explanation */}
+              <div className="bg-theme-gradient-start to-theme-gradient-end p-4 rounded-t-lg border border-[var(--theme-border-light)] border-b-0 flex items-center justify-between">
+                <div className="flex items-center gap-3">
                   <div className={`
-                    px-3 py-1 rounded-full text-sm font-medium
+                    p-2.5 rounded-full
                     ${recommendation.type === 'executive' ? 'bg-[#B92234]/10 text-[#B92234] dark:bg-[#B92234]/20 dark:text-[#D72D41]' : 
                       recommendation.type === 'comprehensive' ? 'bg-[#FEA35D]/10 text-[#FEA35D] dark:bg-[#FEA35D]/20 dark:text-[#FEB77D]' : 
                       'bg-[#357380]/10 text-[#357380] dark:bg-[#357380]/20 dark:text-[#4789A0]'}
                   `}>
-                    {recommendation.type === 'executive' ? 'Executive Partnership' : 
-                     recommendation.type === 'comprehensive' ? 'Comprehensive Implementation' : 
-                     'Foundation Program'}
+                    <CheckCircle className="h-6 w-6" />
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-medium text-theme-primary text-lg leading-tight">
+                      {recommendation.type === 'executive' ? 'Executive Partnership' : 
+                      recommendation.type === 'comprehensive' ? 'Comprehensive Implementation' : 
+                      'Foundation Program'}
+                    </h3>
+                    <p className="text-theme-secondary text-sm">Perfect match for your needs</p>
                   </div>
                 </div>
                 
-                <h3 className="text-xl font-medium text-theme-primary mb-2">
-                  {recommendation.type === 'executive' ? 'Executive Partnership' : 
-                   recommendation.type === 'comprehensive' ? 'Comprehensive Implementation' : 
-                   'Foundation Program'}
-                </h3>
-                
-                <p className="text-theme-secondary">
-                  {recommendation.explanation}
-                </p>
+                <div className="text-xl font-bold text-theme-primary">
+                  {recommendation.pricing}
+                </div>
               </div>
               
-              {/* Implementation Details */}
-              <div className="border border-[var(--theme-border-light)] rounded-lg overflow-hidden">
-                <div className="bg-theme-bg-primary p-4 border-b border-[var(--theme-border-light)]">
-                  <h3 className="text-lg font-medium text-theme-primary">Implementation Includes:</h3>
-                </div>
-                
-                <div className="p-4 space-y-3">
-                  {/* Executive Partnership Features */}
-                  {recommendation.type === 'executive' && (
+              {/* Key Features - Top 3 only to reduce text */}
+              <div className="bg-theme-bg-surface p-4 border-x border-[var(--theme-border-light)]">
+                <h4 className="text-sm uppercase text-theme-tertiary tracking-wide mb-3">Key Features</h4>
+                <div className="space-y-2">
+                  {recommendation.type === 'executive' ? (
                     <>
                       <div className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                        <div>
-                          <h4 className="text-theme-primary font-medium">Dedicated Implementation Manager</h4>
-                          <p className="text-theme-secondary text-sm">Work directly with a senior strategist to customize your implementation</p>
-                        </div>
+                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                        <p className="text-theme-secondary text-sm">Dedicated implementation manager & personalized support</p>
                       </div>
-                      
                       <div className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                        <div>
-                          <h4 className="text-theme-primary font-medium">Customized Implementation Plan</h4>
-                          <p className="text-theme-secondary text-sm">Tailored strategy specifically for your team's structure and goals</p>
-                        </div>
+                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                        <p className="text-theme-secondary text-sm">Customized implementation plan for your team</p>
                       </div>
-                      
                       <div className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                        <div>
-                          <h4 className="text-theme-primary font-medium">Comprehensive Team Training</h4>
-                          <p className="text-theme-secondary text-sm">Complete training program for your entire content team</p>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                        <div>
-                          <h4 className="text-theme-primary font-medium">Done-For-You System Setup</h4>
-                          <p className="text-theme-secondary text-sm">We set up your content production systems for you</p>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                        <div>
-                          <h4 className="text-theme-primary font-medium">Extended Support Period</h4>
-                          <p className="text-theme-secondary text-sm">6 months of implementation support and optimization</p>
-                        </div>
+                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                        <p className="text-theme-secondary text-sm">6 months of implementation support & optimization</p>
                       </div>
                     </>
-                  )}
-                  
-                  {/* Comprehensive Implementation Features */}
-                  {recommendation.type === 'comprehensive' && (
+                  ) : recommendation.type === 'comprehensive' ? (
                     <>
                       <div className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                        <div>
-                          <h4 className="text-theme-primary font-medium">Group Implementation Coaching</h4>
-                          <p className="text-theme-secondary text-sm">Weekly group coaching sessions to guide your implementation</p>
-                        </div>
+                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                        <p className="text-theme-secondary text-sm">Weekly group coaching sessions with experts</p>
                       </div>
-                      
                       <div className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                        <div>
-                          <h4 className="text-theme-primary font-medium">Complete System Implementation</h4>
-                          <p className="text-theme-secondary text-sm">All templates, workflows, and processes for full implementation</p>
-                        </div>
+                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                        <p className="text-theme-secondary text-sm">Complete system implementation with all templates</p>
                       </div>
-                      
                       <div className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                        <div>
-                          <h4 className="text-theme-primary font-medium">Team Training Program</h4>
-                          <p className="text-theme-secondary text-sm">Training modules for your content production team</p>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                        <div>
-                          <h4 className="text-theme-primary font-medium">Implementation Support</h4>
-                          <p className="text-theme-secondary text-sm">3 months of implementation support and troubleshooting</p>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                        <div>
-                          <h4 className="text-theme-primary font-medium">Private Community Access</h4>
-                          <p className="text-theme-secondary text-sm">Network with other teams implementing the same systems</p>
-                        </div>
+                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                        <p className="text-theme-secondary text-sm">3 months of implementation support & private community</p>
                       </div>
                     </>
-                  )}
-                  
-                  {/* Foundation Program Features */}
-                  {recommendation.type === 'foundation' && (
+                  ) : (
                     <>
                       <div className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                        <div>
-                          <h4 className="text-theme-primary font-medium">Self-Paced Implementation</h4>
-                          <p className="text-theme-secondary text-sm">Comprehensive documentation and video tutorials</p>
-                        </div>
+                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                        <p className="text-theme-secondary text-sm">Self-paced implementation with comprehensive guides</p>
                       </div>
-                      
                       <div className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                        <div>
-                          <h4 className="text-theme-primary font-medium">Core System Templates</h4>
-                          <p className="text-theme-secondary text-sm">Essential templates and workflows for content production</p>
-                        </div>
+                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                        <p className="text-theme-secondary text-sm">Core system templates and production workflows</p>
                       </div>
-                      
                       <div className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                        <div>
-                          <h4 className="text-theme-primary font-medium">Monthly Q&A Sessions</h4>
-                          <p className="text-theme-secondary text-sm">Group sessions to answer implementation questions</p>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                        <div>
-                          <h4 className="text-theme-primary font-medium">Email Support</h4>
-                          <p className="text-theme-secondary text-sm">Get answers to implementation questions via email</p>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                        <div>
-                          <h4 className="text-theme-primary font-medium">Community Access</h4>
-                          <p className="text-theme-secondary text-sm">Connect with others implementing the same systems</p>
-                        </div>
+                        <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
+                        <p className="text-theme-secondary text-sm">Monthly Q&A sessions and community access</p>
                       </div>
                     </>
                   )}
                 </div>
               </div>
               
-              {/* Investment & Next Steps */}
-              <div className="bg-theme-bg-primary p-6 rounded-lg border border-[var(--theme-border-light)]">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-medium text-theme-primary">Investment:</h3>
-                  <div className="text-xl font-bold text-theme-primary">
-                    {recommendation.pricing}
-                  </div>
-                </div>
-                
-                <div className="space-y-4">
-                  <p className="text-theme-secondary">
-                    {recommendation.type === 'executive' ? 
-                      'The Executive Partnership is our premium implementation approach with the highest level of customization and support.' : 
-                     recommendation.type === 'comprehensive' ? 
-                      'The Comprehensive Implementation provides the perfect balance of guidance and hands-on support for most teams.' : 
-                      'The Foundation Program gives you the essential tools and guidance to implement at your own pace.'}
-                  </p>
-                  
-                  <div className="flex items-start gap-2 bg-theme-primary/5 p-3 rounded-lg">
-                    <Info className="h-5 w-5 text-theme-primary shrink-0 mt-0.5" />
-                    <p className="text-theme-secondary text-sm">
-                      Book a call to discuss your custom implementation strategy with a specialist. There's no obligation, and you'll receive a detailed implementation plan.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Booking Info */}
-              <div className="p-6 rounded-lg border border-theme-primary bg-theme-primary/5">
-                <div className="flex items-center gap-3 mb-4">
-                  <Calendar className="h-6 w-6 text-theme-primary" />
-                  <h3 className="text-lg font-medium text-theme-primary">
+              {/* Embedded Calendly Widget */}
+              <div className="border-x border-b border-[var(--theme-border-light)] rounded-b-lg">
+                <div className="pt-3 px-4 pb-0">
+                  <h3 className="text-center text-theme-primary font-medium text-lg mb-1">
                     Schedule Your Strategy Session
                   </h3>
+                  <p className="text-center text-theme-secondary text-sm mb-2">
+                    Choose a time to discuss your personalized {recommendation.type} solution
+                  </p>
                 </div>
                 
-                <p className="text-theme-secondary mb-6">
-                  Based on your needs, we've prepared a personalized discussion about 
-                  our {recommendation.type === 'executive' ? 'Executive Partnership' : 
-                     recommendation.type === 'comprehensive' ? 'Comprehensive Implementation' : 
-                     'Foundation Program'} approach.
-                </p>
-                
-                <button
-                  onClick={handleBookCall}
-                  className="w-full bg-theme-gradient-primary text-white font-medium py-3 px-4 rounded-lg hover-bubbly flex items-center justify-center gap-2"
-                >
-                  <Calendar className="h-5 w-5" />
-                  Book Your Strategy Call
-                </button>
-                
-                <p className="text-theme-tertiary text-sm text-center mt-4">
-                  30-minute call with a {recommendation.type === 'executive' ? 'senior implementation consultant' : 
-                                       recommendation.type === 'comprehensive' ? 'implementation specialist' : 
-                                       'product specialist'}
-                </p>
+                {/* Calendly Widget - directly embedded */}
+                <div 
+                  className="calendly-inline-widget w-full rounded-b-lg overflow-hidden" 
+                  data-url={`https://calendly.com/jodenclashnewman/vertical-shortcut-discovery-call?hide_gdpr_banner=1&primary_color=FEA35D${
+                    recommendation.type === 'executive' ? '&name=Executive_Partnership' : 
+                    recommendation.type === 'comprehensive' ? '&name=Comprehensive_Implementation' : 
+                    '&name=Foundation_Program'
+                  }`}
+                  style={{ height: "400px", minWidth: "320px" }}
+                />
               </div>
             </div>
           )}
@@ -1459,21 +1408,25 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         </div>
       </div>
       
-      {/* Calendly Integration */}
-      {showCalendly && (
-        <CalendlyPopupWidget
-          url="https://calendly.com/jodenclashnewman/vertical-shortcut-discovery-call"
-          text="Schedule a Call"
-          color="#FEA35D"
-          textColor="#FFFFFF"
-          primaryColor="FEA35D"
-          hideGdprBanner={true}
-          position="center"
-          className="hidden" // Hide the widget button
-        >
-          <></>
-        </CalendlyPopupWidget>
-      )}
+      {/* Calendly Script Loading */}
+      {useEffect(() => {
+        // Load Calendly script when needed
+        if (stage === 'recommendation') {
+          const script = document.createElement('script');
+          script.src = 'https://assets.calendly.com/assets/external/widget.js';
+          script.async = true;
+          script.id = 'calendly-script';
+          document.head.appendChild(script);
+          
+          return () => {
+            // Clean up script when component unmounts
+            const existingScript = document.getElementById('calendly-script');
+            if (existingScript) {
+              existingScript.remove();
+            }
+          };
+        }
+      }, [stage])}
     </div>
   );
 };
