@@ -64,7 +64,7 @@ const ModuleHUDShowcase: React.FC = () => {
   // Find the current style variant
   const currentVariant = styleVariants.find(variant => variant.id === selectedVariant) || styleVariants[0];
 
-  // GSAP animations for tab transitions
+  // GSAP animations for tab transitions and scroll-triggered animations
   useGSAP(() => {
     const ctx = gsap.context(() => {
       // Animation for tab panels
@@ -72,6 +72,48 @@ const ModuleHUDShowcase: React.FC = () => {
         { opacity: 0, y: 20 },
         { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.2)" }
       );
+      
+      // Set up Intersection Observer for scroll-triggered animations
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Run the animation sequence when the component enters the viewport
+            const target = entry.target;
+            
+            // Animation sequence disabled - handled in ModuleHUD component
+            // We'll only animate floating elements in container
+            
+            // Animation for floating elements
+            gsap.from(target.querySelectorAll(".course-float-element"), {
+              y: 30,
+              opacity: 0,
+              stagger: 0.2,
+              delay: 0.6,
+              duration: 0.8,
+              ease: "power2.out"
+            });
+            
+            // Stop observing after animation is triggered
+            observer.unobserve(target);
+          }
+        });
+      }, {
+        threshold: 0.2, // Trigger when 20% of the element is visible
+        rootMargin: "0px 0px -100px 0px" // Adjust based on when you want the animation to trigger
+      });
+      
+      // Observe the ModuleHUD container
+      const hudComponents = document.querySelectorAll(".module-hud-container");
+      hudComponents.forEach(component => {
+        observer.observe(component);
+      });
+      
+      return () => {
+        // Clean up observer when component unmounts
+        hudComponents.forEach(component => {
+          observer.unobserve(component);
+        });
+      };
     }, containerRef);
     
     return () => ctx.revert();
@@ -169,7 +211,7 @@ const ModuleHUDShowcase: React.FC = () => {
 
           {/* ModuleHUD Component with Selected Style Variant */}
           <div 
-            className={`relative bg-theme-bg-secondary/5 p-8 rounded-2xl shadow-theme-md ${currentVariant.customClasses}`}
+            className={`module-hud-container relative bg-theme-bg-secondary/5 p-8 rounded-2xl shadow-theme-md ${currentVariant.customClasses}`}
             style={currentVariant.customStyles}
           >
             {/* Theme-aware floating elements for background decoration */}

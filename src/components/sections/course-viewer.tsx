@@ -68,6 +68,47 @@ export const CourseViewer: React.FC = () => {
         ease: "sine.inOut"
       });
       
+      // Set up Intersection Observer for scroll-triggered animations
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Run the animation sequence when the component enters the viewport
+            const target = entry.target;
+            
+            // Animation sequence disabled - handled in ModuleHUD component
+            // We'll only animate floating elements in container
+            
+            // Animation for floating elements
+            gsap.from(target.querySelectorAll(".course-float-element"), {
+              y: 30,
+              opacity: 0,
+              stagger: 0.2,
+              delay: 0.6,
+              duration: 0.8,
+              ease: "power2.out"
+            });
+            
+            // Stop observing after animation is triggered
+            observer.unobserve(target);
+          }
+        });
+      }, {
+        threshold: 0.2, // Trigger when 20% of the element is visible
+        rootMargin: "0px 0px -100px 0px" // Adjust based on when you want the animation to trigger
+      });
+      
+      // Observe the ModuleHUD container
+      const hudContainers = document.querySelectorAll(".module-hud-container");
+      hudContainers.forEach(container => {
+        observer.observe(container);
+      });
+      
+      return () => {
+        // Clean up observer when component unmounts
+        hudContainers.forEach(container => {
+          observer.unobserve(container);
+        });
+      };
     }, containerRef);
     
     return () => ctx.revert();
@@ -350,7 +391,7 @@ export const CourseViewer: React.FC = () => {
                opacity-[var(--theme-float-opacity-secondary)] 
                bg-[var(--theme-float-bg-secondary)]"></div>
           
-          <div className="relative flex items-center justify-center h-max w-full max-w-4xl mx-auto">
+          <div className="module-hud-container relative flex items-center justify-center h-full min-h-[600px] w-full max-w-4xl mx-auto">
             <ModuleHUD 
               selectedSection={selectedSection}
               onModuleClick={(moduleId) => {

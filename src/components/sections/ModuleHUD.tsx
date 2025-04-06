@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useMemo, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import courseUtils from "../../lib/course-utils";
-import { ModuleModal } from "../modals/TimelineModal";
+import { VSSubmoduleModal } from "../modals/VSSubmoduleModal";
 
 interface ModuleHUDProps {
   selectedSection?: string | null;
@@ -155,6 +155,8 @@ interface BigSquareProps {
 }
 
 const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, isSelected }, ref) => {
+  const [showTooltip, setShowTooltip] = useState(false);
+  
   return (
     <div 
       ref={ref}
@@ -162,13 +164,19 @@ const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, i
       data-display-key={section.displayKey}
       className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)]"
       style={{ backgroundColor: section.color }}
+      onMouseEnter={() => setShowTooltip(true)}
+      onMouseLeave={() => setShowTooltip(false)}
     >
-      <div 
-        id={`name-${section.id}`} 
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-white font-medium text-lg z-10"
-      >
-        {section.name}
-      </div>
+      {/* Tooltip that appears on hover */}
+      {showTooltip && (
+        <div className="absolute -top-14 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-4 py-2 rounded-lg shadow-theme-md text-base font-medium z-20 whitespace-nowrap">
+          {section.name}
+          <div className="absolute bottom-[-6px] left-1/2 transform -translate-x-1/2 w-3 h-3 bg-theme-bg-primary rotate-45"></div>
+        </div>
+      )}
+      
+      {/* Removed visual indicator */}
+      
       {/* Small red circle indicator for featured modules, centered on top right corner as per spec */}
       {section.featured && (
         <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
@@ -184,6 +192,8 @@ interface NormalSquareProps {
 }
 
 const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ section, isSelected }, ref) => {
+  const [showTooltip, setShowTooltip] = useState(false);
+  
   return (
     <div 
       ref={ref}
@@ -191,13 +201,19 @@ const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ sect
       data-display-key={section.displayKey}
       className="section-module module-item w-[var(--normal-square-width)] h-[var(--normal-square-width)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)]"
       style={{ backgroundColor: section.color }}
+      onMouseEnter={() => setShowTooltip(true)}
+      onMouseLeave={() => setShowTooltip(false)}
     >
-      <div 
-        id={`name-${section.id}`} 
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-white font-medium text-base z-10"
-      >
-        {section.name}
-      </div>
+      {/* Tooltip that appears on hover */}
+      {showTooltip && (
+        <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-3 py-1.5 rounded-lg shadow-theme-md text-sm font-medium z-20 whitespace-nowrap">
+          {section.name}
+          <div className="absolute bottom-[-6px] left-1/2 transform -translate-x-1/2 w-3 h-3 bg-theme-bg-primary rotate-45"></div>
+        </div>
+      )}
+      
+      {/* Removed color indicator dot */}
+      
       {/* Small red circle indicator for featured modules, centered on top right corner as per spec */}
       {section.featured && (
         <div className="absolute -top-2 -right-2 w-[12px] h-[12px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
@@ -320,10 +336,8 @@ const ModuleGrid: React.FC<ModuleGridProps> = ({ sectionId, modules, moduleRefs 
                        overflow-hidden ${spanClasses}
                        hover:shadow-theme-md hover:translate-y-[-4px] hover:scale-[1.02]`}
             style={{ 
-              background: gradientBg,
-              animationDelay: `${animDelay}s`,
-              opacity: 0, // Will be animated by GSAP
-              transform: 'scale(0.85)' // Will be animated by GSAP
+              background: gradientBg 
+              // No animation-related inline styles that could interfere with CSS
             }}
           >
             {/* Module title - visible on hover */}
@@ -412,25 +426,28 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   }, [selectedSection]);
   
   useGSAP(() => {
-    // Get computed theme variables for animation
-    const styles = getComputedStyle(document.documentElement);
-    const animDuration = parseFloat(styles.getPropertyValue('--theme-anim-duration') || '0.35');
-    
     const ctx = gsap.context(() => {
-      // Initial animation for sections
-      gsap.from(".section-module", {
-        scale: 0.8,
+      // First make sure all sections are initially invisible
+      gsap.set(".section-module", {
         opacity: 0,
-        stagger: 0.12,
-        duration: 0.6,
-        ease: "back.out(1.7)"
+        scale: 0.85
       });
       
-      // Initial animation for modules (initially hidden)
-      gsap.set(".module-grid-container", {
-        opacity: 0,
-        scale: 0.6,
-        display: "none"
+      // Then animate them in with a staggered effect
+      // Using a slight delay to ensure DOM is ready
+      gsap.to(".section-module", {
+        opacity: 1,
+        scale: 1,
+        stagger: 0.08,
+        duration: 0.6,
+        ease: "back.out(1.7)",
+        delay: 0.1,
+        onComplete: () => {
+          // Clean up GSAP inline styles after animation completes
+          gsap.set(".section-module", {
+            clearProps: "opacity,scale"
+          });
+        }
       });
     }, containerRef);
     
@@ -450,174 +467,320 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     if (!selectedSection) {
       // Collapse all sections with improved transitions
       mainSections.forEach(section => {
-        const container = document.getElementById(`${section.id}-modules`);
-        if (container) {
-          // First fade out the modules with staggered effect
-          const moduleEls = container.querySelectorAll(".module-item");
-          gsap.to(moduleEls, {
-            opacity: 0,
-            scale: 0.85,
-            stagger: 0.02,
-            duration: 0.25,
-            ease: "power2.in",
-            onComplete: () => {
-              // Then collapse the container with smooth animation
-              gsap.to(container, {
-                opacity: 0,
-                duration: 0.3,
-                ease: "power3.out",
-                transform: 'translateX(-50%) scale(0.6)',
-                onComplete: () => {
-                  container.style.display = "none";
-                  
-                  // Animate content back to original position after container collapse
-                  if (contentBelow) {
-                    gsap.to(contentBelow, {
-                      marginTop: '4rem', // Return to original margin
-                      duration: 0.5,
-                      ease: "power3.out"
-                    });
-                  }
-                }
-              });
-            }
-          });
-        }
-        
         // Reset section animation with subtle bounce
         const sectionEl = sectionRefs.current[section.id];
         if (sectionEl) {
-          gsap.to(sectionEl, {
-            scale: 1,
-            duration: 0.4,
-            ease: "back.out(1.2)"
-          });
-        }
-      });
-    } else {
-      // Expand selected section with enhanced transitions
-      const container = document.getElementById(`${selectedSection}-modules`);
-      if (container) {
-        // First make container visible but transparent
-        container.style.display = "block";
-        container.style.opacity = "0";
-        container.style.transform = "translateX(-50%) scale(0.8)";
-        
-        // Get the grid size to determine how much space we need
-        const moduleCount = container.querySelectorAll(".module-item").length;
-        let pushDistance = 180; // Base distance
-        
-        // Adjust push distance based on module count
-        if (moduleCount > 4) pushDistance = 220;
-        if (moduleCount > 7) pushDistance = 280;
-        if (moduleCount > 11) pushDistance = 320;
-        
-        // Add bubbly animation to the selected section first
-        const sectionEl = sectionRefs.current[selectedSection];
-        if (sectionEl) {
-          gsap.to(sectionEl, {
-            scale: 1.08,
-            y: -4,
-            boxShadow: "var(--theme-shadow-md)",
-            duration: 0.5,
-            ease: "back.out(1.7)"
-          });
-        }
-        
-        // Add small delay to make the animation sequence more natural
-        gsap.delayedCall(0.15, () => {
-          // Push content below to make room for the expanded section
-          if (contentBelow) {
-            gsap.to(contentBelow, {
-              marginTop: `${pushDistance}px`, // Push content down based on module count
-              duration: 0.6,
-              ease: "power2.out"
-            });
-          }
-          
-          // Animate container with bouncy effect
-          gsap.to(container, {
-            opacity: 1,
-            transform: 'translateX(-50%) scale(1)',
-            duration: 0.5,
-            ease: "back.out(1.4)",
-            onComplete: () => {
-              // Then animate modules with a staggered effect
-              const moduleEls = container.querySelectorAll(".module-item");
-              gsap.to(moduleEls, {
-                opacity: 1,
-                scale: 1,
-                stagger: 0.05,
-                duration: 0.4,
-                ease: "back.out(1.7)"
-              });
-              
-              // Add subtle pulse to the indicators inside modules
-              gsap.to(container.querySelectorAll(".duration-indicator"), {
-                scale: 1.2,
-                duration: 0.3,
-                stagger: 0.05,
-                repeat: 1,
-                yoyo: true,
-                ease: "power2.inOut"
-              });
-            }
-          });
-        });
-        
-        // Create connection line animation
-        const connectionLine = container.querySelector(".connection-line");
-        if (connectionLine) {
-          gsap.fromTo(connectionLine, 
-            { height: 0 },
-            { height: 8, duration: 0.3, ease: "power2.out", delay: 0.2 }
-          );
-        }
-      }
-      
-      // Collapse other sections with subtle transitions
-      mainSections.forEach(section => {
-        if (section.id !== selectedSection) {
-          const container = document.getElementById(`${section.id}-modules`);
-          if (container) {
-            // Fade out modules first
-            const moduleEls = container.querySelectorAll(".module-item");
-            gsap.to(moduleEls, {
+          // Remove section title if it exists
+          const sectionTitleEl = document.getElementById(`section-title-${section.id}`);
+          if (sectionTitleEl) {
+            // Fade out section title
+            gsap.to(sectionTitleEl, {
               opacity: 0,
-              scale: 0.85,
-              stagger: 0.02,
-              duration: 0.25,
+              y: -10,
+              duration: 0.2,
               ease: "power2.in",
               onComplete: () => {
-                // Then collapse the container
-                gsap.to(container, {
-                  opacity: 0,
-                  transform: 'translateX(-50%) scale(0.6)',
-                  duration: 0.3,
-                  ease: "power3.out",
-                  onComplete: () => {
-                    container.style.display = "none";
-                  }
-                });
+                sectionTitleEl.remove();
               }
             });
           }
           
-          // Reset section animation with subtle transition
-          const sectionEl = sectionRefs.current[section.id];
-          if (sectionEl) {
+          // Remove modules if they exist inside the section
+          const existingModules = sectionEl.querySelector('.modules-container');
+          if (existingModules) {
+            // Fade out modules first
+            gsap.to(existingModules.querySelectorAll('.module-item'), {
+              opacity: 0,
+              scale: 0.8,
+              stagger: 0.02,
+              duration: 0.2,
+              ease: "power2.in",
+              onComplete: () => {
+                // Then remove the modules container
+                existingModules.remove();
+                
+                // Animate section back to original size
+                gsap.to(sectionEl, {
+                  width: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
+                  height: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
+                  scale: 1,
+                  duration: 0.4,
+                  ease: "back.out(1.2)"
+                });
+              }
+            });
+          } else {
+            // If no modules, just reset the section
             gsap.to(sectionEl, {
               scale: 1,
-              y: 0,
-              boxShadow: "var(--theme-shadow-sm)",
               duration: 0.4,
-              ease: "power2.out"
+              ease: "back.out(1.2)"
             });
           }
         }
       });
+      
+      // Remove any standalone module containers
+      mainSections.forEach(section => {
+        const container = document.getElementById(`${section.id}-modules`);
+        if (container) {
+          gsap.to(container, {
+            opacity: 0,
+            duration: 0.3,
+            ease: "power3.out",
+            transform: 'translateX(-50%) scale(0.6)',
+            onComplete: () => {
+              container.remove();
+            }
+          });
+        }
+      });
+      
+      // Reset content margin if needed
+      if (contentBelow) {
+        gsap.to(contentBelow, {
+          marginTop: '4rem', // Return to original margin
+          duration: 0.5,
+          ease: "power3.out"
+        });
+      }
+    } else {
+      // Expand selected section with enhanced transitions
+      const sectionEl = sectionRefs.current[selectedSection];
+      
+      if (sectionEl) {
+        // Determine size based on module count
+        const moduleCount = selectedSectionModules.length;
+        let gridSize = 2; // 2x2 grid default
+        
+        // Set grid size based on module count as per spec
+        if (moduleCount <= 4) gridSize = 2; // 2x2 grid
+        else if (moduleCount <= 9) gridSize = 3; // 3x3 grid
+        else if (moduleCount <= 16) gridSize = 4; // 4x4 grid
+        else if (moduleCount <= 25) gridSize = 5; // 5x5 grid
+        else gridSize = 6; // 6x6 grid for very large module sets
+        
+        // Calculate new width/height for expanded section
+        const normalSize = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--normal-square-width'));
+        const newSize = normalSize * gridSize;
+        const expandedSectionSize = `${newSize}px`;
+        
+        // Find the section data for the selected section
+        const sectionData = mainSections.find(s => s.id === selectedSection);
+        if (!sectionData) return;
+        
+        // Create section title element that will appear above the expanded section
+        let sectionTitleEl = document.getElementById(`section-title-${selectedSection}`);
+        if (!sectionTitleEl) {
+          sectionTitleEl = document.createElement('div');
+          sectionTitleEl.id = `section-title-${selectedSection}`;
+          sectionTitleEl.className = 'section-title absolute -top-12 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-4 py-2 rounded-lg shadow-theme-md text-lg font-medium z-20 whitespace-nowrap';
+          sectionTitleEl.innerHTML = sectionData.name;
+          sectionTitleEl.style.opacity = '0';
+          sectionTitleEl.style.y = '-10px';
+          
+          // Create a decorative arrow pointing down
+          const arrowEl = document.createElement('div');
+          arrowEl.className = 'absolute bottom-[-6px] left-1/2 transform -translate-x-1/2 w-3 h-3 bg-theme-bg-primary rotate-45';
+          sectionTitleEl.appendChild(arrowEl);
+          
+          // Insert it before the section element
+          sectionEl.parentNode?.insertBefore(sectionTitleEl, sectionEl);
+        }
+
+        // First animate the section title to appear
+        gsap.to(sectionTitleEl, {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
+          ease: "power2.out"
+        });
+        
+        // Then highlight and add subtle animation to the selected section
+        gsap.to(sectionEl, {
+          scale: 1.05,
+          boxShadow: "var(--theme-shadow-md)",
+          duration: 0.3,
+          ease: "back.out(1.7)",
+          onComplete: () => {
+            // Then expand the section to accommodate modules
+            gsap.to(sectionEl, {
+              width: expandedSectionSize,
+              height: expandedSectionSize,
+              duration: 0.5,
+              ease: "back.out(1)",
+              onComplete: () => {
+                // Create modules container and add it to the section
+                if (!sectionEl.querySelector('.modules-container')) {
+                  const modulesContainer = document.createElement('div');
+                  modulesContainer.className = 'modules-container absolute inset-0 z-10 p-4 flex flex-wrap items-center content-center justify-center gap-2';
+                  
+                  // Add modules to the container
+                  selectedSectionModules.forEach((module, index) => {
+                    // Create module element
+                    const moduleEl = document.createElement('div');
+                    moduleEl.className = `module-item rounded-lg shadow-theme-sm cursor-pointer relative transition-all
+                                         duration-[var(--theme-transition-bounce)] overflow-hidden`;
+                    moduleEl.style.backgroundColor = module.color || 'var(--theme-accent-secondary)';
+                    moduleEl.style.width = '40px';
+                    moduleEl.style.height = '40px';
+                    // No inline styles needed for opacity or transform
+                    // Let the native CSS handle the default state
+                    
+                    // Add module data attributes
+                    moduleEl.dataset.id = module.id;
+                    moduleEl.title = module.title; // Add title for tooltip
+                    
+                    // Add hover event listeners for tooltips
+                    moduleEl.addEventListener('mouseenter', () => {
+                      const existingTooltip = document.getElementById(`tooltip-${module.id}`);
+                      if (!existingTooltip) {
+                        const tooltipEl = document.createElement('div');
+                        tooltipEl.id = `tooltip-${module.id}`;
+                        tooltipEl.className = 'module-tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs font-medium z-30 whitespace-nowrap';
+                        tooltipEl.innerHTML = module.title;
+                        tooltipEl.style.opacity = '0';
+                        
+                        // Add arrow
+                        const tooltipArrow = document.createElement('div');
+                        tooltipArrow.className = 'absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45';
+                        tooltipEl.appendChild(tooltipArrow);
+                        
+                        // Add to module
+                        moduleEl.appendChild(tooltipEl);
+                        
+                        // Animate tooltip
+                        gsap.to(tooltipEl, {
+                          opacity: 1,
+                          duration: 0.2,
+                          ease: "power2.out"
+                        });
+                      }
+                    });
+                    
+                    // Hide tooltip on mouse leave
+                    moduleEl.addEventListener('mouseleave', () => {
+                      const tooltipEl = document.getElementById(`tooltip-${module.id}`);
+                      if (tooltipEl) {
+                        gsap.to(tooltipEl, {
+                          opacity: 0,
+                          duration: 0.2,
+                          ease: "power2.in",
+                          onComplete: () => {
+                            tooltipEl.remove();
+                          }
+                        });
+                      }
+                    });
+                    
+                    // Add to container
+                    modulesContainer.appendChild(moduleEl);
+                  });
+                  
+                  // Add container to section
+                  sectionEl.appendChild(modulesContainer);
+                  
+                  // Make sure all modules are visible first
+                  gsap.set(modulesContainer.querySelectorAll('.module-item'), {
+                    opacity: 0,
+                    scale: 0.85
+                  });
+                  
+                  // Then animate modules in with stagger
+                  gsap.to(modulesContainer.querySelectorAll('.module-item'), {
+                    opacity: 1,
+                    scale: 1,
+                    stagger: 0.05,
+                    duration: 0.4,
+                    ease: "back.out(1.7)",
+                    onComplete: () => {
+                      // Clean up GSAP inline styles after animation completes
+                      gsap.set(modulesContainer.querySelectorAll('.module-item'), {
+                        clearProps: "opacity,scale"
+                      });
+                    }
+                  });
+                }
+              }
+            });
+          }
+        });
+        
+        // Collapse other sections with subtle transitions
+        mainSections.forEach(section => {
+          if (section.id !== selectedSection) {
+            // Remove section title if it exists
+            const sectionTitleEl = document.getElementById(`section-title-${section.id}`);
+            if (sectionTitleEl) {
+              // Fade out section title
+              gsap.to(sectionTitleEl, {
+                opacity: 0,
+                y: -10,
+                duration: 0.2,
+                ease: "power2.in",
+                onComplete: () => {
+                  sectionTitleEl.remove();
+                }
+              });
+            }
+            
+            const otherSectionEl = sectionRefs.current[section.id];
+            if (otherSectionEl) {
+              // Remove modules if they exist
+              const existingModules = otherSectionEl.querySelector('.modules-container');
+              if (existingModules) {
+                // Fade out modules first
+                gsap.to(existingModules.querySelectorAll('.module-item'), {
+                  opacity: 0,
+                  scale: 0.8,
+                  stagger: 0.02,
+                  duration: 0.2,
+                  ease: "power2.in",
+                  onComplete: () => {
+                    // Then remove the modules container
+                    existingModules.remove();
+                    
+                    // Animate section back to original size
+                    gsap.to(otherSectionEl, {
+                      width: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
+                      height: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
+                      scale: 1,
+                      boxShadow: "var(--theme-shadow-sm)",
+                      duration: 0.4,
+                      ease: "power2.out"
+                    });
+                  }
+                });
+              } else {
+                // If no modules, just reset the section
+                gsap.to(otherSectionEl, {
+                  scale: 1,
+                  y: 0,
+                  boxShadow: "var(--theme-shadow-sm)",
+                  duration: 0.4,
+                  ease: "power2.out"
+                });
+              }
+            }
+            
+            // Remove any standalone module containers
+            const container = document.getElementById(`${section.id}-modules`);
+            if (container) {
+              gsap.to(container, {
+                opacity: 0,
+                transform: 'translateX(-50%) scale(0.6)',
+                duration: 0.3,
+                ease: "power3.out",
+                onComplete: () => {
+                  container.remove();
+                }
+              });
+            }
+          }
+        });
+      }
     }
-  }, [selectedSection]);
+  }, [selectedSection, selectedSectionModules]);
   
   // Setup hover animations
   useGSAP(() => {
@@ -751,8 +914,9 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
       const displayKey = moduleItem.getAttribute('data-display-key');
       
       if (moduleId) {
-        // For submodule clicks, use moduleId directly
-        if (moduleItem.classList.contains('submodule-item')) {
+        // If the clicked element is a module inside an expanded section
+        const isInsideModulesContainer = moduleItem.closest('.modules-container');
+        if (isInsideModulesContainer) {
           // Set the selected module ID and open the modal
           setSelectedModuleId(moduleId);
           setIsModalOpen(true);
@@ -782,7 +946,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   return (
     <div 
       ref={containerRef}
-      className="w-full max-w-[900px] h-full max-h-[800px] p-6 relative overflow-visible"
+      className="w-full max-w-[900px] h-full min-h-[600px] max-h-[800px] p-6 relative overflow-visible flex items-center justify-center"
       onClick={handleModuleClick}
     >
       {/* Theme-aware floating elements for background decoration */}
@@ -815,7 +979,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           flex direction changes (the outer l-r row becomes a t-b column && the tinner t-b column 
           becomes a l-r row)" 
         */}
-        <div className="flex flex-col md:flex-row h-max items-center justify-center content-center md:items-start gap-[var(--square-gap-y)] md:gap-[var(--square-gap-x)]">
+        <div className="flex flex-col md:flex-row h-max items-center justify-center content-center md:items-center gap-[var(--square-gap-y)] md:gap-[var(--square-gap-x)]">
           {/* First big square (Basic Theory) */}
           <BigSquare 
             section={mainSections[0]} 
@@ -858,69 +1022,49 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           />
           
           {/* System big square (Final special square) - Special design to connote the 3 parts of product/turn key system */}
-          <div 
-            ref={(el) => { 
-              if (el) sectionRefs.current[mainSections[10].id + '-' + mainSections[10].displayKey] = el;
-              return undefined;
-            }}
-            data-id={mainSections[10].id}
-            data-display-key={mainSections[10].displayKey}
-            className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden"
-            style={{ backgroundColor: mainSections[10].color }}
-          >
-            {/* Three parts/subsections to represent the turn key system */}
-            <div className="absolute top-0 left-0 w-full h-1/3 bg-[var(--theme-float-bg-primary)] opacity-20"></div>
-            <div className="absolute top-1/3 left-0 w-full h-1/3 bg-[var(--theme-float-bg-secondary)] opacity-30"></div>
-            <div className="absolute top-2/3 left-0 w-full h-1/3 bg-[var(--theme-float-bg-tertiary)] opacity-20"></div>
+          {(() => {
+            const [showTooltip, setShowTooltip] = useState(false);
             
-            {/* Decorative elements to suggest a system */}
-            <div className="absolute inset-4 border-2 border-dashed border-white/15 rounded-lg pointer-events-none"></div>
-            <div className="absolute top-[18%] left-1/2 w-2 h-2 bg-white rounded-full transform -translate-x-1/2"></div>
-            <div className="absolute top-[50%] left-1/2 w-2 h-2 bg-white rounded-full transform -translate-x-1/2"></div>
-            <div className="absolute top-[82%] left-1/2 w-2 h-2 bg-white rounded-full transform -translate-x-1/2"></div>
-            
-            <div 
-              id={`name-${mainSections[6].id}`} 
-              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-white font-medium text-lg z-10"
-            >
-              {mainSections[6].name}
-            </div>
-            
-            {/* Featured indicator */}
-            {mainSections[6].featured && (
-              <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
-            )}
-          </div>
+            return (
+              <div 
+                ref={(el) => { 
+                  if (el) sectionRefs.current[mainSections[10].id + '-' + mainSections[10].displayKey] = el;
+                  return undefined;
+                }}
+                data-id={mainSections[10].id}
+                data-display-key={mainSections[10].displayKey}
+                className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden"
+                style={{ backgroundColor: mainSections[10].color }}
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+              >
+                {/* Tooltip that appears on hover */}
+                {showTooltip && (
+                  <div className="absolute -top-14 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-4 py-2 rounded-lg shadow-theme-md text-base font-medium z-20 whitespace-nowrap">
+                    {mainSections[10].name}
+                    <div className="absolute bottom-[-6px] left-1/2 transform -translate-x-1/2 w-3 h-3 bg-theme-bg-primary rotate-45"></div>
+                  </div>
+                )}
+                
+                {/* Three parts/subsections to represent the turn key system */}
+                {/* Subtle sections to indicate products/systems */}
+                <div className="absolute top-0 left-0 w-full h-1/3 bg-[var(--theme-float-bg-primary)] opacity-10"></div>
+                <div className="absolute top-1/3 left-0 w-full h-1/3 bg-[var(--theme-float-bg-secondary)] opacity-15"></div>
+                <div className="absolute top-2/3 left-0 w-full h-1/3 bg-[var(--theme-float-bg-tertiary)] opacity-10"></div>
+                
+                {/* Decorative elements to suggest a system */}
+                <div className="absolute inset-4 border-2 border-dashed border-white/10 rounded-lg pointer-events-none"></div>
+                
+                {/* Featured indicator */}
+                {mainSections[10].featured && (
+                  <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
+                )}
+              </div>
+            );
+          })()}
         </div>
         
-        {/* Module Grids - One per section */}
-        {mainSections.map(section => (
-          <div 
-            key={`${section.id}-modules`}
-            id={`${section.id}-modules`}
-            className="module-grid-container absolute top-full left-1/2 transform -translate-x-1/2 mt-8 z-20 w-[clamp(300px,80vw,800px)]"
-            style={{
-              // Will be set by JS animation
-              display: 'none',
-              opacity: 0,
-              transform: 'translateX(-50%) scale(0.6)'
-            }}
-          >
-            <div className="relative">
-              {/* Connection line from section to module grid with enhanced animation */}
-              <div className="connection-line absolute -top-8 left-1/2 transform -translate-x-1/2 w-1 h-8 
-                  bg-gradient-to-b from-[var(--theme-accent-secondary)] to-[var(--theme-border-primary)] 
-                  rounded-t-full opacity-60"></div>
-              
-              {/* Module grid content */}
-              <ModuleGrid 
-                sectionId={section.id}
-                modules={section.id === selectedSection ? selectedSectionModules : []}
-                moduleRefs={moduleRefs}
-              />
-            </div>
-          </div>
-        ))}
+        {/* No more separate module grids - modules are now displayed within expanded sections */}
       </div>
       
       {/* Theme-aware floating elements for visual interest */}
@@ -933,12 +1077,23 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
            bg-[var(--theme-float-bg-secondary)]
            animate-float-medium"></div>
       
-      {/* Module modal */}
-      <ModuleModal 
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        moduleId={selectedModuleId}
-      />
+      {/* Module modal using VSSubmoduleModal */}
+      {selectedModuleId && (
+        <VSSubmoduleModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          moduleId={selectedModuleId}
+          moduleTitle={selectedModuleId ? courseUtils.getModuleTitle(selectedModuleId) || "Module Details" : "Module Details"}
+          submodules={[
+            { id: "sub1", title: "Introduction to the Concept", duration: "5:30" },
+            { id: "sub2", title: "Core Principles", duration: "12:45", isCompleted: true },
+            { id: "sub3", title: "Advanced Techniques", duration: "18:20" },
+            { id: "sub4", title: "Practical Applications", duration: "15:10" },
+            { id: "sub5", title: "Case Studies & Examples", duration: "22:05", isLocked: true }
+          ]}
+          thumbnailUrl={selectedModuleId ? courseUtils.getThumbnailPath(courseUtils.getModuleThumbnail(selectedModuleId)) : ""}
+        />
+      )}
     </div>
   );
 };

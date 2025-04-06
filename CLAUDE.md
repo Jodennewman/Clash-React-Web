@@ -394,6 +394,36 @@ useGSAP(() => {
 ## Most Important Rule
 After stating your plan, NEVER deviate from it without permission. It's better to do nothing than to implement something contrary to your stated plan.
 
+## ModuleHUD Improvement Checklist
+
+1. **Vertical Alignment Fix**
+   - [x] Fix section blocks vertical alignment at larger breakpoints
+   - [x] Add h-max and items-center classes to container divs
+
+2. **Text Display Enhancement**
+   - [x] Convert direct text overlay to tooltip functionality
+   - [x] Implement hover-based tooltips for better visual design
+
+3. **Section Expansion Behavior**
+   - [x] Rewrite section expansion to expand the block itself instead of showing content below
+   - [x] Modify GSAP animations to scale the section and reveal modules within
+   - [x] Update layout logic for proper expansion behavior
+
+4. **Module Loading**
+   - [x] Debug course-data integration
+   - [x] Ensure section IDs match expected values in course-data
+   - [x] Add proper fallbacks and error handling
+
+5. **Modal Implementation**
+   - [x] Integrate VSSubmoduleModal.tsx for module details
+   - [x] Connect module click handlers to modal
+   - [x] Ensure proper data flow and display
+
+6. **Scroll-Triggered Animations**
+   - [x] Implement Intersection Observer for viewport detection
+   - [x] Convert page load animations to scroll-triggered animations
+   - [x] Add progressive reveal for better UX
+
 ## Landing Page Implementation Strategy
 
 We follow a **"Meet in the Middle"** approach for the landing page:
