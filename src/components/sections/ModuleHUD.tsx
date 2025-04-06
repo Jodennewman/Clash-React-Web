@@ -155,8 +155,6 @@ interface BigSquareProps {
 }
 
 const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, isSelected }, ref) => {
-  const [showTooltip, setShowTooltip] = useState(false);
-  
   return (
     <div 
       ref={ref}
@@ -164,18 +162,11 @@ const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, i
       data-display-key={section.displayKey}
       className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)]"
       style={{ backgroundColor: section.color }}
-      onMouseEnter={() => setShowTooltip(true)}
-      onMouseLeave={() => setShowTooltip(false)}
     >
-      {/* Tooltip that appears on hover */}
-      {showTooltip && (
-        <div className="absolute -top-14 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-4 py-2 rounded-lg shadow-theme-md text-base font-medium z-20 whitespace-nowrap">
-          {section.name}
-          <div className="absolute bottom-[-6px] left-1/2 transform -translate-x-1/2 w-3 h-3 bg-theme-bg-primary rotate-45"></div>
-        </div>
-      )}
-      
-      {/* Removed visual indicator */}
+      {/* Display section name directly on the section for better UX */}
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-medium">
+        {section.name}
+      </div>
       
       {/* Small red circle indicator for featured modules, centered on top right corner as per spec */}
       {section.featured && (
@@ -192,8 +183,6 @@ interface NormalSquareProps {
 }
 
 const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ section, isSelected }, ref) => {
-  const [showTooltip, setShowTooltip] = useState(false);
-  
   return (
     <div 
       ref={ref}
@@ -201,18 +190,11 @@ const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ sect
       data-display-key={section.displayKey}
       className="section-module module-item w-[var(--normal-square-width)] h-[var(--normal-square-width)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)]"
       style={{ backgroundColor: section.color }}
-      onMouseEnter={() => setShowTooltip(true)}
-      onMouseLeave={() => setShowTooltip(false)}
     >
-      {/* Tooltip that appears on hover */}
-      {showTooltip && (
-        <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-3 py-1.5 rounded-lg shadow-theme-md text-sm font-medium z-20 whitespace-nowrap">
-          {section.name}
-          <div className="absolute bottom-[-6px] left-1/2 transform -translate-x-1/2 w-3 h-3 bg-theme-bg-primary rotate-45"></div>
-        </div>
-      )}
-      
-      {/* Removed color indicator dot */}
+      {/* Display section name directly on the section for better UX */}
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-medium text-xs">
+        {section.name}
+      </div>
       
       {/* Small red circle indicator for featured modules, centered on top right corner as per spec */}
       {section.featured && (
@@ -433,15 +415,14 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         scale: 0.85
       });
       
-      // Then animate them in with a staggered effect
-      // Using a slight delay to ensure DOM is ready
+      // Then animate them in with a staggered effect - reduced delay for better responsiveness
       gsap.to(".section-module", {
         opacity: 1,
         scale: 1,
-        stagger: 0.08,
-        duration: 0.6,
+        stagger: 0.04, // Faster staggering
+        duration: 0.4,  // Faster animation
         ease: "back.out(1.7)",
-        delay: 0.1,
+        delay: 0.05,    // Minimal delay
         onComplete: () => {
           // Clean up GSAP inline styles after animation completes
           gsap.set(".section-module", {
@@ -465,7 +446,47 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     const contentBelow = document.querySelector('.mt-16.md\\:mt-24');
     
     if (!selectedSection) {
-      // Collapse all sections with improved transitions
+      // Create a timeline for smoother coordination of animations
+      const tl = gsap.timeline({
+        onComplete: () => {
+          // This helps avoid flickering and ensures cleanup
+          requestAnimationFrame(() => {
+            // Final cleanup of any remaining inline styles
+            mainSections.forEach(section => {
+              const sectionEl = sectionRefs.current[section.id];
+              if (sectionEl) {
+                // Ensure all props are properly cleaned up
+                gsap.set(sectionEl, {
+                  clearProps: "width,height,scale,transform,x,y"
+                });
+              }
+            });
+          });
+        }
+      });
+      
+      // First, immediately capture and freeze the current state of all sections
+      // to prevent any visual jumps before animations start
+      mainSections.forEach(section => {
+        const sectionEl = sectionRefs.current[section.id];
+        if (sectionEl) {
+          // Capture current computed transforms before starting animations
+          const currentRect = sectionEl.getBoundingClientRect();
+          const currentStyles = window.getComputedStyle(sectionEl);
+          
+          // Convert to appropriate units for transform
+          const currentScale = gsap.getProperty(sectionEl, "scale") || 1;
+          
+          // Freeze at current position to prevent jumps
+          gsap.set(sectionEl, {
+            width: `${currentRect.width}px`,
+            height: `${currentRect.height}px`,
+            scale: currentScale 
+          });
+        }
+      });
+      
+      // Second, animate all sections
       mainSections.forEach(section => {
         // Reset section animation with subtle bounce
         const sectionEl = sectionRefs.current[section.id];
@@ -474,7 +495,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           const sectionTitleEl = document.getElementById(`section-title-${section.id}`);
           if (sectionTitleEl) {
             // Fade out section title
-            gsap.to(sectionTitleEl, {
+            tl.to(sectionTitleEl, {
               opacity: 0,
               y: -10,
               duration: 0.2,
@@ -482,40 +503,67 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
               onComplete: () => {
                 sectionTitleEl.remove();
               }
-            });
+            }, 0); // Start at the beginning of the timeline
           }
           
           // Remove modules if they exist inside the section
           const existingModules = sectionEl.querySelector('.modules-container');
           if (existingModules) {
             // Fade out modules first
-            gsap.to(existingModules.querySelectorAll('.module-item'), {
+            tl.to(existingModules.querySelectorAll('.module-item'), {
               opacity: 0,
-              scale: 0.8,
-              stagger: 0.02,
-              duration: 0.2,
+              scale: 0.95, // More subtle
+              stagger: 0.01, 
+              duration: 0.15,
               ease: "power2.in",
               onComplete: () => {
                 // Then remove the modules container
                 existingModules.remove();
-                
-                // Animate section back to original size
-                gsap.to(sectionEl, {
-                  width: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
-                  height: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
-                  scale: 1,
-                  duration: 0.4,
-                  ease: "back.out(1.2)"
+              }
+            }, 0); // Start at beginning
+            
+            // Animate section back to original size - two-stage animation to avoid jumps
+            // First, reduce scale slightly to provide visual feedback
+            tl.to(sectionEl, {
+              scale: 0.98, // Slight scale down for visual feedback
+              duration: 0.15,
+              ease: "power2.out"
+            }, 0.1); // Slight delay
+            
+            // Then animate to final size
+            tl.to(sectionEl, {
+              width: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
+              height: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
+              scale: 1,
+              duration: 0.2,
+              ease: "power3.out",
+              onComplete: () => {
+                // Clean up inline styles to let CSS take over
+                gsap.set(sectionEl, {
+                  clearProps: "width,height,scale,transform"
                 });
               }
-            });
+            }, 0.2); // Start after scale down 
+            
           } else {
-            // If no modules, just reset the section
-            gsap.to(sectionEl, {
+            // If no modules, just reset the section with the same 2-stage animation
+            tl.to(sectionEl, {
+              scale: 0.98, // Slight scale down
+              duration: 0.15,
+              ease: "power2.out"
+            }, 0.1);
+            
+            tl.to(sectionEl, {
               scale: 1,
-              duration: 0.4,
-              ease: "back.out(1.2)"
-            });
+              duration: 0.2,
+              ease: "power3.out",
+              onComplete: () => {
+                // Clean up inline styles
+                gsap.set(sectionEl, {
+                  clearProps: "scale,transform"
+                });
+              }
+            }, 0.2);
           }
         }
       });
@@ -588,121 +636,169 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           sectionEl.parentNode?.insertBefore(sectionTitleEl, sectionEl);
         }
 
-        // First animate the section title to appear
-        gsap.to(sectionTitleEl, {
-          opacity: 1,
-          y: 0,
-          duration: 0.3,
-          ease: "power2.out"
+        // Create a single timeline for better animation control and less input lag
+        const expandTl = gsap.timeline({
+          defaults: {
+            ease: "power3.out" // More consistent easing
+          }
         });
         
-        // Then highlight and add subtle animation to the selected section
-        gsap.to(sectionEl, {
-          scale: 1.05,
+        // Immediate visual feedback - apply a quick scale first
+        expandTl.to(sectionEl, {
+          scale: 1.03, // Small immediate scale for visual feedback
+          duration: 0.05 // Very quick
+        });
+        
+        // Animate the section title to appear in parallel
+        expandTl.to(sectionTitleEl, {
+          opacity: 1,
+          y: 0,
+          duration: 0.15
+        }, 0); // Start at the same time
+        
+        // Then smoothly expand the section to accommodate modules
+        expandTl.to(sectionEl, {
+          width: expandedSectionSize,
+          height: expandedSectionSize,
+          scale: 1, // Return to normal scale
           boxShadow: "var(--theme-shadow-md)",
-          duration: 0.3,
-          ease: "back.out(1.7)",
+          duration: 0.25,
+          ease: "power2.out", // Smoother and more predictable
           onComplete: () => {
-            // Then expand the section to accommodate modules
-            gsap.to(sectionEl, {
-              width: expandedSectionSize,
-              height: expandedSectionSize,
-              duration: 0.5,
-              ease: "back.out(1)",
-              onComplete: () => {
-                // Create modules container and add it to the section
-                if (!sectionEl.querySelector('.modules-container')) {
-                  const modulesContainer = document.createElement('div');
-                  modulesContainer.className = 'modules-container absolute inset-0 z-10 p-4 flex flex-wrap items-center content-center justify-center gap-2';
-                  
-                  // Add modules to the container
-                  selectedSectionModules.forEach((module, index) => {
-                    // Create module element
-                    const moduleEl = document.createElement('div');
-                    moduleEl.className = `module-item rounded-lg shadow-theme-sm cursor-pointer relative transition-all
-                                         duration-[var(--theme-transition-bounce)] overflow-hidden`;
-                    moduleEl.style.backgroundColor = module.color || 'var(--theme-accent-secondary)';
-                    moduleEl.style.width = '40px';
-                    moduleEl.style.height = '40px';
-                    // No inline styles needed for opacity or transform
-                    // Let the native CSS handle the default state
-                    
-                    // Add module data attributes
-                    moduleEl.dataset.id = module.id;
-                    moduleEl.title = module.title; // Add title for tooltip
-                    
-                    // Add hover event listeners for tooltips
-                    moduleEl.addEventListener('mouseenter', () => {
-                      const existingTooltip = document.getElementById(`tooltip-${module.id}`);
-                      if (!existingTooltip) {
-                        const tooltipEl = document.createElement('div');
-                        tooltipEl.id = `tooltip-${module.id}`;
-                        tooltipEl.className = 'module-tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs font-medium z-30 whitespace-nowrap';
-                        tooltipEl.innerHTML = module.title;
-                        tooltipEl.style.opacity = '0';
-                        
-                        // Add arrow
-                        const tooltipArrow = document.createElement('div');
-                        tooltipArrow.className = 'absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45';
-                        tooltipEl.appendChild(tooltipArrow);
-                        
-                        // Add to module
-                        moduleEl.appendChild(tooltipEl);
-                        
-                        // Animate tooltip
-                        gsap.to(tooltipEl, {
-                          opacity: 1,
-                          duration: 0.2,
-                          ease: "power2.out"
-                        });
-                      }
-                    });
-                    
-                    // Hide tooltip on mouse leave
-                    moduleEl.addEventListener('mouseleave', () => {
-                      const tooltipEl = document.getElementById(`tooltip-${module.id}`);
-                      if (tooltipEl) {
-                        gsap.to(tooltipEl, {
-                          opacity: 0,
-                          duration: 0.2,
-                          ease: "power2.in",
-                          onComplete: () => {
-                            tooltipEl.remove();
-                          }
-                        });
-                      }
-                    });
-                    
-                    // Add to container
-                    modulesContainer.appendChild(moduleEl);
-                  });
-                  
-                  // Add container to section
-                  sectionEl.appendChild(modulesContainer);
-                  
-                  // Make sure all modules are visible first
+            // Create modules container and add it to the section
+            if (!sectionEl.querySelector('.modules-container')) {
+              const modulesContainer = document.createElement('div');
+              modulesContainer.className = 'modules-container absolute inset-0 z-10 p-4 flex flex-wrap items-center content-center justify-center gap-2';
+              
+              // Create a proper module container with overflow handling
+              modulesContainer.style.display = 'grid';
+              modulesContainer.style.width = '100%';
+              modulesContainer.style.height = '100%';
+              modulesContainer.style.overflowY = 'auto'; // Enable scrolling for many modules
+              modulesContainer.style.overflowX = 'hidden';
+              modulesContainer.style.padding = '12px';
+              modulesContainer.style.boxSizing = 'border-box';
+              
+              // Add scrollbar styling
+              modulesContainer.style.scrollbarWidth = 'thin';
+              modulesContainer.style.scrollbarColor = 'rgba(255,255,255,0.3) transparent';
+              
+              // Calculate the best grid layout based on module count
+              const totalModules = selectedSectionModules.length;
+              let gridCols = 4; // Default for most cases
+              let cellSize = '40px'; // Default size
+              
+              // Adjust grid columns based on expanded section size and module count
+              const containerSize = parseFloat(expandedSectionSize); // From the parent calculation
+              const availableSpace = containerSize - 24; // Accounting for padding
+              
+              // Calculate optimal cell size based on number of modules
+              // More modules = smaller cells
+              if (totalModules <= 4) {
+                gridCols = 2;
+                cellSize = `${Math.floor(availableSpace / 2) - 8}px`; // 2x2 grid
+              } else if (totalModules <= 9) {
+                gridCols = 3;
+                cellSize = `${Math.floor(availableSpace / 3) - 8}px`; // 3x3 grid
+              } else if (totalModules <= 16) {
+                gridCols = 4;
+                cellSize = `${Math.floor(availableSpace / 4) - 6}px`; // 4x4 grid
+              } else if (totalModules <= 25) {
+                gridCols = 5;
+                cellSize = `${Math.floor(availableSpace / 5) - 5}px`; // 5x5 grid
+              } else {
+                gridCols = 6;
+                cellSize = `${Math.floor(availableSpace / 6) - 4}px`; // 6x6 grid
+              }
+              
+              // Set the grid template
+              modulesContainer.style.gridTemplateColumns = `repeat(${gridCols}, ${cellSize})`;
+              modulesContainer.style.gridAutoRows = cellSize; // Ensure square cells
+              modulesContainer.style.gap = '8px';
+              modulesContainer.style.justifyContent = 'center'; // Center the grid
+              
+              // Add modules to the container
+              selectedSectionModules.forEach((module, index) => {
+                // Create module element
+                const moduleEl = document.createElement('div');
+                
+                // Determine module size - featured modules span 2 cells
+                const isLarge = module.featured || module.founderMustWatch || (module.duration || 0) > 30;
+                
+                moduleEl.className = `module-item rounded-lg shadow-theme-sm cursor-pointer relative transition-all
+                                     duration-[var(--theme-transition-bounce)] overflow-hidden`;
+                
+                // Create gradient background for module
+                const moduleColor = module.color || 'var(--theme-accent-secondary)';
+                const gradientBg = `linear-gradient(135deg, ${moduleColor}, ${moduleColor}dd)`;
+                moduleEl.style.background = gradientBg;
+                
+                // Enforce square aspect ratio
+                moduleEl.style.aspectRatio = '1/1';
+                moduleEl.style.width = '100%';
+                moduleEl.style.height = '100%';
+                
+                // Apply grid span for larger modules, but be careful not to overflow grid
+                if (isLarge && gridCols > 2 && totalModules < gridCols * gridCols / 2) {
+                  moduleEl.style.gridColumn = 'span 2';
+                  moduleEl.style.gridRow = 'span 2';
+                }
+                
+                // Add module data attributes
+                moduleEl.dataset.id = module.id;
+                
+                // Add module title with better visibility
+                const titleEl = document.createElement('div');
+                titleEl.className = 'absolute inset-0 flex items-center justify-center text-white text-xs font-medium text-center p-1';
+                // Add text shadow for better visibility against any background
+                titleEl.style.textShadow = '0 1px 2px rgba(0,0,0,0.5)';
+                
+                // Truncate long titles
+                const shortTitle = module.title.length > 25 ? module.title.slice(0, 22) + '...' : module.title;
+                titleEl.textContent = shortTitle;
+                moduleEl.appendChild(titleEl);
+                
+                // Add subtle background gradient overlay for text readability
+                const overlayEl = document.createElement('div');
+                overlayEl.className = 'absolute inset-0 bg-gradient-to-b from-transparent to-black/40';
+                overlayEl.style.pointerEvents = 'none';
+                moduleEl.appendChild(overlayEl);
+                
+                // Add visual indicators for featured/founder modules
+                if (module.featured) {
+                  const indicator = document.createElement('div');
+                  indicator.className = 'absolute -top-1 -right-1 w-2 h-2 bg-[var(--hud-accent-red)] rounded-full';
+                  moduleEl.appendChild(indicator);
+                }
+                
+                // Add to container
+                modulesContainer.appendChild(moduleEl);
+              });
+              
+              // Add container to section
+              sectionEl.appendChild(modulesContainer);
+              
+              // Make sure all modules are visible first
+              gsap.set(modulesContainer.querySelectorAll('.module-item'), {
+                opacity: 0,
+                scale: 0.9 // Start closer to final size for faster perceived animation
+              });
+              
+              // Then animate modules in with stagger - faster animation for better responsiveness
+              gsap.to(modulesContainer.querySelectorAll('.module-item'), {
+                opacity: 1,
+                scale: 1,
+                stagger: 0.02, // Faster staggering
+                duration: 0.25, // Faster animation
+                ease: "back.out(1.5)", // Slightly less bounce for snappier feel
+                onComplete: () => {
+                  // Clean up GSAP inline styles after animation completes
                   gsap.set(modulesContainer.querySelectorAll('.module-item'), {
-                    opacity: 0,
-                    scale: 0.85
-                  });
-                  
-                  // Then animate modules in with stagger
-                  gsap.to(modulesContainer.querySelectorAll('.module-item'), {
-                    opacity: 1,
-                    scale: 1,
-                    stagger: 0.05,
-                    duration: 0.4,
-                    ease: "back.out(1.7)",
-                    onComplete: () => {
-                      // Clean up GSAP inline styles after animation completes
-                      gsap.set(modulesContainer.querySelectorAll('.module-item'), {
-                        clearProps: "opacity,scale"
-                      });
-                    }
+                    clearProps: "opacity,scale"
                   });
                 }
-              }
-            });
+              });
+            }
           }
         });
         
@@ -729,12 +825,20 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
               // Remove modules if they exist
               const existingModules = otherSectionEl.querySelector('.modules-container');
               if (existingModules) {
+                // First capture current dimensions to avoid jumping
+                const currentWidth = otherSectionEl.offsetWidth;
+                const currentHeight = otherSectionEl.offsetHeight;
+                
+                // Set exact dimensions to prevent jumps
+                otherSectionEl.style.width = `${currentWidth}px`;
+                otherSectionEl.style.height = `${currentHeight}px`;
+                
                 // Fade out modules first
                 gsap.to(existingModules.querySelectorAll('.module-item'), {
                   opacity: 0,
-                  scale: 0.8,
-                  stagger: 0.02,
-                  duration: 0.2,
+                  scale: 0.9, // Less shrinking for smoother transition
+                  stagger: 0.01, // Faster stagger
+                  duration: 0.15, // Faster fade out
                   ease: "power2.in",
                   onComplete: () => {
                     // Then remove the modules container
@@ -746,8 +850,14 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                       height: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
                       scale: 1,
                       boxShadow: "var(--theme-shadow-sm)",
-                      duration: 0.4,
-                      ease: "power2.out"
+                      duration: 0.3, // Slightly faster return
+                      ease: "power2.out",
+                      onComplete: () => {
+                        // Clean up inline styles to let CSS take over
+                        gsap.set(otherSectionEl, {
+                          clearProps: "width,height,scale"
+                        });
+                      }
                     });
                   }
                 });
@@ -757,8 +867,14 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   scale: 1,
                   y: 0,
                   boxShadow: "var(--theme-shadow-sm)",
-                  duration: 0.4,
-                  ease: "power2.out"
+                  duration: 0.3, // Faster animation
+                  ease: "power2.out",
+                  onComplete: () => {
+                    // Clean up inline styles
+                    gsap.set(otherSectionEl, {
+                      clearProps: "scale,y"
+                    });
+                  }
                 });
               }
             }
@@ -906,34 +1022,55 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     return () => ctx.revert();
   }, [selectedSection, selectedSectionModules]);
   
-  // Handle module click
+  // Handle module click with immediate visual feedback to reduce perceived input delay
   const handleModuleClick = (e: React.MouseEvent) => {
     const moduleItem = (e.target as HTMLElement).closest('.module-item');
     if (moduleItem) {
+      // Immediately provide visual feedback on click
+      // This significantly reduces perceived input lag
+      gsap.to(moduleItem, {
+        scale: 0.95,
+        duration: 0.1,
+        ease: "power2.out",
+        onComplete: () => {
+          // Restore scale immediately after visual feedback
+          gsap.to(moduleItem, {
+            scale: 1,
+            duration: 0.2,
+            ease: "back.out(1.5)"
+          });
+        }
+      });
+      
+      // Extract module information
       const moduleId = moduleItem.getAttribute('data-id');
       const displayKey = moduleItem.getAttribute('data-display-key');
       
       if (moduleId) {
-        // If the clicked element is a module inside an expanded section
-        const isInsideModulesContainer = moduleItem.closest('.modules-container');
-        if (isInsideModulesContainer) {
-          // Set the selected module ID and open the modal
-          setSelectedModuleId(moduleId);
-          setIsModalOpen(true);
-          
-          // Also call the external callback if provided
-          if (onModuleClick) {
-            onModuleClick(moduleId);
+        // Use requestAnimationFrame to break from the event loop
+        // This reduces input lag by separating click response from animation start
+        requestAnimationFrame(() => {
+          // If the clicked element is a module inside an expanded section
+          const isInsideModulesContainer = moduleItem.closest('.modules-container');
+          if (isInsideModulesContainer) {
+            // Set the selected module ID and open the modal
+            setSelectedModuleId(moduleId);
+            setIsModalOpen(true);
+            
+            // Also call the external callback if provided
+            if (onModuleClick) {
+              onModuleClick(moduleId);
+            }
+          } else {
+            // For section clicks, use the moduleId and respect displayKey if available
+            const sectionIdentifier = displayKey || moduleId;
+            
+            // Also call the external callback if provided
+            if (onModuleClick) {
+              onModuleClick(sectionIdentifier);
+            }
           }
-        } else {
-          // For section clicks, use the moduleId and respect displayKey if available
-          const sectionIdentifier = displayKey || moduleId;
-          
-          // Also call the external callback if provided
-          if (onModuleClick) {
-            onModuleClick(sectionIdentifier);
-          }
-        }
+        });
       }
     }
   };
