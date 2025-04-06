@@ -555,7 +555,7 @@ When working on a component:
 
 ## IMPORTANT: QUALIFICATION MODAL IMPLEMENTATION STATUS
 
-### Current Status
+Current progress:
 - Implemented VSQualificationModal.tsx with complete theme-aware styling, GSAP animations, and Calendly integration
 - Created ModalImplementation.tsx with theme-aware styling for demonstration purposes
 - Added route in App.tsx to access the qualification modal at /qualification
@@ -578,37 +578,102 @@ When working on a component:
   - Added new shimmer animation to progress bar
 - Implemented CRM integration with the ability to pass qualification data to external systems
 
-### ⚠️ STRATEGIC UPGRADE PLANNED ⚠️
+## QUALIFICATION MODAL UPGRADE IMPLEMENTATION CHECKLIST
 
-**IMPORTANT: The qualification modal requires a comprehensive upgrade as detailed in `qualification-modal-upgrade.md`. Future agents MUST read this file before making implementation changes.**
+### Phase 1: Recommendation Screen Improvements
+- [ ] 1.1 Update recommendation algorithm
+  - [ ] Modify `processAnswers` function to route users differently based on score
+  - [ ] Add logic for `showCalendly`, `showDirectPurchase`, and `showUpgradeOption` flags
+  - [ ] Update recommendation state to include new fields
 
-The strategic upgrade includes the following key enhancements:
+- [ ] 1.2 Create differentiated recommendation views
+  - [ ] Add conditional rendering for different recommendation layouts
+  - [ ] Pass appropriate props to new view components
 
-1. **Product Context Enhancement**
-   - Add mini feature showcase to intro stage
-   - Add "Learn More" option at intro stage
+- [ ] 1.3 Implement Foundation tier view component
+  - [ ] Create left column showing Foundation Program
+  - [ ] Create right column showing Executive Partnership for comparison
+  - [ ] Implement direct purchase button
+  - [ ] Add visual price anchoring elements
 
-2. **Lead Qualification and Routing Improvements**
-   - Update recommendation algorithm to route leads differently based on score
-   - Create differentiated recommendation views (Foundation vs Premium tiers)
-   - Implement Foundation tier with direct purchase option
+- [ ] 1.4 Implement Premium recommendation view
+  - [ ] Create side-by-side features and Calendly layout
+  - [ ] Add optional enhancement selection functionality
+  - [ ] Implement tier comparison toggle
+  - [ ] Update Calendly URL parameters to include enhancement selections
 
-3. **Analysis Animation and Breakdown Sequence**
-   - Add processing animation between questionnaire and recommendation
-   - Create visualization of how answers contributed to recommendation
-   - Implement enhanced visual feedback during processing
+- [ ] 1.5 Update tier-specific messaging
+  - [ ] Update Foundation tier: headline, subheadline, explanation, and CTA
+  - [ ] Update Comprehensive tier: headline, subheadline, explanation, and CTA
+  - [ ] Update Executive tier: headline, subheadline, explanation, and CTA
 
-4. **Copy Improvements Throughout**
-   - Update all headers, descriptions, and option text
-   - Implement more strategic, conversion-focused messaging
-   - Create recommendation-specific copy for each tier
+### Phase 2: Analysis Animation and Breakdown Sequence
+- [ ] 2.1 Create AnalysisAnimation component
+  - [ ] Implement animated checklist with progress bar
+  - [ ] Add floating elements for visual interest
+  - [ ] Create GSAP particle animation system
 
-5. **Visual Design Enhancements**
-   - Add more dynamic animations and micro-interactions
-   - Improve visual hierarchy for better user experience
-   - Implement enhanced progress indicators
+- [ ] 2.2 Create AnalysisBreakdown component
+  - [ ] Implement score calculation and visualization
+  - [ ] Create factor breakdown bars with percentages
+  - [ ] Add personalized explanation based on score
+  - [ ] Implement "See My Recommendation" button
 
-The qualification journey will follow this updated flow:
+- [ ] 2.3 Integrate analysis sequence
+  - [ ] Update `processAnswers` function to start with analysis animation
+  - [ ] Add `handleAnalysisAnimationComplete` function
+  - [ ] Add `handleBreakdownComplete` function
+  - [ ] Update stage sequence to include new stages
+
+### Phase 3: Product Context Enhancement
+- [ ] 3.1 Add mini feature showcase to intro stage
+  - [ ] Implement horizontal scrollable feature cards showing "800M+ Views", "30-day Results", and "Proven Framework"
+  - [ ] Add theme-aware styling with proper icons
+
+- [ ] 3.2 Add "Learn More" option to intro modal footer
+  - [ ] Add "Learn about features first" button
+  - [ ] Update "Start Personalization" button to "Find my solution"
+  - [ ] Maintain proper spacing and alignment
+
+### Phase 4: Copy Improvements
+- [ ] 4.1 Update header titles for all stages
+  - [ ] Rename stages to more personalized language
+  - [ ] Update "Qualification" to "Personalization" throughout
+
+- [ ] 4.2 Update stage descriptions
+  - [ ] Rewrite intro text with more benefit-focused language
+  - [ ] Improve descriptions for all question stages
+  - [ ] Update contact form helper text
+
+- [ ] 4.3 Update option text for all questions
+  - [ ] Improve Team Size options text
+  - [ ] Enhance Implementation Support options text
+  - [ ] Update Timeline options text
+  - [ ] Refine Content Volume options text
+
+### Phase 5: State Management and Refinements
+- [ ] 5.1 Add new state variables
+  - [ ] Add `analysisData` to store recommendation details before displaying
+  - [ ] Add `showUpgradeModal` for Foundation tier upgrade option
+  - [ ] Add `selectedEnhancements` for Premium tier addons
+  - [ ] Add `isProcessing` flag to prevent double-submissions
+
+- [ ] 5.2 UI/UX Refinements
+  - [ ] Add visual feedback to direct purchase flow
+  - [ ] Add subtle animation to recommendation cards
+  - [ ] Improve visual hierarchy with better typography
+  - [ ] Optimize mobile experience
+
+The qualification journey currently follows this flow:
+1. Introduction with clear value proposition
+2. Team size assessment (2x2 grid)
+3. Implementation support preferences (2x2 grid)
+4. Timeline evaluation (2x2 grid)
+5. Content volume analysis (2x2 grid)
+6. Brief contact information collection (two-column layout)
+7. Personalized recommendation with embedded Calendly scheduling
+
+The upgraded flow will include:
 1. Introduction with product context and clear value proposition
 2. Team size assessment (2x2 grid)
 3. Implementation support preferences (2x2 grid)
@@ -621,5 +686,3 @@ The qualification journey will follow this updated flow:
    - Executive Partnership (8-11 points): Calendly scheduling
    - Comprehensive Implementation (5-7 points): Calendly scheduling
    - Foundation Program (1-4 points): Direct purchase option
-
-All future agents working on the qualification modal implementation must follow the detailed implementation plan in `qualification-modal-upgrade.md`.
