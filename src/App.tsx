@@ -1,5 +1,5 @@
 // In your app.tsx
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import VerticalShortcutLanding from './VerticalShortcutLanding';
 import ApplicationFormWrapper from './components/form/ApplicationFormWrapper';
@@ -13,6 +13,7 @@ import { VSPainPoints, VSCharts } from './components/sections';
 import CalendlyDemo from './components/Calendly/CalendlyDemo';
 import ModalImplementation from './Qualification_components/modal-implementation';
 import ModuleHUDShowcase from './components/sections/ModuleHUDShowcase';
+import ThemeVisualizer from './components/Color-theme-display';
 
 function App() {
   // Load theme toggle script
@@ -69,6 +70,11 @@ function App() {
                   Qualification Modal Demo
                 </Link>
               </div>
+              <div>
+                <Link to="/theme-visualizer" className="px-6 py-2 bg-gradient-to-r from-[var(--theme-accent-tertiary)] to-[var(--theme-accent-quaternary)] text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                  Theme Variables Visualizer
+                </Link>
+              </div>
             </div>
           </div>
         } />
@@ -82,6 +88,7 @@ function App() {
         <Route path="/calendly" element={<CalendlyDemo />} />
         <Route path="/qualification" element={<ModalImplementation />} />
         <Route path="/modulehud" element={<ModuleHUDShowcase />} />
+        <Route path="/theme-visualizer" element={<ThemeVisualizer />} />
       </Routes>
       
       {/* Theme toggle button */}
