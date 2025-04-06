@@ -135,9 +135,9 @@ const AnalysisAnimation: React.FC<{ onComplete: () => void }> = ({ onComplete })
   return (
     <div className="h-full flex flex-col items-center justify-center relative overflow-hidden" ref={animationRef}>
       <div className="text-center mb-12 z-10">
-        <h3 className="text-2xl font-bold text-theme-primary mb-6">Finding Your Perfect Solution</h3>
+        <h3 className="text-2xl font-bold text-theme-primary mb-3">Finding Your Perfect Solution</h3>
         
-        <div className="space-y-5 mb-8">
+        <div className="space-y-5 mb-4">
           <div className="analysis-step flex items-center opacity-0">
             <Check className="h-5 w-5 text-green-500 mr-3" />
             <span className="text-theme-secondary">Analyzing response patterns</span>
@@ -202,22 +202,7 @@ const AnalysisBreakdown: React.FC<{
       <p className="text-theme-secondary text-center mb-6">
         We've analyzed your responses to find the implementation approach that best matches your needs
       </p>
-      
-      {/* Score summary */}
-      <div className="bg-theme-bg-surface p-4 rounded-lg mb-6 text-center">
-        <span className="text-sm text-theme-tertiary">Your Implementation Score</span>
-        <div className="text-4xl font-bold text-theme-primary mb-1">{score}/11</div>
-        <div className="flex justify-center gap-1">
-          {[...Array(11)].map((_, i) => (
-            <div 
-              key={i} 
-              className={`h-2 w-5 rounded-full ${
-                i < score ? 'bg-theme-primary' : 'bg-theme-border-light'
-              }`}
-            />
-          ))}
-        </div>
-      </div>
+    
       
       {/* Factor breakdown */}
       <div className="grid grid-cols-2 gap-4 mb-6">
@@ -1544,12 +1529,12 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         
         {/* Modal header */}
         <div className="flex items-center justify-between border-b border-[var(--theme-border-light)] p-6">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <div className="p-2 rounded-full bg-theme-primary/10 text-theme-primary">
-              <StageIcon stage={stage} size={20} />
+              <StageIcon stage={stage} size={10} />
             </div>
             <h2 className="text-xl font-medium text-theme-primary">
-              {stage === 'intro' && 'Discover Your Perfect Implementation'}
+              {stage === 'intro' && 'Find Your Perfect Plan'}
               {stage === 'contact' && 'Let\'s Personalize Your Plan'}
               {stage === 'teamSize' && 'About Your Team'}
               {stage === 'implementationSupport' && 'Your Implementation Style'}
@@ -1656,8 +1641,8 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 </div>
               </div>
               
-              <div className="bg-theme-primary/5 p-5 rounded-lg shadow-theme-sm mb-6">
-                <h3 className="text-xl font-medium text-theme-primary mb-3 text-center">
+              <div className="bg-theme-primary/5 p-2 rounded-lg shadow-theme-sm mb-2">
+                <h3 className="text-xl font-medium text-theme-primary mb-1 text-center">
                   Let's Build Your Content Engine
                 </h3>
                 <p className="text-theme-secondary text-center">
@@ -1666,7 +1651,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               </div>
               
               {/* Mini Feature Showcase */}
-              <div className="overflow-x-auto pb-4 mb-6">
+              <div className="overflow-x-auto pb-4 ">
                 <div className="flex space-x-4 min-w-max">
                   {/* Feature 1 */}
                   <div className="bg-theme-bg-surface p-4 rounded-lg shadow-theme-sm flex-shrink-0 w-64">
@@ -1703,19 +1688,19 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 </div>
               </div>
               
-              <div className="grid grid-cols-3 gap-4 mb-8">
+              <div className="grid grid-cols-3 gap-1 mb-2">
                 <div className="flex flex-col items-center text-center">
-                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-theme-primary text-white text-sm mb-3">1</div>
+                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-theme-primary text-white text-sm mb-1">1</div>
                   <span className="text-theme-secondary text-sm">Tell us about<br />your needs</span>
                 </div>
                 
                 <div className="flex flex-col items-center text-center">
-                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-theme-primary text-white text-sm mb-3">2</div>
+                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-theme-primary text-white text-sm mb-1">2</div>
                   <span className="text-theme-secondary text-sm">Get your<br />recommendation</span>
                 </div>
                 
                 <div className="flex flex-col items-center text-center">
-                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-theme-primary text-white text-sm mb-3">3</div>
+                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-theme-primary text-white text-sm mb-1">3</div>
                   <span className="text-theme-secondary text-sm">Schedule your<br />strategy call</span>
                 </div>
               </div>
@@ -2294,7 +2279,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 <button
                   onClick={goToNextStage}
-                  className="flex items-center gap-2 px-6 py-2 rounded-lg transition-colors hover-bubbly-sm bg-theme-primary hover:bg-theme-primary-hover text-white"
+                  className="flex items-center gap-2 px-6 py-2 rounded-lg transition-colors hover-bubbly-sm text-theme-primary bg-[var(--theme-primary)] hover:bg-[var(--theme-primary-hover)] text-white"
                 >
                   Find my solution
                   <ChevronRight className="h-4 w-4" />
@@ -2309,8 +2294,8 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 disabled={!canProceed()}
                 className={`flex items-center gap-2 px-6 py-2 rounded-lg transition-colors hover-bubbly-sm ${
                   !canProceed()
-                    ? 'bg-theme-bg-secondary text-theme-tertiary cursor-not-allowed'
-                    : 'bg-theme-primary hover:bg-theme-primary-hover text-white'
+                    ? 'bg-theme-bg-secondary text-[#000000] theme-primary cursor-not-allowed'
+                    : 'bg-theme-primary hover:bg-theme-primary-hover text-black'
                 }`}
               >
                 Show My Recommendation

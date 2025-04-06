@@ -143,7 +143,7 @@ export default function VSCharts(): ReactElement {
   const CustomTooltip = ({ active, payload, label }: CustomTooltipProps): ReactElement | null => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-theme-primary p-3 rounded-md border border-theme-border shadow-theme-sm">
+        <div className="bg-theme-primary p-2 sm:p-3 rounded-md border border-theme-border shadow-theme-sm text-xs sm:text-sm">
           <p className="text-theme-primary font-medium mb-1">{label}</p>
           {payload.map((entry, index) => {
             // Determine color class based on data key or use theme accent as fallback
@@ -156,12 +156,12 @@ export default function VSCharts(): ReactElement {
                                       "bg-theme-accent";
             
             return (
-              <div key={`tooltip-${index}`} className="flex items-center gap-2">
+              <div key={`tooltip-${index}`} className="flex items-center gap-1.5 sm:gap-2">
                 <div 
-                  className={`w-2 h-2 rounded-full ${tooltipColorClass}`} 
+                  className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${tooltipColorClass}`} 
                   style={entry.color && !colorKey ? { backgroundColor: entry.color } : {}}
                 />
-                <p className="text-theme-secondary text-sm">
+                <p className="text-theme-secondary text-xs sm:text-sm">
                   {entry.name}: {entry.value}
                 </p>
               </div>
@@ -174,54 +174,54 @@ export default function VSCharts(): ReactElement {
   };
 
   return (
-    <Section className="py-20 bg-theme-primary border-t border-theme-border relative overflow-hidden" ref={containerRef}>
-      {/* Theme-aware floating elements for visual interest */}
-      <div className="absolute -z-10 top-20 right-10 w-20 h-20 rounded-[40%] rotate-12 
+    <Section className="py-12 sm:py-16 md:py-20 bg-theme-primary border-t border-theme-border relative overflow-hidden" ref={containerRef}>
+      {/* Theme-aware floating elements for visual interest - hidden on smallest screens */}
+      <div className="hidden sm:block absolute -z-10 top-20 right-10 w-16 sm:w-20 h-16 sm:h-20 rounded-[40%] rotate-12 
                    opacity-[var(--theme-float-opacity)]
                    bg-[var(--theme-float-bg-primary)]
                    animate-float-slow"></div>
-      <div className="absolute -z-10 bottom-40 left-10 w-32 h-32 rounded-[30%] -rotate-6 
+      <div className="hidden sm:block absolute -z-10 bottom-40 left-10 w-24 sm:w-32 h-24 sm:h-32 rounded-[30%] -rotate-6 
                    opacity-[var(--theme-float-opacity-secondary)]
                    bg-[var(--theme-float-bg-secondary)]
                    animate-float-medium"></div>
                    
-      <div className="max-w-container mx-auto relative">
-        <div className="text-center mb-10">
-          <h2 className="text-theme-primary text-3xl md:text-4xl font-medium mb-3">Case Studies</h2>
-          <p className="text-theme-secondary max-w-2xl mx-auto">
+      <div className="max-w-container mx-auto px-4 sm:px-6 relative">
+        <div className="text-center mb-6 sm:mb-8 md:mb-10">
+          <h2 className="text-theme-primary text-2xl sm:text-3xl md:text-4xl font-medium mb-2 sm:mb-3">Case Studies</h2>
+          <p className="text-theme-secondary text-sm sm:text-base max-w-2xl mx-auto">
             Visualizing real-world impact and tracking growth metrics for content creators.
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-10">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-10">
           {/* Area Chart Card */}
           <div className="chart-container">
-            <div className="mb-4">
-              <h3 className="text-theme-primary text-xl font-medium mb-1">Student Progress Trajectory</h3>
-              <p className="text-theme-secondary text-sm">
+            <div className="mb-3 sm:mb-4">
+              <h3 className="text-theme-primary text-lg sm:text-xl font-medium mb-1">Student Progress Trajectory</h3>
+              <p className="text-theme-secondary text-xs sm:text-sm">
                 Average growth over the 10-week program
               </p>
             </div>
             
-            <div className="bg-theme-secondary/30 p-6 rounded-md border border-theme-border shadow-theme-sm">
+            <div className="bg-theme-secondary/30 p-3 sm:p-4 md:p-6 rounded-md border border-theme-border shadow-theme-sm">
               <div className="flex justify-between items-center mb-2">
-                <div className="flex items-center gap-4">
-                  <div className="flex gap-2 items-center">
-                    <div className="w-2 h-2 rounded-full bg-theme-primary"></div>
+                <div className="flex items-center gap-2 sm:gap-4 text-xs">
+                  <div className="flex gap-1 sm:gap-2 items-center">
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-theme-primary"></div>
                     <span className="text-theme-primary text-xs">Engagement</span>
                   </div>
-                  <div className="flex gap-2 items-center">
-                    <div className="w-2 h-2 rounded-full bg-theme-accent-quaternary"></div>
+                  <div className="flex gap-1 sm:gap-2 items-center">
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-theme-accent-quaternary"></div>
                     <span className="text-theme-primary text-xs">Conversions</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-1 bg-theme-secondary/50 px-2 py-0.5 rounded-full">
+                <div className="flex items-center gap-1 bg-theme-secondary/50 px-1.5 sm:px-2 py-0.5 rounded-full">
                   <span className="text-theme-primary text-xs font-medium">+320%</span>
-                  <TrendingUp className="h-3 w-3 text-theme-primary" />
+                  <TrendingUp className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-theme-primary" />
                 </div>
               </div>
               
-              <ResponsiveContainer width="100%" height={240}>
+              <ResponsiveContainer width="100%" height={200} className="mt-2 sm:mt-0 sm:h-[240px]">
                 <AreaChart
                   data={chartData}
                   margin={{
@@ -237,16 +237,17 @@ export default function VSCharts(): ReactElement {
                     tickLine={false}
                     axisLine={false}
                     tickMargin={8}
-                    className="text-theme-tertiary text-xs"
-                    tick={{fontSize: 11}}
+                    className="text-theme-tertiary text-[10px] sm:text-xs"
+                    tick={{fontSize: 9, width: 30}}
+                    interval="preserveStartEnd"
                   />
                   <YAxis
                     tickLine={false}
                     axisLine={false}
                     tickMargin={8}
                     tickCount={5}
-                    className="text-theme-tertiary text-xs"
-                    tick={{fontSize: 11}}
+                    className="text-theme-tertiary text-[10px] sm:text-xs"
+                    tick={{fontSize: 9}}
                   />
                   <ChartTooltip 
                     cursor={{stroke: "var(--theme-grid-dot)", strokeDasharray: '3 3'}} 
@@ -258,14 +259,14 @@ export default function VSCharts(): ReactElement {
                     dataKey="engagement"
                     name="Engagement"
                     stroke="var(--theme-primary)"
-                    strokeWidth={2}
+                    strokeWidth={1.5}
                     fill="var(--theme-primary)"
                     fillOpacity={0.05}
                     activeDot={{ 
-                      r: 4, 
+                      r: 3, 
                       fill: "var(--theme-primary)", 
                       stroke: "var(--theme-text-on-primary)", 
-                      strokeWidth: 2 
+                      strokeWidth: 1.5 
                     }}
                   />
                   <Area
@@ -273,14 +274,14 @@ export default function VSCharts(): ReactElement {
                     dataKey="conversion"
                     name="Conversions"
                     stroke="var(--theme-accent-quaternary)"
-                    strokeWidth={2}
+                    strokeWidth={1.5}
                     fill="var(--theme-accent-quaternary)"
                     fillOpacity={0.05}
                     activeDot={{ 
-                      r: 4, 
+                      r: 3, 
                       fill: "var(--theme-accent-quaternary)", 
                       stroke: "var(--theme-text-on-primary)", 
-                      strokeWidth: 2 
+                      strokeWidth: 1.5 
                     }}
                   />
                 </AreaChart>
@@ -291,19 +292,19 @@ export default function VSCharts(): ReactElement {
           {/* Pie Chart Card */}
           <div className="chart-container">
             <ChartStyle id="metrics-pie" config={metricsConfig} />
-            <div className="mb-4">
-              <h3 className="text-theme-primary text-xl font-medium mb-1">Success Metrics</h3>
-              <p className="text-theme-secondary text-sm">
+            <div className="mb-3 sm:mb-4">
+              <h3 className="text-theme-primary text-lg sm:text-xl font-medium mb-1">Success Metrics</h3>
+              <p className="text-theme-secondary text-xs sm:text-sm">
                 Average student outcomes after completion
               </p>
             </div>
             
-            <div className="bg-theme-secondary/30 p-6 rounded-md border border-theme-border shadow-theme-sm">
-              <div className="flex flex-wrap gap-2 mb-4">
+            <div className="bg-theme-secondary/30 p-3 sm:p-4 md:p-6 rounded-md border border-theme-border shadow-theme-sm">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
                 {metricsData.map((item) => (
                   <button 
                     key={item.metric}
-                    className={`text-xs font-medium px-3 py-1 rounded-full transition-all duration-[var(--theme-transition-normal)] ${
+                    className={`text-[0.65rem] sm:text-xs font-medium px-2 sm:px-3 py-0.5 sm:py-1 rounded-full transition-all duration-[var(--theme-transition-normal)] ${
                       activeMetric === item.metric
                         ? `text-theme-on-primary`
                         : 'bg-theme-secondary/30 text-theme-primary hover:bg-theme-secondary/50'
@@ -323,9 +324,9 @@ export default function VSCharts(): ReactElement {
                 ))}
               </div>
               
-              <div className="flex items-start">
-                <div className="flex-1">
-                  <ResponsiveContainer width="100%" height={180}>
+              <div className="flex flex-col sm:flex-row sm:items-start">
+                <div className="flex-1 mx-auto sm:mx-0 mb-4 sm:mb-0" style={{ height: '150px', width: '100%', maxWidth: '180px' }}>
+                  <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <ChartTooltip
                         content={<CustomTooltip />}
@@ -335,8 +336,8 @@ export default function VSCharts(): ReactElement {
                         data={metricsData}
                         dataKey="value"
                         nameKey="metric"
-                        innerRadius={40}
-                        outerRadius={70}
+                        innerRadius={30}
+                        outerRadius={50}
                         paddingAngle={2}
                         strokeWidth={0}
                         activeIndex={activeIndex}
@@ -358,17 +359,17 @@ export default function VSCharts(): ReactElement {
                   </ResponsiveContainer>
                 </div>
                 
-                <div className="flex flex-col items-start ml-4 mt-4">
-                  <div className="text-5xl font-bold text-theme-primary mb-1">
+                <div className="flex flex-col items-center sm:items-start sm:ml-4 sm:mt-4">
+                  <div className="text-4xl sm:text-5xl font-bold text-theme-primary mb-1 text-center sm:text-left">
                     {metricsData[activeIndex].value}
                   </div>
-                  <div className="text-sm text-theme-secondary">
+                  <div className="text-xs sm:text-sm text-theme-secondary text-center sm:text-left">
                     {metricsConfig[activeMetric]?.label}
                   </div>
-                  <div className="mt-4 pt-4 border-t border-theme-border w-full">
+                  <div className="mt-3 pt-3 sm:mt-4 sm:pt-4 border-t border-theme-border w-full max-w-[200px] sm:max-w-none mx-auto sm:mx-0">
                     <Select value={activeMetric} onValueChange={setActiveMetric}>
                       <SelectTrigger
-                        className="h-8 w-full rounded-md bg-theme-secondary/30 border-none text-theme-primary text-xs"
+                        className="h-7 sm:h-8 w-full rounded-md bg-theme-secondary/30 border-none text-theme-primary text-[0.65rem] sm:text-xs"
                         aria-label="Select a metric"
                       >
                         <SelectValue placeholder="Select metric" />
@@ -383,11 +384,11 @@ export default function VSCharts(): ReactElement {
                             <SelectItem
                               key={key}
                               value={key}
-                              className="rounded-sm [&_span]:flex text-xs"
+                              className="rounded-sm [&_span]:flex text-[0.65rem] sm:text-xs"
                             >
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-1.5 sm:gap-2">
                                 <span
-                                  className="flex h-2 w-2 shrink-0 rounded-full"
+                                  className="flex h-1.5 w-1.5 sm:h-2 sm:w-2 shrink-0 rounded-full"
                                   style={{
                                     backgroundColor: config.color,
                                   }}
@@ -407,33 +408,33 @@ export default function VSCharts(): ReactElement {
         </div>
         
         {/* Case Studies Selector */}
-        <div className="mt-12">
-          <h3 className="text-theme-primary text-xl font-medium mb-6">Creator Success Stories</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="mt-8 sm:mt-10 md:mt-12">
+          <h3 className="text-theme-primary text-lg sm:text-xl font-medium mb-4 sm:mb-6">Creator Success Stories</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             {[1, 2, 3, 4].map((i) => (
               <div 
                 key={i}
-                className={`group relative overflow-hidden rounded-md border border-theme-border bg-theme-secondary/30 p-4 cursor-pointer transition-all hover:shadow-theme-sm ${i === 1 ? 'ring-2 ring-theme-primary/50' : ''}`}
+                className={`group relative overflow-hidden rounded-md border border-theme-border bg-theme-secondary/30 p-3 sm:p-4 cursor-pointer transition-all hover:shadow-theme-sm ${i === 1 ? 'ring-2 ring-theme-primary/50' : ''}`}
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full overflow-hidden bg-theme-secondary">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden bg-theme-secondary">
                     <div className="w-full h-full bg-theme-primary/10 flex items-center justify-center">
-                      <span className="text-theme-primary text-xs font-bold">
+                      <span className="text-theme-primary text-[0.65rem] sm:text-xs font-bold">
                         {["JD", "TM", "KL", "AR"][i-1]}
                       </span>
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-theme-primary text-sm font-medium mb-1">
+                    <h4 className="text-theme-primary text-xs sm:text-sm font-medium mb-0.5 sm:mb-1">
                       {["Joden Newman", "Tia Meyers", "Kyle Loft", "Alex Roth"][i-1]}
                     </h4>
-                    <p className="text-theme-tertiary text-xs">
+                    <p className="text-theme-tertiary text-[0.65rem] sm:text-xs">
                       {["Mentor", "Creator", "Student", "Coach"][i-1]}
                     </p>
                   </div>
                 </div>
                 
-                <div className="mt-3 pt-3 border-t border-theme-border grid grid-cols-2 gap-2 text-xs">
+                <div className="mt-2 pt-2 sm:mt-3 sm:pt-3 border-t border-theme-border grid grid-cols-2 gap-2 text-[0.65rem] sm:text-xs">
                   <div>
                     <div className="text-theme-tertiary">Views</div>
                     <div className="text-theme-primary font-medium">
@@ -449,7 +450,7 @@ export default function VSCharts(): ReactElement {
                 </div>
                 
                 {i === 1 && (
-                  <div className="absolute top-0 right-0 w-0 h-0 border-t-8 border-r-8 border-t-theme-primary border-r-transparent"></div>
+                  <div className="absolute top-0 right-0 w-0 h-0 border-t-6 sm:border-t-8 border-r-6 sm:border-r-8 border-t-theme-primary border-r-transparent"></div>
                 )}
               </div>
             ))}

@@ -182,8 +182,8 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({
     <div className={`relative ${className}`}>
       <svg 
         ref={logoRef}
-        width="670" 
-        height="890" 
+        width="670px" 
+        height="890px" 
         viewBox="0 0 670 890" 
         fill="none" 
         xmlns="http://www.w3.org/2000/svg"
