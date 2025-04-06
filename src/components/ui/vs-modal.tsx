@@ -19,10 +19,10 @@ interface VSModalProps {
  * VSModal - Base modal component following VS styling guidelines
  * 
  * Features:
- * - Theme-aware styling that works in both light and dark modes
- * - Animated entrance/exit using GSAP with theme-aware variables
+ * - Light/dark mode aware styling
+ * - Animated entrance/exit using GSAP
  * - Floating elements for visual interest
- * - Proper theme-aware gradient backgrounds
+ * - Proper gradient backgrounds
  * - Close on ESC key press and overlay click (configurable)
  */
 const VSModal: React.FC<VSModalProps> = ({
@@ -55,8 +55,8 @@ const VSModal: React.FC<VSModalProps> = ({
 
     // Get computed theme variables for animation
     const styles = getComputedStyle(document.documentElement);
-    const animDistance = styles.getPropertyValue('--theme-anim-distance') || '-4px';
-    const animDuration = styles.getPropertyValue('--theme-anim-duration') || '0.35';
+    const animDistance = parseFloat(styles.getPropertyValue('--theme-anim-distance') || '-4px');
+    const animDuration = parseFloat(styles.getPropertyValue('--theme-anim-duration') || '0.35');
 
     const ctx = gsap.context(() => {
       // Animate overlay
@@ -68,13 +68,13 @@ const VSModal: React.FC<VSModalProps> = ({
 
       // Animate modal
       gsap.fromTo(modalRef.current,
-        { opacity: 0, y: 20, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.2)" }
+        { opacity: 0, y: -animDistance * 5, scale: 0.95 },
+        { opacity: 1, y: 0, scale: 1, duration: animDuration + 0.05, ease: "back.out(1.2)" }
       );
 
       // Floating elements animation
       gsap.to(".modal-floating-element", {
-        y: parseFloat(animDistance),
+        y: animDistance * 2.5,
         duration: 3,
         ease: "sine.inOut",
         repeat: -1,
@@ -132,7 +132,7 @@ const VSModal: React.FC<VSModalProps> = ({
       {/* Backdrop/Overlay */}
       <div
         ref={overlayRef}
-        className="fixed inset-0 bg-theme-bg-secondary/60 backdrop-blur-[2px] opacity-0 transition-opacity"
+        className="fixed inset-0 bg-black/60 backdrop-blur-[2px] opacity-0 transition-opacity"
         onClick={closeOnOverlayClick ? handleClose : undefined}
       />
 
@@ -140,27 +140,23 @@ const VSModal: React.FC<VSModalProps> = ({
       <div className="fixed inset-0 flex items-center justify-center p-4">
         <div
           ref={modalRef}
-          className={`w-full ${widthClasses[width]} relative bg-theme-gradient rounded-[var(--theme-border-radius-lg)] shadow-theme-md overflow-hidden opacity-0`}
+          className={`w-full ${widthClasses[width]} relative bg-theme-gradient rounded-lg shadow-theme-md overflow-hidden opacity-0`}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Floating elements using theme-aware classes */}
-          <div className="modal-floating-element absolute top-10 right-10 w-20 h-20 rounded-[40%] rotate-12 
-                        opacity-[var(--theme-float-opacity)] 
-                        bg-[var(--theme-float-bg-primary)]"></div>
-          <div className="modal-floating-element absolute bottom-10 left-10 w-16 h-16 rounded-[40%] -rotate-12 
-                        opacity-[var(--theme-float-opacity)] 
-                        bg-[var(--theme-float-bg-secondary)]"></div>
+          {/* Floating elements for visual interest */}
+          <div className="modal-floating-element absolute top-10 right-10 -z-10 w-20 h-20 rounded-[40%] rotate-12 opacity-[var(--theme-float-opacity)] bg-[var(--theme-float-bg-primary)]"></div>
+          <div className="modal-floating-element absolute bottom-10 left-10 -z-10 w-24 h-24 rounded-[30%] -rotate-6 opacity-[var(--theme-float-opacity-secondary)] bg-[var(--theme-float-bg-secondary)]"></div>
           
           {/* Modal Content */}
           <div className="relative z-10">
             {/* Header */}
             {(title || showCloseButton) && (
-              <div className="p-5 md:p-6 border-b border-theme-border flex items-center justify-between">
+              <div className="p-5 md:p-6 border-b border-[var(--theme-border-light)] flex items-center justify-between">
                 {title && (
                   <div>
                     <h2 className="text-xl md:text-2xl font-semibold text-theme-primary">{title}</h2>
                     {description && (
-                      <p className="mt-1 text-theme-secondary text-sm">{description}</p>
+                      <p className="mt-1 text-theme-tertiary text-sm">{description}</p>
                     )}
                   </div>
                 )}
@@ -168,7 +164,7 @@ const VSModal: React.FC<VSModalProps> = ({
                 {showCloseButton && (
                   <button
                     onClick={handleClose}
-                    className="text-theme-secondary hover:text-theme-primary transition-colors hover-bubbly-sm p-1"
+                    className="text-theme-tertiary hover:text-theme-primary transition-colors hover-bubbly-sm p-1"
                     aria-label="Close modal"
                   >
                     <XCircle className="h-6 w-6" />

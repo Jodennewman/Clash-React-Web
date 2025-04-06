@@ -1,84 +1,122 @@
 import React from "react";
-import { Button } from "../ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { X } from "lucide-react";
-import { 
-  BellIcon,
+import {
+  Button,
+  Dialog,
+  IconButton,
+  Typography,
+  DialogBody,
+  DialogHeader,
+  DialogFooter,
+  Timeline,
+  TimelineItem,
+  TimelineConnector,
+  TimelineHeader,
+  TimelineIcon,
+  TimelineBody,
+} from "@material-tailwind/react";
+import {
   HomeIcon,
-  CurrencyDollarIcon 
+  BellIcon,
+  CurrencyDollarIcon,
 } from "@heroicons/react/24/solid";
-
-export function VSTimelineModal() {
+import { XMarkIcon } from "@heroicons/react/24/outline";
+ 
+export function OrderDetailsDialog() {
   const [open, setOpen] = React.useState(false);
  
   const handleOpen = () => setOpen(!open);
  
   return (
     <>
-      <Button onClick={handleOpen} variant="vibrant">
-        Order Timeline Modal
+      <Button 
+        onClick={handleOpen} 
+        variant="gradient"
+        className="bg-theme-gradient-primary text-white shadow-theme-sm hover-bubbly-sm"
+      >
+        Order Details Modal
       </Button>
-      
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="bg-theme-gradient border border-theme-border sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-theme-primary text-xl">Delivery Timeline</DialogTitle>
-            <DialogDescription className="text-theme-secondary">
-              Track your order delivery status and history.
-            </DialogDescription>
-            <button
-              className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-              onClick={() => setOpen(false)}
-            >
-              <X className="h-4 w-4 text-theme-primary" />
-              <span className="sr-only">Close</span>
-            </button>
-          </DialogHeader>
-          
-          <div className="relative mx-4 -mt-2">
-            {/* Timeline component */}
-            <div className="relative border-l border-theme-border pl-6 ml-1.5 space-y-8 py-2">
-              {/* Timeline Item 1 */}
-              <div className="relative pb-2">
-                <div className="absolute -left-[29px] p-1 rounded-full bg-theme-gradient-primary">
-                  <HomeIcon className="h-4 w-4 text-theme-on-primary" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-theme-primary">$2,400, Design Changes</h4>
-                  <p className="text-sm text-theme-secondary mt-1">22 Dec 6:20 PM</p>
-                </div>
-              </div>
-              
-              {/* Timeline Item 2 */}
-              <div className="relative pb-2">
-                <div className="absolute -left-[29px] p-1 rounded-full bg-theme-gradient-secondary">
-                  <BellIcon className="h-4 w-4 text-theme-on-primary" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-theme-primary">New order #1832412</h4>
-                  <p className="text-sm text-theme-secondary mt-1">21 Dec 8:20 PM</p>
-                </div>
-              </div>
-              
-              {/* Timeline Item 3 */}
-              <div className="relative">
-                <div className="absolute -left-[29px] p-1 rounded-full bg-theme-gradient-accent">
-                  <CurrencyDollarIcon className="h-4 w-4 text-theme-on-primary" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-theme-primary">Payment Completed</h4>
-                  <p className="text-sm text-theme-secondary mt-1">17 Dec 4:20 PM</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <DialogFooter className="sm:justify-start border-t border-theme-border pt-4 mt-4">
-            <Button variant="subtle" onClick={() => setOpen(false)}>
-              View Order Details
-            </Button>
-          </DialogFooter>
-        </DialogContent>
+      <Dialog 
+        size="sm" 
+        open={open} 
+        handler={handleOpen}
+        className="bg-theme-gradient-card border border-[var(--theme-border-light)] shadow-theme-md"
+      >
+        <DialogHeader className="relative m-0 block p-6 border-b border-[var(--theme-border-light)]">
+          <Typography variant="h4" className="text-theme-primary">
+            Delivery Method
+          </Typography>
+          <Typography className="mt-1 font-normal text-theme-tertiary">
+            Please select your preferred delivery method for your order.
+          </Typography>
+          <IconButton
+            size="sm"
+            variant="text"
+            className="!absolute right-3.5 top-3.5 text-theme-secondary hover:text-theme-primary transition-colors"
+            onClick={handleOpen}
+          >
+            <XMarkIcon className="h-4 w-4 stroke-2" />
+          </IconButton>
+        </DialogHeader>
+        <DialogBody className="mx-4 -mt-4">
+          <Timeline>
+            <TimelineItem>
+              <TimelineConnector className="bg-[var(--theme-border-primary)]" />
+              <TimelineHeader>
+                <TimelineIcon className="p-2 bg-theme-gradient-primary">
+                  <HomeIcon className="h-4 w-4 text-white" />
+                </TimelineIcon>
+                <Typography className="font-semibold text-theme-primary">
+                  $2,400, Design Changes
+                </Typography>
+              </TimelineHeader>
+              <TimelineBody className="-mt-2 pb-8">
+                <Typography className="font-normal text-theme-tertiary">
+                  22 Dec 6:20 PM
+                </Typography>
+              </TimelineBody>
+            </TimelineItem>
+            <TimelineItem>
+              <TimelineConnector className="bg-[var(--theme-border-primary)]" />
+              <TimelineHeader>
+                <TimelineIcon className="p-2 bg-theme-gradient-secondary">
+                  <BellIcon className="h-4 w-4 text-white" />
+                </TimelineIcon>
+                <Typography className="font-semibold text-theme-primary">
+                  New order #1832412
+                </Typography>
+              </TimelineHeader>
+              <TimelineBody className="-mt-2 pb-8">
+                <Typography className="font-normal text-theme-tertiary">
+                  21 Dec 8:20 PM
+                </Typography>
+              </TimelineBody>
+            </TimelineItem>
+            <TimelineItem>
+              <TimelineConnector className="bg-[var(--theme-border-primary)]" />
+              <TimelineHeader>
+                <TimelineIcon className="p-2 bg-theme-gradient-accent">
+                  <CurrencyDollarIcon className="h-4 w-4 text-white" />
+                </TimelineIcon>
+                <Typography className="font-semibold text-theme-primary">
+                  Payment Completed
+                </Typography>
+              </TimelineHeader>
+              <TimelineBody className="-mt-2">
+                <Typography className="font-normal text-theme-tertiary">
+                  17 Dec 4:20 PM
+                </Typography>
+              </TimelineBody>
+            </TimelineItem>
+          </Timeline>
+        </DialogBody>
+        <DialogFooter className="border-t border-[var(--theme-border-light)]">
+          <Button 
+            className="mr-auto bg-theme-gradient-primary text-white shadow-theme-sm hover-bubbly-sm" 
+            onClick={handleOpen}
+          >
+            more details
+          </Button>
+        </DialogFooter>
       </Dialog>
     </>
   );

@@ -11,6 +11,7 @@ import { DirectClassTest } from './components/DirectClassTest';
 import VSModalShowcase from './components/VSModalShowcase';
 import { VSPainPoints, VSCharts } from './components/sections';
 import CalendlyDemo from './components/Calendly/CalendlyDemo';
+import ModalImplementation from './Qualification_components/modal-implementation';
 
 function App() {
   // Load theme toggle script
@@ -57,6 +58,11 @@ function App() {
                   Calendly Scheduling Demo
                 </Link>
               </div>
+              <div>
+                <Link to="/qualification" className="px-6 py-2 bg-theme-gradient-primary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                  Qualification Modal Demo
+                </Link>
+              </div>
             </div>
           </div>
         } />
@@ -68,6 +74,7 @@ function App() {
         <Route path="/painpoints" element={<VSPainPoints />} />
         <Route path="/charts" element={<VSCharts />} />
         <Route path="/calendly" element={<CalendlyDemo />} />
+        <Route path="/qualification" element={<ModalImplementation />} />
       </Routes>
       
       {/* Theme toggle button */}
