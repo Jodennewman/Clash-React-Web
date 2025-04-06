@@ -161,10 +161,14 @@ const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, i
       data-id={section.id}
       data-display-key={section.displayKey}
       className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)]"
-      style={{ backgroundColor: section.color }}
+      style={{ 
+        backgroundColor: section.color,
+        // Ensure visibility by forcing opacity
+        opacity: 1 
+      }}
     >
       {/* Display section name directly on the section for better UX */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-medium">
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-medium text-center">
         {section.name}
       </div>
       
@@ -189,10 +193,14 @@ const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ sect
       data-id={section.id}
       data-display-key={section.displayKey}
       className="section-module module-item w-[var(--normal-square-width)] h-[var(--normal-square-width)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)]"
-      style={{ backgroundColor: section.color }}
+      style={{ 
+        backgroundColor: section.color,
+        // Ensure visibility by forcing opacity
+        opacity: 1
+      }}
     >
       {/* Display section name directly on the section for better UX */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-medium text-xs">
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-medium text-xs text-center">
         {section.name}
       </div>
       
@@ -409,15 +417,16 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   
   useGSAP(() => {
     const ctx = gsap.context(() => {
-      // First make sure all sections are initially invisible
+      // First ensure sections are rendered visible but prepare for animation
       gsap.set(".section-module", {
-        opacity: 0,
-        scale: 0.85
+        // Don't set opacity to 0 here, as elements must be visible by default
+        // Just setup for a slight scale animation
+        scale: 0.9,
+        visibility: "visible" // Force visibility
       });
       
       // Then animate them in with a staggered effect - reduced delay for better responsiveness
       gsap.to(".section-module", {
-        opacity: 1,
         scale: 1,
         stagger: 0.04, // Faster staggering
         duration: 0.4,  // Faster animation
@@ -426,7 +435,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         onComplete: () => {
           // Clean up GSAP inline styles after animation completes
           gsap.set(".section-module", {
-            clearProps: "opacity,scale"
+            clearProps: "scale,visibility"
           });
         }
       });
@@ -606,8 +615,12 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         else gridSize = 6; // 6x6 grid for very large module sets
         
         // Calculate new width/height for expanded section
+        // Use a larger multiplier for more dramatic expansion
         const normalSize = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--normal-square-width'));
-        const newSize = normalSize * gridSize;
+        
+        // Make scaling larger - up to 4-5x original size depending on module count
+        const sizeMultiplier = Math.max(3, Math.min(5, moduleCount / 4)); // At least 3x, up to 5x
+        const newSize = normalSize * Math.max(gridSize, sizeMultiplier);
         const expandedSectionSize = `${newSize}px`;
         
         // Find the section data for the selected section
@@ -633,10 +646,10 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         }
         
         // Animate section expansion in three distinct steps
-        // Step 1: Quick visual feedback - slight scale up
+        // Step 1: Quick visual feedback - more obvious scale up for better feedback
         masterTimeline.to(sectionEl, {
-          scale: 1.03, // Small scale for immediate feedback
-          duration: 0.1,
+          scale: 1.1, // More noticeable scale for immediate feedback
+          duration: 0.15,
           ease: "power2.out"
         }, 0);
         
