@@ -437,6 +437,15 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   
   // Handle section expansion/collapse animation with enhanced transitions
   useEffect(() => {
+    // IMPORTANT: Using a context object to store all animation data
+    // This helps avoid using stale closure values
+    const context = {
+      selectedSection,
+      selectedSectionModules,
+      sectionRefs: { ...sectionRefs.current },
+      sectionElements: {}
+    };
+    
     // Get computed theme variables for animation
     const styles = getComputedStyle(document.documentElement);
     const animScale = parseFloat(styles.getPropertyValue('--theme-anim-scale') || '1.02');
@@ -445,156 +454,144 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     // Reference to content below HUD that needs to be pushed away
     const contentBelow = document.querySelector('.mt-16.md\\:mt-24');
     
+    // Create a master timeline for all animations
+    // This ensures proper coordination and prevents competing animations
+    const masterTimeline = gsap.timeline({
+      paused: true, // Don't start yet
+      onComplete: () => {
+        // After all animations complete, clean up any remaining inline styles
+        requestAnimationFrame(() => {
+          Object.values(context.sectionElements).forEach(el => {
+            if (el) {
+              gsap.set(el, { clearProps: "all" });
+            }
+          });
+        });
+      }
+    });
+    
+    // STAGE 1: SNAPSHOT CURRENT STATE
+    // --------------------------------
+    // This is the most important step to prevent jumping
+    // We take a snapshot of ALL sections' current state before any animation begins
+    mainSections.forEach(section => {
+      const sectionEl = sectionRefs.current[section.id];
+      context.sectionElements[section.id] = sectionEl;
+      
+      if (sectionEl) {
+        // Capture exact current state with GSAP
+        const bounds = sectionEl.getBoundingClientRect();
+        const currentScale = gsap.getProperty(sectionEl, "scale") || 1;
+        const currentTransform = window.getComputedStyle(sectionEl).transform;
+        
+        // Immediately freeze in current visual state to prevent jumps
+        gsap.set(sectionEl, {
+          width: `${bounds.width}px`,
+          height: `${bounds.height}px`,
+          scale: currentScale,
+          position: gsap.getProperty(sectionEl, "position"),
+          // Use transform origin center to avoid rotation issues
+          transformOrigin: "center center"
+        });
+      }
+    });
+    
+    // STAGE 2: HANDLE SECTION DESELECTION (COLLAPSE)
+    // ---------------------------------------------
     if (!selectedSection) {
-      // Create a timeline for smoother coordination of animations
-      const tl = gsap.timeline({
-        onComplete: () => {
-          // This helps avoid flickering and ensures cleanup
-          requestAnimationFrame(() => {
-            // Final cleanup of any remaining inline styles
-            mainSections.forEach(section => {
-              const sectionEl = sectionRefs.current[section.id];
-              if (sectionEl) {
-                // Ensure all props are properly cleaned up
-                gsap.set(sectionEl, {
-                  clearProps: "width,height,scale,transform,x,y"
-                });
-              }
-            });
-          });
+      // First, fade out all section titles
+      mainSections.forEach(section => {
+        const titleEl = document.getElementById(`section-title-${section.id}`);
+        if (titleEl) {
+          masterTimeline.to(titleEl, {
+            opacity: 0,
+            y: -5,
+            duration: 0.15,
+            ease: "power2.in",
+            onComplete: () => titleEl.remove()
+          }, 0); // Start at timeline beginning
         }
       });
       
-      // First, immediately capture and freeze the current state of all sections
-      // to prevent any visual jumps before animations start
+      // Then, fade out all module items
       mainSections.forEach(section => {
-        const sectionEl = sectionRefs.current[section.id];
-        if (sectionEl) {
-          // Capture current computed transforms before starting animations
-          const currentRect = sectionEl.getBoundingClientRect();
-          const currentStyles = window.getComputedStyle(sectionEl);
-          
-          // Convert to appropriate units for transform
-          const currentScale = gsap.getProperty(sectionEl, "scale") || 1;
-          
-          // Freeze at current position to prevent jumps
-          gsap.set(sectionEl, {
-            width: `${currentRect.width}px`,
-            height: `${currentRect.height}px`,
-            scale: currentScale 
-          });
+        const sectionEl = context.sectionElements[section.id];
+        if (!sectionEl) return;
+        
+        const modulesContainer = sectionEl.querySelector('.modules-container');
+        if (modulesContainer) {
+          // Fade out modules quickly without scaling them
+          masterTimeline.to(modulesContainer.querySelectorAll('.module-item'), {
+            opacity: 0,
+            duration: 0.1,
+            ease: "power1.in",
+            onComplete: () => {
+              // Safe removal of container
+              if (modulesContainer.parentNode === sectionEl) {
+                modulesContainer.remove();
+              }
+            }
+          }, 0); // Start immediately
         }
       });
       
-      // Second, animate all sections
+      // Then, animate all sections back to original size
+      // We use a consistent, controlled animation for all sections
       mainSections.forEach(section => {
-        // Reset section animation with subtle bounce
-        const sectionEl = sectionRefs.current[section.id];
-        if (sectionEl) {
-          // Remove section title if it exists
-          const sectionTitleEl = document.getElementById(`section-title-${section.id}`);
-          if (sectionTitleEl) {
-            // Fade out section title
-            tl.to(sectionTitleEl, {
-              opacity: 0,
-              y: -10,
-              duration: 0.2,
-              ease: "power2.in",
-              onComplete: () => {
-                sectionTitleEl.remove();
-              }
-            }, 0); // Start at the beginning of the timeline
-          }
-          
-          // Remove modules if they exist inside the section
-          const existingModules = sectionEl.querySelector('.modules-container');
-          if (existingModules) {
-            // Fade out modules first
-            tl.to(existingModules.querySelectorAll('.module-item'), {
-              opacity: 0,
-              scale: 0.95, // More subtle
-              stagger: 0.01, 
-              duration: 0.15,
-              ease: "power2.in",
-              onComplete: () => {
-                // Then remove the modules container
-                existingModules.remove();
-              }
-            }, 0); // Start at beginning
-            
-            // Animate section back to original size - two-stage animation to avoid jumps
-            // First, reduce scale slightly to provide visual feedback
-            tl.to(sectionEl, {
-              scale: 0.98, // Slight scale down for visual feedback
-              duration: 0.15,
-              ease: "power2.out"
-            }, 0.1); // Slight delay
-            
-            // Then animate to final size
-            tl.to(sectionEl, {
-              width: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
-              height: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
-              scale: 1,
-              duration: 0.2,
-              ease: "power3.out",
-              onComplete: () => {
-                // Clean up inline styles to let CSS take over
-                gsap.set(sectionEl, {
-                  clearProps: "width,height,scale,transform"
-                });
-              }
-            }, 0.2); // Start after scale down 
-            
-          } else {
-            // If no modules, just reset the section with the same 2-stage animation
-            tl.to(sectionEl, {
-              scale: 0.98, // Slight scale down
-              duration: 0.15,
-              ease: "power2.out"
-            }, 0.1);
-            
-            tl.to(sectionEl, {
-              scale: 1,
-              duration: 0.2,
-              ease: "power3.out",
-              onComplete: () => {
-                // Clean up inline styles
-                gsap.set(sectionEl, {
-                  clearProps: "scale,transform"
-                });
-              }
-            }, 0.2);
-          }
-        }
+        const sectionEl = context.sectionElements[section.id];
+        if (!sectionEl) return;
+        
+        // Calculate final dimensions based on section size
+        const finalWidth = section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)';
+        const finalHeight = section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)';
+        
+        // Two-step animation for smoother transition
+        // Step 1: Small scale change for feedback
+        masterTimeline.to(sectionEl, {
+          scale: 0.98, // Small reduction
+          duration: 0.15,
+          ease: "power2.out"
+        }, 0.1); // Small delay
+        
+        // Step 2: Complete transition to final size
+        masterTimeline.to(sectionEl, {
+          width: finalWidth,
+          height: finalHeight,
+          scale: 1,
+          duration: 0.2,
+          ease: "power2.out"
+        }, 0.2); // Start after scale reduction
       });
       
       // Remove any standalone module containers
       mainSections.forEach(section => {
         const container = document.getElementById(`${section.id}-modules`);
         if (container) {
-          gsap.to(container, {
+          masterTimeline.to(container, {
             opacity: 0,
-            duration: 0.3,
-            ease: "power3.out",
-            transform: 'translateX(-50%) scale(0.6)',
+            duration: 0.2,
+            ease: "power2.out",
+            scale: 0.9,
             onComplete: () => {
               container.remove();
             }
-          });
+          }, 0);
         }
       });
       
       // Reset content margin if needed
       if (contentBelow) {
-        gsap.to(contentBelow, {
+        masterTimeline.to(contentBelow, {
           marginTop: '4rem', // Return to original margin
-          duration: 0.5,
-          ease: "power3.out"
-        });
+          duration: 0.3,
+          ease: "power2.out"
+        }, 0.1);
       }
     } else {
-      // Expand selected section with enhanced transitions
-      const sectionEl = sectionRefs.current[selectedSection];
+      // STAGE 3: HANDLE SECTION SELECTION (EXPAND)
+      // -----------------------------------------
+      // Expand the selected section
+      const sectionEl = context.sectionElements[selectedSection];
       
       if (sectionEl) {
         // Determine size based on module count
@@ -625,7 +622,6 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           sectionTitleEl.className = 'section-title absolute -top-12 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-4 py-2 rounded-lg shadow-theme-md text-lg font-medium z-20 whitespace-nowrap';
           sectionTitleEl.innerHTML = sectionData.name;
           sectionTitleEl.style.opacity = '0';
-          sectionTitleEl.style.y = '-10px';
           
           // Create a decorative arrow pointing down
           const arrowEl = document.createElement('div');
@@ -635,35 +631,31 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           // Insert it before the section element
           sectionEl.parentNode?.insertBefore(sectionTitleEl, sectionEl);
         }
-
-        // Create a single timeline for better animation control and less input lag
-        const expandTl = gsap.timeline({
-          defaults: {
-            ease: "power3.out" // More consistent easing
-          }
-        });
         
-        // Immediate visual feedback - apply a quick scale first
-        expandTl.to(sectionEl, {
-          scale: 1.03, // Small immediate scale for visual feedback
-          duration: 0.05 // Very quick
-        });
+        // Animate section expansion in three distinct steps
+        // Step 1: Quick visual feedback - slight scale up
+        masterTimeline.to(sectionEl, {
+          scale: 1.03, // Small scale for immediate feedback
+          duration: 0.1,
+          ease: "power2.out"
+        }, 0);
         
-        // Animate the section title to appear in parallel
-        expandTl.to(sectionTitleEl, {
+        // Also fade in title in parallel
+        masterTimeline.to(sectionTitleEl, {
           opacity: 1,
           y: 0,
-          duration: 0.15
-        }, 0); // Start at the same time
+          duration: 0.15,
+          ease: "power2.out"
+        }, 0);
         
-        // Then smoothly expand the section to accommodate modules
-        expandTl.to(sectionEl, {
+        // Step 2: Expand to full size
+        masterTimeline.to(sectionEl, {
           width: expandedSectionSize,
           height: expandedSectionSize,
           scale: 1, // Return to normal scale
           boxShadow: "var(--theme-shadow-md)",
-          duration: 0.25,
-          ease: "power2.out", // Smoother and more predictable
+          duration: 0.2,
+          ease: "power2.out",
           onComplete: () => {
             // Create modules container and add it to the section
             if (!sectionEl.querySelector('.modules-container')) {
@@ -802,100 +794,87 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           }
         });
         
-        // Collapse other sections with subtle transitions
+        // STAGE 4: COLLAPSE NON-SELECTED SECTIONS
+        // -------------------------------------
         mainSections.forEach(section => {
           if (section.id !== selectedSection) {
-            // Remove section title if it exists
+            // First fade out any section titles
             const sectionTitleEl = document.getElementById(`section-title-${section.id}`);
             if (sectionTitleEl) {
-              // Fade out section title
-              gsap.to(sectionTitleEl, {
+              masterTimeline.to(sectionTitleEl, {
                 opacity: 0,
-                y: -10,
-                duration: 0.2,
+                y: -5,
+                duration: 0.15,
                 ease: "power2.in",
-                onComplete: () => {
-                  sectionTitleEl.remove();
-                }
-              });
+                onComplete: () => sectionTitleEl.remove()
+              }, 0); // Start at timeline beginning
             }
             
-            const otherSectionEl = sectionRefs.current[section.id];
+            const otherSectionEl = context.sectionElements[section.id];
             if (otherSectionEl) {
-              // Remove modules if they exist
+              // Fade out any modules
               const existingModules = otherSectionEl.querySelector('.modules-container');
               if (existingModules) {
-                // First capture current dimensions to avoid jumping
-                const currentWidth = otherSectionEl.offsetWidth;
-                const currentHeight = otherSectionEl.offsetHeight;
-                
-                // Set exact dimensions to prevent jumps
-                otherSectionEl.style.width = `${currentWidth}px`;
-                otherSectionEl.style.height = `${currentHeight}px`;
-                
-                // Fade out modules first
-                gsap.to(existingModules.querySelectorAll('.module-item'), {
+                masterTimeline.to(existingModules.querySelectorAll('.module-item'), {
                   opacity: 0,
-                  scale: 0.9, // Less shrinking for smoother transition
-                  stagger: 0.01, // Faster stagger
-                  duration: 0.15, // Faster fade out
-                  ease: "power2.in",
+                  duration: 0.1,
+                  ease: "power1.in",
                   onComplete: () => {
-                    // Then remove the modules container
-                    existingModules.remove();
-                    
-                    // Animate section back to original size
-                    gsap.to(otherSectionEl, {
-                      width: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
-                      height: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
-                      scale: 1,
-                      boxShadow: "var(--theme-shadow-sm)",
-                      duration: 0.3, // Slightly faster return
-                      ease: "power2.out",
-                      onComplete: () => {
-                        // Clean up inline styles to let CSS take over
-                        gsap.set(otherSectionEl, {
-                          clearProps: "width,height,scale"
-                        });
-                      }
-                    });
+                    if (existingModules.parentNode === otherSectionEl) {
+                      existingModules.remove();
+                    }
                   }
-                });
-              } else {
-                // If no modules, just reset the section
-                gsap.to(otherSectionEl, {
-                  scale: 1,
-                  y: 0,
-                  boxShadow: "var(--theme-shadow-sm)",
-                  duration: 0.3, // Faster animation
-                  ease: "power2.out",
-                  onComplete: () => {
-                    // Clean up inline styles
-                    gsap.set(otherSectionEl, {
-                      clearProps: "scale,y"
-                    });
-                  }
-                });
+                }, 0); // Start immediately
               }
+              
+              // Calculate final dimensions for this section
+              const finalWidth = section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)';
+              const finalHeight = section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)';
+              
+              // Two-step animation for smooth transition
+              masterTimeline.to(otherSectionEl, {
+                scale: 0.98,
+                duration: 0.15,
+                ease: "power2.out"
+              }, 0.1);
+              
+              masterTimeline.to(otherSectionEl, {
+                width: finalWidth,
+                height: finalHeight,
+                scale: 1,
+                boxShadow: "var(--theme-shadow-sm)",
+                duration: 0.2,
+                ease: "power2.out"
+              }, 0.2);
             }
             
             // Remove any standalone module containers
             const container = document.getElementById(`${section.id}-modules`);
             if (container) {
-              gsap.to(container, {
+              masterTimeline.to(container, {
                 opacity: 0,
-                transform: 'translateX(-50%) scale(0.6)',
-                duration: 0.3,
-                ease: "power3.out",
+                scale: 0.9,
+                duration: 0.2,
+                ease: "power2.out",
                 onComplete: () => {
                   container.remove();
                 }
-              });
+              }, 0);
             }
           }
         });
       }
     }
+    
+    // FINAL STAGE: PLAY THE MASTER TIMELINE
+    // ------------------------------------
+    // Using a brief delay to ensure all setup is complete
+    // This minimizes visual jumps that can happen during complex animations
+    requestAnimationFrame(() => {
+      // Play all animations in a coordinated way
+      masterTimeline.play();
+    });
+    
   }, [selectedSection, selectedSectionModules]);
   
   // Setup hover animations
