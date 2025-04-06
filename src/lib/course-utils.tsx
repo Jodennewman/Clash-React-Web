@@ -847,6 +847,18 @@ export const searchModules = (searchTerm: string): Module[] => {
 // Note: The original getThumbnailPath is declared above, this is just a comment
 // to explain that the function has been enhanced with better error handling
 
+// Get module title by ID with safety check
+export const getModuleTitle = (moduleId: string): string => {
+  const module = getModuleById(moduleId);
+  return module ? module.title : 'Module';
+};
+
+// Get module thumbnail by ID with safety check
+export const getModuleThumbnail = (moduleId: string): string => {
+  const module = getModuleById(moduleId);
+  return module && module.thumbnail ? module.thumbnail : 'default.webp';
+};
+
 // Export default object with all utils
 export default {
   tracks,
@@ -869,5 +881,7 @@ export default {
   getContentHierarchy,
   filterModules,
   searchModules,
-  getCreators // Add the new case study/creators function
+  getCreators, // Add the new case study/creators function
+  getModuleTitle, // Helper for modal
+  getModuleThumbnail // Helper for modal
 };
