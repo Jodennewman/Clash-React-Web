@@ -8,11 +8,16 @@
  * Usage: node css-rgb-analyzer.js [path/to/css/file]
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Get current file path
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Default path to globals.css if not specified
-const cssFilePath = process.argv[2] || './src/app/globals.css';
+const cssFilePath = process.argv[2] || path.join(__dirname, 'src/app/globals.css');
 
 // Read the CSS file
 try {
