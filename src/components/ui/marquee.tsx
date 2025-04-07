@@ -60,7 +60,7 @@ export default function Marquee({
       {...props}
       data-slot="marquee"
       className={cn(
-        "marquee-container flex overflow-hidden p-2 bg-theme-bg-light/20 backdrop-blur-sm relative",
+        "marquee-container flex overflow-hidden p-0 bg-theme-bg-light/20 backdrop-blur-sm relative",
         {
           "flex-row": !vertical,
           "flex-col": vertical,
@@ -68,12 +68,12 @@ export default function Marquee({
         className,
       )}
       style={{
-        '--gap': '0.5rem',
+        '--gap': '0.15rem',
       }}
     >
       <div 
         className={cn(
-          "flex gap-2 shrink-0",
+          "flex gap-0 shrink-0",
           { "marquee-hover-pause": pauseOnHover }
         )}
         style={marqueeAnimationStyle}
@@ -83,7 +83,7 @@ export default function Marquee({
       
       <div 
         className={cn(
-          "flex gap-2 shrink-0",
+          "flex gap-0 shrink-0",
           { "marquee-hover-pause": pauseOnHover }
         )}
         style={marqueeAnimationStyle}
