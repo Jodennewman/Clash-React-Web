@@ -465,81 +465,216 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
       const modulesContainer = document.createElement('div');
       modulesContainer.className = 'modules-container absolute inset-0 z-10 p-4';
       
-      // Setup grid display
-      modulesContainer.style.display = 'grid';
-      modulesContainer.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
-      modulesContainer.style.gap = '8px';
+      // Get section ID from sectionEl to check if it's a system section
+      const sectionId = sectionEl.getAttribute('data-id');
+      const displayKey = sectionEl.getAttribute('data-display-key');
+      const isSystemSection = displayKey && displayKey.startsWith('system-');
       
-      // Add container to section
-      sectionEl.appendChild(modulesContainer);
-      
-      // Create modules
-      selectedSectionModules.forEach(module => {
-        const moduleEl = document.createElement('div');
-        moduleEl.dataset.id = module.id;
-        moduleEl.dataset.title = module.title; // Store full title for tooltip
-        moduleEl.className = 'module-item rounded-lg shadow-theme-sm cursor-pointer relative overflow-hidden tooltip-trigger';
+      // If this is a system section, we want to show a different layout with specific details
+      if (isSystemSection) {
+        // Special layout for system sections - more detailed description
+        modulesContainer.style.display = 'flex';
+        modulesContainer.style.flexDirection = 'column';
+        modulesContainer.style.justifyContent = 'flex-start';
+        modulesContainer.style.gap = '12px';
         
-        // Apply gradient background
-        const moduleColor = module.color || 'var(--theme-accent)';
-        moduleEl.style.background = `linear-gradient(135deg, ${moduleColor}, ${moduleColor}dd)`;
+        // Create heading based on which system
+        const headingEl = document.createElement('h3');
+        headingEl.className = 'text-white text-2xl font-bold';
         
-        // Make it square
-        moduleEl.style.aspectRatio = '1/1';
+        // Create description based on which system
+        const descriptionEl = document.createElement('p');
+        descriptionEl.className = 'text-white/80 mb-4';
         
-        // Add small indicator dot instead of text
-        if (module.featured || module.founderMustWatch) {
-          const indicatorEl = document.createElement('div');
-          indicatorEl.className = 'absolute top-2 right-2 w-2 h-2 rounded-full bg-[var(--hud-accent-red)]';
-          moduleEl.appendChild(indicatorEl);
+        // Create content container for the specific visualization
+        const contentEl = document.createElement('div');
+        contentEl.className = 'flex-1 flex flex-col gap-4';
+        
+        // Create features list
+        const featuresList = document.createElement('ul');
+        featuresList.className = 'bg-white/10 rounded-lg p-4 mt-2 space-y-3';
+        
+        // Determine which system we're showing and set appropriate content
+        if (displayKey === 'system-notion') {
+          headingEl.textContent = 'Notion System';
+          descriptionEl.textContent = 'Our comprehensive content organization system powered by a custom Notion database with advanced integrations for content planning, tracking, and management.';
+          
+          // Features specific to Notion System
+          [
+            'Content planning with linked databases',
+            'Ready-to-use templates for scripts',
+            'Database analytics for performance tracking',
+            'Automated content scheduling and workflows'
+          ].forEach(feature => {
+            const listItem = document.createElement('li');
+            listItem.className = 'flex items-center text-white/90';
+            
+            // Create checkmark icon
+            const checkIcon = document.createElement('div');
+            checkIcon.className = 'w-4 h-4 bg-white/30 rounded-full mr-3 flex items-center justify-center text-xs';
+            checkIcon.innerHTML = '✓';
+            
+            listItem.appendChild(checkIcon);
+            listItem.appendChild(document.createTextNode(feature));
+            featuresList.appendChild(listItem);
+          });
+          
+        } else if (displayKey === 'system-engine') {
+          headingEl.textContent = 'Engine Room';
+          descriptionEl.textContent = 'Our streamlined content production system that turns raw footage into professional-quality videos through automated workflows, templates, and AI-powered tools.';
+          
+          // Features specific to Engine Room
+          [
+            'AI-powered video transcription',
+            'Content optimization suggestions',
+            'Automated editing workflows',
+            'Quality control checkpoints'
+          ].forEach(feature => {
+            const listItem = document.createElement('li');
+            listItem.className = 'flex items-center text-white/90';
+            
+            // Create checkmark icon
+            const checkIcon = document.createElement('div');
+            checkIcon.className = 'w-4 h-4 bg-white/30 rounded-full mr-3 flex items-center justify-center text-xs';
+            checkIcon.innerHTML = '✓';
+            
+            listItem.appendChild(checkIcon);
+            listItem.appendChild(document.createTextNode(feature));
+            featuresList.appendChild(listItem);
+          });
+          
+        } else if (displayKey === 'system-viral') {
+          headingEl.textContent = 'Video OS';
+          descriptionEl.textContent = 'A powerful editing system with specialized templates, sound effects, transitions, and editing presets designed specifically for high-conversion short-form videos.';
+          
+          // Features specific to Video OS
+          [
+            'Custom transitions and effects library',
+            'Proven hook templates for maximum retention',
+            'Auto-captioning with style presets',
+            'Analytics integration for performance tracking'
+          ].forEach(feature => {
+            const listItem = document.createElement('li');
+            listItem.className = 'flex items-center text-white/90';
+            
+            // Create checkmark icon
+            const checkIcon = document.createElement('div');
+            checkIcon.className = 'w-4 h-4 bg-white/30 rounded-full mr-3 flex items-center justify-center text-xs';
+            checkIcon.innerHTML = '✓';
+            
+            listItem.appendChild(checkIcon);
+            listItem.appendChild(document.createTextNode(feature));
+            featuresList.appendChild(listItem);
+          });
         }
         
-        // Create tooltip element
-        const tooltipEl = document.createElement('div');
-        tooltipEl.className = 'tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20';
-        tooltipEl.textContent = module.title;
+        // Add the elements to the container
+        modulesContainer.appendChild(headingEl);
+        modulesContainer.appendChild(descriptionEl);
+        contentEl.appendChild(featuresList);
+        modulesContainer.appendChild(contentEl);
         
-        // Add arrow to tooltip
-        const arrowEl = document.createElement('div');
-        arrowEl.className = 'absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45';
-        tooltipEl.appendChild(arrowEl);
+        // Add "Coming Soon" badge to indicate these systems are in development
+        const badgeEl = document.createElement('div');
+        badgeEl.className = 'absolute top-4 right-4 bg-[var(--hud-accent-red)]/90 text-white text-xs font-medium px-2 py-1 rounded-full';
+        badgeEl.textContent = 'Coming Soon';
+        modulesContainer.appendChild(badgeEl);
         
-        moduleEl.appendChild(tooltipEl);
+        // Add CTA button
+        const ctaButton = document.createElement('button');
+        ctaButton.className = 'mt-4 py-3 px-6 bg-white/20 text-white rounded-full hover:bg-white/30 transition-all duration-300 text-sm font-medium';
+        ctaButton.textContent = 'Learn More';
+        modulesContainer.appendChild(ctaButton);
         
-        // Add event listeners for tooltip
-        moduleEl.addEventListener('mouseenter', () => {
-          tooltipEl.style.opacity = '1';
-        });
+        // Add container to section
+        sectionEl.appendChild(modulesContainer);
         
-        moduleEl.addEventListener('mouseleave', () => {
-          tooltipEl.style.opacity = '0';
-        });
-        
-        // Add to container
-        modulesContainer.appendChild(moduleEl);
-      });
-      
-      // Fade in the modules with a more dynamic animation
-      gsap.fromTo(
-        modulesContainer.querySelectorAll('.module-item'),
-        { 
+        // Animate system content with a nice fade-in sequence
+        gsap.from([headingEl, descriptionEl, featuresList, ctaButton, badgeEl], { 
           opacity: 0, 
-          scale: 0.8,
-          y: 10
-        },
-        { 
-          opacity: 1, 
-          scale: 1,
-          y: 0,
-          duration: 0.4, 
-          stagger: { 
-            amount: 0.4, // total stagger time
-            from: "center", 
-            grid: "auto" 
+          y: 15, 
+          duration: 0.5,
+          stagger: 0.1,
+          ease: "power2.out"
+        });
+        
+      } else {
+        // Standard modules grid for normal sections
+        modulesContainer.style.display = 'grid';
+        modulesContainer.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+        modulesContainer.style.gap = '8px';
+        
+        // Add container to section
+        sectionEl.appendChild(modulesContainer);
+        
+        // Create modules
+        selectedSectionModules.forEach(module => {
+          const moduleEl = document.createElement('div');
+          moduleEl.dataset.id = module.id;
+          moduleEl.dataset.title = module.title; // Store full title for tooltip
+          moduleEl.className = 'module-item rounded-lg shadow-theme-sm cursor-pointer relative overflow-hidden tooltip-trigger';
+          
+          // Apply gradient background
+          const moduleColor = module.color || 'var(--theme-accent)';
+          moduleEl.style.background = `linear-gradient(135deg, ${moduleColor}, ${moduleColor}dd)`;
+          
+          // Make it square
+          moduleEl.style.aspectRatio = '1/1';
+          
+          // Add small indicator dot instead of text
+          if (module.featured || module.founderMustWatch) {
+            const indicatorEl = document.createElement('div');
+            indicatorEl.className = 'absolute top-2 right-2 w-2 h-2 rounded-full bg-[var(--hud-accent-red)]';
+            moduleEl.appendChild(indicatorEl);
+          }
+          
+          // Create tooltip element
+          const tooltipEl = document.createElement('div');
+          tooltipEl.className = 'tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20';
+          tooltipEl.textContent = module.title;
+          
+          // Add arrow to tooltip
+          const arrowEl = document.createElement('div');
+          arrowEl.className = 'absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45';
+          tooltipEl.appendChild(arrowEl);
+          
+          moduleEl.appendChild(tooltipEl);
+          
+          // Add event listeners for tooltip
+          moduleEl.addEventListener('mouseenter', () => {
+            tooltipEl.style.opacity = '1';
+          });
+          
+          moduleEl.addEventListener('mouseleave', () => {
+            tooltipEl.style.opacity = '0';
+          });
+          
+          // Add to container
+          modulesContainer.appendChild(moduleEl);
+        });
+        
+        // Fade in the modules with a more dynamic animation
+        gsap.fromTo(
+          modulesContainer.querySelectorAll('.module-item'),
+          { 
+            opacity: 0, 
+            scale: 0.8,
+            y: 10
           },
-          ease: "back.out(1.7)" 
-        }
-      );
+          { 
+            opacity: 1, 
+            scale: 1,
+            y: 0,
+            duration: 0.4, 
+            stagger: { 
+              amount: 0.4, // total stagger time
+              from: "center", 
+              grid: "auto" 
+            },
+            ease: "back.out(1.7)" 
+          }
+        );
+      }
     }
   
   // Handle click events
@@ -565,8 +700,19 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         onModuleClick(moduleId);
       }
     } else {
-      // Handle section click
-      const sectionIdentifier = displayKey || moduleId;
+      // Handle section click - if it has a system-specific displayKey, use that combined ID
+      let sectionIdentifier = moduleId;
+      
+      if (displayKey) {
+        if (displayKey.startsWith('system-')) {
+          // For system blocks, we want to pass the combined ID (including the displayKey)
+          // so it can be handled properly by the parent component
+          sectionIdentifier = moduleId + '-' + displayKey;
+        } else {
+          // For other cases, just use the display key
+          sectionIdentifier = displayKey;
+        }
+      }
       
       if (onModuleClick) {
         onModuleClick(sectionIdentifier);
@@ -669,7 +815,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             <div className="flex flex-col gap-[var(--square-gap-y)] min-w-[calc(var(--normal-square-width)*2)]">
               {/* Container for the three systems */}
               <div className="grid grid-cols-1 gap-[calc(var(--square-gap-y)*1.2)]">
-                {/* The Quantity and Quality Notion System */}
+                {/* Notion System - Quality & Quantity */}
                 <div 
                   key={systemsColumn[0].displayKey}
                   ref={(el) => { 
@@ -679,10 +825,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   data-id={systemsColumn[0].id}
                   data-display-key={systemsColumn[0].displayKey}
                   className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-md cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
-                  style={{ 
-                    backgroundColor: "var(--hud-navy)",
-                    backgroundImage: "radial-gradient(circle at 70% 20%, rgba(67, 134, 160, 0.2) 0%, rgba(33, 55, 91, 0) 40%)"
-                  }}
+                  style={{ backgroundColor: "var(--hud-navy)" }}
                 >
                   {/* Tooltip for system name */}
                   <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
@@ -690,32 +833,18 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
                   </div>
                   
-                  {/* Simple database UI */}
-                  <div className="absolute inset-3 flex flex-col">
-                    {/* Logo/identifier */}
-                    <div className="flex items-center mb-5">
-                      <div className="w-10 h-10 rounded-md bg-white/15 flex items-center justify-center">
-                        <span className="text-white text-lg">💾</span>
-                      </div>
-                      <div className="h-px flex-1 bg-white/15 ml-4"></div>
-                    </div>
+                  {/* Simple clear label */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
+                    <div className="text-white font-bold text-lg mb-2">NOTION SYSTEM</div>
+                    <div className="w-12 h-1 bg-white/30 rounded-full mb-4"></div>
+                    <div className="text-white/80 text-sm mb-3">Content Organization</div>
                     
-                    {/* Animated rows */}
-                    <div className="space-y-4 flex-1">
-                      {[1, 2, 3, 4].map(i => (
-                        <div key={i} className="flex items-center space-x-3">
-                          <div className={`notion-dot w-3 h-3 rounded-full bg-white/30 opacity-${i % 2 === 0 ? '20' : '40'}`}></div>
-                          <div className={`notion-row h-3 bg-white/20 rounded-full`} style={{width: `${30 + i * 10}%`}}></div>
-                        </div>
-                      ))}
-                    </div>
-                    
-                    {/* Database columns */}
-                    <div className="grid grid-cols-3 gap-3 mt-4">
+                    {/* Simple database representation */}
+                    <div className="w-full max-w-[80%] h-20 bg-white/10 rounded-lg p-2 flex flex-col justify-between">
                       {[1, 2, 3].map(i => (
-                        <div key={i} className="flex flex-col items-center">
-                          <div className="w-full h-8 mb-2 bg-white/15 rounded-md"></div>
-                          <div className="w-2/3 h-2 bg-white/20 rounded-full"></div>
+                        <div key={i} className="flex space-x-2 items-center">
+                          <div className="notion-dot w-2 h-2 rounded-full bg-white/50"></div>
+                          <div className="notion-row h-2 bg-white/30 rounded-full flex-grow"></div>
                         </div>
                       ))}
                     </div>
@@ -727,7 +856,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   )}
                 </div>
                 
-                {/* The Home-Delivered Engine Room */}
+                {/* Engine Room System */}
                 <div 
                   key={systemsColumn[1].displayKey}
                   ref={(el) => { 
@@ -747,45 +876,21 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
                   </div>
                   
-                  {/* Factory UI - Simplified */}
-                  <div className="absolute inset-3">
-                    {/* Logo */}
-                    <div className="w-12 h-12 rounded-md bg-white/15 absolute top-0 left-0 flex items-center justify-center">
-                      <span className="text-white text-xl">🏭</span>
-                    </div>
+                  {/* Simple clear label */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
+                    <div className="text-white font-bold text-lg mb-2">ENGINE ROOM</div>
+                    <div className="w-12 h-1 bg-white/30 rounded-full mb-4"></div>
+                    <div className="text-white/80 text-sm mb-4">Content Production</div>
                     
-                    {/* Factory with smoke */}
-                    <div className="absolute top-4 right-4 flex flex-col items-center">
-                      {/* Smoke particles */}
-                      <div className="factory-smoke w-4 h-4 rounded-full bg-white/30 absolute -top-8 opacity-30"></div>
-                      <div className="factory-smoke w-3 h-3 rounded-full bg-white/20 absolute -top-4 left-2 opacity-20"></div>
-                      <div className="factory-smoke w-3 h-3 rounded-full bg-white/25 absolute -top-6 right-1 opacity-25"></div>
-                      
-                      {/* Factory building - just a silhouette */}
-                      <div className="w-16 h-16 bg-black/20 rounded-t-lg mt-7"></div>
-                    </div>
-                    
-                    {/* Conveyor belt - simple animated version */}
-                    <div className="absolute bottom-2 inset-x-3 h-14 bg-white/15 rounded-md overflow-hidden flex items-center">
-                      {/* Belt items */}
-                      <div className="conveyor-item w-10 h-8 mx-4 bg-white/30 rounded-md flex items-center justify-center">
-                        <div className="w-6 h-4 bg-white/30 rounded"></div>
+                    {/* Simple conveyor belt */}
+                    <div className="relative w-full max-w-[80%]">
+                      <div className="h-10 bg-black/20 rounded-lg overflow-hidden">
+                        <div className="absolute inset-y-0 left-4 right-4 flex items-center">
+                          <div className="conveyor-item w-8 h-6 mx-2 bg-white/20 rounded"></div>
+                          <div className="conveyor-item w-8 h-6 mx-2 bg-white/30 rounded"></div>
+                          <div className="conveyor-item w-8 h-6 mx-2 bg-white/25 rounded"></div>
+                        </div>
                       </div>
-                      
-                      <div className="conveyor-item w-8 h-6 mx-4 bg-white/20 rounded-md flex items-center justify-center">
-                        <div className="w-4 h-3 bg-white/30 rounded"></div>
-                      </div>
-                      
-                      <div className="conveyor-item w-7 h-5 mx-4 bg-white/25 rounded-md flex items-center justify-center">
-                        <div className="w-3 h-2 bg-white/30 rounded"></div>
-                      </div>
-                    </div>
-                    
-                    {/* Simple status indicators */}
-                    <div className="absolute top-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                      <div className="w-3 h-3 rounded-full bg-white/40 opacity-70"></div>
-                      <div className="w-3 h-3 rounded-full bg-white/30 opacity-40"></div>
-                      <div className="w-3 h-3 rounded-full bg-white/20 opacity-50"></div>
                     </div>
                   </div>
                   
@@ -795,7 +900,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   )}
                 </div>
                 
-                {/* The Viral Video OS */}
+                {/* Viral Video OS */}
                 <div 
                   key={systemsColumn[2].displayKey}
                   ref={(el) => { 
@@ -815,52 +920,25 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
                   </div>
                   
-                  {/* Simple editor interface */}
-                  <div className="absolute inset-3">
-                    {/* Logo */}
-                    <div className="w-12 h-12 rounded-md bg-white/15 absolute top-0 left-0 flex items-center justify-center">
-                      <span className="text-white text-xl">🖥️</span>
-                    </div>
+                  {/* Simple clear label */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
+                    <div className="text-white font-bold text-lg mb-2">VIDEO OS</div>
+                    <div className="w-12 h-1 bg-white/30 rounded-full mb-4"></div>
+                    <div className="text-white/80 text-sm mb-3">Editing Tools</div>
                     
-                    {/* Video preview */}
-                    <div className="absolute top-6 right-4 w-16 h-24 bg-black/40 rounded-lg overflow-hidden flex items-center justify-center">
-                      {/* Phone frame */}
-                      <div className="w-8 h-16 bg-black rounded-lg overflow-hidden flex items-center justify-center border border-white/20">
-                        {/* Video content */}
-                        <div className="w-6 h-12 bg-gradient-to-b from-[var(--hud-coral)]/30 to-[var(--hud-teal)]/40 rounded"></div>
+                    {/* Simple timeline */}
+                    <div className="w-full max-w-[80%] bg-black/20 h-16 rounded-lg p-2 relative">
+                      {/* Video track */}
+                      <div className="h-3 mb-2 bg-black/30 rounded-full relative overflow-hidden">
+                        <div className="editor-clips absolute left-2 w-8 h-full rounded-sm bg-[var(--hud-teal)]/70"></div>
+                        <div className="editor-clips absolute left-12 w-10 h-full rounded-sm bg-[var(--hud-coral)]/70"></div>
+                        <div className="editor-playhead absolute top-0 bottom-0 left-8 w-0.5 bg-white/80"></div>
                       </div>
-                    </div>
-                    
-                    {/* Timeline */}
-                    <div className="absolute bottom-2 left-3 right-3 h-16 bg-black/25 rounded-lg overflow-hidden p-2">
-                      {/* Tracks */}
-                      <div className="space-y-3">
-                        {[1, 2, 3].map(i => (
-                          <div key={i} className="flex items-center h-3">
-                            {/* Track label */}
-                            <div className="w-3 h-3 rounded-full bg-white/20 mr-2"></div>
-                            
-                            {/* Track clips */}
-                            <div className="flex-1 relative h-full">
-                              <div className="editor-clips absolute left-0 w-8 h-full rounded-sm bg-[var(--hud-coral)]/60 opacity-70"></div>
-                              <div className="editor-clips absolute left-10 w-12 h-full rounded-sm bg-[var(--hud-teal)]/60 opacity-70"></div>
-                              <div className="editor-clips absolute left-24 w-6 h-full rounded-sm bg-[var(--hud-pink)]/60 opacity-70"></div>
-                              
-                              {/* Playhead */}
-                              <div className="editor-playhead absolute top-0 bottom-0 left-2 w-0.5 bg-white"></div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    {/* Controls */}
-                    <div className="absolute top-16 left-3 flex items-center space-x-3">
-                      <div className="w-8 h-8 rounded-full bg-black/20 flex items-center justify-center">
-                        <div className="w-4 h-4 bg-white/40 rounded-sm"></div>
-                      </div>
-                      <div className="w-8 h-8 rounded-full bg-black/20 flex items-center justify-center">
-                        <div className="w-0 h-0 border-y-[6px] border-y-transparent border-l-[10px] border-l-white/40"></div>
+                      
+                      {/* Audio track */}
+                      <div className="h-3 bg-black/30 rounded-full relative overflow-hidden">
+                        <div className="editor-clips absolute left-2 w-5 h-full rounded-sm bg-white/30"></div>
+                        <div className="editor-clips absolute left-9 w-12 h-full rounded-sm bg-white/30"></div>
                       </div>
                     </div>
                   </div>
