@@ -6,8 +6,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
 
-// Individual team member section that will be stacked and cropped
-const TeamMemberSection = ({ 
+// Individual team member column with cropped content
+const TeamMemberColumn = ({ 
   name, 
   title, 
   bio, 
@@ -20,90 +20,101 @@ const TeamMemberSection = ({
   isActive,
   onMouseEnter,
   onMouseLeave,
-  teamLength
+  totalColumns
 }) => {
-  const sectionRef = useRef(null);
-
-  // Full height of each section divided by team length
-  const getVisibleHeight = () => {
-    return isActive ? '100%' : `${100 / teamLength}px`;
+  const columnRef = useRef(null);
+  
+  // Calculate width based on active state
+  const getWidth = () => {
+    if (isActive) {
+      return '70%';
+    } else {
+      // Each inactive column shares the remaining 30%
+      const otherColumns = totalColumns - 1;
+      const width = otherColumns > 0 ? 30 / otherColumns : 30;
+      return `${width}%`;
+    }
   };
 
   return (
     <div 
-      ref={sectionRef}
-      className={`absolute left-0 right-0 overflow-hidden bg-theme-bg-primary transition-all duration-300 ${isActive ? 'cursor-default' : 'cursor-pointer'}`}
+      ref={columnRef}
+      className={`h-full overflow-hidden transition-all duration-500 ease-in-out bg-theme-gradient ${isActive ? 'cursor-default' : 'cursor-pointer'}`}
       style={{ 
-        height: isActive ? '100%' : `${100 / teamLength}px`,
-        top: isActive ? '0' : `${index * (100 / teamLength)}px`,
-        zIndex: isActive ? 20 : 10 - index,
+        width: getWidth(),
+        zIndex: isActive ? 20 : 10,
       }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      {/* Header bar that's always visible */}
-      <div className="h-[100px] bg-theme-gradient flex items-center px-6 border-b border-theme-border">
-        <h2 className="text-2xl md:text-3xl font-bold text-theme-text-primary">{name}</h2>
-        <span className="ml-4 text-theme-text-secondary">{title}</span>
-      </div>
-      
-      {/* Full content */}
-      <div className={`p-8 md:p-12 transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="max-w-6xl mx-auto">
-          {/* Main content grid */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+      {/* Container with fixed width for content positioning */}
+      <div className="relative h-full">
+        {/* Content container - always exists but is cropped by parent overflow */}
+        <div className="absolute left-1/2 transform -translate-x-1/2 w-[600px] max-w-full h-full px-8 py-12">
+          {/* Top section with name and title */}
+          <div className="mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-theme-text-primary">{name}</h2>
+            <h3 className="text-xl text-theme-primary mt-2">{title}</h3>
+          </div>
+          
+          {/* Main content with image, bio, quote and likes/dislikes */}
+          <div className="grid grid-cols-12 gap-8">
             {/* Left column - Image and quote */}
-            <div className="md:col-span-4">
+            <div className="col-span-12 md:col-span-5">
+              {/* Main image */}
               <div className="relative mb-8">
                 <img 
                   src={images?.main?.cutout} 
                   alt={name}
-                  className="w-full max-w-[300px] mx-auto object-contain"
+                  className="w-full max-w-[250px] mx-auto"
                 />
+                
+                {/* Secondary image positioned over main image */}
                 {images?.secondary?.cutout && (
                   <img 
                     src={images.secondary.cutout} 
-                    alt={`${name} secondary`}
-                    className="absolute -bottom-10 -right-10 w-3/4 max-w-[200px] opacity-80"
+                    alt={`${name} secondary pose`}
+                    className="absolute -bottom-8 -right-4 max-w-[150px] opacity-80"
                   />
                 )}
               </div>
               
               {/* Quote */}
-              <div className="bg-theme-bg-secondary p-6 rounded-md border-l-4 border-theme-primary mt-8">
-                <p className="italic text-theme-text-primary">&ldquo;{quote}&rdquo;</p>
-                <p className="text-theme-text-tertiary text-right mt-2">- {quoteAuthor}</p>
+              <div className="bg-theme-bg-secondary rounded-md p-5 border-l-4 border-theme-primary shadow-theme-sm">
+                <p className="italic text-theme-text-primary text-sm md:text-base">&ldquo;{quote}&rdquo;</p>
+                <p className="text-theme-text-secondary text-right text-sm mt-2">- {quoteAuthor}</p>
               </div>
             </div>
             
             {/* Right column - Bio and likes/dislikes */}
-            <div className="md:col-span-8">
-              <div className="bg-theme-bg-secondary p-6 rounded-md mb-8">
-                <p className="text-theme-text-secondary text-lg leading-relaxed">{bio}</p>
+            <div className="col-span-12 md:col-span-7">
+              {/* Bio */}
+              <div className="bg-theme-bg-secondary rounded-md p-5 mb-6 shadow-theme-sm">
+                <p className="text-theme-text-secondary text-sm md:text-base leading-relaxed">{bio}</p>
               </div>
               
-              {/* Likes and Dislikes */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Likes */}
-                <div className="bg-[var(--secondary-teal-light)]/10 p-6 rounded-md">
-                  <h4 className="text-lg font-medium mb-4 text-[var(--secondary-teal)]">Likes</h4>
+              {/* Likes and Dislikes grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Likes card */}
+                <div className="bg-[var(--secondary-teal-light)]/10 p-4 rounded-md">
+                  <h4 className="text-lg font-medium mb-3 text-[var(--secondary-teal)]">Likes:</h4>
                   <ul className="space-y-2">
                     {likes.map((item, i) => (
-                      <li key={i} className="flex items-start">
-                        <span className="inline-block w-2 h-2 rounded-full bg-[var(--secondary-teal)] mt-2 mr-2"></span>
+                      <li key={i} className="flex items-start text-sm">
+                        <span className="inline-block w-2 h-2 rounded-full bg-[var(--secondary-teal)] mt-1.5 mr-2 flex-shrink-0"></span>
                         <span className="text-theme-text-primary">{item}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
                 
-                {/* Dislikes */}
-                <div className="bg-[var(--accent-coral)]/10 p-6 rounded-md">
-                  <h4 className="text-lg font-medium mb-4 text-[var(--accent-coral)]">Dislikes</h4>
+                {/* Dislikes card */}
+                <div className="bg-[var(--accent-coral)]/10 p-4 rounded-md">
+                  <h4 className="text-lg font-medium mb-3 text-[var(--accent-coral)]">Dislikes:</h4>
                   <ul className="space-y-2">
                     {dislikes.map((item, i) => (
-                      <li key={i} className="flex items-start">
-                        <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-coral)] mt-2 mr-2"></span>
+                      <li key={i} className="flex items-start text-sm">
+                        <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-coral)] mt-1.5 mr-2 flex-shrink-0"></span>
                         <span className="text-theme-text-primary">{item}</span>
                       </li>
                     ))}
@@ -123,12 +134,12 @@ const TeamSection = () => {
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
   
+  // Simple animation for section heading
   useGSAP(() => {
     const ctx = gsap.context(() => {
-      // Simple fade-in for section heading
       gsap.fromTo(
         headingRef.current,
-        { opacity: 0, y: 20 },
+        { opacity: 0, y: 30 },
         { 
           opacity: 1, 
           y: 0, 
@@ -144,7 +155,7 @@ const TeamSection = () => {
     return () => ctx.revert();
   }, []);
   
-  // Handle mouse enter/leave
+  // Handle mouse enter/leave for columns
   const handleMouseEnter = (index) => {
     setActiveIndex(index);
   };
@@ -226,7 +237,7 @@ const TeamSection = () => {
   ];
   
   return (
-    <div ref={sectionRef} className="team-section py-16 relative">
+    <div ref={sectionRef} className="team-section py-16 bg-theme-bg-primary">
       {/* Section heading */}
       <div className="container mx-auto mb-12 px-4">
         <div ref={headingRef}>
@@ -246,21 +257,49 @@ const TeamSection = () => {
         </div>
       </div>
       
-      {/* Stacked team sections container */}
-      <div className="container mx-auto px-4">
-        <div className="relative h-[600px] md:h-[700px]">
-          {teamData.map((member, index) => (
-            <TeamMemberSection 
-              key={member.name} 
-              {...member} 
-              index={index}
-              isActive={activeIndex === index}
-              onMouseEnter={() => handleMouseEnter(index)}
-              onMouseLeave={handleMouseLeave}
-              teamLength={teamData.length}
-            />
-          ))}
-        </div>
+      {/* Team columns container - desktop */}
+      <div className="hidden md:flex h-[700px] w-full">
+        {teamData.map((member, index) => (
+          <TeamMemberColumn 
+            key={member.name} 
+            {...member} 
+            index={index}
+            isActive={activeIndex === index}
+            onMouseEnter={() => handleMouseEnter(index)}
+            onMouseLeave={handleMouseLeave}
+            totalColumns={teamData.length}
+          />
+        ))}
+      </div>
+      
+      {/* Team columns container - mobile (stacked version) */}
+      <div className="md:hidden">
+        {teamData.map((member, index) => (
+          <div 
+            key={member.name}
+            className="p-4 mb-8 bg-theme-gradient rounded-md shadow-theme-md"
+          >
+            <h2 className="text-2xl font-bold text-theme-text-primary">{member.name}</h2>
+            <h3 className="text-lg text-theme-primary mb-4">{member.title}</h3>
+            
+            <div className="flex justify-center mb-4">
+              <img 
+                src={member.images?.main?.cutout} 
+                alt={member.name}
+                className="w-[180px]"
+              />
+            </div>
+            
+            <div className="bg-theme-bg-secondary rounded-md p-4 mb-4">
+              <p className="text-theme-text-secondary text-sm">{member.bio}</p>
+            </div>
+            
+            <div className="bg-theme-bg-secondary rounded-md p-4 mb-4 border-l-3 border-theme-primary">
+              <p className="italic text-theme-text-primary text-sm">&ldquo;{member.quote}&rdquo;</p>
+              <p className="text-theme-text-secondary text-right text-xs mt-2">- {member.quoteAuthor}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

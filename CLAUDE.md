@@ -402,87 +402,102 @@ useGSAP(() => {
 ## Most Important Rule
 After stating your plan, NEVER deviate from it without permission. It's better to do nothing than to implement something contrary to your stated plan.
 
-## Slither-Based Team Section Implementation Plan
+## Column-Based Team Section Layout
 
-The TeamSection needs to be completely refactored to create a side-by-side layout where each team member occupies a narrow "slither" that expands to reveal the full content when interacted with.
+The TeamSection should be implemented with the following specific layout:
 
-### Key Design Requirements:
-- Create a row of 4 team member sections, each initially showing just a small slice ("slither")
-- Each section contains the full content for a team member but is initially cropped
-- When hovered/moused over, a section expands horizontally to reveal its full content
-- The expanded section should take 70% of the width, pushing other sections to narrow slithers
-- Names appear vertically in slither state, and horizontally when expanded
-- Use theme-aware styling with utility classes from globals.css
-- Implement smooth, spring-like transitions between states
+1. **Layout Structure:**
+   - The screen should be divided into 4 equal vertical columns side by side
+   - Each column represents one team member
+   - Columns should span the full width of the screen
+   - Columns should have equal width (25% each) in their default state
+
+2. **Initial State:**
+   - Each column initially shows only a small portion of the team member content
+   - Think of it like looking through a narrow vertical window into each person's content
+   - The content exists behind each "window" but is mostly cropped/hidden
+   - Only a small vertical slice is visible (around 25% of the screen width)
+
+3. **Hover Behavior:**
+   - When hovering over a column, it should expand horizontally
+   - The hovered column should take approximately 70% of the screen width
+   - The other 3 columns should remain visible but get compressed to share the remaining 30%
+   - The expanded column should reveal the full content that was previously cropped
+
+4. **Visual Metaphor:**
+   - Think of it like 4 adjacent vertical windows that you can "open wider" on hover
+   - The content isn't initially hidden - it's visible but mostly cropped
+   - Hovering doesn't create new content - it just reveals what was already there by widening the "window"
+
+5. **Technical Implementation:**
+   - Use `overflow-hidden` on containers to create the cropping effect
+   - Use CSS transitions for smooth width changes
+   - Use relative positioning to ensure content remains properly aligned during expansion
+   - Ensure content is centered in each column
+
+### Example Visualization
+
+```
+DEFAULT STATE:
+┌──┬──┬──┬──┐
+│J │A │T │A │  J = Joden's content (cropped, only ~25% visible)
+│o │l │i │y │  A = Alex's content (cropped, only ~25% visible)
+│d │e │a │d │  T = Tia's content (cropped, only ~25% visible) 
+│e │x │  │a │  A = Aydan's content (cropped, only ~25% visible)
+│n │  │  │n │
+└──┴──┴──┴──┘
+ 25% each column
+
+HOVER STATE (e.g., hovering on Tia's column):
+┌─┬────────┬─┬─┐
+│J│   Tia  │A│A│  Tia's column expands to ~70% width
+│o│        │l│y│  Other columns compressed to share remaining 30%
+│d│   Now  │e│d│  Full content for Tia is now visible
+│e│  fully │x│a│  Other columns still visible but narrower
+│n│ visible│ │n│
+└─┴────────┴─┴─┘
+ 10%  70%  10%10%
+```
 
 ### Implementation Checklist
 
 1. **Initial Setup**
    - [x] Delete the current TeamSection.tsx
-   - [x] Rename TeamSection-shed.tsx to TeamSection.tsx 
    - [x] Update import in VerticalShortcutLanding.tsx
-   - [x] Remove references to TeamSectionShed component
-   - [x] Create new implementation with side-by-side slithers
+   - [x] Create new implementation with side-by-side columns
    
-2. **Horizontal Slither Layout**
+2. **Column-Based Layout**
    - [x] Create a flex container that spans the full width
-   - [x] Create 4 side-by-side sections, each initially a narrow slither
+   - [x] Create 4 side-by-side columns, each with equal initial width
+   - [x] Add overflow-hidden to create the "window" effect
    - [x] Implement dynamic width calculation for expanded/collapsed states
-   - [x] Ensure proper spacing and layout for all sections
    
-3. **Slither-to-Full Content View**
-   - [x] Design vertical name display for collapsed slither state
-   - [x] Show only minimal content in slither state
-   - [x] Add visual cues to indicate interactivity
-   - [x] Create smooth transition from vertical to horizontal text
+3. **Content Positioning**
+   - [x] Position full content within each column (not hidden, just cropped)
+   - [x] Center content horizontally within each column
+   - [x] Ensure content appears naturally within the visible "window" portion
    
-4. **Content Expansion System**
-   - [x] Implement state management for tracking active section
+4. **Expansion System**
+   - [x] Implement state management for tracking active column
    - [x] Create smooth animations for width transitions
-   - [x] Design expanded layout to show full team member content
-   - [x] Show/hide appropriate content based on section state
+   - [x] Expanded column takes 70% width, others share 30%
+   - [x] Maintain content positioning during column width changes
    
-5. **Theme-Aware Styling Implementation**
-   - [x] Use bg-theme-gradient for backgrounds instead of direct gradients
-   - [x] Replace all shadow definitions with shadow-theme-* utility classes
+5. **Theme-Aware Styling**
+   - [x] Use bg-theme-gradient for backgrounds
+   - [x] Use shadow-theme-* utility classes for all shadows
    - [x] Ensure all text uses text-theme-* utility classes
-   - [x] Add theme-aware floating elements and borders
+   - [x] Add theme-aware borders and visual details
 
-6. **Animation and Transition Development**
-   - [x] Create animations for smooth width changes
-   - [x] Implement proper content reveal/hide during transitions
-   - [x] Add subtle hover effects for slither states
-   - [x] Ensure smooth, spring-like motion between states
-   
-7. **Responsive Layout Implementation**
-   - [x] Create horizontal row layout on desktop and tablet landscape
-   - [x] Convert to vertical stack (1 column, 4 rows) on mobile/portrait
-   - [x] Optimize touch interactions for mobile devices
-   - [x] Ensure proper handling across all device sizes
+6. **Responsive Design**
+   - [x] Maintain column-based layout on desktop and tablet landscape
+   - [x] Adjust for mobile with appropriate layout changes
+   - [x] Ensure smooth transitions across all device sizes
 
-8. **Final Refinement and Testing**
-   - [x] Verify smooth transitions between slither and expanded states
+7. **Testing and Optimization**
    - [x] Test in both light and dark themes
-   - [x] Ensure all content is properly displayed/hidden during transitions
-   - [x] Optimize performance for slower devices
-
-### Conceptual Description
-
-The redesigned TeamSection creates a unique, interactive viewing experience:
-
-1. **Initial View**: Users see four vertical "slithers" side by side, each showing just a glimpse of a team member with their name displayed vertically.
-
-2. **Slither Design**: Each slither takes up 25% of the width when inactive, creating a balanced, visually intriguing layout that hints at more content.
-
-3. **Interaction**: When a user hovers over a slither, it smoothly expands to take up 70% of the width, pushing other slithers to narrower widths.
-
-4. **Expanded Experience**: The expanded section reveals the complete team member content - bio, likes/dislikes, quote, and imagery - while maintaining the context of other team members on the sides.
-
-5. **Vertical-to-Horizontal**: Text orientation smoothly transitions from vertical in slither state to normal horizontal orientation in expanded state.
-
-6. **Auto-Collapse**: Moving the mouse away from all sections returns them to their equal-width state.
-
-This approach creates a fluid, interactive experience where users can easily explore team members while maintaining the spatial context of the entire team, rather than hiding other members completely.
+   - [x] Verify smooth transitions between default and expanded states
+   - [x] Ensure content remains properly positioned during transitions
 
 ## ModuleHUD Improvement Checklist
 
