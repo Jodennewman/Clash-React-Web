@@ -63,12 +63,12 @@ const VSBigReveal = () => {
     
     // Create animation context for proper cleanup
     const ctx = gsap.context(() => {
-      // Reveal animation for the logo
+      // Reveal animation for the logo - enhanced parallax effect
       const logoTl = gsap.timeline({
         scrollTrigger: {
           trigger: logoRef.current,
           start: "top 80%",
-          end: "top 40%",
+          end: "center 30%", 
           scrub: 0.5,
         }
       });
@@ -83,36 +83,35 @@ const VSBigReveal = () => {
         })
         .to(".vs-logo-wrapper", {
           y: -20,
+          scale: 1.05,
           duration: 0.5,
           ease: "power1.out"
         }, "-=0.3");
       
-      // Main heading animation
-      gsap.from(headingRef.current, {
+      // Create a coordinated timeline for heading and tagline
+      const introTl = gsap.timeline({
         scrollTrigger: {
           trigger: headingRef.current,
           start: "top 75%",
           toggleActions: "play none none reverse"
-        },
+        }
+      });
+      
+      // Add heading animation to timeline
+      introTl.from(headingRef.current, {
         y: 30,
         opacity: 0,
         duration: parseFloat(animDuration) * 1.8,
         ease: "power3.out"
       });
       
-      // Tagline animation with slight delay
-      gsap.from(taglineRef.current, {
-        scrollTrigger: {
-          trigger: taglineRef.current,
-          start: "top 80%",
-          toggleActions: "play none none reverse"
-        },
+      // Add tagline animation to timeline with a slight delay
+      introTl.from(taglineRef.current, {
         y: 25,
         opacity: 0,
         duration: parseFloat(animDuration) * 1.5,
-        delay: 0.2,
         ease: "power2.out"
-      });
+      }, "-=0.8"); // Start before heading animation completes
       
       // Card and feature animations
       const tl = gsap.timeline({
@@ -176,16 +175,21 @@ const VSBigReveal = () => {
       background="bg-theme-gradient"
       className="big-reveal-section py-24 overflow-hidden relative"
     >
-      {/* Theme-aware floating elements */}
+      {/* Theme-aware floating elements using brand utility classes */}
       <div className="absolute top-20 left-10 w-32 h-32 rounded-[40%] rotate-12 
-                     opacity-[var(--theme-float-opacity)] 
-                     bg-[var(--theme-float-bg-primary)]
+                     opacity-theme-float
+                     bg-theme-float-primary
                      animate-float-slow"></div>
       
       <div className="absolute bottom-40 right-10 w-40 h-40 rounded-[30%] -rotate-6 
-                     opacity-[var(--theme-float-opacity)] 
-                     bg-[var(--theme-float-bg-secondary)]
+                     opacity-theme-float
+                     bg-theme-float-secondary
                      animate-float-medium"></div>
+                     
+      <div className="absolute top-2/3 left-1/3 w-24 h-24 rounded-[35%] rotate-45
+                     opacity-theme-float
+                     bg-theme-float-accent
+                     animate-float-fast"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         {/* VS Logo with spotlight effect */}
@@ -193,7 +197,7 @@ const VSBigReveal = () => {
           <div className="relative scale-[1.8]">
             <VSLogo />
             <div className="absolute inset-0 -z-10 blur-xl">
-              <div className="w-full h-full rounded-full bg-[radial-gradient(var(--theme-accent)/20,transparent_70%)]"></div>
+              <div className="w-full h-full rounded-full bg-theme-radial-glow"></div>
             </div>
           </div>
         </div>
@@ -274,7 +278,7 @@ const VSBigReveal = () => {
               </div>
               
               <div className="cta-button">
-                <button className="bg-theme-gradient-primary text-white w-full py-4 rounded-lg flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-[1.02] hover:translate-y-[-4px] shadow-theme-md hover:shadow-theme-lg">
+                <button className="bg-theme-gradient-primary text-white w-full py-4 rounded-lg flex items-center justify-center gap-2 transition-all duration-300 hover-bubbly shadow-theme-md hover:shadow-theme-lg">
                   <span className="font-bold">Get your Plan</span>
                   <ArrowRightCircle className="h-5 w-5" />
                 </button>
