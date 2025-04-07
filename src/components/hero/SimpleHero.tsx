@@ -84,26 +84,38 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
       
     }, [currentHeadlineIndex]);
 
-    // Rotate headlines with advanced animation
+    // Start headline rotation after initial animation
     useEffect(() => {
-      let rotationInterval: NodeJS.Timeout | null = null;
+      if (!logoAnimationStarted) return;
       
-      // Only start rotating after initial animation and if not currently animating
-      const startRotation = () => {
-        if (logoAnimationStarted && !isAnimating) {
-          rotationInterval = setInterval(() => {
-            setPrevHeadlineIndex(currentHeadlineIndex);
-            setCurrentHeadlineIndex((prev) => (prev + 1) % headlines.length);
-          }, 4000); // Change headline every 4 seconds
-        }
-      };
+      // Begin initial rotation after a delay
+      const initialTimer = setTimeout(() => {
+        setPrevHeadlineIndex(0);
+        setCurrentHeadlineIndex(1); // Start with the second headline
+      }, 3000);
       
-      startRotation();
+      return () => clearTimeout(initialTimer);
+    }, [logoAnimationStarted]);
+    
+    // Set up rotation interval
+    useEffect(() => {
+      // Only set up interval after the first rotation has occurred
+      if (currentHeadlineIndex === 0 && prevHeadlineIndex === 0) return;
       
-      return () => {
-        if (rotationInterval) clearInterval(rotationInterval);
-      };
-    }, [logoAnimationStarted, isAnimating, currentHeadlineIndex, headlines.length]);
+      // Wait until current animation completes before setting up next interval
+      if (isAnimating) return;
+      
+      console.log(`Setting up rotation: current index ${currentHeadlineIndex}`);
+      
+      // Set up interval for next rotation
+      const rotationInterval = setInterval(() => {
+        setPrevHeadlineIndex(currentHeadlineIndex);
+        setCurrentHeadlineIndex((prev) => (prev + 1) % headlines.length);
+        console.log(`Rotating to next headline: ${(currentHeadlineIndex + 1) % headlines.length}`);
+      }, 4000); // Change headline every 4 seconds
+      
+      return () => clearInterval(rotationInterval);
+    }, [currentHeadlineIndex, isAnimating, headlines.length, prevHeadlineIndex]);
 
     // Handle headline animation whenever currentHeadlineIndex changes
     useGSAP(() => {
