@@ -402,6 +402,34 @@ useGSAP(() => {
 ## Most Important Rule
 After stating your plan, NEVER deviate from it without permission. It's better to do nothing than to implement something contrary to your stated plan.
 
+## Team Section Implementation with Fixed-Content Viewport Cropping
+
+The TeamSection component implements a true viewport cropping approach where content remains completely static while viewport windows expand to reveal more content.
+
+1. **Fixed-Position Content:**
+   - All team content is fixed in position and full-screen
+   - Content is never moved or resized - only its visibility changes
+   - Each team member's full profile is positioned at the same location
+   - Uses z-index and opacity to show the correct content
+
+2. **Moving Viewport Windows:**
+   - Separate viewport windows expand and contract on hover
+   - Each viewport is initially 25% width, expanding to 100% on hover
+   - Windows use overflow-hidden to crop content views
+   - Clean transitions using cubic-bezier for natural motion
+
+3. **Theme-Aware Styling:**
+   - Uses CSS variables that automatically update with theme changes
+   - Custom team-specific theme gradients and accent colors
+   - Backdrop-blur panels improve text readability over gradients
+   - Proper light/dark mode implementation with theme variables
+
+4. **Fullscreen Layout:**
+   - Component takes the full screen height
+   - Proper spacing and hierarchy of content elements
+   - Floating decorative elements for visual interest
+   - Mobile version with expandable cards for responsive design
+
 ## Simple Cropped Team Section Design
 
 The TeamSection has been implemented with a clean, direct approach:
