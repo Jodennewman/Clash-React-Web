@@ -3232,15 +3232,15 @@
         },
         {
           "id": "production-automation-suite",
-          "title": "Production Automation Suite",
+          "title": "The Invisible Studio",
           "emoji": "🏭",
-          "tagline": "The Home-Delivered Engine Room",
-          "description": "**Transform 8 hours of production work into 90 minutes flat.** Stop drowning in file management and tedious setup. This automation powerhouse connects your planning directly to production, automatically ingesting footage and laying out projects so you can focus exclusively on what humans do best—creating.",
+          "tagline": "Turn a team of 3 into 20",
+          "description": "**Transform 8 hours of production work into 90 minutes flat. No more drowning in file management or tedious setup. This behind-the-scenes powerhouse connects your planning directly to production, automatically ingesting footage and laying out projects—letting you focus exclusively on what humans do best: creating. It's like having an expert production team working 24/7, except they take up zero office space.",
           "features": [
-            "Video Ingester app that speaks to notion scripts & camera log",
-            "Premiere Pro extension that lays out footage",
-            "Automated file management and organization",
-            "Production pipeline acceleration tools"
+            "Smart Video Ingester that seamlessly connects with your scripts & camera log",
+            "Premiere Pro extension that intuitively organise your footage for you",
+            "Intelligent file management that eliminates chasing your own tail around for clips",
+            "Production acceleration tools that make deadlines feel optional"
           ],
           "hasCustomCode": true,
           "hasTemplates": true,
@@ -3250,15 +3250,15 @@
         },
         {
           "id": "video-editing-ecosystem",
-          "title": "Video Editing Ecosystem",
+          "title": "The Editor's Arsenal",
           "emoji": "🖥️",
-          "tagline": "The Viral Video OS",
-          "description": "**Cut your editing time in half while doubling video quality.** Never waste hours on repetitive edits or struggle with amateur-looking content again. This complete editing arsenal gives you Hollywood-level production values with push-button simplicity, including AI-powered smart cutting that intuitively knows exactly where to make the perfect edit.",
+          "tagline": "Hollywood Quality, Startup Speed",
+          "description": "**Cut your editing time in half while doubling video quality. Stop wasting hours on repetitive edits or settling for amateur-looking content. This complete editing weaponry gives you Hollywood-level production values with push-button simplicity. The integrated AI-powered smart cutting intuitively identifies exactly where to make the perfect edit, making even rookie editors look like seasoned pros.",
           "features": [
-            "Premiere Pro assets and templates library",
-            "Time saving plugins for editors",
-            "Presets, think less!",
-            "Auto-cutter with semantic detection and 'flow' recognition"
+            "Battle-tested Premiere Pro assets that elevate any project",
+            "Time-bending plugins that compress hours into minutes",
+            "One-click presets that make decisions for you",
+            "Revolutionary auto-cutter with semantic understanding of your footage"
           ],
           "hasCustomCode": true,
           "hasTemplates": true,
@@ -3268,10 +3268,10 @@
         },
         {
           "id": "content-operations-protocol",
-          "title": "Content Operations Protocol",
+          "title": "The Team Wavelength",
           "emoji": "📋",
-          "tagline": "The exact day-to-day content review, delegation, and checking structure",
-          "description": "**Never let another video fall through the cracks again.** Turn content chaos into a precision operation that runs like clockwork—even when you're not in the room. This bulletproof system ensures every piece of content meets your standards before hitting publish, with crystal-clear accountability that prevents the 'I thought someone else was handling that' syndrome forever.",
+          "tagline": "Get the whole team speaking the same language",
+          "description": "Never let another creative idea fall through the cracks again. Turn communication chaos into a synchronized operation where everyone speaks the same language—even when you're not in the room. This system ensures every team member understands their role with crystal clarity, eliminating the 'I thought someone else was handling that' syndrome forever. Watch as miscommunications vanish and your team operates with newfound harmony and precision.",
           "features": [
             "Comprehensive review and approval workflow",
             "Clear delegation framework with accountability",

@@ -106,7 +106,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
     return (
       <section 
         ref={ref} 
-        className="bg-theme-primary relative h-screen w-full shadow-theme-md"
+        className="vs-section-light relative h-screen w-full shadow-theme-md"
       >
         <IsometricGridBackground />
         {/* Theme-aware floating elements for visual interest */}

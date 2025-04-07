@@ -51,6 +51,10 @@ We have implemented a new theme-aware approach that significantly changes how st
 
 The theme-aware approach uses single CSS variables that automatically change value based on the current theme. This eliminates competing styles and simplifies maintenance.
 
+### IMPORTANT: UTILITY CLASSES ARE NOW REQUIRED
+
+**⚠️ MAJOR UPDATE:** Moving forward, ALL styling should use theme utility classes defined in globals.css instead of direct CSS variable references. This ensures consistent styling that works correctly with light and dark themes.
+
 ### TEXT COLORS - THEME-AWARE APPROACH
 
 **❌ OUTDATED APPROACHES (DO NOT USE):**
@@ -58,22 +62,25 @@ The theme-aware approach uses single CSS variables that automatically change val
 <p className="bg-[var(--secondary-teal)] dark:bg-[var(--secondary-teal-light)]">Competing variables cause conflicts</p>
 <div style={{ backgroundColor: 'var(--bg-cream)' }}>Won't update in dark mode without logic</div>
 <div className="text-[var(--text-navy)]">Using outdated var() syntax</div>
+<div className="text-[var(--theme-text-primary)]">Even using theme variables directly is discouraged</div>
 ```
 
-**✅ CORRECT APPROACH - THEME-AWARE VARIABLES:**
+**✅ CORRECT APPROACH - THEME UTILITY CLASSES ONLY:**
 ```jsx
-<!-- Option 1: Theme utility classes (PREFERRED) -->
+<!-- ONLY APPROVED APPROACH: Theme utility classes from globals.css -->
 <p className="bg-theme-accent-secondary">Using theme utility class</p>
 <h2 className="text-theme-primary">Text uses theme utility class</h2>
+<div className="bg-theme-gradient">Background uses theme gradient class</div>
+<div className="shadow-theme-md">Uses theme shadow class</div>
 
-<!-- Option 2: Use theme-aware variables -->
-<p className="bg-[var(--theme-accent-secondary)]">Uses variables that update with theme</p>
-<h2 className="text-[var(--theme-text-primary)]">Text color updates with theme</h2>
+<!-- DISCOURAGED: Direct variable references, even with theme variables -->
+<p className="bg-[var(--theme-accent-secondary)]">Avoid direct variable references</p>
+<h2 className="text-[var(--theme-text-primary)]">Use utility classes instead</h2>
 
-<!-- Option 3: When component is outside theme context -->
+<!-- Only for components outside theme context -->
 <div style={{ 
   backgroundColor: isDarkTheme ? 'var(--bg-navy)' : 'var(--bg-cream)' 
-}}>Uses conditional for isolated components</div>
+}}>Only use conditionals when absolutely necessary</div>
 ```
 
 ### TAILWIND GRADIENT IMPLEMENTATIONS
@@ -345,7 +352,7 @@ function ExampleCard() {
 ## Required Git Workflow
 
 ### Commit ALL Changes
-– COMMIT TO A BRANCH CALLED "HUD-DEV" ONLY and ALWAYS
+– COMMIT TO A BRANCH CALLED "team-section" ONLY and ALWAYS
 - ALWAYS use `git add .` to stage ALL modified files
 - NEVER selectively commit only some changes
 - Files modified together should be committed together
@@ -358,6 +365,7 @@ function ExampleCard() {
    - Solo Mode: `git commit -m "Solo: [description]"`
    - Team A: `git commit -m "A: [description]"`
    - Team B: `git commit -m "B: [description]"`
+   - Team Section: `git commit -m "TeamSection: [description]"`
 
 ### Commit Frequency
 - After each significant component change
@@ -393,6 +401,72 @@ useGSAP(() => {
 
 ## Most Important Rule
 After stating your plan, NEVER deviate from it without permission. It's better to do nothing than to implement something contrary to your stated plan.
+
+## Horizontal Team Section Implementation Plan
+
+The TeamSection needs to be completely refactored to create a horizontal split-screen design where team members expand on hover/interaction.
+
+### Key Design Requirements:
+- Convert vertical scroll layout to 4-way horizontal split (vertical on mobile)
+- Implement hover-based expansion of panel to show team member details
+- Use theme-aware styling with utility classes from globals.css
+- Add floating elements and theme-aware animations
+- Ensure responsive behavior works on all devices
+
+### Implementation Checklist
+
+1. **Initial Setup**
+   - [x] Delete the current TeamSection.tsx
+   - [x] Rename TeamSection-shed.tsx to TeamSection.tsx
+   - [x] Update import in VerticalShortcutLanding.tsx
+   - [x] Remove references to TeamSectionShed component
+   
+2. **Component Structure Refactoring**
+   - [x] Modify TeamSection component to use horizontal layout
+   - [x] Add useState hook to track active/expanded panel
+   - [x] Convert TeamMember component to handle collapsed/expanded states
+   - [x] Add hover interactions and expansion animations
+   
+3. **Theme-Aware Styling Implementation**
+   - [x] Replace all direct CSS variable references with theme utility classes
+   - [x] Use bg-theme-gradient for backgrounds instead of direct gradients
+   - [x] Replace shadow definitions with shadow-theme-* utility classes
+   - [x] Ensure all text uses text-theme-* utility classes
+   - [x] Add theme-aware floating elements
+
+4. **Animation and Interaction Development**
+   - [x] Add fadeIn animation to globals.css
+   - [x] Implement smooth expand/collapse transitions with CSS
+   - [x] Use GSAP for scroll-triggered initial reveal animations
+   - [x] Add hover effects and visual feedback for interactive elements
+
+5. **Responsive Layout Implementation**
+   - [x] Create grid-based layout that stacks vertically on mobile
+   - [x] Add media queries for smooth responsive behavior
+   - [x] Optimize image sizes and positioning for different screen sizes
+   - [x] Ensure touch devices have appropriate interaction alternatives
+
+6. **Final Refinement and Testing**
+   - [x] Verify each team member's content is loaded correctly
+   - [x] Test expansion/collapse animations in both themes
+   - [x] Ensure smooth behavior on various browser sizes
+   - [x] Verify theme-aware styling is functioning correctly
+
+### Improvements Over Previous Implementation
+
+The new TeamSection implementation offers several key improvements:
+
+1. **Enhanced Interactivity:** Users can explore team members by hovering over panels instead of scrolling through content.
+
+2. **Better Screen Space Utilization:** The 4-way split layout makes better use of screen real estate, showing more team members at once.
+
+3. **Improved Animation System:** The combination of CSS transitions and GSAP animations provides smoother, more maintainable animations.
+
+4. **Fully Theme-Aware:** All styling is implemented using theme utility classes, ensuring consistent light/dark mode appearance.
+
+5. **More Responsive Experience:** The component adapts to different screen sizes, providing an optimal experience on both mobile and desktop.
+
+6. **Reduced Code Duplication:** The collapsed/expanded state handling eliminates duplicate content logic and improves maintainability.
 
 ## ModuleHUD Improvement Checklist
 
