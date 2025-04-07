@@ -214,7 +214,7 @@ const VSBigReveal = () => {
         <div className="text-left md:text-left ml-auto mr-4 mb-16 max-w-xl md:max-w-2xl lg:max-w-3xl mt-[-120px] md:mt-[-150px] relative z-10">
           <h1 
             ref={headingRef}
-            className="text-4xl md:text-5xl lg:text-6xl font-light mb-6 text-theme-primary pl-8 md:pl-12 lowercase"
+            className="text-4xl md:text-5xl lg:text-6xl font-[200] mb-6 text-theme-primary pl-8 md:pl-12 lowercase tracking-wide"
           >
             the vertical <br className="hidden md:block" />shortcut<span className="text-theme-accent">.</span>
           </h1>
