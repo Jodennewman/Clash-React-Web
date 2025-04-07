@@ -1,123 +1,54 @@
 import { Section } from "../../ui/section";
-import SocialProofItem from "../../ui/social-proof-item";
 import Marquee from "../../ui/marquee";
 
-const socialProof = [
-  {
-    name: "James Torres",
-    username: "jamescreates",
-    text: (
-      <>
-        The <span className="text-[#FEA35D]">@VerticalShortcut</span> course has transformed my content. 3 weeks in and I'm seeing 500% more engagement than before.
-      </>
-    ),
-    image: "/avatars/james.jpg",
-    url: "#",
-  },
-  {
-    name: "Sarah Chen",
-    username: "sarahcontent",
-    text: (
-      <>
-        Finally understanding why some videos blow up while others flop thanks to <span className="text-[#FEA35D]">@VerticalShortcut</span>. The algorithm section alone was worth the investment.
-      </>
-    ),
-    image: "/avatars/sarah.jpg",
-    url: "#",
-  },
-  {
-    name: "Mike Johnson",
-    username: "mikevideo",
-    text: (
-      <>
-        As a business owner with no time, <span className="text-[#FEA35D]">@VerticalShortcut</span> gave me a system to batch create a month of content in just one afternoon. Game changer.
-      </>
-    ),
-    image: "/avatars/mike.jpg",
-    url: "#",
-  },
-  {
-    name: "Olivia Zhang",
-    username: "oliviazhang",
-    text: (
-      <>
-        <span className="text-[#FEA35D]">@VerticalShortcut</span> is f*cking brilliant. My first video using their hook framework hit 2.3M views. I'm still in shock.
-      </>
-    ),
-    image: "/avatars/olivia.jpg",
-    url: "#",
-  },
-  {
-    name: "David Parker",
-    username: "davidp",
-    text: (
-      <>
-        Signing up for <span className="text-[#FEA35D]">@VerticalShortcut</span> was the best business decision I've made this year. Landed 3 brand deals in my first month after implementing their strategy.
-      </>
-    ),
-    image: "/avatars/david.jpg",
-    url: "#",
-  },
-  {
-    name: "Emma Rodriguez",
-    username: "emmacreates",
-    text: (
-      <>
-        No more guesswork. <span className="text-[#FEA35D]">@VerticalShortcut</span> gives you a clear framework that just works. My content is converting at 3x the rate it was before.
-      </>
-    ),
-    image: "/avatars/emma.jpg",
-    url: "#",
-  },
-  {
-    name: "Alex Thompson",
-    username: "alexthompson",
-    text: (
-      <>
-        After 6 months of posting with no traction, two weeks of applying <span className="text-[#FEA35D]">@VerticalShortcut</span> methods and I've grown by 22K followers. Worth every penny.
-      </>
-    ),
-    image: "/avatars/alex.jpg",
-    url: "#",
-  },
-  {
-    name: "Lisa Wang",
-    username: "lisawangg",
-    text: (
-      <>
-        My agency implemented <span className="text-[#FEA35D]">@VerticalShortcut</span> systems for our client work and we've doubled our pricing. Clients are amazed at the results.
-      </>
-    ),
-    image: "/avatars/lisa.jpg",
-    url: "#",
-  },
-  {
-    name: "Jordan Miller",
-    username: "jordancreates",
-    text: (
-      <>
-        I was skeptical about another course, but <span className="text-[#FEA35D]">@VerticalShortcut</span> delivered beyond expectations. Their Cardinal Sins module changed how I approach content forever.
-      </>
-    ),
-    image: "/avatars/jordan.jpg",
-    url: "#",
-  },
-  {
-    name: "Priya Patel",
-    username: "priyapatelofficial",
-    text: (
-      <>
-        From struggling creator to booking out my services 3 months in advance. That's what happened after I applied <span className="text-[#FEA35D]">@VerticalShortcut</span> strategies. Unreal results.
-      </>
-    ),
-    image: "/avatars/priya.jpg",
-    url: "#",
-  },
+// Create a ThumbnailItem component for the marquee
+const ThumbnailItem = ({ src, alt }: { src: string; alt: string }) => {
+  return (
+    <div className="mx-3 overflow-hidden rounded-lg hover:scale-105 transition-transform duration-300 shadow-xl" style={{ transform: "scale(0.7)" }}>
+      <img 
+        src={src} 
+        alt={alt} 
+        width={320} 
+        height={180}
+        className="object-cover"
+      />
+    </div>
+  );
+};
+
+// Thumbnail paths from your webp folder
+const thumbnails = [
+  { src: "/assets/main/thumbnails-with-views-webp/JW-Hiring-Sea.webp", alt: "JW Hiring Sea" },
+  { src: "/assets/main/thumbnails-with-views-webp/JW-Socialtip-rorysutherland.webp", alt: "JW Social Tip Rory Sutherland" },
+  { src: "/assets/main/thumbnails-with-views-webp/JW-jellycat.webp", alt: "JW Jellycat" },
+  { src: "/assets/main/thumbnails-with-views-webp/JS-David D.webp", alt: "JS David D" },
+  { src: "/assets/main/thumbnails-with-views-webp/JS-sidemenenightclub.webp", alt: "JS Sidemen Nightclub" },
+  { src: "/assets/main/thumbnails-with-views-webp/JW-BrewBeers-1.webp", alt: "JW Brew Beers" },
+  { src: "/assets/main/thumbnails-with-views-webp/JC-insanecults.webp", alt: "JC Insane Cults" },
+  { src: "/assets/main/thumbnails-with-views-webp/JC-taylorswift.webp", alt: "JC Taylor Swift" },
+  { src: "/assets/main/thumbnails-with-views-webp/JC-evilcriminals.webp", alt: "JC Evil Criminals" },
+  { src: "/assets/main/thumbnails-with-views-webp/JC-deadlyfilmaccidents.webp", alt: "JC Deadly Film Accidents" },
+  { src: "/assets/main/thumbnails-with-views-webp/JC-conspiracies.webp", alt: "JC Conspiracies" },
+  { src: "/assets/main/thumbnails-with-views-webp/JC-Slime.webp", alt: "JC Slime" },
+  { src: "/assets/main/thumbnails-with-views-webp/JC-Stupid-Deaths.webp", alt: "JC Stupid Deaths" },
+  { src: "/assets/main/thumbnails-with-views-webp/CM-brat-summer.webp", alt: "CM Brat Summer" },
+  { src: "/assets/main/thumbnails-with-views-webp/CM-chappelle.webp", alt: "CM Chappelle" },
+  { src: "/assets/main/thumbnails-with-views-webp/CM-FYOU.webp", alt: "CM F You" },
+  { src: "/assets/main/thumbnails-with-views-webp/CM-Jlo.webp", alt: "CM JLo" },
+  { src: "/assets/main/thumbnails-with-views-webp/CM-Marketing.webp", alt: "CM Marketing" },
+  { src: "/assets/main/thumbnails-with-views-webp/CD-TOXIC#55.webp", alt: "CD Toxic #55" },
+  { src: "/assets/main/thumbnails-with-views-webp/CM -Successful women.webp", alt: "CM Successful Women" },
+  { src: "/assets/main/thumbnails-with-views-webp/CM-Agency Predictions.webp", alt: "CM Agency Predictions" },
+  { src: "/assets/main/thumbnails-with-views-webp/Baskins worse boss.webp", alt: "Baskins Worse Boss" },
+  { src: "/assets/main/thumbnails-with-views-webp/CD COFFEE.webp", alt: "CD Coffee" },
+  { src: "/assets/main/thumbnails-with-views-webp/CD-REGRET.webp", alt: "CD Regret" },
+  { src: "/assets/main/thumbnails-with-views-webp/BA-something.webp", alt: "BA Something" },
+  { src: "/assets/main/thumbnails-with-views-webp/BA.BOOMERSVGENZ.webp", alt: "BA Boomers vs Gen Z" },
 ];
 
-// Create two rows for the marquee with different items for variety
-const firstRow = socialProof.slice(0, 5);
-const secondRow = socialProof.slice(5);
+// Split thumbnails into two roughly equal groups for the two rows
+const firstRowThumbnails = thumbnails.slice(0, 13);
+const secondRowThumbnails = thumbnails.slice(13);
 
 export default function SocialProof() {
   return (
@@ -125,24 +56,25 @@ export default function SocialProof() {
       <div className="mx-auto flex max-w-container flex-col items-center gap-4 text-center sm:gap-16">
         <div className="flex flex-col items-center gap-4 px-4 sm:gap-8">
           <h2 className="max-w-[800px] text-3xl font-bold leading-tight sm:text-5xl sm:leading-tight bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
-            Real People, Real Results. No Bullsh*t.
+            Our Videos Get Millions of Views
           </h2>
           <p className="text-md max-w-[700px] text-theme-on-primary/70 sm:text-xl">
-            Our students aren't just getting views—they're building businesses, booking clients, and generating real revenue with short-form content.
+            We've created content that's reached over 800M views across platforms. Here's a small sample of our work.
           </p>
         </div>
+        
         <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
-          {/* First row scrolls left to right */}
-          <Marquee pauseOnHover className="[--duration:40s] py-4">
-            {firstRow.map((item) => (
-              <SocialProofItem key={item.username} {...item} />
+          {/* First row scrolls left to right - slower speed */}
+          <Marquee pauseOnHover className="[--duration:60s] [--gap:0.5rem] py-4">
+            {firstRowThumbnails.map((item, index) => (
+              <ThumbnailItem key={`first-${index}`} src={item.src} alt={item.alt} />
             ))}
           </Marquee>
           
-          {/* Second row scrolls right to left (reversed) */}
-          <Marquee reverse pauseOnHover className="[--duration:35s] py-4">
-            {secondRow.map((item) => (
-              <SocialProofItem key={item.username} {...item} />
+          {/* Second row scrolls right to left (reversed) - different speed for visual interest */}
+          <Marquee reverse pauseOnHover className="[--duration:70s] [--gap:0.5rem] py-4">
+            {secondRowThumbnails.map((item, index) => (
+              <ThumbnailItem key={`second-${index}`} src={item.src} alt={item.alt} />
             ))}
           </Marquee>
           
