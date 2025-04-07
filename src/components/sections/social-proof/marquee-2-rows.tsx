@@ -4,7 +4,7 @@ import Marquee from "../../ui/marquee";
 // Create a ThumbnailItem component for the marquee
 const ThumbnailItem = ({ src, alt }: { src: string; alt: string }) => {
   return (
-    <div className="-mx-10 -my-5 overflow-hidden rounded-lg hover:scale-105 transition-transform duration-300 shadow-xl" style={{ transform: "scale(0.75)" }}>
+    <div className="-mx-12 -my-5 overflow-hidden rounded-lg hover:scale-105 transition-transform duration-300 shadow-xl" style={{ transform: "scale(0.75)" }}>
       <img 
         src={src} 
         alt={alt} 
@@ -68,14 +68,14 @@ export default function SocialProof() {
           {/* Negative margin to compensate for padding */}
           <div className="mx-[-2rem] relative">
             {/* First row scrolls left to right - slower speed */}
-            <Marquee pauseOnHover className="[--duration:60s] py-0 mb-[-20px]">
+            <Marquee pauseOnHover className="[--duration:60s] py-0 mb-[-35px]">
               {firstRowThumbnails.map((item, index) => (
                 <ThumbnailItem key={`first-${index}`} src={item.src} alt={item.alt} />
               ))}
             </Marquee>
             
             {/* Second row scrolls right to left (reversed) - different speed for visual interest */}
-            <Marquee reverse pauseOnHover className="[--duration:70s] py-0 mt-[-20px]">
+            <Marquee reverse pauseOnHover className="[--duration:70s] py-0 mt-[-35px]">
               {secondRowThumbnails.map((item, index) => (
                 <ThumbnailItem key={`second-${index}`} src={item.src} alt={item.alt} />
               ))}
