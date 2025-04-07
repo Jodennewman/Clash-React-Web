@@ -64,36 +64,37 @@ const VSBigReveal = () => {
     
     // Create animation context for proper cleanup
     const ctx = gsap.context(() => {
-      // Enhanced animation for the MASSIVE logo with dramatic entrance
+      // Fixed animation for the logo that properly handles scrolling up/down
       const logoTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 90%",
-          end: "center center", 
-          scrub: 0.8,
+          end: "bottom 20%",
+          toggleActions: "play reverse play reverse", // Explicit handling of scroll direction
+          scrub: true, // Changed to boolean for smoother behavior
         }
       });
       
-      // Initial animation with EXTREME entrance from far right
-      logoTl
-        .from(".vs-logo-wrapper", {
-          x: 800,
-          y: 200,
+      // Single animation that works with scrub and toggleActions for bidirectional scrolling
+      logoTl.fromTo(".vs-logo-wrapper", 
+        // From state
+        {
+          x: 400,
+          y: 100,
           opacity: 0,
           scale: 0.4,
-          rotation: 12,
-          duration: 2,
-          ease: "power3.out"
-        })
-        // Add rotation and floating effect as you scroll
-        .to(".vs-logo-wrapper", {
-          rotation: -5,
-          y: -80,
-          x: -150,
-          scale: 1.1,
-          duration: 1.5,
+          rotation: 10,
+        },
+        // To state (final position)
+        {
+          x: -100,
+          y: -40,
+          opacity: 1,
+          scale: 1.05,
+          rotation: -3,
           ease: "power1.inOut"
-        }, 0.8);
+        }
+      );
       
       // Create a coordinated timeline for heading and tagline
       const introTl = gsap.timeline({
