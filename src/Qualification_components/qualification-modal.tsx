@@ -1743,15 +1743,15 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-theme-primary mb-1">
-                      Name*
+                      Your Name*
                     </label>
                     <input
                       id="name"
                       type="text"
                       value={answers.name}
                       onChange={(e) => handleAnswerChange('name', e.target.value)}
-                      className={`w-full rounded-lg border ${errors.name ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent`}
-                      placeholder="Your name"
+                      className={`w-full rounded-lg border ${errors.name ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent shadow-theme-sm`}
+                      placeholder="Your full name"
                     />
                     {errors.name && (
                       <p className="mt-1 text-red-500 dark:text-red-400 text-sm">{errors.name}</p>
@@ -1760,15 +1760,15 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-theme-primary mb-1">
-                      Email*
+                      Your Email*
                     </label>
                     <input
                       id="email"
                       type="email"
                       value={answers.email}
                       onChange={(e) => handleAnswerChange('email', e.target.value)}
-                      className={`w-full rounded-lg border ${errors.email ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent`}
-                      placeholder="you@example.com"
+                      className={`w-full rounded-lg border ${errors.email ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent shadow-theme-sm`}
+                      placeholder="your.email@example.com"
                     />
                     {errors.email && (
                       <p className="mt-1 text-red-500 dark:text-red-400 text-sm">{errors.email}</p>
@@ -1778,19 +1778,19 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 {/* Right Column - About the Brand */}
                 <div className="space-y-4">
-                  <h3 className="text-sm font-medium text-theme-primary border-b border-[var(--theme-border-light)] pb-1">About the Brand</h3>
+                  <h3 className="text-sm font-medium text-theme-primary border-b border-[var(--theme-border-light)] pb-1">About Your Brand</h3>
                   
                   <div>
                     <label htmlFor="company" className="block text-sm font-medium text-theme-primary mb-1">
-                      Brand/Company Name*
+                      Company/Brand Name*
                     </label>
                     <input
                       id="company"
                       type="text"
                       value={answers.company}
                       onChange={(e) => handleAnswerChange('company', e.target.value)}
-                      className={`w-full rounded-lg border ${errors.company ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent`}
-                      placeholder="Brand or company name"
+                      className={`w-full rounded-lg border ${errors.company ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent shadow-theme-sm`}
+                      placeholder="Your company name"
                     />
                     {errors.company && (
                       <p className="mt-1 text-red-500 dark:text-red-400 text-sm">{errors.company}</p>
@@ -1806,7 +1806,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                       type="text"
                       value={answers.position}
                       onChange={(e) => handleAnswerChange('position', e.target.value)}
-                      className="w-full rounded-lg border border-[var(--theme-border-light)] bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent"
+                      className="w-full rounded-lg border border-[var(--theme-border-light)] bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent shadow-theme-sm"
                       placeholder="Your role in the organization"
                     />
                   </div>
