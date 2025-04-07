@@ -65,9 +65,8 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
       
       // Initialize split text on each headline part
       const splitOptions = { 
-        types: 'words,chars',
-        wordClass: 'headline-word',
-        charClass: 'headline-char'
+        types: 'words',
+        wordClass: 'headline-word'
       };
       
       // Split text for each headline section
@@ -123,26 +122,41 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
         });
         
         // 1. Animate out each word of the current headline with staggered upward movement
-        const words = headlineRef.current?.querySelectorAll('.headline-word');
-        const chars = headlineRef.current?.querySelectorAll('.headline-char');
+        const mainWords = headlineMainRef.current?.querySelectorAll('.headline-word');
+        const middleWords = headlineMiddleRef.current?.querySelectorAll('.headline-word');
+        const endWords = headlineEndRef.current?.querySelectorAll('.headline-word');
         
-        if (words?.length) {
-          mainTl.current.to(words, {
+        // Animate main words first
+        if (mainWords?.length) {
+          mainTl.current.to(mainWords, {
             y: -60,
             opacity: 0,
-            stagger: 0.03,
-            duration: animDuration * 0.6,
+            stagger: 0.05,
+            duration: animDuration * 0.5,
             ease: "power2.in"
-          });
-        } else if (chars?.length) {
-          // Fallback to chars if words not available
-          mainTl.current.to(chars, {
+          }, 0);
+        }
+        
+        // Animate middle words
+        if (middleWords?.length) {
+          mainTl.current.to(middleWords, {
             y: -60,
             opacity: 0,
-            stagger: 0.01,
-            duration: animDuration * 0.6,
+            stagger: 0.05,
+            duration: animDuration * 0.5,
             ease: "power2.in"
-          });
+          }, 0.1);
+        }
+        
+        // Animate end words
+        if (endWords?.length) {
+          mainTl.current.to(endWords, {
+            y: -60,
+            opacity: 0,
+            stagger: 0.05,
+            duration: animDuration * 0.5,
+            ease: "power2.in"
+          }, 0.2);
         }
         
         // After animation completes, re-initialize SplitType on the new content
@@ -162,9 +176,8 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
           
           // Re-split the text
           const splitOptions = { 
-            types: 'words,chars',
-            wordClass: 'headline-word',
-            charClass: 'headline-char'
+            types: 'words',
+            wordClass: 'headline-word'
           };
           
           if (headlineMainRef.current) {
@@ -180,22 +193,61 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
           }
           
           // Set initial state for incoming animation
-          const newWords = headlineRef.current?.querySelectorAll('.headline-word');
-          if (newWords?.length) {
-            gsap.set(newWords, { y: 40, opacity: 0 });
+          const newMainWords = headlineMainRef.current?.querySelectorAll('.headline-word');
+          const newMiddleWords = headlineMiddleRef.current?.querySelectorAll('.headline-word');
+          const newEndWords = headlineEndRef.current?.querySelectorAll('.headline-word');
+          
+          if (newMainWords?.length) {
+            gsap.set(newMainWords, { y: 40, opacity: 0 });
+          }
+          
+          if (newMiddleWords?.length) {
+            gsap.set(newMiddleWords, { y: 40, opacity: 0 });
+          }
+          
+          if (newEndWords?.length) {
+            gsap.set(newEndWords, { y: 40, opacity: 0 });
           }
         });
         
         // 2. Animate in the new headline words with staggered upward movement
         mainTl.current.add(() => {
-          const newWords = headlineRef.current?.querySelectorAll('.headline-word');
+          // Get fresh references to the words after the content has been updated
+          const newMainWords = headlineMainRef.current?.querySelectorAll('.headline-word');
+          const newMiddleWords = headlineMiddleRef.current?.querySelectorAll('.headline-word');
+          const newEndWords = headlineEndRef.current?.querySelectorAll('.headline-word');
           
-          if (newWords?.length) {
-            gsap.to(newWords, {
+          // Animate main words first
+          if (newMainWords?.length) {
+            gsap.to(newMainWords, {
               y: 0,
               opacity: 1,
               stagger: 0.05,
-              duration: animDuration * 0.8,
+              duration: animDuration * 0.6,
+              ease: "power2.out"
+            });
+          }
+          
+          // Animate middle words with slight delay
+          if (newMiddleWords?.length) {
+            gsap.to(newMiddleWords, {
+              y: 0,
+              opacity: 1,
+              stagger: 0.05,
+              duration: animDuration * 0.6,
+              delay: 0.1,
+              ease: "power2.out"
+            });
+          }
+          
+          // Animate end words with more delay
+          if (newEndWords?.length) {
+            gsap.to(newEndWords, {
+              y: 0,
+              opacity: 1,
+              stagger: 0.05,
+              duration: animDuration * 0.6,
+              delay: 0.2,
               ease: "power2.out"
             });
           }
@@ -423,19 +475,19 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
               >
                 <span 
                   ref={headlineMainRef}
-                  className="headline-main font-medium text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-theme-accent-tertiary transition-all duration-500"
+                  className="headline-main inline-block font-medium text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-theme-accent-tertiary transition-all duration-500"
                 >
                   {headlines[currentHeadlineIndex].main}
                 </span>
                 <span 
                   ref={headlineMiddleRef}
-                  className="headline-middle font-light"
+                  className="headline-middle inline-block font-light"
                 >
                   {headlines[currentHeadlineIndex].middle}
                 </span>
                 <span 
                   ref={headlineEndRef}
-                  className="headline-end font-normal block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-all duration-500"
+                  className="headline-end font-normal text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-all duration-500"
                 >
                   {headlines[currentHeadlineIndex].end}
                 </span>
@@ -479,19 +531,25 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
         <style jsx>{`
           .headline-word {
             display: inline-block;
+            margin-right: 0.15em;
             overflow: hidden;
-            margin-right: 0.25em;
           }
           
-          .headline-char {
-            display: inline-block;
-            transform-origin: center;
+          .headline-main, .headline-middle, .headline-end {
+            white-space: normal;
           }
           
-          .headline-main .headline-word,
-          .headline-middle .headline-word,
-          .headline-end .headline-word {
-            overflow: hidden;
+          .headline-main {
+            margin-right: 0.15em;
+          }
+          
+          .headline-middle {
+            margin-right: 0;
+          }
+          
+          .headline-end {
+            display: block;
+            margin-top: 0.25em;
           }
         `}</style>
       </section>
