@@ -1634,75 +1634,87 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {/* Introduction Stage - Simplified to reduce text and scrolling */}
           {stage === 'intro' && (
             <div className="flex flex-col">
-              <div className="flex items-center mb-3">
+              <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
                   <Compass size={24} className="text-theme-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-medium text-theme-primary">
-                    Let's Build Your Content Engine
+                  <h3 className="text-lg font-bold text-theme-primary">
+                    Build Your Content System
                   </h3>
                   <p className="text-theme-secondary text-sm">
-                    Answer a few quick questions for your perfect implementation approach.
+                    Let's find the perfect approach to scale your content performance
                   </p>
                 </div>
               </div>
               
-              {/* Mini Feature Showcase - More Compact */}
+              {/* Social proof badge */}
+              <div className="flex items-center gap-1 text-xs text-theme-tertiary border border-theme-border-light rounded-full px-2 py-1 mb-3 w-fit mx-auto">
+                <Users size={12} className="text-theme-primary"/>
+                <span>Trusted by 1,200+ clients in 27 industries</span>
+              </div>
+              
+              {/* Mini Feature Showcase - Enhanced with stronger stats */}
               <div className="grid grid-cols-3 gap-2 mb-3">
                 {/* Feature 1 */}
-                <div className="bg-theme-bg-surface p-2 rounded-lg shadow-theme-sm">
+                <div className="bg-theme-bg-surface p-2 rounded-lg shadow-theme-sm border border-theme-border-light hover-bubbly-sm transition-all">
                   <div className="flex items-center mb-1">
                     <div className="p-1 rounded-full bg-theme-primary/10 text-theme-primary mr-2">
                       <BarChart4 size={14} />
                     </div>
                     <h4 className="font-medium text-theme-primary text-xs">800M+ Views</h4>
                   </div>
-                  <p className="text-xs text-theme-secondary">Proven results across 27 industries</p>
+                  <p className="text-xs text-theme-secondary">Generated for 120+ clients without ads</p>
                 </div>
                 
                 {/* Feature 2 */}
-                <div className="bg-theme-bg-surface p-2 rounded-lg shadow-theme-sm">
+                <div className="bg-theme-bg-surface p-2 rounded-lg shadow-theme-sm border border-theme-border-light hover-bubbly-sm transition-all">
                   <div className="flex items-center mb-1">
                     <div className="p-1 rounded-full bg-theme-primary/10 text-theme-primary mr-2">
                       <Clock size={14} />
                     </div>
-                    <h4 className="font-medium text-theme-primary text-xs">30-day Growth</h4>
+                    <h4 className="font-medium text-theme-primary text-xs">42% Growth</h4>
                   </div>
-                  <p className="text-xs text-theme-secondary">Measurable results in 30 days</p>
+                  <p className="text-xs text-theme-secondary">Average 30-day audience increase</p>
                 </div>
                 
                 {/* Feature 3 */}
-                <div className="bg-theme-bg-surface p-2 rounded-lg shadow-theme-sm">
+                <div className="bg-theme-bg-surface p-2 rounded-lg shadow-theme-sm border border-theme-border-light hover-bubbly-sm transition-all">
                   <div className="flex items-center mb-1">
                     <div className="p-1 rounded-full bg-theme-primary/10 text-theme-primary mr-2">
                       <Award size={14} />
                     </div>
-                    <h4 className="font-medium text-theme-primary text-xs">Proven System</h4>
+                    <h4 className="font-medium text-theme-primary text-xs">7-Figure Results</h4>
                   </div>
-                  <p className="text-xs text-theme-secondary">Framework with consistent results</p>
+                  <p className="text-xs text-theme-secondary">27 industries, proven framework</p>
                 </div>
               </div>
               
-              <div className="flex justify-between items-center border-t border-b border-theme-border-light py-3 mb-3">
-                <div className="flex items-center">
-                  <div className="flex items-center justify-center h-6 w-6 rounded-full bg-theme-primary text-white text-xs mr-2">1</div>
-                  <span className="text-theme-secondary text-xs">Your needs</span>
+              <div className="bg-theme-bg-surface rounded-lg p-3 mb-3 border border-theme-border-light">
+                <div className="flex justify-between items-center mb-2">
+                  <h4 className="text-xs font-medium text-theme-primary">How It Works</h4>
+                  <span className="text-xs text-theme-tertiary">Takes 60 seconds</span>
                 </div>
-                <div className="text-theme-tertiary">→</div>
-                <div className="flex items-center">
-                  <div className="flex items-center justify-center h-6 w-6 rounded-full bg-theme-secondary text-white text-xs mr-2">2</div>
-                  <span className="text-theme-secondary text-xs">Recommendation</span>
-                </div>
-                <div className="text-theme-tertiary">→</div>
-                <div className="flex items-center">
-                  <div className="flex items-center justify-center h-6 w-6 rounded-full bg-theme-secondary text-white text-xs mr-2">3</div>
-                  <span className="text-theme-secondary text-xs">Strategy call</span>
+                <div className="flex justify-between items-center">
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center justify-center h-7 w-7 rounded-full bg-theme-gradient text-white text-xs mb-1">1</div>
+                    <span className="text-theme-secondary text-[10px]">Quick<br/>Assessment</span>
+                  </div>
+                  <div className="text-theme-tertiary">→</div>
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center justify-center h-7 w-7 rounded-full bg-theme-gradient-primary text-white text-xs mb-1">2</div>
+                    <span className="text-theme-secondary text-[10px]">Personalized<br/>Solution</span>
+                  </div>
+                  <div className="text-theme-tertiary">→</div>
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center justify-center h-7 w-7 rounded-full bg-theme-gradient-primary text-white text-xs mb-1">3</div>
+                    <span className="text-theme-secondary text-[10px]">Start<br/>Growing</span>
+                  </div>
                 </div>
               </div>
 
-              <p className="text-theme-tertiary text-xs text-center">
-                Takes less than a minute. No obligation.
+              <p className="text-theme-tertiary text-[10px] text-center italic">
+                No obligation • Personalized to your specific needs
               </p>
             </div>
           )}
@@ -2268,16 +2280,16 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               <div className="space-x-3">
                 <button
                   onClick={() => window.scrollTo({ top: document.getElementById('features-section')?.offsetTop || 0, behavior: 'smooth' })}
-                  className="border border-theme-border-light text-theme-secondary hover:text-theme-primary px-5 py-2 rounded-lg transition-colors hover-bubbly-sm"
+                  className="border border-theme-border-light text-theme-secondary hover:text-theme-primary px-4 py-2 rounded-lg transition-colors hover-bubbly-sm"
                 >
-                  Learn about features first
+                  See all features
                 </button>
                 
                 <button
                   onClick={goToNextStage}
-                  className="flex items-center gap-2 px-6 py-2 rounded-lg transition-colors hover-bubbly-sm bg-theme-primary hover:bg-theme-primary-hover text-white"
+                  className="flex items-center gap-2 px-5 py-2 rounded-lg transition-colors hover-bubbly-sm bg-theme-gradient text-white shadow-theme-sm hover:shadow-theme-md"
                 >
-                  Find my solution
+                  Get my personalized plan
                   <ChevronRight className="h-4 w-4" />
                 </button>
               </div>
