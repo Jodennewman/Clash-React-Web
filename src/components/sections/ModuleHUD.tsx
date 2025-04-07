@@ -455,7 +455,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   return (
     <>
       {/* CSS for tooltips */}
-      <style jsx="true">{`
+      <style>{`
         .tooltip-trigger:hover .tooltip-content {
           opacity: 1;
         }
