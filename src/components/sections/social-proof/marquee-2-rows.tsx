@@ -4,7 +4,7 @@ import Marquee from "../../ui/marquee";
 // Create a ThumbnailItem component for the marquee
 const ThumbnailItem = ({ src, alt }: { src: string; alt: string }) => {
   return (
-    <div className="-mx-1 overflow-hidden rounded-lg hover:scale-105 transition-transform duration-300 shadow-xl" style={{ transform: "scale(0.7)" }}>
+    <div className="-mx-6 -my-3 overflow-hidden rounded-lg hover:scale-105 transition-transform duration-300 shadow-xl" style={{ transform: "scale(0.7)" }}>
       <img 
         src={src} 
         alt={alt} 
@@ -63,16 +63,16 @@ export default function SocialProof() {
           </p>
         </div>
         
-        <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
+        <div className="relative flex w-full flex-col items-center justify-center overflow-hidden space-y-0">
           {/* First row scrolls left to right - slower speed */}
-          <Marquee pauseOnHover className="[--duration:60s] py-0">
+          <Marquee pauseOnHover className="[--duration:60s] py-0 mb-[-15px]">
             {firstRowThumbnails.map((item, index) => (
               <ThumbnailItem key={`first-${index}`} src={item.src} alt={item.alt} />
             ))}
           </Marquee>
           
           {/* Second row scrolls right to left (reversed) - different speed for visual interest */}
-          <Marquee reverse pauseOnHover className="[--duration:70s] py-0">
+          <Marquee reverse pauseOnHover className="[--duration:70s] py-0 mt-[-15px]">
             {secondRowThumbnails.map((item, index) => (
               <ThumbnailItem key={`second-${index}`} src={item.src} alt={item.alt} />
             ))}
