@@ -274,6 +274,20 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
       opacity: 1,
       visibility: "visible"
     });
+    
+    // Add keyframe animation for conveyor belt animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes move-left {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
   }, []);
   
   // Track previous selection for smoother transitions
@@ -599,70 +613,233 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
               sectionRefs={sectionRefs}
             />
             
-            {/* Systems Column - 3 distinct system products instead of one big square */}
-            <div className="flex flex-col gap-[var(--square-gap-y)]">
-              {/* Container for the Systems title */}
-              <div className="text-center text-theme-primary text-sm font-medium mb-2">
-                <span className="px-2 py-1 bg-theme-bg-secondary/40 rounded shadow-theme-sm">Systems & Products</span>
-              </div>
-              
+            {/* Systems Column - 3 distinctive system products */}
+            <div className="flex flex-col gap-[var(--square-gap-y)] min-w-[calc(var(--normal-square-width)*2)]">
               {/* Container for the three systems */}
-              <div className="grid grid-cols-1 gap-[var(--square-gap-y)]">
-                {systemsColumn.map((system, index) => (
-                  <div 
-                    key={system.displayKey}
-                    ref={(el) => { 
-                      if (el) sectionRefs.current[system.id + '-' + system.displayKey] = el;
-                      return undefined;
-                    }}
-                    data-id={system.id}
-                    data-display-key={system.displayKey}
-                    className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)/1.5)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
-                    style={{ 
-                      backgroundColor: system.color,
-                      backgroundImage: index === 0 
-                        ? 'url("data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h10v10H0V0zm10 10h10v10H10V10z\' fill=\'%23ffffff\' fill-opacity=\'0.1\'/%3E%3C/svg%3E")'
-                        : index === 1
-                          ? 'url("data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h5v5H0V0zm5 5h5v5H5V5zm5-5h5v5h-5V0zm5 5h5v5h-5V5zM0 10h5v5H0v-5zm5 5h5v5H5v-5zm5-5h5v5h-5v-5zm5 5h5v5h-5v-5z\' fill=\'%23ffffff\' fill-opacity=\'0.1\'/%3E%3C/svg%3E")'
-                          : 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'20\' height=\'12\' viewBox=\'0 0 20 12\'%3E%3Cg fill-rule=\'evenodd\'%3E%3Cg transform=\'rotate(180 10 6)\' fill=\'%23ffffff\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M3 0h2l1 2H0v6h7v2h6v-2h7V2h-6L13 0h2L3 0zm10 8H7V6L5 8l2 2v-2h6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'
-                    }}
-                  >
-                    {/* Tooltip for system name */}
-                    <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
-                      {system.name}
-                      <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
-                    </div>
-                    
-                    {/* System name and emoji */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-white font-medium text-sm tracking-wide">
-                        {system.name}
-                      </span>
-                    </div>
-                    
-                    {/* System-specific decorative elements */}
-                    {index === 0 && (
-                      <div className="absolute top-3 right-3 w-6 h-6 bg-white/10 rounded-md flex items-center justify-center">
-                        <span className="text-white text-sm">💾</span>
-                      </div>
-                    )}
-                    {index === 1 && (
-                      <div className="absolute top-3 right-3 w-6 h-6 bg-white/10 rounded-md flex items-center justify-center">
-                        <span className="text-white text-sm">🏭</span>
-                      </div>
-                    )}
-                    {index === 2 && (
-                      <div className="absolute top-3 right-3 w-6 h-6 bg-white/10 rounded-md flex items-center justify-center">
-                        <span className="text-white text-sm">🖥️</span>
-                      </div>
-                    )}
-                    
-                    {/* Featured indicator */}
-                    {system.featured && (
-                      <div className="absolute -top-2 -right-2 w-[12px] h-[12px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
-                    )}
+              <div className="grid grid-cols-1 gap-[calc(var(--square-gap-y)*1.2)]">
+                {/* The Quantity and Quality Notion System */}
+                <div 
+                  key={systemsColumn[0].displayKey}
+                  ref={(el) => { 
+                    if (el) sectionRefs.current[systemsColumn[0].id + '-' + systemsColumn[0].displayKey] = el;
+                    return undefined;
+                  }}
+                  data-id={systemsColumn[0].id}
+                  data-display-key={systemsColumn[0].displayKey}
+                  className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-md cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
+                  style={{ backgroundColor: "var(--hud-navy)" }}
+                >
+                  {/* Tooltip for system name */}
+                  <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
+                    {systemsColumn[0].name}
+                    <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
                   </div>
-                ))}
+                  
+                  {/* Notion-like UI simulation */}
+                  <div className="absolute inset-0 flex flex-col p-4">
+                    {/* Top header bar */}
+                    <div className="flex justify-between items-center mb-3">
+                      <div className="w-8 h-8 rounded-md bg-white/15 flex items-center justify-center">
+                        <span className="text-white text-lg">💾</span>
+                      </div>
+                      <div className="h-1.5 w-16 bg-white/15 rounded-full"></div>
+                    </div>
+                    
+                    {/* Content rows simulation */}
+                    <div className="space-y-3 mt-4">
+                      {[1, 2, 3].map(i => (
+                        <div key={i} className="flex items-center space-x-3">
+                          <div className="w-2 h-2 rounded-full bg-white/30"></div>
+                          <div className="h-2 bg-white/20 rounded-full" style={{width: `${60 + Math.random() * 30}%`}}></div>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    {/* Database-like table */}
+                    <div className="absolute bottom-4 left-4 right-4 h-16 bg-white/10 rounded-lg overflow-hidden">
+                      <div className="h-6 w-full bg-white/15 flex items-center px-2">
+                        <div className="w-2 h-2 rounded-full bg-white/40 mr-2"></div>
+                        <div className="w-12 h-2 bg-white/40 rounded-full"></div>
+                      </div>
+                      <div className="grid grid-cols-3 gap-1 p-2">
+                        {[1, 2, 3, 4, 5, 6].map(i => (
+                          <div key={i} className="h-1.5 bg-white/20 rounded-full"></div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Featured indicator */}
+                  {systemsColumn[0].featured && (
+                    <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
+                  )}
+                </div>
+                
+                {/* The Home-Delivered Engine Room */}
+                <div 
+                  key={systemsColumn[1].displayKey}
+                  ref={(el) => { 
+                    if (el) sectionRefs.current[systemsColumn[1].id + '-' + systemsColumn[1].displayKey] = el;
+                    return undefined;
+                  }}
+                  data-id={systemsColumn[1].id}
+                  data-display-key={systemsColumn[1].displayKey}
+                  className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-md cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
+                  style={{ 
+                    background: "linear-gradient(135deg, var(--primary-orange), var(--hud-coral))"
+                  }}
+                >
+                  {/* Tooltip for system name */}
+                  <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
+                    {systemsColumn[1].name}
+                    <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
+                  </div>
+                  
+                  {/* Engine room/factory UI */}
+                  <div className="absolute inset-0">
+                    {/* Factory top with smoke animation */}
+                    <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-16 h-24 flex flex-col items-center">
+                      <div className="w-10 h-14 bg-white/15 rounded-t-lg relative overflow-hidden">
+                        {/* Brick pattern */}
+                        <div className="absolute inset-0 grid grid-cols-4 grid-rows-5 gap-px">
+                          {Array.from({length: 20}).map((_, i) => (
+                            <div key={i} className="bg-white/5"></div>
+                          ))}
+                        </div>
+                        
+                        {/* Chimney */}
+                        <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-4 h-8 bg-white/20 rounded-t-sm">
+                          {/* Animated smoke particles */}
+                          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-3 h-3 rounded-full bg-white/20 animate-float-medium"></div>
+                          <div className="absolute top-0 left-1/3 transform -translate-x-1/2 w-2 h-2 rounded-full bg-white/15 animate-float-slow" style={{animationDelay: '0.5s'}}></div>
+                          <div className="absolute top-0 left-2/3 transform -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-white/10 animate-float-fast" style={{animationDelay: '1s'}}></div>
+                        </div>
+                      </div>
+                      
+                      {/* Factory base/platform */}
+                      <div className="w-16 h-4 bg-white/25 rounded-b-md relative">
+                        <div className="absolute inset-x-0 top-1 h-1 bg-white/10"></div>
+                      </div>
+                    </div>
+                    
+                    {/* Conveyor belt */}
+                    <div className="absolute bottom-6 inset-x-4 h-8 bg-white/15 rounded-md overflow-hidden">
+                      {/* Belt texture */}
+                      <div className="absolute inset-y-0 inset-x-0 flex items-center">
+                        {Array.from({length: 12}).map((_, i) => (
+                          <div key={i} className="w-4 h-full border-r border-white/10 flex-shrink-0" 
+                               style={{animation: 'move-left 4s linear infinite', animationDelay: `${i * 0.1}s`}}></div>
+                        ))}
+                      </div>
+                      
+                      {/* Products on conveyor */}
+                      <div className="absolute top-1.5 left-3 w-3 h-3 bg-white/30 rounded-sm" style={{animation: 'move-left 4s linear infinite'}}></div>
+                      <div className="absolute top-2 left-12 w-2.5 h-2 bg-white/20 rounded-sm" style={{animation: 'move-left 4s linear infinite', animationDelay: '1.2s'}}></div>
+                      <div className="absolute top-1 left-24 w-4 h-4 bg-white/25 rounded-sm" style={{animation: 'move-left 4s linear infinite', animationDelay: '2.5s'}}></div>
+                    </div>
+                    
+                    {/* Control panel */}
+                    <div className="absolute top-6 right-4 w-8 h-12 bg-white/20 rounded-md flex flex-col justify-around items-center p-1">
+                      <div className="w-4 h-1.5 bg-white/30 rounded-full"></div>
+                      <div className="w-3 h-3 rounded-full bg-white/40"></div>
+                      <div className="w-4 h-1.5 bg-white/30 rounded-full"></div>
+                    </div>
+                  </div>
+                  
+                  {/* Factory emoji badge */}
+                  <div className="absolute bottom-3 right-3 w-8 h-8 bg-white/15 rounded-full flex items-center justify-center">
+                    <span className="text-white text-xl">🏭</span>
+                  </div>
+                  
+                  {/* Featured indicator */}
+                  {systemsColumn[1].featured && (
+                    <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
+                  )}
+                </div>
+                
+                {/* The Viral Video OS */}
+                <div 
+                  key={systemsColumn[2].displayKey}
+                  ref={(el) => { 
+                    if (el) sectionRefs.current[systemsColumn[2].id + '-' + systemsColumn[2].displayKey] = el;
+                    return undefined;
+                  }}
+                  data-id={systemsColumn[2].id}
+                  data-display-key={systemsColumn[2].displayKey}
+                  className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-md cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
+                  style={{ 
+                    background: "linear-gradient(145deg, var(--hud-teal), #2A7590)"
+                  }}
+                >
+                  {/* Tooltip for system name */}
+                  <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
+                    {systemsColumn[2].name}
+                    <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
+                  </div>
+                  
+                  {/* OS/Tech Interface */}
+                  <div className="absolute inset-3">
+                    {/* Video editor interface */}
+                    <div className="absolute inset-0 rounded-lg overflow-hidden bg-black/30 backdrop-blur-sm border border-white/10">
+                      {/* Menu bar */}
+                      <div className="h-5 w-full bg-white/15 flex items-center px-2">
+                        <div className="flex space-x-1.5">
+                          <div className="w-1.5 h-1.5 rounded-full bg-white/40"></div>
+                          <div className="w-1.5 h-1.5 rounded-full bg-white/30"></div>
+                          <div className="w-1.5 h-1.5 rounded-full bg-white/20"></div>
+                        </div>
+                      </div>
+                      
+                      {/* Timeline */}
+                      <div className="absolute bottom-3 inset-x-2 h-10 bg-black/40 rounded-md overflow-hidden border border-white/10">
+                        {/* Timeline tracks */}
+                        <div className="absolute inset-0 flex flex-col justify-around p-1">
+                          {[1, 2, 3].map(i => (
+                            <div key={i} className="w-full h-2 rounded-sm relative">
+                              {/* Clips */}
+                              <div className="absolute inset-y-0 left-1 w-4 rounded-sm bg-[var(--hud-teal)]/70"></div>
+                              <div className="absolute inset-y-0 left-6 w-8 rounded-sm bg-[var(--hud-coral)]/70"></div>
+                              <div className="absolute inset-y-0 left-16 w-6 rounded-sm bg-[var(--hud-pink)]/70"></div>
+                              <div className="absolute inset-y-0 left-24 w-5 rounded-sm bg-[var(--hud-orange)]/70"></div>
+                            </div>
+                          ))}
+                        </div>
+                        
+                        {/* Playhead */}
+                        <div className="absolute top-0 bottom-0 left-12 w-0.5 bg-white"></div>
+                      </div>
+                      
+                      {/* Video preview */}
+                      <div className="absolute top-8 left-2 right-2 h-[calc(100%-38px)] bg-black/30 rounded-md overflow-hidden border border-white/15">
+                        {/* Video content */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="relative h-4/5 w-[40%] bg-white/20 rounded">
+                            {/* Phone outline */}
+                            <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-1/4 h-1 rounded-full bg-white/40"></div>
+                            <div className="absolute inset-2 rounded bg-gradient-to-br from-[var(--hud-coral)]/30 to-[var(--hud-teal)]/20"></div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Tools panel */}
+                      <div className="absolute top-8 right-3 w-6 h-20 flex flex-col space-y-2">
+                        {[1, 2, 3, 4].map(i => (
+                          <div key={i} className="w-4 h-4 rounded-sm bg-white/30"></div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Featured indicator */}
+                  {systemsColumn[2].featured && (
+                    <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
+                  )}
+                  
+                  {/* OS emoji badge */}
+                  <div className="absolute bottom-3 right-3 w-8 h-8 bg-white/15 rounded-full flex items-center justify-center">
+                    <span className="text-white text-xl">🖥️</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
