@@ -74,22 +74,22 @@ const VSBigReveal = () => {
         }
       });
       
-      // Initial animation with more dramatic effects for massive logo
+      // Initial animation with more dramatic effects for massive logo (right side)
       logoTl
         .from(".vs-logo-wrapper", {
-          x: -300,
+          x: 300,
           y: 120,
           opacity: 0,
           scale: 0.6,
-          rotation: -8,
+          rotation: 8,
           duration: 1.5,
           ease: "power3.out"
         })
         // Add rotation and floating effect as you scroll
         .to(".vs-logo-wrapper", {
-          rotation: 3,
+          rotation: -3,
           y: -50,
-          x: 50,
+          x: -50,
           scale: 1.05,
           duration: 1,
           ease: "power1.inOut"
@@ -219,8 +219,8 @@ const VSBigReveal = () => {
                      opacity-theme-float
                      animate-float-medium"></div>
       
-      {/* VS Logo with animation - MASSIVE and absolutely positioned */}
-      <div ref={logoRef} className="vs-logo-wrapper absolute top-[100px] left-[-10vw] md:left-0 w-[120vw] max-w-[1200px] min-w-[600px] z-0 transform-gpu pointer-events-none">
+      {/* VS Logo with animation - MASSIVE and absolutely positioned on RIGHT */}
+      <div ref={logoRef} className="vs-logo-wrapper absolute top-[250px] right-[-30vw] md:right-[-20vw] lg:right-[-10vw] w-[150vw] max-w-[1800px] min-w-[800px] z-0 transform-gpu pointer-events-none">
         <AnimatedLogo onAnimationComplete={() => console.log('Logo animation complete')} />
         <div className="absolute inset-0 -z-10 blur-3xl">
           <div className="w-full h-full rounded-full bg-theme-radial-glow opacity-80"></div>
