@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CheckCircle, ArrowRightCircle } from 'lucide-react';
 import AnimatedLogo from '../../components/logos/AnimatedLogo';
+import IsometricGridBackground from '../hero/IsometricPattern';
 import { VSText, VSHeading, VSGradientText } from '../ui/vs-text';
 import { VSBackground, VSCard, VSSection } from '../ui/vs-background';
 
@@ -177,9 +178,11 @@ const VSBigReveal = () => {
   return (
     <VSSection 
       ref={sectionRef} 
-      background="bg-theme-gradient"
+      background="bg-theme-primary"
       className="big-reveal-section py-24 overflow-hidden relative"
     >
+      {/* Isometric Grid Background */}
+      <IsometricGridBackground />
       {/* Theme-aware floating elements using brand utility classes */}
       <div className="absolute top-20 left-10 w-32 h-32 rounded-[40%] rotate-12 
                      opacity-theme-float
@@ -211,9 +214,9 @@ const VSBigReveal = () => {
         <div className="text-left md:text-left ml-auto mr-4 mb-16 max-w-xl md:max-w-2xl lg:max-w-3xl mt-[-120px] md:mt-[-150px] relative z-10">
           <h1 
             ref={headingRef}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-theme-primary pl-8 md:pl-12"
+            className="text-4xl md:text-5xl lg:text-6xl font-light mb-6 text-theme-primary pl-8 md:pl-12 lowercase"
           >
-            The Vertical <br className="hidden md:block" />Shortcut <span className="text-theme-accent">.</span>
+            the vertical <br className="hidden md:block" />shortcut<span className="text-theme-accent">.</span>
           </h1>
           
           <div ref={taglineRef} className="pl-8 md:pl-12">
