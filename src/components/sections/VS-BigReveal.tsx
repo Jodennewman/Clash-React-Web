@@ -219,17 +219,17 @@ const VSBigReveal = () => {
                      opacity-theme-float
                      animate-float-medium"></div>
       
-      <div className="container mx-auto px-4 relative">
-        {/* VS Logo with animation - MASSIVE and absolutely positioned */}
-        <div ref={logoRef} className="vs-logo-wrapper absolute top-[-50px] left-[-15vw] md:left-[-10vw] lg:left-[-5vw] w-[140vw] max-w-[1400px] min-w-[800px] z-0 transform-gpu">
-          <AnimatedLogo onAnimationComplete={() => console.log('Logo animation complete')} />
-          <div className="absolute inset-0 -z-10 blur-3xl">
-            <div className="w-full h-full rounded-full bg-theme-radial-glow opacity-80"></div>
-          </div>
+      {/* VS Logo with animation - MASSIVE and absolutely positioned */}
+      <div ref={logoRef} className="vs-logo-wrapper absolute top-[100px] left-[-10vw] md:left-0 w-[120vw] max-w-[1200px] min-w-[600px] z-0 transform-gpu pointer-events-none">
+        <AnimatedLogo onAnimationComplete={() => console.log('Logo animation complete')} />
+        <div className="absolute inset-0 -z-10 blur-3xl">
+          <div className="w-full h-full rounded-full bg-theme-radial-glow opacity-80"></div>
         </div>
+      </div>
         
-        {/* Main intro section - overlapping the logo */}
-        <div className="text-left md:text-left ml-0 md:ml-[30vw] lg:ml-[35vw] xl:ml-[40vw] mt-[300px] md:mt-[350px] mb-16 max-w-[700px] relative z-10 overflow-visible">
+      <div className="container mx-auto px-4 relative">
+        {/* Main intro section - normal positioning */}
+        <div className="text-left mt-[250px] mb-16 max-w-[700px] relative z-10 overflow-visible">
           <p 
             ref={headingRef}
             className="font-[200] !font-extralight mb-6 text-theme-primary pl-8 md:pl-12 lowercase tracking-wide whitespace-nowrap"
