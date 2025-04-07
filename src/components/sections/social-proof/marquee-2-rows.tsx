@@ -4,7 +4,7 @@ import Marquee from "../../ui/marquee";
 // Create a ThumbnailItem component for the marquee
 const ThumbnailItem = ({ src, alt }: { src: string; alt: string }) => {
   return (
-    <div className="-mx-6 -my-3 overflow-hidden rounded-lg hover:scale-105 transition-transform duration-300 shadow-xl" style={{ transform: "scale(0.7)" }}>
+    <div className="-mx-10 -my-5 overflow-hidden rounded-lg hover:scale-105 transition-transform duration-300 shadow-xl" style={{ transform: "scale(0.75)" }}>
       <img 
         src={src} 
         alt={alt} 
@@ -63,24 +63,32 @@ export default function SocialProof() {
           </p>
         </div>
         
-        <div className="relative flex w-full flex-col items-center justify-center overflow-hidden space-y-0">
-          {/* First row scrolls left to right - slower speed */}
-          <Marquee pauseOnHover className="[--duration:60s] py-0 mb-[-15px]">
-            {firstRowThumbnails.map((item, index) => (
-              <ThumbnailItem key={`first-${index}`} src={item.src} alt={item.alt} />
-            ))}
-          </Marquee>
-          
-          {/* Second row scrolls right to left (reversed) - different speed for visual interest */}
-          <Marquee reverse pauseOnHover className="[--duration:70s] py-0 mt-[-15px]">
-            {secondRowThumbnails.map((item, index) => (
-              <ThumbnailItem key={`second-${index}`} src={item.src} alt={item.alt} />
-            ))}
-          </Marquee>
-          
-          {/* Edge gradients for a smoother appearance */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-1/3 bg-gradient-to-r from-[#08141B] to-transparent sm:block"></div>
-          <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-1/3 bg-gradient-to-l from-[#08141B] to-transparent sm:block"></div>
+        {/* 75% width card wrapper with overflow hidden */}
+        <div className="w-[85%] md:w-[75%] relative rounded-xl bg-[#0a1923]/50 backdrop-blur-sm p-6 shadow-theme-md border border-[#154D59]/20 overflow-hidden">
+          {/* Negative margin to compensate for padding */}
+          <div className="mx-[-2rem] relative">
+            {/* First row scrolls left to right - slower speed */}
+            <Marquee pauseOnHover className="[--duration:60s] py-0 mb-[-20px]">
+              {firstRowThumbnails.map((item, index) => (
+                <ThumbnailItem key={`first-${index}`} src={item.src} alt={item.alt} />
+              ))}
+            </Marquee>
+            
+            {/* Second row scrolls right to left (reversed) - different speed for visual interest */}
+            <Marquee reverse pauseOnHover className="[--duration:70s] py-0 mt-[-20px]">
+              {secondRowThumbnails.map((item, index) => (
+                <ThumbnailItem key={`second-${index}`} src={item.src} alt={item.alt} />
+              ))}
+            </Marquee>
+            
+            {/* Enhanced edge vignettes */}
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#0a1923] via-[#0a1923]/80 to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#0a1923] via-[#0a1923]/80 to-transparent" />
+
+            {/* Top and bottom vignettes to soften the edges */}
+            <div className="pointer-events-none absolute top-0 inset-x-0 h-8 bg-gradient-to-b from-[#0a1923] to-transparent" />
+            <div className="pointer-events-none absolute bottom-0 inset-x-0 h-8 bg-gradient-to-t from-[#0a1923] to-transparent" />
+          </div>
         </div>
       </div>
     </Section>
