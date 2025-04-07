@@ -402,102 +402,110 @@ useGSAP(() => {
 ## Most Important Rule
 After stating your plan, NEVER deviate from it without permission. It's better to do nothing than to implement something contrary to your stated plan.
 
-## Column-Based Team Section Layout
+## Stacked Full-Screen Team Section Design
 
-The TeamSection should be implemented with the following specific layout:
+The TeamSection has been implemented with the following z-stacked layout:
 
 1. **Layout Structure:**
-   - The screen should be divided into 4 equal vertical columns side by side
-   - Each column represents one team member
-   - Columns should span the full width of the screen
-   - Columns should have equal width (25% each) in their default state
+   - Four full-screen sections stacked on top of each other in z-space (z-index)
+   - Each section represents one team member and occupies the full viewport
+   - Sections are arranged in layers with visual indicators for hover areas
 
-2. **Initial State:**
-   - Each column initially shows only a small portion of the team member content
-   - Think of it like looking through a narrow vertical window into each person's content
-   - The content exists behind each "window" but is mostly cropped/hidden
-   - Only a small vertical slice is visible (around 25% of the screen width)
+2. **Window Effect:**
+   - Each section is clipped using CSS clip-path to show only 25% of its width
+   - This creates the effect of looking through four vertical "windows" into each section
+   - The clipping is positioned so each team member's section is visible through its respective window
+   - The full content exists in each layer but is mostly cropped/hidden initially
 
 3. **Hover Behavior:**
-   - When hovering over a column, it should expand horizontally
-   - The hovered column should take approximately 70% of the screen width
-   - The other 3 columns should remain visible but get compressed to share the remaining 30%
-   - The expanded column should reveal the full content that was previously cropped
+   - When hovering over a section's visible portion, the clip-path is removed
+   - The hovered section becomes fully visible and moves to the top z-index
+   - Other sections remain in their clipped state but are still partially visible
+   - Moving away from any section returns all sections to their equal 25% width view
 
-4. **Visual Metaphor:**
-   - Think of it like 4 adjacent vertical windows that you can "open wider" on hover
-   - The content isn't initially hidden - it's visible but mostly cropped
-   - Hovering doesn't create new content - it just reveals what was already there by widening the "window"
+4. **Visual Implementation:**
+   - Each section has a slightly different gradient background for visual distinction
+   - Content is centered within each full section
+   - Z-index management ensures the active section is always on top
+   - Visual guide overlays help indicate the hover targets
 
-5. **Technical Implementation:**
-   - Use `overflow-hidden` on containers to create the cropping effect
-   - Use CSS transitions for smooth width changes
-   - Use relative positioning to ensure content remains properly aligned during expansion
-   - Ensure content is centered in each column
+### Technical Details
 
-### Example Visualization
+1. **Clip-Path Implementation**
+   ```javascript
+   const getClipPath = () => {
+     // Calculate 25% wide section for each member
+     const startPercent = (index * 25);
+     const endPercent = startPercent + 25;
+     
+     if (isActive) {
+       // When active, remove clipping entirely
+       return 'none';
+     } else {
+       // When inactive, clip to show only a 25% vertical slice
+       return `inset(0 ${100 - endPercent}% 0 ${startPercent}%)`;
+     }
+   };
+   ```
 
-```
-DEFAULT STATE:
-┌──┬──┬──┬──┐
-│J │A │T │A │  J = Joden's content (cropped, only ~25% visible)
-│o │l │i │y │  A = Alex's content (cropped, only ~25% visible)
-│d │e │a │d │  T = Tia's content (cropped, only ~25% visible) 
-│e │x │  │a │  A = Aydan's content (cropped, only ~25% visible)
-│n │  │  │n │
-└──┴──┴──┴──┘
- 25% each column
-
-HOVER STATE (e.g., hovering on Tia's column):
-┌─┬────────┬─┬─┐
-│J│   Tia  │A│A│  Tia's column expands to ~70% width
-│o│        │l│y│  Other columns compressed to share remaining 30%
-│d│   Now  │e│d│  Full content for Tia is now visible
-│e│  fully │x│a│  Other columns still visible but narrower
-│n│ visible│ │n│
-└─┴────────┴─┴─┘
- 10%  70%  10%10%
-```
+2. **Section Positioning**
+   ```jsx
+   <div 
+     className="absolute inset-0 transition-all duration-500 ease-in-out"
+     style={{ 
+       clipPath: getClipPath(),
+       zIndex: isActive ? 20 : 10 - index
+     }}
+     onMouseEnter={onMouseEnter}
+     onMouseLeave={onMouseLeave}
+   >
+     {/* Full content section */}
+     <div className="w-full h-full">
+       {/* Content centered inside full section */}
+     </div>
+   </div>
+   ```
 
 ### Implementation Checklist
 
 1. **Initial Setup**
    - [x] Delete the current TeamSection.tsx
    - [x] Update import in VerticalShortcutLanding.tsx
-   - [x] Create new implementation with side-by-side columns
+   - [x] Create new implementation with full-screen z-stacked sections
    
-2. **Column-Based Layout**
-   - [x] Create a flex container that spans the full width
-   - [x] Create 4 side-by-side columns, each with equal initial width
-   - [x] Add overflow-hidden to create the "window" effect
-   - [x] Implement dynamic width calculation for expanded/collapsed states
+2. **Z-Stacked Layout**
+   - [x] Create full-screen sections for each team member
+   - [x] Position sections in z-space with proper z-index management
+   - [x] Implement clip-path for the window-like cropping effect
+   - [x] Add visual indicators for hover targets
    
-3. **Content Positioning**
-   - [x] Position full content within each column (not hidden, just cropped)
-   - [x] Center content horizontally within each column
-   - [x] Ensure content appears naturally within the visible "window" portion
+3. **Content Layout**
+   - [x] Create full team member layouts that look good in both cropped and full views
+   - [x] Add proper content hierarchy with name, title, images, bio, etc.
+   - [x] Ensure content is centered and well-positioned in both states
    
-4. **Expansion System**
-   - [x] Implement state management for tracking active column
-   - [x] Create smooth animations for width transitions
-   - [x] Expanded column takes 70% width, others share 30%
-   - [x] Maintain content positioning during column width changes
+4. **Interactive Behavior**
+   - [x] Implement state management for tracking active section
+   - [x] Create smooth transitions for clip-path changes
+   - [x] Ensure proper z-index handling for active/inactive states
+   - [x] Add hover guides to indicate interactive areas
    
 5. **Theme-Aware Styling**
-   - [x] Use bg-theme-gradient for backgrounds
+   - [x] Use theme-aware gradients for section backgrounds
    - [x] Use shadow-theme-* utility classes for all shadows
    - [x] Ensure all text uses text-theme-* utility classes
    - [x] Add theme-aware borders and visual details
 
 6. **Responsive Design**
-   - [x] Maintain column-based layout on desktop and tablet landscape
-   - [x] Adjust for mobile with appropriate layout changes
-   - [x] Ensure smooth transitions across all device sizes
+   - [x] Maintain z-stacked layout on desktop and tablet
+   - [x] Create alternate card-based layout for mobile
+   - [x] Ensure smooth transitions on all device sizes
 
-7. **Testing and Optimization**
-   - [x] Test in both light and dark themes
-   - [x] Verify smooth transitions between default and expanded states
-   - [x] Ensure content remains properly positioned during transitions
+7. **Visual Polish**
+   - [x] Add distinct background gradients for each section
+   - [x] Implement proper shadows and borders
+   - [x] Create smooth transitions for all interactive elements
+   - [x] Verify visual consistency in both light and dark themes
 
 ## ModuleHUD Improvement Checklist
 
