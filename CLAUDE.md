@@ -72,22 +72,21 @@ The theme-aware approach uses single CSS variables that automatically change val
 <p className="bg-[var(--secondary-teal)] dark:bg-[var(--secondary-teal-light)]">Competing variables cause conflicts</p>
 <div style={{ backgroundColor: 'var(--bg-cream)' }}>Won't update in dark mode without logic</div>
 <div className="text-[var(--text-navy)]">Using outdated var() syntax</div>
+<p className="bg-[var(--theme-accent-secondary)]">Uses inline theme variables - not recommended</p>
+<h2 className="text-[var(--theme-text-primary)]">Inline theme variables - not recommended</h2>
 ```
 
-**✅ CORRECT APPROACH - THEME-AWARE VARIABLES:**
+**✅ CORRECT APPROACH - BRAND UTILITY CLASSES:**
 ```jsx
-<!-- Option 1: Theme utility classes (PREFERRED) -->
-<p className="bg-theme-accent-secondary">Using theme utility class</p>
-<h2 className="text-theme-primary">Text uses theme utility class</h2>
+<!-- ALWAYS USE: Brand utility classes (REQUIRED) -->
+<p className="bg-theme-accent-secondary">Using brand utility class</p>
+<h2 className="text-theme-primary">Text uses brand utility class</h2>
+<button className="bg-theme-gradient-primary shadow-theme-sm text-white">Uses multiple brand utilities</button>
 
-<!-- Option 2: Use theme-aware variables -->
-<p className="bg-[var(--theme-accent-secondary)]">Uses variables that update with theme</p>
-<h2 className="text-[var(--theme-text-primary)]">Text color updates with theme</h2>
-
-<!-- Option 3: When component is outside theme context -->
+<!-- ONLY when absolutely necessary and component is outside theme context -->
 <div style={{ 
   backgroundColor: isDarkTheme ? 'var(--bg-navy)' : 'var(--bg-cream)' 
-}}>Uses conditional for isolated components</div>
+}}>Conditional for isolated components - use only when needed</div>
 ```
 
 ### TAILWIND GRADIENT IMPLEMENTATIONS
@@ -108,7 +107,7 @@ The theme-aware approach uses single CSS variables that automatically change val
 
 **✅ CORRECT TAILWIND GRADIENT APPROACHES:**
 ```jsx
-<!-- PREFERRED: Use theme-aware utility classes -->
+<!-- REQUIRED: Use brand utility classes for gradients -->
 <div className="bg-theme-gradient">
   This gradient automatically updates with theme changes
 </div>
@@ -117,25 +116,26 @@ The theme-aware approach uses single CSS variables that automatically change val
   This accent gradient updates with theme changes
 </div>
 
-<!-- ACCEPTABLE: For complex gradients, use theme-aware variables -->
-<div className="bg-gradient-to-br from-[var(--theme-gradient-start)] to-[var(--theme-gradient-end)]">
-  Complex gradients using theme-aware variables
-</div>
+<!-- NOT RECOMMENDED: Avoid using inline theme variables -->
+<!-- <div className="bg-gradient-to-br from-[var(--theme-gradient-start)] to-[var(--theme-gradient-end)]">
+  Don't use this approach - use utility classes instead
+</div> -->
 
-<!-- ACCEPTABLE: For advanced cases with JS, use conditional styles -->
+<!-- ONLY when absolutely necessary: For advanced cases with JS -->
 <div style={{ 
   background: isDarkTheme 
     ? 'linear-gradient(to bottom right, var(--bg-navy), var(--bg-navy-darker))' 
     : 'linear-gradient(to bottom right, white, var(--bg-cream))'
 }}>
-  JS-enhanced conditional gradients
+  Use conditional approaches only when brand utility classes aren't available
 </div>
 ```
 
 ### THEME-AWARE IMPLEMENTATION FOR ALL PROPERTIES
 
-**❌ PROBLEMATIC DUAL-MODE APPROACH:**
+**❌ PROBLEMATIC APPROACHES:**
 ```jsx
+<!-- DO NOT use competing styles -->
 <div className="text-[--text-navy] dark:text-white">Using competing color styles</div>
 <div className="shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]">
   Competing shadow styles
@@ -143,19 +143,22 @@ The theme-aware approach uses single CSS variables that automatically change val
 <div className="border-[--primary-orange] dark:border-[--primary-orange-light]">
   Competing border styles
 </div>
+
+<!-- DO NOT use inline theme variables -->
+<div className="text-[var(--theme-text-primary)]">Using inline theme variables - not recommended</div>
+<div className="shadow-[var(--theme-shadow-md)]">Using inline theme variables - not recommended</div>
+<div className="border border-[var(--theme-primary)]">Using inline theme variables - not recommended</div>
 ```
 
-**✅ THEME-AWARE IMPLEMENTATION:**
+**✅ CORRECT APPROACH - BRAND UTILITY CLASSES:**
 ```jsx
-<!-- Option 1: Theme utility classes (PREFERRED) -->
-<div className="text-theme-primary">Text uses theme utility class</div>
-<div className="shadow-theme-md">Shadow uses theme utility class</div>
-<div className="border border-theme-primary">Border uses theme utility class</div>
-
-<!-- Option 2: Theme-aware variables -->
-<div className="text-[var(--theme-text-primary)]">Text color automatically changes with theme</div>
-<div className="shadow-[var(--theme-shadow-md)]">Shadow automatically changes with theme</div>
-<div className="border border-[var(--theme-primary)]">Border color automatically changes with theme</div>
+<!-- ALWAYS USE: Brand utility classes (REQUIRED) -->
+<div className="text-theme-primary">Text uses brand utility class</div>
+<div className="shadow-theme-md">Shadow uses brand utility class</div>
+<div className="border border-theme-primary">Border uses brand utility class</div>
+<div className="bg-theme-surface shadow-theme-sm hover:shadow-theme-md text-theme-primary">
+  Multiple brand utility classes for complete theme awareness
+</div>
 ```
 
 ### THEME-AWARE TEXT GRADIENTS
@@ -176,11 +179,17 @@ The theme-aware approach uses single CSS variables that automatically change val
 }}>
   Static gradient that won't adapt to theme
 </span>
+
+<!-- DO NOT use inline theme variables -->
+<span className="bg-gradient-to-r from-[var(--theme-gradient-orange-start)] to-[var(--theme-gradient-orange-end)] 
+                 bg-clip-text text-transparent">
+  Using inline theme variables - not recommended
+</span>
 ```
 
 **✅ CORRECT GRADIENT TEXT IMPLEMENTATION:**
 ```jsx
-<!-- PREFERRED: Use theme-aware gradient text classes -->
+<!-- REQUIRED: Use brand utility classes for gradient text -->
 <span className="text-theme-gradient">
   Theme-aware gradient text (primary gradient)
 </span>
@@ -193,9 +202,9 @@ The theme-aware approach uses single CSS variables that automatically change val
   Teal theme-aware gradient
 </span>
 
-<!-- ALSO CORRECT: Use bg-theme-gradient-text -->
+<!-- ALSO CORRECT: Use official brand gradient classes -->
 <span className="bg-theme-gradient-text">
-  Alternative theme-aware gradient implementation
+  Alternative theme-aware gradient text class
 </span>
 ```
 
@@ -220,10 +229,10 @@ The theme-aware approach uses single CSS variables that automatically change val
 ### Floating Elements Implementation (Theme-Aware)
 ```jsx
 <div className="relative">
-  {/* Theme-aware floating element that works in both modes */}
+  {/* Theme-aware floating element using brand utility classes */}
   <div className="absolute -z-10 w-20 h-20 rounded-[40%] rotate-12 
-                opacity-[var(--theme-float-opacity)] 
-                bg-[var(--theme-float-bg-primary)]
+                opacity-theme-float
+                bg-theme-float-primary
                 animate-float-slow"></div>
   
   <div className="relative z-10">
@@ -279,16 +288,18 @@ function AnimatedComponent() {
 - ❌ NEVER create animations without theme-aware variables and proper cleanup
 - ❌ NEVER change grid layouts (grid-cols-*) under any circumstances
 - ❌ NEVER use inline styles that don't adapt to theme changes
+- ❌ NEVER use inline theme variables like `text-[var(--theme-text-primary)]` - use utility classes instead
 
 ### DO:
-- ✅ ALWAYS use theme utility classes when available: `text-theme-primary`, `bg-theme-accent`
-- ✅ ALWAYS use theme-aware gradient classes: `bg-theme-gradient`, `bg-theme-gradient-primary`
-- ✅ ALWAYS use theme-aware shadow classes: `shadow-theme-sm`, `shadow-theme-md`, `shadow-theme-lg`
+- ✅ ALWAYS use brand utility classes defined in globals.css: `text-theme-primary`, `bg-theme-accent`
+- ✅ ALWAYS use brand gradient classes: `bg-theme-gradient`, `bg-theme-gradient-primary`
+- ✅ ALWAYS use brand shadow classes: `shadow-theme-sm`, `shadow-theme-md`, `shadow-theme-lg`
 - ✅ ALWAYS use theme-aware variables for animation values in GSAP
 - ✅ ALWAYS verify components in both light and dark modes before committing
-- ✅ ALWAYS add subtle floating elements using theme-aware opacity and colors
+- ✅ ALWAYS add subtle floating elements using theme-aware utility classes
 - ✅ ALWAYS create a written plan and get approval before proceeding
-- ✅ ALWAYS COMMIT CHANGES TO THE CSS-REFACTOR BRANCH
+- ✅ ALWAYS COMMIT AND PUSH CHANGES TO THE 'the-reveal' BRANCH
+- ✅ ALWAYS prioritize brand utility classes over any other styling approach
 
 ## Theme-Aware CSS Structure
 
@@ -367,26 +378,26 @@ The theme gradient utility classes are defined in globals.css:
 function ExampleCard() {
   return (
     <div className="relative overflow-hidden">
-      {/* Theme-aware floating element */}
+      {/* Theme-aware floating element using brand utility classes */}
       <div className="absolute top-20 left-5 w-16 h-16 rounded-[40%] rotate-12 
-                    opacity-[var(--theme-float-opacity)]
-                    bg-[var(--theme-float-bg-primary)]
+                    opacity-theme-float
+                    bg-theme-float-primary
                     animate-float-slow"></div>
                     
-      {/* Card with theme-aware styling */}
+      {/* Card with theme-aware styling using brand utility classes */}
       <div className="relative z-10 
                     bg-theme-gradient
                     rounded-lg p-6 
                     shadow-theme-md
                     transition-all duration-300
                     hover-bubbly">
-        {/* Content */}
+        {/* Content using brand utility classes */}
         <h3 className="text-theme-primary text-xl mb-2">
           Card Title
         </h3>
         
         <p className="text-theme-secondary mb-4">
-          This card uses theme-aware variables for consistent styling in any theme.
+          This card uses brand utility classes for consistent styling in any theme.
         </p>
         
         <button className="bg-theme-gradient-primary text-white px-4 py-2 rounded-full shadow-theme-sm hover-bubbly-sm">
@@ -413,11 +424,19 @@ function ExampleCard() {
    - Solo Mode: `git commit -m "Solo: [description]"`
    - Team A: `git commit -m "A: [description]"`
    - Team B: `git commit -m "B: [description]"`
+5. Push to the correct branch: `git push origin the-reveal`
+
+### IMPORTANT: Branch Management
+- ALWAYS work in and push to the 'the-reveal' branch
+- If the branch doesn't exist: `git checkout -b the-reveal`
+- If already on another branch: `git checkout the-reveal`
+- NEVER work directly in the main/master branch
 
 ### Commit Frequency
 - After each significant component change
 - At least once per hour of work
 - Immediately after fixing bugs
+- Always push immediately after committing
 
 ## "VS Bubbly" Animation Style
 - Animations should be 20% more pronounced than typical corporate sites
@@ -524,6 +543,22 @@ The Module Viewer component should NOT be modified in the current sprint.
 </div>
 ```
 
+### Converting Inline Theme Variables
+
+**FROM THIS:**
+```jsx
+<div className="text-[var(--theme-text-primary)]">
+  Content
+</div>
+```
+
+**TO THIS:**
+```jsx
+<div className="text-theme-primary">
+  Content
+</div>
+```
+
 ### Converting Shadows
 
 **FROM THIS:**
@@ -599,170 +634,3 @@ Use these theme-aware utility classes for consistent styling:
 - `hover-bubbly-sm` - Subtle hover animation
 - `hover-bubbly-lg` - More pronounced hover animation
 
-## Implementation Checklist for Theme-Aware Styling
-
-When working on a component:
-
-1. ✓ Replace all competing light/dark styles with theme-aware utility classes
-   - Updated VSExampleComponent.tsx (5/4/2025)
-   - Components remaining: SimpleHero, AnimatedButton, VSQuizModal, etc.
-2. ✓ Convert all Tailwind gradients to use theme-aware gradient classes
-   - Updated VSExampleComponent.tsx with bg-theme-gradient, bg-theme-gradient-card, etc.
-3. ✓ Replace all inline styles with theme-aware Tailwind classes
-   - Updated buttons in VSExampleComponent.tsx
-4. ✓ Update all shadows to use theme-aware shadow classes
-   - Implemented shadow-theme-sm, shadow-theme-md in VSExampleComponent.tsx
-5. ✓ Make all animations use theme-aware variables
-   - Updated animations in VSExampleComponent.tsx to use duration-[var(--theme-transition-bounce)]
-6. ✓ Add appropriate theme-aware floating elements for visual interest
-   - Added theme-aware floating elements in VSExampleComponent.tsx
-7. ✓ Test the component in both light and dark modes
-   - Verified VSExampleComponent.tsx works in both modes
-8. ✓ Verify all interactions in both theme modes
-   - Verified hover states and animations in VSExampleComponent.tsx
-
-Next components to update:
-- Modal components: ModalsImplementation.tsx, VSApplicationModal.tsx, VSSubmoduleModal.tsx
-- Form components: ApplicationFormWrapper.tsx
-- Hero components: IsometricPattern.tsx, SimpleHero.tsx
-
-Completed components:
-- VSExampleComponent.tsx - Fully theme-aware (5/4/2025)
-- SimpleHero.tsx - Updated to use theme-aware styling (5/4/2025)
-- AnimatedButton.tsx - Updated all button variants with theme-aware variables (5/4/2025)
-- VSQuizModal.tsx - Updated with theme-aware styling for quiz flow and results (5/4/2025)
-- VSCharts.tsx - Updated charts to use theme-aware styling, GSAP animations and floating elements (5/5/2025)
-- VSApplicationModal.tsx - Enhanced with theme-aware form fields and floating elements (5/5/2025)
-- course-stats.tsx - Updated with theme-aware floating elements and animation variables (5/4/2025)
-- form.tsx - Updated with theme-aware text and border styles (5/4/2025)
-- glow.tsx - Updated with theme-aware glow effects and opacity variables (5/4/2025)
-- input.tsx - Updated with theme-aware borders, backgrounds and focus states (5/4/2025)
-- label.tsx - Updated with theme-aware text colors and transitions (5/4/2025)
-- lead-capture-form.tsx - Updated with theme-aware backgrounds, borders and error states (5/4/2025)
-- link.tsx - Added theme-aware variants with transition variables (5/4/2025)
-
-## Theme-Aware Component Refactoring Progress
-
-### Complete Theme System Overhaul (5/5/2025)
-- [x] **Theme Variable System** - Completely overhauled CSS variable structure for reliable theme switching
-- [x] **Theme Selector Consistency** - Ensured CSS selectors work consistently across Tailwind and CSS
-- [x] **Direct Color Values** - Implemented direct color values for theme variables with !important
-- [x] **Fixed Component Props** - Addressed React DOM prop warnings in vs-background.tsx and vs-text.tsx
-- [x] **Debugging Tools** - Created multiple utility scripts to diagnose and fix theme-related issues
-- [x] **Dark Mode Testing** - Verified theme toggle properly changes background colors and styling
-- [x] **Circular Reference Fix** - Eliminated circular references between CSS variables
-
-### UI Components (src/components/ui/)
-- [x] badge.tsx - Updated all variants to use theme-aware variables
-- [x] button.tsx - Converted all variants to theme-aware styling
-- [x] card.tsx - Removed competing light/dark modes for theme-aware variables
-- [x] theme-toggle.tsx - Simplified with theme utility classes
-- [x] dialog.tsx - Updated with theme-aware border and shadow styles
-- [x] vs-background.tsx - Refactored to use single theme-aware prop for background, fixed prop filtering
-- [x] vs-button.tsx - Converted all variants to theme-aware styling
-- [x] vs-modal.tsx - Updated with theme-aware floating elements and animations
-- [x] vs-text.tsx - Replaced dual-mode styles with theme utility classes, fixed prop filtering
-- [x] accordion.tsx - Updated with theme-aware border and text colors
-- [x] accordion-raised.tsx - Converted to theme-aware background, shadow, and text
-- [x] alert.tsx - Updated all alert variants with theme-aware styling
-- [x] avatar.tsx - Updated with theme-aware background and text colors
-- [x] beam.tsx - Updated with theme-aware radial gradients
-- [x] carousel.tsx - Already using theme-aware approach (uses cn utility)
-- [x] chart.tsx - Updated with theme-aware tooltip and text colors
-- [x] checkbox.tsx - Updated with theme-aware border, background, and text colors
-- [x] dropdown-menu.tsx - Updated all dropdown elements with theme-aware styling
-- [x] form.tsx - Updated with theme-aware text and border styles (5/4/2025)
-- [x] glow.tsx - Updated with theme-aware glow effects and opacity variables (5/4/2025)
-- [x] input.tsx - Updated with theme-aware borders, backgrounds and focus states (5/4/2025)
-- [x] label.tsx - Updated with theme-aware text colors and transitions (5/4/2025)
-- [x] lead-capture-form.tsx - Updated with theme-aware backgrounds, borders and error states (5/4/2025)
-- [x] link.tsx - Added theme-aware variants with transition variables (5/4/2025)
-- [x] footer.tsx - Updated with theme-aware background and text colors (5/4/2025)
-- [x] image.tsx - Added transition properties for smoother theme changes (5/4/2025)
-- [x] item.tsx - Updated with theme-aware text colors and transitions (5/4/2025)
-- [x] logo.tsx - Updated with theme-aware text colors and transitions (5/4/2025)
-- [x] marquee.tsx - Updated with theme-aware background and animation duration (5/4/2025)
-- [x] mockup.tsx - Updated with theme-aware shadow and border colors (5/4/2025)
-- [x] mode-toggle.tsx - Updated theme toggle button with theme-aware gradient (5/4/2025)
-- [x] navbar.tsx - Updated navbar with theme-aware text colors (5/4/2025)
-- [x] navigation-menu.tsx - Updated with theme-aware styling for menu triggers and viewports (5/4/2025)
-- [x] navigation.tsx - Updated navigation items with theme-aware backgrounds and text (5/4/2025)
-- [x] radio-group.tsx - Updated radio inputs with theme-aware borders and icons (5/4/2025)
-- [x] section.tsx - Updated with theme-aware background, text and floating element (5/4/2025)
-- [x] select.tsx - Updated select menu components with theme-aware styling (5/4/2025)
-- [x] sheet.tsx - Updated sheet dialog with theme-aware borders, background and overlay (5/4/2025)
-- [x] slide.tsx - Updated with theme-aware gradient, text, and button styling (5/4/2025)
-- [x] social-proof-item.tsx - Updated with theme-aware card and text styling (5/4/2025)
-- [x] social-stats.tsx - Updated with theme-aware tooltip and text styling (5/4/2025)
-- [x] switch.tsx - Updated with theme-aware styles, transitions, and shadows (5/4/2025)
-- [x] tabs.tsx - Updated tab components with theme-aware backgrounds and borders (5/4/2025)
-- [x] testimonial-carousel.tsx - Updated testimonial carousel with theme-aware styling (5/4/2025)
-- [x] textarea.tsx - Updated with theme-aware borders, shadows, and transitions (5/4/2025)
-- [x] theme-provider.tsx - Already theme-aware (manages theme switching) (5/4/2025)
-- [x] tile.tsx - Updated with theme-aware gradients, floating elements, and hover states (5/4/2025)
-- [x] tooltip.tsx - Updated with theme-aware border, shadow, and background (5/4/2025)
-- [x] video-embed.tsx - Updated with theme-aware floating elements and gradients (5/4/2025)
-- [x] vs-components.tsx - Already theme-aware (imports vs-text, vs-background, vs-button) (5/4/2025)
-
-### Sections Components (src/components/sections/)
-- [x] featured-modules.tsx - Fixed gradient and text styles for theme compatibility
-- [x] navbar/vs-navbar.tsx - Navbar fully converted to theme-aware styling
-- [x] VSCharts.tsx - Updated charts to use theme-aware styling (5/5/2025)
-- [x] VSPainPoints.tsx - Updated with theme-aware animations and floating elements
-- [x] course-stats.tsx - Updated with theme-aware styling for cards and animations (5/4/2025)
-- [ ] bento-grid/vsBentoGrid.tsx
-- [ ] carousel/VSCarousel.tsx
-- [ ] carousel/external.tsx
-- [ ] carousel/large.tsx
-- [ ] carousel/small.tsx
-- [ ] carousel/static.tsx
-- [ ] Case-Studies.tsx
-- [ ] course-viewer.tsx
-- [ ] faq-raised.tsx
-- [ ] faq-updated.tsx
-- [ ] feature/* (all files)
-- [ ] founder-track.tsx
-- [ ] module-breakdown.tsx
-- [ ] module-breakdown-simplified.tsx
-- [ ] ModuleHUD.tsx
-- [ ] navbar/default.tsx
-- [ ] navbar/static.tsx
-- [ ] navbar/sticky.tsx
-- [ ] pricing-3-cols-subscription.tsx
-- [ ] pricing-quiz-modal.tsx
-- [ ] pricing-section.tsx
-- [ ] social-proof/* (all files)
-- [ ] tabs/* (all files)
-- [ ] VSPricingQuizModal.tsx
-
-### Modal Components (src/components/modals/)
-- [x] TimelineModal.tsx - Already using theme-aware styling
-- [x] VSModalExamples.tsx - Updated with theme-aware styling for cards and modals
-- [x] VSQuizModal.tsx - Updated with theme-aware styling for quiz flow and results (5/4/2025)
-- [x] VSApplicationModal.tsx - Enhanced with theme-aware styling for form fields and floating elements (5/5/2025)
-- [ ] ModalTest.tsx
-- [ ] ModalsImplementation.tsx
-- [ ] VSSubmoduleModal.tsx
-
-### Form Components (src/components/form/)
-- [ ] ApplicationFormWrapper.tsx
-- [ ] form-shadcn-claude.tsx
-- [ ] VSApplicationFormModal.tsx
-
-### Hero Components (src/components/hero/)
-- [ ] IsometricPattern.tsx
-- [ ] SimpleHero.tsx
-- [ ] SimpleHero/*
-
-### Other Components
-- [ ] ComingSoon.tsx
-- [ ] ContentOverwhelmer.tsx
-- [ ] DirectTest.tsx
-- [ ] Modules.tsx
-- [ ] ThemeDemo.tsx
-- [ ] VSExampleComponent.tsx
-- [ ] VSModalShowcase.tsx
-
-### Main App Components
-- [ ] App.tsx
-- [ ] VerticalShortcutLanding.tsx
