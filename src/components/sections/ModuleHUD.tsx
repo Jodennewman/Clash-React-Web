@@ -110,15 +110,36 @@ const mainSections: SectionData[] = [
     type: 'normalSquare',
     size: 'normal'
   },
-  // Third BigSquare - System & Products
+  // Infrastructure Products (Systems) - These will be displayed as 3 individual systems
+  // First System: Quantity and Quality Notion System 💾
   {
-    id: "delegation", // Reused for Systems representation
-    name: "Systems & Products",
+    id: "notion_system",
+    name: "Notion System 💾",
     color: "var(--hud-navy)",
-    type: 'bigSquare',
-    size: 'double',
+    type: 'normalSquare',
+    size: 'normal',
     featured: true,
-    displayKey: 'delegation-systems' // Add a display key to differentiate
+    displayKey: 'system-notion'
+  },
+  // Second System: Home-Delivered Engine Room 🏭
+  {
+    id: "engine_room",
+    name: "Engine Room 🏭",
+    color: "var(--primary-orange)",
+    type: 'normalSquare',
+    size: 'normal',
+    featured: true,
+    displayKey: 'system-engine'
+  },
+  // Third System: Viral Video OS 🖥️
+  {
+    id: "viral_os",
+    name: "Viral Video OS 🖥️",
+    color: "var(--accent-coral)", 
+    type: 'normalSquare',
+    size: 'normal',
+    featured: true,
+    displayKey: 'system-viral'
   }
 ];
 
@@ -230,6 +251,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   const column1 = useMemo(() => [mainSections[1], mainSections[2], mainSections[3]], []); // First column - Three Upskillers
   const column2 = useMemo(() => [mainSections[4], mainSections[5]], []); // Second column - PR/Authority & Delegation
   const column3 = useMemo(() => [mainSections[7], mainSections[8], mainSections[9]], []); // Third column - Business Scaling
+  const systemsColumn = useMemo(() => [mainSections[10], mainSections[11], mainSections[12]], []); // Systems column - 3 products
   
   // Get modules for the selected section
   const selectedSectionModules = useMemo(() => {
@@ -579,36 +601,71 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
               sectionRefs={sectionRefs}
             />
             
-            {/* System big square (Final special square) - Special design to connote the 3 parts of product/turn key system */}
-            <div 
-              ref={(el) => { 
-                if (el) sectionRefs.current[mainSections[10].id + '-' + mainSections[10].displayKey] = el;
-                return undefined;
-              }}
-              data-id={mainSections[10].id}
-              data-display-key={mainSections[10].displayKey}
-              className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
-              style={{ backgroundColor: mainSections[10].color }}
-            >
-              {/* Tooltip for section name */}
-              <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
-                {mainSections[10].name}
-                <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
+            {/* Systems Column - 3 distinct system products instead of one big square */}
+            <div className="flex flex-col gap-[var(--square-gap-y)]">
+              {/* Container for the Systems title */}
+              <div className="text-center text-theme-primary text-sm font-medium mb-2">
+                <span className="px-2 py-1 bg-theme-bg-secondary/40 rounded shadow-theme-sm">Systems & Products</span>
               </div>
               
-              {/* Three parts/subsections to represent the turn key system */}
-              {/* Subtle sections to indicate products/systems */}
-              <div className="absolute top-0 left-0 w-full h-1/3 bg-[var(--theme-float-bg-primary)] opacity-10"></div>
-              <div className="absolute top-1/3 left-0 w-full h-1/3 bg-[var(--theme-float-bg-secondary)] opacity-15"></div>
-              <div className="absolute top-2/3 left-0 w-full h-1/3 bg-[var(--theme-float-bg-tertiary)] opacity-10"></div>
-              
-              {/* Decorative elements to suggest a system */}
-              <div className="absolute inset-4 border-2 border-dashed border-white/10 rounded-lg pointer-events-none"></div>
-              
-              {/* Featured indicator */}
-              {mainSections[10].featured && (
-                <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
-              )}
+              {/* Container for the three systems */}
+              <div className="grid grid-cols-1 gap-[var(--square-gap-y)]">
+                {systemsColumn.map((system, index) => (
+                  <div 
+                    key={system.displayKey}
+                    ref={(el) => { 
+                      if (el) sectionRefs.current[system.id + '-' + system.displayKey] = el;
+                      return undefined;
+                    }}
+                    data-id={system.id}
+                    data-display-key={system.displayKey}
+                    className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)/1.5)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
+                    style={{ 
+                      backgroundColor: system.color,
+                      backgroundImage: index === 0 
+                        ? 'url("data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h10v10H0V0zm10 10h10v10H10V10z\' fill=\'%23ffffff\' fill-opacity=\'0.1\'/%3E%3C/svg%3E")'
+                        : index === 1
+                          ? 'url("data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h5v5H0V0zm5 5h5v5H5V5zm5-5h5v5h-5V0zm5 5h5v5h-5V5zM0 10h5v5H0v-5zm5 5h5v5H5v-5zm5-5h5v5h-5v-5zm5 5h5v5h-5v-5z\' fill=\'%23ffffff\' fill-opacity=\'0.1\'/%3E%3C/svg%3E")'
+                          : 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'20\' height=\'12\' viewBox=\'0 0 20 12\'%3E%3Cg fill-rule=\'evenodd\'%3E%3Cg transform=\'rotate(180 10 6)\' fill=\'%23ffffff\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M3 0h2l1 2H0v6h7v2h6v-2h7V2h-6L13 0h2L3 0zm10 8H7V6L5 8l2 2v-2h6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'
+                    }}
+                  >
+                    {/* Tooltip for system name */}
+                    <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
+                      {system.name}
+                      <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
+                    </div>
+                    
+                    {/* System name and emoji */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-white font-medium text-sm tracking-wide">
+                        {system.name}
+                      </span>
+                    </div>
+                    
+                    {/* System-specific decorative elements */}
+                    {index === 0 && (
+                      <div className="absolute top-3 right-3 w-6 h-6 bg-white/10 rounded-md flex items-center justify-center">
+                        <span className="text-white text-sm">💾</span>
+                      </div>
+                    )}
+                    {index === 1 && (
+                      <div className="absolute top-3 right-3 w-6 h-6 bg-white/10 rounded-md flex items-center justify-center">
+                        <span className="text-white text-sm">🏭</span>
+                      </div>
+                    )}
+                    {index === 2 && (
+                      <div className="absolute top-3 right-3 w-6 h-6 bg-white/10 rounded-md flex items-center justify-center">
+                        <span className="text-white text-sm">🖥️</span>
+                      </div>
+                    )}
+                    
+                    {/* Featured indicator */}
+                    {system.featured && (
+                      <div className="absolute -top-2 -right-2 w-[12px] h-[12px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
