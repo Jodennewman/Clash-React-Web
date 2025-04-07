@@ -731,10 +731,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         
         // Determine which system we're showing and set appropriate content
         if (displayKey === 'system-notion') {
-          // Set modal information
-          systemTitle = 'Notion System';
-          systemDescription = 'Our comprehensive content organization system powered by a custom Notion database with advanced integrations.';
-          systemFeatures = [
+          // Get system data from course-utils
+          const systemData = courseUtils.getSystemData('notion_system');
+          systemTitle = systemData?.title || 'Notion System';
+          systemDescription = systemData?.description || 'Our comprehensive content organization system powered by a custom Notion database with advanced integrations.';
+          systemFeatures = systemData?.features || [
             'Content planning with linked databases',
             'Ready-to-use templates for scripts',
             'Database analytics for performance tracking',
@@ -773,10 +774,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           illustrationContainer.appendChild(notionIllustration);
           
         } else if (displayKey === 'system-engine') {
-          // Set modal information
-          systemTitle = 'Engine Room';
-          systemDescription = 'Our streamlined content production system that turns raw footage into professional-quality videos.';
-          systemFeatures = [
+          // Get system data from course-utils
+          const systemData = courseUtils.getSystemData('engine_room');
+          systemTitle = systemData?.title || 'Engine Room';
+          systemDescription = systemData?.description || 'Our streamlined content production system that turns raw footage into professional-quality videos.';
+          systemFeatures = systemData?.features || [
             'AI-powered video transcription',
             'Content optimization suggestions',
             'Automated editing workflows',
@@ -846,10 +848,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           illustrationContainer.appendChild(engineIllustration);
           
         } else if (displayKey === 'system-viral') {
-          // Set modal information
-          systemTitle = 'Video OS';
-          systemDescription = 'A powerful editing system with specialized templates and editing presets for high-conversion videos.';
-          systemFeatures = [
+          // Get system data from course-utils
+          const systemData = courseUtils.getSystemData('viral_os');
+          systemTitle = systemData?.title || 'Video OS';
+          systemDescription = systemData?.description || 'A powerful editing system with specialized templates and editing presets for high-conversion videos.';
+          systemFeatures = systemData?.features || [
             'Custom transitions and effects library',
             'Proven hook templates for maximum retention',
             'Auto-captioning with style presets',
@@ -1323,9 +1326,13 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   
                   {/* Content */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
-                    <div className="text-white font-bold text-lg mb-2">NOTION SYSTEM</div>
+                    <div className="text-white font-bold text-lg mb-2">
+                      {courseUtils.getSystemData('notion_system')?.title?.toUpperCase() || "NOTION SYSTEM"}
+                    </div>
                     <div className="w-12 h-1 bg-white/30 rounded-full mb-4"></div>
-                    <div className="text-white/80 text-sm mb-3">Content Organization</div>
+                    <div className="text-white/80 text-sm mb-3">
+                      {courseUtils.getSystemData('notion_system')?.subtitle || "Content Organization"}
+                    </div>
                     
                     {/* Enhanced database representation with animation */}
                     <div className="w-full max-w-[80%] h-20 bg-white/10 rounded-lg p-2 flex flex-col justify-between system-notion-container relative">
@@ -1373,9 +1380,13 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   
                   {/* Content */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
-                    <div className="text-white font-bold text-lg mb-2">ENGINE ROOM</div>
+                    <div className="text-white font-bold text-lg mb-2">
+                      {courseUtils.getSystemData('engine_room')?.title?.toUpperCase() || "ENGINE ROOM"}
+                    </div>
                     <div className="w-12 h-1 bg-white/30 rounded-full mb-4"></div>
-                    <div className="text-white/80 text-sm mb-4">Content Production</div>
+                    <div className="text-white/80 text-sm mb-4">
+                      {courseUtils.getSystemData('engine_room')?.subtitle || "Content Production"}
+                    </div>
                     
                     {/* Enhanced conveyor belt with moving items */}
                     <div className="relative w-full max-w-[80%] system-engine-container">
@@ -1424,9 +1435,13 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   
                   {/* Content */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
-                    <div className="text-white font-bold text-lg mb-2">VIDEO OS</div>
+                    <div className="text-white font-bold text-lg mb-2">
+                      {courseUtils.getSystemData('viral_os')?.title?.toUpperCase() || "VIDEO OS"}
+                    </div>
                     <div className="w-12 h-1 bg-white/30 rounded-full mb-4"></div>
-                    <div className="text-white/80 text-sm mb-3">Editing Tools</div>
+                    <div className="text-white/80 text-sm mb-3">
+                      {courseUtils.getSystemData('viral_os')?.subtitle || "Editing Tools"}
+                    </div>
                     
                     {/* Enhanced timeline with playhead animation */}
                     <div className="w-full max-w-[80%] bg-black/20 h-16 rounded-lg p-2 relative system-video-container">
