@@ -203,9 +203,8 @@ const AnalysisBreakdown: React.FC<{
         We've analyzed your responses to find the implementation approach that best matches your needs
       </p>
       
-      {/* Removed score summary - internal use only */}
       
-      {/* Factor breakdown */}
+      {/* Factor breakdown - without showing the actual score */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="space-y-3">
           <h4 className="text-sm font-medium text-theme-primary mb-1">Team Structure</h4>
