@@ -4,7 +4,7 @@ import Marquee from "../../ui/marquee";
 // Create a ThumbnailItem component for the marquee
 const ThumbnailItem = ({ src, alt }: { src: string; alt: string }) => {
   return (
-    <div className="-mx-8 -my-5 overflow-hidden rounded-xl hover:scale-105 transition-transform duration-300 shadow-xl" style={{ transform: "scale(0.75)" }}>
+    <div className="-mx-8 -my-5 overflow-hidden rounded-xl hover:scale-105 transition-transform duration-300 shadow-theme-md" style={{ transform: "scale(0.75)" }}>
       <img 
         src={src} 
         alt={alt} 
@@ -52,13 +52,13 @@ const secondRowThumbnails = thumbnails.slice(13);
 
 export default function SocialProof() {
   return (
-    <Section className="w-full overflow-hidden bg-[#08141B] py-24 border-t border-[#154D59]/30 px-0">
+    <Section className="w-full overflow-hidden bg-theme-bg-secondary py-24 border-t border-theme-border px-0">
       <div className="mx-auto flex max-w-container flex-col items-center gap-4 text-center sm:gap-16">
         <div className="flex flex-col items-center gap-4 px-4 sm:gap-8">
-          <h2 className="max-w-[800px] text-3xl font-bold leading-tight sm:text-5xl sm:leading-tight bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
+          <h2 className="max-w-[800px] text-3xl font-bold leading-tight sm:text-5xl sm:leading-tight text-theme-gradient">
             Our Videos Get Millions of Views
           </h2>
-          <p className="text-md max-w-[700px] text-theme-on-primary/70 sm:text-xl">
+          <p className="text-md max-w-[700px] text-theme-secondary sm:text-xl">
             We've created content that's reached over 800M views across platforms. Here's a small sample of our work.
           </p>
         </div>
@@ -83,14 +83,23 @@ export default function SocialProof() {
             </Marquee>
           </div>
           
-          {/* Deep side vignettes that fade out thumbnails completely */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-[35%] z-10" 
-               style={{ background: 'linear-gradient(to right, #08141B 0%, #08141B 15%, rgba(8, 20, 27, 0.95) 30%, rgba(8, 20, 27, 0.8) 50%, rgba(8, 20, 27, 0.4) 70%, rgba(8, 20, 27, 0) 100%)' }}></div>
-          
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-[35%] z-10" 
-               style={{ background: 'linear-gradient(to left, #08141B 0%, #08141B 15%, rgba(8, 20, 27, 0.95) 30%, rgba(8, 20, 27, 0.8) 50%, rgba(8, 20, 27, 0.4) 70%, rgba(8, 20, 27, 0) 100%)' }}></div>
+          {/* Deep side vignettes that fade out thumbnails completely using theme-aware colors */}
+          <div 
+            className="pointer-events-none absolute inset-y-0 left-0 w-[35%] z-10" 
+            style={{ 
+              background: `linear-gradient(to right, var(--theme-bg-secondary) 0%, var(--theme-bg-secondary) 15%, rgba(var(--theme-bg-secondary-rgb, 8, 20, 27), 0.95) 30%, rgba(var(--theme-bg-secondary-rgb, 8, 20, 27), 0.8) 50%, rgba(var(--theme-bg-secondary-rgb, 8, 20, 27), 0.4) 70%, rgba(var(--theme-bg-secondary-rgb, 8, 20, 27), 0) 100%)` 
+            }}
+          ></div>
+          <div 
+            className="pointer-events-none absolute inset-y-0 right-0 w-[35%] z-10" 
+            style={{ 
+              background: `linear-gradient(to left, var(--theme-bg-secondary) 0%, var(--theme-bg-secondary) 15%, rgba(var(--theme-bg-secondary-rgb, 8, 20, 27), 0.95) 30%, rgba(var(--theme-bg-secondary-rgb, 8, 20, 27), 0.8) 50%, rgba(var(--theme-bg-secondary-rgb, 8, 20, 27), 0.4) 70%, rgba(var(--theme-bg-secondary-rgb, 8, 20, 27), 0) 100%)` 
+            }}
+          ></div>
         </div>
       </div>
+
+      {/* Using inline styles for the vignettes */}
     </Section>
   );
 }
