@@ -28,7 +28,7 @@ import { Link } from 'react-router-dom';
 import { AnimatedButton } from './components/marble-buttons/AnimatedButton';
 import { CourseViewer } from './components/sections/course-viewer';
 import VSQualificationModal from './Qualification_components/qualification-modal';
-import TeamSection from './components/sections/TeamSection'
+import MeetTheTeam from './components/sections/TeamSection'
 
 // Import VS helper components for correct light/dark mode implementation
 import { VSText, VSHeading, VSGradientText } from './components/ui/vs-text';
@@ -753,7 +753,7 @@ const VerticalShortcutLanding = () => {
           {/* Use VSCarousel component */}
           <VSCarousel />
           
-          <TeamSection />
+          <MeetTheTeam />
           
           {/* Use Cases Section with Tabs */}
           <TabsLeft />
