@@ -453,7 +453,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   };
   
   return (
-    <>
+    <div>
       {/* CSS for tooltips */}
       <style>{`
         .tooltip-trigger:hover .tooltip-content {
@@ -466,121 +466,122 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         className="w-full max-w-[900px] h-full min-h-[600px] max-h-[800px] p-6 relative overflow-visible flex items-center justify-center"
         onClick={handleModuleClick}
       >
-      {/* Theme-aware floating elements for background decoration */}
-      <div className="absolute -z-10 top-[5%] left-[8%] w-[20%] h-[20%] max-w-[100px] max-h-[100px] rounded-[40%] rotate-12 
-           opacity-[var(--theme-float-opacity)] 
-           bg-[var(--theme-float-bg-primary)]
-           animate-float-slow"></div>
-           
-      <div className="absolute -z-10 bottom-[10%] right-[5%] w-[22%] h-[22%] max-w-[120px] max-h-[120px] rounded-[30%] -rotate-6 
-           opacity-[var(--theme-float-opacity-secondary)] 
-           bg-[var(--theme-float-bg-secondary)]
-           animate-float-medium"></div>
-      
-      {/* Grid pattern background */}
-      <div className="absolute inset-0 -z-20 opacity-[0.15] grid-bg"></div>
-      
-      {/* Main HUD Layout */}
-      <div 
-        className="w-full h-full relative"
-        style={{
-          '--normal-square-width': `${normalSquareWidth}px`,
-          '--square-gap-x': `${squareGapX}px`,
-          '--square-gap-y': `${squareGapY}px`,
-        } as React.CSSProperties}
-      >
-        {/* 
-          For tablet and mobile breakpoints, the layout rotates 90 degrees as per spec:
-          "For tablet and mobile breakpoints this should be having the layout rotate 90 degrees 
-          – although to avoid rotation complications, this would be better expressed through 
-          flex direction changes (the outer l-r row becomes a t-b column && the tinner t-b column 
-          becomes a l-r row)" 
-        */}
-        <div className="flex flex-col md:flex-row h-max items-center justify-center content-center md:items-center gap-[var(--square-gap-y)] md:gap-[var(--square-gap-x)]">
-          {/* First big square (Basic Theory) */}
-          <BigSquare 
-            section={mainSections[0]} 
-            isSelected={selectedSection === mainSections[0].id}
-            ref={(el) => { 
-              if (el) sectionRefs.current[mainSections[0].id] = el;
-              return undefined;
-            }}
-          />
-          
-          {/* First column of squares (3 Upskillers) */}
-          <SquareColumn 
-            squares={column1}
-            selectedSection={selectedSection}
-            sectionRefs={sectionRefs}
-          />
-          
-          {/* Second column of squares (PR/Authority & Delegation) */}
-          <SquareColumn 
-            squares={column2}
-            selectedSection={selectedSection}
-            sectionRefs={sectionRefs}
-          />
-          
-          {/* Second big square (Advanced Theory) */}
-          <BigSquare 
-            section={mainSections[6]} 
-            isSelected={selectedSection === mainSections[6].id}
-            ref={(el) => { 
-              if (el) sectionRefs.current[mainSections[6].id] = el;
-              return undefined;
-            }}
-          />
-          
-          {/* Third column of squares (Business Scaling) */}
-          <SquareColumn 
-            squares={column3}
-            selectedSection={selectedSection}
-            sectionRefs={sectionRefs}
-          />
-          
-          {/* System big square (Final special square) - Special design to connote the 3 parts of product/turn key system */}
-          <div 
-            ref={(el) => { 
-              if (el) sectionRefs.current[mainSections[10].id + '-' + mainSections[10].displayKey] = el;
-              return undefined;
-            }}
-            data-id={mainSections[10].id}
-            data-display-key={mainSections[10].displayKey}
-            className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
-            style={{ backgroundColor: mainSections[10].color }}
-          >
-            {/* Tooltip for section name */}
-            <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
-              {mainSections[10].name}
-              <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
+        {/* Theme-aware floating elements for background decoration */}
+        <div className="absolute -z-10 top-[5%] left-[8%] w-[20%] h-[20%] max-w-[100px] max-h-[100px] rounded-[40%] rotate-12 
+             opacity-[var(--theme-float-opacity)] 
+             bg-[var(--theme-float-bg-primary)]
+             animate-float-slow"></div>
+             
+        <div className="absolute -z-10 bottom-[10%] right-[5%] w-[22%] h-[22%] max-w-[120px] max-h-[120px] rounded-[30%] -rotate-6 
+             opacity-[var(--theme-float-opacity-secondary)] 
+             bg-[var(--theme-float-bg-secondary)]
+             animate-float-medium"></div>
+        
+        {/* Grid pattern background */}
+        <div className="absolute inset-0 -z-20 opacity-[0.15] grid-bg"></div>
+        
+        {/* Main HUD Layout */}
+        <div 
+          className="w-full h-full relative"
+          style={{
+            '--normal-square-width': `${normalSquareWidth}px`,
+            '--square-gap-x': `${squareGapX}px`,
+            '--square-gap-y': `${squareGapY}px`,
+          } as React.CSSProperties}
+        >
+          {/* 
+            For tablet and mobile breakpoints, the layout rotates 90 degrees as per spec:
+            "For tablet and mobile breakpoints this should be having the layout rotate 90 degrees 
+            – although to avoid rotation complications, this would be better expressed through 
+            flex direction changes (the outer l-r row becomes a t-b column && the tinner t-b column 
+            becomes a l-r row)" 
+          */}
+          <div className="flex flex-col md:flex-row h-max items-center justify-center content-center md:items-center gap-[var(--square-gap-y)] md:gap-[var(--square-gap-x)]">
+            {/* First big square (Basic Theory) */}
+            <BigSquare 
+              section={mainSections[0]} 
+              isSelected={selectedSection === mainSections[0].id}
+              ref={(el) => { 
+                if (el) sectionRefs.current[mainSections[0].id] = el;
+                return undefined;
+              }}
+            />
+            
+            {/* First column of squares (3 Upskillers) */}
+            <SquareColumn 
+              squares={column1}
+              selectedSection={selectedSection}
+              sectionRefs={sectionRefs}
+            />
+            
+            {/* Second column of squares (PR/Authority & Delegation) */}
+            <SquareColumn 
+              squares={column2}
+              selectedSection={selectedSection}
+              sectionRefs={sectionRefs}
+            />
+            
+            {/* Second big square (Advanced Theory) */}
+            <BigSquare 
+              section={mainSections[6]} 
+              isSelected={selectedSection === mainSections[6].id}
+              ref={(el) => { 
+                if (el) sectionRefs.current[mainSections[6].id] = el;
+                return undefined;
+              }}
+            />
+            
+            {/* Third column of squares (Business Scaling) */}
+            <SquareColumn 
+              squares={column3}
+              selectedSection={selectedSection}
+              sectionRefs={sectionRefs}
+            />
+            
+            {/* System big square (Final special square) - Special design to connote the 3 parts of product/turn key system */}
+            <div 
+              ref={(el) => { 
+                if (el) sectionRefs.current[mainSections[10].id + '-' + mainSections[10].displayKey] = el;
+                return undefined;
+              }}
+              data-id={mainSections[10].id}
+              data-display-key={mainSections[10].displayKey}
+              className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
+              style={{ backgroundColor: mainSections[10].color }}
+            >
+              {/* Tooltip for section name */}
+              <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
+                {mainSections[10].name}
+                <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
+              </div>
+              
+              {/* Three parts/subsections to represent the turn key system */}
+              {/* Subtle sections to indicate products/systems */}
+              <div className="absolute top-0 left-0 w-full h-1/3 bg-[var(--theme-float-bg-primary)] opacity-10"></div>
+              <div className="absolute top-1/3 left-0 w-full h-1/3 bg-[var(--theme-float-bg-secondary)] opacity-15"></div>
+              <div className="absolute top-2/3 left-0 w-full h-1/3 bg-[var(--theme-float-bg-tertiary)] opacity-10"></div>
+              
+              {/* Decorative elements to suggest a system */}
+              <div className="absolute inset-4 border-2 border-dashed border-white/10 rounded-lg pointer-events-none"></div>
+              
+              {/* Featured indicator */}
+              {mainSections[10].featured && (
+                <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
+              )}
             </div>
-            
-            {/* Three parts/subsections to represent the turn key system */}
-            {/* Subtle sections to indicate products/systems */}
-            <div className="absolute top-0 left-0 w-full h-1/3 bg-[var(--theme-float-bg-primary)] opacity-10"></div>
-            <div className="absolute top-1/3 left-0 w-full h-1/3 bg-[var(--theme-float-bg-secondary)] opacity-15"></div>
-            <div className="absolute top-2/3 left-0 w-full h-1/3 bg-[var(--theme-float-bg-tertiary)] opacity-10"></div>
-            
-            {/* Decorative elements to suggest a system */}
-            <div className="absolute inset-4 border-2 border-dashed border-white/10 rounded-lg pointer-events-none"></div>
-            
-            {/* Featured indicator */}
-            {mainSections[10].featured && (
-              <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
-            )}
           </div>
         </div>
+        
+        {/* Theme-aware floating elements for visual interest */}
+        <div className="absolute -z-10 top-20 left-[15%] w-32 h-32 rounded-[40%] rotate-12 
+             opacity-[var(--theme-float-opacity)] 
+             bg-[var(--theme-float-bg-primary)]
+             animate-float-slow"></div>
+        <div className="absolute -z-10 bottom-20 right-[15%] w-36 h-36 rounded-[35%] -rotate-6 
+             opacity-[var(--theme-float-opacity-secondary)] 
+             bg-[var(--theme-float-bg-secondary)]
+             animate-float-medium"></div>
       </div>
-      
-      {/* Theme-aware floating elements for visual interest */}
-      <div className="absolute -z-10 top-20 left-[15%] w-32 h-32 rounded-[40%] rotate-12 
-           opacity-[var(--theme-float-opacity)] 
-           bg-[var(--theme-float-bg-primary)]
-           animate-float-slow"></div>
-      <div className="absolute -z-10 bottom-20 right-[15%] w-36 h-36 rounded-[35%] -rotate-6 
-           opacity-[var(--theme-float-opacity-secondary)] 
-           bg-[var(--theme-float-bg-secondary)]
-           animate-float-medium"></div>
       
       {/* Module modal using VSSubmoduleModal */}
       {selectedModuleId && (
@@ -599,6 +600,6 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           thumbnailUrl={selectedModuleId ? courseUtils.getThumbnailPath(courseUtils.getModuleThumbnail(selectedModuleId)) : ""}
         />
       )}
-    </>
+    </div>
   );
 };
