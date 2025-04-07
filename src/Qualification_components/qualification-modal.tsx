@@ -1723,22 +1723,17 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {stage === 'contact' && (
             <div className="space-y-4">
               {/* Stage illustration */}
-              <div className="flex justify-center mb-4">
-                <div className="w-16 h-16 rounded-full bg-theme-primary/10 flex items-center justify-center">
+              <div className="flex justify-center mb-3">
+                <div className="w-16 h-16 rounded-full bg-theme-gradient/10 flex items-center justify-center">
                   <Mail size={32} className="text-theme-primary" />
                 </div>
               </div>
               
-              <div className="bg-theme-primary/5 p-4 rounded-lg mb-4">
-                <div className="flex items-start gap-3">
-                  <Info className="h-5 w-5 text-theme-primary shrink-0 mt-1" />
-                  <div>
-                    <h3 className="font-medium text-theme-primary mb-1">Almost there!</h3>
-                    <p className="text-theme-secondary text-sm">
-                      We're ready to craft your personalized strategy. Where should we send it?
-                    </p>
-                  </div>
-                </div>
+              <div className="bg-theme-bg-surface rounded-lg p-3 mb-3 border border-theme-border-light">
+                <h3 className="text-theme-primary font-medium text-center mb-1">Just One More Step</h3>
+                <p className="text-theme-secondary text-center text-sm">
+                  We'll create your personalized implementation strategy and send it directly to you
+                </p>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
@@ -2017,15 +2012,18 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {stage === 'timeline' && (
             <div className="space-y-4">
               {/* Stage illustration */}
-              <div className="flex justify-center mb-4">
-                <div className="w-16 h-16 rounded-full bg-theme-primary/10 flex items-center justify-center">
+              <div className="flex justify-center mb-3">
+                <div className="w-16 h-16 rounded-full bg-theme-gradient/10 flex items-center justify-center">
                   <Clock size={32} className="text-theme-primary" />
                 </div>
               </div>
               
-              <p className="text-theme-secondary mb-4 text-center">
-                When are you looking to see results? We'll adjust our approach to match your timeline.
-              </p>
+              <div className="bg-theme-bg-surface rounded-lg p-3 mb-3 border border-theme-border-light">
+                <h3 className="text-theme-primary font-medium text-center mb-1">Your Growth Timeline</h3>
+                <p className="text-theme-secondary text-center text-sm">
+                  When do you want to see results? We'll adjust our approach to match your goals.
+                </p>
+              </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button
@@ -2033,17 +2031,17 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   data-value="immediate"
                   className={`timeline-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.timeline === 'immediate' || selectedChoice === 'immediate'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'immediate' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Ready Now</h3>
+                    <h3 className="text-theme-primary font-medium">ASAP Growth</h3>
                     {answers.timeline === 'immediate' && (
                       <CheckCircle className="h-5 w-5 text-theme-primary" />
                     )}
                   </div>
-                  <p className="text-theme-secondary text-sm">I want to implement and see results ASAP</p>
+                  <p className="text-theme-secondary text-sm">I need results immediately, ready to implement now</p>
                 </button>
                 
                 <button
@@ -2051,17 +2049,17 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   data-value="next_quarter"
                   className={`timeline-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.timeline === 'next_quarter' || selectedChoice === 'next_quarter'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'next_quarter' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Next Quarter</h3>
+                    <h3 className="text-theme-primary font-medium">Next 90 Days</h3>
                     {answers.timeline === 'next_quarter' && (
                       <CheckCircle className="h-5 w-5 text-theme-primary" />
                     )}
                   </div>
-                  <p className="text-theme-secondary text-sm">Planning for implementation in 1-3 months</p>
+                  <p className="text-theme-secondary text-sm">Planning for implementation within 1-3 months</p>
                 </button>
                 
                 <button
@@ -2069,7 +2067,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   data-value="exploratory"
                   className={`timeline-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.timeline === 'exploratory' || selectedChoice === 'exploratory'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'exploratory' ? 'pointer-events-none' : ''}`}
                 >
@@ -2079,7 +2077,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                       <CheckCircle className="h-5 w-5 text-theme-primary" />
                     )}
                   </div>
-                  <p className="text-theme-secondary text-sm">Mapping out our approach for later this year</p>
+                  <p className="text-theme-secondary text-sm">Building roadmap for implementation later this year</p>
                 </button>
                 
                 <button
@@ -2087,17 +2085,17 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   data-value="flexible"
                   className={`timeline-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.timeline === 'flexible' || selectedChoice === 'flexible'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'flexible' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Timeline Flexible</h3>
+                    <h3 className="text-theme-primary font-medium">Quality First</h3>
                     {answers.timeline === 'flexible' && (
                       <CheckCircle className="h-5 w-5 text-theme-primary" />
                     )}
                   </div>
-                  <p className="text-theme-secondary text-sm">I'm more concerned with getting it right than speed</p>
+                  <p className="text-theme-secondary text-sm">Focused on getting perfect results over quick timeline</p>
                 </button>
               </div>
             </div>
@@ -2107,15 +2105,18 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {stage === 'contentVolume' && (
             <div className="space-y-4">
               {/* Stage illustration */}
-              <div className="flex justify-center mb-4">
-                <div className="w-16 h-16 rounded-full bg-theme-primary/10 flex items-center justify-center">
+              <div className="flex justify-center mb-3">
+                <div className="w-16 h-16 rounded-full bg-theme-gradient/10 flex items-center justify-center">
                   <BarChart4 size={32} className="text-theme-primary" />
                 </div>
               </div>
               
-              <p className="text-theme-secondary mb-4 text-center">
-                What kind of content output are you aiming for? This helps us design the right production framework.
-              </p>
+              <div className="bg-theme-bg-surface rounded-lg p-3 mb-3 border border-theme-border-light">
+                <h3 className="text-theme-primary font-medium text-center mb-1">Your Content Vision</h3>
+                <p className="text-theme-secondary text-center text-sm">
+                  What volume and approach fits your growth goals? We'll design your ideal framework.
+                </p>
+              </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button
@@ -2123,17 +2124,17 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   data-value="low"
                   className={`contentVolume-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.contentVolume === 'low' || selectedChoice === 'low'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'low' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Focused Impact</h3>
+                    <h3 className="text-theme-primary font-medium">High-Impact Focus</h3>
                     {answers.contentVolume === 'low' && (
                       <CheckCircle className="h-5 w-5 text-theme-primary" />
                     )}
                   </div>
-                  <p className="text-theme-secondary text-sm">A few high-impact pieces that drive real results</p>
+                  <p className="text-theme-secondary text-sm">Strategic pieces that maximize ROI and conversions</p>
                 </button>
                 
                 <button
@@ -2141,17 +2142,17 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   data-value="medium"
                   className={`contentVolume-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.contentVolume === 'medium' || selectedChoice === 'medium'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'medium' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Consistent Presence</h3>
+                    <h3 className="text-theme-primary font-medium">Consistent Growth</h3>
                     {answers.contentVolume === 'medium' && (
                       <CheckCircle className="h-5 w-5 text-theme-primary" />
                     )}
                   </div>
-                  <p className="text-theme-secondary text-sm">Regular content across key channels (10-30 pieces monthly)</p>
+                  <p className="text-theme-secondary text-sm">Regular content system (10-30 pieces monthly)</p>
                 </button>
                 
                 <button
@@ -2159,17 +2160,17 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   data-value="high"
                   className={`contentVolume-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.contentVolume === 'high' || selectedChoice === 'high'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'high' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Content Engine</h3>
+                    <h3 className="text-theme-primary font-medium">Full-Scale Engine</h3>
                     {answers.contentVolume === 'high' && (
                       <CheckCircle className="h-5 w-5 text-theme-primary" />
                     )}
                   </div>
-                  <p className="text-theme-secondary text-sm">Scaling content across multiple platforms and formats</p>
+                  <p className="text-theme-secondary text-sm">Comprehensive system across multiple platforms</p>
                 </button>
                 
                 <button
@@ -2177,17 +2178,17 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   data-value="undecided"
                   className={`contentVolume-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.contentVolume === 'undecided' || selectedChoice === 'undecided'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'undecided' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Strategy First</h3>
+                    <h3 className="text-theme-primary font-medium">Strategic Guidance</h3>
                     {answers.contentVolume === 'undecided' && (
                       <CheckCircle className="h-5 w-5 text-theme-primary" />
                     )}
                   </div>
-                  <p className="text-theme-secondary text-sm">I need help determining the right volume for my goals</p>
+                  <p className="text-theme-secondary text-sm">Help me determine the optimal approach for my goals</p>
                 </button>
               </div>
             </div>
