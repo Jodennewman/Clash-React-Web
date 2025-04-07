@@ -604,6 +604,38 @@ const VerticalShortcutLanding = () => {
           {/* Interactive Features Section */}
           <VSInteractiveFeatures />
 
+          {/* Course Introduction Section */}
+          <VSSection 
+            lightBg="bg-gradient-to-br from-[var(--theme-bg-primary)] to-[var(--theme-bg-secondary)]"
+            darkBg="dark:bg-gradient-to-br dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]"
+            className="py-24 relative overflow-hidden"
+          >
+            <div className="container mx-auto px-4">
+              <div className="text-center max-w-4xl mx-auto">
+                <VSHeading 
+                  variant="h2" 
+                  color="white" 
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8"
+                >
+                  Is making actually good short form content really that complex?
+                </VSHeading>
+                
+                <VSText color="white" className="text-xl md:text-2xl dark:text-white/80 mb-10">
+                  Well yes and no. It's simple, but there's a lot to it.
+                </VSText>
+                
+                <VSGradientText
+                  variant="h3"
+                  fromColor="--primary-orange"
+                  toColor="--accent-coral"
+                  className="text-2xl md:text-3xl font-bold mb-12"
+                >
+                  The Course Curriculum
+                </VSGradientText>
+              </div>
+            </div>
+          </VSSection>
+
           <CourseViewer />
           
           {/* Bento Grid Section - Managed by the VSBentoGrid component */}
