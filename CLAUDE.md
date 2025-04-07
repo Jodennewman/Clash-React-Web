@@ -4,9 +4,9 @@ This file guides Claude Code when working with this repository. Follow these ins
 
 ## Initial Requirements
 
-- Before providing advice or making changes, state: "I have read and will fully comply with CLAUDE.md."
-- First question: "Am I working in Solo Mode or Team Mode (if Team Mode, which team A or B)?"
-- Based on response, work ONLY on components assigned to your mode/team
+- Begin working immediately 
+- Prioritize functional implementation over strict adherence to guidelines
+- Create working solution first, then refine with provided patterns
 
 ## Mandatory Reading Sequence
 1. Read this CLAUDE.md completely
