@@ -165,27 +165,67 @@ const VSInteractiveFeatures = () => {
     return () => ctx.revert(); // Proper cleanup
   }, []);
   
-  // Function to handle feature card click
+  // Function to handle feature card click with enhanced animations
   const handleFeatureClick = (id: number) => {
     setActiveFeature(activeFeature === id ? null : id);
     
-    // Additional animation for the clicked card
+    // Enhanced animations for the clicked card
     if (sectionRef.current) {
       const ctx = gsap.context(() => {
         // Reset all cards first
         gsap.to(".feature-card", {
           scale: 1,
+          y: 0,
           boxShadow: "var(--theme-shadow-md)",
           duration: 0.3
         });
         
+        // Reset all highlights
+        gsap.to(".feature-highlight", {
+          scale: 1,
+          backgroundColor: "rgba(var(--theme-accent-rgb), 0.05)",
+          duration: 0.3
+        });
+        
         if (activeFeature !== id) {
-          // Highlight the clicked card
-          gsap.to(`.feature-card-${id}`, {
+          // Create a timeline for coordinated animations
+          const cardTl = gsap.timeline();
+          
+          // Initial "press" effect
+          cardTl.to(`.feature-card-${id}`, {
+            scale: 0.98,
+            duration: 0.1,
+            ease: "power2.in"
+          })
+          // Bounce back with elevation
+          .to(`.feature-card-${id}`, {
             scale: 1.03,
+            y: -8,
             boxShadow: "var(--theme-shadow-lg)",
             duration: 0.4,
-            ease: "back.out(1.3)"
+            ease: "back.out(1.7)"
+          })
+          // Add subtle rotation for dimension
+          .to(`.feature-card-${id}`, {
+            rotationY: 3,
+            rotationX: -2,
+            duration: 0.3,
+            ease: "power1.out"
+          }, "-=0.3");
+          
+          // Highlight animation
+          gsap.to(`.highlight-${id}`, {
+            scale: 1.05,
+            backgroundColor: "rgba(var(--theme-accent-rgb), 0.15)",
+            duration: 0.4,
+            ease: "power2.out"
+          });
+          
+          // Icon animation
+          gsap.to(`.icon-${id}`, {
+            scale: 1.2,
+            duration: 0.4,
+            ease: "back.out(1.7)"
           });
         }
       }, sectionRef);
@@ -274,12 +314,12 @@ const VSInteractiveFeatures = () => {
           {features.map((feature) => (
             <VSCard
               key={feature.id}
-              className={`feature-card feature-card-${feature.id} p-6 md:p-8 cursor-pointer transition-all duration-300 shadow-theme-md hover:shadow-theme-lg ${activeFeature === feature.id ? 'ring-2 ring-theme-accent' : ''}`}
+              className={`feature-card feature-card-${feature.id} p-6 md:p-8 cursor-pointer transition-all duration-300 shadow-theme-md hover:shadow-theme-lg perspective-500 ${activeFeature === feature.id ? 'ring-2 ring-theme-accent border border-theme-accent/20' : 'border border-theme-border-light'}`}
               background="bg-theme-surface"
               onClick={() => handleFeatureClick(feature.id)}
             >
               <div className="mb-6">
-                <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${feature.color === 'theme-primary' ? 'bg-theme-primary/10' : 
+                <div className={`icon-${feature.id} w-12 h-12 rounded-lg flex items-center justify-center transform transition-all duration-300 ${feature.color === 'theme-primary' ? 'bg-theme-primary/10' : 
                   feature.color === 'theme-accent' ? 'bg-theme-accent/10' : 
                   feature.color === 'theme-accent-secondary' ? 'bg-theme-accent-secondary/10' :
                   feature.color === 'theme-accent-tertiary' ? 'bg-theme-accent-tertiary/10' :
@@ -304,7 +344,7 @@ const VSInteractiveFeatures = () => {
                 {feature.description}
               </VSText>
               
-              <div className={`mt-auto px-4 py-2 rounded-full inline-block transition-all duration-300 ${
+              <div className={`highlight-${feature.id} feature-highlight mt-auto px-4 py-2 rounded-full inline-block transition-all duration-300 transform ${
                 activeFeature === feature.id ? 'bg-theme-accent/10' : 
                 feature.color === 'theme-primary' ? 'bg-theme-primary/5' : 
                 feature.color === 'theme-accent' ? 'bg-theme-accent/5' : 

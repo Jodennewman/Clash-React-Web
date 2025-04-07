@@ -3,7 +3,7 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CheckCircle, ArrowRightCircle } from 'lucide-react';
-import VSLogo from '../../components/logos/Hero/vs-hero-logo.tsx';
+import AnimatedLogo from '../../components/logos/AnimatedLogo';
 import { VSText, VSHeading, VSGradientText } from '../ui/vs-text';
 import { VSBackground, VSCard, VSSection } from '../ui/vs-background';
 
@@ -192,10 +192,10 @@ const VSBigReveal = () => {
                      animate-float-fast"></div>
       
       <div className="container mx-auto px-4 relative z-10">
-        {/* VS Logo with spotlight effect */}
+        {/* VS Logo with animation */}
         <div ref={logoRef} className="vs-logo-wrapper flex justify-center mb-12">
-          <div className="relative scale-[1.8]">
-            <VSLogo />
+          <div className="relative w-[200px] max-w-full mx-auto">
+            <AnimatedLogo onAnimationComplete={() => console.log('Logo animation complete')} />
             <div className="absolute inset-0 -z-10 blur-xl">
               <div className="w-full h-full rounded-full bg-theme-radial-glow"></div>
             </div>
@@ -252,9 +252,9 @@ const VSBigReveal = () => {
           <div className="program-details">
             <VSCard
               background="bg-theme-surface"
-              className="p-8 overflow-hidden"
+              className="p-8 rounded-xl shadow-theme-md border border-theme-border-light overflow-hidden transform transition-all duration-300 hover:shadow-theme-lg hover:translate-y-[-4px]"
             >
-              <VSHeading variant="h3" color="theme-primary" className="text-2xl mb-6">
+              <VSHeading variant="h3" color="theme-primary" className="text-2xl font-bold mb-6">
                 Program Details
               </VSHeading>
               
@@ -265,9 +265,11 @@ const VSBigReveal = () => {
                       {detail.label}
                     </VSText>
                     {detail.highlight ? (
-                      <VSText color="theme-accent" className="text-lg font-bold">
-                        {detail.value}
-                      </VSText>
+                      <div className="px-3 py-1 rounded-full bg-theme-accent/10">
+                        <VSText color="theme-accent" className="text-lg font-bold">
+                          {detail.value}
+                        </VSText>
+                      </div>
                     ) : (
                       <VSText color="theme-primary" className="text-lg font-bold">
                         {detail.value}
@@ -278,7 +280,7 @@ const VSBigReveal = () => {
               </div>
               
               <div className="cta-button">
-                <button className="bg-theme-gradient-primary text-white w-full py-4 rounded-lg flex items-center justify-center gap-2 transition-all duration-300 hover-bubbly shadow-theme-md hover:shadow-theme-lg">
+                <button className="bg-theme-gradient-primary text-white w-full py-4 rounded-lg flex items-center justify-center gap-2 font-medium shadow-theme-md hover-bubbly">
                   <span className="font-bold">Get your Plan</span>
                   <ArrowRightCircle className="h-5 w-5" />
                 </button>
