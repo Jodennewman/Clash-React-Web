@@ -402,17 +402,18 @@ useGSAP(() => {
 ## Most Important Rule
 After stating your plan, NEVER deviate from it without permission. It's better to do nothing than to implement something contrary to your stated plan.
 
-## Fullscreen Window-Based Team Section Implementation Plan
+## Slither-Based Team Section Implementation Plan
 
-The TeamSection needs to be completely refactored to create a viewport-splitting window design where each team member occupies a quarter of the screen, expanding to full screen on interaction.
+The TeamSection needs to be completely refactored to create a side-by-side layout where each team member occupies a narrow "slither" that expands to reveal the full content when interacted with.
 
 ### Key Design Requirements:
-- Create a 4-way split of the entire viewport (2x2 grid to the edges of the screen)
-- Each quarter functions as a "window" into a team member's full content
-- When hovered/clicked, the quarter expands to fill the entire viewport
-- Create an immersive, full-screen experience for each team member
+- Create a row of 4 team member sections, each initially showing just a small slice ("slither")
+- Each section contains the full content for a team member but is initially cropped
+- When hovered/moused over, a section expands horizontally to reveal its full content
+- The expanded section should take 70% of the width, pushing other sections to narrow slithers
+- Names appear vertically in slither state, and horizontally when expanded
 - Use theme-aware styling with utility classes from globals.css
-- Implement smooth transitions between states
+- Implement smooth, spring-like transitions between states
 
 ### Implementation Checklist
 
@@ -421,25 +422,25 @@ The TeamSection needs to be completely refactored to create a viewport-splitting
    - [x] Rename TeamSection-shed.tsx to TeamSection.tsx 
    - [x] Update import in VerticalShortcutLanding.tsx
    - [x] Remove references to TeamSectionShed component
-   - [x] Revert changes to create the correct fullscreen window implementation
+   - [x] Create new implementation with side-by-side slithers
    
-2. **Full-Viewport Splitting Design**
-   - [x] Create a fixed-position container that covers the entire viewport
-   - [x] Split the container into four equal sections (quarters)
-   - [x] Position each team member preview in their respective quarter
-   - [x] Ensure quarters extend to the very edges of the viewport
+2. **Horizontal Slither Layout**
+   - [x] Create a flex container that spans the full width
+   - [x] Create 4 side-by-side sections, each initially a narrow slither
+   - [x] Implement dynamic width calculation for expanded/collapsed states
+   - [x] Ensure proper spacing and layout for all sections
    
-3. **Window Preview Implementation**
-   - [x] Design "window" views that show a preview of each team member
-   - [x] Show limited content (name, image, title) in window state
-   - [x] Add visual cues to indicate interactivity (hover states)
-   - [x] Create proper framing/borders to make it feel like looking through windows
+3. **Slither-to-Full Content View**
+   - [x] Design vertical name display for collapsed slither state
+   - [x] Show only minimal content in slither state
+   - [x] Add visual cues to indicate interactivity
+   - [x] Create smooth transition from vertical to horizontal text
    
-4. **Full-Screen Expansion System**
-   - [x] Implement state management for tracking expanded section
-   - [x] Create smooth animations for quarter-to-fullscreen transitions
-   - [x] Design full-screen layout for expanded team member view
-   - [x] Add close/back functionality to return to the 4-way split view
+4. **Content Expansion System**
+   - [x] Implement state management for tracking active section
+   - [x] Create smooth animations for width transitions
+   - [x] Design expanded layout to show full team member content
+   - [x] Show/hide appropriate content based on section state
    
 5. **Theme-Aware Styling Implementation**
    - [x] Use bg-theme-gradient for backgrounds instead of direct gradients
@@ -448,38 +449,40 @@ The TeamSection needs to be completely refactored to create a viewport-splitting
    - [x] Add theme-aware floating elements and borders
 
 6. **Animation and Transition Development**
-   - [x] Create GSAP animations for smooth scaling/expansion
-   - [x] Implement staggered content reveal in expanded state
-   - [x] Add subtle parallax effects during transitions
-   - [x] Ensure smooth, natural-feeling motion between states
+   - [x] Create animations for smooth width changes
+   - [x] Implement proper content reveal/hide during transitions
+   - [x] Add subtle hover effects for slither states
+   - [x] Ensure smooth, spring-like motion between states
    
 7. **Responsive Layout Implementation**
-   - [x] Adapt to 2x2 grid on desktop and tablet landscape
+   - [x] Create horizontal row layout on desktop and tablet landscape
    - [x] Convert to vertical stack (1 column, 4 rows) on mobile/portrait
-   - [x] Optimize transitions for touch interactions
-   - [x] Ensure proper viewport handling across devices
+   - [x] Optimize touch interactions for mobile devices
+   - [x] Ensure proper handling across all device sizes
 
 8. **Final Refinement and Testing**
-   - [x] Verify smooth transitions between window and full-screen states
+   - [x] Verify smooth transitions between slither and expanded states
    - [x] Test in both light and dark themes
-   - [x] Ensure accessibility for keyboard navigation
+   - [x] Ensure all content is properly displayed/hidden during transitions
    - [x] Optimize performance for slower devices
 
 ### Conceptual Description
 
-The redesigned TeamSection will create an immersive, innovative viewing experience:
+The redesigned TeamSection creates a unique, interactive viewing experience:
 
-1. **Initial View**: Users see four "windows" occupying the entire viewport, each showing a preview of a team member.
+1. **Initial View**: Users see four vertical "slithers" side by side, each showing just a glimpse of a team member with their name displayed vertically.
 
-2. **Window Design**: Each window has partial opacity and framing, creating the effect of looking through a window into that team member's section.
+2. **Slither Design**: Each slither takes up 25% of the width when inactive, creating a balanced, visually intriguing layout that hints at more content.
 
-3. **Interaction**: When a user hovers over or clicks a window, it smoothly expands to fill the entire viewport, pushing other windows offscreen.
+3. **Interaction**: When a user hovers over a slither, it smoothly expands to take up 70% of the width, pushing other slithers to narrower widths.
 
-4. **Full-Screen Experience**: The expanded view shows the complete team member content with their bio, likes/dislikes, quote, and full imagery.
+4. **Expanded Experience**: The expanded section reveals the complete team member content - bio, likes/dislikes, quote, and imagery - while maintaining the context of other team members on the sides.
 
-5. **Return Navigation**: A subtle close button or click anywhere allows the user to return to the 4-window view.
+5. **Vertical-to-Horizontal**: Text orientation smoothly transitions from vertical in slither state to normal horizontal orientation in expanded state.
 
-This creates a much more immersive, spatial experience than traditional panel expansion, as if the user is physically moving between different team member spaces.
+6. **Auto-Collapse**: Moving the mouse away from all sections returns them to their equal-width state.
+
+This approach creates a fluid, interactive experience where users can easily explore team members while maintaining the spatial context of the entire team, rather than hiding other members completely.
 
 ## ModuleHUD Improvement Checklist
 
