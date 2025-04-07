@@ -254,33 +254,58 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     });
   }, []);
   
-  // Very simple animation for section expansion/collapse
+  // Track previous selection for smoother transitions
+  const [previousSection, setPreviousSection] = useState<string | null>(null);
+  
+  // Smoother animation for section expansion/collapse with sequenced transitions
   useEffect(() => {
-    // Clear any previous animations
-    gsap.killTweensOf(".section-module");
-    gsap.killTweensOf(".modules-container");
+    // Create a timeline for sequenced animations
+    const tl = gsap.timeline();
     
     // Clean up all modals and titles
     document.querySelectorAll('[id^="section-title-"]').forEach(el => el.remove());
     document.querySelectorAll('.modules-container').forEach(el => el.remove());
     
-    // If no section is selected, make sure all are at normal size
-    if (!selectedSection) {
-      mainSections.forEach(section => {
-        const sectionEl = sectionRefs.current[section.id];
-        if (!sectionEl) return;
+    // If we have a previous section that's different from current, animate it down first
+    if (previousSection && previousSection !== selectedSection) {
+      const prevSectionEl = sectionRefs.current[previousSection];
+      if (prevSectionEl) {
+        // Find previous section data
+        const prevSectionData = mainSections.find(s => 
+          s.id === previousSection || 
+          (s.id === previousSection.split('-')[0] && s.displayKey === previousSection.split('-')[1])
+        );
         
-        // Reset to normal size immediately
-        gsap.set(sectionEl, {
+        if (prevSectionData) {
+          // Scale down the previous section first
+          tl.to(prevSectionEl, {
+            width: prevSectionData.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
+            height: prevSectionData.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
+            duration: 0.25,
+            ease: "power2.inOut"
+          });
+        }
+      }
+    }
+    
+    // Set all sections to normal size
+    mainSections.forEach(section => {
+      const sectionEl = sectionRefs.current[section.id];
+      if (!sectionEl) return;
+      
+      // Only reset sections that aren't the currently selected one
+      if (!selectedSection || section.id !== selectedSection) {
+        tl.set(sectionEl, {
           width: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
           height: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
           scale: 1,
           clearProps: "transform,transformOrigin"
-        });
-      });
-    } 
-    // If a section is selected, expand it
-    else {
+        }, "<");
+      }
+    });
+    
+    // If a section is selected, expand it after previous collapses
+    if (selectedSection) {
       const sectionEl = sectionRefs.current[selectedSection];
       if (!sectionEl) return;
       
@@ -300,12 +325,17 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
       const normalWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--normal-square-width'));
       const expandedSize = normalWidth * Math.max(5, gridSize * 1.5);
       
-      // Simply expand the section directly - no animations to cause jumps
-      gsap.to(sectionEl, {
+      // Add slight delay before expanding if we had a previous selection
+      if (previousSection && previousSection !== selectedSection) {
+        tl.to({}, { duration: 0.05 }); // Small pause for better transition feel
+      }
+      
+      // Expand the selected section with a nice elastic effect
+      tl.to(sectionEl, {
         width: `${expandedSize}px`,
         height: `${expandedSize}px`,
-        duration: 0.3,
-        ease: "power2.out",
+        duration: 0.35,
+        ease: "back.out(1.1)",
         onComplete: () => {
           // Only create modules container if it doesn't already exist
           if (!sectionEl.querySelector('.modules-container')) {
@@ -317,7 +347,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
       // Create section title
       const sectionTitleEl = document.createElement('div');
       sectionTitleEl.id = `section-title-${selectedSection}`;
-      sectionTitleEl.className = 'section-title absolute -top-12 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-4 py-2 rounded-lg shadow-theme-md text-lg font-medium z-20 whitespace-nowrap';
+      sectionTitleEl.className = 'section-title absolute -top-12 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-4 py-2 rounded-lg shadow-theme-md text-lg font-medium z-20 whitespace-nowrap opacity-0';
       sectionTitleEl.innerHTML = sectionData.name;
       
       // Add arrow to title
@@ -328,22 +358,18 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
       // Add title to DOM
       sectionEl.parentNode?.insertBefore(sectionTitleEl, sectionEl);
       
-      // Set all other sections to normal size
-      mainSections.forEach(section => {
-        if (section.id !== selectedSection) {
-          const otherSectionEl = sectionRefs.current[section.id];
-          if (!otherSectionEl) return;
-          
-          // Reset to normal size immediately
-          gsap.set(otherSectionEl, {
-            width: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
-            height: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
-            scale: 1,
-            clearProps: "transform,transformOrigin"
-          });
-        }
-      });
+      // Fade in the section title after expansion
+      tl.to(sectionTitleEl, {
+        opacity: 1,
+        y: 0,
+        duration: 0.2,
+        ease: "power1.out"
+      }, "-=0.2");
     }
+    
+    // Update the previous section for the next transition
+    setPreviousSection(selectedSection);
+  }, [selectedSection, selectedSectionModules, previousSection]);
     
     // Function to create modules grid
     function createModulesGrid(sectionEl: HTMLDivElement, gridSize: number) {
@@ -405,11 +431,26 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         modulesContainer.appendChild(moduleEl);
       });
       
-      // Fade in the modules
+      // Fade in the modules with a more dynamic animation
       gsap.fromTo(
         modulesContainer.querySelectorAll('.module-item'),
-        { opacity: 0, scale: 0.8 },
-        { opacity: 1, scale: 1, duration: 0.3, stagger: 0.03, ease: "back.out(1.2)" }
+        { 
+          opacity: 0, 
+          scale: 0.8,
+          y: 10
+        },
+        { 
+          opacity: 1, 
+          scale: 1,
+          y: 0,
+          duration: 0.4, 
+          stagger: { 
+            amount: 0.4, // total stagger time
+            from: "center", 
+            grid: "auto" 
+          },
+          ease: "back.out(1.7)" 
+        }
       );
     }
     
