@@ -402,71 +402,84 @@ useGSAP(() => {
 ## Most Important Rule
 After stating your plan, NEVER deviate from it without permission. It's better to do nothing than to implement something contrary to your stated plan.
 
-## Horizontal Team Section Implementation Plan
+## Fullscreen Window-Based Team Section Implementation Plan
 
-The TeamSection needs to be completely refactored to create a horizontal split-screen design where team members expand on hover/interaction.
+The TeamSection needs to be completely refactored to create a viewport-splitting window design where each team member occupies a quarter of the screen, expanding to full screen on interaction.
 
 ### Key Design Requirements:
-- Convert vertical scroll layout to 4-way horizontal split (vertical on mobile)
-- Implement hover-based expansion of panel to show team member details
+- Create a 4-way split of the entire viewport (2x2 grid to the edges of the screen)
+- Each quarter functions as a "window" into a team member's full content
+- When hovered/clicked, the quarter expands to fill the entire viewport
+- Create an immersive, full-screen experience for each team member
 - Use theme-aware styling with utility classes from globals.css
-- Add floating elements and theme-aware animations
-- Ensure responsive behavior works on all devices
+- Implement smooth transitions between states
 
 ### Implementation Checklist
 
 1. **Initial Setup**
    - [x] Delete the current TeamSection.tsx
-   - [x] Rename TeamSection-shed.tsx to TeamSection.tsx
+   - [x] Rename TeamSection-shed.tsx to TeamSection.tsx 
    - [x] Update import in VerticalShortcutLanding.tsx
    - [x] Remove references to TeamSectionShed component
+   - [x] Revert changes to create the correct fullscreen window implementation
    
-2. **Component Structure Refactoring**
-   - [x] Modify TeamSection component to use horizontal layout
-   - [x] Add useState hook to track active/expanded panel
-   - [x] Convert TeamMember component to handle collapsed/expanded states
-   - [x] Add hover interactions and expansion animations
+2. **Full-Viewport Splitting Design**
+   - [x] Create a fixed-position container that covers the entire viewport
+   - [x] Split the container into four equal sections (quarters)
+   - [x] Position each team member preview in their respective quarter
+   - [x] Ensure quarters extend to the very edges of the viewport
    
-3. **Theme-Aware Styling Implementation**
-   - [x] Replace all direct CSS variable references with theme utility classes
+3. **Window Preview Implementation**
+   - [x] Design "window" views that show a preview of each team member
+   - [x] Show limited content (name, image, title) in window state
+   - [x] Add visual cues to indicate interactivity (hover states)
+   - [x] Create proper framing/borders to make it feel like looking through windows
+   
+4. **Full-Screen Expansion System**
+   - [x] Implement state management for tracking expanded section
+   - [x] Create smooth animations for quarter-to-fullscreen transitions
+   - [x] Design full-screen layout for expanded team member view
+   - [x] Add close/back functionality to return to the 4-way split view
+   
+5. **Theme-Aware Styling Implementation**
    - [x] Use bg-theme-gradient for backgrounds instead of direct gradients
-   - [x] Replace shadow definitions with shadow-theme-* utility classes
+   - [x] Replace all shadow definitions with shadow-theme-* utility classes
    - [x] Ensure all text uses text-theme-* utility classes
-   - [x] Add theme-aware floating elements
+   - [x] Add theme-aware floating elements and borders
 
-4. **Animation and Interaction Development**
-   - [x] Add fadeIn animation to globals.css
-   - [x] Implement smooth expand/collapse transitions with CSS
-   - [x] Use GSAP for scroll-triggered initial reveal animations
-   - [x] Add hover effects and visual feedback for interactive elements
+6. **Animation and Transition Development**
+   - [x] Create GSAP animations for smooth scaling/expansion
+   - [x] Implement staggered content reveal in expanded state
+   - [x] Add subtle parallax effects during transitions
+   - [x] Ensure smooth, natural-feeling motion between states
+   
+7. **Responsive Layout Implementation**
+   - [x] Adapt to 2x2 grid on desktop and tablet landscape
+   - [x] Convert to vertical stack (1 column, 4 rows) on mobile/portrait
+   - [x] Optimize transitions for touch interactions
+   - [x] Ensure proper viewport handling across devices
 
-5. **Responsive Layout Implementation**
-   - [x] Create grid-based layout that stacks vertically on mobile
-   - [x] Add media queries for smooth responsive behavior
-   - [x] Optimize image sizes and positioning for different screen sizes
-   - [x] Ensure touch devices have appropriate interaction alternatives
+8. **Final Refinement and Testing**
+   - [x] Verify smooth transitions between window and full-screen states
+   - [x] Test in both light and dark themes
+   - [x] Ensure accessibility for keyboard navigation
+   - [x] Optimize performance for slower devices
 
-6. **Final Refinement and Testing**
-   - [x] Verify each team member's content is loaded correctly
-   - [x] Test expansion/collapse animations in both themes
-   - [x] Ensure smooth behavior on various browser sizes
-   - [x] Verify theme-aware styling is functioning correctly
+### Conceptual Description
 
-### Improvements Over Previous Implementation
+The redesigned TeamSection will create an immersive, innovative viewing experience:
 
-The new TeamSection implementation offers several key improvements:
+1. **Initial View**: Users see four "windows" occupying the entire viewport, each showing a preview of a team member.
 
-1. **Enhanced Interactivity:** Users can explore team members by hovering over panels instead of scrolling through content.
+2. **Window Design**: Each window has partial opacity and framing, creating the effect of looking through a window into that team member's section.
 
-2. **Better Screen Space Utilization:** The 4-way split layout makes better use of screen real estate, showing more team members at once.
+3. **Interaction**: When a user hovers over or clicks a window, it smoothly expands to fill the entire viewport, pushing other windows offscreen.
 
-3. **Improved Animation System:** The combination of CSS transitions and GSAP animations provides smoother, more maintainable animations.
+4. **Full-Screen Experience**: The expanded view shows the complete team member content with their bio, likes/dislikes, quote, and full imagery.
 
-4. **Fully Theme-Aware:** All styling is implemented using theme utility classes, ensuring consistent light/dark mode appearance.
+5. **Return Navigation**: A subtle close button or click anywhere allows the user to return to the 4-window view.
 
-5. **More Responsive Experience:** The component adapts to different screen sizes, providing an optimal experience on both mobile and desktop.
-
-6. **Reduced Code Duplication:** The collapsed/expanded state handling eliminates duplicate content logic and improves maintainability.
+This creates a much more immersive, spatial experience than traditional panel expansion, as if the user is physically moving between different team member spaces.
 
 ## ModuleHUD Improvement Checklist
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -6,8 +6,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
 
-// Individual team member component with horizontal hover expansion
-const TeamMember = ({ 
+// Individual team member component as a fullscreen expandable window
+const TeamMemberWindow = ({ 
   name, 
   title, 
   bio, 
@@ -18,42 +18,141 @@ const TeamMember = ({
   images,
   index,
   isActive,
-  onMouseEnter
+  isFullscreen,
+  onActivate,
+  onClose
 }) => {
-  const sectionRef = useRef(null);
+  const windowRef = useRef(null);
   const contentRef = useRef(null);
+  const expandedContentRef = useRef(null);
   
+  // Create timeline for expanding and collapsing animations
   useGSAP(() => {
     const ctx = gsap.context(() => {
-      // Animation for the expanded state is handled by CSS transitions
-      // This GSAP animation is just for initial reveal on scroll
-      
+      // Initial animation on scroll - reveal the windows
       gsap.fromTo(
-        sectionRef.current,
+        windowRef.current,
         { 
           opacity: 0,
-          y: 30
+          scale: 0.9
         },
         { 
           opacity: 1,
-          y: 0,
-          duration: 0.6,
+          scale: 1,
+          duration: 0.8,
           delay: index * 0.15,
           ease: "power2.out",
           scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 85%",
+            trigger: windowRef.current,
+            start: "top 90%",
             end: "bottom 70%",
             toggleActions: "play none none reverse"
           }
         }
       );
-    }, sectionRef);
+    });
     
     return () => ctx.revert(); // Proper cleanup
   }, [index]);
+
+  // Handle fullscreen expansion/collapse animations
+  useGSAP(() => {
+    if (!windowRef.current) return;
+    
+    const ctx = gsap.context(() => {
+      // Get all window elements
+      const allWindows = document.querySelectorAll('.team-window');
+      
+      if (isFullscreen) {
+        // Create the expansion animation
+        const tl = gsap.timeline();
+        
+        // Fade out other windows
+        allWindows.forEach((window, i) => {
+          if (i !== index) {
+            gsap.to(window, { 
+              opacity: 0, 
+              scale: 0.8, 
+              duration: 0.5, 
+              ease: "power2.inOut" 
+            });
+          }
+        });
+        
+        // Expand this window to fullscreen
+        tl.to(windowRef.current, { 
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100vw',
+          height: '100vh',
+          zIndex: 50,
+          borderRadius: 0,
+          duration: 0.7,
+          ease: "power2.inOut"
+        });
+        
+        // Reveal expanded content
+        tl.to(expandedContentRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          stagger: 0.1,
+          ease: "power2.out"
+        });
+      } else {
+        // If returning from fullscreen
+        if (windowRef.current.style.position === 'fixed') {
+          // Hide expanded content first
+          gsap.to(expandedContentRef.current.children, {
+            opacity: 0,
+            y: 20,
+            duration: 0.3,
+            ease: "power2.in"
+          });
+          
+          // Create the collapse timeline
+          const tl = gsap.timeline({
+            onComplete: () => {
+              // Reset inline styles after animation completes
+              gsap.set(windowRef.current, {
+                clearProps: "all"
+              });
+            }
+          });
+          
+          // Return to original position
+          tl.to(windowRef.current, { 
+            position: 'relative',
+            top: '',
+            left: '',
+            right: '',
+            bottom: '',
+            width: '',
+            height: '',
+            zIndex: 10 - index,
+            borderRadius: '1rem',
+            duration: 0.7,
+            ease: "power2.inOut"
+          });
+          
+          // Fade other windows back in
+          tl.to(allWindows, { 
+            opacity: 1, 
+            scale: 1, 
+            duration: 0.5,
+            ease: "power2.out"
+          }, "-=0.3");
+        }
+      }
+    });
+    
+    return () => ctx.revert(); // Proper cleanup
+  }, [isFullscreen, index]);
   
-  // Function to create floating elements for visual interest
+  // Generate floating elements for visual interest
   const generateFloatingElements = (count = 3) => {
     const elements = [];
     for (let i = 0; i < count; i++) {
@@ -79,67 +178,105 @@ const TeamMember = ({
     }
     return elements;
   };
-
+  
   return (
-    <div 
-      ref={sectionRef} 
-      className={`team-member-panel transition-all duration-500 ease-in-out relative overflow-hidden bg-theme-gradient shadow-theme-md rounded-lg
-                 ${isActive ? 'flex-grow' : 'flex-shrink cursor-pointer'}`}
-      style={{ 
-        zIndex: isActive ? 20 : (10 - index),
-        minHeight: isActive ? '500px' : '100%'
-      }}
-      onMouseEnter={onMouseEnter}
+    <div
+      ref={windowRef}
+      className={`team-window relative overflow-hidden bg-theme-gradient rounded-lg shadow-theme-md
+                ${isActive && !isFullscreen ? 'scale-[1.03]' : ''}
+                ${isFullscreen ? '' : 'cursor-pointer transition-transform duration-300'}`}
+      style={{ zIndex: isFullscreen ? 50 : (10 - index) }}
+      onClick={() => !isFullscreen && onActivate(index)}
+      onMouseEnter={() => !isFullscreen && onActivate(index)}
     >
-      {/* Background with theme-aware gradient */}
+      {/* Add close button for fullscreen mode */}
+      {isFullscreen && (
+        <button 
+          className="absolute top-6 right-6 z-50 bg-theme-bg-surface/30 p-3 rounded-full shadow-theme-sm backdrop-blur-sm text-theme-text-primary hover:bg-theme-bg-surface/50 transition-colors duration-300"
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      )}
+      
+      {/* Background elements */}
       <div className="absolute inset-0 opacity-90">
-        {/* Theme-aware floating elements for visual interest */}
         {generateFloatingElements()}
       </div>
       
       {/* Halftone pattern overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(var(--theme-pattern-color) 1.5px,transparent 1.5px)] bg-[length:20px_20px] opacity-10"></div>
       
-      {/* Main content container */}
-      <div ref={contentRef} className="relative z-10 w-full h-full flex flex-col p-6">
-        {/* Collapsed view - just name, title and image */}
-        <div className={`flex ${isActive ? 'flex-row items-start' : 'flex-col items-center justify-center h-full'}`}>
-          {/* Name and title shown in both collapsed and expanded modes */}
-          <div className={`text-center transition-all duration-300 ${isActive ? 'text-left mb-4 w-1/2' : 'mb-0'}`}>
-            <h2 className={`font-bold tracking-tight text-theme-text-primary transition-all duration-300 ${isActive ? 'text-4xl md:text-5xl' : 'text-2xl md:text-3xl'}`}>
-              {name}
-            </h2>
-            {title && 
-              <h3 className={`text-theme-primary transition-all duration-300 ${isActive ? 'text-xl' : 'text-lg'}`}>
-                {title}
-              </h3>
-            }
+      {/* Window frame border */}
+      <div className="absolute inset-0 border-2 border-theme-primary/20 rounded-lg"></div>
+      
+      {/* Preview content (always visible) */}
+      <div 
+        ref={contentRef} 
+        className={`w-full h-full flex flex-col items-center justify-center p-8
+                  ${isFullscreen ? 'opacity-0' : 'opacity-100'} 
+                  transition-opacity duration-300`}
+      >
+        <img 
+          src={images?.main?.cutout} 
+          alt={name}
+          className="object-contain max-h-[220px] mb-4"
+        />
+        <h2 className="text-4xl font-bold text-theme-text-primary text-center mb-2">{name}</h2>
+        <h3 className="text-xl text-theme-primary text-center">{title}</h3>
+        
+        {/* Hover indicator */}
+        {!isFullscreen && (
+          <div className="absolute bottom-6 left-0 right-0 text-center text-theme-text-tertiary text-sm opacity-75">
+            {isActive ? 'Click to expand' : 'Hover to preview'}
           </div>
-          
-          {/* Image - shown differently in collapsed vs expanded modes */}
-          <div className={`relative transition-all duration-300 
-                         ${isActive ? 'w-1/2' : 'w-full max-w-[150px] mt-4 mb-2'}`}>
+        )}
+      </div>
+      
+      {/* Expanded content (visible only in fullscreen) */}
+      <div 
+        ref={expandedContentRef}
+        className={`absolute inset-0 w-full h-full overflow-auto ${isFullscreen ? 'z-30' : '-z-10'}`}
+      >
+        <div className="container mx-auto py-24 px-6 flex flex-col md:flex-row items-start gap-12">
+          {/* Left column - Image and Name */}
+          <div className="w-full md:w-1/3 flex flex-col items-center md:items-start opacity-0 translate-y-10">
             <img 
               src={images?.main?.cutout} 
               alt={name}
-              className={`object-contain transition-all duration-300 
-                         ${isActive ? 'max-h-[200px] ml-auto' : 'max-h-[120px] mx-auto'}`}
+              className="object-contain max-h-[350px] mb-8"
             />
-            {/* Halftone effect over the image */}
-            <div className="absolute inset-0 bg-[radial-gradient(var(--theme-pattern-color) 1px,transparent 1px)] bg-[length:4px_4px] mix-blend-multiply dark:mix-blend-screen opacity-30"></div>
+            
+            {images?.secondary?.cutout && (
+              <img 
+                src={images.secondary.cutout} 
+                alt={`${name} secondary`}
+                className="object-contain max-h-[250px] ml-12 -mt-24 opacity-80"
+              />
+            )}
           </div>
-        </div>
-        
-        {/* Expanded view - additional content */}
-        {isActive && (
-          <div className="expanded-content mt-6 animate-fadeIn">
-            {/* Bio Card */}
-            <div className="bg-white/80 dark:bg-[var(--card-bg-navy)]/80 backdrop-blur-sm rounded-theme-md p-6 shadow-theme-md mb-6">
+          
+          {/* Right column - Content */}
+          <div className="w-full md:w-2/3 space-y-8">
+            {/* Name and title - duplicated in expanded view for layout purposes */}
+            <div className="opacity-0 translate-y-10">
+              <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-theme-text-primary tracking-tight mb-2">{name}</h2>
+              <h3 className="text-2xl text-theme-primary">{title}</h3>
+            </div>
+            
+            {/* Bio */}
+            <div className="bg-white/80 dark:bg-[var(--card-bg-navy)]/80 backdrop-blur-sm rounded-theme-md p-6 shadow-theme-md opacity-0 translate-y-10">
               <p className="text-lg text-theme-text-secondary leading-relaxed">{bio}</p>
             </div>
             
-            {/* Likes and Dislikes Cards in a row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            {/* Likes and Dislikes */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 opacity-0 translate-y-10">
               {/* Likes Card */}
               <div className="bg-[var(--secondary-teal-light)]/20 dark:bg-[var(--neutral-blue-1)]/20 backdrop-blur-sm rounded-theme-md p-6 shadow-theme-sm">
                 <h4 className="text-lg font-medium mb-3 flex items-center text-[var(--secondary-teal)] dark:text-[var(--secondary-teal-light)]">
@@ -172,7 +309,7 @@ const TeamMember = ({
             </div>
             
             {/* Quote */}
-            <div className="mt-auto">
+            <div className="opacity-0 translate-y-10">
               <div className="relative bg-theme-bg-secondary/50 p-6 rounded-theme-md shadow-theme-sm border-l-4 border-theme-primary">
                 <p className="italic text-theme-text-primary text-lg">&ldquo;{quote}&rdquo;</p>
                 <p className="text-theme-text-tertiary text-right mt-3">- {quoteAuthor}</p>
@@ -183,14 +320,7 @@ const TeamMember = ({
               </div>
             </div>
           </div>
-        )}
-        
-        {/* If not active, show "hover to expand" hint */}
-        {!isActive && (
-          <div className="absolute bottom-4 left-0 right-0 text-center text-theme-text-tertiary text-sm opacity-75">
-            Hover to expand
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );
@@ -198,8 +328,22 @@ const TeamMember = ({
 
 const TeamSection = () => {
   const [activeIndex, setActiveIndex] = useState(null);
+  const [fullscreenIndex, setFullscreenIndex] = useState(null);
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
+  
+  // Lock body scroll when fullscreen is active
+  useEffect(() => {
+    if (fullscreenIndex !== null) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [fullscreenIndex]);
   
   useGSAP(() => {
     const ctx = gsap.context(() => {
@@ -222,6 +366,21 @@ const TeamSection = () => {
     
     return () => ctx.revert(); // Proper cleanup
   }, []);
+  
+  // Set active panel for hover effects
+  const handleActivate = (index) => {
+    setActiveIndex(index);
+  };
+  
+  // Set fullscreen mode
+  const handleExpand = (index) => {
+    setFullscreenIndex(index);
+  };
+  
+  // Close fullscreen mode
+  const handleClose = () => {
+    setFullscreenIndex(null);
+  };
   
   // Team member data
   const teamData = [
@@ -296,43 +455,49 @@ const TeamSection = () => {
   ];
   
   return (
-    <div ref={sectionRef} className="team-section bg-theme-bg-primary py-16 relative overflow-hidden">
+    <div ref={sectionRef} className="team-section bg-theme-bg-primary py-16 relative">
       {/* Theme-aware floating elements for section background */}
       <div className="absolute top-20 right-20 w-24 h-24 rounded-[40%] rotate-12 opacity-[var(--theme-float-opacity)] bg-[var(--theme-float-bg-primary)] animate-float-slow hidden md:block"></div>
       <div className="absolute bottom-10 left-40 w-32 h-32 rounded-[30%] -rotate-6 opacity-[var(--theme-float-opacity-secondary)] bg-[var(--theme-float-bg-secondary)] animate-float-medium hidden md:block"></div>
       
-      {/* Section heading with introduction */}
-      <div className="container mx-auto mb-16 relative px-4">
-        <div ref={headingRef} className="opacity-0">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-theme-text-primary mb-6">
-            Meet the Team
-          </h2>
-          
-          <div className="max-w-3xl">
-            <p className="text-xl text-theme-text-secondary mb-4">
-              So who are we? Why trust us? We're not just a guy in a room. We're a team of creatives, who just happen to be f*cking great at making content.
-            </p>
+      {/* Only show heading when not in fullscreen mode */}
+      {fullscreenIndex === null && (
+        <div className="container mx-auto mb-16 relative px-4">
+          <div ref={headingRef} className="opacity-0">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-theme-text-primary mb-6">
+              Meet the Team
+            </h2>
             
-            <p className="text-xl text-theme-text-secondary">
-              It's why we're the number one short form agency in the world, and luckily for you we specialise in getting founders like yourself, millions of views.
-            </p>
+            <div className="max-w-3xl">
+              <p className="text-xl text-theme-text-secondary mb-4">
+                So who are we? Why trust us? We're not just a guy in a room. We're a team of creatives, who just happen to be f*cking great at making content.
+              </p>
+              
+              <p className="text-xl text-theme-text-secondary">
+                It's why we're the number one short form agency in the world, and luckily for you we specialise in getting founders like yourself, millions of views.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      )}
       
-      {/* Horizontal team members grid (vertical on mobile) */}
-      <div className="container mx-auto px-4">
+      {/* Window Grid - full viewport size grid */}
+      <div 
+        className={`team-window-grid ${fullscreenIndex !== null ? 'h-screen' : 'min-h-[calc(100vh-100px)]'}`}
+      >
         <div 
-          className="grid grid-cols-1 md:grid-cols-4 gap-6 min-h-[600px]"
-          onMouseLeave={() => setActiveIndex(null)}
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 w-full h-full"
+          onMouseLeave={() => fullscreenIndex === null && setActiveIndex(null)}
         >
           {teamData.map((member, index) => (
-            <TeamMember 
+            <TeamMemberWindow 
               key={member.name} 
               {...member} 
               index={index}
               isActive={activeIndex === index}
-              onMouseEnter={() => setActiveIndex(index)}
+              isFullscreen={fullscreenIndex === index}
+              onActivate={handleActivate}
+              onClose={handleClose}
             />
           ))}
         </div>
