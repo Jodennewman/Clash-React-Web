@@ -164,6 +164,47 @@ The theme-aware approach uses single CSS variables that automatically change val
 <div className="border border-[var(--theme-primary)]">Border color automatically changes with theme</div>
 ```
 
+### THEME-AWARE TEXT GRADIENTS
+
+**❌ PROBLEMATIC GRADIENT TEXT APPROACHES:**
+```jsx
+<!-- DO NOT use competing gradient text styles -->
+<span className="bg-gradient-to-r from-orange-500 to-red-500 dark:from-orange-400 dark:to-red-400 
+                 bg-clip-text text-transparent">
+  Text with competing gradient styles
+</span>
+
+<!-- DO NOT use fixed colors for gradient text -->
+<span style={{ 
+  background: 'linear-gradient(to right, #ff9f51, #ef6252)',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent' 
+}}>
+  Static gradient that won't adapt to theme
+</span>
+```
+
+**✅ CORRECT GRADIENT TEXT IMPLEMENTATION:**
+```jsx
+<!-- PREFERRED: Use theme-aware gradient text classes -->
+<span className="text-theme-gradient">
+  Theme-aware gradient text (primary gradient)
+</span>
+
+<span className="vs-text-gradient-orange">
+  Orange to coral theme-aware gradient
+</span>
+
+<span className="vs-text-gradient-teal">
+  Teal theme-aware gradient
+</span>
+
+<!-- ALSO CORRECT: Use bg-theme-gradient-text -->
+<span className="bg-theme-gradient-text">
+  Alternative theme-aware gradient implementation
+</span>
+```
+
 ## Complete Visual Design for BOTH Modes
 
 ### Light Mode Vision
@@ -530,11 +571,23 @@ Use these theme-aware utility classes for consistent styling:
 ### Text Colors
 - `text-theme-primary` - Main text color
 - `text-theme-secondary` - Secondary text color
+- `text-theme-tertiary` - Tertiary text color (60% opacity)
+- `text-theme-subtle` - Subtle text color (40% opacity)
+- `text-theme-accent` - Accent text color
+- `text-theme-error` - Error text color
+
+### Text Gradients
+- `text-theme-gradient` - Primary gradient text (orange to coral)
+- `vs-text-gradient-orange` - Orange to coral gradient text
+- `vs-text-gradient-teal` - Teal gradient text
+- `bg-theme-gradient-text` - Alternative gradient text implementation
 
 ### Background Colors
 - `bg-theme-primary` - Main background color
 - `bg-theme-secondary` - Secondary background color
 - `bg-theme-accent` - Accent background color
+- `bg-theme-surface` - Surface background
+- `bg-theme-card` - Card background
 
 ### Gradients
 - `bg-theme-gradient` - Main gradient background 
