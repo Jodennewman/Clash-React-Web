@@ -266,28 +266,80 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     }));
   }, [selectedSection]);
   
-  // Initial animation to show all sections
+  // Initial animation to show all sections and set up system animations
   useGSAP(() => {
-    // Set all sections to be visible
-    gsap.set(".section-module", {
-      scale: 1,
-      opacity: 1,
-      visibility: "visible"
+    const ctx = gsap.context(() => {
+      // Set all sections to be visible
+      gsap.set(".section-module", {
+        scale: 1,
+        opacity: 1,
+        visibility: "visible"
+      });
+      
+      // Notion system animation - pulsing dots and sliding rows
+      const notionTimeline = gsap.timeline({ repeat: -1 });
+      notionTimeline.to(".notion-dot", { 
+        opacity: 0.6, 
+        duration: 1, 
+        stagger: 0.2,
+        ease: "sine.inOut" 
+      })
+      .to(".notion-dot", { 
+        opacity: 0.2, 
+        duration: 1, 
+        stagger: 0.2,
+        ease: "sine.inOut" 
+      });
+      
+      // Animate notion rows
+      gsap.to(".notion-row", {
+        width: "70%",
+        duration: 1.5,
+        ease: "sine.inOut",
+        stagger: 0.3,
+        repeat: -1,
+        yoyo: true
+      });
+      
+      // Factory smoke animation
+      gsap.to(".factory-smoke", {
+        y: -20,
+        opacity: 0,
+        duration: 2,
+        stagger: 0.5,
+        repeat: -1,
+        ease: "power1.out"
+      });
+      
+      // Conveyor belt animation
+      gsap.to(".conveyor-item", {
+        x: "-100%",
+        duration: 3,
+        ease: "none",
+        repeat: -1,
+        stagger: 1
+      });
+      
+      // Video editor playhead animation
+      gsap.to(".editor-playhead", {
+        x: "200%",
+        duration: 4,
+        ease: "none",
+        repeat: -1
+      });
+      
+      // Clip animation
+      gsap.to(".editor-clips", {
+        opacity: 0.6,
+        duration: 1,
+        stagger: 0.2,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
     });
     
-    // Add keyframe animation for conveyor belt animation
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes move-left {
-        0% { transform: translateX(100%); }
-        100% { transform: translateX(-100%); }
-      }
-    `;
-    document.head.appendChild(style);
-    
-    return () => {
-      document.head.removeChild(style);
-    };
+    return () => ctx.revert();
   }, []);
   
   // Track previous selection for smoother transitions
@@ -627,7 +679,10 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   data-id={systemsColumn[0].id}
                   data-display-key={systemsColumn[0].displayKey}
                   className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-md cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
-                  style={{ backgroundColor: "var(--hud-navy)" }}
+                  style={{ 
+                    backgroundColor: "var(--hud-navy)",
+                    backgroundImage: "radial-gradient(circle at 70% 20%, rgba(67, 134, 160, 0.2) 0%, rgba(33, 55, 91, 0) 40%)"
+                  }}
                 >
                   {/* Tooltip for system name */}
                   <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
@@ -635,37 +690,34 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
                   </div>
                   
-                  {/* Notion-like UI simulation */}
-                  <div className="absolute inset-0 flex flex-col p-4">
-                    {/* Top header bar */}
-                    <div className="flex justify-between items-center mb-3">
-                      <div className="w-8 h-8 rounded-md bg-white/15 flex items-center justify-center">
+                  {/* Simple database UI */}
+                  <div className="absolute inset-3 flex flex-col">
+                    {/* Logo/identifier */}
+                    <div className="flex items-center mb-5">
+                      <div className="w-10 h-10 rounded-md bg-white/15 flex items-center justify-center">
                         <span className="text-white text-lg">💾</span>
                       </div>
-                      <div className="h-1.5 w-16 bg-white/15 rounded-full"></div>
+                      <div className="h-px flex-1 bg-white/15 ml-4"></div>
                     </div>
                     
-                    {/* Content rows simulation */}
-                    <div className="space-y-3 mt-4">
-                      {[1, 2, 3].map(i => (
+                    {/* Animated rows */}
+                    <div className="space-y-4 flex-1">
+                      {[1, 2, 3, 4].map(i => (
                         <div key={i} className="flex items-center space-x-3">
-                          <div className="w-2 h-2 rounded-full bg-white/30"></div>
-                          <div className="h-2 bg-white/20 rounded-full" style={{width: `${60 + Math.random() * 30}%`}}></div>
+                          <div className={`notion-dot w-3 h-3 rounded-full bg-white/30 opacity-${i % 2 === 0 ? '20' : '40'}`}></div>
+                          <div className={`notion-row h-3 bg-white/20 rounded-full`} style={{width: `${30 + i * 10}%`}}></div>
                         </div>
                       ))}
                     </div>
                     
-                    {/* Database-like table */}
-                    <div className="absolute bottom-4 left-4 right-4 h-16 bg-white/10 rounded-lg overflow-hidden">
-                      <div className="h-6 w-full bg-white/15 flex items-center px-2">
-                        <div className="w-2 h-2 rounded-full bg-white/40 mr-2"></div>
-                        <div className="w-12 h-2 bg-white/40 rounded-full"></div>
-                      </div>
-                      <div className="grid grid-cols-3 gap-1 p-2">
-                        {[1, 2, 3, 4, 5, 6].map(i => (
-                          <div key={i} className="h-1.5 bg-white/20 rounded-full"></div>
-                        ))}
-                      </div>
+                    {/* Database columns */}
+                    <div className="grid grid-cols-3 gap-3 mt-4">
+                      {[1, 2, 3].map(i => (
+                        <div key={i} className="flex flex-col items-center">
+                          <div className="w-full h-8 mb-2 bg-white/15 rounded-md"></div>
+                          <div className="w-2/3 h-2 bg-white/20 rounded-full"></div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                   
@@ -695,60 +747,46 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
                   </div>
                   
-                  {/* Engine room/factory UI */}
-                  <div className="absolute inset-0">
-                    {/* Factory top with smoke animation */}
-                    <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-16 h-24 flex flex-col items-center">
-                      <div className="w-10 h-14 bg-white/15 rounded-t-lg relative overflow-hidden">
-                        {/* Brick pattern */}
-                        <div className="absolute inset-0 grid grid-cols-4 grid-rows-5 gap-px">
-                          {Array.from({length: 20}).map((_, i) => (
-                            <div key={i} className="bg-white/5"></div>
-                          ))}
-                        </div>
-                        
-                        {/* Chimney */}
-                        <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-4 h-8 bg-white/20 rounded-t-sm">
-                          {/* Animated smoke particles */}
-                          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-3 h-3 rounded-full bg-white/20 animate-float-medium"></div>
-                          <div className="absolute top-0 left-1/3 transform -translate-x-1/2 w-2 h-2 rounded-full bg-white/15 animate-float-slow" style={{animationDelay: '0.5s'}}></div>
-                          <div className="absolute top-0 left-2/3 transform -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-white/10 animate-float-fast" style={{animationDelay: '1s'}}></div>
-                        </div>
+                  {/* Factory UI - Simplified */}
+                  <div className="absolute inset-3">
+                    {/* Logo */}
+                    <div className="w-12 h-12 rounded-md bg-white/15 absolute top-0 left-0 flex items-center justify-center">
+                      <span className="text-white text-xl">🏭</span>
+                    </div>
+                    
+                    {/* Factory with smoke */}
+                    <div className="absolute top-4 right-4 flex flex-col items-center">
+                      {/* Smoke particles */}
+                      <div className="factory-smoke w-4 h-4 rounded-full bg-white/30 absolute -top-8 opacity-30"></div>
+                      <div className="factory-smoke w-3 h-3 rounded-full bg-white/20 absolute -top-4 left-2 opacity-20"></div>
+                      <div className="factory-smoke w-3 h-3 rounded-full bg-white/25 absolute -top-6 right-1 opacity-25"></div>
+                      
+                      {/* Factory building - just a silhouette */}
+                      <div className="w-16 h-16 bg-black/20 rounded-t-lg mt-7"></div>
+                    </div>
+                    
+                    {/* Conveyor belt - simple animated version */}
+                    <div className="absolute bottom-2 inset-x-3 h-14 bg-white/15 rounded-md overflow-hidden flex items-center">
+                      {/* Belt items */}
+                      <div className="conveyor-item w-10 h-8 mx-4 bg-white/30 rounded-md flex items-center justify-center">
+                        <div className="w-6 h-4 bg-white/30 rounded"></div>
                       </div>
                       
-                      {/* Factory base/platform */}
-                      <div className="w-16 h-4 bg-white/25 rounded-b-md relative">
-                        <div className="absolute inset-x-0 top-1 h-1 bg-white/10"></div>
+                      <div className="conveyor-item w-8 h-6 mx-4 bg-white/20 rounded-md flex items-center justify-center">
+                        <div className="w-4 h-3 bg-white/30 rounded"></div>
+                      </div>
+                      
+                      <div className="conveyor-item w-7 h-5 mx-4 bg-white/25 rounded-md flex items-center justify-center">
+                        <div className="w-3 h-2 bg-white/30 rounded"></div>
                       </div>
                     </div>
                     
-                    {/* Conveyor belt */}
-                    <div className="absolute bottom-6 inset-x-4 h-8 bg-white/15 rounded-md overflow-hidden">
-                      {/* Belt texture */}
-                      <div className="absolute inset-y-0 inset-x-0 flex items-center">
-                        {Array.from({length: 12}).map((_, i) => (
-                          <div key={i} className="w-4 h-full border-r border-white/10 flex-shrink-0" 
-                               style={{animation: 'move-left 4s linear infinite', animationDelay: `${i * 0.1}s`}}></div>
-                        ))}
-                      </div>
-                      
-                      {/* Products on conveyor */}
-                      <div className="absolute top-1.5 left-3 w-3 h-3 bg-white/30 rounded-sm" style={{animation: 'move-left 4s linear infinite'}}></div>
-                      <div className="absolute top-2 left-12 w-2.5 h-2 bg-white/20 rounded-sm" style={{animation: 'move-left 4s linear infinite', animationDelay: '1.2s'}}></div>
-                      <div className="absolute top-1 left-24 w-4 h-4 bg-white/25 rounded-sm" style={{animation: 'move-left 4s linear infinite', animationDelay: '2.5s'}}></div>
+                    {/* Simple status indicators */}
+                    <div className="absolute top-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                      <div className="w-3 h-3 rounded-full bg-white/40 opacity-70"></div>
+                      <div className="w-3 h-3 rounded-full bg-white/30 opacity-40"></div>
+                      <div className="w-3 h-3 rounded-full bg-white/20 opacity-50"></div>
                     </div>
-                    
-                    {/* Control panel */}
-                    <div className="absolute top-6 right-4 w-8 h-12 bg-white/20 rounded-md flex flex-col justify-around items-center p-1">
-                      <div className="w-4 h-1.5 bg-white/30 rounded-full"></div>
-                      <div className="w-3 h-3 rounded-full bg-white/40"></div>
-                      <div className="w-4 h-1.5 bg-white/30 rounded-full"></div>
-                    </div>
-                  </div>
-                  
-                  {/* Factory emoji badge */}
-                  <div className="absolute bottom-3 right-3 w-8 h-8 bg-white/15 rounded-full flex items-center justify-center">
-                    <span className="text-white text-xl">🏭</span>
                   </div>
                   
                   {/* Featured indicator */}
@@ -777,55 +815,52 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
                   </div>
                   
-                  {/* OS/Tech Interface */}
+                  {/* Simple editor interface */}
                   <div className="absolute inset-3">
-                    {/* Video editor interface */}
-                    <div className="absolute inset-0 rounded-lg overflow-hidden bg-black/30 backdrop-blur-sm border border-white/10">
-                      {/* Menu bar */}
-                      <div className="h-5 w-full bg-white/15 flex items-center px-2">
-                        <div className="flex space-x-1.5">
-                          <div className="w-1.5 h-1.5 rounded-full bg-white/40"></div>
-                          <div className="w-1.5 h-1.5 rounded-full bg-white/30"></div>
-                          <div className="w-1.5 h-1.5 rounded-full bg-white/20"></div>
-                        </div>
-                      </div>
-                      
-                      {/* Timeline */}
-                      <div className="absolute bottom-3 inset-x-2 h-10 bg-black/40 rounded-md overflow-hidden border border-white/10">
-                        {/* Timeline tracks */}
-                        <div className="absolute inset-0 flex flex-col justify-around p-1">
-                          {[1, 2, 3].map(i => (
-                            <div key={i} className="w-full h-2 rounded-sm relative">
-                              {/* Clips */}
-                              <div className="absolute inset-y-0 left-1 w-4 rounded-sm bg-[var(--hud-teal)]/70"></div>
-                              <div className="absolute inset-y-0 left-6 w-8 rounded-sm bg-[var(--hud-coral)]/70"></div>
-                              <div className="absolute inset-y-0 left-16 w-6 rounded-sm bg-[var(--hud-pink)]/70"></div>
-                              <div className="absolute inset-y-0 left-24 w-5 rounded-sm bg-[var(--hud-orange)]/70"></div>
-                            </div>
-                          ))}
-                        </div>
-                        
-                        {/* Playhead */}
-                        <div className="absolute top-0 bottom-0 left-12 w-0.5 bg-white"></div>
-                      </div>
-                      
-                      {/* Video preview */}
-                      <div className="absolute top-8 left-2 right-2 h-[calc(100%-38px)] bg-black/30 rounded-md overflow-hidden border border-white/15">
+                    {/* Logo */}
+                    <div className="w-12 h-12 rounded-md bg-white/15 absolute top-0 left-0 flex items-center justify-center">
+                      <span className="text-white text-xl">🖥️</span>
+                    </div>
+                    
+                    {/* Video preview */}
+                    <div className="absolute top-6 right-4 w-16 h-24 bg-black/40 rounded-lg overflow-hidden flex items-center justify-center">
+                      {/* Phone frame */}
+                      <div className="w-8 h-16 bg-black rounded-lg overflow-hidden flex items-center justify-center border border-white/20">
                         {/* Video content */}
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="relative h-4/5 w-[40%] bg-white/20 rounded">
-                            {/* Phone outline */}
-                            <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-1/4 h-1 rounded-full bg-white/40"></div>
-                            <div className="absolute inset-2 rounded bg-gradient-to-br from-[var(--hud-coral)]/30 to-[var(--hud-teal)]/20"></div>
-                          </div>
-                        </div>
+                        <div className="w-6 h-12 bg-gradient-to-b from-[var(--hud-coral)]/30 to-[var(--hud-teal)]/40 rounded"></div>
                       </div>
-                      
-                      {/* Tools panel */}
-                      <div className="absolute top-8 right-3 w-6 h-20 flex flex-col space-y-2">
-                        {[1, 2, 3, 4].map(i => (
-                          <div key={i} className="w-4 h-4 rounded-sm bg-white/30"></div>
+                    </div>
+                    
+                    {/* Timeline */}
+                    <div className="absolute bottom-2 left-3 right-3 h-16 bg-black/25 rounded-lg overflow-hidden p-2">
+                      {/* Tracks */}
+                      <div className="space-y-3">
+                        {[1, 2, 3].map(i => (
+                          <div key={i} className="flex items-center h-3">
+                            {/* Track label */}
+                            <div className="w-3 h-3 rounded-full bg-white/20 mr-2"></div>
+                            
+                            {/* Track clips */}
+                            <div className="flex-1 relative h-full">
+                              <div className="editor-clips absolute left-0 w-8 h-full rounded-sm bg-[var(--hud-coral)]/60 opacity-70"></div>
+                              <div className="editor-clips absolute left-10 w-12 h-full rounded-sm bg-[var(--hud-teal)]/60 opacity-70"></div>
+                              <div className="editor-clips absolute left-24 w-6 h-full rounded-sm bg-[var(--hud-pink)]/60 opacity-70"></div>
+                              
+                              {/* Playhead */}
+                              <div className="editor-playhead absolute top-0 bottom-0 left-2 w-0.5 bg-white"></div>
+                            </div>
+                          </div>
                         ))}
+                      </div>
+                    </div>
+                    
+                    {/* Controls */}
+                    <div className="absolute top-16 left-3 flex items-center space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-black/20 flex items-center justify-center">
+                        <div className="w-4 h-4 bg-white/40 rounded-sm"></div>
+                      </div>
+                      <div className="w-8 h-8 rounded-full bg-black/20 flex items-center justify-center">
+                        <div className="w-0 h-0 border-y-[6px] border-y-transparent border-l-[10px] border-l-white/40"></div>
                       </div>
                     </div>
                   </div>
@@ -834,11 +869,6 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   {systemsColumn[2].featured && (
                     <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
                   )}
-                  
-                  {/* OS emoji badge */}
-                  <div className="absolute bottom-3 right-3 w-8 h-8 bg-white/15 rounded-full flex items-center justify-center">
-                    <span className="text-white text-xl">🖥️</span>
-                  </div>
                 </div>
               </div>
             </div>
