@@ -2208,9 +2208,9 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   <div>
                     <span className="text-sm text-theme-tertiary">Your Personalized Recommendation</span>
                     <h3 className="font-bold text-theme-primary text-2xl leading-tight">
-                      {recommendation.type === 'executive' ? 'Executive Partnership' : 
-                       recommendation.type === 'comprehensive' ? 'Comprehensive Implementation' : 
-                       'Foundation Program'}
+                      {recommendation.type === 'executive' ? 'Executive Partnership: Accelerated Implementation' : 
+                       recommendation.type === 'comprehensive' ? 'Comprehensive Implementation: Complete Support' : 
+                       'Foundation Program: Essential Building Blocks'}
                     </h3>
                   </div>
                 </div>
@@ -2232,7 +2232,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               ) : (
                 <PremiumRecommendationView
                   recommendation={recommendation}
-                  showCalendly={showCalendly}
+                  showCalendly={recommendation.showCalendly || false}
                   onClose={handleCalendlyClose}
                   answers={answers}
                 />
