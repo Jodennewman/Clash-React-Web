@@ -354,6 +354,14 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     document.querySelectorAll('[id^="section-title-"]').forEach(el => el.remove());
     document.querySelectorAll('.modules-container').forEach(el => el.remove());
     
+    // Reset scale properties on all sections first - this prevents scale jumping
+    const allSections = document.querySelectorAll('.section-module');
+    gsap.set(allSections, {
+      scale: 1,
+      transformOrigin: "center",
+      overwrite: true
+    });
+    
     // If we have a previous section that's different from current, animate it down first
     if (previousSection && previousSection !== selectedSection) {
       const prevSectionEl = sectionRefs.current[previousSection];
@@ -365,40 +373,80 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         );
         
         if (prevSectionData) {
-          // Scale down the previous section first
+          // Scale down the previous section first with proper overwrite
           tl.to(prevSectionEl, {
             width: prevSectionData.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
             height: prevSectionData.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
-            duration: 0.25,
-            ease: "power2.inOut"
+            duration: 0.3,
+            ease: "power2.inOut",
+            overwrite: true
           });
         }
       }
     }
     
-    // Set all sections to normal size
+    // Add a tiny pause to let things settle (helps prevent jumping)
+    tl.to({}, { duration: 0.05 });
+    
+    // Reset all sections to their normal sizes
     mainSections.forEach(section => {
-      const sectionEl = sectionRefs.current[section.id];
-      if (!sectionEl) return;
-      
-      // Only reset sections that aren't the currently selected one
-      if (!selectedSection || section.id !== selectedSection) {
-        tl.set(sectionEl, {
-          width: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
-          height: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
-          scale: 1,
-          clearProps: "transform,transformOrigin"
-        }, "<");
+      // For system sections we need to handle the displayKey
+      if (section.displayKey?.startsWith('system-')) {
+        const systemSectionId = section.id + '-' + section.displayKey;
+        const sectionEl = sectionRefs.current[systemSectionId];
+        
+        if (sectionEl && (!selectedSection || systemSectionId !== selectedSection)) {
+          tl.set(sectionEl, {
+            width: 'calc(var(--normal-square-width)*2)', // System sections are all double width
+            height: 'calc(var(--normal-square-width)*2)', // System sections are all double height
+            clearProps: "transform,transformOrigin",
+            scale: 1,
+            overwrite: true
+          }, "<");
+        }
+      } else {
+        // Regular section handling
+        const sectionEl = sectionRefs.current[section.id];
+        if (sectionEl && (!selectedSection || section.id !== selectedSection)) {
+          tl.set(sectionEl, {
+            width: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
+            height: section.size === 'double' ? 'calc(var(--normal-square-width)*2)' : 'var(--normal-square-width)',
+            clearProps: "transform,transformOrigin",
+            scale: 1,
+            overwrite: true
+          }, "<");
+        }
       }
     });
     
     // If a section is selected, expand it after previous collapses
     if (selectedSection) {
-      const sectionEl = sectionRefs.current[selectedSection];
+      // For system sections we need special handling because of the displayKey formatting
+      let sectionEl = sectionRefs.current[selectedSection];
+      
+      // If we couldn't find the section directly, it might be because it's a system section 
+      // with a special compound ID format (id-displayKey)
+      if (!sectionEl && selectedSection.includes('-system-')) {
+        const [baseId, displayKey] = selectedSection.split('-system-');
+        const fullKey = baseId + '-system-' + displayKey;
+        sectionEl = sectionRefs.current[fullKey];
+      }
+      
       if (!sectionEl) return;
       
-      // Get section data
-      const sectionData = mainSections.find(s => s.id === selectedSection);
+      // Find the section data - check if it's a system section first
+      let sectionData;
+      if (selectedSection.includes('-system-')) {
+        // For system sections, we need to find by both id and displayKey
+        const [baseId, displayKey] = selectedSection.split('-system-');
+        sectionData = mainSections.find(s => 
+          s.id === baseId && s.displayKey === 'system-' + displayKey
+        );
+      } else {
+        // For regular sections
+        sectionData = mainSections.find(s => s.id === selectedSection);
+      }
+        
       if (!sectionData) return;
       
       // Calculate module grid size
@@ -415,7 +463,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
       
       // Add slight delay before expanding if we had a previous selection
       if (previousSection && previousSection !== selectedSection) {
-        tl.to({}, { duration: 0.05 }); // Small pause for better transition feel
+        tl.to({}, { duration: 0.1 }); // Small pause for better transition feel
       }
       
       // Expand the selected section with a nice elastic effect
@@ -424,6 +472,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         height: `${expandedSize}px`,
         duration: 0.35,
         ease: "back.out(1.1)",
+        overwrite: true,
         onComplete: () => {
           // Only create modules container if it doesn't already exist
           if (!sectionEl.querySelector('.modules-container')) {
@@ -494,10 +543,39 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         const featuresList = document.createElement('ul');
         featuresList.className = 'bg-white/10 rounded-lg p-4 mt-2 space-y-3';
         
+        // Create illustration container
+        const illustrationContainer = document.createElement('div');
+        illustrationContainer.className = 'mt-2 mb-4 w-full flex justify-center';
+        
         // Determine which system we're showing and set appropriate content
         if (displayKey === 'system-notion') {
           headingEl.textContent = 'Notion System';
-          descriptionEl.textContent = 'Our comprehensive content organization system powered by a custom Notion database with advanced integrations for content planning, tracking, and management.';
+          descriptionEl.textContent = 'Our comprehensive content organization system powered by a custom Notion database with advanced integrations.';
+          
+          // Notion database illustration
+          const notionIllustration = document.createElement('div');
+          notionIllustration.className = 'w-full max-w-[80%] h-24 bg-white/10 rounded-lg p-3 mb-4 flex flex-col justify-between';
+          
+          // Create database rows
+          for (let i = 0; i < 3; i++) {
+            const rowEl = document.createElement('div');
+            rowEl.className = 'flex items-center space-x-3';
+            
+            // Create dot indicator
+            const dotEl = document.createElement('div');
+            dotEl.className = 'notion-dot w-3 h-3 rounded-full bg-white/50';
+            
+            // Create row line
+            const lineEl = document.createElement('div');
+            lineEl.className = 'notion-row h-2 bg-white/30 rounded-full flex-grow';
+            
+            rowEl.appendChild(dotEl);
+            rowEl.appendChild(lineEl);
+            notionIllustration.appendChild(rowEl);
+          }
+          
+          // Add illustration
+          illustrationContainer.appendChild(notionIllustration);
           
           // Features specific to Notion System
           [
@@ -521,7 +599,30 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           
         } else if (displayKey === 'system-engine') {
           headingEl.textContent = 'Engine Room';
-          descriptionEl.textContent = 'Our streamlined content production system that turns raw footage into professional-quality videos through automated workflows, templates, and AI-powered tools.';
+          descriptionEl.textContent = 'Our streamlined content production system that turns raw footage into professional-quality videos.';
+          
+          // Engine room illustration - conveyor belt
+          const engineIllustration = document.createElement('div');
+          engineIllustration.className = 'relative w-full max-w-[80%] h-24 mb-4';
+          
+          const conveyor = document.createElement('div');
+          conveyor.className = 'h-16 bg-black/20 rounded-lg overflow-hidden';
+          
+          const conveyorItems = document.createElement('div');
+          conveyorItems.className = 'absolute inset-y-0 left-4 right-4 flex items-center';
+          
+          // Create conveyor items
+          for (let i = 0; i < 3; i++) {
+            const itemEl = document.createElement('div');
+            itemEl.className = `conveyor-item w-10 h-8 mx-3 bg-white/${20 + i*5} rounded`;
+            conveyorItems.appendChild(itemEl);
+          }
+          
+          conveyor.appendChild(conveyorItems);
+          engineIllustration.appendChild(conveyor);
+          
+          // Add illustration
+          illustrationContainer.appendChild(engineIllustration);
           
           // Features specific to Engine Room
           [
@@ -545,7 +646,59 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           
         } else if (displayKey === 'system-viral') {
           headingEl.textContent = 'Video OS';
-          descriptionEl.textContent = 'A powerful editing system with specialized templates, sound effects, transitions, and editing presets designed specifically for high-conversion short-form videos.';
+          descriptionEl.textContent = 'A powerful editing system with specialized templates and editing presets for high-conversion videos.';
+          
+          // Video OS illustration - timeline
+          const videoOSIllustration = document.createElement('div');
+          videoOSIllustration.className = 'w-full max-w-[80%] bg-black/20 h-24 rounded-lg p-2 relative mb-4';
+          
+          // Video track
+          const videoTrack = document.createElement('div');
+          videoTrack.className = 'h-4 mb-3 bg-black/30 rounded-full relative overflow-hidden';
+          
+          // Video clips
+          const clip1 = document.createElement('div');
+          clip1.className = 'editor-clips absolute left-2 w-12 h-full rounded-sm bg-[var(--hud-teal)]/70';
+          
+          const clip2 = document.createElement('div');
+          clip2.className = 'editor-clips absolute left-16 w-14 h-full rounded-sm bg-[var(--hud-coral)]/70';
+          
+          const playhead = document.createElement('div');
+          playhead.className = 'editor-playhead absolute top-0 bottom-0 left-12 w-0.5 bg-white/90';
+          
+          videoTrack.appendChild(clip1);
+          videoTrack.appendChild(clip2);
+          videoTrack.appendChild(playhead);
+          videoOSIllustration.appendChild(videoTrack);
+          
+          // Audio track
+          const audioTrack = document.createElement('div');
+          audioTrack.className = 'h-4 mb-3 bg-black/30 rounded-full relative overflow-hidden';
+          
+          // Audio clips
+          const audioClip1 = document.createElement('div');
+          audioClip1.className = 'editor-clips absolute left-4 w-8 h-full rounded-sm bg-white/30';
+          
+          const audioClip2 = document.createElement('div');
+          audioClip2.className = 'editor-clips absolute left-14 w-16 h-full rounded-sm bg-white/30';
+          
+          audioTrack.appendChild(audioClip1);
+          audioTrack.appendChild(audioClip2);
+          videoOSIllustration.appendChild(audioTrack);
+          
+          // Effects track
+          const effectsTrack = document.createElement('div');
+          effectsTrack.className = 'h-4 bg-black/30 rounded-full relative overflow-hidden';
+          
+          // Effects marker
+          const effectMarker = document.createElement('div');
+          effectMarker.className = 'absolute left-12 top-0 bottom-0 w-4 h-full bg-white/40 rounded-sm';
+          
+          effectsTrack.appendChild(effectMarker);
+          videoOSIllustration.appendChild(effectsTrack);
+          
+          // Add illustration
+          illustrationContainer.appendChild(videoOSIllustration);
           
           // Features specific to Video OS
           [
@@ -571,6 +724,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         // Add the elements to the container
         modulesContainer.appendChild(headingEl);
         modulesContainer.appendChild(descriptionEl);
+        modulesContainer.appendChild(illustrationContainer);
         contentEl.appendChild(featuresList);
         modulesContainer.appendChild(contentEl);
         
@@ -590,7 +744,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         sectionEl.appendChild(modulesContainer);
         
         // Animate system content with a nice fade-in sequence
-        gsap.from([headingEl, descriptionEl, featuresList, ctaButton, badgeEl], { 
+        gsap.from([headingEl, descriptionEl, illustrationContainer, featuresList, ctaButton, badgeEl], { 
           opacity: 0, 
           y: 15, 
           duration: 0.5,
