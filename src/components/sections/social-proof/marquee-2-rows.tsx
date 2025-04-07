@@ -63,32 +63,32 @@ export default function SocialProof() {
           </p>
         </div>
         
-        {/* Wider container with opacity vignettes */}
-        <div className="w-full relative overflow-hidden">
-          <div className="relative">
-            {/* First row scrolls left to right - slower speed */}
+        {/* Full-width mask with vignette */}
+        <div className="w-full max-w-full relative">
+          {/* First row scrolls left to right */}
+          <div className="relative overflow-hidden">
             <Marquee pauseOnHover className="[--duration:60s] py-0 mb-[-40px]">
               {firstRowThumbnails.map((item, index) => (
                 <ThumbnailItem key={`first-${index}`} src={item.src} alt={item.alt} />
               ))}
             </Marquee>
-            
-            {/* Second row scrolls right to left (reversed) - different speed for visual interest */}
+          </div>
+          
+          {/* Second row scrolls right to left (reversed) */}
+          <div className="relative overflow-hidden">
             <Marquee reverse pauseOnHover className="[--duration:70s] py-0 mt-[-40px]">
               {secondRowThumbnails.map((item, index) => (
                 <ThumbnailItem key={`second-${index}`} src={item.src} alt={item.alt} />
               ))}
             </Marquee>
-            
-            {/* Smooth edge vignettes with multiple gradient steps for a more natural fade */}
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-[15%] bg-gradient-to-r from-[#08141B] via-[#08141B]/90 to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 left-[15%] w-[10%] bg-gradient-to-r from-[#08141B]/90 via-[#08141B]/50 to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 left-[25%] w-[10%] bg-gradient-to-r from-[#08141B]/50 via-[#08141B]/20 to-transparent" />
-            
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-[15%] bg-gradient-to-l from-[#08141B] via-[#08141B]/90 to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 right-[15%] w-[10%] bg-gradient-to-l from-[#08141B]/90 via-[#08141B]/50 to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 right-[25%] w-[10%] bg-gradient-to-l from-[#08141B]/50 via-[#08141B]/20 to-transparent" />
           </div>
+          
+          {/* Deep side vignettes that fade out thumbnails completely */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-[35%] z-10" 
+               style={{ background: 'linear-gradient(to right, #08141B 0%, #08141B 15%, rgba(8, 20, 27, 0.95) 30%, rgba(8, 20, 27, 0.8) 50%, rgba(8, 20, 27, 0.4) 70%, rgba(8, 20, 27, 0) 100%)' }}></div>
+          
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-[35%] z-10" 
+               style={{ background: 'linear-gradient(to left, #08141B 0%, #08141B 15%, rgba(8, 20, 27, 0.95) 30%, rgba(8, 20, 27, 0.8) 50%, rgba(8, 20, 27, 0.4) 70%, rgba(8, 20, 27, 0) 100%)' }}></div>
         </div>
       </div>
     </Section>
