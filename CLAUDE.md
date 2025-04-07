@@ -2,29 +2,23 @@
 
 This file guides Claude Code when working with this repository. Follow these instructions PRECISELY.
 
-## Current Mission: Theme-Aware Styling Refactoring
+## Current Mission: Create VS-BigReveal Component
 
-**Primary Goal**: Efficiently convert the entire codebase to use theme-aware styling, ensuring consistent appearance in both light and dark modes.
+**Primary Goal**: Create a new theme-aware "VS-BigReveal" component that showcases the Vertical Shortcut solution with compelling visuals and animations.
 
 **Approach**:
-1. Use search tools (GrepTool, GlobTool, dispatch_agent) to identify non-compliant styling patterns
-2. Prioritize search-and-replace operations to efficiently update common patterns
-3. Focus on UI components first, then sections, then other components
-4. Apply systematic replacements for:
-   - Competing light/dark mode classes (`dark:`)
-   - Direct CSS variable references without theme awareness
-   - Static color values
-   - Tailwind gradient patterns
-   - Shadow implementations
-5. Use the CSS class checker utility (`node css-class-checker.js`) to:
-   - Identify missing theme-aware classes
-   - Find components using undefined theme variables
-   - Guide implementation of missing classes in globals.css
-   - Maintain consistent naming conventions
-6. Address missing theme-aware classes identified by the checker in globals.css
-7. Regularly check progress against the refactoring checklist
+1. Extract and refactor the current "key features" section from VerticalShortcutLanding.tsx
+2. Create a new standalone VS-BigReveal.tsx component
+3. Implement a dynamic, attention-grabbing section that introduces "The Solution"
+4. Incorporate the Vertical Shortcut logo
+5. Design bold, "in your face" animations that properly clean up
+6. Position this component to follow the PainPoints section
+7. Ensure all styling follows theme-aware implementation
+8. Use GSAP for smooth, professional animations with proper cleanup
+9. Add floating elements and visual interest using theme-aware variables
+10. Implement responsive design for all screen sizes
 
-**Success Criteria**: All components working with a single source of truth for styling that automatically adapts to theme changes, without competing style declarations. All theme-aware classes properly defined in globals.css.
+**Success Criteria**: A visually striking, animated "Big Reveal" component that effectively communicates the Vertical Shortcut solution with proper theme-aware styling in both light and dark modes.
 
 ## Initial Requirements
 

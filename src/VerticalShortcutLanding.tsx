@@ -24,6 +24,7 @@ import TestimonialCarousel from './components/ui/testimonial-carousel';
 import LeadCaptureForm from './components/ui/lead-capture-form';
 import VSApplicationFormModal from './components/form/VSApplicationFormModal';
 import { CaseStudies, VSPainPoints } from './components/sections';
+import VSBigReveal from './components/sections/VS-BigReveal';
 import { Link } from 'react-router-dom';
 import { AnimatedButton } from './components/marble-buttons/AnimatedButton';
 import { CourseViewer } from './components/sections/course-viewer';
@@ -225,29 +226,7 @@ const learningOutcomes = [
   }
 ];
 
-// Key features data
-const keyFeatures = [
-  { 
-    title: "No More Guesswork", 
-    description: "Stop wondering why some videos work while others flop. Our system reveals exactly what drives algorithmic success.",
-    icon: <CheckCircle className="h-5 w-5 text-[#FEA35D]" />
-  },
-  { 
-    title: "Templates For Everything", 
-    description: "Over 50 plug-and-play templates for hooks, scripts, and content structures that you can implement immediately.",
-    icon: <CheckCircle className="h-5 w-5 text-[#FEA35D]" />
-  },
-  { 
-    title: "Weekly Live Coaching", 
-    description: "Direct access to our team of experts who've generated over 800M views for personalized feedback and advice.",
-    icon: <CheckCircle className="h-5 w-5 text-[#FEA35D]" />
-  },
-  { 
-    title: "Private Community", 
-    description: "Connect with other serious creators and founders for collaboration, feedback, and accountability.",
-    icon: <CheckCircle className="h-5 w-5 text-[#FEA35D]" />
-  }
-];
+// Features data is now in VS-BigReveal component
 
 // Animation controller component - This is the key improvement
 function AnimationController({ children }: { children: React.ReactNode }) {
@@ -617,6 +596,9 @@ const VerticalShortcutLanding = () => {
           
           {/* Pain Points Section - For founders feeling fed up */}
           <VSPainPoints />
+          
+          {/* Big Reveal Section - The Solution */}
+          <VSBigReveal />
 
           <CourseViewer />
           
@@ -805,114 +787,7 @@ const VerticalShortcutLanding = () => {
           </VSSection>
           
           
-          {/* Key Features Section */}
-          <VSSection 
-            lightBg="bg-[--bg-navy)]" 
-            darkBg="dark:bg-[--bg-navy)]"
-            className="py-24 border-t border-[--secondary-teal)]/30"
-          >
-            <div className="container mx-auto px-4">
-              <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto items-center">
-                <div>
-                  <Badge variant="outline" className="bg-white/5 border-[--primary-orange)]/30 mb-4 py-2 px-4">
-                    <VSText color="--primary-orange)" className="dark:text-[--primary-orange)]">
-                      Program Features
-                    </VSText>
-                  </Badge>
-                  <VSGradientText
-                    variant="h2"
-                    fromColor="white"
-                    toColor="rgba(255,255,255,0.7)"
-                    className="text-3xl md:text-4xl font-bold mb-6"
-                  >
-                    What You Get
-                  </VSGradientText>
-                  <VSText color="white" className="text-lg dark:text-white/70 mb-8">
-                    Beyond just the course content, Vertical Shortcut provides everything you need to implement what you learn successfully.
-                  </VSText>
-                  
-                  <div className="space-y-6">
-                    {keyFeatures.map((feature, index) => (
-                      <div key={index} className="flex items-start gap-4">
-                        <div className="mt-1">
-                          {feature.icon}
-                        </div>
-                        <div>
-                          <VSHeading variant="h3" color="white" className="text-lg mb-1">
-                            {feature.title}
-                          </VSHeading>
-                          <VSText color="white" className="dark:text-white/70">
-                            {feature.description}
-                          </VSText>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                <VSCard
-                  lightBg="bg-white/5"
-                  darkBg="dark:bg-white/5"
-                  className="backdrop-blur-sm rounded-xl p-8 border border-white/10"
-                >
-                  <VSHeading variant="h3" color="white" className="text-2xl mb-6">
-                    Program Details
-                  </VSHeading>
-                  
-                  <div className="space-y-6">
-                    <div className="flex justify-between items-center pb-3 border-b border-white/10">
-                      <VSText color="white" className="text-lg">Duration</VSText>
-                      <VSText color="white" className="text-lg font-bold">10 Weeks</VSText>
-                    </div>
-                    
-                    <div className="flex justify-between items-center pb-3 border-b border-white/10">
-                      <VSText color="white" className="text-lg">Commitment</VSText>
-                      <VSText color="white" className="text-lg font-bold">4 Hours/Week</VSText>
-                    </div>
-                    
-                    <div className="flex justify-between items-center pb-3 border-b border-white/10">
-                      <VSText color="white" className="text-lg">Format</VSText>
-                      <VSText color="white" className="text-lg font-bold">Online + Live Sessions</VSText>
-                    </div>
-                    
-                    <div className="flex justify-between items-center pb-3 border-b border-white/10">
-                      <VSText color="white" className="text-lg">Next Cohort</VSText>
-                      <VSText color="--accent-crimson)" className="text-lg font-bold dark:text-[--accent-crimson)]">
-                        March 25, 2025
-                      </VSText>
-                    </div>
-                    
-                    <div className="flex justify-between items-center pb-3 border-b border-white/10">
-                      <VSText color="white" className="text-lg">Class Size</VSText>
-                      <VSText color="white" className="text-lg font-bold">Limited to 20 Students</VSText>
-                    </div>
-                    
-                    <div className="flex justify-between items-center">
-                      <VSText color="white" className="text-lg">Investment</VSText>
-                      <VSText color="--primary-orange)" className="text-xl font-bold dark:text-[--primary-orange)]">
-                        £6,500
-                      </VSText>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-8">
-                    <AnimatedButton
-                      text="Apply Now"
-                      variant="start"
-                      saturation="high"
-                      size="lg"
-                      onClick={openApplicationModal}
-                      className="w-auto"
-                    />
-                    
-                    <VSText color="white" className="text-sm text-center mt-4 dark:text-white/50">
-                      4 monthly installments of £1,625 available
-                    </VSText>
-                  </div>
-                </VSCard>
-              </div>
-            </div>
-          </VSSection>
+          {/* Key Features Section removed - now using VS-BigReveal component */}
           
           {/* Pricing Section */}
           <PricingSection />
