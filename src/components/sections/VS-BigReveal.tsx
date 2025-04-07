@@ -219,8 +219,8 @@ const VSBigReveal = () => {
                      opacity-theme-float
                      animate-float-medium"></div>
       
-      {/* VS Logo with animation - MASSIVE and absolutely positioned on RIGHT */}
-      <div ref={logoRef} className="vs-logo-wrapper absolute top-[250px] right-[-30vw] md:right-[-20vw] lg:right-[-10vw] w-[150vw] max-w-[1800px] min-w-[800px] z-0 transform-gpu pointer-events-none">
+      {/* VS Logo with animation - INSANELY MASSIVE and absolutely positioned on RIGHT */}
+      <div ref={logoRef} className="vs-logo-wrapper absolute top-[350px] right-[-40vw] md:right-[-30vw] lg:right-[-20vw] w-[200vw] max-w-[none] min-w-[1200px] z-0 transform-gpu pointer-events-none scale-[1.5]">
         <AnimatedLogo onAnimationComplete={() => console.log('Logo animation complete')} />
         <div className="absolute inset-0 -z-10 blur-3xl">
           <div className="w-full h-full rounded-full bg-theme-radial-glow opacity-80"></div>
