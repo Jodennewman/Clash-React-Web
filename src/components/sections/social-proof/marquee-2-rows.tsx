@@ -63,10 +63,9 @@ export default function SocialProof() {
           </p>
         </div>
         
-        {/* 75% width card wrapper with overflow hidden */}
-        <div className="w-[85%] md:w-[75%] relative rounded-xl bg-[#0a1923]/50 backdrop-blur-sm p-6 shadow-theme-md border border-[#154D59]/20 overflow-hidden">
-          {/* Negative margin to compensate for padding */}
-          <div className="mx-[-2rem] relative">
+        {/* Wider container with opacity vignettes */}
+        <div className="w-full relative overflow-hidden">
+          <div className="relative">
             {/* First row scrolls left to right - slower speed */}
             <Marquee pauseOnHover className="[--duration:60s] py-0 mb-[-40px]">
               {firstRowThumbnails.map((item, index) => (
@@ -81,13 +80,14 @@ export default function SocialProof() {
               ))}
             </Marquee>
             
-            {/* Enhanced edge vignettes */}
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#0a1923] via-[#0a1923]/80 to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#0a1923] via-[#0a1923]/80 to-transparent" />
-
-            {/* Top and bottom vignettes to soften the edges */}
-            <div className="pointer-events-none absolute top-0 inset-x-0 h-8 bg-gradient-to-b from-[#0a1923] to-transparent" />
-            <div className="pointer-events-none absolute bottom-0 inset-x-0 h-8 bg-gradient-to-t from-[#0a1923] to-transparent" />
+            {/* Smooth edge vignettes with multiple gradient steps for a more natural fade */}
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-[15%] bg-gradient-to-r from-[#08141B] via-[#08141B]/90 to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 left-[15%] w-[10%] bg-gradient-to-r from-[#08141B]/90 via-[#08141B]/50 to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 left-[25%] w-[10%] bg-gradient-to-r from-[#08141B]/50 via-[#08141B]/20 to-transparent" />
+            
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-[15%] bg-gradient-to-l from-[#08141B] via-[#08141B]/90 to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-[15%] w-[10%] bg-gradient-to-l from-[#08141B]/90 via-[#08141B]/50 to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-[25%] w-[10%] bg-gradient-to-l from-[#08141B]/50 via-[#08141B]/20 to-transparent" />
           </div>
         </div>
       </div>
