@@ -183,29 +183,48 @@ const VSBigReveal = () => {
     >
       {/* Isometric Grid Background */}
       <IsometricGridBackground />
-      {/* Theme-aware floating elements using brand utility classes */}
-      <div className="absolute top-20 left-10 w-32 h-32 rounded-[40%] rotate-12 
+      {/* Enhanced decorative elements */}
+      {/* Large top-left floating square */}
+      <div className="absolute top-20 left-10 w-60 h-60 rounded-[40%] rotate-12 
                      opacity-theme-float
-                     bg-theme-float-primary
+                     bg-theme-float-primary 
                      animate-float-slow"></div>
       
-      <div className="absolute bottom-40 right-10 w-40 h-40 rounded-[30%] -rotate-6 
+      {/* Large bottom-right floating element */}
+      <div className="absolute bottom-40 right-10 w-80 h-80 rounded-[30%] -rotate-6 
                      opacity-theme-float
                      bg-theme-float-secondary
                      animate-float-medium"></div>
                      
-      <div className="absolute top-2/3 left-1/3 w-24 h-24 rounded-[35%] rotate-45
+      {/* Medium floating accent */}
+      <div className="absolute top-1/3 right-1/4 w-40 h-40 rounded-[35%] rotate-45
                      opacity-theme-float
                      bg-theme-float-accent
                      animate-float-fast"></div>
+                     
+      {/* Floating circle element */}
+      <div className="absolute bottom-1/4 left-1/4 w-32 h-32 rounded-full
+                     opacity-theme-float
+                     bg-theme-accent/10
+                     animate-float-medium"></div>
+                    
+      {/* Extra decorative element - ring */}
+      <div className="absolute top-1/2 right-1/3 w-24 h-24 rounded-full border-4 border-theme-accent/20
+                     opacity-theme-float
+                     animate-spin-slow"></div>
+                     
+      {/* Extra decorative element - donut */}
+      <div className="absolute bottom-1/4 right-10 w-16 h-16 rounded-full border-8 border-theme-primary/15
+                     opacity-theme-float
+                     animate-float-medium"></div>
       
       <div className="container mx-auto px-4 relative z-10">
-        {/* VS Logo with animation - much bigger and positioned left */}
-        <div ref={logoRef} className="vs-logo-wrapper relative h-[500px] mb-8">
-          <div className="absolute top-0 left-[5%] lg:left-[10%] -z-0 w-[450px] max-w-[80vw] sm:max-w-[70vw] md:max-w-[60vw] transform-gpu">
+        {/* VS Logo with animation - MUCH bigger and positioned left */}
+        <div ref={logoRef} className="vs-logo-wrapper relative h-[700px] mb-8">
+          <div className="absolute top-0 left-0 lg:left-[5%] -z-0 w-[800px] max-w-[90vw] transform-gpu">
             <AnimatedLogo onAnimationComplete={() => console.log('Logo animation complete')} />
-            <div className="absolute inset-0 -z-10 blur-2xl">
-              <div className="w-full h-full rounded-full bg-theme-radial-glow opacity-70"></div>
+            <div className="absolute inset-0 -z-10 blur-3xl">
+              <div className="w-full h-full rounded-full bg-theme-radial-glow opacity-80"></div>
             </div>
           </div>
         </div>

@@ -16,6 +16,7 @@ export default {
         'float-gentle': 'float-gentle 9s ease-in-out infinite',
         'ripple': 'ripple 0.5s ease-out forwards',
         'float': 'float-pattern 20s linear infinite',
+        'spin-slow': 'spin 12s linear infinite',
       },
       keyframes: {
         'fadeIn': {
