@@ -14,7 +14,11 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 // Register ScrollToPlugin
 gsap.registerPlugin(ScrollToPlugin);
 
-export default function VSNavbar() {
+interface VSNavbarProps {
+  onApplyClick?: () => void;
+}
+
+export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const navbarRef = useRef(null);
@@ -136,7 +140,7 @@ export default function VSNavbar() {
             <Button 
               variant="default" 
               className="bg-[var(--theme-primary)] hover:bg-[var(--theme-primary-hover)]  dark:hover:bg-[var(--theme-primary-hover)] text-white px-5 py-2 shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(254,163,93,0.2)] transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]"
-              onClick={() => {
+              onClick={onApplyClick || (() => {
                 const applicationForm = document.getElementById("application-form");
                 if (applicationForm) {
                   gsap.to(window, {
@@ -147,12 +151,10 @@ export default function VSNavbar() {
                     },
                     ease: "power3.inOut"
                   });
-                } else {
-                  window.location.href = '/application-form';
                 }
-              }}
+              })}
             >
-              Apply Now
+              Find Your Implementation
             </Button>
             <Sheet>
               <SheetTrigger asChild>
@@ -236,7 +238,6 @@ export default function VSNavbar() {
                   <Button 
                     className="mt-4 bg-[var(--theme-primary)] hover:bg-[var(--theme-primary-hover)]  dark:hover:bg-[var(--theme-primary-hover)] text-white shadow-[1px_1px_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_8px_rgba(254,163,93,0.2)] transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]"
                     onClick={() => {
-                      const applicationForm = document.getElementById("application-form");
                       const sheet = document.querySelector('[data-state="open"]');
                       
                       if (sheet) {
@@ -244,23 +245,14 @@ export default function VSNavbar() {
                         if (closeButton && closeButton instanceof HTMLElement) closeButton.click();
                       }
                       
-                      if (applicationForm) {
+                      if (onApplyClick) {
                         setTimeout(() => {
-                          gsap.to(window, {
-                            duration: 1.2,
-                            scrollTo: {
-                              y: applicationForm,
-                              offsetY: 80
-                            },
-                            ease: "power3.inOut"
-                          });
+                          onApplyClick();
                         }, 300);
-                      } else {
-                        window.location.href = '/application-form';
                       }
                     }}
                   >
-                    Apply Now
+                    Find Your Implementation
                   </Button>
                 </nav>
               </SheetContent>

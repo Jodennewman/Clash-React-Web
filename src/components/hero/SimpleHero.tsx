@@ -160,7 +160,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
             {/* Animated Buttons - more professional and consistent with the design system */}
             <div className={`hero-content flex flex-wrap gap-3 lg:gap-4`}>
               <AnimatedButton 
-                text="Apply Now"
+                text="Find Your Implementation"
                 variant="start"
                 saturation="high"
                 size="md"
@@ -172,6 +172,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                 variant="docs"
                 saturation="normal"
                 size="md"
+                onClick={onCtaClick}
                 className="w-auto"
               />
             </div>

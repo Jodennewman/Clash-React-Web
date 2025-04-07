@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { Button } from "../components/ui/button";
 
 // Stage icon component to render the appropriate icon for each stage
 interface StageIconProps {
@@ -173,7 +174,7 @@ const AnalysisAnimation: React.FC<{ onComplete: () => void }> = ({ onComplete })
   }, [onComplete]);
   
   return (
-    <div className="h-full flex flex-col items-center justify-center relative overflow-hidden bg-vs-gradient-navy-deep" ref={animationRef}>
+    <div className="flex flex-col items-center justify-center relative overflow-hidden bg-vs-gradient-navy-deep min-h-[280px]" ref={animationRef}>
       {/* Colorful background gradient overlay */}
       <div className="absolute inset-0 bg-opacity-30 vs-gradient-coral-orange opacity-10"></div>
       
@@ -188,44 +189,44 @@ const AnalysisAnimation: React.FC<{ onComplete: () => void }> = ({ onComplete })
         <div className="absolute bottom-1/4 right-1/3 w-1 h-1 rounded-full bg-vs-gradient-coral-orange"></div>
         
         {/* Animated "data" connections */}
-        <div className="absolute top-1/4 left-1/4 w-[300px] h-px bg-gradient-to-r from-theme-primary to-transparent data-line-1"></div>
-        <div className="absolute top-1/3 right-1/4 w-[250px] h-px bg-gradient-to-l from-theme-accent-secondary to-transparent data-line-2"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-[200px] h-px bg-gradient-to-r from-theme-accent-tertiary to-transparent data-line-3"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-[280px] h-px bg-gradient-to-l from-theme-primary to-transparent data-line-4"></div>
+        <div className="absolute top-1/4 left-1/4 w-[200px] h-px bg-gradient-to-r from-theme-primary to-transparent data-line-1"></div>
+        <div className="absolute top-1/3 right-1/4 w-[150px] h-px bg-gradient-to-l from-theme-accent-secondary to-transparent data-line-2"></div>
+        <div className="absolute bottom-1/3 left-1/3 w-[120px] h-px bg-gradient-to-r from-theme-accent-tertiary to-transparent data-line-3"></div>
+        <div className="absolute bottom-1/4 right-1/3 w-[180px] h-px bg-gradient-to-l from-theme-primary to-transparent data-line-4"></div>
       </div>
       
-      <div className="text-center z-10 max-w-md mx-auto bg-theme-bg-surface/5 p-6 rounded-xl backdrop-blur-md border border-theme-border-light">
-        <h3 className="text-2xl font-bold vs-text-gradient-orange mb-6">Finding Your Perfect Solution</h3>
+      <div className="text-center z-10 max-w-md mx-auto bg-theme-bg-surface/5 p-4 rounded-xl backdrop-blur-md border border-theme-border-light">
+        <h3 className="text-xl font-bold vs-text-gradient-orange mb-4">Finding Your Perfect Solution</h3>
         
-        <div className="space-y-5 mb-8">
-          <div className="analysis-step flex items-center opacity-0 bg-theme-bg-surface/20 p-3 rounded-lg shadow-theme-sm backdrop-blur-sm border border-theme-primary/10">
-            <div className="w-8 h-8 rounded-full bg-theme-primary/20 flex items-center justify-center mr-3">
-              <Check className="h-5 w-5 text-theme-primary" />
+        <div className="space-y-3 mb-5">
+          <div className="analysis-step flex items-center opacity-0 bg-theme-bg-surface/20 p-2 rounded-lg shadow-theme-sm backdrop-blur-sm border border-theme-primary/10">
+            <div className="w-6 h-6 rounded-full bg-theme-primary/20 flex items-center justify-center mr-2">
+              <Check className="h-4 w-4 text-theme-primary" />
             </div>
-            <span className="text-white/90">Analyzing response patterns</span>
+            <span className="text-white/90 text-sm">Analyzing response patterns</span>
           </div>
-          <div className="analysis-step flex items-center opacity-0 bg-theme-bg-surface/20 p-3 rounded-lg shadow-theme-sm backdrop-blur-sm border border-theme-accent-secondary/10">
-            <div className="w-8 h-8 rounded-full bg-theme-accent-secondary/20 flex items-center justify-center mr-3">
-              <Check className="h-5 w-5 text-theme-accent-secondary" />
+          <div className="analysis-step flex items-center opacity-0 bg-theme-bg-surface/20 p-2 rounded-lg shadow-theme-sm backdrop-blur-sm border border-theme-accent-secondary/10">
+            <div className="w-6 h-6 rounded-full bg-theme-accent-secondary/20 flex items-center justify-center mr-2">
+              <Check className="h-4 w-4 text-theme-accent-secondary" />
             </div>
-            <span className="text-white/90">Matching implementation frameworks</span>
+            <span className="text-white/90 text-sm">Matching implementation frameworks</span>
           </div>
-          <div className="analysis-step flex items-center opacity-0 bg-theme-bg-surface/20 p-3 rounded-lg shadow-theme-sm backdrop-blur-sm border border-theme-accent-tertiary/10">
-            <div className="w-8 h-8 rounded-full bg-theme-accent-tertiary/20 flex items-center justify-center mr-3">
-              <Check className="h-5 w-5 text-theme-accent-tertiary" />
+          <div className="analysis-step flex items-center opacity-0 bg-theme-bg-surface/20 p-2 rounded-lg shadow-theme-sm backdrop-blur-sm border border-theme-accent-tertiary/10">
+            <div className="w-6 h-6 rounded-full bg-theme-accent-tertiary/20 flex items-center justify-center mr-2">
+              <Check className="h-4 w-4 text-theme-accent-tertiary" />
             </div>
-            <span className="text-white/90">Calculating resource requirements</span>
+            <span className="text-white/90 text-sm">Calculating resource requirements</span>
           </div>
-          <div className="analysis-step flex items-center opacity-0 bg-theme-bg-surface/20 p-3 rounded-lg shadow-theme-sm backdrop-blur-sm border border-theme-primary/10">
-            <div className="w-8 h-8 rounded-full bg-vs-gradient-coral-orange/20 flex items-center justify-center mr-3">
-              <Check className="h-5 w-5 text-vs-gradient-coral-orange" />
+          <div className="analysis-step flex items-center opacity-0 bg-theme-bg-surface/20 p-2 rounded-lg shadow-theme-sm backdrop-blur-sm border border-theme-primary/10">
+            <div className="w-6 h-6 rounded-full bg-vs-gradient-coral-orange/20 flex items-center justify-center mr-2">
+              <Check className="h-4 w-4 text-vs-gradient-coral-orange" />
             </div>
-            <span className="text-white/90">Generating personalized recommendation</span>
+            <span className="text-white/90 text-sm">Generating personalized recommendation</span>
           </div>
         </div>
         
         {/* Centered, wider progress bar with shimmer effect */}
-        <div className="relative w-80 h-3 bg-theme-bg-surface/40 rounded-full overflow-hidden mx-auto border border-white/10">
+        <div className="relative w-64 h-2 bg-theme-bg-surface/40 rounded-full overflow-hidden mx-auto border border-white/10">
           <div className="progress-bar h-full w-0 vs-gradient-primary-accent rounded-full relative">
             {/* Shimmer effect */}
             <div className="progress-bar-shimmer absolute inset-0 w-1/3 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full"></div>
@@ -233,18 +234,16 @@ const AnalysisAnimation: React.FC<{ onComplete: () => void }> = ({ onComplete })
         </div>
         
         {/* Completion message that appears when the bar is full */}
-        <div className={`mt-4 transition-opacity duration-300 ${isAnimationComplete ? 'opacity-100' : 'opacity-0'}`}>
-          <span className="text-white text-sm font-medium px-4 py-2 bg-theme-primary/20 rounded-full">
+        <div className={`mt-3 transition-opacity duration-300 ${isAnimationComplete ? 'opacity-100' : 'opacity-0'}`}>
+          <span className="text-white text-xs font-medium px-3 py-1.5 bg-theme-primary/20 rounded-full">
             Analysis complete! Preparing recommendation...
           </span>
         </div>
       </div>
       
-      {/* Enhanced floating elements for visual interest */}
-      <div className="absolute top-10 right-10 -z-0 w-32 h-32 rounded-[40%] rotate-12 opacity-30 bg-theme-primary animate-float-slow blur-xl"></div>
-      <div className="absolute bottom-10 left-10 -z-0 w-40 h-40 rounded-[30%] -rotate-12 opacity-20 bg-theme-accent-secondary animate-float-medium blur-xl"></div>
-      <div className="absolute top-40 left-20 -z-0 w-24 h-24 rounded-[45%] rotate-45 opacity-25 bg-theme-accent-tertiary animate-float-slow blur-lg"></div>
-      <div className="absolute bottom-40 right-20 -z-0 w-36 h-36 rounded-[35%] -rotate-6 opacity-20 bg-theme-primary-light animate-float-medium blur-xl"></div>
+      {/* Minimized floating elements */}
+      <div className="absolute top-8 right-8 -z-0 w-16 h-16 rounded-[40%] rotate-12 opacity-20 bg-theme-primary animate-float-slow blur-lg"></div>
+      <div className="absolute bottom-8 left-8 -z-0 w-20 h-20 rounded-[30%] -rotate-12 opacity-15 bg-theme-accent-secondary animate-float-medium blur-lg"></div>
     </div>
   );
 };
@@ -277,19 +276,18 @@ const AnalysisBreakdown: React.FC<{
   };
   
   return (
-    <div className="h-full flex flex-col p-6">
-      <h3 className="text-2xl font-bold text-theme-primary mb-4 text-center">Your Implementation Analysis</h3>
+    <div className="flex flex-col p-4">
+      <h3 className="text-xl font-bold text-theme-primary mb-2 text-center">Your Implementation Analysis</h3>
       
-      <p className="text-theme-secondary text-center mb-6">
+      <p className="text-theme-secondary text-center mb-4 text-sm">
         We've analyzed your responses to find the implementation approach that best matches your needs
       </p>
       
-      
       {/* Factor breakdown - without showing the actual score */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="space-y-3">
-          <h4 className="text-sm font-medium text-theme-primary mb-1">Team Structure</h4>
-          <div className="h-4 bg-theme-bg-surface rounded-full overflow-hidden">
+      <div className="grid grid-cols-2 gap-3 mb-4">
+        <div className="space-y-2">
+          <h4 className="text-xs font-medium text-theme-primary">Team Structure</h4>
+          <div className="h-3 bg-theme-bg-surface rounded-full overflow-hidden">
             <div 
               className="h-full bg-theme-primary rounded-full"
               style={{ width: `${percentages.teamSize}%` }}
@@ -302,9 +300,9 @@ const AnalysisBreakdown: React.FC<{
           </p>
         </div>
         
-        <div className="space-y-3">
-          <h4 className="text-sm font-medium text-theme-primary mb-1">Implementation Support</h4>
-          <div className="h-4 bg-theme-bg-surface rounded-full overflow-hidden">
+        <div className="space-y-2">
+          <h4 className="text-xs font-medium text-theme-primary">Implementation Support</h4>
+          <div className="h-3 bg-theme-bg-surface rounded-full overflow-hidden">
             <div 
               className="h-full bg-theme-primary rounded-full"
               style={{ width: `${percentages.support}%` }}
@@ -313,13 +311,13 @@ const AnalysisBreakdown: React.FC<{
           <p className="text-xs text-theme-tertiary">
             {answers.implementationSupport === 'full_service' ? 'Hands-on support' :
              answers.implementationSupport === 'guided' ? 'Coaching & support' :
-             answers.implementationSupport === 'self_directed' ? 'Self-guided' : 'Flexible approach'}
+             answers.implementationSupport === 'self_directed' ? 'Self-guided' : 'Flexible'}
           </p>
         </div>
         
-        <div className="space-y-3">
-          <h4 className="text-sm font-medium text-theme-primary mb-1">Timeline</h4>
-          <div className="h-4 bg-theme-bg-surface rounded-full overflow-hidden">
+        <div className="space-y-2">
+          <h4 className="text-xs font-medium text-theme-primary">Timeline</h4>
+          <div className="h-3 bg-theme-bg-surface rounded-full overflow-hidden">
             <div 
               className="h-full bg-theme-primary rounded-full"
               style={{ width: `${percentages.timeline}%` }}
@@ -328,13 +326,13 @@ const AnalysisBreakdown: React.FC<{
           <p className="text-xs text-theme-tertiary">
             {answers.timeline === 'immediate' ? 'Ready now' :
              answers.timeline === 'next_quarter' ? 'Next quarter' :
-             answers.timeline === 'exploratory' ? 'Strategic planning' : 'Timeline flexible'}
+             answers.timeline === 'exploratory' ? 'Planning' : 'Flexible'}
           </p>
         </div>
         
-        <div className="space-y-3">
-          <h4 className="text-sm font-medium text-theme-primary mb-1">Content Vision</h4>
-          <div className="h-4 bg-theme-bg-surface rounded-full overflow-hidden">
+        <div className="space-y-2">
+          <h4 className="text-xs font-medium text-theme-primary">Content Vision</h4>
+          <div className="h-3 bg-theme-bg-surface rounded-full overflow-hidden">
             <div 
               className="h-full bg-theme-primary rounded-full"
               style={{ width: `${percentages.volume}%` }}
@@ -342,34 +340,36 @@ const AnalysisBreakdown: React.FC<{
           </div>
           <p className="text-xs text-theme-tertiary">
             {answers.contentVolume === 'high' ? 'Content engine' :
-             answers.contentVolume === 'medium' ? 'Consistent presence' :
-             answers.contentVolume === 'low' ? 'Focused impact' : 'Strategy first'}
+             answers.contentVolume === 'medium' ? 'Consistent' :
+             answers.contentVolume === 'low' ? 'Focused' : 'Strategic'}
           </p>
         </div>
       </div>
       
       {/* Implementation match */}
-      <div className={`p-4 rounded-lg mb-8 text-white shadow-theme-md ${
+      <div className={`p-3 rounded-lg mb-4 text-white shadow-theme-sm ${
           score >= 8 ? 'bg-vs-gradient-coral-orange' : 
           score >= 5 ? 'bg-vs-gradient-primary-accent' : 
           'bg-vs-gradient-teal'
         }`}>
-        <h4 className="font-medium text-white mb-2">Your Implementation Match</h4>
-        <p className="text-sm text-white/90">
+        <h4 className="font-medium text-white text-sm mb-1">Your Implementation Match</h4>
+        <p className="text-xs text-white/90">
           {score >= 8 ? 
-            'Your needs align with our Executive Partnership approach. You have a complex team structure, desire hands-on support, and have ambitious content goals on an accelerated timeline.' :
+            'Your needs align with our Executive Partnership approach for complex teams with hands-on support and ambitious content goals.' :
            score >= 5 ?
-            'Your profile fits our Comprehensive Implementation approach. You have a growing team with balanced support needs and a clear vision for content production.' :
-            'The Foundation Program is your ideal starting point. This self-paced approach allows you to build momentum at your own pace while establishing core content systems.'}
+            'Your profile fits our Comprehensive Implementation approach for growing teams with balanced support needs.' :
+            'The Foundation Program is your ideal starting point. This self-paced approach helps you build momentum at your own pace.'}
         </p>
       </div>
       
-      <button
+      <Button
         onClick={onContinue}
-        className="py-3 px-8 bg-theme-primary hover:bg-theme-primary-hover text-white rounded-lg transition-colors shadow-theme-btn hover:shadow-theme-lg hover-bubbly self-center"
+        variant="default"
+        size="sm"
+        className="self-center"
       >
         See My Recommendation
-      </button>
+      </Button>
     </div>
   );
 };
@@ -382,53 +382,55 @@ const FoundationRecommendationView: React.FC<{
   answers: any
 }> = ({ recommendation, onUpgradeSelect, onPurchase, answers }) => {
   return (
-    <div className="grid grid-cols-2 gap-6 h-full p-6">
+    <div className="grid grid-cols-2 gap-3 p-4">
       {/* LEFT COLUMN - Recommended Foundation Program */}
-      <div className="border border-theme-border-light rounded-xl overflow-hidden shadow-theme-sm flex flex-col">
-        <div className="p-4 bg-theme-bg-surface border-b border-theme-border-light">
-          <div className="bg-theme-primary/10 text-theme-primary text-xs font-medium px-2 py-1 rounded-full inline-block mb-2">
+      <div className="border border-theme-border-light rounded-lg overflow-hidden shadow-theme-sm flex flex-col">
+        <div className="p-3 bg-theme-bg-surface border-b border-theme-border-light">
+          <div className="bg-theme-primary/10 text-theme-primary text-xs font-medium px-2 py-0.5 rounded-full inline-block mb-1">
             Recommended for You
           </div>
-          <h3 className="text-xl font-bold text-theme-primary">Foundation Program</h3>
-          <p className="text-theme-tertiary text-sm">Get started on your content journey</p>
+          <h3 className="text-lg font-bold text-theme-primary">Foundation Program</h3>
+          <p className="text-theme-tertiary text-xs">Get started on your content journey</p>
         </div>
         
-        <div className="p-4 flex-grow">
-          <div className="mb-6">
-            <span className="text-sm text-theme-tertiary">One-time payment</span>
-            <div className="text-3xl font-bold text-theme-primary">{recommendation.pricing}</div>
+        <div className="p-3 flex-grow">
+          <div className="mb-3">
+            <span className="text-xs text-theme-tertiary">One-time payment</span>
+            <div className="text-2xl font-bold text-theme-primary">{recommendation.pricing}</div>
           </div>
           
-          <div className="space-y-4 mb-6">
-            <p className="text-sm text-theme-secondary">
-              Our Foundation Program gives you the essential building blocks to start implementing our content system at your own pace.
+          <div className="space-y-3 mb-4">
+            <p className="text-xs text-theme-secondary">
+              Our Foundation Program gives you the essential building blocks to start implementing our content system.
             </p>
             
-            <h4 className="text-sm font-medium text-theme-primary border-b border-theme-border-light pb-1">
+            <h4 className="text-xs font-medium text-theme-primary border-b border-theme-border-light pb-1">
               Perfect If You're:
             </h4>
-            <ul className="space-y-2">
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Just starting your content journey</p>
+            <ul className="space-y-1.5">
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Just starting your content journey</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Testing the waters before full commitment</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Testing waters before commitment</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Building foundations while on a budget</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Building foundations on a budget</p>
               </li>
             </ul>
           </div>
           
-          <button
+          <Button
             onClick={onPurchase}
-            className="w-full py-3 bg-theme-primary hover:bg-theme-primary-hover text-white rounded-lg transition-colors shadow-theme-btn hover:shadow-theme-lg hover-bubbly mb-3"
+            variant="default"
+            size="sm"
+            className="w-full mb-2"
           >
             Start Foundation Program Now
-          </button>
+          </Button>
           
           <p className="text-center text-theme-tertiary text-xs">
             Secure checkout • Instant access • 14-day guarantee
@@ -437,58 +439,60 @@ const FoundationRecommendationView: React.FC<{
       </div>
       
       {/* RIGHT COLUMN - Executive Partnership (what they're missing) */}
-      <div className="border border-theme-border-light rounded-xl overflow-hidden bg-theme-bg-surface shadow-theme-sm flex flex-col opacity-90">
-        <div className="p-4 bg-theme-bg-surface border-b border-theme-border-light">
-          <div className="bg-[#B92234]/10 text-[#B92234] text-xs font-medium px-2 py-1 rounded-full inline-block mb-2">
+      <div className="border border-theme-border-light rounded-lg overflow-hidden bg-theme-bg-surface shadow-theme-sm flex flex-col opacity-90">
+        <div className="p-3 bg-theme-bg-surface border-b border-theme-border-light">
+          <div className="bg-[#B92234]/10 text-[#B92234] text-xs font-medium px-2 py-0.5 rounded-full inline-block mb-1">
             Premium Offering
           </div>
-          <h3 className="text-xl font-bold text-theme-primary">Executive Partnership</h3>
-          <p className="text-theme-tertiary text-sm">Full-service implementation support</p>
+          <h3 className="text-lg font-bold text-theme-primary">Executive Partnership</h3>
+          <p className="text-theme-tertiary text-xs">Full-service implementation support</p>
         </div>
         
-        <div className="p-4 flex-grow">
-          <div className="mb-6">
-            <span className="text-sm text-theme-tertiary">Starting from</span>
-            <div className="text-3xl font-bold text-theme-primary">£9,500</div>
+        <div className="p-3 flex-grow">
+          <div className="mb-3">
+            <span className="text-xs text-theme-tertiary">Starting from</span>
+            <div className="text-2xl font-bold text-theme-primary">£9,500</div>
           </div>
           
-          <div className="space-y-4 mb-6">
-            <p className="text-sm text-theme-secondary">
-              When you're ready for comprehensive support, our Executive Partnership provides white-glove implementation.
+          <div className="space-y-3 mb-4">
+            <p className="text-xs text-theme-secondary">
+              When ready for comprehensive support, our Executive Partnership provides white-glove implementation.
             </p>
             
-            <h4 className="text-sm font-medium text-theme-primary border-b border-theme-border-light pb-1">
+            <h4 className="text-xs font-medium text-theme-primary border-b border-theme-border-light pb-1">
               Future Access To:
             </h4>
-            <ul className="space-y-2">
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-[#B92234] shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Dedicated implementation manager</p>
+            <ul className="space-y-1.5">
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-[#B92234] shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Dedicated implementation manager</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-[#B92234] shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Custom strategy development</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-[#B92234] shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Custom strategy development</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-[#B92234] shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">6 months premium support</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-[#B92234] shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">6 months premium support</p>
               </li>
             </ul>
             
-            <div className="bg-theme-bg-primary/50 p-3 rounded-lg border border-theme-border-light mt-6">
-              <h4 className="font-medium text-theme-primary text-sm mb-1">Not quite ready yet?</h4>
+            <div className="bg-theme-bg-primary/50 p-2 rounded-lg border border-theme-border-light mt-3">
+              <h4 className="font-medium text-theme-primary text-xs">Not quite ready yet?</h4>
               <p className="text-xs text-theme-tertiary">
-                Start with Foundation today, and you'll get credit toward Executive Partnership when you're ready to upgrade.
+                Start with Foundation today, credit toward Executive when ready.
               </p>
             </div>
           </div>
           
-          <button
+          <Button
             onClick={onUpgradeSelect}
-            className="w-full py-3 border border-[#B92234] text-[#B92234] hover:bg-[#B92234]/5 rounded-lg transition-colors hover-bubbly-sm"
+            variant="outline"
+            size="sm"
+            className="w-full border-[#B92234] text-[#B92234] hover:bg-[#B92234]/5"
           >
             Learn About Executive Partnership
-          </button>
+          </Button>
         </div>
       </div>
     </div>
@@ -526,58 +530,58 @@ const PremiumRecommendationView: React.FC<{
   ];
   
   return (
-    <div className="grid grid-cols-5 gap-0 h-full">
+    <div className="grid grid-cols-5 gap-0">
       {/* Left side - Features and enhancements */}
-      <div className="col-span-2 p-5 flex flex-col">
-        <div className="bg-theme-primary/5 p-4 rounded-lg mb-4">
-          <h3 className="font-medium text-theme-primary mb-2">Perfect Match for Your Needs</h3>
-          <p className="text-theme-secondary text-sm">
+      <div className="col-span-2 p-3 flex flex-col">
+        <div className="bg-theme-primary/5 p-2.5 rounded-lg mb-3">
+          <h3 className="font-medium text-theme-primary text-sm mb-1">Perfect Match for Your Needs</h3>
+          <p className="text-theme-secondary text-xs">
             {recommendation.explanation}
           </p>
         </div>
         
         {/* Core features */}
-        <h4 className="text-sm font-medium text-theme-primary mb-3 border-b border-[var(--theme-border-light)] pb-1">
+        <h4 className="text-xs font-medium text-theme-primary mb-2 border-b border-[var(--theme-border-light)] pb-1">
           {recommendation.type === 'executive' ? 'Executive Partnership Includes' : 'Comprehensive Implementation Includes'}
         </h4>
         
-        <ul className="space-y-3 mb-6">
+        <ul className="space-y-1.5 mb-4">
           {recommendation.type === 'executive' ? (
             <>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Dedicated implementation manager</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Dedicated implementation manager</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Custom strategy development</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Custom strategy development</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">6 months premium support</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">6 months premium support</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Advanced analytics & reporting</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Advanced analytics & reporting</p>
               </li>
             </>
           ) : (
             <>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Group coaching sessions</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Group coaching sessions</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Complete system templates</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Complete system templates</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">3-month support package</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">3-month support package</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Private community access</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Private community access</p>
               </li>
             </>
           )}
@@ -585,15 +589,15 @@ const PremiumRecommendationView: React.FC<{
         
         {/* Optional enhancements */}
         <div className="mt-auto">
-          <h4 className="text-sm font-medium text-theme-primary mb-3 border-b border-[var(--theme-border-light)] pb-1">
+          <h4 className="text-xs font-medium text-theme-primary mb-2 border-b border-[var(--theme-border-light)] pb-1">
             Personalized Enhancements
           </h4>
           
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             {enhancements.map(enhancement => (
               <div 
                 key={enhancement.id}
-                className={`flex items-center justify-between p-3 border rounded-lg cursor-pointer transition-colors ${
+                className={`flex items-center justify-between p-2 border rounded-lg cursor-pointer transition-colors ${
                   selectedEnhancements.includes(enhancement.id)
                     ? 'border-theme-primary bg-theme-primary/5'
                     : 'border-theme-border-light'
@@ -601,40 +605,42 @@ const PremiumRecommendationView: React.FC<{
                 onClick={() => toggleEnhancement(enhancement.id)}
               >
                 <div className="flex items-center">
-                  <div className={`w-5 h-5 rounded-md border mr-3 flex items-center justify-center ${
+                  <div className={`w-4 h-4 rounded-md border mr-2 flex items-center justify-center ${
                     selectedEnhancements.includes(enhancement.id)
                       ? 'border-theme-primary bg-theme-primary'
                       : 'border-theme-border-light'
                   }`}>
                     {selectedEnhancements.includes(enhancement.id) && (
-                      <Check className="h-3 w-3 text-white" />
+                      <Check className="h-2.5 w-2.5 text-white" />
                     )}
                   </div>
-                  <span className="text-theme-secondary text-sm">{enhancement.name}</span>
+                  <span className="text-theme-secondary text-xs">{enhancement.name}</span>
                 </div>
-                <span className="text-theme-primary text-sm font-medium">{enhancement.price}</span>
+                <span className="text-theme-primary text-xs font-medium">{enhancement.price}</span>
               </div>
             ))}
           </div>
           
           {recommendation.type === 'comprehensive' && (
-            <button
+            <Button
               onClick={() => setShowComparison(!showComparison)}
-              className="w-full mt-4 py-2 text-sm text-theme-tertiary hover:text-theme-primary transition-colors"
+              variant="ghost"
+              size="xs" 
+              className="w-full mt-2 text-theme-tertiary hover:text-theme-primary"
             >
               {showComparison ? 'Hide comparison' : 'Compare with Executive Partnership'}
-            </button>
+            </Button>
           )}
         </div>
       </div>
       
       {/* Right side - Calendly */}
-      <div className="col-span-3 border-l border-[var(--theme-border-light)] h-full"> 
-        <div className="h-full flex flex-col">
+      <div className="col-span-3 border-l border-[var(--theme-border-light)]"> 
+        <div className="flex flex-col h-full max-h-[400px]">
           {/* Calendly header */}
-          <div className="p-3 border-b border-[var(--theme-border-light)] flex justify-between items-center">
-            <h3 className="text-lg font-medium text-theme-primary">Schedule Your Strategy Session</h3>
-            <div className="text-sm text-theme-tertiary">30 min • Free</div>
+          <div className="p-2 border-b border-[var(--theme-border-light)] flex justify-between items-center">
+            <h3 className="text-sm font-medium text-theme-primary">Schedule Your Strategy Session</h3>
+            <div className="text-xs text-theme-tertiary">30 min • Free</div>
           </div>
           
           {/* Calendly Widget - Takes up remaining height */}
@@ -646,7 +652,7 @@ const PremiumRecommendationView: React.FC<{
             }${
               selectedEnhancements.length > 0 ? `&custom_enhancements=${selectedEnhancements.join(',')}` : ''
             }`}
-            style={{ height: "100%", minWidth: "320px" }}
+            style={{ height: "350px", minWidth: "320px" }}
           />
         </div>
       </div>
@@ -1579,19 +1585,21 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
   };
   
   return (
-    <div ref={containerRef} className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4">
+    <div ref={containerRef} className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Test mode controls */}
       {testMode && (
         <div className="fixed top-4 right-4 z-[60] flex items-center gap-2 bg-white dark:bg-[#0a0a0a] p-2 rounded-md shadow-md">
           <span className="text-xs font-medium">Test Controls:</span>
-          <button 
+          <Button
             onClick={toggleTheme}
-            className="p-1.5 bg-gray-100 dark:bg-gray-800 rounded-md"
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7 bg-gray-100 dark:bg-gray-800 rounded-md"
             aria-label="Toggle theme"
           >
-            <Sun className="h-4 w-4 hidden dark:inline-block" />
-            <Moon className="h-4 w-4 inline-block dark:hidden" />
-          </button>
+            <Sun className="h-3.5 w-3.5 hidden dark:inline-block" />
+            <Moon className="h-3.5 w-3.5 inline-block dark:hidden" />
+          </Button>
           <span className="text-xs">{stage}</span>
         </div>
       )}
@@ -1603,22 +1611,23 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         onClick={handleClose}
       />
       
-      {/* Modal content - expand for recommendation stage */}
+      {/* Modal content - adjust size for recommendation stage */}
       <div 
         ref={modalRef}
-        className={`relative z-10 w-full ${stage === 'recommendation' ? 'max-w-5xl' : 'max-w-3xl'} max-h-[80vh] overflow-hidden bg-theme-gradient rounded-2xl shadow-theme-md opacity-0 transition-all duration-500`}
+        className={`relative z-10 w-full ${stage === 'recommendation' ? 'max-w-4xl' : 'max-w-2xl'} bg-theme-gradient rounded-xl shadow-theme-md opacity-0 transition-all duration-500 overflow-auto`}
+        style={{ maxHeight: 'min(85vh, 800px)' }}
       >
         {/* Floating elements for visual interest */}
         <div className="modal-floating-element absolute top-10 right-10 -z-10 w-20 h-20 rounded-[40%] rotate-12 opacity-[var(--theme-float-opacity)] bg-[var(--theme-float-bg-primary)]"></div>
         <div className="modal-floating-element absolute bottom-10 left-10 -z-10 w-24 h-24 rounded-[30%] -rotate-6 opacity-[var(--theme-float-opacity-secondary)] bg-[var(--theme-float-bg-secondary)]"></div>
         
         {/* Modal header */}
-        <div className="flex items-center justify-between border-b border-[var(--theme-border-light)] p-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-full bg-theme-primary/10 text-theme-primary">
-              <StageIcon stage={stage} size={20} />
+        <div className="flex items-center justify-between border-b border-[var(--theme-border-light)] p-4">
+          <div className="flex items-center gap-2">
+            <div className="p-1.5 rounded-full bg-theme-primary/10 text-theme-primary">
+              <StageIcon stage={stage} size={18} />
             </div>
-            <h2 className="text-xl font-medium text-theme-primary">
+            <h2 className="text-lg font-medium text-theme-primary">
               {stage === 'intro' && 'Discover Your Perfect Implementation'}
               {stage === 'contact' && 'Let\'s Personalize Your Plan'}
               {stage === 'teamSize' && 'About Your Team'}
@@ -1631,18 +1640,20 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
             </h2>
           </div>
           
-          <button 
+          <Button
             onClick={handleClose}
-            className="rounded-full p-2 text-theme-tertiary hover:text-theme-primary hover-bubbly-sm transition-colors"
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 rounded-full text-theme-tertiary hover:text-theme-primary hover-bubbly-sm transition-colors"
             aria-label="Close modal"
           >
-            <X className="h-5 w-5" />
-          </button>
+            <X className="h-4 w-4" />
+          </Button>
         </div>
         
         {/* Progress bar - only show during questions */}
         {stage !== 'intro' && stage !== 'recommendation' && (
-          <div className="w-full h-2 bg-theme-bg-secondary relative">
+          <div className="w-full h-1.5 bg-theme-bg-secondary relative">
             <div 
               className="h-full bg-theme-primary relative overflow-hidden transition-all duration-700 ease-out"
               style={{ width: `${getProgress()}%` }}
@@ -1658,7 +1669,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
             <div className="absolute top-0 left-0 w-full h-full flex justify-between px-1">
               {/* Team Size dot */}
               <div 
-                className={`progress-dot-0 h-5 w-5 rounded-full -mt-1.5 transition-all duration-500 ${
+                className={`progress-dot-0 h-4 w-4 rounded-full -mt-1.25 transition-all duration-500 ${
                   stageSequence.indexOf(stage) > stageSequence.indexOf('teamSize')
                     ? 'bg-theme-primary scale-100 shadow-theme-sm' 
                     : stageSequence.indexOf(stage) === stageSequence.indexOf('teamSize')
@@ -1715,10 +1726,10 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         )}
         
         {/* Modal content - changes based on current stage */}
-        <div className="p-6 overflow-y-auto" ref={contentRef}>
+        <div className="p-4" ref={contentRef}>
           {/* Introduction Stage - More compact with colorful elements */}
           {stage === 'intro' && (
-            <div className="flex flex-col max-h-[50vh] overflow-hidden">
+            <div className="flex flex-col">
               {/* Add a colorful gradient background to the entire intro */}
               <div className="absolute inset-0 vs-gradient-primary-accent opacity-5 -z-10"></div>
               
@@ -2321,62 +2332,65 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         </div>
         
         {/* Modal footer with navigation buttons */}
-        <div className="border-t border-[var(--theme-border-light)] p-6">
+        <div className="border-t border-[var(--theme-border-light)] p-4">
           <div className="flex justify-between">
             {/* Back button - only show if not on first or last stage */}
             {stage !== 'intro' && stage !== 'recommendation' && (
-              <button
+              <Button
                 onClick={goToPreviousStage}
-                className="text-theme-secondary hover:text-theme-primary px-4 py-2 rounded-lg transition-colors hover-bubbly-sm"
+                variant="outline"
+                size="sm"
               >
                 Back
-              </button>
+              </Button>
             )}
             
             {/* Cancel button - only on first stage or recommendation */}
             {(stage === 'intro' || stage === 'recommendation') && (
-              <button
+              <Button
                 onClick={handleClose}
-                className="text-theme-secondary hover:text-theme-primary px-4 py-2 rounded-lg transition-colors hover-bubbly-sm"
+                variant="ghost"
+                size="sm"
               >
                 {stage === 'intro' ? 'Maybe later' : 'Close'}
-              </button>
+              </Button>
             )}
             
             {/* Enhanced intro stage footer with Learn More option */}
             {stage === 'intro' && (
-              <div className="space-x-3">
-                <button
+              <div className="space-x-2">
+                <Button
                   onClick={() => window.scrollTo({ top: document.getElementById('features-section')?.offsetTop || 0, behavior: 'smooth' })}
-                  className="border border-theme-border-light text-theme-secondary hover:text-theme-primary px-4 py-2 rounded-lg transition-colors hover-bubbly-sm"
+                  variant="outline"
+                  size="sm"
                 >
                   See all features
-                </button>
+                </Button>
                 
-                <button
+                <Button
                   onClick={goToNextStage}
-                  className="flex items-center gap-2 px-5 py-2 rounded-lg transition-colors hover-bubbly-sm bg-theme-gradient text-white shadow-theme-sm hover:shadow-theme-md"
+                  variant="default"
+                  size="sm"
+                  className="flex items-center gap-1"
                 >
                   Get my personalized plan
-                  <ChevronRight className="h-4 w-4" />
-                </button>
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </Button>
               </div>
             )}
             
             {/* Contact stage button */}
             {stage === 'contact' && (
-              <button
+              <Button
                 onClick={goToNextStage}
                 disabled={!canProceed()}
-                className={`flex items-center gap-2 px-6 py-2 rounded-lg transition-colors hover-bubbly-sm ${
-                  !canProceed()
-                    ? 'bg-theme-bg-secondary text-theme-tertiary cursor-not-allowed'
-                    : 'bg-theme-primary hover:bg-theme-primary-hover text-white'
-                }`}
+                variant={canProceed() ? "default" : "subtle"}
+                size="sm"
+                className="flex items-center gap-1"
               >
                 Show My Recommendation
-                <ChevronRight className="h-4 w-4" />
-              </button>
+                <ChevronRight className="h-3.5 w-3.5" />
+              </Button>
             )}
           </div>
         </div>

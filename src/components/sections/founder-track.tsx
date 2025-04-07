@@ -2,10 +2,15 @@ import React from 'react';
 import { Section } from "../ui/section";
 import { Badge } from "../ui/badge";
 import { AnimatedButton } from "../marble-buttons/AnimatedButton";
+import { useContext } from 'react';
 import courseUtils, { Module, Submodule, Track, tracks, courseStats } from "../../lib/course-utils";
 import { BriefcaseBusiness, Clock, BookOpen, CheckCircle, ArrowRightCircle } from "lucide-react";
 
-const FounderTrack = () => {
+interface FounderTrackProps {
+  onCtaClick?: () => void;
+}
+
+const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
   // Get the founder modules from our data with null check
   const modules = courseUtils.getFounderModules() || [];
   
@@ -57,11 +62,11 @@ const FounderTrack = () => {
             
             <div className="flex gap-4">
               <AnimatedButton 
-                text="Apply for Founders Track"
+                text="Find Your Implementation"
                 variant="start"
                 saturation="high"
                 size="lg"
-                onClick={() => window.location.href = '/application-form'}
+                onClick={onCtaClick}
                 className="w-auto"
               />
               <AnimatedButton 
@@ -69,7 +74,7 @@ const FounderTrack = () => {
                 variant="docs"
                 saturation="normal"
                 size="lg"
-                onClick={() => window.open('https://calendly.com/jodenclashnewman/vertical-shortcut-discovery-call', '_blank')}
+                onClick={onCtaClick}
                 className="w-auto"
               />
             </div>

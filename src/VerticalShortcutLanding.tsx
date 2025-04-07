@@ -1,4 +1,5 @@
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
+import VSQualificationModal from './Qualification_components/qualification-modal';
 import SimpleHero from './components/hero/SimpleHero';
 import ContentOverwhelmer from './components/ContentOverwhelmer';
 import { PricingSection } from './components/sections/pricing-section.tsx';
@@ -336,8 +337,8 @@ const VerticalShortcutLanding = () => {
   const videoRef = useRef(null);
   const caseStudiesRef = useRef(null);
 
-  // Add state for application modal
-  const [showApplicationModal, setShowApplicationModal] = useState(false);
+  // Add state for qualification modal
+  const [showQualificationModal, setShowQualificationModal] = useState(false);
 
   // Initialize animations with dependencies on gsapInitialized
   useLayoutEffect(() => {
@@ -527,9 +528,9 @@ const VerticalShortcutLanding = () => {
     };
   }, []);
 
-  // Function to open the application form modal
-  const openApplicationModal = () => {
-    setShowApplicationModal(true);
+  // Function to open the qualification modal
+  const openQualificationModal = () => {
+    setShowQualificationModal(true);
     // Disable body scroll when modal is open
     document.body.style.overflow = 'hidden';
     // Pause ScrollSmoother to prevent background page scrolling
@@ -538,9 +539,9 @@ const VerticalShortcutLanding = () => {
     }
   };
   
-  // Function to close the application form modal
-  const closeApplicationModal = () => {
-    setShowApplicationModal(false);
+  // Function to close the qualification modal
+  const closeQualificationModal = () => {
+    setShowQualificationModal(false);
     // Re-enable body scroll when modal is closed
     document.body.style.overflow = 'auto';
     // Resume ScrollSmoother
@@ -551,16 +552,22 @@ const VerticalShortcutLanding = () => {
 
   return (
     <AnimationController>
-      {/* Enhanced Application Form Modal with Better UX */}
+      {/* Qualification Modal */}
+      <VSQualificationModal
+        isOpen={showQualificationModal}
+        onClose={closeQualificationModal}
+      />
+      
+      {/* Application Form Modal - Legacy */}
       <VSApplicationFormModal
-        isOpen={showApplicationModal}
-        onClose={closeApplicationModal}
+        isOpen={false}
+        onClose={() => {}}
       />
     
       {/* Main wrapper for ScrollSmoother */}
       <div id="smooth-wrapper" ref={mainRef} className="min-h-screen overflow-hidden">
         {/* Floating Navbar stays outside the smooth content for fixed positioning */}
-        <VSNavbar />
+        <VSNavbar onApplyClick={openQualificationModal} />
         
         {/* Smooth content container */}
         <VSBackground 
@@ -572,7 +579,7 @@ const VerticalShortcutLanding = () => {
           className="min-h-screen overflow-hidden"
         >
           {/* Hero Section */}
-          <SimpleHero ref={heroRef} onCtaClick={openApplicationModal} />
+          <SimpleHero ref={heroRef} onCtaClick={openQualificationModal} />
 
           {/* Course Viewer - Minimalist HUD Layout */}
           
@@ -712,11 +719,11 @@ const VerticalShortcutLanding = () => {
               
               <div className="mt-16 text-center">
                 <AnimatedButton 
-                  text="View Full Curriculum"
+                  text="Find Your Implementation"
                   variant="learn" 
                   saturation="normal"
                   size="lg"
-                  onClick={() => document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={openQualificationModal}
                   className="w-auto"
                 />
               </div>
@@ -730,7 +737,7 @@ const VerticalShortcutLanding = () => {
           {/* Use Cases Section with Tabs */}
           <TabsLeft />
           
-          <FounderTrack />
+          <FounderTrack onCtaClick={openQualificationModal} />
           {/* ContentOverwhelmer section - with proper animation management */}
           <ContentOverwhelmer />
           
@@ -919,11 +926,11 @@ const VerticalShortcutLanding = () => {
                   
                   <div className="mt-8">
                     <AnimatedButton
-                      text="Apply Now"
+                      text="Find Your Implementation"
                       variant="start"
                       saturation="high"
                       size="lg"
-                      onClick={openApplicationModal}
+                      onClick={openQualificationModal}
                       className="w-auto"
                     />
                     
@@ -1055,9 +1062,9 @@ const VerticalShortcutLanding = () => {
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] transition-colors">
+                      <a onClick={openQualificationModal} className="text-white/60 hover:text-[--primary-orange)] transition-colors cursor-pointer">
                         <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
-                          Apply Now
+                          Find Your Implementation
                         </VSText>
                       </a>
                     </li>
