@@ -276,22 +276,204 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         visibility: "visible"
       });
       
+      // Create power cord connecting lines between systems
+      // First, get the system blocks
+      const systemBlocks = document.querySelectorAll('[data-display-key^="system-"]');
+      
+      // Create a container for the power lines
+      const powerLinesContainer = document.createElement('div');
+      powerLinesContainer.className = 'absolute inset-0 pointer-events-none';
+      powerLinesContainer.style.zIndex = '-5';
+      
+      if (systemBlocks.length > 0 && systemBlocks[0].parentElement) {
+        // Add the container to the parent of the first system block
+        systemBlocks[0].parentElement.appendChild(powerLinesContainer);
+        
+        // Create power lines between systems
+        if (systemBlocks.length >= 2) {
+          for (let i = 0; i < systemBlocks.length - 1; i++) {
+            const block1 = systemBlocks[i];
+            const block2 = systemBlocks[i + 1];
+            
+            if (block1 && block2) {
+              // Create power line element
+              const powerLine = document.createElement('div');
+              powerLine.className = 'power-line absolute rounded-full h-[3px] bg-white/20';
+              
+              // Calculate positions
+              const rect1 = block1.getBoundingClientRect();
+              const rect2 = block2.getBoundingClientRect();
+              const parentRect = powerLinesContainer.getBoundingClientRect();
+              
+              // Calculate midpoints of the elements
+              const start = {
+                x: rect1.left + rect1.width / 2 - parentRect.left,
+                y: rect1.top + rect1.height - parentRect.top,
+              };
+              
+              const end = {
+                x: rect2.left + rect2.width / 2 - parentRect.left,
+                y: rect2.top - parentRect.top,
+              };
+              
+              // Position the line
+              powerLine.style.top = `${start.y}px`;
+              powerLine.style.left = `${start.x}px`;
+              powerLine.style.width = '3px';
+              powerLine.style.height = `${end.y - start.y}px`;
+              powerLine.style.transformOrigin = 'top';
+              
+              // Add power ball (electricity pulse) element
+              const powerBall = document.createElement('div');
+              powerBall.className = 'power-ball absolute w-2 h-2 bg-white/80 rounded-full shadow-[0_0_5px_2px_rgba(255,255,255,0.5)]';
+              powerBall.style.top = '0';
+              powerBall.style.left = '-3px';
+              
+              // Add elements to the DOM
+              powerLine.appendChild(powerBall);
+              powerLinesContainer.appendChild(powerLine);
+              
+              // Animate the power ball
+              gsap.fromTo(powerBall, 
+                { top: '0px' }, 
+                { 
+                  top: '100%', 
+                  duration: 1.5, 
+                  repeat: -1, 
+                  ease: 'power1.inOut',
+                  repeatDelay: 0.3
+                }
+              );
+            }
+          }
+        }
+      }
+      
+      // Enhanced system animations - add subtle hover/float to blocks
+      gsap.to('[data-display-key^="system-"]', {
+        y: -5,
+        duration: 1.5,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+        stagger: 0.3
+      });
+      
+      // System connector points pulsing glow
+      gsap.to('.system-connector', {
+        boxShadow: '0 0 12px rgba(255,255,255,0.8)',
+        scale: 1.2,
+        duration: 1,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+        stagger: 0.2
+      });
+      
+      // Animated power lines between system blocks
+      // Create connecting lines between connector points
+      document.querySelectorAll('.system-connector').forEach((el, index, array) => {
+        if (index < array.length - 1) {
+          const el1 = el;
+          const el2 = array[index + 1];
+          
+          if (el1 && el2) {
+            // Create power line element
+            const powerLine = document.createElement('div');
+            powerLine.className = 'power-line absolute bg-gradient-to-b from-white/10 to-white/30';
+            
+            // Get positions
+            const rect1 = el1.getBoundingClientRect();
+            const rect2 = el2.getBoundingClientRect();
+            
+            // Only draw vertical lines (by finding connectors that are above/below each other)
+            if (Math.abs(rect1.left - rect2.left) < 50) {
+              // Find the DOM container
+              const container = document.querySelector('.grid.grid-cols-1.gap-\\[calc\\(var\\(--square-gap-y\\)\\*1\\.2\\)\\]');
+              
+              if (container) {
+                // Create coordinates relative to container
+                const containerRect = container.getBoundingClientRect();
+                
+                // Allow for either direction (top to bottom or bottom to top)
+                const startY = rect1.top < rect2.top ? rect1.bottom : rect2.bottom;
+                const endY = rect1.top < rect2.top ? rect2.top : rect1.top;
+                
+                // Position the power line
+                powerLine.style.top = `${startY - containerRect.top}px`;
+                powerLine.style.left = `${rect1.left + rect1.width/2 - containerRect.left}px`;
+                powerLine.style.width = '2px';
+                powerLine.style.height = `${endY - startY}px`;
+                
+                // Create power ball elements for electricity effect
+                for (let i = 0; i < 3; i++) {
+                  const powerBall = document.createElement('div');
+                  powerBall.className = `power-ball-${i} absolute w-2 h-2 bg-white/60 rounded-full shadow-[0_0_8px_rgba(255,255,255,0.5)]`;
+                  powerBall.style.left = '-3px';
+                  powerBall.style.top = '0';
+                  powerLine.appendChild(powerBall);
+                  
+                  // Animate each power ball with different timing
+                  gsap.fromTo(powerBall, 
+                    { top: '0%' },
+                    { 
+                      top: '100%', 
+                      duration: 2 + i*0.5, 
+                      delay: i * 0.6,
+                      repeat: -1, 
+                      ease: 'power2.inOut' 
+                    }
+                  );
+                }
+                
+                // Add the power line to the container
+                container.appendChild(powerLine);
+              }
+            }
+          }
+        }
+      });
+      
+      // Animate notion system data pulse
+      gsap.to('.notion-pulse', {
+        scale: 1.5,
+        opacity: 0.3,
+        boxShadow: '0 0 10px rgba(255,255,255,0.8)',
+        duration: 1.2,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+      
+      // Animate video pulse
+      gsap.to('.video-pulse', {
+        scale: 2,
+        opacity: 0.6,
+        boxShadow: '0 0 12px rgba(0,200,255,0.6)',
+        duration: 0.8,
+        repeat: -1,
+        repeatDelay: 0.5,
+        ease: "power2.inOut"
+      });
+      
       // Notion system animation - pulsing dots and sliding rows
       const notionTimeline = gsap.timeline({ repeat: -1 });
       notionTimeline.to(".notion-dot", { 
-        opacity: 0.6, 
-        duration: 1, 
+        opacity: 0.7, 
+        scale: 1.2,
+        duration: 0.8, 
         stagger: 0.2,
         ease: "sine.inOut" 
       })
       .to(".notion-dot", { 
         opacity: 0.2, 
-        duration: 1, 
+        scale: 1,
+        duration: 0.8, 
         stagger: 0.2,
         ease: "sine.inOut" 
       });
       
-      // Animate notion rows
+      // Animate notion rows with improved animation
       gsap.to(".notion-row", {
         width: "70%",
         duration: 1.5,
@@ -311,26 +493,27 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         ease: "power1.out"
       });
       
-      // Conveyor belt animation
+      // Conveyor belt animation with improved speed
       gsap.to(".conveyor-item", {
         x: "-100%",
-        duration: 3,
+        duration: 2.5,
         ease: "none",
         repeat: -1,
-        stagger: 1
+        stagger: 0.8
       });
       
-      // Video editor playhead animation
+      // Video editor playhead animation with improved timing
       gsap.to(".editor-playhead", {
         x: "200%",
-        duration: 4,
+        duration: 3,
         ease: "none",
         repeat: -1
       });
       
-      // Clip animation
+      // Clip animation with more vibrant effect
       gsap.to(".editor-clips", {
-        opacity: 0.6,
+        opacity: 0.8,
+        boxShadow: "0 0 5px rgba(255,255,255,0.3)",
         duration: 1,
         stagger: 0.2,
         repeat: -1,
@@ -481,11 +664,12 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         }
       });
       
-      // Create section title
+      // Only add section title for non-system sections since system sections already have their own titles
+      const isSystemSection = selectedSection.includes('-system-');
       const sectionTitleEl = document.createElement('div');
       sectionTitleEl.id = `section-title-${selectedSection}`;
       sectionTitleEl.className = 'section-title absolute -top-12 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-4 py-2 rounded-lg shadow-theme-md text-lg font-medium z-20 whitespace-nowrap opacity-0';
-      sectionTitleEl.innerHTML = sectionData.name;
+      sectionTitleEl.innerHTML = isSystemSection ? "" : sectionData.name;
       
       // Add arrow to title
       const arrowEl = document.createElement('div');
@@ -728,11 +912,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         contentEl.appendChild(featuresList);
         modulesContainer.appendChild(contentEl);
         
-        // Add "Coming Soon" badge to indicate these systems are in development
-        const badgeEl = document.createElement('div');
-        badgeEl.className = 'absolute top-4 right-4 bg-[var(--hud-accent-red)]/90 text-white text-xs font-medium px-2 py-1 rounded-full';
-        badgeEl.textContent = 'Coming Soon';
-        modulesContainer.appendChild(badgeEl);
+        // No "Coming Soon" badge anymore as requested
         
         // Add CTA button
         const ctaButton = document.createElement('button');
@@ -969,6 +1149,12 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             <div className="flex flex-col gap-[var(--square-gap-y)] min-w-[calc(var(--normal-square-width)*2)]">
               {/* Container for the three systems */}
               <div className="grid grid-cols-1 gap-[calc(var(--square-gap-y)*1.2)]">
+                {/* SYSTEM BLOCKS with enhanced visuals and interactivity */}
+                {/* Power connection points for system modules */}
+                <div className="absolute top-[45%] left-[50%] w-[85%] h-0 z-[-1]">
+                  {/* This will be populated by GSAP with power lines */}
+                </div>
+
                 {/* Notion System - Quality & Quantity */}
                 <div 
                   key={systemsColumn[0].displayKey}
@@ -981,20 +1167,26 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-md cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
                   style={{ backgroundColor: "var(--hud-navy)" }}
                 >
-                  {/* Tooltip for system name */}
+                  {/* Power connection point */}
+                  <div className="absolute bottom-[5px] left-[50%] w-2 h-2 bg-white/60 rounded-full transform translate-x-[-50%] shadow-[0_0_8px_rgba(255,255,255,0.6)] z-10 system-connector"></div>
+                  
+                  {/* Tooltip */}
                   <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
                     {systemsColumn[0].name}
                     <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
                   </div>
                   
-                  {/* Simple clear label */}
+                  {/* Content */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
                     <div className="text-white font-bold text-lg mb-2">NOTION SYSTEM</div>
                     <div className="w-12 h-1 bg-white/30 rounded-full mb-4"></div>
                     <div className="text-white/80 text-sm mb-3">Content Organization</div>
                     
-                    {/* Simple database representation */}
-                    <div className="w-full max-w-[80%] h-20 bg-white/10 rounded-lg p-2 flex flex-col justify-between">
+                    {/* Enhanced database representation with animation */}
+                    <div className="w-full max-w-[80%] h-20 bg-white/10 rounded-lg p-2 flex flex-col justify-between system-notion-container relative">
+                      {/* Animated data pulse effect */}
+                      <div className="absolute top-[10%] right-[10%] w-1 h-1 bg-white/80 rounded-full shadow-[0_0_5px_rgba(255,255,255,0.5)] notion-pulse"></div>
+                      
                       {[1, 2, 3].map(i => (
                         <div key={i} className="flex space-x-2 items-center">
                           <div className="notion-dot w-2 h-2 rounded-full bg-white/50"></div>
@@ -1004,9 +1196,9 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     </div>
                   </div>
                   
-                  {/* Featured indicator */}
+                  {/* Featured indicator with glow */}
                   {systemsColumn[0].featured && (
-                    <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
+                    <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-[0_0_5px_rgba(255,0,0,0.3)]"></div>
                   )}
                 </div>
                 
@@ -1024,20 +1216,28 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     background: "linear-gradient(135deg, var(--primary-orange), var(--hud-coral))"
                   }}
                 >
-                  {/* Tooltip for system name */}
+                  {/* Power connection points */}
+                  <div className="absolute top-[5px] left-[50%] w-2 h-2 bg-white/60 rounded-full transform translate-x-[-50%] shadow-[0_0_8px_rgba(255,255,255,0.6)] z-10 system-connector"></div>
+                  <div className="absolute bottom-[5px] left-[50%] w-2 h-2 bg-white/60 rounded-full transform translate-x-[-50%] shadow-[0_0_8px_rgba(255,255,255,0.6)] z-10 system-connector"></div>
+                  
+                  {/* Tooltip */}
                   <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
                     {systemsColumn[1].name}
                     <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
                   </div>
                   
-                  {/* Simple clear label */}
+                  {/* Content */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
                     <div className="text-white font-bold text-lg mb-2">ENGINE ROOM</div>
                     <div className="w-12 h-1 bg-white/30 rounded-full mb-4"></div>
                     <div className="text-white/80 text-sm mb-4">Content Production</div>
                     
-                    {/* Simple conveyor belt */}
-                    <div className="relative w-full max-w-[80%]">
+                    {/* Enhanced conveyor belt with moving items */}
+                    <div className="relative w-full max-w-[80%] system-engine-container">
+                      {/* Factory smoke effects */}
+                      <div className="absolute -top-2 right-4 w-1 h-1 bg-white/50 rounded-full factory-smoke"></div>
+                      <div className="absolute -top-2 right-6 w-1 h-1 bg-white/50 rounded-full factory-smoke"></div>
+                      
                       <div className="h-10 bg-black/20 rounded-lg overflow-hidden">
                         <div className="absolute inset-y-0 left-4 right-4 flex items-center">
                           <div className="conveyor-item w-8 h-6 mx-2 bg-white/20 rounded"></div>
@@ -1048,9 +1248,9 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     </div>
                   </div>
                   
-                  {/* Featured indicator */}
+                  {/* Featured indicator with glow */}
                   {systemsColumn[1].featured && (
-                    <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
+                    <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-[0_0_5px_rgba(255,0,0,0.3)]"></div>
                   )}
                 </div>
                 
@@ -1068,20 +1268,26 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     background: "linear-gradient(145deg, var(--hud-teal), #2A7590)"
                   }}
                 >
-                  {/* Tooltip for system name */}
+                  {/* Power connection point */}
+                  <div className="absolute top-[5px] left-[50%] w-2 h-2 bg-white/60 rounded-full transform translate-x-[-50%] shadow-[0_0_8px_rgba(255,255,255,0.6)] z-10 system-connector"></div>
+                  
+                  {/* Tooltip */}
                   <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
                     {systemsColumn[2].name}
                     <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
                   </div>
                   
-                  {/* Simple clear label */}
+                  {/* Content */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
                     <div className="text-white font-bold text-lg mb-2">VIDEO OS</div>
                     <div className="w-12 h-1 bg-white/30 rounded-full mb-4"></div>
                     <div className="text-white/80 text-sm mb-3">Editing Tools</div>
                     
-                    {/* Simple timeline */}
-                    <div className="w-full max-w-[80%] bg-black/20 h-16 rounded-lg p-2 relative">
+                    {/* Enhanced timeline with playhead animation */}
+                    <div className="w-full max-w-[80%] bg-black/20 h-16 rounded-lg p-2 relative system-video-container">
+                      {/* Data processing pulse effect */}
+                      <div className="absolute top-1 right-2 w-1 h-1 bg-[var(--hud-teal)]/80 rounded-full video-pulse"></div>
+                      
                       {/* Video track */}
                       <div className="h-3 mb-2 bg-black/30 rounded-full relative overflow-hidden">
                         <div className="editor-clips absolute left-2 w-8 h-full rounded-sm bg-[var(--hud-teal)]/70"></div>
@@ -1097,9 +1303,9 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     </div>
                   </div>
                   
-                  {/* Featured indicator */}
+                  {/* Featured indicator with glow */}
                   {systemsColumn[2].featured && (
-                    <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
+                    <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-[0_0_5px_rgba(255,0,0,0.3)]"></div>
                   )}
                 </div>
               </div>
