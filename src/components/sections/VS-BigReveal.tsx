@@ -75,14 +75,14 @@ const VSBigReveal = () => {
         }
       });
       
-      // Single animation that works with scrub and toggleActions for bidirectional scrolling
+      // Single animation that works with scrub and toggleActions - PRESERVING MASSIVE SIZE
       logoTl.fromTo(".vs-logo-wrapper", 
         // From state
         {
           x: 400,
           y: 100,
           opacity: 0,
-          scale: 0.4,
+          // DO NOT MODIFY THE SCALE - we want to preserve the massive 3x scale
           rotation: 10,
         },
         // To state (final position)
@@ -90,7 +90,7 @@ const VSBigReveal = () => {
           x: -100,
           y: -40,
           opacity: 1,
-          scale: 1.05,
+          // DO NOT MODIFY THE SCALE - we want to preserve the massive 3x scale
           rotation: -3,
           ease: "power1.inOut"
         }
@@ -220,8 +220,8 @@ const VSBigReveal = () => {
                      opacity-theme-float
                      animate-float-medium"></div>
       
-      {/* VS Logo with animation - INSANELY MASSIVE and ALL THE WAY to the right */}
-      <div ref={logoRef} className="vs-logo-wrapper absolute top-[350px] right-[-120vw] md:right-[-100vw] lg:right-[-80vw] xl:right-[-70vw] w-[200vw] max-w-[none] min-w-[1200px] z-0 transform-gpu pointer-events-none scale-[1.5]">
+      {/* VS Logo with animation - ABSOLUTELY MASSIVE and ALL THE WAY to the right */}
+      <div ref={logoRef} className="vs-logo-wrapper absolute top-[350px] right-[-120vw] md:right-[-100vw] lg:right-[-80vw] xl:right-[-70vw] w-[200vw] max-w-[none] min-w-[1200px] z-0 transform-gpu pointer-events-none scale-[3]">
         <AnimatedLogo onAnimationComplete={() => console.log('Logo animation complete')} />
         <div className="absolute inset-0 -z-10 blur-3xl">
           <div className="w-full h-full rounded-full bg-theme-radial-glow opacity-80"></div>
