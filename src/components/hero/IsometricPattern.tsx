@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
 const IsometricGridBackground = () => {
-  const [gridColor, setGridColor] = useState('var(--theme-pattern-color)');
+  const [gridColor, setGridColor] = useState('var(--grid-line)');
   
   // Get the theme-aware color from CSS variables
   useEffect(() => {
     const updateGridColor = () => {
       const computedStyle = getComputedStyle(document.documentElement);
-      setGridColor(computedStyle.getPropertyValue('--theme-pattern-color').trim());
+      setGridColor(computedStyle.getPropertyValue('--grid-line').trim() || 'rgba(18, 46, 59, 0.05)');
     };
     
     // Initial color update
@@ -28,7 +28,8 @@ const IsometricGridBackground = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 z-1 overflow-visible opacity-[var(--theme-pattern-opacity)] pointer-events-none transition-opacity duration-[var(--theme-transition-normal)]">
+    <div className="absolute inset-0 z-0 overflow-visible pointer-events-none transition-opacity duration-300"
+         style={{ opacity: 0.35 }}>
       <svg className="absolute inset-0 w-screen h-screen" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern 

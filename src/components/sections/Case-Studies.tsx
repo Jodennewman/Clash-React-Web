@@ -99,8 +99,8 @@ const CaseStudies = React.forwardRef((props, ref) => {
         <div className="bg-[var(--theme-bg-secondary)]/80 dark:bg-[var(--theme-bg-secondary)]/90
                       p-2.5 rounded-md shadow-[0_1px_3px_rgba(0,0,0,0.02)]
                       shadow-theme-
-                      border border-[var(--theme-text-primary)]/5 dark:border-theme-border-light">
-          <p className="font-medium text-sm text-[var(--theme-text-primary)] dark:text-theme-on-primary-b border-[var(--theme-text-primary)]/5 dark:border-theme-border-light-1 mb-1.5">
+                      border text-theme-primary/5 dark:border-theme-border-light">
+          <p className="font-medium text-sm text-theme-primary dark:text-theme-on-primary-b text-theme-primary/5 dark:border-theme-border-light-1 mb-1.5">
             {label}
           </p>
           {payload.map((entry, index) => (
@@ -118,7 +118,7 @@ const CaseStudies = React.forwardRef((props, ref) => {
   return (
     <Section
       ref={mergeRefs([sectionRef, ref])}
-      className="bg-[var(--theme-bg-primary)] min-h-screen flex flex-col justify-center py-20 dark:bg-[var(--theme-bg-primary)] relative overflow-hidden border-t border-[var(--theme-text-primary)]/10 dark:border-theme-border-light"
+      className="bg-[var(--theme-bg-primary)] min-h-screen flex flex-col justify-center py-20 dark:bg-[var(--theme-bg-primary)] relative overflow-hidden border-t text-theme-primary/10 dark:border-theme-border-light"
     >
       {/* Background patterns */}
       <div className="absolute inset-0 dot-bg opacity-30 opacity- pointer-events-none"></div>
@@ -143,10 +143,10 @@ const CaseStudies = React.forwardRef((props, ref) => {
           <Badge variant="section" size="xl" className="mb-2">
             Success Stories
           </Badge>
-          <h2 className="text-[var(--theme-text-primary)] dark:text-theme-on-primary-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-theme-primary dark:text-theme-on-primary-4xl md:text-5xl font-bold mb-4">
             Creator Case Studies
           </h2>
-          <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/70 text-lg md:text-xl mb-2 max-w-3xl mx-auto">
+          <p className="text-theme-primary dark:text-theme-on-primary/70 text-lg md:text-xl mb-2 max-w-3xl mx-auto">
             See how we've helped creators grow their audience and engagement through our proven strategies.
           </p>
         </div>
@@ -158,7 +158,7 @@ const CaseStudies = React.forwardRef((props, ref) => {
             {/* Creator Profile - cleaner and flatter */}
             <div className="flex flex-col md:flex-row items-center gap-3 mb-4 p-4
                       bg-[var(--theme-bg-secondary)]/20 dark:bg-[var(--theme-bg-secondary)]/40
-                      rounded-md border border-[var(--theme-text-primary)]/5 dark:border-theme-border-light-[0_1px_3px_rgba(0,0,0,0.01)] shadow-theme-">
+                      rounded-md border text-theme-primary/5 dark:border-theme-border-light-[0_1px_3px_rgba(0,0,0,0.01)] shadow-theme-">
               <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden flex-shrink-0
                           ring-2 ring-[--primary-orange]/80 dark:ring-[--primary-orange]/80">
                 <img
@@ -169,10 +169,10 @@ const CaseStudies = React.forwardRef((props, ref) => {
               </div>
 
               <div className="text-center md:text-left flex-1">
-                <h3 className="text-[var(--theme-text-primary)] dark:text-theme-on-primary md:text-xl font-medium mb-0.5">
+                <h3 className="text-theme-primary dark:text-theme-on-primary md:text-xl font-medium mb-0.5">
                   {currentCreator.name}
                 </h3>
-                <p className="text-[var(--theme-text-primary)]/70 dark:text-theme-on-primary/70 text-xs md:text-sm">
+                <p className="text-theme-primary/70 dark:text-theme-on-primary/70 text-xs md:text-sm">
                   {currentCreator.description}
                 </p>
               </div>
@@ -181,7 +181,7 @@ const CaseStudies = React.forwardRef((props, ref) => {
             {/* Graph component */}
             <div ref={chartRef} className="flex-1 bg-[var(--theme-bg-secondary)]/20 dark:bg-[var(--theme-bg-secondary)]/40
                         p-4 rounded-md
-                        border border-[var(--theme-text-primary)]/5 dark:border-theme-border-light-[0_1px_3px_rgba(0,0,0,0.01)] shadow-theme-">
+                        border text-theme-primary/5 dark:border-theme-border-light-[0_1px_3px_rgba(0,0,0,0.01)] shadow-theme-">
               {/* Metric toggle buttons - moved inside graph */}
               <div className="flex flex-wrap justify-end gap-1.5 mb-3">
                 {[
@@ -231,12 +231,12 @@ const CaseStudies = React.forwardRef((props, ref) => {
                     />
                     <XAxis 
                       dataKey="month" 
-                      className="text-[var(--theme-text-primary)]/40 dark:text-theme-on-primary/40 text-xs"
+                      className="text-theme-primary/40 dark:text-theme-on-primary/40 text-xs"
                       tickLine={false}
                       axisLine={false}
                     />
                     <YAxis 
-                      className="text-[var(--theme-text-primary)]/40 dark:text-theme-on-primary/40 text-xs"
+                      className="text-theme-primary/40 dark:text-theme-on-primary/40 text-xs"
                       domain={getYAxisDomain()}
                       tickLine={false}
                       axisLine={false}
@@ -244,7 +244,7 @@ const CaseStudies = React.forwardRef((props, ref) => {
                     <Tooltip content={<CustomTooltip />} />
                     <Legend 
                       formatter={(value) => (
-                        <span className="text-[var(--theme-text-primary)] dark:text-theme-on-primary-xs">{value}</span>
+                        <span className="text-theme-primary dark:text-theme-on-primary-xs">{value}</span>
                       )}
                       iconSize={8}
                       wrapperStyle={{ fontSize: '12px', paddingTop: "8px" }}
@@ -321,15 +321,15 @@ const CaseStudies = React.forwardRef((props, ref) => {
               {/* Views card */}
               <div className="bg-[var(--theme-bg-secondary)]/20 dark:bg-[var(--theme-bg-secondary)]/40 
                           rounded-md p-3
-                          border border-[var(--theme-text-primary)]/5 dark:border-theme-border-light-[0_1px_2px_rgba(0,0,0,0.01)] shadow-theme-
+                          border text-theme-primary/5 dark:border-theme-border-light-[0_1px_2px_rgba(0,0,0,0.01)] shadow-theme-
                           transition-all duration-200
                           hover:bg-[var(--theme-bg-secondary)]/30 dark:hover:bg-[var(--theme-bg-secondary)]/60
                           overflow-hidden">
                 <div className="flex items-center">
                   <div className="w-1.5 h-12 bg-[var(--theme-primary)]/70  rounded-full mr-2.5"></div>
                   <div className="flex-1">
-                    <div className="text-[var(--theme-text-primary)]/60 dark:text-theme-on-primary/60 text-xs">Views</div>
-                    <div className="text-[var(--theme-primary)]  text-lg font-semibold">
+                    <div className="text-theme-primary/60 dark:text-theme-on-primary/60 text-xs">Views</div>
+                    <div className="text-theme-primary-light  text-lg font-semibold">
                       {formatNumber(currentCreator.totals.views)}
                     </div>
                   </div>
@@ -339,15 +339,15 @@ const CaseStudies = React.forwardRef((props, ref) => {
               {/* Followers card */}
               <div className="bg-[var(--theme-bg-secondary)]/20 dark:bg-[var(--theme-bg-secondary)]/40 
                           rounded-md p-3
-                          border border-[var(--theme-text-primary)]/5 dark:border-theme-border-light-[0_1px_2px_rgba(0,0,0,0.01)] shadow-theme-
+                          border text-theme-primary/5 dark:border-theme-border-light-[0_1px_2px_rgba(0,0,0,0.01)] shadow-theme-
                           transition-all duration-200
                           hover:bg-[var(--theme-bg-secondary)]/30 dark:hover:bg-[var(--theme-bg-secondary)]/60
                           overflow-hidden">
                 <div className="flex items-center">
                   <div className="w-1.5 h-12 bg-[var(--theme-accent-secondary)]/70  rounded-full mr-2.5"></div>
                   <div className="flex-1">
-                    <div className="text-[var(--theme-text-primary)]/60 dark:text-theme-on-primary/60 text-xs">Followers</div>
-                    <div className="text-[var(--theme-accent-secondary)]  text-lg font-semibold">
+                    <div className="text-theme-primary/60 dark:text-theme-on-primary/60 text-xs">Followers</div>
+                    <div className="text-theme-accent  text-lg font-semibold">
                       {formatNumber(currentCreator.totals.followers)}
                     </div>
                   </div>
@@ -357,14 +357,14 @@ const CaseStudies = React.forwardRef((props, ref) => {
               {/* Interactions card - full width */}
               <div className="col-span-2 bg-[var(--theme-bg-secondary)]/20 dark:bg-[var(--theme-bg-secondary)]/40 
                           rounded-md p-3
-                          border border-[var(--theme-text-primary)]/5 dark:border-theme-border-light-[0_1px_2px_rgba(0,0,0,0.01)] shadow-theme-
+                          border text-theme-primary/5 dark:border-theme-border-light-[0_1px_2px_rgba(0,0,0,0.01)] shadow-theme-
                           transition-all duration-200
                           hover:bg-[var(--theme-bg-secondary)]/30 dark:hover:bg-[var(--theme-bg-secondary)]/60">
                 <div className="flex items-center">
                   <div className="w-1.5 h-12 bg-[var(--theme-accent-tertiary)]/70  rounded-full mr-2.5"></div>
                   <div className="flex-1">
-                    <div className="text-[var(--theme-text-primary)]/60 dark:text-theme-on-primary/60 text-xs">Interactions</div>
-                    <div className="text-[var(--theme-accent-tertiary)]  text-lg font-semibold">
+                    <div className="text-theme-primary/60 dark:text-theme-on-primary/60 text-xs">Interactions</div>
+                    <div className="text-theme-accent-tertiary  text-lg font-semibold">
                       {formatNumber(currentCreator.totals.interactions)}
                     </div>
                   </div>
@@ -380,8 +380,8 @@ const CaseStudies = React.forwardRef((props, ref) => {
             {/* Case study selector - flatter, more subtle */}
             <div className="flex-1 bg-[var(--theme-bg-secondary)]/20 dark:bg-[var(--theme-bg-secondary)]/40 
                       p-4 rounded-md 
-                      border border-[var(--theme-text-primary)]/5 dark:border-theme-border-light-[0_1px_3px_rgba(0,0,0,0.01)] shadow-theme-">
-              <h3 className="text-[var(--theme-text-primary)] dark:text-theme-on-primary-sm font-medium mb-3 flex items-center">
+                      border text-theme-primary/5 dark:border-theme-border-light-[0_1px_3px_rgba(0,0,0,0.01)] shadow-theme-">
+              <h3 className="text-theme-primary dark:text-theme-on-primary-sm font-medium mb-3 flex items-center">
                 <span className="inline-block w-1 h-4 bg-[var(--theme-primary)]/70  mr-2 rounded-full"></span>
                 Success Stories
               </h3>
@@ -415,10 +415,10 @@ const CaseStudies = React.forwardRef((props, ref) => {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-[var(--theme-text-primary)] dark:text-theme-on-primary-medium text-sm truncate">
+                      <h4 className="text-theme-primary dark:text-theme-on-primary-medium text-sm truncate">
                         {creator.name}
                       </h4>
-                      <p className="text-[var(--theme-text-primary)]/60 dark:text-theme-on-primary/60 text-xs truncate">
+                      <p className="text-theme-primary/60 dark:text-theme-on-primary/60 text-xs truncate">
                         {creator.description.split(".")[0].substring(0, 30)}...
                       </p>
                     </div>

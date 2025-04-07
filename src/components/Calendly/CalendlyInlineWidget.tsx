@@ -154,12 +154,12 @@ const CalendlyInlineWidget: React.FC<CalendlyInlineWidgetProps> = ({
         {/* Header section */}
         <div className="mb-6 text-center">
           {subtitle && (
-            <div className="text-[var(--theme-text-secondary)] text-sm mb-2 uppercase tracking-wide font-medium">
+            <div className="text-theme-secondary text-sm mb-2 uppercase tracking-wide font-medium">
               {subtitle}
             </div>
           )}
           {title && (
-            <h2 className="text-[var(--theme-text-primary)] text-2xl md:text-3xl font-bold mb-4">
+            <h2 className="text-theme-primary text-2xl md:text-3xl font-bold mb-4">
               {title}
             </h2>
           )}

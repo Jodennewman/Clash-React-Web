@@ -10,24 +10,38 @@ export default {
       // We'll use CSS variables from @theme directive instead of colors here
       animation: {
         'fadeIn': 'fadeIn 0.5s ease-out forwards',
-        'float-slow': 'float 8s ease-in-out infinite',
-        'float-medium': 'float 6s ease-in-out infinite',
+        'float-slow': 'float-slow 6s ease-in-out infinite',
+        'float-medium': 'float-medium 5s ease-in-out infinite',
         'float-fast': 'float 4s ease-in-out infinite',
+        'float-gentle': 'float-gentle 9s ease-in-out infinite',
         'ripple': 'ripple 0.5s ease-out forwards',
         'float': 'float-pattern 20s linear infinite',
       },
       keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0', transform: 'translateY(20px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
+        'fadeIn': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
         },
-        float: {
-          '0%, 100%': { transform: 'translateY(0) rotate(var(--tw-rotate, 0))' },
-          '50%': { transform: 'translateY(-10px) rotate(var(--tw-rotate, 0))' },
+        'float': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-20px)' }
         },
-        ripple: {
+        'float-slow': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-20px)' }
+        },
+        'float-medium': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-15px)' }
+        },
+        'float-gentle': {
+          '0%, 100%': { transform: 'translate3d(0, 0, 0) rotate(0deg)' },
+          '33%': { transform: 'translate3d(5px, -7px, 0) rotate(1deg)' },
+          '66%': { transform: 'translate3d(-3px, -4px, 0) rotate(-1deg)' }
+        },
+        'ripple': {
           '0%': { transform: 'scale(0)', opacity: '1' },
-          '100%': { transform: 'scale(500)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '0' },
         },
         'float-pattern': {
           '0%': { transform: 'translateX(0) translateY(0)' },

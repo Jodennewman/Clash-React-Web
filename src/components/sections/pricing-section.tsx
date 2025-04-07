@@ -77,7 +77,7 @@ const ModulePreview = () => {
               className="flex justify-between items-center group rounded-lg p-2 hover:bg-theme-bg-surface/10 dark:hover:bg-theme-bg-surface/10 transition-colors"
             >
               <div className="text-theme-custom/80 /80">{category}</div>
-              <div className="text-[var(--theme-primary)]  text-sm">{moduleCategories[category]?.length || 0}</div>
+              <div className="text-theme-primary-light  text-sm">{moduleCategories[category]?.length || 0}</div>
             </div>
           ))}
         </div>
@@ -90,7 +90,7 @@ const ModulePreview = () => {
               className="flex justify-between items-center group rounded-lg p-2 hover:bg-theme-bg-surface/10 dark:hover:bg-theme-bg-surface/10 transition-colors"
             >
               <div className="text-theme-custom/80 /80">{category}</div>
-              <div className="text-[var(--theme-primary)]  text-sm">{moduleCategories[category]?.length || 0}</div>
+              <div className="text-theme-primary-light  text-sm">{moduleCategories[category]?.length || 0}</div>
             </div>
           ))}
         </div>
@@ -99,17 +99,17 @@ const ModulePreview = () => {
       <div className="mt-8 flex justify-center">
         <div className="bg-[var(--theme-bg-secondary)]/50 /50 backdrop-blur-sm px-6 py-3 rounded-lg flex items-center gap-4 border border-theme-border-light-card-shadow">
           <div className="text-center">
-            <div className="text-2xl font-bold text-[var(--theme-primary)] ">{totalModules}+</div>
+            <div className="text-2xl font-bold text-theme-primary-light ">{totalModules}+</div>
             <div className="text-sm text-theme-custom/60 /60">Lessons</div>
           </div>
           <div className="h-10 w-px bg-theme-bg-surface/10"></div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-[var(--theme-primary)] ">{totalCategories}</div>
+            <div className="text-2xl font-bold text-theme-primary-light ">{totalCategories}</div>
             <div className="text-sm text-theme-custom/60 /60">Learning Tracks</div>
           </div>
           <div className="h-10 w-px bg-theme-bg-surface/10"></div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-[var(--theme-primary)] ">{totalHours}+</div>
+            <div className="text-2xl font-bold text-theme-primary-light ">{totalHours}+</div>
             <div className="text-sm text-theme-custom/60 /60">Hours</div>
           </div>
         </div>
@@ -159,21 +159,21 @@ const ComparisonTable = () => {
                   <td className="p-4 text-theme-custom/80 /80">{category}</td>
                   <td className="p-4 text-center">
                     {blueprintAccess ? (
-                      <Check className="h-5 w-5 text-[var(--theme-primary)]  mx-auto" />
+                      <Check className="h-5 w-5 text-theme-primary-light  mx-auto" />
                     ) : (
                       <X className="h-5 w-5 text-theme-custom/30 /30 mx-auto" />
                     )}
                   </td>
                   <td className="p-4 text-center">
                     {automatorAccess ? (
-                      <Check className="h-5 w-5 text-[var(--theme-accent-secondary)]  mx-auto" />
+                      <Check className="h-5 w-5 text-theme-accent  mx-auto" />
                     ) : (
                       <X className="h-5 w-5 text-theme-custom/30 /30 mx-auto" />
                     )}
                   </td>
                   <td className="p-4 text-center">
                     {growthAccess ? (
-                      <Check className="h-5 w-5 text-[var(--theme-accent-quaternary)]  mx-auto" />
+                      <Check className="h-5 w-5 text-theme-accent-quaternary  mx-auto" />
                     ) : (
                       <X className="h-5 w-5 text-theme-custom/30 /30 mx-auto" />
                     )}
@@ -194,21 +194,21 @@ const ComparisonTable = () => {
                 <td className="p-4 text-theme-custom/80 /80">{feature.name}</td>
                 <td className="p-4 text-center">
                   {feature.blueprint ? (
-                    <Check className="h-5 w-5 text-[var(--theme-primary)]  mx-auto" />
+                    <Check className="h-5 w-5 text-theme-primary-light  mx-auto" />
                   ) : (
                     <X className="h-5 w-5 text-theme-custom/30 /30 mx-auto" />
                   )}
                 </td>
                 <td className="p-4 text-center">
                   {feature.automator ? (
-                    <Check className="h-5 w-5 text-[var(--theme-accent-secondary)]  mx-auto" />
+                    <Check className="h-5 w-5 text-theme-accent  mx-auto" />
                   ) : (
                     <X className="h-5 w-5 text-theme-custom/30 /30 mx-auto" />
                   )}
                 </td>
                 <td className="p-4 text-center">
                   {feature.growth ? (
-                    <Check className="h-5 w-5 text-[var(--theme-accent-quaternary)]  mx-auto" />
+                    <Check className="h-5 w-5 text-theme-accent-quaternary  mx-auto" />
                   ) : (
                     <X className="h-5 w-5 text-theme-custom/30 /30 mx-auto" />
                   )}

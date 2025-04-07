@@ -112,7 +112,7 @@ const VSModalExamples: React.FC = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Basic Modal Example */}
-          <div className="bg-theme-gradient rounded-[var(--theme-border-radius-lg)] p-6 shadow-theme-md hover-bubbly">
+          <div className="bg-theme-gradient rounded-theme-lg p-6 shadow-theme-md hover-bubbly">
             <h3 className="text-xl font-medium text-theme-primary mb-4">Basic Modal</h3>
             <p className="text-theme-secondary mb-6">A simple customizable modal with VS styling.</p>
             <button
@@ -124,7 +124,7 @@ const VSModalExamples: React.FC = () => {
           </div>
           
           {/* Application Modal Example */}
-          <div className="bg-theme-gradient rounded-[var(--theme-border-radius-lg)] p-6 shadow-theme-md hover-bubbly">
+          <div className="bg-theme-gradient rounded-theme-lg p-6 shadow-theme-md hover-bubbly">
             <h3 className="text-xl font-medium text-theme-primary mb-4">Application Form</h3>
             <p className="text-theme-secondary mb-6">Multi-step application form with validation.</p>
             <button
@@ -136,7 +136,7 @@ const VSModalExamples: React.FC = () => {
           </div>
           
           {/* Submodule Modal Example */}
-          <div className="bg-theme-gradient rounded-[var(--theme-border-radius-lg)] p-6 shadow-theme-md hover-bubbly">
+          <div className="bg-theme-gradient rounded-theme-lg p-6 shadow-theme-md hover-bubbly">
             <h3 className="text-xl font-medium text-theme-primary mb-4">Module Viewer</h3>
             <p className="text-theme-secondary mb-6">Course module viewer with video player and navigation.</p>
             <button
@@ -148,7 +148,7 @@ const VSModalExamples: React.FC = () => {
           </div>
           
           {/* Quiz Modal Example */}
-          <div className="bg-theme-gradient rounded-[var(--theme-border-radius-lg)] p-6 shadow-theme-md hover-bubbly">
+          <div className="bg-theme-gradient rounded-theme-lg p-6 shadow-theme-md hover-bubbly">
             <h3 className="text-xl font-medium text-theme-primary mb-4">Knowledge Quiz</h3>
             <p className="text-theme-secondary mb-6">Interactive quiz with progress tracking and results.</p>
             <button
@@ -179,7 +179,7 @@ const VSModalExamples: React.FC = () => {
               You can customize the width, add a title and description, and control whether the close button is shown. The modal also includes subtle floating elements and proper animations.
             </p>
             
-            <div className="bg-theme-accent/10 p-4 rounded-[var(--theme-border-radius-md)] mt-4">
+            <div className="bg-theme-accent/10 p-4 rounded-theme-md mt-4">
               <h4 className="text-theme-primary text-sm font-medium mb-2">Pro Tip</h4>
               <p className="text-theme-secondary text-sm">
                 Use this modal as a base for building more complex modal components that need to follow the VS styling guidelines.
@@ -189,7 +189,7 @@ const VSModalExamples: React.FC = () => {
             <div className="pt-4 flex justify-end">
               <button
                 onClick={() => setShowBasicModal(false)}
-                className="bg-theme-gradient-primary text-theme-on-primary-6 py-2 rounded-[var(--theme-border-radius-md)] shadow-theme-sm hover-bubbly-sm"
+                className="bg-theme-gradient-primary text-theme-on-primary-6 py-2 rounded-theme-md shadow-theme-sm hover-bubbly-sm"
               >
                 Got it
               </button>

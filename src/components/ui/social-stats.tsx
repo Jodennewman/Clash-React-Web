@@ -32,7 +32,7 @@ export function SocialStats() {
         <TooltipTrigger>
           <div
             data-slot="social-stats"
-            className="hover:bg-theme-accent/10 flex items-center rounded-md p-2 transition-all duration-[var(--theme-transition-normal)]"
+            className="hover:bg-theme-accent/10 flex items-center rounded-md p-2 transition-all transition-theme-normal"
           >
             {avatars.map((avatar) => (
               <Avatar key={avatar.name} className="-mr-2 size-8 shadow-theme-sm">

@@ -279,7 +279,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection }) => {
                   {section.name}
                 </div>
                 {index === 0 && (
-                  <div className="absolute -bottom-2 -right-2 w-[15px] h-[15px] bg-[#FF3C54] rounded-full shadow-[var(--theme-shadow-sm)] shadow-theme-"></div>
+                  <div className="absolute -bottom-2 -right-2 w-[15px] h-[15px] bg-[#FF3C54] rounded-full shadow-theme-sm shadow-theme-"></div>
                 )}
               </div>
               
@@ -304,7 +304,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection }) => {
                         {module.title}
                       </div>
                       {module.founderMustWatch && (
-                        <div className="absolute -bottom-1 -right-1 w-[10px] h-[10px] bg-[#FF3C54] rounded-full shadow-[var(--theme-shadow-sm)] shadow-theme-"></div>
+                        <div className="absolute -bottom-1 -right-1 w-[10px] h-[10px] bg-[#FF3C54] rounded-full shadow-theme-sm shadow-theme-"></div>
                       )}
                     </div>
                   ))

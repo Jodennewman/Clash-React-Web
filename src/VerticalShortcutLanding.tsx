@@ -582,7 +582,7 @@ const VerticalShortcutLanding = () => {
             ref={statsRef} 
             lightBg="bg-gradient-to-br from-white to-[var(--theme-bg-primary)]/80"
             darkBg="dark:bg-gradient-to-br dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]"
-            className="py-20 border-t border-[var(--theme-accent-secondary)]/30 relative overflow-hidden"
+            className="py-20 border-t text-theme-accent/30 relative overflow-hidden"
           >
             {/* Light mode floating elements */}
             <div className="absolute top-40 left-[15%] w-32 h-32 rounded-[40%] rotate-12 opacity-5 
@@ -611,29 +611,7 @@ const VerticalShortcutLanding = () => {
           
           {/* Case Studies Section - Shows real growth metrics */}
           <CaseStudies />
-
-          <div className="container mx-auto px-4">
-              <div className="mb-12 text-center">
-                <h2 className="text-[var(--theme-text-primary)] dark:text-white text-3xl md:text-4xl font-bold mb-6">
-                  Course Stats That Speak for Themselves
-                </h2>
-                <p className="text-[var(--theme-text-primary)] dark:text-white/70 text-xl max-w-3xl mx-auto">
-                  Vertical Shortcut isn't just another course. It's the culmination of years creating content that drove real business results.
-                </p>
-              </div>
-              
-              {/* CourseStats component - THIS COMPONENT MAINTAINS ITS OWN STYLING */}
-              {/* It has special styling rules for stats with vibrant colors */}
-              
-              
-              <div className="text-center mb-10">
-                <Badge variant="outline" className="bg-[var(--theme-accent-tertiary)]/10 border-[var(--theme-primary)]/30 py-2 px-4">
-                  <span className="text-[var(--theme-primary)]  font-bold">
-                    Don't Just Take Our Word For It
-                  </span>
-                </Badge>
-              </div>
-            </div>
+          <SocialProof />
           </VSSection>
           <CourseStats />
           

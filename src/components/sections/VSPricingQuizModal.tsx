@@ -85,7 +85,7 @@ export const VSPricingQuizModal = ({ onComplete }: PricingQuizProps) => {
       {/* Trigger Button */}
       <Button 
         onClick={handleOpen}
-        className="px-5 py-2 bg-[var(--theme-bg-primary)] border border-[var(--theme-primary)]/30 text-theme-on-primary-[var(--theme-accent-secondary)]/30 gap-2 hover-bubbly-sm"
+        className="px-5 py-2 bg-[var(--theme-bg-primary)] border text-theme-primary-light/30 text-theme-on-primary-[var(--theme-accent-secondary)]/30 gap-2 hover-bubbly-sm"
       >
         <HelpCircle className="h-4 w-4" />
         Not sure which plan is right? Take the Quiz

@@ -154,18 +154,18 @@ const ModalsImplementation: React.FC = () => {
       
       <div className="container mx-auto px-4">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-theme-primary mb-4 transition-colors duration-[var(--theme-transition-normal)]">VS Modal System</h2>
-          <p className="text-theme-secondary max-w-2xl mx-auto transition-colors duration-[var(--theme-transition-normal)]">
+          <h2 className="text-3xl font-bold text-theme-primary mb-4 transition-colors transition-theme-normal">VS Modal System</h2>
+          <p className="text-theme-secondary max-w-2xl mx-auto transition-colors transition-theme-normal">
             Integrated modal components for the Vertical Shortcut website that follow VS styling guidelines.
           </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Application Modal Card */}
-          <div className="modal-card bg-theme-gradient rounded-lg p-6 shadow-theme-md border border-theme-border transition-all duration-[var(--theme-transition-bounce)] hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-lg hover:border-theme-accent/20">
+          <div className="modal-card bg-theme-gradient rounded-lg p-6 shadow-theme-md border border-theme-border transition-all transition-theme-bounce hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-lg hover:border-theme-accent/20">
             <div className="relative z-10">
-              <h3 className="text-xl font-semibold text-theme-primary mb-4 transition-colors duration-[var(--theme-transition-normal)]">Application Form</h3>
-              <p className="text-theme-secondary mb-6 transition-colors duration-[var(--theme-transition-normal)]">
+              <h3 className="text-xl font-semibold text-theme-primary mb-4 transition-colors transition-theme-normal">Application Form</h3>
+              <p className="text-theme-secondary mb-6 transition-colors transition-theme-normal">
                 Multi-step application form with validation and progress indicator.
               </p>
               
@@ -186,7 +186,7 @@ const ModalsImplementation: React.FC = () => {
               
               <button
                 onClick={() => setShowApplicationModal(true)}
-                className="bg-theme-gradient-primary text-theme-on-primary-4 py-2 rounded-full shadow-theme-btn transition-all duration-[var(--theme-transition-bounce)] hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-md w-full"
+                className="bg-theme-gradient-primary text-theme-on-primary-4 py-2 rounded-full shadow-theme-btn transition-all transition-theme-bounce hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-md w-full"
               >
                 Open Application Form
               </button>
@@ -194,10 +194,10 @@ const ModalsImplementation: React.FC = () => {
           </div>
           
           {/* Course Viewer Modal Card */}
-          <div className="modal-card bg-theme-gradient rounded-lg p-6 shadow-theme-md border border-theme-border transition-all duration-[var(--theme-transition-bounce)] hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-lg hover:border-theme-accent/20">
+          <div className="modal-card bg-theme-gradient rounded-lg p-6 shadow-theme-md border border-theme-border transition-all transition-theme-bounce hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-lg hover:border-theme-accent/20">
             <div className="relative z-10">
-              <h3 className="text-xl font-semibold text-theme-primary mb-4 transition-colors duration-[var(--theme-transition-normal)]">Course Module Viewer</h3>
-              <p className="text-theme-secondary mb-6 transition-colors duration-[var(--theme-transition-normal)]">
+              <h3 className="text-xl font-semibold text-theme-primary mb-4 transition-colors transition-theme-normal">Course Module Viewer</h3>
+              <p className="text-theme-secondary mb-6 transition-colors transition-theme-normal">
                 Interactive course module viewer with video player and navigation.
               </p>
               
@@ -218,7 +218,7 @@ const ModalsImplementation: React.FC = () => {
               
               <button
                 onClick={() => setShowSubmoduleModal(true)}
-                className="bg-theme-gradient-secondary text-theme-on-primary-4 py-2 rounded-full shadow-theme-btn transition-all duration-[var(--theme-transition-bounce)] hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-md w-full"
+                className="bg-theme-gradient-secondary text-theme-on-primary-4 py-2 rounded-full shadow-theme-btn transition-all transition-theme-bounce hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-md w-full"
               >
                 View Module Content
               </button>
@@ -226,10 +226,10 @@ const ModalsImplementation: React.FC = () => {
           </div>
           
           {/* Quiz Modal Card */}
-          <div className="modal-card bg-theme-gradient rounded-lg p-6 shadow-theme-md border border-theme-border transition-all duration-[var(--theme-transition-bounce)] hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-lg hover:border-theme-accent/20">
+          <div className="modal-card bg-theme-gradient rounded-lg p-6 shadow-theme-md border border-theme-border transition-all transition-theme-bounce hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-lg hover:border-theme-accent/20">
             <div className="relative z-10">
-              <h3 className="text-xl font-semibold text-theme-primary mb-4 transition-colors duration-[var(--theme-transition-normal)]">Knowledge Quiz</h3>
-              <p className="text-theme-secondary mb-6 transition-colors duration-[var(--theme-transition-normal)]">
+              <h3 className="text-xl font-semibold text-theme-primary mb-4 transition-colors transition-theme-normal">Knowledge Quiz</h3>
+              <p className="text-theme-secondary mb-6 transition-colors transition-theme-normal">
                 Interactive quiz with progress tracking and results.
               </p>
               
@@ -249,7 +249,7 @@ const ModalsImplementation: React.FC = () => {
               
               <button
                 onClick={() => setShowQuizModal(true)}
-                className="bg-theme-gradient-accent text-theme-on-primary-4 py-2 rounded-full shadow-theme-btn transition-all duration-[var(--theme-transition-bounce)] hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-md w-full"
+                className="bg-theme-gradient-accent text-theme-on-primary-4 py-2 rounded-full shadow-theme-btn transition-all transition-theme-bounce hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] hover:shadow-theme-md w-full"
               >
                 Take Knowledge Quiz
               </button>

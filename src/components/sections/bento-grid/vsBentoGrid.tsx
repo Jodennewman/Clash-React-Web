@@ -27,10 +27,10 @@ export default function VSBentoGrid() {
           <Badge variant="section" size="xl" className="mb-4">
             Program Resources
           </Badge>
-          <h2 className="text-[var(--theme-text-primary)] dark:text-theme-on-primary-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-theme-primary dark:text-theme-on-primary-4xl md:text-5xl font-bold mb-6">
             Everything You Need
           </h2>
-          <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/70 text-xl max-w-3xl mx-auto">
+          <p className="text-theme-primary dark:text-theme-on-primary/70 text-xl max-w-3xl mx-auto">
             Vertical Shortcut gives you all the tools, resources, and support to succeed with short-form content.
           </p>
         </div>
@@ -53,11 +53,11 @@ export default function VSBentoGrid() {
                   <Database className="w-10 h-10 text-theme-on-primary" />
                 </div>
               </div>
-              <Zap className="size-8 text-[var(--theme-primary)] mb-3 transition-transform duration-300 group-hover:scale-110" />
-              <h3 className="text-[var(--theme-text-primary)] text-2xl font-semibold mb-3 dark:text-theme-on-primary">
+              <Zap className="size-8 text-theme-primary-light mb-3 transition-transform duration-300 group-hover:scale-110" />
+              <h3 className="text-theme-primary text-2xl font-semibold mb-3 dark:text-theme-on-primary">
                 Weekly Growth Labs
               </h3>
-              <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/70">
+              <p className="text-theme-primary dark:text-theme-on-primary/70">
                 Live weekly sessions where we review your content and provide actionable feedback for immediate improvement.
               </p>
             </div>
@@ -79,11 +79,11 @@ export default function VSBentoGrid() {
                   <MessageSquare className="w-10 h-10 text-theme-on-primary" />
                 </div>
               </div>
-              <PieChart className="size-8 text-[var(--theme-accent-secondary)] mb-3 transition-transform duration-300 group-hover:scale-110" />
-              <h3 className="text-[var(--theme-text-primary)] text-2xl font-semibold mb-3 dark:text-theme-on-primary">
+              <PieChart className="size-8 text-theme-accent mb-3 transition-transform duration-300 group-hover:scale-110" />
+              <h3 className="text-theme-primary text-2xl font-semibold mb-3 dark:text-theme-on-primary">
                 Platform Mastery
               </h3>
-              <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/70">
+              <p className="text-theme-primary dark:text-theme-on-primary/70">
                 Deep dives into platform algorithms with strategies specifically tailored for each one.
               </p>
             </div>
@@ -105,11 +105,11 @@ export default function VSBentoGrid() {
                   <Layout className="w-10 h-10 text-theme-on-primary" />
                 </div>
               </div>
-              <Globe className="size-8 text-[var(--theme-primary)] mb-3 transition-transform duration-300 group-hover:scale-110" />
-              <h3 className="text-[var(--theme-text-primary)] text-2xl font-semibold mb-3 dark:text-theme-on-primary">
+              <Globe className="size-8 text-theme-primary-light mb-3 transition-transform duration-300 group-hover:scale-110" />
+              <h3 className="text-theme-primary text-2xl font-semibold mb-3 dark:text-theme-on-primary">
                 Creator Network
               </h3>
-              <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/70">
+              <p className="text-theme-primary dark:text-theme-on-primary/70">
                 Connect with 100+ top creators who've built 7+ figure businesses with short-form content.
               </p>
             </div>
@@ -137,11 +137,11 @@ export default function VSBentoGrid() {
                   <Smartphone className="w-10 h-10 text-theme-on-primary" />
                 </div>
               </div>
-              <VideoIcon className="size-8 text-[var(--theme-primary-hover)] mb-3 transition-transform duration-300 group-hover:scale-110" />
-              <h3 className="text-[var(--theme-text-primary)] text-2xl font-semibold mb-3 dark:text-theme-on-primary">
+              <VideoIcon className="size-8 bg-theme-primary-hover mb-3 transition-transform duration-300 group-hover:scale-110" />
+              <h3 className="text-theme-primary text-2xl font-semibold mb-3 dark:text-theme-on-primary">
                 Viral Case Studies
               </h3>
-              <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/70">
+              <p className="text-theme-primary dark:text-theme-on-primary/70">
                 Detailed breakdowns of 45+ videos that reached millions of views across different niches and industries.
               </p>
             </div>
@@ -168,11 +168,11 @@ export default function VSBentoGrid() {
                   <Activity className="w-10 h-10 text-theme-on-primary" />
                 </div>
               </div>
-              <Shield className="size-8 text-[var(--theme-accent-tertiary)] mb-3 transition-transform duration-300 group-hover:scale-110" />
-              <h3 className="text-[var(--theme-text-primary)] text-2xl font-semibold mb-3 dark:text-theme-on-primary">
+              <Shield className="size-8 text-theme-accent-tertiary mb-3 transition-transform duration-300 group-hover:scale-110" />
+              <h3 className="text-theme-primary text-2xl font-semibold mb-3 dark:text-theme-on-primary">
                 AI-Powered Tools
               </h3>
-              <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/70">
+              <p className="text-theme-primary dark:text-theme-on-primary/70">
                 Exclusive access to our custom AI tools for content research, script generation, and trend prediction.
               </p>
             </div>

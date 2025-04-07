@@ -11,6 +11,7 @@ import { DirectClassTest } from './components/DirectClassTest';
 import VSModalShowcase from './components/VSModalShowcase';
 import { VSPainPoints, VSCharts } from './components/sections';
 import CalendlyDemo from './components/Calendly/CalendlyDemo';
+import ThemeStyleGuide from './components/ThemeStyleGuide';
 
 function App() {
   // Load theme toggle script
@@ -43,7 +44,7 @@ function App() {
                 </Link>
               </div>
               <div>
-                <Link to="/painpoints" className="px-6 py-2 bg-[var(--theme-accent-secondary)] text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                <Link to="/painpoints" className="px-6 py-2 bg-theme-accent-secondary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
                   VS Pain Points Section
                 </Link>
               </div>
@@ -57,6 +58,11 @@ function App() {
                   Calendly Scheduling Demo
                 </Link>
               </div>
+              <div>
+                <Link to="/style-guide" className="px-6 py-2 bg-theme-primary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                  Theme Style Guide
+                </Link>
+              </div>
             </div>
           </div>
         } />
@@ -68,6 +74,7 @@ function App() {
         <Route path="/painpoints" element={<VSPainPoints />} />
         <Route path="/charts" element={<VSCharts />} />
         <Route path="/calendly" element={<CalendlyDemo />} />
+        <Route path="/style-guide" element={<ThemeStyleGuide />} />
       </Routes>
       
       {/* Theme toggle button */}
