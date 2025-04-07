@@ -68,12 +68,12 @@ export default function Marquee({
         className,
       )}
       style={{
-        '--gap': '1rem',
+        '--gap': '0.5rem',
       }}
     >
       <div 
         className={cn(
-          "flex gap-4 shrink-0",
+          "flex gap-2 shrink-0",
           { "marquee-hover-pause": pauseOnHover }
         )}
         style={marqueeAnimationStyle}
@@ -83,7 +83,7 @@ export default function Marquee({
       
       <div 
         className={cn(
-          "flex gap-4 shrink-0",
+          "flex gap-2 shrink-0",
           { "marquee-hover-pause": pauseOnHover }
         )}
         style={marqueeAnimationStyle}
