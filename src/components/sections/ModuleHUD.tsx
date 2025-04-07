@@ -475,8 +475,6 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         }
       );
     }
-    
-  }, [selectedSection, selectedSectionModules]);
   
   // Handle click events
   const handleModuleClick = (e: React.MouseEvent) => {
