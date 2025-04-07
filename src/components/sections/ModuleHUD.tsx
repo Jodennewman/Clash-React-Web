@@ -711,21 +711,19 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         modulesContainer.style.justifyContent = 'flex-start';
         modulesContainer.style.gap = '12px';
         
-        // Create heading based on which system
-        const headingEl = document.createElement('h3');
-        headingEl.className = 'text-white text-2xl font-bold';
-        
-        // Create description based on which system
-        const descriptionEl = document.createElement('p');
-        descriptionEl.className = 'text-white/80 mb-4';
-        
         // Create content container for the specific visualization
         const contentEl = document.createElement('div');
-        contentEl.className = 'flex-1 flex flex-col gap-4';
+        contentEl.className = 'flex-1 flex flex-col gap-4 items-center justify-center';
         
-        // Create features list
-        const featuresList = document.createElement('ul');
-        featuresList.className = 'bg-white/10 rounded-lg p-4 mt-2 space-y-3';
+        // Create info button that will trigger a modal
+        const infoButton = document.createElement('button');
+        infoButton.className = 'bg-white/20 text-white rounded-full w-12 h-12 flex items-center justify-center hover:bg-white/30 transition-all duration-300 mt-4 shadow-[0_0_10px_rgba(255,255,255,0.2)]';
+        infoButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>';
+        
+        // Store system information for the modal
+        let systemTitle = '';
+        let systemDescription = '';
+        let systemFeatures: string[] = [];
         
         // Create illustration container
         const illustrationContainer = document.createElement('div');
@@ -733,17 +731,24 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         
         // Determine which system we're showing and set appropriate content
         if (displayKey === 'system-notion') {
-          headingEl.textContent = 'Notion System';
-          descriptionEl.textContent = 'Our comprehensive content organization system powered by a custom Notion database with advanced integrations.';
+          // Set modal information
+          systemTitle = 'Notion System';
+          systemDescription = 'Our comprehensive content organization system powered by a custom Notion database with advanced integrations.';
+          systemFeatures = [
+            'Content planning with linked databases',
+            'Ready-to-use templates for scripts',
+            'Database analytics for performance tracking',
+            'Automated content scheduling and workflows'
+          ];
           
-          // Notion database illustration
+          // Notion database illustration - larger and more prominent
           const notionIllustration = document.createElement('div');
-          notionIllustration.className = 'w-full max-w-[80%] h-24 bg-white/10 rounded-lg p-3 mb-4 flex flex-col justify-between';
+          notionIllustration.className = 'w-full max-w-[90%] h-40 bg-white/10 rounded-lg p-4 flex flex-col justify-between';
           
           // Create database rows
           for (let i = 0; i < 3; i++) {
             const rowEl = document.createElement('div');
-            rowEl.className = 'flex items-center space-x-3';
+            rowEl.className = 'flex items-center space-x-3 mb-3';
             
             // Create dot indicator
             const dotEl = document.createElement('div');
@@ -751,94 +756,125 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             
             // Create row line
             const lineEl = document.createElement('div');
-            lineEl.className = 'notion-row h-2 bg-white/30 rounded-full flex-grow';
+            lineEl.className = 'notion-row h-3 bg-white/30 rounded-full flex-grow';
             
             rowEl.appendChild(dotEl);
             rowEl.appendChild(lineEl);
             notionIllustration.appendChild(rowEl);
           }
           
+          // Add a table header to make it more database-like
+          const tableHeader = document.createElement('div');
+          tableHeader.className = 'w-full flex justify-between text-white/70 text-xs mb-3 px-1';
+          tableHeader.innerHTML = '<span>ID</span><span>CONTENT</span><span>STATUS</span>';
+          notionIllustration.prepend(tableHeader);
+          
           // Add illustration
           illustrationContainer.appendChild(notionIllustration);
           
-          // Features specific to Notion System
-          [
-            'Content planning with linked databases',
-            'Ready-to-use templates for scripts',
-            'Database analytics for performance tracking',
-            'Automated content scheduling and workflows'
-          ].forEach(feature => {
-            const listItem = document.createElement('li');
-            listItem.className = 'flex items-center text-white/90';
-            
-            // Create checkmark icon
-            const checkIcon = document.createElement('div');
-            checkIcon.className = 'w-4 h-4 bg-white/30 rounded-full mr-3 flex items-center justify-center text-xs';
-            checkIcon.innerHTML = '✓';
-            
-            listItem.appendChild(checkIcon);
-            listItem.appendChild(document.createTextNode(feature));
-            featuresList.appendChild(listItem);
-          });
-          
         } else if (displayKey === 'system-engine') {
-          headingEl.textContent = 'Engine Room';
-          descriptionEl.textContent = 'Our streamlined content production system that turns raw footage into professional-quality videos.';
+          // Set modal information
+          systemTitle = 'Engine Room';
+          systemDescription = 'Our streamlined content production system that turns raw footage into professional-quality videos.';
+          systemFeatures = [
+            'AI-powered video transcription',
+            'Content optimization suggestions',
+            'Automated editing workflows',
+            'Quality control checkpoints'
+          ];
           
-          // Engine room illustration - conveyor belt
+          // Engine room illustration - conveyor belt - larger and more detailed
           const engineIllustration = document.createElement('div');
-          engineIllustration.className = 'relative w-full max-w-[80%] h-24 mb-4';
+          engineIllustration.className = 'relative w-full max-w-[90%] h-40 mb-4 flex flex-col justify-center';
           
+          // Add factory name/title
+          const factoryTitle = document.createElement('div');
+          factoryTitle.className = 'absolute top-0 left-0 right-0 text-center text-white/70 text-xs mb-1';
+          factoryTitle.textContent = 'PRODUCTION LINE';
+          engineIllustration.appendChild(factoryTitle);
+          
+          // Create main conveyor belt
           const conveyor = document.createElement('div');
-          conveyor.className = 'h-16 bg-black/20 rounded-lg overflow-hidden';
+          conveyor.className = 'h-20 bg-black/20 rounded-lg overflow-hidden mb-4 relative';
+          
+          // Add machinery above conveyor
+          const machinery = document.createElement('div');
+          machinery.className = 'absolute -top-3 left-1/2 transform -translate-x-1/2 w-16 h-8 bg-white/10 rounded-md border border-white/20';
+          
+          // Add smoke stacks to machinery
+          for (let i = 0; i < 2; i++) {
+            const smokeStack = document.createElement('div');
+            smokeStack.className = 'absolute -top-3 left-' + (i === 0 ? '3' : '8') + ' w-2 h-5 bg-white/20 rounded-t-sm';
+            
+            // Add smoke particles
+            const smoke = document.createElement('div');
+            smoke.className = 'factory-smoke absolute -top-2 left-0 w-2 h-2 rounded-full bg-white/40';
+            smokeStack.appendChild(smoke);
+            
+            machinery.appendChild(smokeStack);
+          }
+          
+          conveyor.appendChild(machinery);
           
           const conveyorItems = document.createElement('div');
-          conveyorItems.className = 'absolute inset-y-0 left-4 right-4 flex items-center';
+          conveyorItems.className = 'absolute bottom-3 left-0 right-0 flex items-center';
           
-          // Create conveyor items
-          for (let i = 0; i < 3; i++) {
+          // Create conveyor items - more items and varied sizes
+          for (let i = 0; i < 4; i++) {
             const itemEl = document.createElement('div');
-            itemEl.className = `conveyor-item w-10 h-8 mx-3 bg-white/${20 + i*5} rounded`;
+            itemEl.className = `conveyor-item w-${10 + i*2} h-8 mx-${i % 2 ? '2' : '3'} bg-white/${20 + i*5} rounded`;
             conveyorItems.appendChild(itemEl);
           }
           
           conveyor.appendChild(conveyorItems);
           engineIllustration.appendChild(conveyor);
           
+          // Add control panel below
+          const controlPanel = document.createElement('div');
+          controlPanel.className = 'h-8 bg-white/10 rounded-md w-3/4 mx-auto flex items-center justify-around px-2';
+          
+          // Add control buttons
+          for (let i = 0; i < 3; i++) {
+            const button = document.createElement('div');
+            button.className = `w-4 h-4 rounded-full bg-${i === 0 ? '[var(--hud-accent-red)]' : 'white/30'}`;
+            controlPanel.appendChild(button);
+          }
+          
+          engineIllustration.appendChild(controlPanel);
+          
           // Add illustration
           illustrationContainer.appendChild(engineIllustration);
           
-          // Features specific to Engine Room
-          [
-            'AI-powered video transcription',
-            'Content optimization suggestions',
-            'Automated editing workflows',
-            'Quality control checkpoints'
-          ].forEach(feature => {
-            const listItem = document.createElement('li');
-            listItem.className = 'flex items-center text-white/90';
-            
-            // Create checkmark icon
-            const checkIcon = document.createElement('div');
-            checkIcon.className = 'w-4 h-4 bg-white/30 rounded-full mr-3 flex items-center justify-center text-xs';
-            checkIcon.innerHTML = '✓';
-            
-            listItem.appendChild(checkIcon);
-            listItem.appendChild(document.createTextNode(feature));
-            featuresList.appendChild(listItem);
-          });
-          
         } else if (displayKey === 'system-viral') {
-          headingEl.textContent = 'Video OS';
-          descriptionEl.textContent = 'A powerful editing system with specialized templates and editing presets for high-conversion videos.';
+          // Set modal information
+          systemTitle = 'Video OS';
+          systemDescription = 'A powerful editing system with specialized templates and editing presets for high-conversion videos.';
+          systemFeatures = [
+            'Custom transitions and effects library',
+            'Proven hook templates for maximum retention',
+            'Auto-captioning with style presets',
+            'Analytics integration for performance tracking'
+          ];
           
-          // Video OS illustration - timeline
+          // Video OS illustration - timeline - larger and more detailed
           const videoOSIllustration = document.createElement('div');
-          videoOSIllustration.className = 'w-full max-w-[80%] bg-black/20 h-24 rounded-lg p-2 relative mb-4';
+          videoOSIllustration.className = 'w-full max-w-[90%] bg-black/20 h-40 rounded-lg p-4 relative flex flex-col justify-between';
+          
+          // Add editor title
+          const editorTitle = document.createElement('div');
+          editorTitle.className = 'text-white/70 text-xs mb-2';
+          editorTitle.textContent = 'TIMELINE EDITOR';
+          videoOSIllustration.appendChild(editorTitle);
           
           // Video track
           const videoTrack = document.createElement('div');
-          videoTrack.className = 'h-4 mb-3 bg-black/30 rounded-full relative overflow-hidden';
+          videoTrack.className = 'h-5 mb-4 bg-black/30 rounded-full relative overflow-hidden';
+          
+          // Track label
+          const videoLabel = document.createElement('div');
+          videoLabel.className = 'absolute -left-2 top-1/2 transform -translate-y-1/2 -translate-x-full text-white/60 text-[10px]';
+          videoLabel.textContent = 'VIDEO';
+          videoTrack.appendChild(videoLabel);
           
           // Video clips
           const clip1 = document.createElement('div');
@@ -847,17 +883,27 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           const clip2 = document.createElement('div');
           clip2.className = 'editor-clips absolute left-16 w-14 h-full rounded-sm bg-[var(--hud-coral)]/70';
           
+          const clip3 = document.createElement('div');
+          clip3.className = 'editor-clips absolute left-32 w-10 h-full rounded-sm bg-[var(--hud-teal)]/50';
+          
           const playhead = document.createElement('div');
           playhead.className = 'editor-playhead absolute top-0 bottom-0 left-12 w-0.5 bg-white/90';
           
           videoTrack.appendChild(clip1);
           videoTrack.appendChild(clip2);
+          videoTrack.appendChild(clip3);
           videoTrack.appendChild(playhead);
           videoOSIllustration.appendChild(videoTrack);
           
           // Audio track
           const audioTrack = document.createElement('div');
-          audioTrack.className = 'h-4 mb-3 bg-black/30 rounded-full relative overflow-hidden';
+          audioTrack.className = 'h-5 mb-4 bg-black/30 rounded-full relative overflow-hidden';
+          
+          // Track label
+          const audioLabel = document.createElement('div');
+          audioLabel.className = 'absolute -left-2 top-1/2 transform -translate-y-1/2 -translate-x-full text-white/60 text-[10px]';
+          audioLabel.textContent = 'AUDIO';
+          audioTrack.appendChild(audioLabel);
           
           // Audio clips
           const audioClip1 = document.createElement('div');
@@ -866,65 +912,164 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           const audioClip2 = document.createElement('div');
           audioClip2.className = 'editor-clips absolute left-14 w-16 h-full rounded-sm bg-white/30';
           
+          const audioClip3 = document.createElement('div');
+          audioClip3.className = 'editor-clips absolute left-32 w-8 h-full rounded-sm bg-white/30';
+          
           audioTrack.appendChild(audioClip1);
           audioTrack.appendChild(audioClip2);
+          audioTrack.appendChild(audioClip3);
           videoOSIllustration.appendChild(audioTrack);
           
           // Effects track
           const effectsTrack = document.createElement('div');
-          effectsTrack.className = 'h-4 bg-black/30 rounded-full relative overflow-hidden';
+          effectsTrack.className = 'h-5 bg-black/30 rounded-full relative overflow-hidden';
+          
+          // Track label
+          const effectsLabel = document.createElement('div');
+          effectsLabel.className = 'absolute -left-2 top-1/2 transform -translate-y-1/2 -translate-x-full text-white/60 text-[10px]';
+          effectsLabel.textContent = 'FX';
+          effectsTrack.appendChild(effectsLabel);
           
           // Effects marker
           const effectMarker = document.createElement('div');
           effectMarker.className = 'absolute left-12 top-0 bottom-0 w-4 h-full bg-white/40 rounded-sm';
           
+          const effectMarker2 = document.createElement('div');
+          effectMarker2.className = 'absolute left-30 top-0 bottom-0 w-4 h-full bg-white/40 rounded-sm';
+          
           effectsTrack.appendChild(effectMarker);
+          effectsTrack.appendChild(effectMarker2);
           videoOSIllustration.appendChild(effectsTrack);
+          
+          // Add data processing pulse
+          const dataPulse = document.createElement('div');
+          dataPulse.className = 'video-pulse absolute top-2 right-2 w-2 h-2 bg-[var(--hud-teal)]/80 rounded-full';
+          videoOSIllustration.appendChild(dataPulse);
           
           // Add illustration
           illustrationContainer.appendChild(videoOSIllustration);
-          
-          // Features specific to Video OS
-          [
-            'Custom transitions and effects library',
-            'Proven hook templates for maximum retention',
-            'Auto-captioning with style presets',
-            'Analytics integration for performance tracking'
-          ].forEach(feature => {
-            const listItem = document.createElement('li');
-            listItem.className = 'flex items-center text-white/90';
-            
-            // Create checkmark icon
-            const checkIcon = document.createElement('div');
-            checkIcon.className = 'w-4 h-4 bg-white/30 rounded-full mr-3 flex items-center justify-center text-xs';
-            checkIcon.innerHTML = '✓';
-            
-            listItem.appendChild(checkIcon);
-            listItem.appendChild(document.createTextNode(feature));
-            featuresList.appendChild(listItem);
-          });
         }
         
         // Add the elements to the container
-        modulesContainer.appendChild(headingEl);
-        modulesContainer.appendChild(descriptionEl);
         modulesContainer.appendChild(illustrationContainer);
-        contentEl.appendChild(featuresList);
         modulesContainer.appendChild(contentEl);
         
-        // No "Coming Soon" badge anymore as requested
+        // Create modal for system info when button is clicked
+        const modalContainer = document.createElement('div');
+        modalContainer.className = 'fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300';
+        modalContainer.id = 'system-modal-' + displayKey;
         
-        // Add CTA button
-        const ctaButton = document.createElement('button');
-        ctaButton.className = 'mt-4 py-3 px-6 bg-white/20 text-white rounded-full hover:bg-white/30 transition-all duration-300 text-sm font-medium';
-        ctaButton.textContent = 'Learn More';
-        modulesContainer.appendChild(ctaButton);
+        const modalContent = document.createElement('div');
+        modalContent.className = 'bg-theme-bg-primary p-6 rounded-xl shadow-theme-lg max-w-md w-full max-h-[90vh] overflow-auto transform scale-95 transition-transform duration-300';
+        
+        // Modal title
+        const modalTitle = document.createElement('div');
+        modalTitle.className = 'text-2xl font-bold text-theme-primary mb-2 flex justify-between items-center';
+        modalTitle.innerHTML = systemTitle + '<button class="modal-close text-theme-secondary hover:text-theme-primary transition-colors p-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>';
+        
+        // Modal description
+        const modalDescription = document.createElement('p');
+        modalDescription.className = 'text-theme-secondary mb-4';
+        modalDescription.textContent = systemDescription;
+        
+        // Modal features list
+        const modalFeatureList = document.createElement('div');
+        modalFeatureList.className = 'bg-theme-bg-secondary/10 rounded-lg p-4 mb-4';
+        
+        // Features title
+        const featuresTitle = document.createElement('h3');
+        featuresTitle.className = 'text-theme-primary font-medium mb-3';
+        featuresTitle.textContent = 'Key Features';
+        modalFeatureList.appendChild(featuresTitle);
+        
+        // Features list
+        const featuresList = document.createElement('ul');
+        featuresList.className = 'space-y-2';
+        
+        systemFeatures.forEach(feature => {
+          const listItem = document.createElement('li');
+          listItem.className = 'flex items-center text-theme-secondary';
+          
+          // Create checkmark icon
+          const checkIcon = document.createElement('div');
+          checkIcon.className = 'w-5 h-5 mr-3 flex items-center justify-center text-theme-accent';
+          checkIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+          
+          listItem.appendChild(checkIcon);
+          listItem.appendChild(document.createTextNode(feature));
+          featuresList.appendChild(listItem);
+        });
+        
+        modalFeatureList.appendChild(featuresList);
+        
+        // Add everything to modal
+        modalContent.appendChild(modalTitle);
+        modalContent.appendChild(modalDescription);
+        modalContent.appendChild(modalFeatureList);
+        
+        // Action button
+        const modalAction = document.createElement('button');
+        modalAction.className = 'w-full py-3 px-6 bg-theme-gradient-primary text-white rounded-lg hover-bubbly-sm shadow-theme-sm font-medium';
+        modalAction.textContent = 'Coming Soon';
+        modalContent.appendChild(modalAction);
+        
+        modalContainer.appendChild(modalContent);
+        document.body.appendChild(modalContainer);
+        
+        // Add info button that shows the modal
+        infoButton.addEventListener('click', (e) => {
+          e.stopPropagation(); // Prevent section click
+          const modal = document.getElementById('system-modal-' + displayKey);
+          if (modal) {
+            modal.style.opacity = '1';
+            modal.style.pointerEvents = 'auto';
+            
+            // Animate modal in
+            const modalContentEl = modal.querySelector('div');
+            if (modalContentEl) {
+              gsap.to(modalContentEl, {
+                scale: 1,
+                duration: 0.3,
+                ease: "back.out(1.7)"
+              });
+            }
+          }
+        });
+        
+        // Add close modal functionality
+        document.querySelectorAll('.modal-close').forEach(closeBtn => {
+          closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const modal = (e.target as HTMLElement).closest('[id^="system-modal-"]');
+            if (modal) {
+              // Animate modal out
+              const modalContentEl = modal.querySelector('div');
+              if (modalContentEl) {
+                gsap.to(modalContentEl, {
+                  scale: 0.95,
+                  duration: 0.2,
+                  ease: "power3.in",
+                  onComplete: () => {
+                    modal.style.opacity = '0';
+                    modal.style.pointerEvents = 'none';
+                  }
+                });
+              } else {
+                modal.style.opacity = '0';
+                modal.style.pointerEvents = 'none';
+              }
+            }
+          });
+        });
+        
+        // Add button to container
+        contentEl.appendChild(infoButton);
         
         // Add container to section
         sectionEl.appendChild(modulesContainer);
         
         // Animate system content with a nice fade-in sequence
-        gsap.from([headingEl, descriptionEl, illustrationContainer, featuresList, ctaButton], { 
+        gsap.from([illustrationContainer, infoButton], { 
           opacity: 0, 
           y: 15, 
           duration: 0.5,
