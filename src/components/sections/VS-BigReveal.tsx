@@ -64,33 +64,34 @@ const VSBigReveal = () => {
     
     // Create animation context for proper cleanup
     const ctx = gsap.context(() => {
-      // Enhanced animation for the large logo with dramatic entrance
+      // Enhanced animation for the MASSIVE logo with dramatic entrance
       const logoTl = gsap.timeline({
         scrollTrigger: {
-          trigger: logoRef.current,
+          trigger: sectionRef.current,
           start: "top 90%",
-          end: "bottom 10%", 
+          end: "center center", 
           scrub: 0.8,
         }
       });
       
-      // Initial animation with more dramatic effects
+      // Initial animation with more dramatic effects for massive logo
       logoTl
-        .from(".vs-logo-wrapper > div", {
-          x: -200,
-          y: 80,
+        .from(".vs-logo-wrapper", {
+          x: -300,
+          y: 120,
           opacity: 0,
-          scale: 0.7,
-          rotation: -5,
-          duration: 1.2,
+          scale: 0.6,
+          rotation: -8,
+          duration: 1.5,
           ease: "power3.out"
         })
         // Add rotation and floating effect as you scroll
-        .to(".vs-logo-wrapper > div", {
-          rotation: 2,
-          y: -30,
-          scale: 1.1,
-          duration: 0.8,
+        .to(".vs-logo-wrapper", {
+          rotation: 3,
+          y: -50,
+          x: 50,
+          scale: 1.05,
+          duration: 1,
           ease: "power1.inOut"
         }, 0.5);
       
@@ -179,7 +180,7 @@ const VSBigReveal = () => {
     <VSSection 
       ref={sectionRef} 
       background="bg-theme-primary"
-      className="big-reveal-section py-24 overflow-hidden relative"
+      className="big-reveal-section pt-20 pb-32 overflow-hidden relative min-h-[1000px]"
     >
       {/* Isometric Grid Background */}
       <IsometricGridBackground />
@@ -218,19 +219,17 @@ const VSBigReveal = () => {
                      opacity-theme-float
                      animate-float-medium"></div>
       
-      <div className="container mx-auto px-4 relative z-10">
-        {/* VS Logo with animation - MUCH bigger and positioned left */}
-        <div ref={logoRef} className="vs-logo-wrapper relative h-[700px] mb-8">
-          <div className="absolute top-0 left-0 lg:left-[5%] -z-0 w-[800px] max-w-[90vw] transform-gpu">
-            <AnimatedLogo onAnimationComplete={() => console.log('Logo animation complete')} />
-            <div className="absolute inset-0 -z-10 blur-3xl">
-              <div className="w-full h-full rounded-full bg-theme-radial-glow opacity-80"></div>
-            </div>
+      <div className="container mx-auto px-4 relative">
+        {/* VS Logo with animation - MASSIVE and absolutely positioned */}
+        <div ref={logoRef} className="vs-logo-wrapper absolute top-[-50px] left-[-15vw] md:left-[-10vw] lg:left-[-5vw] w-[140vw] max-w-[1400px] min-w-[800px] z-0 transform-gpu">
+          <AnimatedLogo onAnimationComplete={() => console.log('Logo animation complete')} />
+          <div className="absolute inset-0 -z-10 blur-3xl">
+            <div className="w-full h-full rounded-full bg-theme-radial-glow opacity-80"></div>
           </div>
         </div>
         
-        {/* Main intro section - shifted to the right */}
-        <div className="text-left md:text-left ml-auto mr-4 mb-16 max-w-3xl md:max-w-4xl lg:max-w-5xl mt-[-120px] md:mt-[-150px] relative z-10 overflow-visible">
+        {/* Main intro section - overlapping the logo */}
+        <div className="text-left md:text-left ml-0 md:ml-[30vw] lg:ml-[35vw] xl:ml-[40vw] mt-[300px] md:mt-[350px] mb-16 max-w-[700px] relative z-10 overflow-visible">
           <p 
             ref={headingRef}
             className="font-[200] !font-extralight mb-6 text-theme-primary pl-8 md:pl-12 lowercase tracking-wide whitespace-nowrap"
