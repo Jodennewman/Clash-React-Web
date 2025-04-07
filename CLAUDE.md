@@ -692,16 +692,43 @@ The qualification journey currently follows this flow:
 6. Brief contact information collection (two-column layout)
 7. Personalized recommendation with embedded Calendly scheduling
 
-The upgraded flow will include:
+The upgraded flow includes:
 1. Introduction with product context and clear value proposition
-2. Team size assessment (2x2 grid)
-3. Implementation support preferences (2x2 grid)
-4. Timeline evaluation (2x2 grid)
-5. Content volume analysis (2x2 grid)
+2. Team size assessment (3 vertical options)
+3. Implementation support preferences (3 vertical options)
+4. Timeline evaluation (3 vertical options)
+5. Content volume analysis (3 vertical options)
 6. Brief contact information collection (two-column layout)
-7. Analysis animation showing processing
+7. Analysis animation showing processing with technical data flow visuals
 8. Analysis breakdown with visualization of score factors
 9. Personalized recommendation with:
    - Executive Partnership (8-11 points): Calendly scheduling
    - Comprehensive Implementation (5-7 points): Calendly scheduling
    - Foundation Program (1-4 points): Direct purchase option
+
+## July 2025 UI/UX Improvements
+
+The following improvements were made to enhance the qualification modal's user experience:
+
+1. Fixed scrollbar issues:
+   - Changed layout from 2x2 grid to vertical column layout
+   - Reduced options from 4 to 3 per question
+   - Enhanced button layout with icons for better space efficiency
+
+2. Enhanced loading animation:
+   - Added colorful, technical circuit animations with data flow lines
+   - Adjusted timing to ensure animation completes properly
+   - Added shimmer effect to progress bar
+   - Improved visual feedback with completion message
+
+3. Improved color usage and visual appeal:
+   - Added more vibrant colors to all screens
+   - Enhanced recommendation headers with themed gradients
+   - Modified question headers to improve visual hierarchy
+   - Improved overall contrast for better accessibility
+
+4. Layout improvements:
+   - Resized elements to prevent scrolling
+   - Made buttons more visible with proper contrast
+   - Enhanced card designs to be more visually engaging
+   - Used theme-aware styling for all elements
