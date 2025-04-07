@@ -2,33 +2,40 @@
 
 This file guides Claude Code when working with this repository. Follow these instructions PRECISELY.
 
-## Current Mission: Implement Rotating Header Text Animation
+## Current Mission: Refactor Founders Track Section
 
-**Primary Goal**: Enhance the SimpleHero component with an advanced rotating header text animation using GSAP SplitText/SplitType for a dynamic, engaging landing page experience.
+**Primary Goal**: Improve the FounderTrack component with enhanced styling, proper course data parsing, and updated copy to provide a compelling, concise explanation of the program for entrepreneurs.
 
 **Approach**:
-1. Analyze current SimpleHero.tsx implementation and its headline rotation
-2. Install SplitType if needed (split-text is already in package.json)
-3. Refactor headline animation to use SplitText/SplitType for advanced text effects
-4. Implement a smooth transition where:
-   - Current headline words split and animate upward out of view
-   - New headline words animate in from below
-   - Each character/word animates with slight staggering for a fluid effect
-5. Create proper GSAP timelines with theme-aware animation variables
-6. Ensure all animations have proper cleanup with gsap.context and useGSAP
-7. Make the animation responsive across all screen sizes
-8. Apply theme-aware styling consistently with brand utility classes
-9. Optimize performance with proper GSAP best practices
-10. Add subtle floating elements or micro-interactions to enhance the experience
+1. Update the FounderTrack component with the new copy that emphasizes time-saving benefits for founders
+2. Properly parse data from course-utils.tsx and course-data.json for founder-specific modules
+3. Create a carousel to showcase modules tagged with 'founderMustWatch=true'
+4. Ensure all styling follows theme-aware implementation with brand utility classes
+5. Replace outdated CSS approaches with theme-aware styling according to the latest standards
+6. Enhance component with appropriate floating elements and animation effects
+7. Optimize mobile responsiveness with proper text formatting constraints
+8. Ensure proper shadow and gradient implementation across both themes
+9. Add subtle animations to improve user engagement with content
+10. Maintain consistent spacing and typography following established standards
+
+**Copy for Founders Track**:
+```
+The Founders Track
+
+Built exactly for founders. 
+
+I'm sure at this point you're mindful of your time and how much of it this course will take (especially if you've actually read all of this copy). Which is why we've built the Vertical Shortcut with the founders track in mind. 
+Basically, the Founder's Track is an easy way to scan the course for the modules you actually **have** to watch, and the modules you can pass onto your team.
+```
 
 **Previous Mission Completed**:
-✅ VS-BigReveal component created and enhanced with theme-aware styling and animations
-✅ SimpleHero component implemented with basic headline rotation
-✅ Logo animation with proper GSAP integration
-✅ Theme-aware styling implemented throughout the component
-✅ Responsive design across multiple breakpoints
+✅ SimpleHero component enhanced with advanced rotating header text animation
+✅ SplitText/SplitType implementation for fluid text transitions
+✅ Proper GSAP integration with theme-aware variables
+✅ Responsive design and consistent theme-aware styling
+✅ Performance optimization with proper animation cleanup
 
-**Success Criteria**: A polished, professional rotating header text animation that creates visual interest while maintaining readability, performs well across all devices, and adheres to theme-aware styling principles in both light and dark modes.
+**Success Criteria**: A polished, informative Founders Track section that clearly communicates the value proposition for busy entrepreneurs, showcases relevant modules from the course data, and maintains consistent theme-aware styling in both light and dark modes.
 
 ## Initial Requirements
 
