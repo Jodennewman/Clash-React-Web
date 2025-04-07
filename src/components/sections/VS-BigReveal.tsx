@@ -3,7 +3,7 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CheckCircle, ArrowRightCircle } from 'lucide-react';
-import VSLogo from '../../components/logos/Hero/vs-hero-logo';
+import VSLogo from '../../components/logos/Hero/vs-hero-logo.tsx';
 import { VSText, VSHeading, VSGradientText } from '../ui/vs-text';
 import { VSBackground, VSCard, VSSection } from '../ui/vs-background';
 
