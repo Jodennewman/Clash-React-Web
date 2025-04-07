@@ -67,7 +67,7 @@ export default function SocialProof() {
         <div className="w-full max-w-full relative">
           {/* First row scrolls left to right */}
           <div className="relative overflow-hidden">
-            <Marquee pauseOnHover className="[--duration:60s] py-0 mb-[-40px]">
+            <Marquee pauseOnHover className="[--duration:60s] py-0 mb-[-36px]">
               {firstRowThumbnails.map((item, index) => (
                 <ThumbnailItem key={`first-${index}`} src={item.src} alt={item.alt} />
               ))}
@@ -76,7 +76,7 @@ export default function SocialProof() {
           
           {/* Second row scrolls right to left (reversed) */}
           <div className="relative overflow-hidden">
-            <Marquee reverse pauseOnHover className="[--duration:70s] py-0 mt-[-40px]">
+            <Marquee reverse pauseOnHover className="[--duration:70s] py-0 mt-[-36px]">
               {secondRowThumbnails.map((item, index) => (
                 <ThumbnailItem key={`second-${index}`} src={item.src} alt={item.alt} />
               ))}
