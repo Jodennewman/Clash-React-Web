@@ -212,12 +212,13 @@ const VSBigReveal = () => {
         
         {/* Main intro section - shifted to the right */}
         <div className="text-left md:text-left ml-auto mr-4 mb-16 max-w-xl md:max-w-2xl lg:max-w-3xl mt-[-120px] md:mt-[-150px] relative z-10">
-          <h1 
+          <p 
             ref={headingRef}
-            className="text-4xl md:text-5xl lg:text-6xl font-[200] mb-6 text-theme-primary pl-8 md:pl-12 lowercase tracking-wide"
+            className="text-4xl md:text-5xl lg:text-6xl font-[200] !font-extralight mb-6 text-theme-primary pl-8 md:pl-12 lowercase tracking-wide"
+            style={{ fontWeight: 200 }}
           >
             the vertical <br className="hidden md:block" />shortcut<span className="text-theme-accent">.</span>
-          </h1>
+          </p>
           
           <div ref={taglineRef} className="pl-8 md:pl-12">
             <p className="text-theme-secondary text-xl mb-8">
