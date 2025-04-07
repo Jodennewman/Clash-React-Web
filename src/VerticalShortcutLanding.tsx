@@ -25,6 +25,7 @@ import LeadCaptureForm from './components/ui/lead-capture-form';
 import VSApplicationFormModal from './components/form/VSApplicationFormModal';
 import { CaseStudies, VSPainPoints } from './components/sections';
 import VSBigReveal from './components/sections/VS-BigReveal';
+import VSInteractiveFeatures from './components/sections/VS-Interactive-Features';
 import { Link } from 'react-router-dom';
 import { AnimatedButton } from './components/marble-buttons/AnimatedButton';
 import { CourseViewer } from './components/sections/course-viewer';
@@ -599,6 +600,9 @@ const VerticalShortcutLanding = () => {
           
           {/* Big Reveal Section - The Solution */}
           <VSBigReveal />
+          
+          {/* Interactive Features Section */}
+          <VSInteractiveFeatures />
 
           <CourseViewer />
           
