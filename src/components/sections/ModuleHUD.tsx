@@ -665,7 +665,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
       });
       
       // Only add section title for non-system sections since system sections already have their own titles
-      const isSystemSection = selectedSection.includes('-system-');
+      const isSystemSection = selectedSection ? selectedSection.includes('-system-') : false;
       const sectionTitleEl = document.createElement('div');
       sectionTitleEl.id = `section-title-${selectedSection}`;
       sectionTitleEl.className = 'section-title absolute -top-12 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-4 py-2 rounded-lg shadow-theme-md text-lg font-medium z-20 whitespace-nowrap opacity-0';
@@ -689,7 +689,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     }
     
     // Update the previous section for the next transition
-    setPreviousSection(selectedSection);
+    setPreviousSection(selectedSection || null);
   }, [selectedSection, selectedSectionModules, previousSection]);
     
     // Function to create modules grid
@@ -924,7 +924,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         sectionEl.appendChild(modulesContainer);
         
         // Animate system content with a nice fade-in sequence
-        gsap.from([headingEl, descriptionEl, illustrationContainer, featuresList, ctaButton, badgeEl], { 
+        gsap.from([headingEl, descriptionEl, illustrationContainer, featuresList, ctaButton], { 
           opacity: 0, 
           y: 15, 
           duration: 0.5,
