@@ -63,30 +63,35 @@ const VSBigReveal = () => {
     
     // Create animation context for proper cleanup
     const ctx = gsap.context(() => {
-      // Reveal animation for the logo - enhanced parallax effect
+      // Enhanced animation for the large logo with dramatic entrance
       const logoTl = gsap.timeline({
         scrollTrigger: {
           trigger: logoRef.current,
-          start: "top 80%",
-          end: "center 30%", 
-          scrub: 0.5,
+          start: "top 90%",
+          end: "bottom 10%", 
+          scrub: 0.8,
         }
       });
       
+      // Initial animation with more dramatic effects
       logoTl
-        .from(".vs-logo-wrapper", {
-          y: 60,
+        .from(".vs-logo-wrapper > div", {
+          x: -200,
+          y: 80,
           opacity: 0,
-          scale: 0.9,
-          duration: 0.8,
-          ease: "power2.out"
+          scale: 0.7,
+          rotation: -5,
+          duration: 1.2,
+          ease: "power3.out"
         })
-        .to(".vs-logo-wrapper", {
-          y: -20,
-          scale: 1.05,
-          duration: 0.5,
-          ease: "power1.out"
-        }, "-=0.3");
+        // Add rotation and floating effect as you scroll
+        .to(".vs-logo-wrapper > div", {
+          rotation: 2,
+          y: -30,
+          scale: 1.1,
+          duration: 0.8,
+          ease: "power1.inOut"
+        }, 0.5);
       
       // Create a coordinated timeline for heading and tagline
       const introTl = gsap.timeline({
@@ -192,26 +197,26 @@ const VSBigReveal = () => {
                      animate-float-fast"></div>
       
       <div className="container mx-auto px-4 relative z-10">
-        {/* VS Logo with animation */}
-        <div ref={logoRef} className="vs-logo-wrapper flex justify-center mb-12">
-          <div className="relative w-[200px] max-w-full mx-auto">
+        {/* VS Logo with animation - much bigger and positioned left */}
+        <div ref={logoRef} className="vs-logo-wrapper relative h-[500px] mb-8">
+          <div className="absolute top-0 left-[5%] lg:left-[10%] -z-0 w-[450px] max-w-[80vw] sm:max-w-[70vw] md:max-w-[60vw] transform-gpu">
             <AnimatedLogo onAnimationComplete={() => console.log('Logo animation complete')} />
-            <div className="absolute inset-0 -z-10 blur-xl">
-              <div className="w-full h-full rounded-full bg-theme-radial-glow"></div>
+            <div className="absolute inset-0 -z-10 blur-2xl">
+              <div className="w-full h-full rounded-full bg-theme-radial-glow opacity-70"></div>
             </div>
           </div>
         </div>
         
-        {/* Main intro section */}
-        <div className="text-center mb-16 max-w-4xl mx-auto">
+        {/* Main intro section - shifted to the right */}
+        <div className="text-left md:text-left ml-auto mr-4 mb-16 max-w-xl md:max-w-2xl lg:max-w-3xl mt-[-120px] md:mt-[-150px] relative z-10">
           <h1 
             ref={headingRef}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-theme-primary"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-theme-primary pl-8 md:pl-12"
           >
-            The Vertical Shortcut <span className="text-theme-accent">.</span>
+            The Vertical <br className="hidden md:block" />Shortcut <span className="text-theme-accent">.</span>
           </h1>
           
-          <div ref={taglineRef}>
+          <div ref={taglineRef} className="pl-8 md:pl-12">
             <p className="text-theme-secondary text-xl mb-8">
               We've combined everything we know: All the knowledge, systems and tools that we use on a daily basis to get our clients billions of views — so you can do it all yourself.
             </p>
