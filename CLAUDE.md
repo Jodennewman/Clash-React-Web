@@ -2,32 +2,33 @@
 
 This file guides Claude Code when working with this repository. Follow these instructions PRECISELY.
 
-## Current Mission: Enhance VS-Interactive-Features
+## Current Mission: Implement Rotating Header Text Animation
 
-**Primary Goal**: Create a new interactive features component that complements the VS-BigReveal section with engaging, interactive elements to showcase program benefits.
+**Primary Goal**: Enhance the SimpleHero component with an advanced rotating header text animation using GSAP SplitText/SplitType for a dynamic, engaging landing page experience.
 
 **Approach**:
-1. Create a new VS-Interactive-Features.tsx component in the sections directory
-2. Implement interactive card elements that respond to hover and click interactions
-3. Create revealing animation sequences using GSAP that properly clean up
-4. Design an eye-catching background effect with multiple theme-aware floating elements
-5. Add animated icons or micro-interactions to engage users with the content
-6. Position this component to follow the VS-BigReveal section
-7. Ensure all styling follows theme-aware implementation with brand utility classes
-8. Use GSAP timelines for coordinated, complex animations with proper cleanup
-9. Implement a highlight feature that draws attention to specific benefits
-10. Ensure responsive design works well on all screen sizes
+1. Analyze current SimpleHero.tsx implementation and its headline rotation
+2. Install SplitType if needed (split-text is already in package.json)
+3. Refactor headline animation to use SplitText/SplitType for advanced text effects
+4. Implement a smooth transition where:
+   - Current headline words split and animate upward out of view
+   - New headline words animate in from below
+   - Each character/word animates with slight staggering for a fluid effect
+5. Create proper GSAP timelines with theme-aware animation variables
+6. Ensure all animations have proper cleanup with gsap.context and useGSAP
+7. Make the animation responsive across all screen sizes
+8. Apply theme-aware styling consistently with brand utility classes
+9. Optimize performance with proper GSAP best practices
+10. Add subtle floating elements or micro-interactions to enhance the experience
 
 **Previous Mission Completed**:
 ✅ VS-BigReveal component created and enhanced with theme-aware styling and animations
-✅ Replaced inline style variables with brand utility classes
-✅ Added coordinated GSAP animations with proper cleanup
-✅ Enhanced visual interest with theme-aware floating elements
-✅ Created VS_BIG_REVEAL_COPY.md to store component content
-✅ Positioned component after VSPainPoints section
-✅ Implemented logo with spotlight effect using theme-aware styling
+✅ SimpleHero component implemented with basic headline rotation
+✅ Logo animation with proper GSAP integration
+✅ Theme-aware styling implemented throughout the component
+✅ Responsive design across multiple breakpoints
 
-**Success Criteria**: An engaging, interactive features component that complements the VS-BigReveal section with responsive, animated elements that showcase program benefits effectively in both light and dark modes.
+**Success Criteria**: A polished, professional rotating header text animation that creates visual interest while maintaining readability, performs well across all devices, and adheres to theme-aware styling principles in both light and dark modes.
 
 ## Initial Requirements
 

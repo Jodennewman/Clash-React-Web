@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
+import SplitType from 'split-type';
 import AnimatedLogo from '../logos/AnimatedLogo';
 import IsometricGridBackground from './IsometricPattern';
 import { AnimatedButton } from '../marble-buttons/AnimatedButton';
@@ -9,14 +10,45 @@ interface SimpleHeroProps {
   onCtaClick?: () => void;
 }
 
+interface HeadlineData {
+  main: string;
+  middle: string;
+  end: string;
+}
+
 const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
   ({ onCtaClick }, ref) => {
     const [logoAnimationStarted, setLogoAnimationStarted] = useState(false);
-   
+    const [currentHeadlineIndex, setCurrentHeadlineIndex] = useState(0);
+    const [prevHeadlineIndex, setPrevHeadlineIndex] = useState(0);
+    const [isAnimating, setIsAnimating] = useState(false);
+    const headlineRef = useRef<HTMLDivElement>(null);
+    const headlineMainRef = useRef<HTMLSpanElement>(null);
+    const headlineMiddleRef = useRef<HTMLSpanElement>(null);
+    const headlineEndRef = useRef<HTMLSpanElement>(null);
+    const heroRef = useRef<HTMLDivElement>(null);
     
+    // Timeline references
+    const mainTl = useRef<gsap.core.Timeline | null>(null);
     
-    const heroRef = React.useRef<HTMLDivElement>(null);
-    
+    // Headline data with different parts to maintain formatting
+    const headlines: HeadlineData[] = [
+      {
+        main: "Billions",
+        middle: " of views,",
+        end: "zero ad spend."
+      },
+      {
+        main: "No hacky",
+        middle: " templates,",
+        end: "no bullsh*t"
+      },
+      {
+        main: "Content",
+        middle: " that actually",
+        end: "feels like YOU"
+      }
+    ];
 
     // Auto-start content fade-in after a shorter delay for better flow with logo animation
     useEffect(() => {
@@ -26,6 +58,158 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
       
       return () => clearTimeout(timer);
     }, []);
+
+    // Initialize SplitType for text animation
+    useGSAP(() => {
+      if (!headlineRef.current) return;
+      
+      // Initialize split text on each headline part
+      const splitOptions = { 
+        types: 'words,chars',
+        wordClass: 'headline-word',
+        charClass: 'headline-char'
+      };
+      
+      // Split text for each headline section
+      if (headlineMainRef.current) {
+        new SplitType(headlineMainRef.current, splitOptions);
+      }
+      
+      if (headlineMiddleRef.current) {
+        new SplitType(headlineMiddleRef.current, splitOptions);
+      }
+      
+      if (headlineEndRef.current) {
+        new SplitType(headlineEndRef.current, splitOptions);
+      }
+      
+    }, [currentHeadlineIndex]);
+
+    // Rotate headlines with advanced animation
+    useEffect(() => {
+      let rotationInterval: NodeJS.Timeout | null = null;
+      
+      // Only start rotating after initial animation and if not currently animating
+      const startRotation = () => {
+        if (logoAnimationStarted && !isAnimating) {
+          rotationInterval = setInterval(() => {
+            setPrevHeadlineIndex(currentHeadlineIndex);
+            setCurrentHeadlineIndex((prev) => (prev + 1) % headlines.length);
+          }, 4000); // Change headline every 4 seconds
+        }
+      };
+      
+      startRotation();
+      
+      return () => {
+        if (rotationInterval) clearInterval(rotationInterval);
+      };
+    }, [logoAnimationStarted, isAnimating, currentHeadlineIndex, headlines.length]);
+
+    // Handle headline animation whenever currentHeadlineIndex changes
+    useGSAP(() => {
+      if (!headlineRef.current || prevHeadlineIndex === currentHeadlineIndex) return;
+      
+      // Get theme variables for animations
+      const styles = getComputedStyle(document.documentElement);
+      const animDuration = parseFloat(styles.getPropertyValue('--theme-anim-duration') || '0.5');
+      
+      const ctx = gsap.context(() => {
+        setIsAnimating(true);
+        
+        // Create main timeline
+        mainTl.current = gsap.timeline({
+          onComplete: () => setIsAnimating(false)
+        });
+        
+        // 1. Animate out each word of the current headline with staggered upward movement
+        const words = headlineRef.current?.querySelectorAll('.headline-word');
+        const chars = headlineRef.current?.querySelectorAll('.headline-char');
+        
+        if (words?.length) {
+          mainTl.current.to(words, {
+            y: -60,
+            opacity: 0,
+            stagger: 0.03,
+            duration: animDuration * 0.6,
+            ease: "power2.in"
+          });
+        } else if (chars?.length) {
+          // Fallback to chars if words not available
+          mainTl.current.to(chars, {
+            y: -60,
+            opacity: 0,
+            stagger: 0.01,
+            duration: animDuration * 0.6,
+            ease: "power2.in"
+          });
+        }
+        
+        // After animation completes, re-initialize SplitType on the new content
+        mainTl.current.add(() => {
+          // Force a reset of SplitType once the elements are invisible
+          if (headlineMainRef.current) {
+            headlineMainRef.current.innerHTML = headlines[currentHeadlineIndex].main;
+          }
+          
+          if (headlineMiddleRef.current) {
+            headlineMiddleRef.current.innerHTML = headlines[currentHeadlineIndex].middle;
+          }
+          
+          if (headlineEndRef.current) {
+            headlineEndRef.current.innerHTML = headlines[currentHeadlineIndex].end;
+          }
+          
+          // Re-split the text
+          const splitOptions = { 
+            types: 'words,chars',
+            wordClass: 'headline-word',
+            charClass: 'headline-char'
+          };
+          
+          if (headlineMainRef.current) {
+            new SplitType(headlineMainRef.current, splitOptions);
+          }
+          
+          if (headlineMiddleRef.current) {
+            new SplitType(headlineMiddleRef.current, splitOptions);
+          }
+          
+          if (headlineEndRef.current) {
+            new SplitType(headlineEndRef.current, splitOptions);
+          }
+          
+          // Set initial state for incoming animation
+          const newWords = headlineRef.current?.querySelectorAll('.headline-word');
+          if (newWords?.length) {
+            gsap.set(newWords, { y: 40, opacity: 0 });
+          }
+        });
+        
+        // 2. Animate in the new headline words with staggered upward movement
+        mainTl.current.add(() => {
+          const newWords = headlineRef.current?.querySelectorAll('.headline-word');
+          
+          if (newWords?.length) {
+            gsap.to(newWords, {
+              y: 0,
+              opacity: 1,
+              stagger: 0.05,
+              duration: animDuration * 0.8,
+              ease: "power2.out"
+            });
+          }
+        });
+      }, headlineRef);
+      
+      return () => {
+        // Proper cleanup
+        if (mainTl.current) {
+          mainTl.current.kill();
+        }
+        ctx.revert();
+      };
+    }, [currentHeadlineIndex, prevHeadlineIndex]);
 
     // Add GSAP animation for content elements
     useGSAP(() => {
@@ -111,13 +295,13 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
         <IsometricGridBackground />
         {/* Theme-aware floating elements for visual interest */}
         <div className="absolute top-40 left-[15%] w-28 h-28 rounded-[40%] rotate-12
-                       opacity-[var(--theme-float-opacity)]
-                       bg-[var(--theme-float-bg-primary)]
-                       animate-float-slow md:block"></div>
+                      opacity-theme-float
+                      bg-theme-float-primary
+                      animate-float-slow md:block"></div>
         <div className="absolute bottom-40 right-[10%] w-36 h-36 rounded-[30%] -rotate-6
-                       opacity-[var(--theme-float-opacity-secondary)]
-                       bg-[var(--theme-float-bg-secondary)]
-                       animate-float-medium md:block"></div>
+                      opacity-theme-float-secondary
+                      bg-theme-float-secondary
+                      animate-float-medium md:block"></div>
         {/* Grid Layout */}
         <div 
           ref={heroRef}
@@ -130,9 +314,9 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
           }}
         >
           {/* Color blocks positioned in grid */}
-          <div style={{ gridColumn: '5 / 6', gridRow: '1 / 3' }} className="w-full h-full bg-[var(--theme-accent-secondary)] z-10" /> {/* Teal block */}
-          <div style={{ gridColumn: '6 / 8', gridRow: '1 / 4' }} className="w-full h-full bg-[var(--theme-primary)] z-10" /> {/* Orange block */}
-          <div style={{ gridColumn: '8 / 10', gridRow: '1 / 5' }} className="w-full h-full bg-[var(--theme-accent-coral)] z-10" /> {/* Red block */}
+          <div style={{ gridColumn: '5 / 6', gridRow: '1 / 3' }} className="w-full h-full bg-theme-accent-secondary z-10" /> {/* Teal block */}
+          <div style={{ gridColumn: '6 / 8', gridRow: '1 / 4' }} className="w-full h-full bg-theme-primary z-10" /> {/* Orange block */}
+          <div style={{ gridColumn: '8 / 10', gridRow: '1 / 5' }} className="w-full h-full bg-theme-accent-coral z-10" /> {/* Red block */}
           
           {/* Animated VS Logo */}
           <div 
@@ -156,10 +340,13 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                 2xl:w-[750px] 2xl:h-[750px]
                 transition-all duration-500"
               >
-                <AnimatedLogo 
-                  className="w-full h-full object-contain" 
-                  onAnimationComplete={() => {/* Keep for reference but no longer needed */}}
-                />
+                {logoAnimationStarted ? (
+                  <AnimatedLogo 
+                    key="stable-logo-key"
+                    className="w-full h-full object-contain"
+                    onAnimationComplete={() => {/* Keep for reference but no longer needed */}}
+                  />
+                ) : null}
               </div>
             </div>
           </div>
@@ -230,15 +417,29 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                      max-w-[95%] sm:max-w-none"
           >
             <div className="flex items-center">
-              <h1 className="hero-content mb-4 lg:mb-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight text-theme-primary transition-all duration-500">
-                <span className="font-medium text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-theme-accent-tertiary transition-all duration-500">
-                  Billions
+              <div 
+                ref={headlineRef} 
+                className="hero-content mb-4 lg:mb-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight text-theme-primary transition-all duration-500 min-h-[4rem] sm:min-h-[5rem] md:min-h-[6rem] lg:min-h-[8rem] overflow-hidden"
+              >
+                <span 
+                  ref={headlineMainRef}
+                  className="headline-main font-medium text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-theme-accent-tertiary transition-all duration-500"
+                >
+                  {headlines[currentHeadlineIndex].main}
                 </span>
-                <span className="font-light"> of views,</span>
-                <span className="font-normal block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-all duration-500">
-                  zero ad spend.
+                <span 
+                  ref={headlineMiddleRef}
+                  className="headline-middle font-light"
+                >
+                  {headlines[currentHeadlineIndex].middle}
                 </span>
-              </h1>
+                <span 
+                  ref={headlineEndRef}
+                  className="headline-end font-normal block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-all duration-500"
+                >
+                  {headlines[currentHeadlineIndex].end}
+                </span>
+              </div>
             </div>
 
             {/* Subheading now attached to heading */}
@@ -273,6 +474,26 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
             </div>
           </div>
         </div>
+
+        {/* Add a style tag for the split text animation classes */}
+        <style jsx>{`
+          .headline-word {
+            display: inline-block;
+            overflow: hidden;
+            margin-right: 0.25em;
+          }
+          
+          .headline-char {
+            display: inline-block;
+            transform-origin: center;
+          }
+          
+          .headline-main .headline-word,
+          .headline-middle .headline-word,
+          .headline-end .headline-word {
+            overflow: hidden;
+          }
+        `}</style>
       </section>
     );
   }
