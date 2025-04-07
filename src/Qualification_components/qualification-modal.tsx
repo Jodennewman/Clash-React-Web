@@ -203,21 +203,7 @@ const AnalysisBreakdown: React.FC<{
         We've analyzed your responses to find the implementation approach that best matches your needs
       </p>
       
-      {/* Score summary */}
-      <div className="bg-theme-bg-surface p-4 rounded-lg mb-6 text-center">
-        <span className="text-sm text-theme-tertiary">Your Implementation Score</span>
-        <div className="text-4xl font-bold text-theme-primary mb-1">{score}/11</div>
-        <div className="flex justify-center gap-1">
-          {[...Array(11)].map((_, i) => (
-            <div 
-              key={i} 
-              className={`h-2 w-5 rounded-full ${
-                i < score ? 'bg-theme-primary' : 'bg-theme-border-light'
-              }`}
-            />
-          ))}
-        </div>
-      </div>
+      {/* Removed score summary - internal use only */}
       
       {/* Factor breakdown */}
       <div className="grid grid-cols-2 gap-4 mb-6">
@@ -1648,79 +1634,75 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         <div className="p-6" ref={contentRef}>
           {/* Introduction Stage - Simplified to reduce text and scrolling */}
           {stage === 'intro' && (
-            <div className="max-h-[70vh] overflow-hidden">
-              {/* Stage illustration */}
-              <div className="flex justify-center mb-6">
-                <div className="w-20 h-20 rounded-full bg-theme-primary/10 flex items-center justify-center">
-                  <Compass size={40} className="text-theme-primary" />
+            <div className="flex flex-col">
+              <div className="flex items-center mb-3">
+                <div className="w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
+                  <Compass size={24} className="text-theme-primary" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-medium text-theme-primary">
+                    Let's Build Your Content Engine
+                  </h3>
+                  <p className="text-theme-secondary text-sm">
+                    Answer a few quick questions for your perfect implementation approach.
+                  </p>
                 </div>
               </div>
               
-              <div className="bg-theme-primary/5 p-5 rounded-lg shadow-theme-sm mb-6">
-                <h3 className="text-xl font-medium text-theme-primary mb-3 text-center">
-                  Let's Build Your Content Engine
-                </h3>
-                <p className="text-theme-secondary text-center">
-                  Answer a few quick questions and we'll craft the perfect implementation approach for your specific situation.
-                </p>
-              </div>
-              
-              {/* Mini Feature Showcase */}
-              <div className="overflow-x-auto pb-4 mb-6">
-                <div className="flex space-x-4 min-w-max">
-                  {/* Feature 1 */}
-                  <div className="bg-theme-bg-surface p-4 rounded-lg shadow-theme-sm flex-shrink-0 w-64">
-                    <div className="flex items-center mb-3">
-                      <div className="p-2 rounded-full bg-theme-primary/10 text-theme-primary mr-3">
-                        <BarChart4 size={18} />
-                      </div>
-                      <h4 className="font-medium text-theme-primary">800M+ Views Generated</h4>
+              {/* Mini Feature Showcase - More Compact */}
+              <div className="grid grid-cols-3 gap-2 mb-3">
+                {/* Feature 1 */}
+                <div className="bg-theme-bg-surface p-2 rounded-lg shadow-theme-sm">
+                  <div className="flex items-center mb-1">
+                    <div className="p-1 rounded-full bg-theme-primary/10 text-theme-primary mr-2">
+                      <BarChart4 size={14} />
                     </div>
-                    <p className="text-sm text-theme-secondary">Our system has driven over 800 million organic views for creators and brands without paid ads.</p>
+                    <h4 className="font-medium text-theme-primary text-xs">800M+ Views</h4>
                   </div>
-                  
-                  {/* Feature 2 */}
-                  <div className="bg-theme-bg-surface p-4 rounded-lg shadow-theme-sm flex-shrink-0 w-64">
-                    <div className="flex items-center mb-3">
-                      <div className="p-2 rounded-full bg-theme-primary/10 text-theme-primary mr-3">
-                        <Clock size={18} />
-                      </div>
-                      <h4 className="font-medium text-theme-primary">30-day Results</h4>
-                    </div>
-                    <p className="text-sm text-theme-secondary">Most clients see measurable growth within their first 30 days of implementing our system.</p>
-                  </div>
-                  
-                  {/* Feature 3 */}
-                  <div className="bg-theme-bg-surface p-4 rounded-lg shadow-theme-sm flex-shrink-0 w-64">
-                    <div className="flex items-center mb-3">
-                      <div className="p-2 rounded-full bg-theme-primary/10 text-theme-primary mr-3">
-                        <Award size={18} />
-                      </div>
-                      <h4 className="font-medium text-theme-primary">Proven Framework</h4>
-                    </div>
-                    <p className="text-sm text-theme-secondary">Our proprietary system has been field-tested across 27 different industries with consistent results.</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-3 gap-4 mb-8">
-                <div className="flex flex-col items-center text-center">
-                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-theme-primary text-white text-sm mb-3">1</div>
-                  <span className="text-theme-secondary text-sm">Tell us about<br />your needs</span>
+                  <p className="text-xs text-theme-secondary">Proven results across 27 industries</p>
                 </div>
                 
-                <div className="flex flex-col items-center text-center">
-                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-theme-primary text-white text-sm mb-3">2</div>
-                  <span className="text-theme-secondary text-sm">Get your<br />recommendation</span>
+                {/* Feature 2 */}
+                <div className="bg-theme-bg-surface p-2 rounded-lg shadow-theme-sm">
+                  <div className="flex items-center mb-1">
+                    <div className="p-1 rounded-full bg-theme-primary/10 text-theme-primary mr-2">
+                      <Clock size={14} />
+                    </div>
+                    <h4 className="font-medium text-theme-primary text-xs">30-day Growth</h4>
+                  </div>
+                  <p className="text-xs text-theme-secondary">Measurable results in 30 days</p>
                 </div>
                 
-                <div className="flex flex-col items-center text-center">
-                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-theme-primary text-white text-sm mb-3">3</div>
-                  <span className="text-theme-secondary text-sm">Schedule your<br />strategy call</span>
+                {/* Feature 3 */}
+                <div className="bg-theme-bg-surface p-2 rounded-lg shadow-theme-sm">
+                  <div className="flex items-center mb-1">
+                    <div className="p-1 rounded-full bg-theme-primary/10 text-theme-primary mr-2">
+                      <Award size={14} />
+                    </div>
+                    <h4 className="font-medium text-theme-primary text-xs">Proven System</h4>
+                  </div>
+                  <p className="text-xs text-theme-secondary">Framework with consistent results</p>
+                </div>
+              </div>
+              
+              <div className="flex justify-between items-center border-t border-b border-theme-border-light py-3 mb-3">
+                <div className="flex items-center">
+                  <div className="flex items-center justify-center h-6 w-6 rounded-full bg-theme-primary text-white text-xs mr-2">1</div>
+                  <span className="text-theme-secondary text-xs">Your needs</span>
+                </div>
+                <div className="text-theme-tertiary">→</div>
+                <div className="flex items-center">
+                  <div className="flex items-center justify-center h-6 w-6 rounded-full bg-theme-secondary text-white text-xs mr-2">2</div>
+                  <span className="text-theme-secondary text-xs">Recommendation</span>
+                </div>
+                <div className="text-theme-tertiary">→</div>
+                <div className="flex items-center">
+                  <div className="flex items-center justify-center h-6 w-6 rounded-full bg-theme-secondary text-white text-xs mr-2">3</div>
+                  <span className="text-theme-secondary text-xs">Strategy call</span>
                 </div>
               </div>
 
-              <p className="text-theme-tertiary text-sm text-center">
+              <p className="text-theme-tertiary text-xs text-center">
                 Takes less than a minute. No obligation.
               </p>
             </div>
