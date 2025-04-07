@@ -160,15 +160,16 @@ const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, i
       ref={ref}
       data-id={section.id}
       data-display-key={section.displayKey}
-      className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)]"
+      className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
       style={{ 
         backgroundColor: section.color,
         opacity: 1 
       }}
     >
-      {/* Display section name directly on the section for better UX */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-medium text-center">
+      {/* Tooltip for section name */}
+      <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
         {section.name}
+        <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
       </div>
       
       {/* Small red circle indicator for featured modules */}
@@ -191,15 +192,16 @@ const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ sect
       ref={ref}
       data-id={section.id}
       data-display-key={section.displayKey}
-      className="section-module module-item w-[var(--normal-square-width)] h-[var(--normal-square-width)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)]"
+      className="section-module module-item w-[var(--normal-square-width)] h-[var(--normal-square-width)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
       style={{ 
         backgroundColor: section.color,
         opacity: 1
       }}
     >
-      {/* Display section name directly on the section for better UX */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-medium text-xs text-center">
+      {/* Tooltip for section name */}
+      <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
         {section.name}
+        <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
       </div>
       
       {/* Small red circle indicator for featured modules */}
@@ -294,9 +296,9 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
       else if (moduleCount <= 16) gridSize = 4;
       else gridSize = 5;
       
-      // Calculate expanded size - make it at least 3x normal size
+      // Calculate expanded size - make it at least 5x normal size for more space
       const normalWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--normal-square-width'));
-      const expandedSize = normalWidth * Math.max(3, gridSize);
+      const expandedSize = normalWidth * Math.max(5, gridSize * 1.5);
       
       // Simply expand the section directly - no animations to cause jumps
       gsap.to(sectionEl, {
@@ -361,7 +363,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
       selectedSectionModules.forEach(module => {
         const moduleEl = document.createElement('div');
         moduleEl.dataset.id = module.id;
-        moduleEl.className = 'module-item rounded-lg shadow-theme-sm cursor-pointer relative overflow-hidden';
+        moduleEl.dataset.title = module.title; // Store full title for tooltip
+        moduleEl.className = 'module-item rounded-lg shadow-theme-sm cursor-pointer relative overflow-hidden tooltip-trigger';
         
         // Apply gradient background
         const moduleColor = module.color || 'var(--theme-accent)';
@@ -370,15 +373,33 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         // Make it square
         moduleEl.style.aspectRatio = '1/1';
         
-        // Add module title
-        const titleEl = document.createElement('div');
-        titleEl.className = 'absolute inset-0 flex items-center justify-center text-white font-medium text-xs text-center p-2';
-        titleEl.style.textShadow = '0 1px 2px rgba(0,0,0,0.5)';
+        // Add small indicator dot instead of text
+        if (module.featured || module.founderMustWatch) {
+          const indicatorEl = document.createElement('div');
+          indicatorEl.className = 'absolute top-2 right-2 w-2 h-2 rounded-full bg-[var(--hud-accent-red)]';
+          moduleEl.appendChild(indicatorEl);
+        }
         
-        // Truncate long titles
-        const shortTitle = module.title.length > 18 ? module.title.slice(0, 15) + '...' : module.title;
-        titleEl.textContent = shortTitle;
-        moduleEl.appendChild(titleEl);
+        // Create tooltip element
+        const tooltipEl = document.createElement('div');
+        tooltipEl.className = 'tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20';
+        tooltipEl.textContent = module.title;
+        
+        // Add arrow to tooltip
+        const arrowEl = document.createElement('div');
+        arrowEl.className = 'absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45';
+        tooltipEl.appendChild(arrowEl);
+        
+        moduleEl.appendChild(tooltipEl);
+        
+        // Add event listeners for tooltip
+        moduleEl.addEventListener('mouseenter', () => {
+          tooltipEl.style.opacity = '1';
+        });
+        
+        moduleEl.addEventListener('mouseleave', () => {
+          tooltipEl.style.opacity = '0';
+        });
         
         // Add to container
         modulesContainer.appendChild(moduleEl);
@@ -432,11 +453,19 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   };
   
   return (
-    <div 
-      ref={containerRef}
-      className="w-full max-w-[900px] h-full min-h-[600px] max-h-[800px] p-6 relative overflow-visible flex items-center justify-center"
-      onClick={handleModuleClick}
-    >
+    <>
+      {/* CSS for tooltips */}
+      <style jsx="true">{`
+        .tooltip-trigger:hover .tooltip-content {
+          opacity: 1;
+        }
+      `}</style>
+      
+      <div 
+        ref={containerRef}
+        className="w-full max-w-[900px] h-full min-h-[600px] max-h-[800px] p-6 relative overflow-visible flex items-center justify-center"
+        onClick={handleModuleClick}
+      >
       {/* Theme-aware floating elements for background decoration */}
       <div className="absolute -z-10 top-[5%] left-[8%] w-[20%] h-[20%] max-w-[100px] max-h-[100px] rounded-[40%] rotate-12 
            opacity-[var(--theme-float-opacity)] 
@@ -517,12 +546,13 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             }}
             data-id={mainSections[10].id}
             data-display-key={mainSections[10].displayKey}
-            className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden"
+            className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
             style={{ backgroundColor: mainSections[10].color }}
           >
-            {/* Display section name */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-medium text-center">
+            {/* Tooltip for section name */}
+            <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
               {mainSections[10].name}
+              <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
             </div>
             
             {/* Three parts/subsections to represent the turn key system */}
@@ -569,6 +599,6 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           thumbnailUrl={selectedModuleId ? courseUtils.getThumbnailPath(courseUtils.getModuleThumbnail(selectedModuleId)) : ""}
         />
       )}
-    </div>
+    </>
   );
 };
