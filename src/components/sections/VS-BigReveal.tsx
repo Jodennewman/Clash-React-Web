@@ -230,10 +230,10 @@ const VSBigReveal = () => {
         
       <div className="container mx-auto px-4 relative">
         {/* Main intro section - normal positioning */}
-        <div className="text-left mt-[250px] mb-16 max-w-[700px] relative z-10 overflow-visible">
+        <div className="text-center md:text-left mt-[250px] mb-16 max-w-[700px] mx-auto md:mx-0 relative z-10 overflow-visible">
           <p 
             ref={headingRef}
-            className="font-[200] !font-extralight mb-6 text-theme-primary pl-8 md:pl-12 lowercase tracking-wide whitespace-nowrap"
+            className="font-[200] !font-extralight mb-6 text-theme-primary text-center md:text-left lowercase tracking-wide whitespace-nowrap"
             style={{ 
               fontWeight: 200,
               fontSize: "clamp(3.5rem, 6vw, 8rem)"
@@ -242,14 +242,14 @@ const VSBigReveal = () => {
             the vertical shortcut<span className="text-theme-accent">.</span>
           </p>
           
-          <div ref={taglineRef} className="pl-8 md:pl-12">
-            <p className="text-theme-secondary text-xl mb-8">
+          <div ref={taglineRef} className="text-center md:text-left md:pl-12">
+            <p className="text-theme-secondary text-xl mb-8 mx-auto md:mx-0 max-w-[90%] md:max-w-none">
               We've combined everything we know: All the knowledge, systems and tools that we use on a daily basis to get our clients billions of views — so you can do it all yourself.
             </p>
             
             <VSGradientText
               variant="h2"
-              className="text-2xl md:text-3xl font-bold mb-12"
+              className="text-2xl md:text-3xl font-bold mb-12 mx-auto md:mx-0 max-w-[90%] md:max-w-none"
             >
               The proven system for content creation that's guaranteed millions of views
             </VSGradientText>
@@ -257,20 +257,21 @@ const VSBigReveal = () => {
         </div>
         
         {/* Features and details grid */}
-        <div ref={detailsRef} className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+        <div ref={detailsRef} className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto px-4 md:px-6 lg:px-4">
           {/* Left column: Features */}
-          <div className="feature-card">
-            <ul className="feature-list space-y-8">
+          <div className="feature-card bg-theme-surface/60 p-6 md:p-0 rounded-xl md:rounded-none shadow-theme-sm md:shadow-none">
+            <h3 className="text-center md:hidden text-2xl font-bold mb-8 text-theme-primary">Key Features</h3>
+            <ul className="feature-list space-y-12 md:space-y-8">
               {keyFeatures.map((feature, index) => (
-                <li key={index} className="feature-item flex items-start gap-4">
-                  <div className="mt-1 flex-shrink-0">
+                <li key={index} className="feature-item flex flex-col md:flex-row items-center md:items-start gap-4 text-center md:text-left">
+                  <div className="mt-0 md:mt-1 flex-shrink-0 mb-4 md:mb-0 transform scale-150 md:scale-100">
                     {feature.icon}
                   </div>
-                  <div>
-                    <VSHeading variant="h3" color="theme-primary" className="text-xl mb-2">
+                  <div className="w-full">
+                    <VSHeading variant="h3" color="theme-primary" className="text-xl font-bold mb-3">
                       {feature.title}
                     </VSHeading>
-                    <VSText color="theme-secondary">
+                    <VSText color="theme-secondary" className="text-base md:text-sm lg:text-base max-w-[95%] mx-auto md:mx-0">
                       {feature.description}
                     </VSText>
                   </div>
@@ -283,26 +284,28 @@ const VSBigReveal = () => {
           <div className="program-details">
             <VSCard
               background="bg-theme-surface"
-              className="p-8 rounded-xl shadow-theme-md border border-theme-border-light overflow-hidden transform transition-all duration-300 hover:shadow-theme-lg hover:translate-y-[-4px]"
+              className="p-10 rounded-xl shadow-theme-md border border-theme-border-light overflow-hidden transform transition-all duration-300 hover:shadow-theme-lg hover:translate-y-[-4px]"
             >
-              <VSHeading variant="h3" color="theme-primary" className="text-2xl font-bold mb-6">
+              <VSHeading variant="h3" color="theme-primary" className="text-3xl font-bold mb-10 text-center">
                 Program Details
               </VSHeading>
               
-              <div className="space-y-6 mb-8">
+              <div className="space-y-10 mb-10">
                 {programDetails.map((detail, index) => (
-                  <div key={index} className="flex justify-between items-center pb-3 border-b border-theme-border">
-                    <VSText color="theme-secondary" className="text-lg">
-                      {detail.label}
-                    </VSText>
+                  <div key={index} className="flex flex-col items-center justify-center pb-6 border-b border-theme-border text-center">
+                    <div className="mb-4">
+                      <VSText color="theme-secondary" className="text-lg uppercase tracking-wider font-semibold">
+                        {detail.label}
+                      </VSText>
+                    </div>
                     {detail.highlight ? (
-                      <div className="px-3 py-1 rounded-full bg-theme-accent/10">
-                        <VSText color="theme-accent" className="text-lg font-bold">
+                      <div className="inline-block px-6 py-3 rounded-full bg-theme-accent/10">
+                        <VSText color="theme-accent" className="text-2xl font-bold">
                           {detail.value}
                         </VSText>
                       </div>
                     ) : (
-                      <VSText color="theme-primary" className="text-lg font-bold">
+                      <VSText color="theme-primary" className="text-2xl font-bold">
                         {detail.value}
                       </VSText>
                     )}
@@ -310,10 +313,10 @@ const VSBigReveal = () => {
                 ))}
               </div>
               
-              <div className="cta-button">
-                <button className="bg-theme-gradient-primary text-white w-full py-4 rounded-lg flex items-center justify-center gap-2 font-medium shadow-theme-md hover-bubbly">
-                  <span className="font-bold">Get your Plan</span>
-                  <ArrowRightCircle className="h-5 w-5" />
+              <div className="cta-button mt-12">
+                <button className="bg-theme-gradient-primary text-white w-full py-5 rounded-lg flex items-center justify-center gap-3 font-bold text-xl shadow-theme-md hover-bubbly">
+                  <span>Get your Plan</span>
+                  <ArrowRightCircle className="h-7 w-7" />
                 </button>
               </div>
             </VSCard>

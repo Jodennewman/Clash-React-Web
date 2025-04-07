@@ -250,6 +250,41 @@ The theme-aware approach uses single CSS variables that automatically change val
 </div>
 ```
 
+### Mobile-First Text Formatting
+
+For proper mobile text formatting, always follow these guidelines:
+
+```jsx
+{/* Text Containers */}
+<div className="text-center md:text-left">
+  {/* Headings with proper mobile-first sizing */}
+  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 mx-auto md:mx-0 max-w-[90%] md:max-w-none">
+    Section Title
+  </h2>
+  
+  {/* Body text with proper mobile-first sizing */}
+  <p className="text-lg mb-4 mx-auto md:mx-0 max-w-[90%] md:max-w-none">
+    Body text with proper width constraints for readability on mobile
+  </p>
+</div>
+
+{/* Card Elements */}
+<div className="p-8 md:p-10 text-center md:text-left rounded-xl bg-theme-surface shadow-theme-md">
+  {/* Card titles */}
+  <h3 className="text-2xl md:text-3xl font-bold mb-8">Card Title</h3>
+  
+  {/* Card content with generous spacing */}
+  <div className="space-y-8">
+    <div className="pb-4 border-b border-theme-border">
+      <div className="mb-3">
+        <p className="text-base uppercase tracking-wider font-medium text-theme-secondary">Label</p>
+      </div>
+      <p className="text-xl font-bold text-theme-primary">Value</p>
+    </div>
+  </div>
+</div>
+```
+
 ### Professional Animation Implementation
 All animations MUST use `useGSAP` and `gsap.context` for proper cleanup and performance:
 
@@ -298,6 +333,7 @@ function AnimatedComponent() {
 - ❌ NEVER change grid layouts (grid-cols-*) under any circumstances
 - ❌ NEVER use inline styles that don't adapt to theme changes
 - ❌ NEVER use inline theme variables like `text-[var(--theme-text-primary)]` - use utility classes instead
+- ❌ NEVER neglect mobile formatting - ALWAYS use text-center md:text-left pattern
 
 ### DO:
 - ✅ ALWAYS use brand utility classes defined in globals.css: `text-theme-primary`, `bg-theme-accent`
@@ -309,6 +345,9 @@ function AnimatedComponent() {
 - ✅ ALWAYS create a written plan and get approval before proceeding
 - ✅ ALWAYS COMMIT AND PUSH CHANGES TO THE 'the-reveal' BRANCH
 - ✅ ALWAYS prioritize brand utility classes over any other styling approach
+- ✅ ALWAYS use mobile-first formatting with text-center md:text-left pattern
+- ✅ ALWAYS use generous spacing in mobile layouts (p-8, mb-8, space-y-8)
+- ✅ ALWAYS constrain text width on mobile with max-w-[90%] mx-auto md:mx-0
 
 ## Theme-Aware CSS Structure
 
