@@ -74,26 +74,26 @@ const VSBigReveal = () => {
         }
       });
       
-      // Initial animation with more dramatic effects for massive logo (right side)
+      // Initial animation with EXTREME entrance from far right
       logoTl
         .from(".vs-logo-wrapper", {
-          x: 300,
-          y: 120,
+          x: 800,
+          y: 200,
           opacity: 0,
-          scale: 0.6,
-          rotation: 8,
-          duration: 1.5,
+          scale: 0.4,
+          rotation: 12,
+          duration: 2,
           ease: "power3.out"
         })
         // Add rotation and floating effect as you scroll
         .to(".vs-logo-wrapper", {
-          rotation: -3,
-          y: -50,
-          x: -50,
-          scale: 1.05,
-          duration: 1,
+          rotation: -5,
+          y: -80,
+          x: -150,
+          scale: 1.1,
+          duration: 1.5,
           ease: "power1.inOut"
-        }, 0.5);
+        }, 0.8);
       
       // Create a coordinated timeline for heading and tagline
       const introTl = gsap.timeline({
@@ -219,8 +219,8 @@ const VSBigReveal = () => {
                      opacity-theme-float
                      animate-float-medium"></div>
       
-      {/* VS Logo with animation - INSANELY MASSIVE and absolutely positioned on RIGHT */}
-      <div ref={logoRef} className="vs-logo-wrapper absolute top-[350px] right-[-40vw] md:right-[-30vw] lg:right-[-20vw] w-[200vw] max-w-[none] min-w-[1200px] z-0 transform-gpu pointer-events-none scale-[1.5]">
+      {/* VS Logo with animation - INSANELY MASSIVE and ALL THE WAY to the right */}
+      <div ref={logoRef} className="vs-logo-wrapper absolute top-[350px] right-[-120vw] md:right-[-100vw] lg:right-[-80vw] xl:right-[-70vw] w-[200vw] max-w-[none] min-w-[1200px] z-0 transform-gpu pointer-events-none scale-[1.5]">
         <AnimatedLogo onAnimationComplete={() => console.log('Logo animation complete')} />
         <div className="absolute inset-0 -z-10 blur-3xl">
           <div className="w-full h-full rounded-full bg-theme-radial-glow opacity-80"></div>
