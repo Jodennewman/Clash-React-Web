@@ -402,110 +402,97 @@ useGSAP(() => {
 ## Most Important Rule
 After stating your plan, NEVER deviate from it without permission. It's better to do nothing than to implement something contrary to your stated plan.
 
-## Stacked Full-Screen Team Section Design
+## Simple Cropped Team Section Design
 
-The TeamSection has been implemented with the following z-stacked layout:
+The TeamSection has been implemented with a clean, direct approach:
 
 1. **Layout Structure:**
-   - Four full-screen sections stacked on top of each other in z-space (z-index)
-   - Each section represents one team member and occupies the full viewport
-   - Sections are arranged in layers with visual indicators for hover areas
+   - Four full-screen sections positioned absolutely
+   - Each section has its own unique gradient background
+   - Sections are constrained to 25% width and positioned side by side
+   - All content is rendered in each section but cropped by the width constraint
 
-2. **Window Effect:**
-   - Each section is clipped using CSS clip-path to show only 25% of its width
-   - This creates the effect of looking through four vertical "windows" into each section
-   - The clipping is positioned so each team member's section is visible through its respective window
-   - The full content exists in each layer but is mostly cropped/hidden initially
+2. **Direct Viewport Approach:**
+   - Each section is positioned absolutely with a fixed left coordinate (0%, 25%, 50%, 75%)
+   - Sections have a fixed width of 25% when in default state
+   - No scaling or transforming of content - just simple cropping through container constraints
+   - The full content always exists, it's just not visible outside its 25% viewport
 
 3. **Hover Behavior:**
-   - When hovering over a section's visible portion, the clip-path is removed
-   - The hovered section becomes fully visible and moves to the top z-index
-   - Other sections remain in their clipped state but are still partially visible
+   - When hovering over a section, it expands to 100% width and takes top z-index
+   - The left position changes to 0 to reveal the entire section
+   - Other sections remain in their original positions but behind the active section
    - Moving away from any section returns all sections to their equal 25% width view
 
 4. **Visual Implementation:**
-   - Each section has a slightly different gradient background for visual distinction
-   - Content is centered within each full section
-   - Z-index management ensures the active section is always on top
-   - Visual guide overlays help indicate the hover targets
+   - Each section has a unique gradient background for visual distinction
+   - Content is centered and laid out in a consistent way across all sections
+   - Visual guide overlays help indicate the interactive areas
 
 ### Technical Details
 
-1. **Clip-Path Implementation**
-   ```javascript
-   const getClipPath = () => {
-     // Calculate 25% wide section for each member
-     const startPercent = (index * 25);
-     const endPercent = startPercent + 25;
-     
-     if (isActive) {
-       // When active, remove clipping entirely
-       return 'none';
-     } else {
-       // When inactive, clip to show only a 25% vertical slice
-       return `inset(0 ${100 - endPercent}% 0 ${startPercent}%)`;
-     }
-   };
-   ```
-
-2. **Section Positioning**
-   ```jsx
-   <div 
-     className="absolute inset-0 transition-all duration-500 ease-in-out"
-     style={{ 
-       clipPath: getClipPath(),
-       zIndex: isActive ? 20 : 10 - index
-     }}
-     onMouseEnter={onMouseEnter}
-     onMouseLeave={onMouseLeave}
-   >
-     {/* Full content section */}
-     <div className="w-full h-full">
-       {/* Content centered inside full section */}
-     </div>
-   </div>
-   ```
+```jsx
+// Simple viewport approach that just changes position and width
+<div 
+  className="absolute top-0 h-full bg-theme-gradient"
+  style={{
+    left: activeIndex === index ? '0' : `${index * 25}%`, 
+    width: activeIndex === index ? '100%' : '25%',
+    zIndex: activeIndex === index ? 20 : 10,
+    transition: 'all 0.5s ease'
+  }}
+  onMouseEnter={() => setActiveIndex(index)}
+  onMouseLeave={() => setActiveIndex(null)}
+>
+  {/* Full content - always present, just cropped by viewport normally */}
+  <div className="h-full flex items-center justify-center">
+    {/* Content centered inside full section */}
+  </div>
+</div>
+```
 
 ### Implementation Checklist
 
 1. **Initial Setup**
    - [x] Delete the current TeamSection.tsx
    - [x] Update import in VerticalShortcutLanding.tsx
-   - [x] Create new implementation with full-screen z-stacked sections
+   - [x] Create new implementation with simple cropped viewport approach
    
-2. **Z-Stacked Layout**
-   - [x] Create full-screen sections for each team member
-   - [x] Position sections in z-space with proper z-index management
-   - [x] Implement clip-path for the window-like cropping effect
-   - [x] Add visual indicators for hover targets
+2. **Basic Layout**
+   - [x] Create a container with overflow-hidden for cropping
+   - [x] Position sections absolutely with correct left offsets (0%, 25%, 50%, 75%)
+   - [x] Set default width to 25% for each section to create the cropping effect
+   - [x] Add visual guides for the 25% sections
    
 3. **Content Layout**
-   - [x] Create full team member layouts that look good in both cropped and full views
-   - [x] Add proper content hierarchy with name, title, images, bio, etc.
-   - [x] Ensure content is centered and well-positioned in both states
+   - [x] Create full content layout for each team member
+   - [x] Ensure content works well in both cropped and expanded states
+   - [x] Center key content within the viewport area
+   - [x] Use proper visual hierarchy with headings, images, text
    
 4. **Interactive Behavior**
    - [x] Implement state management for tracking active section
-   - [x] Create smooth transitions for clip-path changes
-   - [x] Ensure proper z-index handling for active/inactive states
-   - [x] Add hover guides to indicate interactive areas
+   - [x] Create smooth transitions between cropped and full states
+   - [x] Set proper z-index to bring active section to the front
+   - [x] Create mouseover/mouseout handlers for expansion
    
 5. **Theme-Aware Styling**
-   - [x] Use theme-aware gradients for section backgrounds
-   - [x] Use shadow-theme-* utility classes for all shadows
-   - [x] Ensure all text uses text-theme-* utility classes
-   - [x] Add theme-aware borders and visual details
+   - [x] Use different gradient backgrounds for visual distinction
+   - [x] Ensure theme-aware styling for all colors and shadows
+   - [x] Implement proper handling of light/dark modes
+   - [x] Use semi-transparent overlays for better text visibility
 
 6. **Responsive Design**
-   - [x] Maintain z-stacked layout on desktop and tablet
-   - [x] Create alternate card-based layout for mobile
-   - [x] Ensure smooth transitions on all device sizes
+   - [x] Create mobile-friendly card layout for small screens
+   - [x] Implement proper responsive text sizing
+   - [x] Hide desktop layout and show mobile layout on small screens
+   - [x] Keep consistent styling between desktop and mobile
 
-7. **Visual Polish**
-   - [x] Add distinct background gradients for each section
-   - [x] Implement proper shadows and borders
-   - [x] Create smooth transitions for all interactive elements
-   - [x] Verify visual consistency in both light and dark themes
+7. **Final Touches**
+   - [x] Add subtle background elements for visual interest
+   - [x] Create proper shadow and border treatment
+   - [x] Ensure all text is properly visible in both modes
+   - [x] Verify smooth transitions between states
 
 ## ModuleHUD Improvement Checklist
 
