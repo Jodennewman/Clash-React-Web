@@ -1831,15 +1831,18 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {stage === 'teamSize' && (
             <div className="space-y-4">
               {/* Stage illustration */}
-              <div className="flex justify-center mb-4">
-                <div className="w-16 h-16 rounded-full bg-theme-primary/10 flex items-center justify-center">
+              <div className="flex justify-center mb-3">
+                <div className="w-16 h-16 rounded-full bg-theme-gradient/10 flex items-center justify-center">
                   <Users size={32} className="text-theme-primary" />
                 </div>
               </div>
               
-              <p className="text-theme-secondary mb-4 text-center">
-                Tell us about your team so we can tailor the right implementation approach for your organization.
-              </p>
+              <div className="bg-theme-bg-surface rounded-lg p-3 mb-3 border border-theme-border-light">
+                <h3 className="text-theme-primary font-medium text-center mb-1">Your Content Team</h3>
+                <p className="text-theme-secondary text-center text-sm">
+                  We'll tailor our system to match your team's specific structure and size
+                </p>
+              </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button
@@ -1847,7 +1850,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   data-value="1"
                   className={`teamSize-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.teamSize === '1' || selectedChoice === '1'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== '1' ? 'pointer-events-none' : ''}`}
                 >
@@ -1865,7 +1868,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   data-value="5"
                   className={`teamSize-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.teamSize === '5' || selectedChoice === '5'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== '5' ? 'pointer-events-none' : ''}`}
                 >
@@ -1883,7 +1886,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   data-value="15"
                   className={`teamSize-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.teamSize === '15' || selectedChoice === '15'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== '15' ? 'pointer-events-none' : ''}`}
                 >
@@ -1901,7 +1904,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   data-value="25"
                   className={`teamSize-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.teamSize === '25' || selectedChoice === '25'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== '25' ? 'pointer-events-none' : ''}`}
                 >
@@ -1921,15 +1924,18 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {stage === 'implementationSupport' && (
             <div className="space-y-4">
               {/* Stage illustration */}
-              <div className="flex justify-center mb-4">
-                <div className="w-16 h-16 rounded-full bg-theme-primary/10 flex items-center justify-center">
+              <div className="flex justify-center mb-3">
+                <div className="w-16 h-16 rounded-full bg-theme-gradient/10 flex items-center justify-center">
                   <Briefcase size={32} className="text-theme-primary" />
                 </div>
               </div>
               
-              <p className="text-theme-secondary mb-4 text-center">
-                How do you prefer to learn and implement new systems? This helps us match you with the right level of guidance.
-              </p>
+              <div className="bg-theme-bg-surface rounded-lg p-3 mb-3 border border-theme-border-light">
+                <h3 className="text-theme-primary font-medium text-center mb-1">Your Implementation Style</h3>
+                <p className="text-theme-secondary text-center text-sm">
+                  How do you prefer to learn new systems? We'll match you with the right level of support.
+                </p>
+              </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button
@@ -1937,17 +1943,17 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   data-value="self_directed"
                   className={`implementationSupport-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.implementationSupport === 'self_directed' || selectedChoice === 'self_directed'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'self_directed' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Self-Guided</h3>
+                    <h3 className="text-theme-primary font-medium">Self-Driven</h3>
                     {answers.implementationSupport === 'self_directed' && (
                       <CheckCircle className="h-5 w-5 text-theme-primary" />
                     )}
                   </div>
-                  <p className="text-theme-secondary text-sm">I prefer comprehensive resources I can implement at my own pace</p>
+                  <p className="text-theme-secondary text-sm">I prefer complete resources I can implement at my own pace</p>
                 </button>
                 
                 <button
@@ -1955,7 +1961,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   data-value="guided"
                   className={`implementationSupport-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.implementationSupport === 'guided' || selectedChoice === 'guided'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'guided' ? 'pointer-events-none' : ''}`}
                 >
@@ -1965,7 +1971,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                       <CheckCircle className="h-5 w-5 text-theme-primary" />
                     )}
                   </div>
-                  <p className="text-theme-secondary text-sm">I value regular guidance while implementing myself</p>
+                  <p className="text-theme-secondary text-sm">I value strategic guidance while implementing myself</p>
                 </button>
                 
                 <button
@@ -1973,17 +1979,17 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   data-value="full_service"
                   className={`implementationSupport-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.implementationSupport === 'full_service' || selectedChoice === 'full_service'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'full_service' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Hands-On Support</h3>
+                    <h3 className="text-theme-primary font-medium">Full Implementation</h3>
                     {answers.implementationSupport === 'full_service' && (
                       <CheckCircle className="h-5 w-5 text-theme-primary" />
                     )}
                   </div>
-                  <p className="text-theme-secondary text-sm">I want dedicated help implementing this in my business</p>
+                  <p className="text-theme-secondary text-sm">I want dedicated experts handling the implementation for me</p>
                 </button>
                 
                 <button
@@ -1991,17 +1997,17 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   data-value="undecided"
                   className={`implementationSupport-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.implementationSupport === 'undecided' || selectedChoice === 'undecided'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'undecided' ? 'pointer-events-none' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Flexible Approach</h3>
+                    <h3 className="text-theme-primary font-medium">Discuss Options</h3>
                     {answers.implementationSupport === 'undecided' && (
                       <CheckCircle className="h-5 w-5 text-theme-primary" />
                     )}
                   </div>
-                  <p className="text-theme-secondary text-sm">I'd like to discuss options based on my specific situation</p>
+                  <p className="text-theme-secondary text-sm">I'd like to explore all options based on my specific needs</p>
                 </button>
               </div>
             </div>
