@@ -898,7 +898,9 @@ a:hover {
 
 /* Gradient text effects */
 .gradient-text {
-  background: linear-gradient(120deg, var(--primary-orange) 0%, var(--accent-coral) 100%);
+  background: linear-gradient(120deg, 
+    var(--primary-orange) 0%, 
+    var(--accent-coral) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -907,7 +909,9 @@ a:hover {
 
 /* Enhanced Dark Mode Gradient Text */
 .dark .gradient-text, [data-theme="dark"] .gradient-text {
-  background: linear-gradient(120deg, var(--primary-orange-light) 0%, var(--accent-coral) 100%);
+  background: linear-gradient(120deg, 
+    var(--primary-orange-light) 0%, 
+    var(--accent-coral) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1442,10 +1446,13 @@ a:hover {
 }
 
 .text-theme-gradient {
-  background: linear-gradient(to right, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));
+  background: linear-gradient(to right, 
+    var(--theme-primary-gradient-start), 
+    var(--theme-primary-gradient-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: transparent;
 }
 
 .text-theme-custom {
@@ -1580,35 +1587,51 @@ a:hover {
 
 /* Theme-aware gradients */
 .bg-theme-gradient {
-  background: linear-gradient(to bottom right, var(--theme-gradient-start), var(--theme-gradient-end));
+  background: linear-gradient(to bottom right, 
+    var(--theme-gradient-start), 
+    var(--theme-gradient-end));
 }
 
 .bg-theme-gradient-card {
-  background: linear-gradient(to bottom right, var(--theme-gradient-card-start), var(--theme-gradient-card-end));
+  background: linear-gradient(to bottom right, 
+    var(--theme-gradient-card-start), 
+    var(--theme-gradient-card-end));
 }
 
 .bg-theme-gradient-primary {
-  background: linear-gradient(to right, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));
+  background: linear-gradient(to right, 
+    var(--theme-primary-gradient-start), 
+    var(--theme-primary-gradient-end));
 }
 
 .dark .bg-theme-gradient-primary, [data-theme="dark"] .bg-theme-gradient-primary {
-  background: linear-gradient(135deg, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));
+  background: linear-gradient(135deg, 
+    var(--theme-primary-gradient-start), 
+    var(--theme-primary-gradient-end));
 }
 
 .bg-theme-gradient-secondary {
-  background: linear-gradient(to right, var(--theme-secondary-gradient-start), var(--theme-secondary-gradient-end));
+  background: linear-gradient(to right, 
+    var(--theme-secondary-gradient-start), 
+    var(--theme-secondary-gradient-end));
 }
 
 .dark .bg-theme-gradient-secondary, [data-theme="dark"] .bg-theme-gradient-secondary {
-  background: linear-gradient(135deg, var(--theme-secondary-gradient-start), var(--theme-secondary-gradient-end));
+  background: linear-gradient(135deg, 
+    var(--theme-secondary-gradient-start), 
+    var(--theme-secondary-gradient-end));
 }
 
 .bg-theme-gradient-accent {
-  background: linear-gradient(to right, var(--theme-accent-gradient-start), var(--theme-accent-gradient-end));
+  background: linear-gradient(to right, 
+    var(--theme-accent-gradient-start), 
+    var(--theme-accent-gradient-end));
 }
 
 .dark .bg-theme-gradient-accent, [data-theme="dark"] .bg-theme-gradient-accent {
-  background: linear-gradient(135deg, var(--theme-accent-gradient-start), var(--theme-accent-gradient-end));
+  background: linear-gradient(135deg, 
+    var(--theme-accent-gradient-start), 
+    var(--theme-accent-gradient-end));
 }
 
 .bg-theme-gradient-overlay-light {
@@ -1616,10 +1639,13 @@ a:hover {
 }
 
 .bg-theme-gradient-text {
-  background: linear-gradient(to right, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));
+  background: linear-gradient(to right, 
+    var(--theme-primary-gradient-start), 
+    var(--theme-primary-gradient-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: transparent;
 }
 
 .dark .bg-theme-gradient-text, [data-theme="dark"] .bg-theme-gradient-text {
@@ -1786,7 +1812,9 @@ a:hover {
 
 /* Theme-aware enhanced cards */
 .card-theme {
-  background: linear-gradient(to bottom right, var(--theme-gradient-card-start), var(--theme-gradient-card-end));
+  background: linear-gradient(to bottom right, 
+    var(--theme-gradient-card-start), 
+    var(--theme-gradient-card-end));
   border-radius: var(--theme-border-radius-lg);
   padding: 1.5rem;
   box-shadow: var(--theme-shadow-card);
@@ -1846,14 +1874,18 @@ a:hover {
 
 /* Theme-aware buttons */
 .btn-theme-primary {
-  background: linear-gradient(to right, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));
+  background: linear-gradient(to right, 
+    var(--theme-primary-gradient-start), 
+    var(--theme-primary-gradient-end));
   color: white;
   box-shadow: var(--theme-shadow-btn);
   transition: all var(--theme-transition-bounce);
 }
 
 .dark .btn-theme-primary, [data-theme="dark"] .btn-theme-primary {
-  background: linear-gradient(135deg, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));
+  background: linear-gradient(135deg, 
+    var(--theme-primary-gradient-start), 
+    var(--theme-primary-gradient-end));
   box-shadow: var(--shadow-btn), var(--glow-primary);
 }
 
@@ -1863,19 +1895,25 @@ a:hover {
 }
 
 .dark .btn-theme-primary:hover, [data-theme="dark"] .btn-theme-primary:hover {
-  background: linear-gradient(135deg, var(--theme-primary-light), var(--theme-primary));
+  background: linear-gradient(135deg, 
+    var(--theme-primary-light), 
+    var(--theme-primary));
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), var(--glow-primary);
 }
 
 .btn-theme-secondary {
-  background: linear-gradient(to right, var(--theme-secondary-gradient-start), var(--theme-secondary-gradient-end));
+  background: linear-gradient(to right, 
+    var(--theme-secondary-gradient-start), 
+    var(--theme-secondary-gradient-end));
   color: white;
   box-shadow: var(--theme-shadow-btn);
   transition: all var(--theme-transition-bounce);
 }
 
 .dark .btn-theme-secondary, [data-theme="dark"] .btn-theme-secondary {
-  background: linear-gradient(135deg, var(--theme-secondary-gradient-start), var(--theme-secondary-gradient-end));
+  background: linear-gradient(135deg, 
+    var(--theme-secondary-gradient-start), 
+    var(--theme-secondary-gradient-end));
   box-shadow: var(--shadow-btn), var(--glow-blue);
 }
 
@@ -1885,7 +1923,9 @@ a:hover {
 }
 
 .dark .btn-theme-secondary:hover, [data-theme="dark"] .btn-theme-secondary:hover {
-  background: linear-gradient(135deg, var(--theme-accent-secondary-light), var(--theme-accent-secondary));
+  background: linear-gradient(135deg, 
+    var(--theme-accent-secondary-light), 
+    var(--theme-accent-secondary));
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), var(--glow-blue);
 }
 
@@ -1899,7 +1939,9 @@ a:hover {
 }
 
 .dark .pro-tip-theme, [data-theme="dark"] .pro-tip-theme {
-  background: linear-gradient(135deg, var(--theme-accent-tertiary) 0%, var(--theme-accent-quaternary) 100%);
+  background: linear-gradient(135deg, 
+    var(--theme-accent-tertiary) 0%, 
+    var(--theme-accent-quaternary) 100%);
   box-shadow: var(--shadow-md), var(--glow-accent);
 }
 
@@ -2093,7 +2135,9 @@ a:hover {
 
 /* Text highlight gradients */
 .vs-text-gradient-orange {
-  background: linear-gradient(to right, var(--primary-orange), var(--accent-coral));
+  background: linear-gradient(to right, 
+    var(--primary-orange), 
+    var(--accent-coral));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -2101,7 +2145,9 @@ a:hover {
 }
 
 .vs-text-gradient-teal {
-  background: linear-gradient(to right, var(--secondary-teal), var(--secondary-teal-light));
+  background: linear-gradient(to right, 
+    var(--secondary-teal), 
+    var(--secondary-teal-light));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -2200,23 +2246,33 @@ a:hover {
 
 /* Theme-aware gradient utility classes */
 .bg-theme-gradient {
-  background: linear-gradient(to bottom right, var(--theme-gradient-start), var(--theme-gradient-end)) !important;
+  background: linear-gradient(to bottom right, 
+    var(--theme-gradient-start), 
+    var(--theme-gradient-end)) !important;
 }
 
 .bg-theme-gradient-primary {
-  background: linear-gradient(to right, var(--theme-primary, var(--primary-orange)), var(--theme-primary-hover, var(--primary-orange-hover))) !important;
+  background: linear-gradient(to right, 
+    var(--theme-primary, var(--primary-orange)), 
+    var(--theme-primary-hover, var(--primary-orange-hover))) !important;
 }
 
 .dark .bg-theme-gradient-primary, [data-theme="dark"] .bg-theme-gradient-primary {
-  background: linear-gradient(135deg, var(--theme-primary, var(--primary-orange)), var(--theme-primary-hover, var(--primary-orange-hover))) !important;
+  background: linear-gradient(135deg, 
+    var(--theme-primary, var(--primary-orange)), 
+    var(--theme-primary-hover, var(--primary-orange-hover))) !important;
 }
 
 .bg-theme-gradient-secondary {
-  background: linear-gradient(to right, var(--theme-accent-secondary, var(--secondary-teal)), var(--theme-accent-secondary-hover, var(--secondary-teal-hover))) !important;
+  background: linear-gradient(to right, 
+    var(--theme-accent-secondary, var(--secondary-teal)), 
+    var(--theme-accent-secondary-hover, var(--secondary-teal-hover))) !important;
 }
 
 .dark .bg-theme-gradient-secondary, [data-theme="dark"] .bg-theme-gradient-secondary {
-  background: linear-gradient(135deg, var(--theme-accent-secondary, var(--secondary-teal)), var(--theme-accent-secondary-hover, var(--secondary-teal-hover))) !important;
+  background: linear-gradient(135deg, 
+    var(--theme-accent-secondary, var(--secondary-teal)), 
+    var(--theme-accent-secondary-hover, var(--secondary-teal-hover))) !important;
 }
 
 /* Theme-aware text utility classes */
