@@ -214,8 +214,11 @@ const VSBigReveal = () => {
         <div className="text-left md:text-left ml-auto mr-4 mb-16 max-w-3xl md:max-w-4xl lg:max-w-5xl mt-[-120px] md:mt-[-150px] relative z-10 overflow-visible">
           <p 
             ref={headingRef}
-            className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-[200] !font-extralight mb-6 text-theme-primary pl-8 md:pl-12 lowercase tracking-wide whitespace-nowrap"
-            style={{ fontWeight: 200 }}
+            className="font-[200] !font-extralight mb-6 text-theme-primary pl-8 md:pl-12 lowercase tracking-wide whitespace-nowrap"
+            style={{ 
+              fontWeight: 200,
+              fontSize: "clamp(3.5rem, 6vw, 8rem)"
+            }}
           >
             the vertical shortcut<span className="text-theme-accent">.</span>
           </p>
