@@ -24,16 +24,16 @@ const FeaturedModules = () => {
   const modules: Module[] = featuredModules || [];
 
   return (
-    <Section className="py-24 bg-[#08141B]">
+    <Section className="py-24 bg-theme-primary">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <Badge variant="section" size="xl" className="mb-4">
             Curriculum Highlights
           </Badge>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">Featured Modules</span>
+            <span className="bg-theme-gradient-text bg-clip-text text-transparent">Featured Modules</span>
           </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+          <p className="text-xl text-theme-secondary max-w-3xl mx-auto">
             Take a closer look at some of the transformative modules you'll experience in the Vertical Shortcut program.
           </p>
         </div>
@@ -42,23 +42,23 @@ const FeaturedModules = () => {
           {modules.map((module, index) => (
             <div 
               key={index}
-              className="bg-[#09232F]/50 backdrop-blur-sm rounded-xl border border-white/10 overflow-hidden hover:border-[#FEA35D]/30 transition-all duration-300 group"
+              className="bg-theme-secondary/50 backdrop-blur-sm rounded-xl border border-theme-border overflow-hidden hover:border-theme-primary/30 transition-all duration-300 group"
             >
               {/* Module header with color strip based on module color */}
-              <div className="h-2" style={{ backgroundColor: module.color || '#FEA35D' }}></div>
+              <div className="h-2 bg-theme-accent" style={module.color ? { backgroundColor: module.color } : {}}></div>
               
               <div className="p-6">
                 <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-xl font-bold text-white group-hover:text-[#FEA35D] transition-colors duration-300">
+                  <h3 className="text-xl font-bold text-theme-primary group-hover:text-theme-accent transition-colors duration-300">
                     {module.title || 'Module'}
                   </h3>
-                  <div className="flex items-center text-sm text-white/70 bg-white/5 px-3 py-1 rounded-full">
+                  <div className="flex items-center text-sm text-theme-secondary bg-theme-secondary/5 px-3 py-1 rounded-full">
                     <Clock className="w-4 h-4 mr-1" />
                     {module.duration || 0} min
                   </div>
                 </div>
                 
-                <p className="text-white/70 mb-6">
+                <p className="text-theme-secondary mb-6">
                   {module.subtitle || 'Learn more about this module'}
                 </p>
                 
@@ -90,19 +90,19 @@ const FeaturedModules = () => {
                 
                 {/* Submodules preview with null check */}
                 {module.submodules && module.submodules.length > 0 && (
-                  <div className="bg-black/20 rounded-lg p-4 mb-4">
-                    <div className="text-sm font-medium text-white/80 mb-3">Module Includes:</div>
+                  <div className="bg-theme-primary/20 rounded-lg p-4 mb-4">
+                    <div className="text-sm font-medium text-theme-secondary mb-3">Module Includes:</div>
                     <ul className="space-y-2">
                       {module.submodules.slice(0, 3).map((submodule, idx) => (
                         <li key={idx} className="flex text-sm">
-                          <span className="text-[#FEA35D] mr-2">•</span>
-                          <span className="text-white/70">{submodule.title || 'Submodule'}</span>
+                          <span className="text-theme-accent mr-2">•</span>
+                          <span className="text-theme-secondary">{submodule.title || 'Submodule'}</span>
                         </li>
                       ))}
                       {module.submodules.length > 3 && (
                         <li className="flex text-sm">
-                          <span className="text-[#FEA35D] mr-2">•</span>
-                          <span className="text-white/70">+{module.submodules.length - 3} more sections</span>
+                          <span className="text-theme-accent mr-2">•</span>
+                          <span className="text-theme-secondary">+{module.submodules.length - 3} more sections</span>
                         </li>
                       )}
                     </ul>
@@ -119,14 +119,14 @@ const FeaturedModules = () => {
                   )}
                   
                   {/* Learn More button */}
-                  <div className="mt-3 pt-3 border-t border-[#154D59]/30">
+                  <div className="mt-3 pt-3 border-t border-theme-border">
                     <div className="flex items-center justify-between">
-                      <div className="text-sm text-[var(--theme-primary)] ">
+                      <div className="text-sm text-theme-primary">
                         {module.difficulty || 'Intermediate'}
                       </div>
                       <Button 
                         variant="ghost" 
-                        className="text-[var(--theme-primary)] hover:text-[var(--theme-primary-hover)] hover:bg-[var(--theme-primary)]/10 dark:hover:bg-[var(--theme-primary)]/20 p-0 h-auto ml-auto"
+                        className="text-theme-primary hover:text-theme-primary-hover hover:bg-theme-primary/10 p-0 h-auto ml-auto"
                         onClick={() => document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' })}
                       >
                         <span className="mr-1">Learn More</span>

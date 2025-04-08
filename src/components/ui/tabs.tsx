@@ -14,7 +14,7 @@ function TabsList({
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"
-      className={cn("text-muted-foreground flex items-center", className)}
+      className={cn("text-theme-secondary flex items-center transition-colors duration-[var(--theme-transition-normal)]", className)}
       {...props}
     />
   );
@@ -28,7 +28,7 @@ function TabsTrigger({
     <TabsPrimitive.Trigger
       data-slot="tabs-trigger"
       className={cn(
-        "data-[state=active]:glass-4 ring-offset-background hover:bg-accent/50 hover:text-accent-foreground focus-visible:ring-ring data-[state=active]:text-foreground flex flex-col gap-3 rounded-md border border-transparent px-5 pt-4 pb-6 text-left text-sm font-medium transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 data-[state=active]:shadow-xl dark:border-b-0",
+        "data-[state=active]:bg-theme-gradient-card ring-offset-theme-bg-primary hover:bg-theme-accent/10 hover:text-theme-accent focus-visible:ring-theme-primary data-[state=active]:text-theme-primary flex flex-col gap-3 rounded-md border border-theme-border px-5 pt-4 pb-6 text-left text-sm font-medium transition-all duration-[var(--theme-transition-normal)] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 data-[state=active]:shadow-theme-md",
         className,
       )}
       {...props}
@@ -44,7 +44,7 @@ function TabsContent({
     <TabsPrimitive.Content
       data-slot="tabs-content"
       className={cn(
-        "border-border dark:border-border/20 bg-input/30 ring-offset-background focus-visible:ring-ring dark:bg-card relative overflow-hidden rounded-lg border focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden",
+        "border-theme-border bg-theme-gradient-card ring-offset-theme-bg-primary focus-visible:ring-theme-primary relative overflow-hidden rounded-lg border shadow-theme-md transition-all duration-[var(--theme-transition-normal)] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden",
         className,
       )}
       {...props}

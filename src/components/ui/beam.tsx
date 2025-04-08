@@ -8,11 +8,11 @@ const beamVariants = cva(
     variants: {
       tone: {
         default:
-          "after:bg-radial after:from-foreground/30 after:from-10% after:to-foreground/0 after:to-60%",
+          "after:bg-radial after:from-[var(--theme-text-primary)]/30 after:from-10% after:to-[var(--theme-text-primary)]/0 after:to-60%",
         brand:
-          "after:bg-radial after:from-brand/30 after:from-10% after:to-brand/0 after:to-60%",
+          "after:bg-radial after:from-[var(--theme-primary)]/30 after:from-10% after:to-[var(--theme-primary)]/0 after:to-60%",
         brandLight:
-          "after:bg-radial after:from-brand-foreground/30 after:from-10% after:to-brand-foreground/0 after:to-60%",
+          "after:bg-radial after:from-[var(--theme-accent)]/30 after:from-10% after:to-[var(--theme-accent)]/0 after:to-60%",
       },
     },
     defaultVariants: {

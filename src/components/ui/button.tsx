@@ -10,18 +10,18 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "vs-btn-primary-gradient hover:vs-btn-primary-gradient-hover text-white shadow-[--shadow-btn] hover:shadow-[--shadow-md] dark:shadow-[0_4px_12px_rgba(254,163,93,0.2)] dark:hover:shadow-[0_6px_16px_rgba(254,163,93,0.3)]",
+          "vs-btn-primary-gradient hover:vs-btn-primary-gradient-hover text-white shadow-theme-btn hover:shadow-theme-md",
         destructive:
-          "vs-btn-destructive-gradient hover:vs-btn-destructive-gradient-hover text-white shadow-[--shadow-btn] hover:shadow-[--shadow-md]",
+          "vs-btn-destructive-gradient hover:vs-btn-destructive-gradient-hover text-white shadow-theme-btn hover:shadow-theme-md",
         outline:
-          "border border-[var(--theme-accent-secondary)] dark:border-white/20 bg-transparent text-[var(--theme-accent-secondary)] dark:text-white shadow-xs hover:bg-[var(--theme-accent-secondary)]/5 dark:hover:bg-white/5",
-        glow: "bg-white/10 backdrop-blur-sm border border-white/20 shadow-[--shadow-sm] hover:bg-white/15 hover:border-white/30 dark:hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]",
+          "border border-theme-accent-secondary bg-transparent text-theme-accent-secondary shadow-xs hover:bg-theme-accent-secondary/5",
+        glow: "bg-white/10 backdrop-blur-sm border border-white/20 shadow-theme-sm hover:bg-white/15 hover:border-white/30",
         secondary:
-          "vs-btn-secondary-gradient hover:vs-btn-secondary-gradient-hover text-white shadow-[--shadow-btn] hover:shadow-[--shadow-md]",
-        ghost: "hover:bg-white/10 dark:hover:bg-white/5",
-        link: "text-[var(--theme-primary)] dark:text-[var(--theme-primary-light)] hover:text-[var(--theme-primary-hover)] dark:hover:text-[var(--theme-primary)] underline-offset-4 hover:underline",
-        subtle: "bg-[var(--theme-bg-secondary)] dark:bg-white/5 text-[var(--theme-text-primary)] dark:text-white/80 hover:bg-[var(--theme-bg-secondary)]/80 dark:hover:bg-white/10",
-        vibrant: "vs-btn-vibrant-gradient hover:vs-btn-vibrant-gradient-hover text-white shadow-[--shadow-btn] hover:shadow-[--shadow-md]",
+          "vs-btn-secondary-gradient hover:vs-btn-secondary-gradient-hover text-white shadow-theme-btn hover:shadow-theme-md",
+        ghost: "hover:bg-theme-secondary/10",
+        link: "text-theme-primary hover:text-theme-primary-hover underline-offset-4 hover:underline",
+        subtle: "bg-theme-secondary/50 text-theme-primary hover:bg-theme-secondary/80",
+        vibrant: "vs-btn-vibrant-gradient hover:vs-btn-vibrant-gradient-hover text-white shadow-theme-btn hover:shadow-theme-md",
       },
       size: {
         default: "h-10 px-5 py-2.5",

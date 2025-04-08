@@ -174,6 +174,7 @@ const AnalysisAnimation: React.FC<{ onComplete: () => void }> = ({ onComplete })
   }, [onComplete]);
   
   return (
+
     <div className="flex flex-col items-center justify-center relative overflow-hidden bg-vs-gradient-navy-deep min-h-[280px]" ref={animationRef}>
       {/* Colorful background gradient overlay */}
       <div className="absolute inset-0 bg-opacity-30 vs-gradient-coral-orange opacity-10"></div>
@@ -204,6 +205,7 @@ const AnalysisAnimation: React.FC<{ onComplete: () => void }> = ({ onComplete })
               <Check className="h-4 w-4 text-theme-primary" />
             </div>
             <span className="text-white/90 text-sm">Analyzing response patterns</span>
+
           </div>
           <div className="analysis-step flex items-center opacity-0 bg-theme-bg-surface/20 p-2 rounded-lg shadow-theme-sm backdrop-blur-sm border border-theme-accent-secondary/10">
             <div className="w-6 h-6 rounded-full bg-theme-accent-secondary/20 flex items-center justify-center mr-2">
@@ -282,12 +284,14 @@ const AnalysisBreakdown: React.FC<{
       <p className="text-theme-secondary text-center mb-4 text-sm">
         We've analyzed your responses to find the implementation approach that best matches your needs
       </p>
+
       
       {/* Factor breakdown - without showing the actual score */}
       <div className="grid grid-cols-2 gap-3 mb-4">
         <div className="space-y-2">
           <h4 className="text-xs font-medium text-theme-primary">Team Structure</h4>
           <div className="h-3 bg-theme-bg-surface rounded-full overflow-hidden">
+
             <div 
               className="h-full bg-theme-primary rounded-full"
               style={{ width: `${percentages.teamSize}%` }}
@@ -1622,6 +1626,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         <div className="modal-floating-element absolute bottom-10 left-10 -z-10 w-24 h-24 rounded-[30%] -rotate-6 opacity-[var(--theme-float-opacity-secondary)] bg-[var(--theme-float-bg-secondary)]"></div>
         
         {/* Modal header */}
+
         <div className="flex items-center justify-between border-b border-[var(--theme-border-light)] p-4">
           <div className="flex items-center gap-2">
             <div className="p-1.5 rounded-full bg-theme-primary/10 text-theme-primary">
@@ -1629,6 +1634,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
             </div>
             <h2 className="text-lg font-medium text-theme-primary">
               {stage === 'intro' && 'Discover Your Perfect Implementation'}
+
               {stage === 'contact' && 'Let\'s Personalize Your Plan'}
               {stage === 'teamSize' && 'About Your Team'}
               {stage === 'implementationSupport' && 'Your Implementation Style'}
@@ -1748,6 +1754,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 </div>
               </div>
               
+
               {/* Social proof badge with enhanced styling */}
               <div className="flex items-center gap-1 text-xs bg-theme-gradient-primary/10 border border-theme-primary/20 rounded-full px-2 py-1 mb-2 w-fit mx-auto shadow-theme-sm">
                 <Users size={10} className="text-theme-primary"/>
@@ -1761,6 +1768,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   <div className="flex items-center mb-1">
                     <div className="p-1 rounded-full vs-gradient-orange flex items-center justify-center mr-2 shadow-theme-sm">
                       <BarChart4 size={14} className="text-white" />
+
                     </div>
                     <h4 className="font-medium text-theme-primary text-xs">800M+ Views</h4>
                   </div>
@@ -1790,6 +1798,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 </div>
               </div>
               
+
               {/* Process steps - more compact and colorful */}
               <div className="bg-theme-gradient/5 rounded-lg p-2 mb-2 border border-theme-border-light">
                 <div className="flex justify-between items-center mb-1">
@@ -1813,6 +1822,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                     <div className="flex items-center justify-center h-6 w-6 rounded-full bg-theme-gradient-accent text-white text-[9px] mb-0.5 shadow-theme-sm">3</div>
                     <span className="text-theme-secondary text-[8px] text-center">Start<br/>Growing</span>
                   </div>
+
                 </div>
               </div>
 
@@ -2369,9 +2379,11 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 <Button
                   onClick={goToNextStage}
+
                   variant="default"
                   size="sm"
                   className="flex items-center gap-1"
+
                 >
                   Get my personalized plan
                   <ChevronRight className="h-3.5 w-3.5" />
@@ -2384,9 +2396,11 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               <Button
                 onClick={goToNextStage}
                 disabled={!canProceed()}
+
                 variant={canProceed() ? "default" : "subtle"}
                 size="sm"
                 className="flex items-center gap-1"
+
               >
                 Show My Recommendation
                 <ChevronRight className="h-3.5 w-3.5" />

@@ -58,10 +58,10 @@ export function ThemeProvider({
     // Update the resolved theme state
     setResolvedTheme(newResolvedTheme);
     
-    // Apply the theme class
+    // Apply the theme class (this is for the old JavaScript method)
     root.classList.add(newResolvedTheme);
     
-    // IMPORTANT: Also set the data-theme attribute for CSS variables
+    // IMPORTANT: Also set the data-theme attribute for CSS variables (this is for the CSS selectors)
     root.setAttribute('data-theme', newResolvedTheme);
     
     // Dispatch an event for other parts of the app

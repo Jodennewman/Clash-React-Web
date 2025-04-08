@@ -4,24 +4,24 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex items-center justify-center rounded-full border text-xs font-semibold transition-all duration-[--transition-bounce] shadow-none hover:shadow-sm hover:translate-y-[-1px] hover:scale-[1.02] focus:outline-none",
+  "inline-flex items-center justify-center rounded-full border text-xs font-semibold transition-all duration-[--transition-bounce] shadow-none hover:shadow-theme-sm hover:translate-y-[-1px] hover:scale-[1.02] focus:outline-none",
   {
     variants: {
       variant: {
         default:
-          "border-transparent vs-btn-primary-gradient text-white dark:shadow-[0_0_8px_rgba(254,163,93,0.15)] dark:hover:shadow-[0_0_12px_rgba(254,163,93,0.2)]",
+          "border-transparent bg-theme-gradient-primary text-white shadow-theme-sm hover:shadow-theme-md",
         secondary:
-          "border-transparent vs-btn-secondary-gradient text-white dark:shadow-[0_0_8px_rgba(53,115,128,0.15)] dark:hover:shadow-[0_0_12px_rgba(53,115,128,0.2)]",
+          "border-transparent bg-theme-gradient-secondary text-white shadow-theme-sm hover:shadow-theme-md",
         accent:
-          "border-transparent vs-gradient-coral-diagonal text-white dark:shadow-[0_0_8px_rgba(222,107,89,0.15)] dark:hover:shadow-[0_0_12px_rgba(222,107,89,0.2)]",
+          "border-transparent bg-theme-gradient-accent text-white shadow-theme-sm hover:shadow-theme-md",
         destructive:
-          "border-transparent vs-btn-destructive-gradient text-white dark:shadow-[0_0_8px_rgba(222,107,89,0.15)] dark:hover:shadow-[0_0_12px_rgba(222,107,89,0.25)]",
+          "border-transparent bg-theme-accent-quaternary text-white shadow-theme-sm hover:shadow-theme-md",
         outline: 
-          "border-[var(--theme-primary)]/25 dark:border-[var(--theme-primary)]/30 bg-[var(--theme-bg-secondary)]/60 dark:bg-white/10 text-[var(--theme-primary)] dark:text-[var(--theme-primary-light)] backdrop-blur-sm",
+          "border-theme-border bg-theme-secondary/60 text-theme-primary backdrop-blur-sm",
         subtle:
-          "border-transparent bg-[var(--theme-bg-secondary)]/70 text-[var(--theme-text-primary)] dark:bg-white/10 dark:text-white dark:shadow-[0_0_8px_rgba(255,255,255,0.07)]",
+          "border-transparent bg-theme-secondary/70 text-theme-primary shadow-theme-sm",
         section:
-          "border-[var(--theme-bg-secondary)]/20 dark:border-white/10 bg-[var(--theme-bg-secondary)]/60 dark:bg-white/10 text-[var(--theme-primary)] dark:text-[var(--theme-primary-light)]",
+          "border-theme-border bg-theme-secondary/60 text-theme-primary",
       },
       size: {
         default: "px-2.5 py-1",

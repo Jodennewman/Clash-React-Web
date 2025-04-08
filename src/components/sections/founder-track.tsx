@@ -34,12 +34,12 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">The Founders Track</span>
             </h2>
-            <p className="text-xl text-white/70 mb-8">
+            <p className="text-xl text-theme-on-primary/70 mb-8">
               Specifically designed for time-starved entrepreneurs who need to build personal brands and create content that converts—without sacrificing their core business focus.
             </p>
             
-            <div className="bg-[#09232F]/70 backdrop-blur-sm border border-white/10 rounded-xl p-6 mb-8">
-              <div className="text-xl font-bold text-white mb-4 flex items-center">
+            <div className="bg-[#09232F]/70 backdrop-blur-sm border border-theme-border-light-xl p-6 mb-8">
+              <div className="text-xl font-bold text-theme-on-primary-4 flex items-center">
                 <BriefcaseBusiness className="w-6 h-6 mr-3" style={{ color: founderColor }} />
                 Track Highlights
               </div>
@@ -54,7 +54,7 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
                 ].map((point, idx) => (
                   <li key={idx} className="flex">
                     <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0" style={{ color: founderColor }} />
-                    <span className="text-white/80">{point}</span>
+                    <span className="text-theme-on-primary/80">{point}</span>
                   </li>
                 ))}
               </ul>
@@ -82,8 +82,8 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
           
           {/* Right Column - Modules */}
           <div className="lg:w-7/12">
-            <div className="bg-[#09232F]/70 backdrop-blur-sm border border-white/10 rounded-xl p-6 mb-6">
-              <div className="text-xl font-bold text-white mb-4 flex items-center">
+            <div className="bg-[#09232F]/70 backdrop-blur-sm border border-theme-border-light-xl p-6 mb-6">
+              <div className="text-xl font-bold text-theme-on-primary-4 flex items-center">
                 <BookOpen className="w-6 h-6 mr-3" style={{ color: founderColor }} />
                 Must-Watch Modules for Founders
               </div>
@@ -92,26 +92,26 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
                 {modules.map((module: Module, index: number) => (
                   <div 
                     key={index}
-                    className="bg-black/20 rounded-lg p-4 hover:bg-black/30 transition-colors duration-300 group cursor-pointer"
+                    className="bg-theme-bg-secondary/20 rounded-lg p-4 hover:bg-theme-bg-secondary/30 transition-colors duration-300 group cursor-pointer"
                   >
                     <div className="flex justify-between mb-2">
-                      <h3 className="font-bold text-white group-hover:text-[#FEA35D] transition-colors duration-300">
+                      <h3 className="font-bold text-theme-on-primary-hover:text-[#FEA35D] transition-colors duration-300">
                         {module.title || 'Module'}
                       </h3>
-                      <div className="flex items-center text-white/60 text-sm">
+                      <div className="flex items-center text-theme-on-primary/60 text-sm">
                         <Clock className="w-4 h-4 mr-1" />
                         {module.duration || 0} min
                       </div>
                     </div>
                     
-                    <p className="text-white/70 text-sm mb-3">{module.subtitle || ''}</p>
+                    <p className="text-theme-on-primary/70 text-sm mb-3">{module.subtitle || ''}</p>
                     
                     {/* Submodules preview - just show first 2 with null check */}
                     <div className="pl-3 border-l-2 mb-3" style={{ borderColor: module.color || '#FEA35D' }}>
                       {(module.submodules || []).slice(0, 2).map((submodule: Submodule, idx: number) => (
                         <div key={idx} className="mb-2">
-                          <div className="text-sm font-medium text-white/90">{submodule.title || 'Submodule'}</div>
-                          <div className="text-xs text-white/60">{submodule.subtitle || ''}</div>
+                          <div className="text-sm font-medium text-theme-on-primary/90">{submodule.title || 'Submodule'}</div>
+                          <div className="text-xs text-theme-on-primary/60">{submodule.subtitle || ''}</div>
                         </div>
                       ))}
                       {module.submodules && module.submodules.length > 2 && (
@@ -127,7 +127,7 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
                       {module.submodules && [...new Set((module.submodules || []).flatMap((sm: Submodule) => sm.resources || []))].map((resource: string, i: number) => (
                         <span 
                           key={i}
-                          className="text-xs bg-white/10 px-2 py-1 rounded-full text-white/70"
+                          className="text-xs bg-theme-bg-surface/10 px-2 py-1 rounded-full text-theme-on-primary/70"
                         >
                           {resource}
                         </span>
@@ -138,7 +138,7 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
               </div>
             </div>
             
-            <p className="text-white/60 text-sm text-center">
+            <p className="text-theme-on-primary/60 text-sm text-center">
               Access all {totalModules} modules with full program enrollment, including {founderSpecificModules} founder-specific modules.
             </p>
           </div>

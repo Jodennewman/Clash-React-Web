@@ -28,6 +28,8 @@ import { CaseStudies, VSPainPoints } from './components/sections';
 import { Link } from 'react-router-dom';
 import { AnimatedButton } from './components/marble-buttons/AnimatedButton';
 import { CourseViewer } from './components/sections/course-viewer';
+import VSQualificationModal from './Qualification_components/qualification-modal';
+import MeetTheTeam from './components/sections/TeamSection'
 
 // Import VS helper components for correct light/dark mode implementation
 import { VSText, VSHeading, VSGradientText } from './components/ui/vs-text';
@@ -339,6 +341,7 @@ const VerticalShortcutLanding = () => {
 
   // Add state for qualification modal
   const [showQualificationModal, setShowQualificationModal] = useState(false);
+  const [testMode, setTestMode] = useState(false);
 
   // Initialize animations with dependencies on gsapInitialized
   useLayoutEffect(() => {
@@ -549,19 +552,39 @@ const VerticalShortcutLanding = () => {
       globalScrollSmoother.paused(false);
     }
   };
+  
+  // Enable test mode with keyboard shortcut (Ctrl+Shift+T)
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.shiftKey && event.key === 'T') {
+        setTestMode(prev => !prev);
+        console.log('Test mode:', !testMode);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [testMode]);
+  
+  // Listen for events to open the qualification modal from other components
+  useEffect(() => {
+    const handleOpenQualificationModal = () => {
+      openQualificationModal();
+    };
+    
+    window.addEventListener('openQualificationModal', handleOpenQualificationModal);
+    return () => window.removeEventListener('openQualificationModal', handleOpenQualificationModal);
+  }, []);
 
   return (
     <AnimationController>
-      {/* Qualification Modal */}
+
+      {/* Qualification Modal for personalized implementation */}
       <VSQualificationModal
         isOpen={showQualificationModal}
         onClose={closeQualificationModal}
-      />
-      
-      {/* Application Form Modal - Legacy */}
-      <VSApplicationFormModal
-        isOpen={false}
-        onClose={() => {}}
+        testMode={testMode}
+
       />
     
       {/* Main wrapper for ScrollSmoother */}
@@ -733,6 +756,7 @@ const VerticalShortcutLanding = () => {
           {/* Use VSCarousel component */}
           <VSCarousel />
           
+          <MeetTheTeam />
           
           {/* Use Cases Section with Tabs */}
           <TabsLeft />
@@ -926,7 +950,8 @@ const VerticalShortcutLanding = () => {
                   
                   <div className="mt-8">
                     <AnimatedButton
-                      text="Find Your Implementation"
+
+                      text="Get Your Plan"
                       variant="start"
                       saturation="high"
                       size="lg"
@@ -1062,9 +1087,10 @@ const VerticalShortcutLanding = () => {
                       </a>
                     </li>
                     <li>
-                      <a onClick={openQualificationModal} className="text-white/60 hover:text-[--primary-orange)] transition-colors cursor-pointer">
+
+                      <a href="#" onClick={(e) => { e.preventDefault(); openQualificationModal(); }} className="text-white/60 hover:text-[--primary-orange)] transition-colors">
                         <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
-                          Find Your Implementation
+                          Get Your Plan
                         </VSText>
                       </a>
                     </li>

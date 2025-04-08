@@ -49,46 +49,31 @@ const VideoEmbed = ({ videoUrl = "https://www.youtube.com/embed/your-video-id" }
   return (
     <section 
       ref={sectionRef} 
-      className="bg-[var(--theme-bg-primary)] relative py-24 overflow-hidden dark:bg-[var(--theme-bg-primary)]"
+      className="bg-theme-primary relative py-24 overflow-hidden"
     >
-      {/* Light mode decorative elements - left side */}
-      <div className="absolute left-0 bottom-0 w-1/3 h-full pointer-events-none dark:hidden">
-        <div className="absolute bottom-10 left-10 w-20 h-20 bg-[var(--theme-primary)] opacity-14 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-40 left-20 w-16 h-6 bg-[var(--theme-primary-light)] opacity-9 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-20 left-40 w-24 h-14 bg-[var(--theme-accent-secondary)] opacity-10 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-60 left-8 w-14 h-14 bg-[var(--theme-accent-tertiary)] opacity-8 rotate-45 rounded-md"></div>
+      {/* Theme-aware floating elements - left side */}
+      <div className="absolute left-0 bottom-0 w-1/3 h-full pointer-events-none">
+        <div className="absolute bottom-10 left-10 w-20 h-20 bg-theme-primary opacity-[var(--theme-float-opacity)] rotate-45 rounded-md"></div>
+        <div className="absolute bottom-40 left-20 w-16 h-16 bg-theme-primary-hover opacity-[var(--theme-float-opacity-secondary)] rotate-45 rounded-md"></div>
+        <div className="absolute bottom-20 left-40 w-24 h-24 bg-theme-accent-secondary opacity-[var(--theme-float-opacity)] rotate-45 rounded-md"></div>
+        <div className="absolute bottom-60 left-8 w-14 h-14 bg-theme-accent-tertiary opacity-[var(--theme-float-opacity-secondary)] rotate-45 rounded-md"></div>
       </div>
       
-      {/* Dark mode decorative elements - left side with gradients */}
-      <div className="absolute left-0 bottom-0 w-1/3 h-full pointer-events-none hidden dark:block">
-        <div className="absolute bottom-10 left-10 w-20 h-20 vs-btn-primary-gradient opacity-70 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-40 left-20 w-16 h-16 vs-btn-primary-gradient opacity-60 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-20 left-40 w-24 h-24 vs-btn-secondary-gradient opacity-50 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-60 left-8 w-14 h-14 vs-gradient-coral-diagonal opacity-30 rotate-45 rounded-md"></div>
+      {/* Theme-aware floating elements - right side */}
+      <div className="absolute right-0 top-0 w-1/3 h-full pointer-events-none">
+        <div className="absolute top-20 right-20 w-16 h-16 bg-theme-accent-secondary-light opacity-[var(--theme-float-opacity-secondary)] rotate-45 rounded-md"></div>
+        <div className="absolute top-60 right-40 w-20 h-20 bg-theme-primary-light opacity-[var(--theme-float-opacity)] rotate-45 rounded-md"></div>
+        <div className="absolute bottom-20 right-10 w-14 h-14 bg-theme-primary opacity-[var(--theme-float-opacity-secondary)] rotate-45 rounded-md"></div>
       </div>
       
-      {/* Light mode decorative elements - right side */}
-      <div className="absolute right-0 top-0 w-1/3 h-full pointer-events-none dark:hidden">
-        <div className="absolute top-20 right-20 w-16 h-16 bg-[var(--theme-accent-secondary-light)] opacity-5 rotate-45 rounded-md"></div>
-        <div className="absolute top-60 right-40 w-20 h-20 bg-[var(--theme-primary-light)] opacity-8 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-20 right-10 w-14 h-14 bg-[var(--theme-primary)] opacity-10 rotate-45 rounded-md"></div>
-      </div>
-      
-      {/* Dark mode decorative elements - right side with gradients */}
-      <div className="absolute right-0 top-0 w-1/3 h-full pointer-events-none hidden dark:block">
-        <div className="absolute top-20 right-20 w-16 h-16 vs-btn-secondary-gradient opacity-50 rotate-45 rounded-md"></div>
-        <div className="absolute top-60 right-40 w-20 h-20 vs-btn-primary-gradient opacity-60 rotate-45 rounded-md"></div>
-        <div className="absolute bottom-20 right-10 w-14 h-14 vs-btn-primary-gradient opacity-40 rotate-45 rounded-md"></div>
-      </div>
-      
-      {/* Add subtle background patterns */}
-      <div className="absolute inset-0 dot-bg opacity-5 dark:opacity-5 pointer-events-none"></div>
+      {/* Add subtle background patterns with theme-aware opacity */}
+      <div className="absolute inset-0 dot-bg opacity-[var(--theme-grid-dot-opacity)] pointer-events-none"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         {/* Video container with curved border radius using CSS variables for consistent styling */}
         <div 
           ref={videoContainerRef} 
-          className="relative mx-auto max-w-5xl overflow-hidden rounded-xl bg-[var(--theme-bg-primary)] dark:bg-black shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_20px_rgba(0,0,0,0.3)]"
+          className="relative mx-auto max-w-5xl overflow-hidden rounded-xl bg-theme-bg-primary shadow-theme-md border border-theme-border transition-all duration-[var(--theme-transition-normal)]"
         >
           {/* Video aspect ratio container */}
           <div className="aspect-[16/9] relative">
@@ -100,16 +85,16 @@ const VideoEmbed = ({ videoUrl = "https://www.youtube.com/embed/your-video-id" }
               allowFullScreen
             ></iframe>
             
-            {/* Video title overlay with proper styling according to CLAUDE.md */}
+            {/* Video title overlay with theme-aware styling */}
             <div 
-              className="absolute bottom-8 right-8 text-xl md:text-2xl font-light z-10 text-[var(--theme-text-primary)] dark:text-white"
+              className="absolute bottom-8 right-8 text-xl md:text-2xl font-light z-10 text-theme-primary transition-colors duration-[var(--theme-transition-normal)]"
             >
               the vertical shortcut.
             </div>
             
-            {/* Optional title element overlay with proper styling according to CLAUDE.md */}
+            {/* Optional title element overlay with theme-aware styling */}
             <div 
-              className="absolute top-8 right-8 opacity-70 text-sm md:text-base z-10 text-[var(--theme-text-primary)] dark:text-white/70"
+              className="absolute top-8 right-8 opacity-70 text-sm md:text-base z-10 text-theme-secondary transition-colors duration-[var(--theme-transition-normal)]"
             >
               Title Elements
             </div>

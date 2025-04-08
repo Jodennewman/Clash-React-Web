@@ -79,7 +79,7 @@ export default function CarouselExternal() {
                         alt={slide.title}
                         width={900}
                         height={600}
-                        className="h-full max-h-[250px] w-full object-cover object-top opacity-50 grayscale invert transition-transform duration-300 group-hover:scale-[1.1] group-hover:opacity-100 md:max-h-[500px] dark:opacity-70 dark:invert-0"
+                        className="h-full max-h-[250px] w-full object-cover object-top opacity-50 grayscale invert transition-transform duration-300 group-hover:scale-[1.1] group-hover:opacity-100 md:max-h-[500px] opacity- dark:invert-0"
                       />
                       <Glow
                         variant="center"

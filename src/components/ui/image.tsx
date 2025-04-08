@@ -50,7 +50,7 @@ const Image: React.FC<ImageProps> = ({
       width={width}
       height={height}
       loading={loading}
-      className={cn(className)}
+      className={cn("transition-opacity duration-[var(--theme-transition-normal)]", className)}
       style={{
         ...imgStyle,
         ...props.style,
