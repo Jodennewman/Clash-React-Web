@@ -74,6 +74,7 @@ function App() {
 
                 <Link to="/style-guide" className="px-6 py-2 bg-theme-primary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
                   Theme Style Guide
+                </Link>
 
                 <Link to="/qualification" className="px-6 py-2 bg-theme-gradient-primary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
                   Qualification Modal Demo
@@ -124,14 +125,11 @@ function App() {
       
       {/* Marble buttons navigation */}
       <div className="fixed bottom-4 left-4 z-50">
-
         <Link 
           to="/marble-buttons" 
           className="flex items-center justify-center w-10 h-10 rounded-full bg-theme-primary shadow-theme-sm hover-bubbly-sm"
           title="Marble Buttons"
         >
-        <Link to="/marble-buttons" className="flex items-center justify-center w-10 h-10 rounded-full bg-theme-primary shadow-lg hover:scale-110 transition-transform">
-
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
             <circle cx="12" cy="12" r="10" />
             <circle cx="12" cy="12" r="4" />

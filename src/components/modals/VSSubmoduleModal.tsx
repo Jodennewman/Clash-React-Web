@@ -213,7 +213,6 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
           {/* Actions */}
           <div className="mt-6 flex flex-col gap-3">
             <button
-]
               className="bg-theme-gradient-primary
                        text-theme-on-primary-4 py-2 rounded-md 
                        shadow-theme-btn
