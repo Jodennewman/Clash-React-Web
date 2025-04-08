@@ -1,4 +1,5 @@
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
+import VSQualificationModal from './Qualification_components/qualification-modal';
 import SimpleHero from './components/hero/SimpleHero';
 import ContentOverwhelmer from './components/ContentOverwhelmer';
 import { PricingSection } from './components/sections/pricing-section.tsx';
@@ -557,17 +558,19 @@ const VerticalShortcutLanding = () => {
 
   return (
     <AnimationController>
+
       {/* Qualification Modal for personalized implementation */}
       <VSQualificationModal
         isOpen={showQualificationModal}
         onClose={closeQualificationModal}
         testMode={testMode}
+
       />
     
       {/* Main wrapper for ScrollSmoother */}
       <div id="smooth-wrapper" ref={mainRef} className="min-h-screen overflow-hidden">
         {/* Floating Navbar stays outside the smooth content for fixed positioning */}
-        <VSNavbar />
+        <VSNavbar onApplyClick={openQualificationModal} />
         
         {/* Smooth content container */}
         <VSBackground 
@@ -735,11 +738,11 @@ const VerticalShortcutLanding = () => {
               
               <div className="mt-16 text-center">
                 <AnimatedButton 
-                  text="View Full Curriculum"
+                  text="Find Your Implementation"
                   variant="learn" 
                   saturation="normal"
                   size="lg"
-                  onClick={() => document.getElementById('curriculum')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={openQualificationModal}
                   className="w-auto"
                 />
               </div>
@@ -754,7 +757,7 @@ const VerticalShortcutLanding = () => {
           {/* Use Cases Section with Tabs */}
           <TabsLeft />
           
-          <FounderTrack />
+          <FounderTrack onCtaClick={openQualificationModal} />
           {/* ContentOverwhelmer section - with proper animation management */}
           <ContentOverwhelmer />
           
@@ -851,7 +854,9 @@ const VerticalShortcutLanding = () => {
           </VSSection>
           
           
+
           {/* Key Features Section removed - now using VS-BigReveal component */}
+
 
           
           {/* Pricing Section */}
@@ -973,6 +978,7 @@ const VerticalShortcutLanding = () => {
                       </a>
                     </li>
                     <li>
+
                       <a href="#" onClick={(e) => { e.preventDefault(); openQualificationModal(); }} className="text-white/60 hover:text-[--primary-orange)] transition-colors">
                         <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
                           Get Your Plan

@@ -1,6 +1,7 @@
 # CLAUDE.md
 
 1. Read this CLAUDE.md completely
+
 2. Read `src/app/globals.css` completely 
 3. Read `VS_STYLING_GUIDE.md` completely
 4. Read `VS_COLOR_IMPLEMENTATION.md` completely

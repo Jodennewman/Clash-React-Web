@@ -243,6 +243,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
               </h1>
             </div>
 
+
             {/* Subheading now attached to heading */}
             <div className="z-10">
               <h4 className="hero-content text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-4 sm:mb-6 lg:mb-8 text-theme-primary transition-all duration-500">
@@ -276,6 +277,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                   className="w-auto text-sm sm:text-base"
                 />
               </div>
+
             </div>
           </div>
         </div>
