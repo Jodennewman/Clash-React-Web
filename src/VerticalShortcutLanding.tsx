@@ -29,6 +29,8 @@ import VSInteractiveFeatures from './components/sections/VS-Interactive-Features
 import { Link } from 'react-router-dom';
 import { AnimatedButton } from './components/marble-buttons/AnimatedButton';
 import { CourseViewer } from './components/sections/course-viewer';
+import VSQualificationModal from './Qualification_components/qualification-modal';
+import MeetTheTeam from './components/sections/TeamSection'
 
 // Import VS helper components for correct light/dark mode implementation
 import { VSText, VSHeading, VSGradientText } from './components/ui/vs-text';
@@ -316,8 +318,9 @@ const VerticalShortcutLanding = () => {
   const videoRef = useRef(null);
   const caseStudiesRef = useRef(null);
 
-  // Add state for application modal
-  const [showApplicationModal, setShowApplicationModal] = useState(false);
+  // Add state for qualification modal
+  const [showQualificationModal, setShowQualificationModal] = useState(false);
+  const [testMode, setTestMode] = useState(false);
 
   // Initialize animations with dependencies on gsapInitialized
   useLayoutEffect(() => {
@@ -507,9 +510,9 @@ const VerticalShortcutLanding = () => {
     };
   }, []);
 
-  // Function to open the application form modal
-  const openApplicationModal = () => {
-    setShowApplicationModal(true);
+  // Function to open the qualification modal
+  const openQualificationModal = () => {
+    setShowQualificationModal(true);
     // Disable body scroll when modal is open
     document.body.style.overflow = 'hidden';
     // Pause ScrollSmoother to prevent background page scrolling
@@ -518,9 +521,9 @@ const VerticalShortcutLanding = () => {
     }
   };
   
-  // Function to close the application form modal
-  const closeApplicationModal = () => {
-    setShowApplicationModal(false);
+  // Function to close the qualification modal
+  const closeQualificationModal = () => {
+    setShowQualificationModal(false);
     // Re-enable body scroll when modal is closed
     document.body.style.overflow = 'auto';
     // Resume ScrollSmoother
@@ -528,13 +531,37 @@ const VerticalShortcutLanding = () => {
       globalScrollSmoother.paused(false);
     }
   };
+  
+  // Enable test mode with keyboard shortcut (Ctrl+Shift+T)
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.shiftKey && event.key === 'T') {
+        setTestMode(prev => !prev);
+        console.log('Test mode:', !testMode);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [testMode]);
+  
+  // Listen for events to open the qualification modal from other components
+  useEffect(() => {
+    const handleOpenQualificationModal = () => {
+      openQualificationModal();
+    };
+    
+    window.addEventListener('openQualificationModal', handleOpenQualificationModal);
+    return () => window.removeEventListener('openQualificationModal', handleOpenQualificationModal);
+  }, []);
 
   return (
     <AnimationController>
-      {/* Enhanced Application Form Modal with Better UX */}
-      <VSApplicationFormModal
-        isOpen={showApplicationModal}
-        onClose={closeApplicationModal}
+      {/* Qualification Modal for personalized implementation */}
+      <VSQualificationModal
+        isOpen={showQualificationModal}
+        onClose={closeQualificationModal}
+        testMode={testMode}
       />
     
       {/* Main wrapper for ScrollSmoother */}
@@ -552,7 +579,7 @@ const VerticalShortcutLanding = () => {
           className="min-h-screen overflow-hidden"
         >
           {/* Hero Section */}
-          <SimpleHero ref={heroRef} onCtaClick={openApplicationModal} />
+          <SimpleHero ref={heroRef} onCtaClick={openQualificationModal} />
 
           {/* Course Viewer - Minimalist HUD Layout */}
           
@@ -722,6 +749,7 @@ const VerticalShortcutLanding = () => {
           {/* Use VSCarousel component */}
           <VSCarousel />
           
+          <MeetTheTeam />
           
           {/* Use Cases Section with Tabs */}
           <TabsLeft />
@@ -824,6 +852,7 @@ const VerticalShortcutLanding = () => {
           
           
           {/* Key Features Section removed - now using VS-BigReveal component */}
+
           
           {/* Pricing Section */}
           <PricingSection />
@@ -944,9 +973,9 @@ const VerticalShortcutLanding = () => {
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="text-white/60 hover:text-[--primary-orange)] transition-colors">
+                      <a href="#" onClick={(e) => { e.preventDefault(); openQualificationModal(); }} className="text-white/60 hover:text-[--primary-orange)] transition-colors">
                         <VSText color="white" className="dark:text-white/60 hover:text-[--primary-orange)]">
-                          Apply Now
+                          Get Your Plan
                         </VSText>
                       </a>
                     </li>

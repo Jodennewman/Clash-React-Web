@@ -27,6 +27,9 @@ export default defineConfig({
     commonjsOptions: {
       transformMixedEsModules: true,
     }
-  }
+  },
+  server: {
+    sourcemapIgnoreList: false, // Ensures all sources are included in source maps
+  },
 })
 

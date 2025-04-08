@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 
+
 interface IsometricGridBackgroundProps {
   className?: string;
 }
@@ -8,14 +9,17 @@ const IsometricGridBackground: React.FC<IsometricGridBackgroundProps> = ({ class
   const [gridColor, setGridColor] = useState('var(--theme-text-primary)');
   // Generate a unique ID for this component instance
   const patternId = useMemo(() => `isometricGrid-${Math.random().toString(36).substr(2, 9)}`, []);
+
   
   // Get the theme-aware color from CSS variables
   useEffect(() => {
     const updateGridColor = () => {
       const computedStyle = getComputedStyle(document.documentElement);
+
       const textPrimaryColor = computedStyle.getPropertyValue('--theme-text-primary').trim();
       // Use theme-text-primary with reduced opacity for subtle grid
       setGridColor(textPrimaryColor || 'rgba(18, 46, 59, 0.2)');
+
     };
     
     // Initial color update
@@ -36,6 +40,7 @@ const IsometricGridBackground: React.FC<IsometricGridBackgroundProps> = ({ class
   }, []);
 
   return (
+
     <div 
       className={`absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none transition-opacity duration-300 ${className}`}
       style={{ 
@@ -54,6 +59,7 @@ const IsometricGridBackground: React.FC<IsometricGridBackgroundProps> = ({ class
         preserveAspectRatio="xMidYMid slice"
         viewBox="0 0 1000 1000"
       >
+
         <defs>
           <pattern 
             id={patternId}

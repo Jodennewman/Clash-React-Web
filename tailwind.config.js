@@ -16,9 +16,11 @@ export default {
         'float-gentle': 'float-gentle 9s ease-in-out infinite',
         'ripple': 'ripple 0.5s ease-out forwards',
         'float': 'float-pattern 20s linear infinite',
+
         'spin-slow': 'spin 12s linear infinite',
         'marquee': 'marquee var(--duration) linear infinite',
         'marquee-vertical': 'marquee-vertical var(--duration) linear infinite',
+
       },
       keyframes: {
         'fadeIn': {
@@ -45,6 +47,7 @@ export default {
         'ripple': {
           '0%': { transform: 'scale(0)', opacity: '1' },
           '100%': { transform: 'scale(1)', opacity: '0' },
+
         },
         'float-pattern': {
           '0%': { transform: 'translateX(0) translateY(0)' },

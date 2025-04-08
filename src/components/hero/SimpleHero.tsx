@@ -106,7 +106,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
     return (
       <section 
         ref={ref} 
-        className="bg-theme-primary relative h-screen w-full shadow-theme-md"
+        className="vs-section-light relative h-screen w-full shadow-theme-md"
       >
         <IsometricGridBackground />
         {/* Theme-aware floating elements for visual interest */}
@@ -231,7 +231,9 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
           >
             <div className="flex items-center">
               <h1 className="hero-content mb-4 lg:mb-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight text-theme-primary transition-all duration-500">
+
                 <span className="font-medium text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-theme-accent-tertiary transition-all duration-500">
+
                   Billions
                 </span>
                 <span className="font-light"> of views,</span>
@@ -245,7 +247,9 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
             <div className="z-10">
               <h4 className="hero-content text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-4 sm:mb-6 lg:mb-8 text-theme-primary transition-all duration-500">
                 <span>A </span>
+
                 <span className="text-theme-accent-tertiary font-bold">proven, turn-key system </span>
+
                 <span className="inline md:hidden">for short form content.</span>
                 <span className="hidden md:inline">to survive, thrive, </span>
                 <span className="hidden md:block">and monetise with short form content,</span>
@@ -255,7 +259,9 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
               {/* Animated Buttons with responsive sizes */}
               <div className="hero-content flex flex-wrap gap-2 sm:gap-3 lg:gap-4 transition-all duration-500">
                 <AnimatedButton 
-                  text="Apply Now"
+
+                  text="Get Your Plan"
+
                   variant="start"
                   saturation="high"
                   size="md"

@@ -4,9 +4,9 @@ import gsap from 'gsap';
 import './AnimatedLogo.css';
 
 // Import premium plugins
-// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
-// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
 
 // Register plugins
@@ -200,8 +200,10 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({
     <div className={`relative ${className}`}>
       <svg 
         ref={logoRef}
+
         width="1340" 
         height="1780" 
+
         viewBox="0 0 670 890" 
         fill="none" 
         xmlns="http://www.w3.org/2000/svg"

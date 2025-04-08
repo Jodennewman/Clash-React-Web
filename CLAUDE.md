@@ -1,55 +1,12 @@
 # CLAUDE.md
 
-This file guides Claude Code when working with this repository. Follow these instructions PRECISELY.
-
-## Current Mission: Refactor Founders Track Section
-
-**Primary Goal**: Improve the FounderTrack component with enhanced styling, proper course data parsing, and updated copy to provide a compelling, concise explanation of the program for entrepreneurs.
-
-**Approach**:
-1. Update the FounderTrack component with the new copy that emphasizes time-saving benefits for founders
-2. Properly parse data from course-utils.tsx and course-data.json for founder-specific modules
-3. Create a carousel to showcase modules tagged with 'founderMustWatch=true'
-4. Ensure all styling follows theme-aware implementation with brand utility classes
-5. Replace outdated CSS approaches with theme-aware styling according to the latest standards
-6. Enhance component with appropriate floating elements and animation effects
-7. Optimize mobile responsiveness with proper text formatting constraints
-8. Ensure proper shadow and gradient implementation across both themes
-9. Add subtle animations to improve user engagement with content
-10. Maintain consistent spacing and typography following established standards
-
-**Copy for Founders Track**:
-```
-The Founders Track
-
-Built exactly for founders. 
-
-I'm sure at this point you're mindful of your time and how much of it this course will take (especially if you've actually read all of this copy). Which is why we've built the Vertical Shortcut with the founders track in mind. 
-Basically, the Founder's Track is an easy way to scan the course for the modules you actually **have** to watch, and the modules you can pass onto your team.
-```
-
-**Previous Mission Completed**:
-✅ SimpleHero component enhanced with advanced rotating header text animation
-✅ SplitText/SplitType implementation for fluid text transitions
-✅ Proper GSAP integration with theme-aware variables
-✅ Responsive design and consistent theme-aware styling
-✅ Performance optimization with proper animation cleanup
-
-**Success Criteria**: A polished, informative Founders Track section that clearly communicates the value proposition for busy entrepreneurs, showcases relevant modules from the course data, and maintains consistent theme-aware styling in both light and dark modes.
-
-## Initial Requirements
-
-- Before providing advice or making changes, state: "I have read and will fully comply with CLAUDE.md."
-- First question: "Am I working in Solo Mode or Team Mode (if Team Mode, which team A or B)?"
-- Based on response, work ONLY on components assigned to your mode/team
-
-## Mandatory Reading Sequence
 1. Read this CLAUDE.md completely
 2. Read `src/app/globals.css` completely 
 3. Read `VS_STYLING_GUIDE.md` completely
 4. Read `VS_COLOR_IMPLEMENTATION.md` completely
 5. Read `THEME_SYSTEM.md` completely
 6. Read `THEME_IMPLEMENTATION_SUMMARY.md` completely
+
 7. If in Team Mode, read `TEAM_STRUCTURE.md` completely
 
 ## ⚠️⚠️⚠️ CRITICAL: PROJECT DOCUMENTATION ⚠️⚠️⚠️
@@ -689,4 +646,13 @@ Use these theme-aware utility classes for consistent styling:
 - `hover-bubbly` - Standard "VS Bubbly" hover animation
 - `hover-bubbly-sm` - Subtle hover animation
 - `hover-bubbly-lg` - More pronounced hover animation
+
+
+
+## Key Theme Implementation Rules
+- ALWAYS use theme utility classes when available
+- ALWAYS use theme-aware gradient classes
+- ALWAYS test components in both light and dark modes
+- NEVER use raw Tailwind color classes without theme awareness
+- NEVER use standard Tailwind gradients - use theme-aware variables
 
