@@ -61,13 +61,13 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
         {/* Left panel - Video player area */}
         <div className="w-full md:w-2/3">
 
-          <div className="aspect-video relative rounded-lg overflow-hidden shadow-theme-md transition-all transition-theme-normal">
+
+          <div className="aspect-video relative rounded-[--border-radius-lg] overflow-hidden shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]">
             {/* Theme-aware floating element for visual interest */}
             <div className="absolute -z-10 top-10 right-10 w-20 h-20 rounded-[40%] rotate-12 
                           opacity-[var(--theme-float-opacity)]
                           bg-[var(--theme-float-bg-primary)]
                           animate-float-slow"></div>
-            
 
             {/* Video thumbnail/player */}
             <img
@@ -96,8 +96,10 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
           {/* Module description */}
           <div className="mt-6">
 
+
             <h3 className="text-theme-primary text-xl font-semibold mb-3 transition-colors transition-theme-normal">About This Module</h3>
             <p className="text-theme-secondary transition-colors transition-theme-normal">
+
 
               This module covers essential techniques to create engaging content for your audience. You'll learn proven methods to increase retention and gain more followers through strategic content planning.
             </p>
@@ -111,10 +113,12 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
                 </div>
                 <div className="text-theme-secondary text-sm transition-colors transition-theme-normal">
 
+
                   Lessons
                 </div>
               </div>
               
+
 
               <div className="bg-theme-surface/50 rounded-md p-4 flex flex-col items-center text-center border border-theme-border shadow-theme-sm transition-all transition-theme-normal">
                 <div className="text-theme-primary text-2xl font-bold mb-1 transition-colors transition-theme-normal">
@@ -122,16 +126,19 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
                 </div>
                 <div className="text-theme-secondary text-sm transition-colors transition-theme-normal">
 
+
                   Completed
                 </div>
               </div>
               
+
 
               <div className="bg-theme-surface/50 rounded-md p-4 flex flex-col items-center text-center border border-theme-border shadow-theme-sm transition-all transition-theme-normal">
                 <div className="text-theme-primary text-2xl font-bold mb-1 transition-colors transition-theme-normal">
                   1h 24m
                 </div>
                 <div className="text-theme-secondary text-sm transition-colors transition-theme-normal">
+
 
                   Total Duration
                 </div>
@@ -143,6 +150,7 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
         {/* Right panel - Submodule list */}
         <div className="w-full md:w-1/3">
 
+
           <div className="bg-theme-surface/80 rounded-lg overflow-hidden border border-theme-border shadow-theme-sm transition-all transition-theme-normal">
             <div className="p-4 border-b border-theme-border transition-colors transition-theme-normal">
               <h3 className="text-theme-primary font-semibold transition-colors transition-theme-normal">Module Content</h3>
@@ -151,6 +159,7 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
             <div className="max-h-[500px] overflow-y-auto">
               <ul className="divide-y divide-theme-border/50 transition-colors transition-theme-normal">
 
+
                 {submodules.map((submodule, index) => (
                   <li
                     key={submodule.id}
@@ -158,13 +167,16 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
                     onClick={() => handlePlayModule(submodule.id)}
                   >
 
+
                     <div className="flex-shrink-0 mr-3 text-theme-primary transition-colors transition-theme-normal">
+
 
                       {submodule.isLocked ? (
                         <Lock className="h-5 w-5" />
                       ) : submodule.isCompleted ? (
                         <CheckCircle className="h-5 w-5" />
                       ) : (
+
 
                         <div className="w-5 h-5 rounded-full border-2 border-theme-primary flex items-center justify-center transition-colors transition-theme-normal">
 
@@ -183,7 +195,9 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
                         </span>
                         {submodule.isLocked && (
 
+
                           <span className="ml-2 text-xs px-2 py-0.5 bg-theme-accent/10 rounded-full text-theme-secondary transition-colors transition-theme-normal">
+
 
                             Premium
                           </span>
@@ -207,6 +221,7 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
                        hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] 
                        hover:shadow-theme-md
 
+
                        w-full flex items-center justify-center gap-2"
             >
               <Play className="h-4 w-4" />
@@ -215,11 +230,13 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
             
             <button
 
+
               className="border border-theme-accent-secondary text-theme-accent-secondary
                        px-4 py-2 rounded-md 
                        hover:bg-theme-accent-secondary/5
                        transition-all transition-theme-bounce
                        hover:translate-y-[var(--theme-anim-distance-sm)] hover:scale-[var(--theme-anim-scale-sm)] 
+
 
                        w-full"
             >

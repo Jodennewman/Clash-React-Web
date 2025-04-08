@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { Button } from "../components/ui/button";
 
 // Stage icon component to render the appropriate icon for each stage
 interface StageIconProps {
@@ -60,6 +61,7 @@ interface VSQualificationModalProps {
 // Analysis Animation Component
 const AnalysisAnimation: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   const animationRef = useRef<HTMLDivElement>(null);
+  const [isAnimationComplete, setIsAnimationComplete] = useState(false);
   
   useGSAP(() => {
     let timeout: NodeJS.Timeout;
@@ -69,7 +71,9 @@ const AnalysisAnimation: React.FC<{ onComplete: () => void }> = ({ onComplete })
       const ctx = gsap.context(() => {
         const tl = gsap.timeline({
           onComplete: () => {
-            timeout = setTimeout(onComplete, 500);
+            setIsAnimationComplete(true);
+            // Delay the completion callback to ensure loading bar is seen completing
+            timeout = setTimeout(onComplete, 1500);
           }
         });
         
@@ -81,18 +85,55 @@ const AnalysisAnimation: React.FC<{ onComplete: () => void }> = ({ onComplete })
           duration: 0.4
         });
         
-        // Progress bar animation
+        // Progress bar animation - faster to ensure it completes
         tl.to(".progress-bar", {
           width: "100%",
-          duration: 4,
+          duration: 2.5,
           ease: "power1.inOut"
         }, 0);
         
-        // Particle/dot animations
+        // Loading bar shimmer effect
+        gsap.to(".progress-bar-shimmer", {
+          x: "150%",
+          repeat: -1,
+          duration: 1.5,
+          ease: "power1.inOut"
+        });
+        
+        // Animate data connection lines
+        gsap.fromTo(".data-line-1", 
+          { width: 0 },
+          { width: "300px", duration: 1.5, ease: "power2.out", delay: 0.3 }
+        );
+        gsap.fromTo(".data-line-2", 
+          { width: 0 },
+          { width: "250px", duration: 1.3, ease: "power2.out", delay: 0.8 }
+        );
+        gsap.fromTo(".data-line-3", 
+          { width: 0 },
+          { width: "200px", duration: 1.2, ease: "power2.out", delay: 1.3 }
+        );
+        gsap.fromTo(".data-line-4", 
+          { width: 0 },
+          { width: "280px", duration: 1.4, ease: "power2.out", delay: 1.8 }
+        );
+        
+        // Particle/dot animations with more varied colors
         const createParticles = () => {
-          for (let i = 0; i < 20; i++) {
+          // Array of theme-aware colors for particles
+          const particleColors = [
+            "bg-theme-primary/60",
+            "bg-theme-accent-secondary/60",
+            "bg-theme-accent-tertiary/60",
+            "bg-vs-gradient-coral-orange/60",
+            "bg-vs-gradient-primary-accent/60"
+          ];
+          
+          for (let i = 0; i < 25; i++) {
             const dot = document.createElement("div");
-            dot.className = "absolute w-1.5 h-1.5 rounded-full bg-theme-primary/60";
+            // Randomly select a color from the array
+            const colorClass = particleColors[Math.floor(Math.random() * particleColors.length)];
+            dot.className = `absolute w-${Math.random() > 0.7 ? '2.5' : '1.5'} h-${Math.random() > 0.7 ? '2.5' : '1.5'} rounded-full ${colorClass}`;
             
             // Random position
             dot.style.left = `${gsap.utils.random(10, 90)}%`;
@@ -102,11 +143,11 @@ const AnalysisAnimation: React.FC<{ onComplete: () => void }> = ({ onComplete })
             
             // Animate dot
             gsap.to(dot, {
-              y: gsap.utils.random(-50, 50),
-              x: gsap.utils.random(-50, 50),
+              y: gsap.utils.random(-70, 70),
+              x: gsap.utils.random(-70, 70),
               opacity: 0,
-              scale: gsap.utils.random(0, 0.5),
-              duration: gsap.utils.random(1, 2),
+              scale: gsap.utils.random(0, 0.8),
+              duration: gsap.utils.random(1.2, 2.5),
               ease: "power2.out",
               onComplete: () => {
                 if (dot.parentNode) {
@@ -118,7 +159,7 @@ const AnalysisAnimation: React.FC<{ onComplete: () => void }> = ({ onComplete })
         };
         
         // Trigger particles multiple times
-        const particleInterval = setInterval(createParticles, 600);
+        const particleInterval = setInterval(createParticles, 500);
         
         return () => {
           clearInterval(particleInterval);
@@ -133,37 +174,78 @@ const AnalysisAnimation: React.FC<{ onComplete: () => void }> = ({ onComplete })
   }, [onComplete]);
   
   return (
-    <div className="h-full flex flex-col items-center justify-center relative overflow-hidden" ref={animationRef}>
-      <div className="text-center mb-12 z-10">
-        <h3 className="text-2xl font-bold text-theme-primary mb-3">Finding Your Perfect Solution</h3>
+
+    <div className="flex flex-col items-center justify-center relative overflow-hidden bg-vs-gradient-navy-deep min-h-[280px]" ref={animationRef}>
+      {/* Colorful background gradient overlay */}
+      <div className="absolute inset-0 bg-opacity-30 vs-gradient-coral-orange opacity-10"></div>
+      
+      {/* Tech pattern overlay */}
+      <div className="absolute inset-0 dot-bg opacity-20"></div>
+      
+      {/* Technical circuit-like animation elements */}
+      <div className="absolute w-full h-full">
+        <div className="absolute top-1/4 left-1/4 w-1 h-1 rounded-full bg-theme-primary"></div>
+        <div className="absolute top-1/3 right-1/4 w-1 h-1 rounded-full bg-theme-accent-secondary"></div>
+        <div className="absolute bottom-1/3 left-1/3 w-1 h-1 rounded-full bg-theme-accent-tertiary"></div>
+        <div className="absolute bottom-1/4 right-1/3 w-1 h-1 rounded-full bg-vs-gradient-coral-orange"></div>
         
-        <div className="space-y-5 mb-4">
-          <div className="analysis-step flex items-center opacity-0">
-            <Check className="h-5 w-5 text-green-500 mr-3" />
-            <span className="text-theme-secondary">Analyzing response patterns</span>
+        {/* Animated "data" connections */}
+        <div className="absolute top-1/4 left-1/4 w-[200px] h-px bg-gradient-to-r from-theme-primary to-transparent data-line-1"></div>
+        <div className="absolute top-1/3 right-1/4 w-[150px] h-px bg-gradient-to-l from-theme-accent-secondary to-transparent data-line-2"></div>
+        <div className="absolute bottom-1/3 left-1/3 w-[120px] h-px bg-gradient-to-r from-theme-accent-tertiary to-transparent data-line-3"></div>
+        <div className="absolute bottom-1/4 right-1/3 w-[180px] h-px bg-gradient-to-l from-theme-primary to-transparent data-line-4"></div>
+      </div>
+      
+      <div className="text-center z-10 max-w-md mx-auto bg-theme-bg-surface/5 p-4 rounded-xl backdrop-blur-md border border-theme-border-light">
+        <h3 className="text-xl font-bold vs-text-gradient-orange mb-4">Finding Your Perfect Solution</h3>
+        
+        <div className="space-y-3 mb-5">
+          <div className="analysis-step flex items-center opacity-0 bg-theme-bg-surface/20 p-2 rounded-lg shadow-theme-sm backdrop-blur-sm border border-theme-primary/10">
+            <div className="w-6 h-6 rounded-full bg-theme-primary/20 flex items-center justify-center mr-2">
+              <Check className="h-4 w-4 text-theme-primary" />
+            </div>
+            <span className="text-white/90 text-sm">Analyzing response patterns</span>
+
           </div>
-          <div className="analysis-step flex items-center opacity-0">
-            <Check className="h-5 w-5 text-green-500 mr-3" />
-            <span className="text-theme-secondary">Matching implementation frameworks</span>
+          <div className="analysis-step flex items-center opacity-0 bg-theme-bg-surface/20 p-2 rounded-lg shadow-theme-sm backdrop-blur-sm border border-theme-accent-secondary/10">
+            <div className="w-6 h-6 rounded-full bg-theme-accent-secondary/20 flex items-center justify-center mr-2">
+              <Check className="h-4 w-4 text-theme-accent-secondary" />
+            </div>
+            <span className="text-white/90 text-sm">Matching implementation frameworks</span>
           </div>
-          <div className="analysis-step flex items-center opacity-0">
-            <Check className="h-5 w-5 text-green-500 mr-3" />
-            <span className="text-theme-secondary">Calculating resource requirements</span>
+          <div className="analysis-step flex items-center opacity-0 bg-theme-bg-surface/20 p-2 rounded-lg shadow-theme-sm backdrop-blur-sm border border-theme-accent-tertiary/10">
+            <div className="w-6 h-6 rounded-full bg-theme-accent-tertiary/20 flex items-center justify-center mr-2">
+              <Check className="h-4 w-4 text-theme-accent-tertiary" />
+            </div>
+            <span className="text-white/90 text-sm">Calculating resource requirements</span>
           </div>
-          <div className="analysis-step flex items-center opacity-0">
-            <Check className="h-5 w-5 text-green-500 mr-3" />
-            <span className="text-theme-secondary">Generating personalized recommendation</span>
+          <div className="analysis-step flex items-center opacity-0 bg-theme-bg-surface/20 p-2 rounded-lg shadow-theme-sm backdrop-blur-sm border border-theme-primary/10">
+            <div className="w-6 h-6 rounded-full bg-vs-gradient-coral-orange/20 flex items-center justify-center mr-2">
+              <Check className="h-4 w-4 text-vs-gradient-coral-orange" />
+            </div>
+            <span className="text-white/90 text-sm">Generating personalized recommendation</span>
           </div>
         </div>
         
-        <div className="w-64 h-1.5 bg-theme-bg-surface rounded-full overflow-hidden">
-          <div className="progress-bar h-full w-0 bg-theme-primary rounded-full"></div>
+        {/* Centered, wider progress bar with shimmer effect */}
+        <div className="relative w-64 h-2 bg-theme-bg-surface/40 rounded-full overflow-hidden mx-auto border border-white/10">
+          <div className="progress-bar h-full w-0 vs-gradient-primary-accent rounded-full relative">
+            {/* Shimmer effect */}
+            <div className="progress-bar-shimmer absolute inset-0 w-1/3 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full"></div>
+          </div>
+        </div>
+        
+        {/* Completion message that appears when the bar is full */}
+        <div className={`mt-3 transition-opacity duration-300 ${isAnimationComplete ? 'opacity-100' : 'opacity-0'}`}>
+          <span className="text-white text-xs font-medium px-3 py-1.5 bg-theme-primary/20 rounded-full">
+            Analysis complete! Preparing recommendation...
+          </span>
         </div>
       </div>
       
-      {/* Floating elements for visual interest */}
-      <div className="absolute top-10 right-10 -z-0 w-32 h-32 rounded-[40%] rotate-12 opacity-20 bg-theme-primary blur-xl"></div>
-      <div className="absolute bottom-10 left-10 -z-0 w-40 h-40 rounded-[30%] -rotate-12 opacity-10 bg-theme-primary blur-xl"></div>
+      {/* Minimized floating elements */}
+      <div className="absolute top-8 right-8 -z-0 w-16 h-16 rounded-[40%] rotate-12 opacity-20 bg-theme-primary animate-float-slow blur-lg"></div>
+      <div className="absolute bottom-8 left-8 -z-0 w-20 h-20 rounded-[30%] -rotate-12 opacity-15 bg-theme-accent-secondary animate-float-medium blur-lg"></div>
     </div>
   );
 };
@@ -196,19 +278,20 @@ const AnalysisBreakdown: React.FC<{
   };
   
   return (
-    <div className="h-full flex flex-col p-6">
-      <h3 className="text-2xl font-bold text-theme-primary mb-4 text-center">Your Implementation Analysis</h3>
+    <div className="flex flex-col p-4">
+      <h3 className="text-xl font-bold text-theme-primary mb-2 text-center">Your Implementation Analysis</h3>
       
-      <p className="text-theme-secondary text-center mb-6">
+      <p className="text-theme-secondary text-center mb-4 text-sm">
         We've analyzed your responses to find the implementation approach that best matches your needs
       </p>
-    
+
       
-      {/* Factor breakdown */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="space-y-3">
-          <h4 className="text-sm font-medium text-theme-primary mb-1">Team Structure</h4>
-          <div className="h-4 bg-theme-bg-surface rounded-full overflow-hidden">
+      {/* Factor breakdown - without showing the actual score */}
+      <div className="grid grid-cols-2 gap-3 mb-4">
+        <div className="space-y-2">
+          <h4 className="text-xs font-medium text-theme-primary">Team Structure</h4>
+          <div className="h-3 bg-theme-bg-surface rounded-full overflow-hidden">
+
             <div 
               className="h-full bg-theme-primary rounded-full"
               style={{ width: `${percentages.teamSize}%` }}
@@ -221,9 +304,9 @@ const AnalysisBreakdown: React.FC<{
           </p>
         </div>
         
-        <div className="space-y-3">
-          <h4 className="text-sm font-medium text-theme-primary mb-1">Implementation Support</h4>
-          <div className="h-4 bg-theme-bg-surface rounded-full overflow-hidden">
+        <div className="space-y-2">
+          <h4 className="text-xs font-medium text-theme-primary">Implementation Support</h4>
+          <div className="h-3 bg-theme-bg-surface rounded-full overflow-hidden">
             <div 
               className="h-full bg-theme-primary rounded-full"
               style={{ width: `${percentages.support}%` }}
@@ -232,13 +315,13 @@ const AnalysisBreakdown: React.FC<{
           <p className="text-xs text-theme-tertiary">
             {answers.implementationSupport === 'full_service' ? 'Hands-on support' :
              answers.implementationSupport === 'guided' ? 'Coaching & support' :
-             answers.implementationSupport === 'self_directed' ? 'Self-guided' : 'Flexible approach'}
+             answers.implementationSupport === 'self_directed' ? 'Self-guided' : 'Flexible'}
           </p>
         </div>
         
-        <div className="space-y-3">
-          <h4 className="text-sm font-medium text-theme-primary mb-1">Timeline</h4>
-          <div className="h-4 bg-theme-bg-surface rounded-full overflow-hidden">
+        <div className="space-y-2">
+          <h4 className="text-xs font-medium text-theme-primary">Timeline</h4>
+          <div className="h-3 bg-theme-bg-surface rounded-full overflow-hidden">
             <div 
               className="h-full bg-theme-primary rounded-full"
               style={{ width: `${percentages.timeline}%` }}
@@ -247,13 +330,13 @@ const AnalysisBreakdown: React.FC<{
           <p className="text-xs text-theme-tertiary">
             {answers.timeline === 'immediate' ? 'Ready now' :
              answers.timeline === 'next_quarter' ? 'Next quarter' :
-             answers.timeline === 'exploratory' ? 'Strategic planning' : 'Timeline flexible'}
+             answers.timeline === 'exploratory' ? 'Planning' : 'Flexible'}
           </p>
         </div>
         
-        <div className="space-y-3">
-          <h4 className="text-sm font-medium text-theme-primary mb-1">Content Vision</h4>
-          <div className="h-4 bg-theme-bg-surface rounded-full overflow-hidden">
+        <div className="space-y-2">
+          <h4 className="text-xs font-medium text-theme-primary">Content Vision</h4>
+          <div className="h-3 bg-theme-bg-surface rounded-full overflow-hidden">
             <div 
               className="h-full bg-theme-primary rounded-full"
               style={{ width: `${percentages.volume}%` }}
@@ -261,30 +344,36 @@ const AnalysisBreakdown: React.FC<{
           </div>
           <p className="text-xs text-theme-tertiary">
             {answers.contentVolume === 'high' ? 'Content engine' :
-             answers.contentVolume === 'medium' ? 'Consistent presence' :
-             answers.contentVolume === 'low' ? 'Focused impact' : 'Strategy first'}
+             answers.contentVolume === 'medium' ? 'Consistent' :
+             answers.contentVolume === 'low' ? 'Focused' : 'Strategic'}
           </p>
         </div>
       </div>
       
       {/* Implementation match */}
-      <div className="bg-theme-primary/5 p-4 rounded-lg mb-8">
-        <h4 className="font-medium text-theme-primary mb-2">Your Implementation Match</h4>
-        <p className="text-sm text-theme-secondary">
+      <div className={`p-3 rounded-lg mb-4 text-white shadow-theme-sm ${
+          score >= 8 ? 'bg-vs-gradient-coral-orange' : 
+          score >= 5 ? 'bg-vs-gradient-primary-accent' : 
+          'bg-vs-gradient-teal'
+        }`}>
+        <h4 className="font-medium text-white text-sm mb-1">Your Implementation Match</h4>
+        <p className="text-xs text-white/90">
           {score >= 8 ? 
-            'Your needs align with our Executive Partnership approach. You have a complex team structure, desire hands-on support, and have ambitious content goals on an accelerated timeline.' :
+            'Your needs align with our Executive Partnership approach for complex teams with hands-on support and ambitious content goals.' :
            score >= 5 ?
-            'Your profile fits our Comprehensive Implementation approach. You have a growing team with balanced support needs and a clear vision for content production.' :
-            'The Foundation Program is your ideal starting point. This self-paced approach allows you to build momentum at your own pace while establishing core content systems.'}
+            'Your profile fits our Comprehensive Implementation approach for growing teams with balanced support needs.' :
+            'The Foundation Program is your ideal starting point. This self-paced approach helps you build momentum at your own pace.'}
         </p>
       </div>
       
-      <button
+      <Button
         onClick={onContinue}
-        className="py-3 px-8 bg-theme-primary hover:bg-theme-primary-hover text-white rounded-lg transition-colors shadow-theme-btn hover:shadow-theme-lg hover-bubbly self-center"
+        variant="default"
+        size="sm"
+        className="self-center"
       >
         See My Recommendation
-      </button>
+      </Button>
     </div>
   );
 };
@@ -297,53 +386,55 @@ const FoundationRecommendationView: React.FC<{
   answers: any
 }> = ({ recommendation, onUpgradeSelect, onPurchase, answers }) => {
   return (
-    <div className="grid grid-cols-2 gap-6 h-full p-6">
+    <div className="grid grid-cols-2 gap-3 p-4">
       {/* LEFT COLUMN - Recommended Foundation Program */}
-      <div className="border border-theme-border-light rounded-xl overflow-hidden shadow-theme-sm flex flex-col">
-        <div className="p-4 bg-theme-bg-surface border-b border-theme-border-light">
-          <div className="bg-theme-primary/10 text-theme-primary text-xs font-medium px-2 py-1 rounded-full inline-block mb-2">
+      <div className="border border-theme-border-light rounded-lg overflow-hidden shadow-theme-sm flex flex-col">
+        <div className="p-3 bg-theme-bg-surface border-b border-theme-border-light">
+          <div className="bg-theme-primary/10 text-theme-primary text-xs font-medium px-2 py-0.5 rounded-full inline-block mb-1">
             Recommended for You
           </div>
-          <h3 className="text-xl font-bold text-theme-primary">Foundation Program</h3>
-          <p className="text-theme-tertiary text-sm">Get started on your content journey</p>
+          <h3 className="text-lg font-bold text-theme-primary">Foundation Program</h3>
+          <p className="text-theme-tertiary text-xs">Get started on your content journey</p>
         </div>
         
-        <div className="p-4 flex-grow">
-          <div className="mb-6">
-            <span className="text-sm text-theme-tertiary">One-time payment</span>
-            <div className="text-3xl font-bold text-theme-primary">{recommendation.pricing}</div>
+        <div className="p-3 flex-grow">
+          <div className="mb-3">
+            <span className="text-xs text-theme-tertiary">One-time payment</span>
+            <div className="text-2xl font-bold text-theme-primary">{recommendation.pricing}</div>
           </div>
           
-          <div className="space-y-4 mb-6">
-            <p className="text-sm text-theme-secondary">
-              Our Foundation Program gives you the essential building blocks to start implementing our content system at your own pace.
+          <div className="space-y-3 mb-4">
+            <p className="text-xs text-theme-secondary">
+              Our Foundation Program gives you the essential building blocks to start implementing our content system.
             </p>
             
-            <h4 className="text-sm font-medium text-theme-primary border-b border-theme-border-light pb-1">
+            <h4 className="text-xs font-medium text-theme-primary border-b border-theme-border-light pb-1">
               Perfect If You're:
             </h4>
-            <ul className="space-y-2">
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Just starting your content journey</p>
+            <ul className="space-y-1.5">
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Just starting your content journey</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Testing the waters before full commitment</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Testing waters before commitment</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Building foundations while on a budget</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Building foundations on a budget</p>
               </li>
             </ul>
           </div>
           
-          <button
+          <Button
             onClick={onPurchase}
-            className="w-full py-3 bg-theme-primary hover:bg-theme-primary-hover text-white rounded-lg transition-colors shadow-theme-btn hover:shadow-theme-lg hover-bubbly mb-3"
+            variant="default"
+            size="sm"
+            className="w-full mb-2"
           >
             Start Foundation Program Now
-          </button>
+          </Button>
           
           <p className="text-center text-theme-tertiary text-xs">
             Secure checkout • Instant access • 14-day guarantee
@@ -352,58 +443,60 @@ const FoundationRecommendationView: React.FC<{
       </div>
       
       {/* RIGHT COLUMN - Executive Partnership (what they're missing) */}
-      <div className="border border-theme-border-light rounded-xl overflow-hidden bg-theme-bg-surface shadow-theme-sm flex flex-col opacity-90">
-        <div className="p-4 bg-theme-bg-surface border-b border-theme-border-light">
-          <div className="bg-[#B92234]/10 text-[#B92234] text-xs font-medium px-2 py-1 rounded-full inline-block mb-2">
+      <div className="border border-theme-border-light rounded-lg overflow-hidden bg-theme-bg-surface shadow-theme-sm flex flex-col opacity-90">
+        <div className="p-3 bg-theme-bg-surface border-b border-theme-border-light">
+          <div className="bg-[#B92234]/10 text-[#B92234] text-xs font-medium px-2 py-0.5 rounded-full inline-block mb-1">
             Premium Offering
           </div>
-          <h3 className="text-xl font-bold text-theme-primary">Executive Partnership</h3>
-          <p className="text-theme-tertiary text-sm">Full-service implementation support</p>
+          <h3 className="text-lg font-bold text-theme-primary">Executive Partnership</h3>
+          <p className="text-theme-tertiary text-xs">Full-service implementation support</p>
         </div>
         
-        <div className="p-4 flex-grow">
-          <div className="mb-6">
-            <span className="text-sm text-theme-tertiary">Starting from</span>
-            <div className="text-3xl font-bold text-theme-primary">£9,500</div>
+        <div className="p-3 flex-grow">
+          <div className="mb-3">
+            <span className="text-xs text-theme-tertiary">Starting from</span>
+            <div className="text-2xl font-bold text-theme-primary">£9,500</div>
           </div>
           
-          <div className="space-y-4 mb-6">
-            <p className="text-sm text-theme-secondary">
-              When you're ready for comprehensive support, our Executive Partnership provides white-glove implementation.
+          <div className="space-y-3 mb-4">
+            <p className="text-xs text-theme-secondary">
+              When ready for comprehensive support, our Executive Partnership provides white-glove implementation.
             </p>
             
-            <h4 className="text-sm font-medium text-theme-primary border-b border-theme-border-light pb-1">
+            <h4 className="text-xs font-medium text-theme-primary border-b border-theme-border-light pb-1">
               Future Access To:
             </h4>
-            <ul className="space-y-2">
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-[#B92234] shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Dedicated implementation manager</p>
+            <ul className="space-y-1.5">
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-[#B92234] shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Dedicated implementation manager</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-[#B92234] shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Custom strategy development</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-[#B92234] shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Custom strategy development</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-[#B92234] shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">6 months premium support</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-[#B92234] shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">6 months premium support</p>
               </li>
             </ul>
             
-            <div className="bg-theme-bg-primary/50 p-3 rounded-lg border border-theme-border-light mt-6">
-              <h4 className="font-medium text-theme-primary text-sm mb-1">Not quite ready yet?</h4>
+            <div className="bg-theme-bg-primary/50 p-2 rounded-lg border border-theme-border-light mt-3">
+              <h4 className="font-medium text-theme-primary text-xs">Not quite ready yet?</h4>
               <p className="text-xs text-theme-tertiary">
-                Start with Foundation today, and you'll get credit toward Executive Partnership when you're ready to upgrade.
+                Start with Foundation today, credit toward Executive when ready.
               </p>
             </div>
           </div>
           
-          <button
+          <Button
             onClick={onUpgradeSelect}
-            className="w-full py-3 border border-[#B92234] text-[#B92234] hover:bg-[#B92234]/5 rounded-lg transition-colors hover-bubbly-sm"
+            variant="outline"
+            size="sm"
+            className="w-full border-[#B92234] text-[#B92234] hover:bg-[#B92234]/5"
           >
             Learn About Executive Partnership
-          </button>
+          </Button>
         </div>
       </div>
     </div>
@@ -441,58 +534,58 @@ const PremiumRecommendationView: React.FC<{
   ];
   
   return (
-    <div className="grid grid-cols-5 gap-0 h-full">
+    <div className="grid grid-cols-5 gap-0">
       {/* Left side - Features and enhancements */}
-      <div className="col-span-2 p-5 flex flex-col">
-        <div className="bg-theme-primary/5 p-4 rounded-lg mb-4">
-          <h3 className="font-medium text-theme-primary mb-2">Perfect Match for Your Needs</h3>
-          <p className="text-theme-secondary text-sm">
+      <div className="col-span-2 p-3 flex flex-col">
+        <div className="bg-theme-primary/5 p-2.5 rounded-lg mb-3">
+          <h3 className="font-medium text-theme-primary text-sm mb-1">Perfect Match for Your Needs</h3>
+          <p className="text-theme-secondary text-xs">
             {recommendation.explanation}
           </p>
         </div>
         
         {/* Core features */}
-        <h4 className="text-sm font-medium text-theme-primary mb-3 border-b border-[var(--theme-border-light)] pb-1">
+        <h4 className="text-xs font-medium text-theme-primary mb-2 border-b border-[var(--theme-border-light)] pb-1">
           {recommendation.type === 'executive' ? 'Executive Partnership Includes' : 'Comprehensive Implementation Includes'}
         </h4>
         
-        <ul className="space-y-3 mb-6">
+        <ul className="space-y-1.5 mb-4">
           {recommendation.type === 'executive' ? (
             <>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Dedicated implementation manager</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Dedicated implementation manager</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Custom strategy development</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Custom strategy development</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">6 months premium support</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">6 months premium support</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Advanced analytics & reporting</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Advanced analytics & reporting</p>
               </li>
             </>
           ) : (
             <>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Group coaching sessions</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Group coaching sessions</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Complete system templates</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Complete system templates</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">3-month support package</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">3-month support package</p>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-sm">Private community access</p>
+              <li className="flex items-start gap-1.5">
+                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
+                <p className="text-theme-secondary text-xs">Private community access</p>
               </li>
             </>
           )}
@@ -500,15 +593,15 @@ const PremiumRecommendationView: React.FC<{
         
         {/* Optional enhancements */}
         <div className="mt-auto">
-          <h4 className="text-sm font-medium text-theme-primary mb-3 border-b border-[var(--theme-border-light)] pb-1">
+          <h4 className="text-xs font-medium text-theme-primary mb-2 border-b border-[var(--theme-border-light)] pb-1">
             Personalized Enhancements
           </h4>
           
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             {enhancements.map(enhancement => (
               <div 
                 key={enhancement.id}
-                className={`flex items-center justify-between p-3 border rounded-lg cursor-pointer transition-colors ${
+                className={`flex items-center justify-between p-2 border rounded-lg cursor-pointer transition-colors ${
                   selectedEnhancements.includes(enhancement.id)
                     ? 'border-theme-primary bg-theme-primary/5'
                     : 'border-theme-border-light'
@@ -516,40 +609,42 @@ const PremiumRecommendationView: React.FC<{
                 onClick={() => toggleEnhancement(enhancement.id)}
               >
                 <div className="flex items-center">
-                  <div className={`w-5 h-5 rounded-md border mr-3 flex items-center justify-center ${
+                  <div className={`w-4 h-4 rounded-md border mr-2 flex items-center justify-center ${
                     selectedEnhancements.includes(enhancement.id)
                       ? 'border-theme-primary bg-theme-primary'
                       : 'border-theme-border-light'
                   }`}>
                     {selectedEnhancements.includes(enhancement.id) && (
-                      <Check className="h-3 w-3 text-white" />
+                      <Check className="h-2.5 w-2.5 text-white" />
                     )}
                   </div>
-                  <span className="text-theme-secondary text-sm">{enhancement.name}</span>
+                  <span className="text-theme-secondary text-xs">{enhancement.name}</span>
                 </div>
-                <span className="text-theme-primary text-sm font-medium">{enhancement.price}</span>
+                <span className="text-theme-primary text-xs font-medium">{enhancement.price}</span>
               </div>
             ))}
           </div>
           
           {recommendation.type === 'comprehensive' && (
-            <button
+            <Button
               onClick={() => setShowComparison(!showComparison)}
-              className="w-full mt-4 py-2 text-sm text-theme-tertiary hover:text-theme-primary transition-colors"
+              variant="ghost"
+              size="xs" 
+              className="w-full mt-2 text-theme-tertiary hover:text-theme-primary"
             >
               {showComparison ? 'Hide comparison' : 'Compare with Executive Partnership'}
-            </button>
+            </Button>
           )}
         </div>
       </div>
       
       {/* Right side - Calendly */}
-      <div className="col-span-3 border-l border-[var(--theme-border-light)] h-full"> 
-        <div className="h-full flex flex-col">
+      <div className="col-span-3 border-l border-[var(--theme-border-light)]"> 
+        <div className="flex flex-col h-full max-h-[400px]">
           {/* Calendly header */}
-          <div className="p-3 border-b border-[var(--theme-border-light)] flex justify-between items-center">
-            <h3 className="text-lg font-medium text-theme-primary">Schedule Your Strategy Session</h3>
-            <div className="text-sm text-theme-tertiary">30 min • Free</div>
+          <div className="p-2 border-b border-[var(--theme-border-light)] flex justify-between items-center">
+            <h3 className="text-sm font-medium text-theme-primary">Schedule Your Strategy Session</h3>
+            <div className="text-xs text-theme-tertiary">30 min • Free</div>
           </div>
           
           {/* Calendly Widget - Takes up remaining height */}
@@ -561,7 +656,7 @@ const PremiumRecommendationView: React.FC<{
             }${
               selectedEnhancements.length > 0 ? `&custom_enhancements=${selectedEnhancements.join(',')}` : ''
             }`}
-            style={{ height: "100%", minWidth: "320px" }}
+            style={{ height: "350px", minWidth: "320px" }}
           />
         </div>
       </div>
@@ -1494,19 +1589,21 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
   };
   
   return (
-    <div ref={containerRef} className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4">
+    <div ref={containerRef} className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Test mode controls */}
       {testMode && (
         <div className="fixed top-4 right-4 z-[60] flex items-center gap-2 bg-white dark:bg-[#0a0a0a] p-2 rounded-md shadow-md">
           <span className="text-xs font-medium">Test Controls:</span>
-          <button 
+          <Button
             onClick={toggleTheme}
-            className="p-1.5 bg-gray-100 dark:bg-gray-800 rounded-md"
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7 bg-gray-100 dark:bg-gray-800 rounded-md"
             aria-label="Toggle theme"
           >
-            <Sun className="h-4 w-4 hidden dark:inline-block" />
-            <Moon className="h-4 w-4 inline-block dark:hidden" />
-          </button>
+            <Sun className="h-3.5 w-3.5 hidden dark:inline-block" />
+            <Moon className="h-3.5 w-3.5 inline-block dark:hidden" />
+          </Button>
           <span className="text-xs">{stage}</span>
         </div>
       )}
@@ -1518,23 +1615,26 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         onClick={handleClose}
       />
       
-      {/* Modal content - expand for recommendation stage */}
+      {/* Modal content - adjust size for recommendation stage */}
       <div 
         ref={modalRef}
-        className={`relative z-10 w-full ${stage === 'recommendation' ? 'max-w-5xl' : 'max-w-3xl'} max-h-[90vh] overflow-y-auto bg-theme-gradient rounded-2xl shadow-theme-md opacity-0 transition-all duration-500`}
+        className={`relative z-10 w-full ${stage === 'recommendation' ? 'max-w-4xl' : 'max-w-2xl'} bg-theme-gradient rounded-xl shadow-theme-md opacity-0 transition-all duration-500 overflow-auto`}
+        style={{ maxHeight: 'min(85vh, 800px)' }}
       >
         {/* Floating elements for visual interest */}
         <div className="modal-floating-element absolute top-10 right-10 -z-10 w-20 h-20 rounded-[40%] rotate-12 opacity-[var(--theme-float-opacity)] bg-[var(--theme-float-bg-primary)]"></div>
         <div className="modal-floating-element absolute bottom-10 left-10 -z-10 w-24 h-24 rounded-[30%] -rotate-6 opacity-[var(--theme-float-opacity-secondary)] bg-[var(--theme-float-bg-secondary)]"></div>
         
         {/* Modal header */}
-        <div className="flex items-center justify-between border-b border-[var(--theme-border-light)] p-6">
+
+        <div className="flex items-center justify-between border-b border-[var(--theme-border-light)] p-4">
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-full bg-theme-primary/10 text-theme-primary">
-              <StageIcon stage={stage} size={10} />
+            <div className="p-1.5 rounded-full bg-theme-primary/10 text-theme-primary">
+              <StageIcon stage={stage} size={18} />
             </div>
-            <h2 className="text-xl font-medium text-theme-primary">
-              {stage === 'intro' && 'Find Your Perfect Plan'}
+            <h2 className="text-lg font-medium text-theme-primary">
+              {stage === 'intro' && 'Discover Your Perfect Implementation'}
+
               {stage === 'contact' && 'Let\'s Personalize Your Plan'}
               {stage === 'teamSize' && 'About Your Team'}
               {stage === 'implementationSupport' && 'Your Implementation Style'}
@@ -1546,18 +1646,20 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
             </h2>
           </div>
           
-          <button 
+          <Button
             onClick={handleClose}
-            className="rounded-full p-2 text-theme-tertiary hover:text-theme-primary hover-bubbly-sm transition-colors"
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 rounded-full text-theme-tertiary hover:text-theme-primary hover-bubbly-sm transition-colors"
             aria-label="Close modal"
           >
-            <X className="h-5 w-5" />
-          </button>
+            <X className="h-4 w-4" />
+          </Button>
         </div>
         
         {/* Progress bar - only show during questions */}
         {stage !== 'intro' && stage !== 'recommendation' && (
-          <div className="w-full h-2 bg-theme-bg-secondary relative">
+          <div className="w-full h-1.5 bg-theme-bg-secondary relative">
             <div 
               className="h-full bg-theme-primary relative overflow-hidden transition-all duration-700 ease-out"
               style={{ width: `${getProgress()}%` }}
@@ -1573,7 +1675,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
             <div className="absolute top-0 left-0 w-full h-full flex justify-between px-1">
               {/* Team Size dot */}
               <div 
-                className={`progress-dot-0 h-5 w-5 rounded-full -mt-1.5 transition-all duration-500 ${
+                className={`progress-dot-0 h-4 w-4 rounded-full -mt-1.25 transition-all duration-500 ${
                   stageSequence.indexOf(stage) > stageSequence.indexOf('teamSize')
                     ? 'bg-theme-primary scale-100 shadow-theme-sm' 
                     : stageSequence.indexOf(stage) === stageSequence.indexOf('teamSize')
@@ -1630,84 +1732,104 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         )}
         
         {/* Modal content - changes based on current stage */}
-        <div className="p-6" ref={contentRef}>
-          {/* Introduction Stage - Simplified to reduce text and scrolling */}
+        <div className="p-4" ref={contentRef}>
+          {/* Introduction Stage - More compact with colorful elements */}
           {stage === 'intro' && (
-            <div className="max-h-[70vh] overflow-hidden">
-              {/* Stage illustration */}
-              <div className="flex justify-center mb-6">
-                <div className="w-20 h-20 rounded-full bg-theme-primary/10 flex items-center justify-center">
-                  <Compass size={40} className="text-theme-primary" />
+            <div className="flex flex-col">
+              {/* Add a colorful gradient background to the entire intro */}
+              <div className="absolute inset-0 vs-gradient-primary-accent opacity-5 -z-10"></div>
+              
+              {/* Main title section with more vibrant styling */}
+              <div className="bg-theme-gradient rounded-xl p-3 mb-2 flex items-center shadow-theme-md">
+                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mr-3 backdrop-blur-sm">
+                  <Compass size={20} className="text-white" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-white leading-tight mb-0.5">
+                    Build Your Content System
+                  </h3>
+                  <p className="text-white/90 text-xs">
+                    Let's find the perfect approach to scale your content performance
+                  </p>
                 </div>
               </div>
               
-              <div className="bg-theme-primary/5 p-2 rounded-lg shadow-theme-sm mb-2">
-                <h3 className="text-xl font-medium text-theme-primary mb-1 text-center">
-                  Let's Build Your Content Engine
-                </h3>
-                <p className="text-theme-secondary text-center">
-                  Answer a few quick questions and we'll craft the perfect implementation approach for your specific situation.
-                </p>
+
+              {/* Social proof badge with enhanced styling */}
+              <div className="flex items-center gap-1 text-xs bg-theme-gradient-primary/10 border border-theme-primary/20 rounded-full px-2 py-1 mb-2 w-fit mx-auto shadow-theme-sm">
+                <Users size={10} className="text-theme-primary"/>
+                <span className="text-theme-primary font-medium text-[10px]">Trusted by 1,200+ clients in 27 industries</span>
               </div>
               
-              {/* Mini Feature Showcase */}
-              <div className="overflow-x-auto pb-4 ">
-                <div className="flex space-x-4 min-w-max">
-                  {/* Feature 1 */}
-                  <div className="bg-theme-bg-surface p-4 rounded-lg shadow-theme-sm flex-shrink-0 w-64">
-                    <div className="flex items-center mb-3">
-                      <div className="p-2 rounded-full bg-theme-primary/10 text-theme-primary mr-3">
-                        <BarChart4 size={18} />
-                      </div>
-                      <h4 className="font-medium text-theme-primary">800M+ Views Generated</h4>
+              {/* Mini Feature Showcase - Improved with more vibrant styling */}
+              <div className="grid grid-cols-3 gap-2 mb-2">
+                {/* Feature 1 */}
+                <div className="bg-theme-gradient-primary/5 p-2 rounded-lg shadow-theme-sm border border-theme-primary/10 hover-bubbly-sm transition-all">
+                  <div className="flex items-center mb-1">
+                    <div className="p-1 rounded-full vs-gradient-orange flex items-center justify-center mr-2 shadow-theme-sm">
+                      <BarChart4 size={14} className="text-white" />
+
                     </div>
-                    <p className="text-sm text-theme-secondary">Our system has driven over 800 million organic views for creators and brands without paid ads.</p>
+                    <h4 className="font-medium text-theme-primary text-xs">800M+ Views</h4>
                   </div>
-                  
-                  {/* Feature 2 */}
-                  <div className="bg-theme-bg-surface p-4 rounded-lg shadow-theme-sm flex-shrink-0 w-64">
-                    <div className="flex items-center mb-3">
-                      <div className="p-2 rounded-full bg-theme-primary/10 text-theme-primary mr-3">
-                        <Clock size={18} />
-                      </div>
-                      <h4 className="font-medium text-theme-primary">30-day Results</h4>
-                    </div>
-                    <p className="text-sm text-theme-secondary">Most clients see measurable growth within their first 30 days of implementing our system.</p>
-                  </div>
-                  
-                  {/* Feature 3 */}
-                  <div className="bg-theme-bg-surface p-4 rounded-lg shadow-theme-sm flex-shrink-0 w-64">
-                    <div className="flex items-center mb-3">
-                      <div className="p-2 rounded-full bg-theme-primary/10 text-theme-primary mr-3">
-                        <Award size={18} />
-                      </div>
-                      <h4 className="font-medium text-theme-primary">Proven Framework</h4>
-                    </div>
-                    <p className="text-sm text-theme-secondary">Our proprietary system has been field-tested across 27 different industries with consistent results.</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-3 gap-1 mb-2">
-                <div className="flex flex-col items-center text-center">
-                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-theme-primary text-white text-sm mb-1">1</div>
-                  <span className="text-theme-secondary text-sm">Tell us about<br />your needs</span>
+                  <p className="text-xs text-theme-secondary">Generated for 120+ clients</p>
                 </div>
                 
-                <div className="flex flex-col items-center text-center">
-                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-theme-primary text-white text-sm mb-1">2</div>
-                  <span className="text-theme-secondary text-sm">Get your<br />recommendation</span>
+                {/* Feature 2 */}
+                <div className="bg-theme-gradient-secondary/5 p-2 rounded-lg shadow-theme-sm border border-theme-accent-secondary/10 hover-bubbly-sm transition-all">
+                  <div className="flex items-center mb-1">
+                    <div className="p-1 rounded-full vs-gradient-teal flex items-center justify-center mr-2 shadow-theme-sm">
+                      <Clock size={14} className="text-white" />
+                    </div>
+                    <h4 className="font-medium text-theme-accent-secondary text-xs">42% Growth</h4>
+                  </div>
+                  <p className="text-xs text-theme-secondary">30-day audience increase</p>
                 </div>
                 
-                <div className="flex flex-col items-center text-center">
-                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-theme-primary text-white text-sm mb-1">3</div>
-                  <span className="text-theme-secondary text-sm">Schedule your<br />strategy call</span>
+                {/* Feature 3 */}
+                <div className="bg-theme-gradient-accent/5 p-2 rounded-lg shadow-theme-sm border border-theme-accent-tertiary/10 hover-bubbly-sm transition-all">
+                  <div className="flex items-center mb-1">
+                    <div className="p-1 rounded-full vs-gradient-coral-orange flex items-center justify-center mr-2 shadow-theme-sm">
+                      <Award size={14} className="text-white" />
+                    </div>
+                    <h4 className="font-medium text-theme-accent-tertiary text-xs">7-Figure ROI</h4>
+                  </div>
+                  <p className="text-xs text-theme-secondary">Proven in 27 industries</p>
+                </div>
+              </div>
+              
+
+              {/* Process steps - more compact and colorful */}
+              <div className="bg-theme-gradient/5 rounded-lg p-2 mb-2 border border-theme-border-light">
+                <div className="flex justify-between items-center mb-1">
+                  <h4 className="text-[10px] font-medium text-theme-primary">Fast 60-Second Process</h4>
+                  <span className="text-[9px] text-theme-tertiary bg-theme-primary/10 rounded-full px-1.5">Free</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <div className="flex flex-col items-center">
+                    <div className="relative">
+                      <div className="flex items-center justify-center h-6 w-6 rounded-full bg-theme-gradient text-white text-[9px] mb-0.5 shadow-theme-sm">1</div>
+                    </div>
+                    <span className="text-theme-secondary text-[8px] text-center">Quick<br/>Assessment</span>
+                  </div>
+                  <div className="text-theme-primary text-sm">→</div>
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center justify-center h-6 w-6 rounded-full bg-theme-gradient-secondary text-white text-[9px] mb-0.5 shadow-theme-sm">2</div>
+                    <span className="text-theme-secondary text-[8px] text-center">Personalized<br/>Solution</span>
+                  </div>
+                  <div className="text-theme-primary text-sm">→</div>
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center justify-center h-6 w-6 rounded-full bg-theme-gradient-accent text-white text-[9px] mb-0.5 shadow-theme-sm">3</div>
+                    <span className="text-theme-secondary text-[8px] text-center">Start<br/>Growing</span>
+                  </div>
+
                 </div>
               </div>
 
-              <p className="text-theme-tertiary text-sm text-center">
-                Takes less than a minute. No obligation.
-              </p>
+              {/* Call to action bubble */}
+              <div className="bg-theme-gradient-primary/10 rounded-full text-[9px] px-3 py-1 text-center text-theme-primary font-medium w-fit mx-auto">
+                No obligation • Personalized to your specific needs
+              </div>
             </div>
           )}
           
@@ -1715,22 +1837,17 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {stage === 'contact' && (
             <div className="space-y-4">
               {/* Stage illustration */}
-              <div className="flex justify-center mb-4">
-                <div className="w-16 h-16 rounded-full bg-theme-primary/10 flex items-center justify-center">
+              <div className="flex justify-center mb-3">
+                <div className="w-16 h-16 rounded-full bg-theme-gradient/10 flex items-center justify-center">
                   <Mail size={32} className="text-theme-primary" />
                 </div>
               </div>
               
-              <div className="bg-theme-primary/5 p-4 rounded-lg mb-4">
-                <div className="flex items-start gap-3">
-                  <Info className="h-5 w-5 text-theme-primary shrink-0 mt-1" />
-                  <div>
-                    <h3 className="font-medium text-theme-primary mb-1">Almost there!</h3>
-                    <p className="text-theme-secondary text-sm">
-                      We're ready to craft your personalized strategy. Where should we send it?
-                    </p>
-                  </div>
-                </div>
+              <div className="bg-theme-gradient-primary/5 rounded-lg p-3 mb-3">
+                <h4 className="text-theme-primary font-medium text-center mb-1 text-base">Just One More Step</h4>
+                <p className="text-theme-secondary text-center text-sm">
+                  We'll create your personalized implementation strategy and send it directly to you
+                </p>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
@@ -1740,15 +1857,15 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-theme-primary mb-1">
-                      Name*
+                      Your Name*
                     </label>
                     <input
                       id="name"
                       type="text"
                       value={answers.name}
                       onChange={(e) => handleAnswerChange('name', e.target.value)}
-                      className={`w-full rounded-lg border ${errors.name ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent`}
-                      placeholder="Your name"
+                      className={`w-full rounded-lg border ${errors.name ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent shadow-theme-sm`}
+                      placeholder="Your full name"
                     />
                     {errors.name && (
                       <p className="mt-1 text-red-500 dark:text-red-400 text-sm">{errors.name}</p>
@@ -1757,15 +1874,15 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-theme-primary mb-1">
-                      Email*
+                      Your Email*
                     </label>
                     <input
                       id="email"
                       type="email"
                       value={answers.email}
                       onChange={(e) => handleAnswerChange('email', e.target.value)}
-                      className={`w-full rounded-lg border ${errors.email ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent`}
-                      placeholder="you@example.com"
+                      className={`w-full rounded-lg border ${errors.email ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent shadow-theme-sm`}
+                      placeholder="your.email@example.com"
                     />
                     {errors.email && (
                       <p className="mt-1 text-red-500 dark:text-red-400 text-sm">{errors.email}</p>
@@ -1775,19 +1892,19 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 
                 {/* Right Column - About the Brand */}
                 <div className="space-y-4">
-                  <h3 className="text-sm font-medium text-theme-primary border-b border-[var(--theme-border-light)] pb-1">About the Brand</h3>
+                  <h3 className="text-sm font-medium text-theme-primary border-b border-[var(--theme-border-light)] pb-1">About Your Brand</h3>
                   
                   <div>
                     <label htmlFor="company" className="block text-sm font-medium text-theme-primary mb-1">
-                      Brand/Company Name*
+                      Company/Brand Name*
                     </label>
                     <input
                       id="company"
                       type="text"
                       value={answers.company}
                       onChange={(e) => handleAnswerChange('company', e.target.value)}
-                      className={`w-full rounded-lg border ${errors.company ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent`}
-                      placeholder="Brand or company name"
+                      className={`w-full rounded-lg border ${errors.company ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent shadow-theme-sm`}
+                      placeholder="Your company name"
                     />
                     {errors.company && (
                       <p className="mt-1 text-red-500 dark:text-red-400 text-sm">{errors.company}</p>
@@ -1803,7 +1920,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                       type="text"
                       value={answers.position}
                       onChange={(e) => handleAnswerChange('position', e.target.value)}
-                      className="w-full rounded-lg border border-[var(--theme-border-light)] bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent"
+                      className="w-full rounded-lg border border-[var(--theme-border-light)] bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent shadow-theme-sm"
                       placeholder="Your role in the organization"
                     />
                   </div>
@@ -1823,87 +1940,81 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {stage === 'teamSize' && (
             <div className="space-y-4">
               {/* Stage illustration */}
-              <div className="flex justify-center mb-4">
-                <div className="w-16 h-16 rounded-full bg-theme-primary/10 flex items-center justify-center">
+              <div className="flex justify-center mb-3">
+                <div className="w-16 h-16 rounded-full bg-theme-gradient/10 flex items-center justify-center">
                   <Users size={32} className="text-theme-primary" />
                 </div>
               </div>
               
-              <p className="text-theme-secondary mb-4 text-center">
-                Tell us about your team so we can tailor the right implementation approach for your organization.
-              </p>
+              <div className="bg-vs-gradient-primary-accent rounded-lg p-3 mb-3 text-white shadow-theme-md">
+                <h4 className="font-medium text-center mb-1 text-base">Your Content Team</h4>
+                <p className="text-white/80 text-center text-sm">
+                  We'll tailor our system to match your team's specific structure and size
+                </p>
+              </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-4 max-w-md mx-auto">
                 <button
                   onClick={() => handleAnswerChange('teamSize', '1')}
                   data-value="1"
-                  className={`teamSize-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`teamSize-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.teamSize === '1' || selectedChoice === '1'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== '1' ? 'pointer-events-none' : ''}`}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Solo Creator</h3>
-                    {answers.teamSize === '1' && (
-                      <CheckCircle className="h-5 w-5 text-theme-primary" />
-                    )}
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
+                    <Users size={24} className="text-theme-primary" />
                   </div>
-                  <p className="text-theme-secondary text-sm">Just you (or with occasional freelance help)</p>
+                  <div className="flex-grow">
+                    <h3 className="text-theme-primary font-medium">Solo Creator</h3>
+                    <p className="text-theme-secondary text-sm">Just you (or with occasional freelance help)</p>
+                  </div>
+                  {answers.teamSize === '1' && (
+                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
+                  )}
                 </button>
                 
                 <button
                   onClick={() => handleAnswerChange('teamSize', '5')}
                   data-value="5"
-                  className={`teamSize-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`teamSize-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.teamSize === '5' || selectedChoice === '5'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== '5' ? 'pointer-events-none' : ''}`}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Small Team</h3>
-                    {answers.teamSize === '5' && (
-                      <CheckCircle className="h-5 w-5 text-theme-primary" />
-                    )}
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
+                    <Users size={24} className="text-theme-primary" />
                   </div>
-                  <p className="text-theme-secondary text-sm">You lead a tight-knit team of 2-9 people</p>
+                  <div className="flex-grow">
+                    <h3 className="text-theme-primary font-medium">Small Team</h3>
+                    <p className="text-theme-secondary text-sm">You lead a tight-knit team of 2-9 people</p>
+                  </div>
+                  {answers.teamSize === '5' && (
+                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
+                  )}
                 </button>
                 
                 <button
                   onClick={() => handleAnswerChange('teamSize', '15')}
                   data-value="15"
-                  className={`teamSize-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`teamSize-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.teamSize === '15' || selectedChoice === '15'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== '15' ? 'pointer-events-none' : ''}`}
                 >
-                  <div className="flex justify-between items-start mb-2">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
+                    <Users size={24} className="text-theme-primary" />
+                  </div>
+                  <div className="flex-grow">
                     <h3 className="text-theme-primary font-medium">Growing Team</h3>
-                    {answers.teamSize === '15' && (
-                      <CheckCircle className="h-5 w-5 text-theme-primary" />
-                    )}
+                    <p className="text-theme-secondary text-sm">Your team has 10+ members across functions</p>
                   </div>
-                  <p className="text-theme-secondary text-sm">Your team has 10-19 members across functions</p>
-                </button>
-                
-                <button
-                  onClick={() => handleAnswerChange('teamSize', '25')}
-                  data-value="25"
-                  className={`teamSize-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.teamSize === '25' || selectedChoice === '25'
-                      ? 'border-theme-primary bg-theme-primary/10' 
-                      : 'border-theme-border-light bg-theme-bg-surface'
-                  } ${isAnimatingSelection && selectedChoice !== '25' ? 'pointer-events-none' : ''}`}
-                >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Organization</h3>
-                    {answers.teamSize === '25' && (
-                      <CheckCircle className="h-5 w-5 text-theme-primary" />
-                    )}
-                  </div>
-                  <p className="text-theme-secondary text-sm">20+ people with dedicated content teams</p>
+                  {answers.teamSize === '15' && (
+                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
+                  )}
                 </button>
               </div>
             </div>
@@ -1913,87 +2024,81 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {stage === 'implementationSupport' && (
             <div className="space-y-4">
               {/* Stage illustration */}
-              <div className="flex justify-center mb-4">
-                <div className="w-16 h-16 rounded-full bg-theme-primary/10 flex items-center justify-center">
+              <div className="flex justify-center mb-3">
+                <div className="w-16 h-16 rounded-full bg-theme-gradient/10 flex items-center justify-center">
                   <Briefcase size={32} className="text-theme-primary" />
                 </div>
               </div>
               
-              <p className="text-theme-secondary mb-4 text-center">
-                How do you prefer to learn and implement new systems? This helps us match you with the right level of guidance.
-              </p>
+              <div className="bg-vs-gradient-teal rounded-lg p-3 mb-3 text-white shadow-theme-md">
+                <h4 className="font-medium text-center mb-1 text-base">Your Implementation Style</h4>
+                <p className="text-white/80 text-center text-sm">
+                  How do you prefer to learn new systems? We'll match you with the right level of support.
+                </p>
+              </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-4 max-w-md mx-auto">
                 <button
                   onClick={() => handleAnswerChange('implementationSupport', 'self_directed')}
                   data-value="self_directed"
-                  className={`implementationSupport-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`implementationSupport-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.implementationSupport === 'self_directed' || selectedChoice === 'self_directed'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'self_directed' ? 'pointer-events-none' : ''}`}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Self-Guided</h3>
-                    {answers.implementationSupport === 'self_directed' && (
-                      <CheckCircle className="h-5 w-5 text-theme-primary" />
-                    )}
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
+                    <Briefcase size={24} className="text-theme-primary" />
                   </div>
-                  <p className="text-theme-secondary text-sm">I prefer comprehensive resources I can implement at my own pace</p>
+                  <div className="flex-grow">
+                    <h3 className="text-theme-primary font-medium">Self-Driven</h3>
+                    <p className="text-theme-secondary text-sm">I prefer complete resources I can implement at my own pace</p>
+                  </div>
+                  {answers.implementationSupport === 'self_directed' && (
+                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
+                  )}
                 </button>
                 
                 <button
                   onClick={() => handleAnswerChange('implementationSupport', 'guided')}
                   data-value="guided"
-                  className={`implementationSupport-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`implementationSupport-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.implementationSupport === 'guided' || selectedChoice === 'guided'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'guided' ? 'pointer-events-none' : ''}`}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Coaching & Support</h3>
-                    {answers.implementationSupport === 'guided' && (
-                      <CheckCircle className="h-5 w-5 text-theme-primary" />
-                    )}
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
+                    <Briefcase size={24} className="text-theme-primary" />
                   </div>
-                  <p className="text-theme-secondary text-sm">I value regular guidance while implementing myself</p>
+                  <div className="flex-grow">
+                    <h3 className="text-theme-primary font-medium">Coaching & Support</h3>
+                    <p className="text-theme-secondary text-sm">I value strategic guidance while implementing myself</p>
+                  </div>
+                  {answers.implementationSupport === 'guided' && (
+                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
+                  )}
                 </button>
                 
                 <button
                   onClick={() => handleAnswerChange('implementationSupport', 'full_service')}
                   data-value="full_service"
-                  className={`implementationSupport-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`implementationSupport-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.implementationSupport === 'full_service' || selectedChoice === 'full_service'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'full_service' ? 'pointer-events-none' : ''}`}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Hands-On Support</h3>
-                    {answers.implementationSupport === 'full_service' && (
-                      <CheckCircle className="h-5 w-5 text-theme-primary" />
-                    )}
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
+                    <Briefcase size={24} className="text-theme-primary" />
                   </div>
-                  <p className="text-theme-secondary text-sm">I want dedicated help implementing this in my business</p>
-                </button>
-                
-                <button
-                  onClick={() => handleAnswerChange('implementationSupport', 'undecided')}
-                  data-value="undecided"
-                  className={`implementationSupport-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.implementationSupport === 'undecided' || selectedChoice === 'undecided'
-                      ? 'border-theme-primary bg-theme-primary/10' 
-                      : 'border-theme-border-light bg-theme-bg-surface'
-                  } ${isAnimatingSelection && selectedChoice !== 'undecided' ? 'pointer-events-none' : ''}`}
-                >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Flexible Approach</h3>
-                    {answers.implementationSupport === 'undecided' && (
-                      <CheckCircle className="h-5 w-5 text-theme-primary" />
-                    )}
+                  <div className="flex-grow">
+                    <h3 className="text-theme-primary font-medium">Full Implementation</h3>
+                    <p className="text-theme-secondary text-sm">I want dedicated experts handling the implementation for me</p>
                   </div>
-                  <p className="text-theme-secondary text-sm">I'd like to discuss options based on my specific situation</p>
+                  {answers.implementationSupport === 'full_service' && (
+                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
+                  )}
                 </button>
               </div>
             </div>
@@ -2003,87 +2108,81 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {stage === 'timeline' && (
             <div className="space-y-4">
               {/* Stage illustration */}
-              <div className="flex justify-center mb-4">
-                <div className="w-16 h-16 rounded-full bg-theme-primary/10 flex items-center justify-center">
+              <div className="flex justify-center mb-3">
+                <div className="w-16 h-16 rounded-full bg-theme-gradient/10 flex items-center justify-center">
                   <Clock size={32} className="text-theme-primary" />
                 </div>
               </div>
               
-              <p className="text-theme-secondary mb-4 text-center">
-                When are you looking to see results? We'll adjust our approach to match your timeline.
-              </p>
+              <div className="bg-vs-gradient-coral-orange rounded-lg p-3 mb-3 text-white shadow-theme-md">
+                <h4 className="font-medium text-center mb-1 text-base">Your Growth Timeline</h4>
+                <p className="text-white/80 text-center text-sm">
+                  When do you want to see results? We'll adjust our approach to match your goals.
+                </p>
+              </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-4 max-w-md mx-auto">
                 <button
                   onClick={() => handleAnswerChange('timeline', 'immediate')}
                   data-value="immediate"
-                  className={`timeline-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`timeline-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.timeline === 'immediate' || selectedChoice === 'immediate'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'immediate' ? 'pointer-events-none' : ''}`}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Ready Now</h3>
-                    {answers.timeline === 'immediate' && (
-                      <CheckCircle className="h-5 w-5 text-theme-primary" />
-                    )}
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
+                    <Clock size={24} className="text-theme-primary" />
                   </div>
-                  <p className="text-theme-secondary text-sm">I want to implement and see results ASAP</p>
+                  <div className="flex-grow">
+                    <h3 className="text-theme-primary font-medium">ASAP Growth</h3>
+                    <p className="text-theme-secondary text-sm">I need results immediately, ready to implement now</p>
+                  </div>
+                  {answers.timeline === 'immediate' && (
+                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
+                  )}
                 </button>
                 
                 <button
                   onClick={() => handleAnswerChange('timeline', 'next_quarter')}
                   data-value="next_quarter"
-                  className={`timeline-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`timeline-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.timeline === 'next_quarter' || selectedChoice === 'next_quarter'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'next_quarter' ? 'pointer-events-none' : ''}`}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Next Quarter</h3>
-                    {answers.timeline === 'next_quarter' && (
-                      <CheckCircle className="h-5 w-5 text-theme-primary" />
-                    )}
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
+                    <Clock size={24} className="text-theme-primary" />
                   </div>
-                  <p className="text-theme-secondary text-sm">Planning for implementation in 1-3 months</p>
+                  <div className="flex-grow">
+                    <h3 className="text-theme-primary font-medium">Next 90 Days</h3>
+                    <p className="text-theme-secondary text-sm">Planning for implementation within 1-3 months</p>
+                  </div>
+                  {answers.timeline === 'next_quarter' && (
+                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
+                  )}
                 </button>
                 
                 <button
                   onClick={() => handleAnswerChange('timeline', 'exploratory')}
                   data-value="exploratory"
-                  className={`timeline-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`timeline-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.timeline === 'exploratory' || selectedChoice === 'exploratory'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'exploratory' ? 'pointer-events-none' : ''}`}
                 >
-                  <div className="flex justify-between items-start mb-2">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
+                    <Clock size={24} className="text-theme-primary" />
+                  </div>
+                  <div className="flex-grow">
                     <h3 className="text-theme-primary font-medium">Strategic Planning</h3>
-                    {answers.timeline === 'exploratory' && (
-                      <CheckCircle className="h-5 w-5 text-theme-primary" />
-                    )}
+                    <p className="text-theme-secondary text-sm">Building roadmap for implementation later this year</p>
                   </div>
-                  <p className="text-theme-secondary text-sm">Mapping out our approach for later this year</p>
-                </button>
-                
-                <button
-                  onClick={() => handleAnswerChange('timeline', 'flexible')}
-                  data-value="flexible"
-                  className={`timeline-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.timeline === 'flexible' || selectedChoice === 'flexible'
-                      ? 'border-theme-primary bg-theme-primary/10' 
-                      : 'border-theme-border-light bg-theme-bg-surface'
-                  } ${isAnimatingSelection && selectedChoice !== 'flexible' ? 'pointer-events-none' : ''}`}
-                >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Timeline Flexible</h3>
-                    {answers.timeline === 'flexible' && (
-                      <CheckCircle className="h-5 w-5 text-theme-primary" />
-                    )}
-                  </div>
-                  <p className="text-theme-secondary text-sm">I'm more concerned with getting it right than speed</p>
+                  {answers.timeline === 'exploratory' && (
+                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
+                  )}
                 </button>
               </div>
             </div>
@@ -2093,87 +2192,81 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           {stage === 'contentVolume' && (
             <div className="space-y-4">
               {/* Stage illustration */}
-              <div className="flex justify-center mb-4">
-                <div className="w-16 h-16 rounded-full bg-theme-primary/10 flex items-center justify-center">
+              <div className="flex justify-center mb-3">
+                <div className="w-16 h-16 rounded-full bg-theme-gradient/10 flex items-center justify-center">
                   <BarChart4 size={32} className="text-theme-primary" />
                 </div>
               </div>
               
-              <p className="text-theme-secondary mb-4 text-center">
-                What kind of content output are you aiming for? This helps us design the right production framework.
-              </p>
+              <div className="bg-vs-gradient-orange rounded-lg p-3 mb-3 text-white shadow-theme-md">
+                <h4 className="font-medium text-center mb-1 text-base">Your Content Vision</h4>
+                <p className="text-white/80 text-center text-sm">
+                  What volume and approach fits your growth goals? We'll design your ideal framework.
+                </p>
+              </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-4 max-w-md mx-auto">
                 <button
                   onClick={() => handleAnswerChange('contentVolume', 'low')}
                   data-value="low"
-                  className={`contentVolume-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`contentVolume-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.contentVolume === 'low' || selectedChoice === 'low'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'low' ? 'pointer-events-none' : ''}`}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Focused Impact</h3>
-                    {answers.contentVolume === 'low' && (
-                      <CheckCircle className="h-5 w-5 text-theme-primary" />
-                    )}
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
+                    <BarChart4 size={24} className="text-theme-primary" />
                   </div>
-                  <p className="text-theme-secondary text-sm">A few high-impact pieces that drive real results</p>
+                  <div className="flex-grow">
+                    <h3 className="text-theme-primary font-medium">High-Impact Focus</h3>
+                    <p className="text-theme-secondary text-sm">Strategic pieces that maximize ROI and conversions</p>
+                  </div>
+                  {answers.contentVolume === 'low' && (
+                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
+                  )}
                 </button>
                 
                 <button
                   onClick={() => handleAnswerChange('contentVolume', 'medium')}
                   data-value="medium"
-                  className={`contentVolume-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`contentVolume-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.contentVolume === 'medium' || selectedChoice === 'medium'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'medium' ? 'pointer-events-none' : ''}`}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Consistent Presence</h3>
-                    {answers.contentVolume === 'medium' && (
-                      <CheckCircle className="h-5 w-5 text-theme-primary" />
-                    )}
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
+                    <BarChart4 size={24} className="text-theme-primary" />
                   </div>
-                  <p className="text-theme-secondary text-sm">Regular content across key channels (10-30 pieces monthly)</p>
+                  <div className="flex-grow">
+                    <h3 className="text-theme-primary font-medium">Consistent Growth</h3>
+                    <p className="text-theme-secondary text-sm">Regular content system (10-30 pieces monthly)</p>
+                  </div>
+                  {answers.contentVolume === 'medium' && (
+                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
+                  )}
                 </button>
                 
                 <button
                   onClick={() => handleAnswerChange('contentVolume', 'high')}
                   data-value="high"
-                  className={`contentVolume-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
+                  className={`contentVolume-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
                     answers.contentVolume === 'high' || selectedChoice === 'high'
-                      ? 'border-theme-primary bg-theme-primary/10' 
+                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
                       : 'border-theme-border-light bg-theme-bg-surface'
                   } ${isAnimatingSelection && selectedChoice !== 'high' ? 'pointer-events-none' : ''}`}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Content Engine</h3>
-                    {answers.contentVolume === 'high' && (
-                      <CheckCircle className="h-5 w-5 text-theme-primary" />
-                    )}
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
+                    <BarChart4 size={24} className="text-theme-primary" />
                   </div>
-                  <p className="text-theme-secondary text-sm">Scaling content across multiple platforms and formats</p>
-                </button>
-                
-                <button
-                  onClick={() => handleAnswerChange('contentVolume', 'undecided')}
-                  data-value="undecided"
-                  className={`contentVolume-option flex flex-col h-full p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.contentVolume === 'undecided' || selectedChoice === 'undecided'
-                      ? 'border-theme-primary bg-theme-primary/10' 
-                      : 'border-theme-border-light bg-theme-bg-surface'
-                  } ${isAnimatingSelection && selectedChoice !== 'undecided' ? 'pointer-events-none' : ''}`}
-                >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-theme-primary font-medium">Strategy First</h3>
-                    {answers.contentVolume === 'undecided' && (
-                      <CheckCircle className="h-5 w-5 text-theme-primary" />
-                    )}
+                  <div className="flex-grow">
+                    <h3 className="text-theme-primary font-medium">Full-Scale Engine</h3>
+                    <p className="text-theme-secondary text-sm">Comprehensive system across multiple platforms</p>
                   </div>
-                  <p className="text-theme-secondary text-sm">I need help determining the right volume for my goals</p>
+                  {answers.contentVolume === 'high' && (
+                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
+                  )}
                 </button>
               </div>
             </div>
@@ -2195,32 +2288,36 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
           
           {/* Recommendation Stage - Different layouts based on recommendation type */}
           {stage === 'recommendation' && recommendation && (
-            <div className="h-[68vh] overflow-hidden flex flex-col">
+            <div className="h-auto max-h-[60vh] overflow-y-auto flex flex-col">
               {/* Recommendation Header - More visual with badge design */}
-              <div className="p-5 flex items-center justify-between border-b border-[var(--theme-border-light)] bg-theme-gradient-primary/10">
+              <div className={`p-5 flex items-center justify-between border-b border-[var(--theme-border-light)] bg-theme-gradient 
+                ${recommendation.type === 'executive' ? 'vs-gradient-coral-orange' : 
+                 recommendation.type === 'comprehensive' ? 'vs-gradient-primary-accent' : 
+                 'vs-gradient-teal'}
+              `}>
                 <div className="flex items-center gap-4">
                   <div className={`
-                    p-3.5 rounded-full shadow-theme-sm
-                    ${recommendation.type === 'executive' ? 'bg-[#B92234]/10 text-[#B92234] dark:bg-[#B92234]/20 dark:text-[#D72D41]' : 
-                    recommendation.type === 'comprehensive' ? 'bg-[#FEA35D]/10 text-[#FEA35D] dark:bg-[#FEA35D]/20 dark:text-[#FEB77D]' : 
-                    'bg-[#357380]/10 text-[#357380] dark:bg-[#357380]/20 dark:text-[#4789A0]'}
+                    p-3.5 rounded-full shadow-theme-md backdrop-blur-md
+                    ${recommendation.type === 'executive' ? 'bg-white/20 text-white' : 
+                    recommendation.type === 'comprehensive' ? 'bg-white/20 text-white' : 
+                    'bg-white/20 text-white'}
                   `}>
                     <Award className="h-8 w-8" />
                   </div>
                   
                   <div>
-                    <span className="text-sm text-theme-tertiary">Your Personalized Recommendation</span>
-                    <h3 className="font-bold text-theme-primary text-2xl leading-tight">
-                      {recommendation.type === 'executive' ? 'Executive Partnership' : 
-                       recommendation.type === 'comprehensive' ? 'Comprehensive Implementation' : 
-                       'Foundation Program'}
+                    <span className="text-sm text-white/80">Your Personalized Recommendation</span>
+                    <h3 className="font-bold text-white text-2xl leading-tight">
+                      {recommendation.type === 'executive' ? 'Executive Partnership: Accelerated Implementation' : 
+                       recommendation.type === 'comprehensive' ? 'Comprehensive Implementation: Complete Support' : 
+                       'Foundation Program: Essential Building Blocks'}
                     </h3>
                   </div>
                 </div>
                 
-                <div className="bg-theme-primary/10 p-3 rounded-xl">
-                  <span className="text-sm text-theme-tertiary block">Starting at</span>
-                  <span className="text-2xl font-bold text-theme-primary">{recommendation.pricing}</span>
+                <div className="bg-white/20 p-3 rounded-xl backdrop-blur-md shadow-theme-md">
+                  <span className="text-sm text-white/80 block">Starting at</span>
+                  <span className="text-2xl font-bold text-white">{recommendation.pricing}</span>
                 </div>
               </div>
               
@@ -2235,7 +2332,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               ) : (
                 <PremiumRecommendationView
                   recommendation={recommendation}
-                  showCalendly={showCalendly}
+                  showCalendly={recommendation.showCalendly || false}
                   onClose={handleCalendlyClose}
                   answers={answers}
                 />
@@ -2245,62 +2342,69 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         </div>
         
         {/* Modal footer with navigation buttons */}
-        <div className="border-t border-[var(--theme-border-light)] p-6">
+        <div className="border-t border-[var(--theme-border-light)] p-4">
           <div className="flex justify-between">
             {/* Back button - only show if not on first or last stage */}
             {stage !== 'intro' && stage !== 'recommendation' && (
-              <button
+              <Button
                 onClick={goToPreviousStage}
-                className="text-theme-secondary hover:text-theme-primary px-4 py-2 rounded-lg transition-colors hover-bubbly-sm"
+                variant="outline"
+                size="sm"
               >
                 Back
-              </button>
+              </Button>
             )}
             
             {/* Cancel button - only on first stage or recommendation */}
             {(stage === 'intro' || stage === 'recommendation') && (
-              <button
+              <Button
                 onClick={handleClose}
-                className="text-theme-secondary hover:text-theme-primary px-4 py-2 rounded-lg transition-colors hover-bubbly-sm"
+                variant="ghost"
+                size="sm"
               >
                 {stage === 'intro' ? 'Maybe later' : 'Close'}
-              </button>
+              </Button>
             )}
             
             {/* Enhanced intro stage footer with Learn More option */}
             {stage === 'intro' && (
-              <div className="space-x-3">
-                <button
+              <div className="space-x-2">
+                <Button
                   onClick={() => window.scrollTo({ top: document.getElementById('features-section')?.offsetTop || 0, behavior: 'smooth' })}
-                  className="border border-theme-border-light text-theme-secondary hover:text-theme-primary px-5 py-2 rounded-lg transition-colors hover-bubbly-sm"
+                  variant="outline"
+                  size="sm"
                 >
-                  Learn about features first
-                </button>
+                  See all features
+                </Button>
                 
-                <button
+                <Button
                   onClick={goToNextStage}
-                  className="flex items-center gap-2 px-6 py-2 rounded-lg transition-colors hover-bubbly-sm text-theme-primary bg-[var(--theme-primary)] hover:bg-[var(--theme-primary-hover)] text-white"
+
+                  variant="default"
+                  size="sm"
+                  className="flex items-center gap-1"
+
                 >
-                  Find my solution
-                  <ChevronRight className="h-4 w-4" />
-                </button>
+                  Get my personalized plan
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </Button>
               </div>
             )}
             
             {/* Contact stage button */}
             {stage === 'contact' && (
-              <button
+              <Button
                 onClick={goToNextStage}
                 disabled={!canProceed()}
-                className={`flex items-center gap-2 px-6 py-2 rounded-lg transition-colors hover-bubbly-sm ${
-                  !canProceed()
-                    ? 'bg-theme-bg-secondary text-[#000000] theme-primary cursor-not-allowed'
-                    : 'bg-theme-primary hover:bg-theme-primary-hover text-black'
-                }`}
+
+                variant={canProceed() ? "default" : "subtle"}
+                size="sm"
+                className="flex items-center gap-1"
+
               >
                 Show My Recommendation
-                <ChevronRight className="h-4 w-4" />
-              </button>
+                <ChevronRight className="h-3.5 w-3.5" />
+              </Button>
             )}
           </div>
         </div>

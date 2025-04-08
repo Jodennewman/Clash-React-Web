@@ -859,6 +859,61 @@ export const getModuleThumbnail = (moduleId: string): string => {
   return module && module.thumbnail ? module.thumbnail : 'default.webp';
 };
 
+// System information for ModuleHUD
+interface SystemData {
+  id: string;
+  title: string;
+  description: string;
+  features: string[];
+  subtitle?: string; // Short description for small block display
+}
+
+// Get system data for the Systems blocks in ModuleHUD
+export const getSystemData = (systemId: string): SystemData | null => {
+  // This data would ideally come from the course-data.json file
+  // For now, we'll define it here but it could be moved to the JSON later
+  const systemsData: SystemData[] = [
+    {
+      id: 'notion_system',
+      title: 'Notion System',
+      subtitle: 'Content Organization',
+      description: 'Our comprehensive content organization system powered by a custom Notion database with advanced integrations.',
+      features: [
+        'Content planning with linked databases',
+        'Ready-to-use templates for scripts',
+        'Database analytics for performance tracking',
+        'Automated content scheduling and workflows'
+      ]
+    },
+    {
+      id: 'engine_room',
+      title: 'Engine Room',
+      subtitle: 'Content Production',
+      description: 'Our streamlined content production system that turns raw footage into professional-quality videos.',
+      features: [
+        'AI-powered video transcription',
+        'Content optimization suggestions',
+        'Automated editing workflows',
+        'Quality control checkpoints'
+      ]
+    },
+    {
+      id: 'viral_os',
+      title: 'Video OS',
+      subtitle: 'Editing Tools',
+      description: 'A powerful editing system with specialized templates and editing presets for high-conversion videos.',
+      features: [
+        'Custom transitions and effects library',
+        'Proven hook templates for maximum retention',
+        'Auto-captioning with style presets',
+        'Analytics integration for performance tracking'
+      ]
+    }
+  ];
+  
+  return systemsData.find(system => system.id === systemId) || null;
+};
+
 // Export default object with all utils
 export default {
   tracks,
@@ -883,5 +938,6 @@ export default {
   searchModules,
   getCreators, // Add the new case study/creators function
   getModuleTitle, // Helper for modal
-  getModuleThumbnail // Helper for modal
+  getModuleThumbnail, // Helper for modal
+  getSystemData // System data for ModuleHUD
 };

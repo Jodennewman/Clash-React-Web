@@ -282,7 +282,7 @@ const ModuleHUDShowcase: React.FC = () => {
           </div>
 
           {/* CSS for styling variants */}
-          <style jsx="true">{`
+          <style>{`
             /* Enhanced Floating Elements */
             .enhanced-floating .module-item {
               transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);

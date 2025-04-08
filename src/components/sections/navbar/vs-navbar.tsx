@@ -14,7 +14,11 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 // Register ScrollToPlugin
 gsap.registerPlugin(ScrollToPlugin);
 
-export default function VSNavbar() {
+interface VSNavbarProps {
+  onApplyClick?: () => void;
+}
+
+export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
@@ -181,6 +185,7 @@ export default function VSNavbar() {
           <NavbarRight className="gap-1 sm:gap-2">
             <Button 
               variant="default" 
+
               className="bg-theme-primary hover:bg-theme-primary-hover text-theme-on-primary-5 py-1 sm:py-1.5 md:py-2 px-2.5 sm:px-3 md:px-4 text-xs sm:text-sm shadow-theme-sm transition-all duration-[--transition-bounce] hover:translate-y-[-2px] hover:scale-[1.02] md:hover:translate-y-[-3px] md:hover:scale-[1.03] hover:shadow-theme-md"
               onClick={handleApplyClick}
             >
@@ -250,6 +255,7 @@ export default function VSNavbar() {
                     Pricing
                   </button>
                   <Button 
+
                     className="mt-4 bg-theme-primary hover:bg-theme-primary-hover text-theme-on-primary text-sm sm:text-base py-2 sm:py-2.5 shadow-theme-sm transition-all duration-[--transition-bounce] hover:translate-y-[-2px] hover:scale-[1.02] hover:shadow-theme-md"
                     onClick={handleApplyClick}
                   >

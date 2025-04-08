@@ -361,6 +361,7 @@ export const CourseViewer: React.FC = () => {
             variant="outline" 
             className="bg-theme-surface/5 text-theme-primary border-theme-primary/30 mb-4 py-2 px-4 mx-auto shadow-theme-sm"
           >
+
             Course Navigator
           </Badge>
           <VSGradientText

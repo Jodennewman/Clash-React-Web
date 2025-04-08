@@ -3232,6 +3232,7 @@
         },
         {
           "id": "production-automation-suite",
+
           "title": "The Invisible Studio",
           "emoji": "🏭",
           "tagline": "Turn a team of 3 into 20",
@@ -3251,6 +3252,7 @@
         },
         {
           "id": "video-editing-ecosystem",
+
           "title": "The Editor's Arsenal",
           "emoji": "🖥️",
           "tagline": "Hollywood Quality, Startup Speed",
@@ -3260,6 +3262,7 @@
             "Time-bending plugins that compress hours into minutes",
             "One-click presets that make decisions for you",
             "Revolutionary auto-cutter with semantic understanding of your footage"
+
           ],
           "hasCustomCode": true,
           "hasTemplates": true,
@@ -3269,10 +3272,12 @@
         },
         {
           "id": "content-operations-protocol",
+
           "title": "The Team Wavelength",
           "emoji": "📋",
           "tagline": "Get the whole team speaking the same language",
           "description": "Never let another creative idea fall through the cracks again. Turn communication chaos into a synchronized operation where everyone speaks the same language—even when you're not in the room. This system ensures every team member understands their role with crystal clarity, eliminating the 'I thought someone else was handling that' syndrome forever. Watch as miscommunications vanish and your team operates with newfound harmony and precision.",
+
           "features": [
             "Comprehensive review and approval workflow",
             "Clear delegation framework with accountability",

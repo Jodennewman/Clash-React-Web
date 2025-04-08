@@ -12,6 +12,7 @@ import VSModalShowcase from './components/VSModalShowcase';
 import { VSPainPoints, VSCharts } from './components/sections';
 import CalendlyDemo from './components/Calendly/CalendlyDemo';
 
+
 import ThemeStyleGuide from './components/ThemeStyleGuide';
 
 import ModalImplementation from './Qualification_components/modal-implementation';
@@ -129,7 +130,6 @@ function App() {
           className="flex items-center justify-center w-10 h-10 rounded-full bg-theme-primary shadow-theme-sm hover-bubbly-sm"
           title="Marble Buttons"
         >
-
         <Link to="/marble-buttons" className="flex items-center justify-center w-10 h-10 rounded-full bg-theme-primary shadow-lg hover:scale-110 transition-transform">
 
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
