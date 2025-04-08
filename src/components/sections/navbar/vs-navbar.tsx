@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "../../ui/button";
 import {
   Navbar as NavbarComponent,
@@ -7,26 +7,58 @@ import {
 } from "../../ui/navbar";
 import { Sheet, SheetContent, SheetTrigger } from "../../ui/sheet";
 import { Menu } from "lucide-react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+// Register ScrollToPlugin
+gsap.registerPlugin(ScrollToPlugin);
 
 export default function VSNavbar() {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const navbarRef = useRef(null);
+  
+  // GSAP animation for the navbar
+  useGSAP(() => {
+    const ctx = gsap.context(() => {
+      if (isVisible) {
+        gsap.to(navbarRef.current, {
+          y: 0,
+          opacity: 1,
+          duration: 0.5,
+          ease: "power3.out"
+        });
+      } else {
+        gsap.to(navbarRef.current, {
+          y: -100,
+          opacity: 0,
+          duration: 0.6,
+          ease: "power2.inOut"
+        });
+      }
+    }, navbarRef);
+    
+    return () => ctx.revert();
+  }, [isVisible]);
 
+  // Improved scroll handling
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       
+      // More graceful transition behavior with debounce-like concept
       // Make navbar visible after scrolling down a bit (300px)
       if (currentScrollY > 300) {
-        // Show on scroll up, hide on scroll down
-        if (currentScrollY < lastScrollY) {
+        // Show on scroll up, hide on scroll down - with threshold to prevent jitter
+        if (currentScrollY < lastScrollY - 30) {
           setIsVisible(true);
-        } else {
+        } else if (currentScrollY > lastScrollY + 30) {
           setIsVisible(false);
         }
       } else {
-        // Always hide at the top of the page
-        setIsVisible(false);
+        // When at the top of the page, keep the navbar visible
+        setIsVisible(true);
       }
       
       setLastScrollY(currentScrollY);
@@ -35,16 +67,31 @@ export default function VSNavbar() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
+  
+  // Smooth scroll function for nav links
+  const handleNavLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string): void => {
+    e.preventDefault();
+    const targetElement = document.getElementById(targetId);
+    
+    if (targetElement) {
+      // Use GSAP for smooth scrolling
+      gsap.to(window, {
+        duration: 1.2,
+        scrollTo: {
+          y: targetElement,
+          offsetY: 100
+        },
+        ease: "power3.inOut"
+      });
+    }
+  };
 
   return (
     <header 
-      className={`fixed top-0 w-full z-50 px-4 md:px-6 py-3 transition-all duration-300 ${
-        isVisible 
-          ? "transform-none" 
-          : "transform -translate-y-full"
-      }`}
+      ref={navbarRef}
+      className="fixed top-0 w-full z-50 px-4 md:px-6 py-3"
     >
-      <div className="max-w-[1400px] bg-[#08141B]/90 border-white/10 relative mx-auto rounded-2xl border p-2 py-3 px-4 md:px-6 backdrop-blur-lg">
+      <div className="max-w-[1400px] bg-theme-primary backdrop-blur-md border border-theme-border relative mx-auto rounded-2xl p-2 py-3 px-4 md:px-6 shadow-theme-sm hover:shadow-theme-md transition-all duration-300 overflow-hidden">
         <NavbarComponent className="py-1">
           <NavbarLeft>
             <img 
@@ -52,27 +99,58 @@ export default function VSNavbar() {
               alt="Clash Creation" 
               className="h-8 mr-3"
             />
-            <div className="w-8 h-8 rounded-full bg-[#FEA35D] flex items-center justify-center">
-              <span className="text-[#08141B] font-bold">VS</span>
+            <div className="w-8 h-8 rounded-full bg-theme-primary flex items-center justify-center shadow-theme-sm">
+              <span className="text-theme-on-primary-bold text-sm">VS</span>
             </div>
-            <span className="text-white ml-2">Vertical Shortcut</span>
-          
+            <span className="text-theme-primary ml-2 font-medium">Vertical Shortcut</span>
           </NavbarLeft>
-          <nav className="hidden md:flex ml-8 gap-8">
-            <a href="#benefits" className="text-white/70 hover:text-white text-sm">Benefits</a>
-            <a href="#curriculum" className="text-white/70 hover:text-white text-sm">Curriculum</a>
-            <a href="#testimonials" className="text-white/70 hover:text-white text-sm">Success Stories</a>
-            <a href="#pricing" className="text-white/70 hover:text-white text-sm">Pricing</a>
+          
+          <nav className="hidden md:flex ml-8 gap-6">
+            <button 
+              onClick={(e) => handleNavLinkClick(e, "benefits")}
+              className="px-3 py-1.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 text-sm font-medium transition-all duration-300"
+            >
+              Benefits
+            </button>
+            <button 
+              onClick={(e) => handleNavLinkClick(e, "curriculum")}
+              className="px-3 py-1.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 text-sm font-medium transition-all duration-300"
+            >
+              Curriculum
+            </button>
+            <button 
+              onClick={(e) => handleNavLinkClick(e, "testimonials")}
+              className="px-3 py-1.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 text-sm font-medium transition-all duration-[--transition-bounce]"
+            >
+              Success Stories
+            </button>
+            <button 
+              onClick={(e) => handleNavLinkClick(e, "pricing")}
+              className="px-3 py-1.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 text-sm font-medium transition-all duration-[--transition-bounce]"
+            >
+              Pricing
+            </button>
           </nav>
           
           <NavbarRight>
-            <a href="#" className="text-sm text-white/70 hover:text-white mr-4">
-              Sign in
-            </a>
             <Button 
               variant="default" 
-              className="bg-[#FEA35D] hover:bg-[#F89A67] text-[#08141B] px-5"
-              onClick={() => window.location.href = '/application-form'}
+              className="bg-theme-primary hover:bg-theme-primary-hover text-theme-on-primary-5 py-2 shadow-theme-sm transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-theme-md"
+              onClick={() => {
+                const applicationForm = document.getElementById("application-form");
+                if (applicationForm) {
+                  gsap.to(window, {
+                    duration: 1.2,
+                    scrollTo: {
+                      y: applicationForm,
+                      offsetY: 80
+                    },
+                    ease: "power3.inOut"
+                  });
+                } else {
+                  window.location.href = '/application-form';
+                }
+              }}
             >
               Apply Now
             </Button>
@@ -81,17 +159,16 @@ export default function VSNavbar() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="shrink-0 md:hidden ml-2"
+                  className="shrink-0 md:hidden ml-2 text-theme-primary hover:bg-theme-secondary/20 transition-all duration-[--transition-bounce]"
                 >
                   <Menu className="size-5" />
                   <span className="sr-only">Toggle navigation menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="bg-[#09232F] border-[#154D59]/50">
-                <nav className="grid gap-6 text-lg font-medium">
-                  <a
-                    href="#"
-                    className="flex items-center gap-2 text-xl font-bold text-white"
+              <SheetContent side="right" className="bg-theme-primary border-theme-border">
+                <nav className="grid gap-6 text-lg">
+                  <div
+                    className="flex items-center gap-2 text-xl font-bold text-theme-primary"
                   >
                     <img 
                       src="/Clash-Logo-One-Line-Light-for-Dark.png" 
@@ -99,34 +176,89 @@ export default function VSNavbar() {
                       className="h-6 mr-2"
                     />
                     <span>Vertical Shortcut</span>
-                  </a>
-                  <a
-                    href="#benefits"
-                    className="text-white/70 hover:text-white"
+                  </div>
+                  
+                  <button
+                    className="text-left px-3 py-2 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce]"
+                    onClick={(e) => {
+                      handleNavLinkClick(e, "benefits");
+                      const sheet = document.querySelector('[data-state="open"]');
+                      if (sheet) {
+                        const closeButton = sheet.querySelector('button[aria-label="Close"]');
+                        if (closeButton && closeButton instanceof HTMLElement) closeButton.click();
+                      }
+                    }}
                   >
                     Benefits
-                  </a>
-                  <a
-                    href="#curriculum"
-                    className="text-white/70 hover:text-white"
+                  </button>
+                  
+                  <button
+                    className="text-left px-3 py-2 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce]"
+                    onClick={(e) => {
+                      handleNavLinkClick(e, "curriculum");
+                      const sheet = document.querySelector('[data-state="open"]');
+                      if (sheet) {
+                        const closeButton = sheet.querySelector('button[aria-label="Close"]');
+                        if (closeButton && closeButton instanceof HTMLElement) closeButton.click();
+                      }
+                    }}
                   >
                     Curriculum
-                  </a>
-                  <a
-                    href="#testimonials"
-                    className="text-white/70 hover:text-white"
+                  </button>
+                  
+                  <button
+                    className="text-left px-3 py-2 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce]"
+                    onClick={(e) => {
+                      handleNavLinkClick(e, "testimonials");
+                      const sheet = document.querySelector('[data-state="open"]');
+                      if (sheet) {
+                        const closeButton = sheet.querySelector('button[aria-label="Close"]');
+                        if (closeButton && closeButton instanceof HTMLElement) closeButton.click();
+                      }
+                    }}
                   >
                     Success Stories
-                  </a>
-                  <a
-                    href="#pricing"
-                    className="text-white/70 hover:text-white"
+                  </button>
+                  
+                  <button
+                    className="text-left px-3 py-2 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce]"
+                    onClick={(e) => {
+                      handleNavLinkClick(e, "pricing");
+                      const sheet = document.querySelector('[data-state="open"]');
+                      if (sheet) {
+                        const closeButton = sheet.querySelector('button[aria-label="Close"]');
+                        if (closeButton && closeButton instanceof HTMLElement) closeButton.click();
+                      }
+                    }}
                   >
                     Pricing
-                  </a>
+                  </button>
                   <Button 
-                    className="mt-4 bg-[#FEA35D] hover:bg-[#F89A67] text-[#08141B]"
-                    onClick={() => window.location.href = '/application-form'}
+                    className="mt-4 bg-theme-primary hover:bg-theme-primary-hover text-theme-on-primary-theme-sm transition-all duration-[--transition-bounce] hover:translate-y-[-3px] hover:scale-[1.03] hover:shadow-theme-md"
+                    onClick={() => {
+                      const applicationForm = document.getElementById("application-form");
+                      const sheet = document.querySelector('[data-state="open"]');
+                      
+                      if (sheet) {
+                        const closeButton = sheet.querySelector('button[aria-label="Close"]');
+                        if (closeButton && closeButton instanceof HTMLElement) closeButton.click();
+                      }
+                      
+                      if (applicationForm) {
+                        setTimeout(() => {
+                          gsap.to(window, {
+                            duration: 1.2,
+                            scrollTo: {
+                              y: applicationForm,
+                              offsetY: 80
+                            },
+                            ease: "power3.inOut"
+                          });
+                        }, 300);
+                      } else {
+                        window.location.href = '/application-form';
+                      }
+                    }}
                   >
                     Apply Now
                   </Button>

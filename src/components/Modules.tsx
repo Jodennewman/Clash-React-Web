@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from "@gsap/react";
 import { Disclosure, Transition } from '@headlessui/react';
 import { ChevronUpIcon } from '@heroicons/react/24/solid';
+import courseUtils from '../lib/course-utils';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -99,7 +101,7 @@ const ModuleStatistics = () => {
   return (
     <div className="py-12">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-        <div className="relative bg-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden group">
+        <div className="relative bg-theme-bg-surface-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-br from-primary-orange/5 to-primary-salmon/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <div className="relative z-10">
             <div className="text-5xl font-bold bg-gradient-to-r from-primary-orange to-primary-salmon bg-clip-text text-transparent mb-3">
@@ -109,7 +111,7 @@ const ModuleStatistics = () => {
           </div>
         </div>
         
-        <div className="relative bg-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden group">
+        <div className="relative bg-theme-bg-surface-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-br from-primary-orange/5 to-primary-salmon/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <div className="relative z-10">
             <div className="text-5xl font-bold bg-gradient-to-r from-primary-orange to-primary-salmon bg-clip-text text-transparent mb-3">
@@ -119,7 +121,7 @@ const ModuleStatistics = () => {
           </div>
         </div>
         
-        <div className="relative bg-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden group">
+        <div className="relative bg-theme-bg-surface-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-br from-primary-orange/5 to-primary-salmon/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <div className="relative z-10">
             <div className="text-5xl font-bold bg-gradient-to-r from-primary-orange to-primary-salmon bg-clip-text text-transparent mb-3">
@@ -129,7 +131,7 @@ const ModuleStatistics = () => {
           </div>
         </div>
         
-        <div className="relative bg-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden group">
+        <div className="relative bg-theme-bg-surface-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-br from-primary-orange/5 to-primary-salmon/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <div className="relative z-10">
             <div className="text-5xl font-bold bg-gradient-to-r from-primary-orange to-primary-salmon bg-clip-text text-transparent mb-3">
@@ -161,12 +163,12 @@ const ModuleCard = ({ title, thumbnail, difficulty, color }: ModuleCardProps) =>
   
   return (
     <div 
-      className="group flex flex-col overflow-hidden bg-white rounded-xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+      className="group flex flex-col overflow-hidden bg-theme-bg-surface-xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
       style={{ borderLeft: `4px solid ${color}` }}
     >
       <div className="relative overflow-hidden">
         <img 
-          src={thumbnail} 
+          src={courseUtils.getThumbnailPath(thumbnail)} 
           alt={title} 
           className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105" 
         />
@@ -217,7 +219,7 @@ const CategorySection = ({ category, modules, expandedCategories, toggleCategory
             >
               <h3 className="text-xl font-bold tracking-wide">{category}</h3>
               <div className="flex items-center space-x-6">
-                <span className="text-sm font-medium opacity-90 bg-black/10 px-3 py-1 rounded-full">
+                <span className="text-sm font-medium opacity-90 bg-theme-bg-secondary/10 px-3 py-1 rounded-full">
                   {modules.length} modules
                 </span>
                 <ChevronUpIcon
@@ -239,7 +241,7 @@ const CategorySection = ({ category, modules, expandedCategories, toggleCategory
               leaveFrom="transform scale-100 opacity-100"
               leaveTo="transform scale-95 opacity-0"
             >
-              <Disclosure.Panel className="bg-white p-6">
+              <Disclosure.Panel className="bg-theme-bg-surface-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {modules.map((module: ModuleItem, idx: number) => (
                     <div 
@@ -285,45 +287,50 @@ const ModuleDisplayGrid = () => {
     }, 300);
   };
   
-  // Initialize animations - simplified to use Tailwind for basic animations
-  useEffect(() => {
-    console.log("Initializing main animations with simplified approach");
-    
-    // Only use GSAP for staggered animations that Tailwind can't handle
-    gsap.from('.module-stat', {
-      opacity: 0,
-      y: 20,
-      stagger: 0.1,
-      duration: 0.6,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '.module-stat',
-        start: 'top bottom-=100px',
-        toggleActions: 'play none none none',
-      }
-    });
-    
-    // Cleanup
-    return () => {
-      // Kill all ScrollTriggers to prevent memory leaks
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-  }, []);
+  // Reference to the module display container
+  const moduleDisplayRef = useRef(null);
   
-  // Simplified animation for category changes
-  useEffect(() => {
-    // Set a delay to ensure DOM updates are complete
-    const timer = setTimeout(() => {
-      // We'll let the Tailwind animations handle most of this now
-      // Just refresh ScrollTrigger to ensure any GSAP animations update
-      ScrollTrigger.refresh();
-    }, 200);
+  // Initialize animations using useGSAP for proper cleanup
+  useGSAP(() => {
+    // Create GSAP context for proper cleanup
+    const ctx = gsap.context(() => {
+      // Only use GSAP for staggered animations that Tailwind can't handle
+      gsap.from('.module-stat', {
+        opacity: 0,
+        y: 20,
+        stagger: 0.1,
+        duration: 0.6,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.module-stat',
+          start: 'top bottom-=100px',
+          toggleActions: 'play none none none',
+        }
+      });
+    }, moduleDisplayRef); // Scope to the module display container
     
-    return () => clearTimeout(timer);
-  }, [expandedCategories]);
+    // The context will automatically clean up when the component unmounts
+    return () => ctx.revert();
+  }, []); // Empty dependency array means this runs once on mount
+  
+  // Handle category changes with useGSAP
+  useGSAP(() => {
+    // Create context for animations related to expandedCategories
+    const ctx = gsap.context(() => {
+      // Set a delay to ensure DOM updates are complete
+      const timer = setTimeout(() => {
+        // Refresh ScrollTrigger to ensure any GSAP animations update
+        ScrollTrigger.refresh();
+      }, 200);
+      
+      return () => clearTimeout(timer);
+    }, moduleDisplayRef);
+    
+    return () => ctx.revert();
+  }, [expandedCategories]); // This runs whenever expandedCategories changes
   
   return (
-    <div className="px-4 py-16 md:px-8 lg:px-16 xl:px-24 bg-gradient-to-b from-primary-cream to-light-200">
+    <div ref={moduleDisplayRef} className="px-4 py-16 md:px-8 lg:px-16 xl:px-24 bg-gradient-to-b from-primary-cream to-light-200">
       <div className="max-w-6xl mx-auto text-center mb-16">
         <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-dark-black to-dark-navy bg-clip-text text-transparent">
           Complete Course Curriculum
@@ -335,13 +342,13 @@ const ModuleDisplayGrid = () => {
       
       <ModuleStatistics />
       
-      <div className="relative overflow-hidden bg-gradient-to-r from-primary-orange to-primary-salmon rounded-2xl p-8 my-16 text-center text-white shadow-xl transform hover:scale-[1.02] transition-transform duration-300">
+      <div className="relative overflow-hidden bg-gradient-to-r from-primary-orange to-primary-salmon rounded-2xl p-8 my-16 text-center text-theme-on-primary-xl transform hover:scale-[1.02] transition-transform duration-300">
         <div className="absolute top-0 left-0 w-full h-full bg-[url('/path/to/pattern.svg')] opacity-10" />
         <div className="relative z-10">
-          <div className="inline-block bg-white/90 backdrop-blur-sm text-primary-orange font-bold px-4 py-2 rounded-full text-sm mb-4 shadow-lg">
+          <div className="inline-block bg-theme-bg-surface/90 backdrop-blur-sm text-primary-orange font-bold px-4 py-2 rounded-full text-sm mb-4 shadow-lg">
             Limited Offer
           </div>
-          <p className="text-xl font-medium text-white/90 max-w-2xl mx-auto">
+          <p className="text-xl font-medium text-theme-on-primary/90 max-w-2xl mx-auto">
             Join our beta cohort - only 10 slots available!
           </p>
         </div>
@@ -364,7 +371,7 @@ const ModuleDisplayGrid = () => {
           href="#pricing" 
           className="
             inline-block bg-gradient-to-r from-primary-orange to-primary-salmon 
-            text-white font-bold px-10 py-5 rounded-xl shadow-lg 
+            text-theme-on-primary-bold px-10 py-5 rounded-xl shadow-lg 
             transform transition-all duration-300 
             hover:scale-105 hover:-translate-y-1 hover:shadow-2xl
             focus:outline-none focus:ring-2 focus:ring-primary-orange focus:ring-offset-2

@@ -1,9 +1,8 @@
-import { useTheme } from "next-themes";
+import { useTheme } from "../../ui/theme-provider";
 import React, { useState } from "react";
 import { Section } from "../../ui/section";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../../ui/carousel";
 import { Slide, SlideVisual, SlideButton, SlideContent, SlideDescription, SlideExpandedContent, SlideTitle } from "../../ui/slide";
-//import * as THUMBNAIL from "assets/main/Course_Teaching_images";
 import { 
   featuredModules, 
   getModulesForSection, 
@@ -47,7 +46,10 @@ const moduleToSlideMapping = {
 };
 
 export default function VSCarousel() {
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
+  const resolvedTheme = theme === 'system' 
+    ? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    : theme;
   const [expandedSlides, setExpandedSlides] = useState(new Array(4).fill(false));
 
   const toggleSlide = (index: number) => {
@@ -60,18 +62,49 @@ export default function VSCarousel() {
 
   // Create slides based on featured modules
   const slides = Object.values(moduleToSlideMapping);
+  
+  // Safe access to course stats with defaults
+  const totalModules = courseStats?.totalModules || 0;
+  const totalResources = courseStats?.resources || 0;
+
+  // Function to find module title with proper null checks
+  const findModuleTitle = (moduleId: string): string => {
+    // First try to find in featured modules
+    const featuredModule = featuredModules?.find(m => m.id === moduleId);
+    if (featuredModule?.title) return featuredModule.title;
+    
+    // Then try to find in theory basics section
+    const theoryBasicsModules = getModulesForSection('theory_basics') || [];
+    const basicModule = theoryBasicsModules.find(m => m.id === moduleId);
+    if (basicModule?.title) return basicModule.title;
+    
+    // Default fallback
+    return 'module';
+  };
 
   return (
-    <Section id="curriculum" className="w-full overflow-hidden py-24 bg-[#08141B]">
-      <div className="mx-auto flex max-w-container flex-col items-start gap-6 sm:gap-12">
-        <div className="flex flex-col items-start gap-4">
-          <h2 className="text-balance text-3xl font-semibold sm:text-5xl">
-            Master every aspect of short-form
+    <Section id="curriculum" className="w-full overflow-hidden py-24 vs-carousel-container">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col items-start gap-6 sm:gap-12 mb-12">
+          {/* Accent badge */}
+          <div className="inline-block mb-2 vs-accent-badge">
+            Comprehensive Curriculum
+          </div>
+          
+          <h2 className="text-balance text-4xl md:text-5xl font-bold relative group">
+            <span className="text-[var(--theme-text-primary)] dark:text-theme-on-primary">
+              Master every aspect of <span className="relative inline-block">
+                short-form
+                <span className="absolute -bottom-1 left-0 w-full h-1 bg-[var(--theme-primary)] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"></span>
+              </span>
+            </span>
           </h2>
-          <p className="text-md max-w-[720px] text-balance font-medium text-white/70 sm:text-xl">
-            Vertical Shortcut gives you comprehensive mastery over every element that makes short-form content convert, from psychological triggers to monetization strategies. With {courseStats.totalModules}+ modules and {courseStats.resources}+ resources.
+          
+          <p className="text-xl max-w-[720px] text-balance text-[var(--theme-text-primary)]/80 dark:text-theme-on-primary/80">
+            Vertical Shortcut gives you comprehensive mastery over every element that makes short-form content convert, from psychological triggers to monetization strategies. With {totalModules}+ modules and {totalResources}+ resources.
           </p>
         </div>
+        
         <Carousel
           opts={{
             align: "start",
@@ -83,12 +116,12 @@ export default function VSCarousel() {
             {slides.map((slide, index) => (
               <CarouselItem key={index} className="flex pl-4 md:basis-1/2 lg:basis-2/5">
                 <Slide
-                  className="grow cursor-pointer bg-[#09232F]/50 border border-white/10"
+                  className="grow cursor-pointer vs-carousel-slide group"
                   isExpanded={expandedSlides[index]}
                   onClick={() => toggleSlide(index)}
                 >
                   <SlideVisual
-                    className="fade-bottom-lg min-h-[300px] md:min-h-[400px] items-end overflow-hidden"
+                    className="min-h-[300px] md:min-h-[400px] items-end overflow-hidden rounded-t-xl"
                     isExpanded={expandedSlides[index]}
                   >
                     <img
@@ -100,38 +133,51 @@ export default function VSCarousel() {
                       alt={slide.title}
                       width={900}
                       height={600}
-                      className="h-full min-h-[300px] md:min-h-[400px] w-full origin-top-left object-cover transition-transform duration-300 group-hover:scale-[1.1]"
+                      className="h-full min-h-[300px] md:min-h-[400px] w-full origin-center object-cover transition-all duration-[500ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.08]"
                     />
+                    {/* Gradient overlay */}
                     <div
-                      className="absolute inset-0 bg-gradient-radial from-[#FEA35D]/20 to-transparent scale-[2.5] opacity-20 transition-opacity duration-300 group-hover:opacity-30"
+                      className="absolute inset-0 vs-fade-overlay-dark"
+                      aria-hidden="true"
+                    />
+                    {/* Hover effect overlay */}
+                    <div
+                      className="absolute inset-0 bg-[var(--theme-primary)]/20 scale-[2.5] opacity-0 transition-all duration-500 group-hover:opacity-40 animate-pulse"
                       aria-hidden="true"
                     />
                   </SlideVisual>
+                  
                   <SlideButton
                     isExpanded={expandedSlides[index]}
                     onClick={() => toggleSlide(index)}
+                    className="vs-slide-btn"
                   />
-                  <SlideContent isExpanded={expandedSlides[index]}>
-                    <SlideDescription className="text-[#FEA35D]">{slide.tagline}</SlideDescription>
-                    <SlideTitle className="text-balance">
-                      {slide.title}
+                  
+                  <SlideContent isExpanded={expandedSlides[index]} className="p-6">
+                    <SlideDescription className="text-[var(--theme-primary)]  text-sm font-medium uppercase tracking-wider mb-2 text-shadow-sm">
+                      {slide.tagline || ''}
+                    </SlideDescription>
+                    
+                    <SlideTitle className="text-balance text-2xl font-bold mb-2 text-over-image">
+                      {slide.title || ''}
                     </SlideTitle>
                   </SlideContent>
-                  <SlideExpandedContent isExpanded={expandedSlides[index]}>
-                    {slide.description}
+                  
+                  <SlideExpandedContent isExpanded={expandedSlides[index]} className="px-6 pb-6">
+                    <div className="text-over-image-secondary">
+                      {slide.description || ''}
+                    </div>
                     
                     {/* Add related module info if expanded */}
                     {expandedSlides[index] && slide.relatedModule && (
-                      <div className="mt-4 pt-4 border-t border-white/10">
-                        <p className="text-sm text-white/70">
+                      <div className="mt-4 pt-4 border-t border-theme-border-light">
+                        <div className="text-sm text-over-image-secondary">
                           Learn this in our 
-                          <span className="text-[#FEA35D] font-medium"> {
-                            featuredModules.find(m => m.id === slide.relatedModule)?.title || 
-                            getModulesForSection('theory_basics').find(m => m.id === slide.relatedModule)?.title || 
-                            'related'
+                          <span className="text-[var(--theme-primary-light)] font-medium text-shadow-sm"> {
+                            findModuleTitle(slide.relatedModule)
                           } </span> 
                           module.
-                        </p>
+                        </div>
                       </div>
                     )}
                   </SlideExpandedContent>
@@ -139,9 +185,10 @@ export default function VSCarousel() {
               </CarouselItem>
             ))}
           </CarouselContent>
+          
           <div className="mt-12 flex justify-start gap-4">
-            <CarouselPrevious className="static" />
-            <CarouselNext className="static" />
+            <CarouselPrevious className="static vs-carousel-btn" />
+            <CarouselNext className="static vs-carousel-btn" />
           </div>
         </Carousel>
       </div>

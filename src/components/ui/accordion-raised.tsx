@@ -31,14 +31,14 @@ function AccordionTrigger({
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          "text-md glass-4 hover:glass-5 hover:text-accent-foreground mb-3 flex flex-1 items-center justify-between rounded-lg px-4 py-4 text-left font-medium shadow-md transition-all [&[data-state=open]_svg]:rotate-45",
+          "text-md bg-theme-gradient mb-3 flex flex-1 items-center justify-between rounded-lg px-4 py-4 text-left font-medium text-theme-primary shadow-theme-md transition-all hover-bubbly-sm [&[data-state=open]_svg]:rotate-45",
           className,
         )}
         {...props}
       >
         {children}
-        <div className="icon bg-input/30 dark:bg-muted/50 rounded-full p-2">
-          <PlusIcon className="text-muted-foreground size-4 shrink-0 transition-transform duration-200" />
+        <div className="icon bg-theme-primary/30 rounded-full p-2">
+          <PlusIcon className="text-theme-secondary size-4 shrink-0 transition-transform duration-200" />
         </div>
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>

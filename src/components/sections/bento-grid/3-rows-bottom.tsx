@@ -7,12 +7,7 @@ import {
   TileLink,
 } from "../../ui/tile";
 import { Section } from "../../ui/section";
-import RippleIllustration from "../../illustrations/ripple";
-import ChatIllustration from "../../illustrations/chat";
-import { MousePointerClick, Shield, TextCursor, Wrench } from "lucide-react";
-import MockupBrowserIllustration from "../../illustrations/mockup-browser";
-import MockupResponsiveBottomIllustration from "../../illustrations/mockup-responsive-bottom";
-import RadarSmallIllustration from "../../illustrations/radar-small";
+import { MousePointerClick, Shield, TextCursor, Wrench, MonitorSmartphone, Globe, MessageSquare } from "lucide-react";
 import React from "react";
 
 export default function BentoGrid() {
@@ -43,13 +38,13 @@ export default function BentoGrid() {
               </TileDescription>
             </TileContent>
             <TileVisual className="min-h-[240px] basis-0 sm:p-4 md:min-h-[320px] md:py-12 lg:min-h-[360px]">
-              <MockupBrowserIllustration />
+              <Globe className="w-16 h-16" />
             </TileVisual>
           </Tile>
           <Tile className="col-span-12 md:col-span-6 lg:col-span-5">
             <TileLink />
             <TileVisual className="items-center sm:px-4 md:px-8">
-              <ChatIllustration />
+              <MessageSquare className="w-16 h-16" />
             </TileVisual>
             <TileContent>
               <TextCursor className="text-muted-foreground size-8 stroke-1" />
@@ -66,7 +61,7 @@ export default function BentoGrid() {
           <Tile className="col-span-12 md:col-span-6 lg:col-span-7">
             <TileLink />
             <TileVisual className="-mx-32 pt-8">
-              <RippleIllustration />
+              <Wrench className="w-16 h-16" />
             </TileVisual>
             <TileContent>
               <MousePointerClick className="text-muted-foreground size-8 stroke-1" />
@@ -82,7 +77,7 @@ export default function BentoGrid() {
           </Tile>
           <Tile className="col-span-12 md:col-span-6 lg:col-span-6">
             <TileVisual className="min-h-[240px] sm:p-4 md:min-h-[320px] lg:px-12">
-              <MockupResponsiveBottomIllustration />
+              <MonitorSmartphone className="w-16 h-16" />
             </TileVisual>
             <TileContent>
               <Wrench className="text-muted-foreground size-8 stroke-1" />
@@ -96,7 +91,6 @@ export default function BentoGrid() {
           <Tile className="col-span-12 md:col-span-6 lg:col-span-6">
             <TileLink />
             <TileVisual className="relative min-h-[240px]">
-              <RadarSmallIllustration className="absolute top-1/2 left-1/2 -mt-24 h-[512px] w-[512px] -translate-x-1/2 -translate-y-1/2" />
             </TileVisual>
             <TileContent>
               <Shield className="text-muted-foreground size-8 stroke-1" />

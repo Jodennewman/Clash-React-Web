@@ -1,0 +1,62 @@
+import React from 'react';
+
+export function DirectClassTest() {
+  return (
+    <div className="p-8 space-y-6">
+      <h2 className="text-2xl font-bold">Direct CSS Class Test</h2>
+      
+      {/* Test elements with direct CSS classes */}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="bg-primary-orange p-4 rounded-lg text-white font-medium">
+          Primary Orange - Direct CSS Class
+        </div>
+        
+        <div className="bg-secondary-teal p-4 rounded-lg text-white font-medium">
+          Secondary Teal - Direct CSS Class
+        </div>
+        
+        <div className="bg-white p-4 rounded-lg text-navy font-medium border border-gray-200">
+          Text Navy - Direct CSS Class
+        </div>
+        
+        <div className="bg-white p-4 rounded-lg text-accent-coral font-medium border border-gray-200">
+          Accent Coral - Direct CSS Class
+        </div>
+      </div>
+      
+      {/* Test gradient classes */}
+      <div className="grid grid-cols-2 gap-4 mt-8">
+        <div className="bg-gradient-primary p-4 rounded-lg text-white font-medium">
+          Primary Gradient - Direct CSS Class
+        </div>
+        
+        <div className="bg-gradient-secondary p-4 rounded-lg text-white font-medium">
+          Secondary Gradient - Direct CSS Class
+        </div>
+        
+        <div className="bg-gradient-accent p-4 rounded-lg text-white font-medium">
+          Accent Gradient - Direct CSS Class
+        </div>
+        
+        <div className="bg-white p-4 rounded-lg font-medium border border-gray-200">
+          <span className="text-gradient-primary">
+            Text Gradient - Direct CSS Class
+          </span>
+        </div>
+      </div>
+      
+      {/* Instructions */}
+      <div className="bg-gray-100 p-4 rounded-lg mt-8">
+        <h3 className="text-lg font-medium mb-2">Usage Instructions</h3>
+        <p className="mb-2">
+          Use these direct CSS classes instead of Tailwind bracket notation:
+        </p>
+        <ul className="space-y-1 font-mono text-sm">
+          <li>Use <code className="bg-gray-200 px-1 rounded">bg-primary-orange</code> instead of <code className="bg-gray-200 px-1 rounded">bg-[var(--primary-orange)]</code></li>
+          <li>Use <code className="bg-gray-200 px-1 rounded">text-navy</code> instead of <code className="bg-gray-200 px-1 rounded">text-[var(--text-navy)]</code></li>
+          <li>Use <code className="bg-gray-200 px-1 rounded">bg-gradient-primary</code> for gradients</li>
+        </ul>
+      </div>
+    </div>
+  );
+} 

@@ -1,0 +1,53 @@
+// Export all theme-related components from a single file
+// This makes it easy to import them in other parts of the application
+
+export { ThemeProvider, useTheme } from './theme-provider';
+export { default as ThemeToggle } from './theme-toggle';
+export { WithTheme, ThemeWrapper } from './WithTheme';
+export { default as ThemeScript } from './ThemeScript';
+export { VSThemeWrapper, VSThemedElement } from './VSThemeWrapper';
+
+// Type definitions
+export type { Theme } from './theme-provider';
+
+/**
+ * VS Theme System
+ * 
+ * This file exports all the components needed for the VS Theme System:
+ * 
+ * Core Components:
+ * - ThemeProvider: The context provider that manages theme state
+ * - useTheme: Hook to access theme state and functions
+ * - ThemeToggle: UI component for switching themes
+ * 
+ * Utilities:
+ * - WithTheme: HOC for wrapping isolated components with ThemeProvider
+ * - ThemeWrapper: Component for wrapping isolated sections with ThemeProvider
+ * - ThemeScript: Script to prevent flash of wrong theme on page load
+ * - VSThemeWrapper: Component for applying theme-specific classes
+ * - VSThemedElement: Simplified component for theme-aware elements
+ * 
+ * Usage:
+ * 
+ * 1. Wrap your app with ThemeProvider:
+ *    <ThemeProvider>
+ *      <App />
+ *    </ThemeProvider>
+ * 
+ * 2. Use the useTheme hook to access theme state:
+ *    const { theme, setTheme, resolvedTheme } = useTheme();
+ * 
+ * 3. Add ThemeToggle component for user control:
+ *    <ThemeToggle />
+ * 
+ * 4. For isolated components, use WithTheme HOC:
+ *    export default WithTheme(MyIsolatedComponent);
+ * 
+ * 5. For themed elements, use VSThemeWrapper:
+ *    <VSThemeWrapper 
+ *      lightClassName="bg-[var(--bg-cream)]" 
+ *      darkClassName="bg-[var(--bg-navy)]"
+ *    >
+ *      <div>Content</div>
+ *    </VSThemeWrapper>
+ */

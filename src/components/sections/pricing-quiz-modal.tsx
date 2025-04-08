@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from '../ui/button';
 import { HelpCircle } from 'lucide-react';
 import { quizSteps } from '../../data/pricing';
+import { AnimatedButton } from "../marble-buttons/AnimatedButton";
 
 interface PricingQuizProps {
   onComplete: (recommendedPlan: number) => void;
@@ -75,19 +76,37 @@ export const PricingQuizModal = ({ onComplete }: PricingQuizProps) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="px-5 py-2 bg-[#0F1A22] border border-[#FEA35D]/30 text-white hover:bg-[#154D59]/30 gap-2">
+        <Button className="px-5 py-2 bg-[var(--theme-bg-primary)]/75 backdrop-blur-sm border border-[var(--theme-primary)]/30 /30 text-theme-custom  hover:bg-[var(--theme-accent-secondary)]/30 dark:hover:bg-[var(--theme-accent-secondary)]/30 gap-2 hover-bubbly-sm vs-card-shadow">
           <HelpCircle className="h-4 w-4" />
           Not sure which plan is right? Take the Quiz
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-[#09232F] border-[#154D59] w-full max-w-md">
+      <DialogContent className="vs-btn-primary-gradient/80 
+                          bg-theme-gradient dark:from-[var(--theme-bg-primary)]/80 
+                          border border-white/10 dark:border-theme-border-light-[2px_2px_8px_rgba(0,0,0,0.1)] 
+                          shadow-theme- 
+                          w-full max-w-md relative overflow-hidden">
+        {/* Floating elements for visual interest */}
+        <div className="absolute -z-10 top-10 right-10 w-16 h-16 rounded-[40%] rotate-12 opacity-5 
+                     bg-[var(--theme-primary)] animate-float-slow hidden dark:hidden"></div>
+        <div className="absolute -z-10 bottom-10 left-10 w-20 h-20 rounded-[30%] -rotate-6 opacity-5
+                     bg-[var(--theme-accent-tertiary)] animate-float-medium hidden dark:hidden"></div>
+                    
+        {/* Dark mode floating elements */}
+        <div className="absolute -z-10 top-10 right-10 w-16 h-16 rounded-[40%] rotate-12 opacity-10 
+                     vs-btn-primary-gradient 
+                     animate-float-slow hidden dark:block"></div>
+        <div className="absolute -z-10 bottom-10 left-10 w-20 h-20 rounded-[30%] -rotate-6 opacity-10
+                     vs-btn-secondary-gradient 
+                     animate-float-medium hidden dark:block"></div>
+                     
         <DialogHeader>
-          <DialogTitle className="text-2xl">Find Your Perfect Plan</DialogTitle>
+          <DialogTitle className="text-2xl text-theme-custom ">Find Your Perfect Plan</DialogTitle>
         </DialogHeader>
 
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <div className="text-sm text-white/60">
+            <div className="text-sm text-theme-custom/60 /60">
               Step {currentStep + 1} of {quizSteps.length}
             </div>
             <div className="flex gap-2">
@@ -95,14 +114,14 @@ export const PricingQuizModal = ({ onComplete }: PricingQuizProps) => {
                 <div
                   key={idx}
                   className={`h-1.5 w-6 rounded-full ${
-                    idx <= currentStep ? 'bg-[#FEA35D]' : 'bg-white/20'
+                    idx <= currentStep ? 'bg-[var(--theme-primary)] dark:bg-[var(--theme-primary-light)]' : 'bg-white/20 dark:bg-white/20'
                   }`}
                 />
               ))}
             </div>
           </div>
 
-          <h3 className="text-xl font-semibold mb-6">{currentQuestion.question}</h3>
+          <h3 className="text-xl font-semibold mb-6 text-theme-custom ">{currentQuestion.question}</h3>
 
           <div className="space-y-3 mb-8">
             {currentQuestion.options.map((option, idx) => (
@@ -110,32 +129,35 @@ export const PricingQuizModal = ({ onComplete }: PricingQuizProps) => {
                 key={idx}
                 className={`p-4 rounded-lg border cursor-pointer transition-all ${
                   answers[currentQuestion.key] === option.value
-                    ? 'border-[#FEA35D] bg-[#FEA35D]/10'
-                    : 'border-white/10 hover:border-white/30'
-                }`}
+                    ? 'border-[var(--theme-primary)] dark:border-[var(--theme-primary-light)] bg-[var(--theme-primary)]/10 dark:bg-[var(--theme-primary)]/10'
+                    : 'border-white/10 dark:border-white/10 hover:border-white/30 dark:hover:border-white/30'
+                } hover-bubbly-sm`}
                 onClick={() => handleSelect(option.value)}
               >
-                {option.label}
+                <span className="text-theme-custom/80 /80">{option.label}</span>
               </div>
             ))}
           </div>
 
           <div className="flex justify-between">
-            <Button
-              variant="outline"
+            <AnimatedButton
+              text="Back"
+              variant="docs"
+              saturation="low"
+              size="sm"
               onClick={handlePrevious}
               disabled={currentStep === 0}
-              className="border-white/20"
-            >
-              Back
-            </Button>
-            <Button
+              className="w-auto"
+            />
+            <AnimatedButton
+              text={currentStep === quizSteps.length - 1 ? "See My Result" : "Next"}
+              variant="pro"
+              saturation={currentStep === quizSteps.length - 1 ? "high" : "normal"}
+              size="sm"
               onClick={handleNext}
               disabled={!isOptionSelected}
-              className="bg-[#FEA35D] hover:bg-[#F89A67]"
-            >
-              {currentStep === quizSteps.length - 1 ? 'See My Result' : 'Next'}
-            </Button>
+              className="w-auto"
+            />
           </div>
         </div>
       </DialogContent>

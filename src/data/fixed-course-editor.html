@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Data Editor</title>
+  <style>
+    :root {
+      --primary-color: #4A90E2;
+      --secondary-color: #FF3B30;
+      --success-color: #30D158;
+      --warning-color: #FFCC00;
+      --purple-color: #5856D6;
+      --orange-color: #FF9500;
+      --background-color: #f5f7fa;
+      --sidebar-bg: #fff;
+      --card-bg: #fff;
+      --border-color: #e1e4e8;
+      --text-color: #333;
+      --text-muted: #6c757d;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .app-title {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    .header-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background-color: white;
+      color: var(--primary-color);
+    }
+    .btn-secondary {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    .btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    .container {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+    .sidebar {
+      width: 300px;
+      background-color: var(--sidebar-bg);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .search-container {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .search-input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+    }
+    .tree-view {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.5rem;
+    }
+    .tree-item {
+      margin-bottom: 0.25rem;
+    }
+    .tree-item-header {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .tree-item-header:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+    .tree-item-header.active {
+      background-color: rgba(74, 144, 226, 0.1);
+      font-weight: 500;
+    }
+    .tree-item-children {
+      margin-left: 1.5rem;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.3s ease-out;
+    }
+    .tree-item-children.expanded {
+      max-height: 1000px;
+    }
+    .color-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+    .main-content {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    .editor-container {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    .editor-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+      background-color: #f8f9fa;
+    }
+    .editor-tab {
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      font-weight: 500;
+      border-bottom: 2px solid transparent;
+    }
+    .editor-tab.active {
+      border-bottom-color: var(--primary-color);
+      color: var(--primary-color);
+    }
+    .editor-content {
+      padding: 1.5rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    .form-control {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-family: inherit;
+    }
+    textarea.form-control {
+      min-height: 80px;
+      resize: vertical;
+    }
+    .form-row {
+      display: flex;
+      gap: 1rem;
+    }
+    .form-col {
+      flex: 1;
+    }
+    .action-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .btn-success {
+      background-color: var(--success-color);
+      color: white;
+    }
+    .btn-danger {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat-card {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+    }
+    .stat-label {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 1rem;
+      background-color: var(--success-color);
+      color: white;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s;
+    }
+    .notification.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .array-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .array-item .form-control {
+      flex: 1;
+    }
+    .btn-sm {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.875rem;
+    }
+    .array-actions {
+      margin-top: 0.5rem;
+    }
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+    }
+    .checkbox-container input {
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 class="app-title">Course Data Editor</h1>
+    <div class="header-actions">
+      <button id="saveBtn" class="btn btn-primary">Save Data</button>
+      <button id="exportBtn" class="btn btn-secondary">Export JSON</button>
+      <label for="importFile" class="btn btn-secondary" style="cursor: pointer;">Import JSON</label>
+      <input type="file" id="importFile" accept=".json" style="display: none;">
+    </div>
+  </header>
+  <div class="container">
+    <div class="sidebar">
+      <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search...">
+      </div>
+      <div class="tree-view" id="treeView"></div>
+    </div>
+    <div class="main-content" id="mainContent">
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-value" id="totalCategories">0</div>
+          <div class="stat-label">Categories</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="totalSections">0</div>
+          <div class="stat-label">Sections</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="totalModules">0</div>
+          <div class="stat-label">Modules</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="totalSubmodules">0</div>
+          <div class="stat-label">Submodules</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="totalDuration">0</div>
+          <div class="stat-label">Total Minutes</div>
+        </div>
+        <!-- Boolean true counts -->
+        <div class="stat-card">
+          <div class="stat-value" id="founderMustWatchTrue">0</div>
+          <div class="stat-label">Founder Must Watch (true)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="entrepreneurSpecificTrue">0</div>
+          <div class="stat-label">Entrepreneur Specific (true)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="popularTrue">0</div>
+          <div class="stat-label">Popular (true)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="featuredTrue">0</div>
+          <div class="stat-label">Featured (true)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="highValueTrue">0</div>
+          <div class="stat-label">High Value (true)</div>
+        </div>
+        <!-- Resource counts -->
+        <div class="stat-card">
+          <div class="stat-value" id="pdfCount">0</div>
+          <div class="stat-label">PDFs</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="worksheetsCount">0</div>
+          <div class="stat-label">Worksheets</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="workshopCount">0</div>
+          <div class="stat-label">Workshops</div>
+        </div>
+      </div>
+      <div class="editor-container">
+        <div class="editor-content">
+          <h2>Welcome to the Course Data Editor</h2>
+          <p>Select an item from the sidebar to begin editing or use the search to find specific content.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="notification" id="notification">
+    Changes saved successfully!
+  </div>
+  <script>
+    // Get element references
+    const saveBtn = document.getElementById('saveBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const importFile = document.getElementById('importFile');
+    const searchInput = document.getElementById('searchInput');
+    const treeView = document.getElementById('treeView');
+    const editorContainer = document.querySelector('.editor-container');
+    
+    let courseData = null;
+    let currentSelectedItem = null;
+    let searchTimeout = null;
+    
+    // Initialize the application
+    function init() {
+      console.log('Initializing application...');
+      setupEventListeners();
+      loadJSONData();
+    }
+    
+    window.onload = init;
+    
+    // Load JSON data from localStorage or default
+    function loadJSONData() {
+      const defaultCourse = {
+        "title": "New Course",
+        "categories": []
+      };
+      console.log('Attempting to load course data...');
+      try {
+        // If you previously saved data, load it from localStorage.
+        // Otherwise, use convertedCourseData (if defined) or default.
+        const storedData = localStorage.getItem('courseData');
+        if (storedData) {
+          courseData = JSON.parse(storedData);
+        } else {
+          courseData = (typeof convertedCourseData !== 'undefined') ? convertedCourseData : defaultCourse;
+        }
+        console.log('Course data loaded successfully!');
+        renderTreeView();
+        updateStatistics();
+        showNotification('Course data loaded successfully');
+      } catch (error) {
+        console.error('Error loading course data:', error);
+        courseData = defaultCourse;
+        showNotification('Error loading course data. Using empty template.', 'error');
+        renderTreeView();
+        updateStatistics();
+      }
+    }
+    
+    // Import data from file
+    function importData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const jsonData = JSON.parse(e.target.result);
+          courseData = jsonData;
+          // Also save to localStorage so changes persist
+          localStorage.setItem('courseData', JSON.stringify(courseData));
+          renderTreeView();
+          updateStatistics();
+          showNotification('Course data imported successfully');
+        } catch (error) {
+          console.error('Error parsing JSON', error);
+          showNotification('Error parsing JSON', 'error');
+        }
+      };
+      reader.readAsText(file);
+    }
+    
+    // Export updated data as a file
+    function exportData() {
+      try {
+        const dataStr = JSON.stringify(courseData, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'course-data.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showNotification('Data exported successfully');
+      } catch (error) {
+        console.error('Error exporting data', error);
+        showNotification('Error exporting data', 'error');
+      }
+    }
+    
+    // Update statistics, including booleans and resources
+    function updateStatistics() {
+      let totalCategories = 0;
+      let totalSections = 0;
+      let totalModules = 0;
+      let totalSubmodules = 0;
+      let totalDuration = 0;
+      
+      let countFounderMustWatchTrue = 0;
+      let countEntrepreneurSpecificTrue = 0;
+      let countPopularTrue = 0;
+      let countFeaturedTrue = 0;
+      let countHighValueTrue = 0;
+      
+      let countPdf = 0;
+      let countWorksheets = 0;
+      let countWorkshop = 0;
+      
+      if (courseData && Array.isArray(courseData.categories)) {
+        totalCategories = courseData.categories.length;
+        courseData.categories.forEach(category => {
+          if (Array.isArray(category.sections)) {
+            totalSections += category.sections.length;
+            category.sections.forEach(section => {
+              if (Array.isArray(section.modules)) {
+                totalModules += section.modules.length;
+                section.modules.forEach(module => {
+                  if (typeof module.duration === 'number') {
+                    totalDuration += module.duration;
+                  }
+                  if (module.founderMustWatch === true) countFounderMustWatchTrue++;
+                  if (module.entrepreneurSpecific === true) countEntrepreneurSpecificTrue++;
+                  if (module.popular === true) countPopularTrue++;
+                  if (module.featured === true) countFeaturedTrue++;
+                  
+                  if (Array.isArray(module.submodules)) {
+                    totalSubmodules += module.submodules.length;
+                    module.submodules.forEach(sub => {
+                      if (typeof sub.duration === 'number') {
+                        totalDuration += sub.duration;
+                      }
+                      if (sub.highValue === true) countHighValueTrue++;
+                      if (Array.isArray(sub.resources)) {
+                        sub.resources.forEach(resource => {
+                          const res = resource.toLowerCase();
+                          if (res === 'pdf') countPdf++;
+                          else if (res === 'worksheets') countWorksheets++;
+                          else if (res === 'workshop') countWorkshop++;
+                        });
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+      
+      document.getElementById('totalCategories').textContent = totalCategories;
+      document.getElementById('totalSections').textContent = totalSections;
+      document.getElementById('totalModules').textContent = totalModules;
+      document.getElementById('totalSubmodules').textContent = totalSubmodules;
+      document.getElementById('totalDuration').textContent = totalDuration;
+      
+      document.getElementById('founderMustWatchTrue').textContent = countFounderMustWatchTrue;
+      document.getElementById('entrepreneurSpecificTrue').textContent = countEntrepreneurSpecificTrue;
+      document.getElementById('popularTrue').textContent = countPopularTrue;
+      document.getElementById('featuredTrue').textContent = countFeaturedTrue;
+      document.getElementById('highValueTrue').textContent = countHighValueTrue;
+      
+      document.getElementById('pdfCount').textContent = countPdf;
+      document.getElementById('worksheetsCount').textContent = countWorksheets;
+      document.getElementById('workshopCount').textContent = countWorkshop;
+    }
+    
+    // Render the tree view (sidebar)
+    function renderTreeView() {
+      console.log('Rendering tree view...');
+      treeView.innerHTML = '';
+      
+      // Course item
+      const courseItem = document.createElement('div');
+      courseItem.className = 'tree-item';
+      courseItem.innerHTML = `<div class="tree-item-header">${courseData.title || 'Course'}</div>`;
+      treeView.appendChild(courseItem);
+      
+      // Categories, Sections, Modules, Submodules
+      if (Array.isArray(courseData.categories)) {
+        courseData.categories.forEach((category, catIndex) => {
+          const categoryItem = document.createElement('div');
+          categoryItem.className = 'tree-item';
+          const categoryHeader = document.createElement('div');
+          categoryHeader.className = 'tree-item-header';
+          categoryHeader.setAttribute('data-id', `category_${catIndex}`);
+          const colorIndicator = document.createElement('div');
+          colorIndicator.className = 'color-indicator';
+          colorIndicator.style.backgroundColor = category.color || '#4A90E2';
+          const nameSpan = document.createElement('span');
+          nameSpan.textContent = category.name || `Category ${catIndex + 1}`;
+          categoryHeader.appendChild(colorIndicator);
+          categoryHeader.appendChild(nameSpan);
+          categoryItem.appendChild(categoryHeader);
+          
+          const childrenContainer = document.createElement('div');
+          childrenContainer.className = 'tree-item-children';
+          if (Array.isArray(category.sections)) {
+            category.sections.forEach((section, secIndex) => {
+              const sectionItem = document.createElement('div');
+              sectionItem.className = 'tree-item';
+              const sectionHeader = document.createElement('div');
+              sectionHeader.className = 'tree-item-header';
+              sectionHeader.setAttribute('data-id', `section_${catIndex}_${secIndex}`);
+              const sectionName = document.createElement('span');
+              sectionName.textContent = `${section.number}. ${section.name}`;
+              sectionHeader.appendChild(sectionName);
+              sectionItem.appendChild(sectionHeader);
+              
+              const modulesContainer = document.createElement('div');
+              modulesContainer.className = 'tree-item-children';
+              if (Array.isArray(section.modules)) {
+                section.modules.forEach((module, modIndex) => {
+                  const moduleItem = document.createElement('div');
+                  moduleItem.className = 'tree-item';
+                  const moduleHeader = document.createElement('div');
+                  moduleHeader.className = 'tree-item-header';
+                  moduleHeader.setAttribute('data-id', `module_${catIndex}_${secIndex}_${modIndex}`);
+                  const modColor = document.createElement('div');
+                  modColor.className = 'color-indicator';
+                  modColor.style.backgroundColor = module.color || '#000000';
+                  const modName = document.createElement('span');
+                  modName.textContent = module.title;
+                  moduleHeader.appendChild(modColor);
+                  moduleHeader.appendChild(modName);
+                  moduleItem.appendChild(moduleHeader);
+                  
+                  const submodulesContainer = document.createElement('div');
+                  submodulesContainer.className = 'tree-item-children';
+                  if (Array.isArray(module.submodules)) {
+                    module.submodules.forEach((submodule, subIndex) => {
+                      const subItem = document.createElement('div');
+                      subItem.className = 'tree-item';
+                      const subHeader = document.createElement('div');
+                      subHeader.className = 'tree-item-header';
+                      subHeader.setAttribute('data-id', `submodule_${catIndex}_${secIndex}_${modIndex}_${subIndex}`);
+                      const subName = document.createElement('span');
+                      subName.textContent = submodule.title;
+                      subHeader.appendChild(subName);
+                      subItem.appendChild(subHeader);
+                      submodulesContainer.appendChild(subItem);
+                    });
+                  }
+                  moduleItem.appendChild(submodulesContainer);
+                  modulesContainer.appendChild(moduleItem);
+                });
+              }
+              sectionItem.appendChild(modulesContainer);
+              childrenContainer.appendChild(sectionItem);
+            });
+          }
+          categoryItem.appendChild(childrenContainer);
+          treeView.appendChild(categoryItem);
+        });
+      }
+      
+      // Tracks section
+      if (Array.isArray(courseData.tracks) && courseData.tracks.length > 0) {
+        const tracksItem = document.createElement('div');
+        tracksItem.className = 'tree-item';
+        const tracksHeader = document.createElement('div');
+        tracksHeader.className = 'tree-item-header';
+        tracksHeader.setAttribute('data-id', 'tracks');
+        const tracksLabel = document.createElement('span');
+        tracksLabel.textContent = 'Tracks';
+        tracksHeader.appendChild(tracksLabel);
+        tracksItem.appendChild(tracksHeader);
+        
+        const tracksContainer = document.createElement('div');
+        tracksContainer.className = 'tree-item-children';
+        courseData.tracks.forEach((track, tIndex) => {
+          const trackItem = document.createElement('div');
+          trackItem.className = 'tree-item';
+          const trackHeader = document.createElement('div');
+          trackHeader.className = 'tree-item-header';
+          trackHeader.setAttribute('data-id', `track_${tIndex}`);
+          const trackColor = document.createElement('div');
+          trackColor.className = 'color-indicator';
+          trackColor.style.backgroundColor = track.color || '#000000';
+          const trackName = document.createElement('span');
+          trackName.textContent = track.name || `Track ${tIndex + 1}`;
+          trackHeader.appendChild(trackColor);
+          trackHeader.appendChild(trackName);
+          trackItem.appendChild(trackHeader);
+          tracksContainer.appendChild(trackItem);
+        });
+        tracksItem.appendChild(tracksContainer);
+        treeView.appendChild(tracksItem);
+      }
+      
+      console.log('Tree view rendered successfully.');
+    }
+    
+    // Handle clicks in the tree view
+    function handleTreeViewClick(event) {
+      const header = event.target.closest('.tree-item-header');
+      if (!header) return;
+      
+      // Toggle expansion
+      const child = header.parentElement.querySelector('.tree-item-children');
+      if (child) {
+        child.classList.toggle('expanded');
+      }
+      
+      const dataId = header.getAttribute('data-id');
+      if (!dataId) return;
+      
+      // If it's a module, call the module editor
+      if (dataId.startsWith('module_')) {
+        const parts = dataId.split('_'); // Expected: module_catIndex_secIndex_modIndex
+        if (parts.length === 4) {
+          const catIndex = parseInt(parts[1], 10);
+          const secIndex = parseInt(parts[2], 10);
+          const modIndex = parseInt(parts[3], 10);
+          renderModuleEditor(catIndex, secIndex, modIndex);
+        }
+      }
+      // If it's a track, call the track editor
+      else if (dataId.startsWith('track_')) {
+        const parts = dataId.split('_'); // Expected: track_index
+        if (parts.length === 2) {
+          const tIndex = parseInt(parts[1], 10);
+          renderTrackEditor(tIndex);
+        }
+      }
+    }
+    
+    // Module editor: renders module and its submodules for editing
+    function renderModuleEditor(catIndex, secIndex, modIndex) {
+      const module = courseData.categories[catIndex].sections[secIndex].modules[modIndex];
+      editorContainer.querySelector('.editor-content').innerHTML = `
+        <h2>Edit Module</h2>
+        <div class="form-group">
+          <label>Module Title</label>
+          <input type="text" name="moduleTitle" value="${module.title}" />
+        </div>
+        <div class="form-group">
+          <label>Module Subtitle</label>
+          <input type="text" name="moduleSubtitle" value="${module.subtitle}" />
+        </div>
+        <div class="form-group">
+          <label>Icon</label>
+          <input type="text" name="moduleIcon" value="${module.icon}" />
+        </div>
+        <div class="form-group">
+          <label>Color</label>
+          <input type="color" name="moduleColor" value="${module.color}" />
+        </div>
+        <div class="form-group">
+          <label>Thumbnail</label>
+          <input type="text" name="moduleThumbnail" value="${module.thumbnail}" />
+        </div>
+        <div class="form-group">
+          <label>Duration (minutes)</label>
+          <input type="number" name="moduleDuration" value="${module.duration}" />
+        </div>
+        <div class="checkbox-group">
+          <label>
+            <input type="checkbox" name="founderMustWatch" ${module.founderMustWatch ? 'checked' : ''} />
+            Founder Must Watch
+          </label>
+          <label>
+            <input type="checkbox" name="entrepreneurSpecific" ${module.entrepreneurSpecific ? 'checked' : ''} />
+            Entrepreneur Specific
+          </label>
+          <label>
+            <input type="checkbox" name="popular" ${module.popular ? 'checked' : ''} />
+            Popular
+          </label>
+          <label>
+            <input type="checkbox" name="featured" ${module.featured ? 'checked' : ''} />
+            Featured
+          </label>
+        </div>
+        <h3>Submodules</h3>
+        <div class="submodules-list">
+          ${ module.submodules.map((sub, subIndex) => `
+            <div class="submodule-item" data-submodule-index="${subIndex}">
+              <div class="form-group">
+                <label>Title</label>
+                <input type="text" name="subTitle" value="${sub.title}" />
+              </div>
+              <div class="form-group">
+                <label>Subtitle</label>
+                <input type="text" name="subSubtitle" value="${sub.subtitle}" />
+              </div>
+              <div class="form-group">
+                <label>Duration</label>
+                <input type="number" name="subDuration" value="${sub.duration}" />
+              </div>
+              <div class="form-group">
+                <label>Difficulty</label>
+                <input type="number" name="subDifficulty" value="${sub.difficulty}" />
+              </div>
+              <div class="form-group">
+                <label>Resources (comma-separated)</label>
+                <input type="text" name="subResources" value="${(sub.resources || []).join(',')}" />
+              </div>
+              <div class="form-group">
+                <label>High Value</label>
+                <input type="checkbox" name="subHighValue" ${sub.highValue ? 'checked' : ''} />
+              </div>
+            </div>
+          `).join('') }
+          <button id="addSubmoduleBtn">Add Submodule</button>
+        </div>
+        <button class="save-changes-button">Save Module Changes</button>
+      `;
+      
+      // Save changes for module and its submodules
+      const saveChangesBtn = editorContainer.querySelector('.save-changes-button');
+      saveChangesBtn.addEventListener('click', () => {
+        // Update module properties
+        module.title = editorContainer.querySelector('input[name="moduleTitle"]').value;
+        module.subtitle = editorContainer.querySelector('input[name="moduleSubtitle"]').value;
+        module.icon = editorContainer.querySelector('input[name="moduleIcon"]').value;
+        module.color = editorContainer.querySelector('input[name="moduleColor"]').value;
+        module.thumbnail = editorContainer.querySelector('input[name="moduleThumbnail"]').value;
+        module.duration = parseInt(editorContainer.querySelector('input[name="moduleDuration"]').value, 10) || 0;
+        module.founderMustWatch = editorContainer.querySelector('input[name="founderMustWatch"]').checked;
+        module.entrepreneurSpecific = editorContainer.querySelector('input[name="entrepreneurSpecific"]').checked;
+        module.popular = editorContainer.querySelector('input[name="popular"]').checked;
+        module.featured = editorContainer.querySelector('input[name="featured"]').checked;
+        
+        // Update submodules
+        const subItems = editorContainer.querySelectorAll('.submodule-item');
+        subItems.forEach(item => {
+          const index = parseInt(item.getAttribute('data-submodule-index'), 10);
+          const sub = module.submodules[index];
+          sub.title = item.querySelector('input[name="subTitle"]').value;
+          sub.subtitle = item.querySelector('input[name="subSubtitle"]').value;
+          sub.duration = parseInt(item.querySelector('input[name="subDuration"]').value, 10) || 0;
+          sub.difficulty = parseInt(item.querySelector('input[name="subDifficulty"]').value, 10) || 1;
+          const resourcesStr = item.querySelector('input[name="subResources"]').value;
+          sub.resources = resourcesStr.split(',').map(r => r.trim()).filter(Boolean);
+          sub.highValue = item.querySelector('input[name="subHighValue"]').checked;
+        });
+        
+        // Save updated data to localStorage (optional)
+        localStorage.setItem('courseData', JSON.stringify(courseData));
+        updateStatistics();
+        renderTreeView();
+        showNotification('Module updated successfully!');
+      });
+      
+      // (Optional) Add a button to add a new submodule
+      const addSubBtn = editorContainer.querySelector('#addSubmoduleBtn');
+      addSubBtn.addEventListener('click', () => {
+        // Append a new submodule to the module's submodules array
+        const newSub = {
+          id: `new_${Date.now()}`,
+          title: 'New Submodule',
+          subtitle: '',
+          duration: 0,
+          difficulty: 1,
+          resources: [],
+          highValue: false,
+          week: 0,
+          instructor: ''
+        };
+        module.submodules.push(newSub);
+        // Re-render the module editor to show the new submodule
+        renderModuleEditor(catIndex, secIndex, modIndex);
+      });
+    }
+    
+    // Track editor: allows editing track properties
+    function renderTrackEditor(trackIndex) {
+      const track = courseData.tracks[trackIndex];
+      editorContainer.querySelector('.editor-content').innerHTML = `
+        <h2>Edit Track</h2>
+        <div class="form-group">
+          <label>Track Name</label>
+          <input type="text" name="trackName" value="${track.name}" />
+        </div>
+        <div class="form-group">
+          <label>Icon</label>
+          <input type="text" name="trackIcon" value="${track.icon}" />
+        </div>
+        <div class="form-group">
+          <label>Color</label>
+          <input type="color" name="trackColor" value="${track.color}" />
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea name="trackDescription" class="form-control">${track.description}</textarea>
+        </div>
+        <button class="save-track-button">Save Track Changes</button>
+      `;
+      
+      const saveTrackBtn = editorContainer.querySelector('.save-track-button');
+      saveTrackBtn.addEventListener('click', () => {
+        track.name = editorContainer.querySelector('input[name="trackName"]').value;
+        track.icon = editorContainer.querySelector('input[name="trackIcon"]').value;
+        track.color = editorContainer.querySelector('input[name="trackColor"]').value;
+        track.description = editorContainer.querySelector('textarea[name="trackDescription"]').value;
+        // Optionally save to localStorage
+        localStorage.setItem('courseData', JSON.stringify(courseData));
+        updateStatistics();
+        renderTreeView();
+        showNotification('Track updated successfully!');
+      });
+    }
+    
+    // Handle clicks in the tree view to toggle branches or open editors
+    function handleTreeViewClick(event) {
+      const header = event.target.closest('.tree-item-header');
+      if (!header) return;
+      
+      // Toggle child expansion
+      const child = header.parentElement.querySelector('.tree-item-children');
+      if (child) {
+        child.classList.toggle('expanded');
+      }
+      
+      const dataId = header.getAttribute('data-id');
+      if (!dataId) return;
+      
+      if (dataId.startsWith('module_')) {
+        const parts = dataId.split('_'); // module_cat_sec_mod
+        if (parts.length === 4) {
+          const catIndex = parseInt(parts[1], 10);
+          const secIndex = parseInt(parts[2], 10);
+          const modIndex = parseInt(parts[3], 10);
+          renderModuleEditor(catIndex, secIndex, modIndex);
+        }
+      }
+      else if (dataId.startsWith('track_')) {
+        const parts = dataId.split('_'); // track_index
+        if (parts.length === 2) {
+          const tIndex = parseInt(parts[1], 10);
+          renderTrackEditor(tIndex);
+        }
+      }
+    }
+    
+    // Set up global event listeners
+    function setupEventListeners() {
+      console.log('Setting up event listeners...');
+      treeView.addEventListener('click', handleTreeViewClick);
+      saveBtn.addEventListener('click', saveData);
+      exportBtn.addEventListener('click', exportData);
+      if (importFile) {
+        importFile.addEventListener('change', importData);
+      } else {
+        console.error('Import file element not found!');
+      }
+      searchInput.addEventListener('input', handleSearch);
+      console.log('Event listeners set up successfully.');
+    }
+    
+    // Stub: Save data to localStorage
+    function saveData() {
+      localStorage.setItem('courseData', JSON.stringify(courseData));
+      showNotification('Data saved locally');
+    }
+    
+    // Stub: Export data function (already defined above)
+    // Already implemented in exportData()
+    
+    // Stub: Search handler
+    function handleSearch(event) {
+      console.log('Search input changed');
+      // You can add search logic here.
+    }
+    
+    function showNotification(message, type) {
+      const notification = document.getElementById('notification');
+      notification.textContent = message;
+      notification.classList.add('show');
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+    
+    // Update statistics based on courseData
+    function updateStatistics() {
+      let totalCategories = 0;
+      let totalSections = 0;
+      let totalModules = 0;
+      let totalSubmodules = 0;
+      let totalDuration = 0;
+      
+      let countFounderMustWatchTrue = 0;
+      let countEntrepreneurSpecificTrue = 0;
+      let countPopularTrue = 0;
+      let countFeaturedTrue = 0;
+      let countHighValueTrue = 0;
+      
+      let countPdf = 0;
+      let countWorksheets = 0;
+      let countWorkshop = 0;
+      
+      if (courseData && Array.isArray(courseData.categories)) {
+        totalCategories = courseData.categories.length;
+        courseData.categories.forEach(category => {
+          if (Array.isArray(category.sections)) {
+            totalSections += category.sections.length;
+            category.sections.forEach(section => {
+              if (Array.isArray(section.modules)) {
+                totalModules += section.modules.length;
+                section.modules.forEach(module => {
+                  if (typeof module.duration === 'number') {
+                    totalDuration += module.duration;
+                  }
+                  if (module.founderMustWatch === true) countFounderMustWatchTrue++;
+                  if (module.entrepreneurSpecific === true) countEntrepreneurSpecificTrue++;
+                  if (module.popular === true) countPopularTrue++;
+                  if (module.featured === true) countFeaturedTrue++;
+                  
+                  if (Array.isArray(module.submodules)) {
+                    totalSubmodules += module.submodules.length;
+                    module.submodules.forEach(sub => {
+                      if (typeof sub.duration === 'number') {
+                        totalDuration += sub.duration;
+                      }
+                      if (sub.highValue === true) countHighValueTrue++;
+                      if (Array.isArray(sub.resources)) {
+                        sub.resources.forEach(resource => {
+                          const res = resource.toLowerCase();
+                          if (res === 'pdf') countPdf++;
+                          else if (res === 'worksheets') countWorksheets++;
+                          else if (res === 'workshop') countWorkshop++;
+                        });
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+      
+      document.getElementById('totalCategories').textContent = totalCategories;
+      document.getElementById('totalSections').textContent = totalSections;
+      document.getElementById('totalModules').textContent = totalModules;
+      document.getElementById('totalSubmodules').textContent = totalSubmodules;
+      document.getElementById('totalDuration').textContent = totalDuration;
+      
+      document.getElementById('founderMustWatchTrue').textContent = countFounderMustWatchTrue;
+      document.getElementById('entrepreneurSpecificTrue').textContent = countEntrepreneurSpecificTrue;
+      document.getElementById('popularTrue').textContent = countPopularTrue;
+      document.getElementById('featuredTrue').textContent = countFeaturedTrue;
+      document.getElementById('highValueTrue').textContent = countHighValueTrue;
+      
+      document.getElementById('pdfCount').textContent = countPdf;
+      document.getElementById('worksheetsCount').textContent = countWorksheets;
+      document.getElementById('workshopCount').textContent = countWorkshop;
+    }
+  </script>
+</body>
+</html>

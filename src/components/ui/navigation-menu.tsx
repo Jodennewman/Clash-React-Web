@@ -44,7 +44,7 @@ function NavigationMenuList({
 const NavigationMenuItem = NavigationMenuPrimitive.Item;
 
 const navigationMenuTriggerStyle = cva(
-  "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-hidden disabled:pointer-events-none disabled:opacity-50 data-active:bg-accent/50 data-[state=open]:bg-accent/50",
+  "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-theme-primary transition-all duration-[var(--theme-transition-normal)] hover:bg-theme-accent/10 hover:text-theme-accent focus:bg-theme-accent/10 focus:text-theme-accent focus:outline-hidden disabled:pointer-events-none disabled:opacity-50 data-active:bg-theme-accent/20 data-[state=open]:bg-theme-accent/20",
 );
 
 function NavigationMenuTrigger({
@@ -94,7 +94,7 @@ function NavigationMenuViewport({
       <NavigationMenuPrimitive.Viewport
         data-slot="navigation-menu-viewport"
         className={cn(
-          "origin-top-center bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border shadow-sm md:w-[var(--radix-navigation-menu-viewport-width)]",
+          "origin-top-center bg-theme-bg-primary text-theme-primary data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 relative mt-1.5 h-[var(--theme-radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border border-theme-border shadow-theme-sm transition-all duration-[var(--theme-transition-normal)] md:w-[var(--theme-radix-navigation-menu-viewport-width)]",
           className,
         )}
         {...props}
@@ -116,7 +116,7 @@ function NavigationMenuIndicator({
       )}
       {...props}
     >
-      <div className="bg-border relative top-[60%] size-2 rotate-45 rounded-tl-sm shadow-md" />
+      <div className="bg-theme-border-light relative top-[60%] size-2 rotate-45 rounded-tl-sm shadow-theme-sm" />
     </NavigationMenuPrimitive.Indicator>
   );
 }

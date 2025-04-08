@@ -3,22 +3,21 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { ControllerRenderProps } from 'react-hook-form';
-import { XIcon } from 'lucide-react';
+import { AlertCircle, CheckCircle } from 'lucide-react';
 
 // UI Components
-import { Button } from '../../components/ui/button';
-import { Input } from '../../components/ui/input';
-import { Checkbox } from '../../components/ui/checkbox';
-import { RadioGroup, RadioGroupItem } from '../../components/ui/radio-group';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Checkbox } from '../ui/checkbox';
+import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { 
   Form, FormControl, FormField, 
   FormItem, FormLabel, FormMessage 
-} from '../../components/ui/form';
+} from '../ui/form';
 import {
   Card, CardContent, CardDescription, CardHeader, CardTitle
-} from '../../components/ui/card';
-import { Alert, AlertDescription, AlertTitle } from '../../components/ui/alert';
-import Glow from '../../components/ui/glow';
+} from '../ui/card';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 
 // Form schema
 const applicationSchema = z.object({
@@ -55,12 +54,12 @@ type ProgramBenefitProps = {
 // Program benefits component
 const ProgramBenefit = ({ number, title, description }: ProgramBenefitProps) => (
   <div className="flex gap-4 mb-5">
-    <div className="bg-[#FEA35D] text-white font-bold rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">
+    <div className="bg-theme-primary text-theme-on-primary-bold rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 transition-colors duration-[var(--theme-transition-normal)]">
       {number}
     </div>
     <div>
-      <h4 className="font-bold text-[#154D59] mb-1">{title}</h4>
-      <p className="text-sm text-[#09232F]/80">{description}</p>
+      <h4 className="font-bold text-theme-primary mb-1 transition-colors duration-[var(--theme-transition-normal)]">{title}</h4>
+      <p className="text-sm text-theme-secondary transition-colors duration-[var(--theme-transition-normal)]">{description}</p>
     </div>
   </div>
 );
@@ -96,35 +95,20 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
   };
 
   return (
-    <div className="bg-[#FFF5E9] rounded-xl shadow-xl overflow-y-auto max-h-[80vh]">
-      {/* Close button */}
-      {onClose && (
-        <div className="sticky top-0 z-50 flex justify-end p-2 bg-[#FFF5E9]">
-          <Button 
-            variant="ghost" 
-            className="h-8 w-8 p-0 rounded-full hover:bg-[#FDEBDD]" 
-            onClick={onClose}
-          >
-            <XIcon className="h-5 w-5" />
-            <span className="sr-only">Close</span>
-          </Button>
-        </div>
-      )}
-      
+    <div className="rounded-xl overflow-y-auto max-h-[80vh] bg-theme-surface transition-colors duration-[var(--theme-transition-normal)]">
       <div className="text-center p-8 pb-6">
-        <h1 className="text-3xl md:text-4xl font-bold mb-3 text-[#09232F]">
+        <h1 className="text-3xl md:text-4xl font-bold mb-3 text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">
           Vertical Shortcut: Transform Your Content into a Revenue Machine
         </h1>
-        <p className="text-xl text-[#154D59] md:max-w-2xl mx-auto">
+        <p className="text-xl text-theme-secondary md:max-w-2xl mx-auto transition-colors duration-[var(--theme-transition-normal)]">
           Complete this application to join our exclusive program and start your journey to content mastery.
         </p>
       </div>
       
-      <Card className="shadow-lg border-[#FDEBDD] mb-10 relative overflow-hidden">
-        <Glow variant="above" className="opacity-30" />
-        <CardHeader className="bg-[#09232F] text-white rounded-t-lg">
+      <Card className="shadow-theme-md border-theme-border mb-10 relative overflow-hidden transition-all duration-[var(--theme-transition-normal)]">
+        <CardHeader className="bg-theme-accent-secondary text-theme-on-primary-t-lg transition-colors duration-[var(--theme-transition-normal)]">
           <CardTitle className="text-2xl">Vertical Shortcut Application Form</CardTitle>
-          <CardDescription className="text-white/80">
+          <CardDescription className="text-theme-on-primary/80">
             Complete this short form to apply for our next cohort (Limited to 20 spots)
           </CardDescription>
         </CardHeader>
@@ -134,7 +118,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {/* Personal Information Section */}
               <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-[#154D59] border-b pb-2">Personal Information</h3>
+                <h3 className="text-xl font-semibold text-[var(--theme-text-primary)] dark:text-theme-on-primary-b pb-2 border-[var(--theme-bg-secondary)]/20 dark:border-theme-border-light">Personal Information</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
@@ -142,9 +126,9 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                     name="firstName"
                     render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "firstName"> }) => (
                       <FormItem>
-                        <FormLabel>First Name</FormLabel>
+                        <FormLabel className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">First Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="John" {...field} />
+                          <Input placeholder="John" {...field} className="bg-theme-surface transition-colors duration-[var(--theme-transition-normal)]" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -156,9 +140,9 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                     name="lastName"
                     render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "lastName"> }) => (
                       <FormItem>
-                        <FormLabel>Last Name</FormLabel>
+                        <FormLabel className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">Last Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Doe" {...field} />
+                          <Input placeholder="Doe" {...field} className="bg-theme-surface transition-colors duration-[var(--theme-transition-normal)]" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -172,9 +156,9 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                     name="email"
                     render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "email"> }) => (
                       <FormItem>
-                        <FormLabel>Email Address</FormLabel>
+                        <FormLabel className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">Email Address</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="you@example.com" {...field} />
+                          <Input type="email" placeholder="you@example.com" {...field} className="bg-theme-surface transition-colors duration-[var(--theme-transition-normal)]" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -186,9 +170,9 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                     name="linkedin"
                     render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "linkedin"> }) => (
                       <FormItem>
-                        <FormLabel>LinkedIn Profile</FormLabel>
+                        <FormLabel className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">LinkedIn Profile</FormLabel>
                         <FormControl>
-                          <Input placeholder="linkedin.com/in/yourprofile" {...field} />
+                          <Input placeholder="linkedin.com/in/yourprofile" {...field} className="bg-theme-surface transition-colors duration-[var(--theme-transition-normal)]" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -198,8 +182,8 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
               </div>
               
               {/* Program benefits section */}
-              <div className="bg-[#FFF5E9] p-5 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#154D59] mb-4">What You'll Achieve in 10 Weeks:</h3>
+              <div className="p-5 rounded-lg border border-theme-primary/20 bg-theme-gradient shadow-theme-sm transition-all duration-[var(--theme-transition-normal)]">
+                <h3 className="text-xl font-semibold text-theme-primary mb-4 transition-colors duration-[var(--theme-transition-normal)]">What You'll Achieve in 10 Weeks:</h3>
                 
                 <ProgramBenefit 
                   number="1" 
@@ -222,27 +206,27 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
               
               {/* Qualification questions */}
               <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-[#154D59] border-b pb-2">Qualification Questions</h3>
+                <h3 className="text-xl font-semibold text-theme-primary border-b pb-2 border-theme-border transition-all duration-[var(--theme-transition-normal)]">Qualification Questions</h3>
                 
                 <FormField
                   control={form.control}
                   name="commitment"
                   render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "commitment"> }) => (
                     <FormItem className="space-y-3">
-                      <FormLabel>
+                      <FormLabel className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">
                         Vertical Shortcut is about fast growth and monetisation. Are you prepared to work hard for 10 weeks and dedicate at least 4 hours per week?
                       </FormLabel>
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}
                           defaultValue={field.value}
-                          className="flex flex-col space-y-1"
+                          className="flex flex-col space-y-2"
                         >
                           <FormItem className="flex items-center space-x-3 space-y-0">
                             <FormControl>
                               <RadioGroupItem value="yes" />
                             </FormControl>
-                            <FormLabel className="font-normal">
+                            <FormLabel className="font-normal text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">
                               Yes, I can commit to this
                             </FormLabel>
                           </FormItem>
@@ -250,7 +234,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                             <FormControl>
                               <RadioGroupItem value="no" />
                             </FormControl>
-                            <FormLabel className="font-normal">
+                            <FormLabel className="font-normal text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">
                               No, I can't commit to this right now
                             </FormLabel>
                           </FormItem>
@@ -266,9 +250,9 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                   name="industry"
                   render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "industry"> }) => (
                     <FormItem>
-                      <FormLabel>What kind of work do you do? (Industry, seniority, etc.)</FormLabel>
+                      <FormLabel className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">What kind of work do you do? (Industry, seniority, etc.)</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} className="bg-theme-surface transition-colors duration-[var(--theme-transition-normal)]" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -281,9 +265,9 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                     name="followerCount"
                     render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "followerCount"> }) => (
                       <FormItem>
-                        <FormLabel>What are your total follower counts across all platforms?</FormLabel>
+                        <FormLabel className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">What are your total follower counts across all platforms?</FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input {...field} className="bg-theme-surface transition-colors duration-[var(--theme-transition-normal)]" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -295,9 +279,9 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                     name="location"
                     render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "location"> }) => (
                       <FormItem>
-                        <FormLabel>Where are you based?</FormLabel>
+                        <FormLabel className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">Where are you based?</FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input {...field} className="bg-theme-surface transition-colors duration-[var(--theme-transition-normal)]" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -310,9 +294,9 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                   name="contentTopics"
                   render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "contentTopics"> }) => (
                     <FormItem>
-                      <FormLabel>What topics do you create content about?</FormLabel>
+                      <FormLabel className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">What topics do you create content about?</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} className="bg-theme-surface transition-colors duration-[var(--theme-transition-normal)]" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -325,7 +309,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                   render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "goals"> }) => (
                     <FormItem>
                       <div className="mb-2">
-                        <FormLabel>What do you want to achieve? (Select all that apply)</FormLabel>
+                        <FormLabel className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">What do you want to achieve? (Select all that apply)</FormLabel>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         {[
@@ -351,7 +335,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                                 }}
                               />
                             </FormControl>
-                            <FormLabel className="font-normal">
+                            <FormLabel className="font-normal text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">
                               {item.label}
                             </FormLabel>
                           </FormItem>
@@ -367,7 +351,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                   name="revenueTarget"
                   render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "revenueTarget"> }) => (
                     <FormItem className="space-y-3">
-                      <FormLabel>How much are you aiming to make per month?</FormLabel>
+                      <FormLabel className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">How much are you aiming to make per month?</FormLabel>
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}
@@ -385,7 +369,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                               <FormControl>
                                 <RadioGroupItem value={item.value} />
                               </FormControl>
-                              <FormLabel className="font-normal">
+                              <FormLabel className="font-normal text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">
                                 {item.label}
                               </FormLabel>
                             </FormItem>
@@ -402,12 +386,12 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                   name="biggestChallenge"
                   render={({ field }: { field: ControllerRenderProps<ApplicationFormData, "biggestChallenge"> }) => (
                     <FormItem className="space-y-3">
-                      <FormLabel>What do you struggle with the most when it comes to scaling your brand?</FormLabel>
+                      <FormLabel className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">What do you struggle with the most when it comes to scaling your brand?</FormLabel>
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}
                           defaultValue={field.value}
-                          className="space-y-1"
+                          className="space-y-2"
                         >
                           {[
                             {value: "timeMotivation", label: "Lack of time and/or motivation"},
@@ -420,7 +404,7 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                               <FormControl>
                                 <RadioGroupItem value={item.value} />
                               </FormControl>
-                              <FormLabel className="font-normal">
+                              <FormLabel className="font-normal text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">
                                 {item.label}
                               </FormLabel>
                             </FormItem>
@@ -434,31 +418,32 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
               </div>
               
               {/* Program details */}
-              <div className="bg-[#09232F] text-white p-6 rounded-lg">
-                <h3 className="text-xl font-bold mb-4">The Vertical Shortcut Program:</h3>
+              <div className="p-6 rounded-lg bg-theme-gradient-primary shadow-theme-md transition-all duration-[var(--theme-transition-normal)]">
+                <h3 className="text-xl font-bold mb-4 text-theme-on-primary">The Vertical Shortcut Program:</h3>
                 
                 <ul className="space-y-3 mb-4">
                   <li className="flex gap-2">
-                    <span className="text-[#FEA35D]">•</span>
-                    <span>10-week transformation program that will deliver real business results</span>
+                    <CheckCircle className="text-theme-on-primary-5 w-5 flex-shrink-0 mt-0.5" />
+                    <span className="text-theme-on-primary/90">10-week transformation program that will deliver real business results</span>
                   </li>
                   <li className="flex gap-2">
-                    <span className="text-[#FEA35D]">•</span>
-                    <span>Program investment: £6,500 (10% discount for full payment, or 4 installments of £1,625)</span>
+                    <CheckCircle className="text-theme-on-primary-5 w-5 flex-shrink-0 mt-0.5" />
+                    <span className="text-theme-on-primary/90">Program investment: £6,500 (10% discount for full payment, or 4 installments of £1,625)</span>
                   </li>
                   <li className="flex gap-2">
-                    <span className="text-[#FEA35D]">•</span>
-                    <span>Limited to 20 participants to ensure personalized attention</span>
+                    <CheckCircle className="text-theme-on-primary-5 w-5 flex-shrink-0 mt-0.5" />
+                    <span className="text-theme-on-primary/90">Limited to 20 participants to ensure personalized attention</span>
                   </li>
                   <li className="flex gap-2">
-                    <span className="text-[#FEA35D]">•</span>
-                    <span>100% money-back guarantee if your application isn't accepted or spots are filled</span>
+                    <CheckCircle className="text-theme-on-primary-5 w-5 flex-shrink-0 mt-0.5" />
+                    <span className="text-theme-on-primary/90">100% money-back guarantee if your application isn't accepted or spots are filled</span>
                   </li>
                 </ul>
                 
-                <Alert className="bg-[#154D59] border-[#FEA35D] mt-4">
-                  <AlertTitle className="text-[#FEA35D]">Application Closing Soon</AlertTitle>
-                  <AlertDescription className="text-white/90">
+                <Alert className="bg-theme-accent-tertiary border-none text-theme-on-primary-4 transition-colors duration-[var(--theme-transition-normal)]">
+                  <AlertCircle className="h-5 w-5" />
+                  <AlertTitle className="text-theme-on-primary-bold">Application Closing Soon</AlertTitle>
+                  <AlertDescription className="text-theme-on-primary/90">
                     We're filling spots for our next cohort now. Submit your application today to be considered.
                   </AlertDescription>
                 </Alert>
@@ -477,8 +462,8 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
                       />
                     </FormControl>
                     <div className="space-y-1 leading-none">
-                      <FormLabel>
-                        I agree to the <a href="#" className="text-[#B92234] underline">Terms and Conditions</a> and understand the program investment of £6,500
+                      <FormLabel className="text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">
+                        I agree to the <a href="#" className="text-theme-accent-tertiary underline transition-colors duration-[var(--theme-transition-normal)]">Terms and Conditions</a> and understand the program investment of £6,500
                       </FormLabel>
                     </div>
                     <FormMessage />
@@ -488,12 +473,12 @@ const VerticalShortcutApplicationForm = ({ onClose }: { onClose?: () => void }) 
               
               <Button 
                 type="submit" 
-                className="w-full py-6 text-lg bg-[#B92234] hover:bg-[#DE6B59]"
+                className="w-full py-6 text-lg bg-theme-gradient-primary text-theme-on-primary-theme-btn hover-bubbly transition-all duration-[var(--theme-transition-bounce)]"
               >
                 Submit Application Now
               </Button>
               
-              <p className="text-center text-sm text-gray-500">
+              <p className="text-center text-sm text-theme-secondary transition-colors duration-[var(--theme-transition-normal)]">
                 After submission, our team will review your application within 2 business days.
               </p>
             </form>

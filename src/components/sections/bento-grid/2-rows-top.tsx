@@ -8,11 +8,7 @@ import {
   TileLink,
 } from "../../ui/tile";
 import { Section } from "../../ui/section";
-import GlobeIllustration from "../../illustrations/globe";
-import PipelineIllustration from "../../illustrations/pipeline";
-import CodeEditorIllustration from "../../illustrations/code-editor";
-import MockupMobileIllustration from "../../illustrations/mockup-mobile";
-import TilesIllustration from "../../illustrations/tiles";
+import { Globe, Zap, Database, PieChart, VideoIcon } from "lucide-react";
 
 export default function BentoGrid() {
   return (
@@ -39,7 +35,7 @@ export default function BentoGrid() {
               </TileDescription>
             </TileContent>
             <TileVisual className="min-h-[160px] grow items-center">
-              <PipelineIllustration />
+              <Database className="w-16 h-16" />
             </TileVisual>
           </Tile>
           <Tile className="col-span-12 md:col-span-7">
@@ -56,7 +52,7 @@ export default function BentoGrid() {
               </TileDescription>
             </TileContent>
             <TileVisual className="min-h-[240px] sm:p-4 md:min-h-[360px] md:py-12 lg:px-12">
-              <CodeEditorIllustration />
+              <Code className="w-16 h-16" />
             </TileVisual>
           </Tile>
           <Tile className="col-span-12 md:col-span-6 lg:col-span-4">
@@ -71,7 +67,7 @@ export default function BentoGrid() {
               </TileDescription>
             </TileContent>
             <TileVisual className="min-h-[300px] py-12">
-              <MockupMobileIllustration />
+              <Smartphone className="w-16 h-16" />
             </TileVisual>
           </Tile>
           <Tile className="col-span-12 md:col-span-6 lg:col-span-4">
@@ -84,7 +80,7 @@ export default function BentoGrid() {
               </TileDescription>
             </TileContent>
             <TileVisual className="-mb-20 -mt-12 [&_svg]:h-[420px] [&_svg]:w-[420px]">
-              <GlobeIllustration />
+              <Globe className="w-12 h-12" />
             </TileVisual>
           </Tile>
           <Tile className="col-span-12 md:col-span-6 lg:col-span-4">
@@ -98,7 +94,7 @@ export default function BentoGrid() {
               </TileDescription>
             </TileContent>
             <TileVisual className="-ml-40 -mr-32">
-              <TilesIllustration />
+              <Layout className="w-16 h-16" />
             </TileVisual>
           </Tile>
         </div>

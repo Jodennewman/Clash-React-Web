@@ -7,6 +7,8 @@ import { Section } from "../ui/section";
 import { Switch } from "../ui/switch";
 import { useState } from "react";
 import { Link } from "../ui/link";
+import { courseStats, tracks } from "../../lib/course-utils";
+import { pricingTiers } from "../../data/pricing";
 
 type Plan = {
   name: string;
@@ -24,68 +26,52 @@ type Plan = {
   classes?: string;
 };
 
+// Transform pricing tiers from course-utils into the format needed for this component
 const plans: Plan[] = [
   {
-    name: "Free",
-    description: "For everyone starting out on a website for their big idea",
-    monthlyPrice: 0,
-    yearlyPrice: 0,
-    cta: {
-      variant: "outline",
-      label: "Get started for free",
-      href: "/docs/getting-started/introduction",
-    },
-    features: [
-      "9 landing page sections",
-      "36 components",
-      "5 custom animations",
-    ],
-    featured: false,
-    classes: "glass-1 to-transparent dark:glass-2 hidden lg:flex",
-  },
-  {
-    name: "Starter",
-    description: "Perfect for small teams and growing businesses",
+    name: pricingTiers[0].name,
+    description: pricingTiers[0].description,
     icon: <User className="size-4" />,
-    monthlyPrice: 15,
-    yearlyPrice: 144,
+    monthlyPrice: pricingTiers[0].basePrice / 100, // Convert to smaller display value
+    yearlyPrice: Math.round(pricingTiers[0].basePrice * 0.8) / 100, // 20% discount
     cta: {
-      variant: "default",
-      label: "Get started",
+      variant: "outline" as const,
+      label: pricingTiers[0].ctaText,
       href: "#",
     },
-    features: [
-      "Up to 5 team members",
-      "20GB storage",
-      "Basic analytics",
-      "24/7 email support",
-      "API access",
-    ],
-    featured: true,
+    features: pricingTiers[0].features,
+    featured: pricingTiers[0].popular,
+    classes: "glass-1 to-transparent dark:glass-2",
+  },
+  {
+    name: pricingTiers[1].name,
+    description: pricingTiers[1].description,
+    icon: <User className="size-4" />,
+    monthlyPrice: pricingTiers[1].basePrice / 100,
+    yearlyPrice: Math.round(pricingTiers[1].basePrice * 0.8) / 100, // 20% discount
+    cta: {
+      variant: "default" as const,
+      label: pricingTiers[1].ctaText,
+      href: "#",
+    },
+    features: pricingTiers[1].features,
+    featured: pricingTiers[1].popular,
     classes:
       "glass-3 from-card/100 to-card/100 dark:glass-4 after:content-[''] after:absolute after:-top-[128px] after:left-1/2 after:h-[128px] after:w-[100%] after:max-w-[960px] after:-translate-x-1/2 after:rounded-[50%] after:bg-brand-foreground/70 after:blur-[72px]",
   },
   {
-    name: "Enterprise",
-    description: "For larger teams with advanced needs",
+    name: pricingTiers[2].name,
+    description: pricingTiers[2].description,
     icon: <Users className="size-4" />,
-    monthlyPrice: 75,
-    yearlyPrice: 720,
+    monthlyPrice: pricingTiers[2].basePrice / 100,
+    yearlyPrice: Math.round(pricingTiers[2].basePrice * 0.8) / 100, // 20% discount
     cta: {
-      variant: "glow",
-      label: "Contact sales",
+      variant: "glow" as const,
+      label: pricingTiers[2].ctaText,
       href: "#",
     },
-    features: [
-      "Unlimited team members",
-      "Unlimited storage",
-      "Advanced analytics",
-      "24/7 priority support",
-      "Custom integrations",
-      "SSO authentication",
-      "Dedicated account manager",
-    ],
-    featured: false,
+    features: pricingTiers[2].features,
+    featured: pricingTiers[2].popular,
     classes:
       "glass-2 to-trasparent dark:glass-3 after:content-[''] after:absolute after:-top-[128px] after:left-1/2 after:h-[128px] after:w-[100%] after:max-w-[960px] after:-translate-x-1/2 after:rounded-[50%] dark:after:bg-foreground/30 after:blur-[72px]",
   },
@@ -103,9 +89,8 @@ export function Pricing3ColsSubscription() {
             Pricing
           </h2>
           <p className="text-md text-muted-foreground max-w-[760px] font-medium sm:text-xl">
-            This is just a preview of a component variant for subscription
-            products. Launch UI Pro version is available as one-time purchase
-            with lifetime access.
+            Get access to {courseStats?.totalModules || 0} modules across {tracks?.length || 0} tracks with 
+            over {courseStats?.totalHours || 0} hours of content and bonus resources.
           </p>
         </div>
         <div className="flex flex-col items-center gap-4">
@@ -130,46 +115,59 @@ export function Pricing3ColsSubscription() {
             <div
               key={plan.name}
               className={cn(
-                "max-w-container relative flex flex-col gap-6 overflow-hidden rounded-2xl p-8 shadow-xl",
+                "max-w-container relative flex flex-col gap-6 overflow-hidden rounded-2xl p-8 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)] bg-gradient-to-br from-white to-[var(--theme-bg-primary)]/80 dark:bg-gradient-to-br dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)] border border-[var(--theme-bg-secondary)]/10 dark:border-white/10 hover-bubbly",
                 plan.classes,
               )}
             >
+              {/* Add floating elements for visual interest */}
+              <div className="absolute -z-10 bottom-8 right-8 w-16 h-16 rounded-[40%] rotate-12 opacity-5
+                           bg-[var(--theme-primary)] animate-float-slow hidden dark:hidden"></div>
+              <div className="absolute -z-10 bottom-8 right-8 w-16 h-16 rounded-[40%] rotate-12 opacity-10
+                           vs-btn-primary-gradient
+                           animate-float-slow hidden dark:block"></div>
+              
               <hr
                 className={cn(
                   "via-foreground/60 absolute top-0 left-[10%] h-[1px] w-[80%] border-0 bg-linear-to-r from-transparent to-transparent",
-                  plan.featured && "via-brand",
+                  plan.featured && "via-[var(--theme-primary)] dark:via-[var(--theme-primary-light)]",
                 )}
               />
               <div className="flex flex-col gap-7">
                 <div className="flex flex-col gap-2">
-                  <h2 className="flex items-center gap-2 font-bold">
+                  <h2 className="flex items-center gap-2 font-bold text-[var(--theme-text-primary)] dark:text-theme-on-primary">
                     {plan.icon && (
-                      <div className="text-muted-foreground flex items-center gap-2">
+                      <div className="flex items-center justify-center w-8 h-8 rounded-full
+                                  vs-btn-primary-gradient 
+                                  bg-theme-gradient
+                                  shadow-sm">
                         {plan.icon}
                       </div>
                     )}
                     {plan.name}
                   </h2>
-                  <p className="text-muted-foreground max-w-[220px] text-sm">
+                  <p className="text-[var(--theme-text-primary)]/70 dark:text-theme-on-primary/70 max-w-[220px] text-sm">
                     {plan.description}
                   </p>
                 </div>
-                <div className="flex items-center gap-3 lg:flex-col lg:items-start xl:flex-row xl:items-center">
+                <div className="flex items-center gap-3 lg:flex-col lg:items-start xl:flex-row xl:items-center relative">
+                  {/* Add subtle pattern behind price */}
+                  <div className="absolute inset-0 -z-10 opacity-5 dot-bg opacity-"></div>
+                  
                   <div className="flex items-baseline gap-1">
-                    <span className="text-muted-foreground text-2xl font-bold">
+                    <span className="text-[var(--theme-text-primary)]/70 dark:text-theme-on-primary/70 text-2xl font-bold">
                       $
                     </span>
-                    <span className="text-6xl font-bold">
+                    <span className="text-6xl font-bold text-[var(--theme-primary)] ">
                       {isYearly
                         ? Math.round(plan.yearlyPrice / 12)
                         : plan.monthlyPrice}
                     </span>
                   </div>
                   <div className="flex min-h-[40px] flex-col">
-                    <span className="text-sm">
+                    <span className="text-sm text-[var(--theme-text-primary)] dark:text-theme-on-primary">
                       {plan.monthlyPrice > 0 ? "/ month" : "free"}
                     </span>
-                    <span className="text-muted-foreground text-sm">
+                    <span className="text-[var(--theme-text-primary)]/70 dark:text-theme-on-primary/70 text-sm">
                       {plan.monthlyPrice > 0
                         ? isYearly
                           ? "billed yearly"
@@ -178,20 +176,20 @@ export function Pricing3ColsSubscription() {
                     </span>
                   </div>
                 </div>
-                <Button variant={plan.cta.variant} size="lg" asChild>
+                <Button variant={plan.cta.variant} size="lg" asChild className="vs-btn-primary-gradient text-theme-on-primary">
                   <Link href={plan.cta.href}>{plan.cta.label}</Link>
                 </Button>
-                <hr className="border-input" />
+                <hr className="border-[var(--theme-bg-secondary)]/10 dark:border-theme-border-light" />
               </div>
               <div>
                 <ul className="flex flex-col gap-2">
                   {plan.features.map((feature) => (
                     <li
                       key={feature}
-                      className="flex items-center gap-2 text-sm"
+                      className="flex items-center gap-2 text-sm group hover:bg-theme-bg-surface/5 dark:hover:bg-theme-bg-surface/5 rounded-md p-1 transition-colors"
                     >
-                      <CircleCheckBig className="text-muted-foreground size-4 shrink-0" />
-                      {feature}
+                      <CircleCheckBig className="text-[var(--theme-primary)]  size-4 shrink-0 group-hover:scale-110 transition-transform" />
+                      <span className="text-[var(--theme-text-primary)]/80 dark:text-theme-on-primary/80">{feature}</span>
                     </li>
                   ))}
                 </ul>

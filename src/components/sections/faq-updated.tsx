@@ -5,15 +5,23 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "../ui/accordion-raised";
-import courseUtils from "../../lib/course-utils";
+import { courseStats, tracks, sections } from "../../lib/course-utils";
 
-// FAQ data incorporating course information
+// Helper function to safely access course data with proper null checks
+const courseData = {
+  totalModules: courseStats?.totalModules || 0,
+  totalHours: courseStats?.totalHours || 0,
+  trackNames: tracks?.map(track => track.name || '').filter(Boolean).join(", ") || "multiple specialized tracks",
+  getSection: (id: string) => sections?.find(s => s.id === id)?.name || "specialized"
+};
+
+// FAQ data incorporating course information with null checks
 const faqItems = [
   {
     question: "What exactly is the Vertical Shortcut program?",
     answer: [
-      `Vertical Shortcut is a comprehensive ${courseUtils.courseStats.totalModules}+ module training program designed to help creators and entrepreneurs master short-form video content across all major platforms.`,
-      `The program includes over ${courseUtils.courseStats.totalHours} hours of content, covering everything from content strategy and psychology to production techniques and monetization methods.`
+      `Vertical Shortcut is a comprehensive ${courseData.totalModules}+ module training program designed to help creators and entrepreneurs master short-form video content across all major platforms.`,
+      `The program includes over ${courseData.totalHours} hours of content, covering everything from content strategy and psychology to production techniques and monetization methods.`
     ]
   },
   {
@@ -26,7 +34,7 @@ const faqItems = [
   {
     question: "Who is this program best suited for?",
     answer: [
-      `Vertical Shortcut is designed for multiple learning paths through our specialized tracks: ${courseUtils.tracks.map(track => track.name).join(", ")}.`,
+      `Vertical Shortcut is designed for multiple learning paths through our specialized tracks: ${courseData.trackNames}.`,
       "Whether you're a busy founder with limited time, a content creator looking to grow your audience, or a technical professional wanting to improve production quality, we have a custom learning path for you."
     ]
   },
@@ -41,13 +49,13 @@ const faqItems = [
     question: "Do I need expensive equipment to implement what I learn?",
     answer: [
       "Not at all! Many of our most successful students started with just a smartphone.",
-      `Our ${courseUtils.sections.find(s => s.id === "shooting")?.name} section includes specific modules like "Solo Phone Shooter" that show you how to create professional-quality content with minimal equipment.`
+      `Our ${courseData.getSection("shooting")} section includes specific modules like "Solo Phone Shooter" that show you how to create professional-quality content with minimal equipment.`
     ]
   },
   {
     question: "What if I'm camera shy or don't want to be on camera?",
     answer: [
-      `We have a dedicated module called "Camera Confidence" in our ${courseUtils.sections.find(s => s.id === "shooting")?.name} section specifically designed to help overcome camera anxiety with proven techniques.`,
+      `We have a dedicated module called "Camera Confidence" in our ${courseData.getSection("shooting")} section specifically designed to help overcome camera anxiety with proven techniques.`,
       "Additionally, we teach strategies for creating engaging content without appearing on camera, or ways to build a team so you can be the strategist rather than the on-camera talent."
     ]
   },

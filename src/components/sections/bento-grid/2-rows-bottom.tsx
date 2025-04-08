@@ -7,11 +7,7 @@ import {
   TileLink,
 } from "../../ui/tile";
 import { Section } from "../../ui/section";
-import RippleIllustration from "../../illustrations/ripple";
-import ChatIllustration from "../../illustrations/chat";
-import { MousePointerClick, Shield, TextCursor, Wrench } from "lucide-react";
-import MockupResponsiveTopIllustration from "../../illustrations/mockup-responsive-top";
-import RadarSmallIllustration from "../../illustrations/radar-small";
+import { MousePointerClick, Shield, TextCursor, Wrench, BarChart3, MessageSquare } from "lucide-react";
 
 export default function BentoGrid() {
   return (
@@ -29,7 +25,7 @@ export default function BentoGrid() {
           <Tile className="col-span-12 lg:col-span-4">
             <TileLink />
             <TileVisual className="-mx-32 -my-16 lg:my-0">
-              <RippleIllustration />
+              <Wrench className="w-16 h-16" />
             </TileVisual>
             <TileContent>
               <MousePointerClick className="text-muted-foreground size-8 stroke-1" />
@@ -47,7 +43,7 @@ export default function BentoGrid() {
           <Tile className="col-span-12 md:col-span-6 lg:col-span-4">
             <TileLink />
             <TileVisual className="items-center">
-              <ChatIllustration />
+              <MessageSquare className="w-16 h-16" />
             </TileVisual>
             <TileContent>
               <TextCursor className="text-muted-foreground size-8 stroke-1" />
@@ -64,7 +60,7 @@ export default function BentoGrid() {
           <Tile className="col-span-12 md:col-span-6 lg:col-span-4">
             <TileLink />
             <TileVisual className="relative min-h-[240px]">
-              <RadarSmallIllustration className="absolute top-1/2 left-1/2 -mt-32 h-[512px] w-[512px] -translate-x-1/2 -translate-y-1/2" />
+              <Activity className="absolute top-1/2 left-1/2 -mt-32 w-32 h-32 -translate-x-1/2 -translate-y-1/2" />
             </TileVisual>
             <TileContent>
               <Shield className="text-muted-foreground size-8 stroke-1" />
@@ -91,7 +87,7 @@ export default function BentoGrid() {
               </TileDescription>
             </TileContent>
             <TileVisual className="min-h-[240px] basis-0 sm:p-4 md:min-h-[320px] md:py-12 lg:px-12">
-              <MockupResponsiveTopIllustration />
+              <BarChart3 className="w-16 h-16" />
             </TileVisual>
           </Tile>
         </div>

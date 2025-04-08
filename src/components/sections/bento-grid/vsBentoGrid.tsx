@@ -1,161 +1,182 @@
-import React, { useRef, useLayoutEffect } from 'react';
+import React from "react";
 import { Section } from "../../ui/section";
 import { Badge } from "../../ui/badge";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-// Import individual illustrations from their respective files
-import TilesIllustration from "../../illustrations/tiles";
-import MockupMobileIllustration from "../../illustrations/mockup-mobile";
-import PipelineIllustration from "../../illustrations/pipeline";
-import CodeEditorIllustration from "../../illustrations/code-editor";
-import RadarSmallIllustration from "../../illustrations/radar-small";
-import GlobeIllustration from "../../illustrations/globe";
-
-// Create wrapper components that don't pass props to the illustrations
-const TilesIcon = () => <div className="h-8 w-8 text-[#154D59]"><TilesIllustration /></div>;
-const MockupMobileIcon = () => <div className="h-8 w-8"><MockupMobileIllustration /></div>;
-const PipelineIcon = () => <div className="h-8 w-8"><PipelineIllustration /></div>;
-const CodeEditorIcon = () => <div className="h-8 w-8"><CodeEditorIllustration /></div>;
-
-interface BentoItem {
-  title: string;
-  description: string;
-  icon: React.ReactElement;
-  color: string;
-  span: string;
-}
-
-const bentoItems: BentoItem[] = [
-  {
-    title: "Creator Network",
-    description: "Connect with 100+ top creators who've built 7+ figure businesses with short-form content.",
-    icon: <GlobeIllustration className="h-8 w-8" />,
-    color: "#FEA35D",
-    span: "col-span-1 row-span-1"
-  },
-  {
-    title: "AI-Powered Tools",
-    description: "Exclusive access to our custom AI tools for content research, script generation, and trend prediction.",
-    icon: <RadarSmallIllustration className="h-8 w-8" />,
-    color: "#B92234",
-    span: "col-span-1 row-span-1"
-  },
-  {
-    title: "Platform Mastery",
-    description: "Deep dives into TikTok, Instagram, YouTube Shorts, and LinkedIn algorithms with platform-specific strategies.",
-    icon: <TilesIcon />,
-    color: "#154D59",
-    span: "col-span-2 row-span-1 md:col-span-1 md:row-span-2"
-  },
-  {
-    title: "Viral Case Studies",
-    description: "Detailed breakdowns of 45+ videos that reached millions of views across different niches and industries.",
-    icon: <MockupMobileIcon />,
-    color: "#DE6B59",
-    span: "col-span-2 md:col-span-1 row-span-1"
-  },
-  {
-    title: "Weekly Growth Labs",
-    description: "Live weekly sessions where we review your content and provide actionable feedback for immediate improvement.",
-    icon: <PipelineIcon />,
-    color: "#FEAC6D",
-    span: "col-span-2 row-span-1"
-  },
-  {
-    title: "Content Library",
-    description: "Over 200+ video templates, swipe files, and script formats for every type of business and creator niche.",
-    icon: <CodeEditorIcon />,
-    color: "#387292",
-    span: "col-span-2 md:col-span-1 row-span-1"
-  }
-];
+import { Globe, Zap, Database, PieChart, VideoIcon, BarChart, Code, Smartphone, Layout, Activity, MessageSquare, Shield, ArrowUpRight } from "lucide-react";
 
 export default function VSBentoGrid() {
-  const bentoRef = useRef<HTMLDivElement>(null);
-const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
-  
-useLayoutEffect(() => {
-  // Create a unique ID for this ScrollTrigger
-  const triggerId = "bento-grid-animation";
-  
-  // Kill any existing ScrollTrigger with this ID
-  const existingTrigger = ScrollTrigger.getById(triggerId);
-  if (existingTrigger) {
-    existingTrigger.kill();
-  }
-  
-  // Create a new context to ensure clean animation setup
-  const ctx = gsap.context(() => {
-    // Create the ScrollTrigger with a unique ID
-    scrollTriggerRef.current = ScrollTrigger.create({
-      trigger: bentoRef.current,
-      start: "top 80%",
-      once: true,
-      id: triggerId,
-      onEnter: () => {
-        // Stagger the animation of bento items efficiently
-        gsap.fromTo(".bento-item", 
-          { y: 30, opacity: 0 },
-          { 
-            y: 0, 
-            opacity: 1, 
-            duration: 0.4, // Shorter duration
-            stagger: 0.05, // Lower stagger value
-            ease: "power2.out",
-            clearProps: "transform" // Only clear transform, keep opacity
-          }
-        );
-      }
-    });
-  }, bentoRef);
-  
-  // Clean up on unmount
-  return () => {
-    ctx.revert();
-    if (scrollTriggerRef.current) {
-      scrollTriggerRef.current.kill();
-      scrollTriggerRef.current = null;
-    }
-  };
-}, []);
-
   return (
-    <Section className="bg-[#08141B] py-24">
-      <div className="container mx-auto px-4">
+    <Section className="bg-[var(--theme-bg-primary)] py-24 relative overflow-hidden dark:bg-[var(--theme-bg-primary)]">
+      {/* Background patterns */}
+      <div className="absolute inset-0 opacity-10 dot-bg pointer-events-none dark:hidden" />
+      <div className="absolute inset-0 opacity-0 opacity- grid-bg pointer-events-none" />
+      
+      {/* Floating elements - light mode only */}
+      <div className="absolute top-40 right-10 w-32 h-32 rounded-[40%] rotate-12 opacity-5 
+                    bg-[var(--theme-primary)] animate-pulse hidden md:block dark:hidden"></div>
+      <div className="absolute bottom-20 left-10 w-48 h-48 rounded-[30%] -rotate-6 opacity-5
+                    bg-[var(--theme-accent-secondary-light)] hidden md:block dark:hidden"></div>
+      
+      {/* Floating elements - dark mode only */}
+      <div className="absolute top-40 right-10 w-32 h-32 rounded-[40%] rotate-12 opacity-10 
+                    vs-float-orange animate-pulse hidden dark:block"></div>
+      <div className="absolute bottom-20 left-10 w-48 h-48 rounded-[30%] -rotate-6 opacity-10
+                    vs-float-teal hidden dark:block"></div>
+      
+      <div className="container mx-auto px-4 relative">
         <div className="text-center mb-16">
-          <Badge variant="outline" className="bg-white/5 text-[#FEA35D] border-[#FEA35D]/30 mb-4 py-2 px-4">
+          <Badge variant="section" size="xl" className="mb-4">
             Program Resources
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
-              Everything You Need
-            </span>
-        </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+          <h2 className="text-[var(--theme-text-primary)] dark:text-theme-on-primary-4xl md:text-5xl font-bold mb-6">
+            Everything You Need
+          </h2>
+          <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/70 text-xl max-w-3xl mx-auto">
             Vertical Shortcut gives you all the tools, resources, and support to succeed with short-form content.
-        </p>
+          </p>
         </div>
         
-        <div ref={bentoRef} className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
-          {bentoItems.map((item, index) => (
-            <div 
-              key={index} 
-              className={`${item.span} bento-item bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-[${item.color}]/40 transition-all duration-300 group`}
-            >
-              <div 
-                className="w-12 h-12 rounded-lg flex items-center justify-center mb-4"
-                style={{ backgroundColor: item.color }}
-              >
-                {item.icon}
+        <div className="grid grid-cols-12 gap-4">
+          {/* First row - 3 cards with col-span-4 each */}
+          <div className="col-span-4 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-theme-border-light-[2px_2px_8px_rgba(0,0,0,0.05)] shadow-theme- transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.2)] group relative overflow-hidden bg-[var(--theme-bg-primary)] ">
+            {/* Light mode floating element */}
+            <div className="absolute -bottom-6 -right-6 w-20 h-20 rounded-[40%] rotate-12 opacity-5 
+                         bg-[var(--theme-accent-secondary-light)] dark:hidden"></div>
+            
+            {/* Dark mode floating element */}
+            <div className="absolute -bottom-6 -right-6 w-20 h-20 rounded-[40%] rotate-12 opacity-10 
+                         vs-btn-secondary-gradient
+                         hidden dark:block"></div>
+            
+            <div className="flex flex-col relative z-10">
+              <div className="flex items-center justify-center mb-8 transform transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.08] group-hover:translate-y-[-2px]">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-[var(--theme-accent-secondary)]  shadow-[1px_1px_4px_rgba(0,0,0,0.1)] shadow-theme-">
+                  <Database className="w-10 h-10 text-theme-on-primary" />
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#FEA35D] transition-colors duration-300">
-                {item.title}
+              <Zap className="size-8 text-[var(--theme-primary)] mb-3 transition-transform duration-300 group-hover:scale-110" />
+              <h3 className="text-[var(--theme-text-primary)] text-2xl font-semibold mb-3 dark:text-theme-on-primary">
+                Weekly Growth Labs
               </h3>
-              <p className="text-white/70">
-                    {item.description}
-                  </p>
+              <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/70">
+                Live weekly sessions where we review your content and provide actionable feedback for immediate improvement.
+              </p>
             </div>
-          ))}
+          </div>
+          
+          <div className="col-span-4 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-theme-border-light-[2px_2px_8px_rgba(0,0,0,0.05)] shadow-theme- transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[-0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(254,163,93,0.2)] group relative overflow-hidden bg-theme-gradient dark:from-[var(--theme-card-bg-navy)] ">
+            {/* Light mode floating element */}
+            <div className="absolute -top-6 -left-6 w-20 h-20 rounded-[30%] -rotate-6 opacity-5 
+                         bg-[var(--theme-primary-light)] dark:hidden"></div>
+            
+            {/* Dark mode floating element */}
+            <div className="absolute -top-6 -left-6 w-20 h-20 rounded-[30%] -rotate-6 opacity-10 
+                         vs-btn-primary-gradient
+                         hidden dark:block"></div>
+            
+            <div className="flex flex-col h-full relative z-10">
+              <div className="flex items-center justify-center mb-8 transform transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.08] group-hover:translate-y-[-2px]">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-[var(--theme-primary)]  shadow-[1px_1px_4px_rgba(0,0,0,0.1)] shadow-theme-">
+                  <MessageSquare className="w-10 h-10 text-theme-on-primary" />
+                </div>
+              </div>
+              <PieChart className="size-8 text-[var(--theme-accent-secondary)] mb-3 transition-transform duration-300 group-hover:scale-110" />
+              <h3 className="text-[var(--theme-text-primary)] text-2xl font-semibold mb-3 dark:text-theme-on-primary">
+                Platform Mastery
+              </h3>
+              <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/70">
+                Deep dives into platform algorithms with strategies specifically tailored for each one.
+              </p>
+            </div>
+          </div>
+          
+          <div className="col-span-4 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-theme-border-light-[2px_2px_8px_rgba(0,0,0,0.05)] shadow-theme- transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(254,163,93,0.2)] group relative overflow-hidden bg-theme-gradient dark:from-[var(--theme-card-bg-navy)] ">
+            {/* Light mode floating element */}
+            <div className="absolute top-10 right-10 w-16 h-16 rounded-[35%] rotate-12 opacity-5 
+                         bg-[var(--theme-primary-light)] dark:hidden"></div>
+            
+            {/* Dark mode floating element */}
+            <div className="absolute top-10 right-10 w-16 h-16 rounded-[35%] rotate-12 opacity-10 
+                         vs-btn-primary-gradient
+                         hidden dark:block"></div>
+            
+            <div className="flex flex-col h-full relative z-10">
+              <div className="flex items-center justify-center mb-8 transform transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.08] group-hover:translate-y-[-2px]">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-[var(--theme-primary)]  shadow-[1px_1px_4px_rgba(0,0,0,0.1)] shadow-theme-">
+                  <Layout className="w-10 h-10 text-theme-on-primary" />
+                </div>
+              </div>
+              <Globe className="size-8 text-[var(--theme-primary)] mb-3 transition-transform duration-300 group-hover:scale-110" />
+              <h3 className="text-[var(--theme-text-primary)] text-2xl font-semibold mb-3 dark:text-theme-on-primary">
+                Creator Network
+              </h3>
+              <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/70">
+                Connect with 100+ top creators who've built 7+ figure businesses with short-form content.
+              </p>
+            </div>
+          </div>
+          
+          {/* Second row - 2 cards with col-span-6 each */}
+          <div className="col-span-6 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-theme-border-light-[2px_2px_8px_rgba(0,0,0,0.05)] shadow-theme- transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[-0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.2)] group relative overflow-hidden bg-theme-gradient dark:from-[var(--theme-card-bg-navy)] ">
+            {/* Light mode floating elements */}
+            <div className="absolute bottom-16 right-16 w-24 h-24 rounded-[40%] rotate-12 opacity-5 
+                         bg-[var(--theme-accent-secondary-light)] dark:hidden"></div>
+            <div className="absolute top-10 left-20 w-16 h-16 rounded-[30%] -rotate-6 opacity-5
+                         bg-[var(--theme-accent-secondary)] dark:hidden"></div>
+            
+            {/* Dark mode floating elements */}
+            <div className="absolute bottom-16 right-16 w-24 h-24 rounded-[40%] rotate-12 opacity-10 
+                         vs-btn-secondary-gradient
+                         hidden dark:block"></div>
+            <div className="absolute top-10 left-20 w-16 h-16 rounded-[30%] -rotate-6 opacity-10
+                         vs-btn-secondary-gradient
+                         hidden dark:block"></div>
+            
+            <div className="flex flex-col h-full relative z-10">
+              <div className="flex items-center justify-center mb-8 transform transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.08] group-hover:translate-y-[-2px]">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-[var(--theme-accent-secondary)]  shadow-[1px_1px_4px_rgba(0,0,0,0.1)] shadow-theme-">
+                  <Smartphone className="w-10 h-10 text-theme-on-primary" />
+                </div>
+              </div>
+              <VideoIcon className="size-8 text-[var(--theme-primary-hover)] mb-3 transition-transform duration-300 group-hover:scale-110" />
+              <h3 className="text-[var(--theme-text-primary)] text-2xl font-semibold mb-3 dark:text-theme-on-primary">
+                Viral Case Studies
+              </h3>
+              <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/70">
+                Detailed breakdowns of 45+ videos that reached millions of views across different niches and industries.
+              </p>
+            </div>
+          </div>
+          
+          <div className="col-span-6 rounded-xl p-6 border border-[rgba(0,0,0,0.03)] dark:border-theme-border-light-[2px_2px_8px_rgba(0,0,0,0.05)] shadow-theme- transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-y-[-4px] hover:rotate-[0.5deg] hover:scale-[1.02] hover:shadow-[2px_2px_12px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(222,107,89,0.2)] group relative overflow-hidden bg-theme-gradient dark:from-[var(--theme-card-bg-navy)] ">
+            {/* Light mode floating elements */}
+            <div className="absolute -bottom-8 -right-8 w-40 h-40 rounded-[35%] rotate-12 opacity-5 
+                         bg-[var(--theme-accent-tertiary)] dark:hidden"></div>
+            <div className="absolute top-16 left-24 w-20 h-20 rounded-[30%] -rotate-6 opacity-5
+                         bg-[var(--theme-accent-quaternary)] dark:hidden"></div>
+            
+            {/* Dark mode floating elements */}
+            <div className="absolute -bottom-8 -right-8 w-40 h-40 rounded-[35%] rotate-12 opacity-10 
+                         vs-gradient-coral-diagonal
+                         hidden dark:block"></div>
+            <div className="absolute top-16 left-24 w-20 h-20 rounded-[30%] -rotate-6 opacity-10
+                         vs-btn-primary-gradient
+                         hidden dark:block"></div>
+            
+            <div className="flex flex-col h-full relative z-10">
+              <div className="flex items-center justify-center mb-8 transform transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.08] group-hover:translate-y-[-2px]">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center vs-gradient-coral-diagonal dark:from-[var(--theme-accent-coral-dark)] shadow-[1px_1px_4px_rgba(0,0,0,0.1)] shadow-theme-">
+                  <Activity className="w-10 h-10 text-theme-on-primary" />
+                </div>
+              </div>
+              <Shield className="size-8 text-[var(--theme-accent-tertiary)] mb-3 transition-transform duration-300 group-hover:scale-110" />
+              <h3 className="text-[var(--theme-text-primary)] text-2xl font-semibold mb-3 dark:text-theme-on-primary">
+                AI-Powered Tools
+              </h3>
+              <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/70">
+                Exclusive access to our custom AI tools for content research, script generation, and trend prediction.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </Section>

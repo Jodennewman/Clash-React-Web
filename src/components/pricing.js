@@ -401,7 +401,7 @@ function renderPricingTable() {
       ],
       // Track access for this tier
       trackAccess: ["Theory Basics", "Cardinal Principles", "Hook Mastery", "Scripting"],
-      color: "var(--orange)"
+      color: "var(--theme-orange)"
     },
     automator: {
       name: "Authority Automator",
@@ -425,7 +425,7 @@ function renderPricingTable() {
       // Track access for this tier
       trackAccess: ["Theory Basics", "Cardinal Principles", "Hook Mastery", "Scripting", 
         "Metrics & Analysis", "Platform Strategy", "Authority Building", "Content Management"],
-      color: "var(--blue)"
+      color: "var(--theme-blue)"
     },
     growth: {
       name: "The Viral Growth Machine",
@@ -448,7 +448,7 @@ function renderPricingTable() {
       ],
       // Track access for all tracks
       trackAccess: "all",
-      color: "var(--pink)"
+      color: "var(--theme-pink)"
     }
   };
   

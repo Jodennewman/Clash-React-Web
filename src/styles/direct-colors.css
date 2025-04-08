@@ -1,0 +1,89 @@
+/* Direct color utility classes to bypass Tailwind v4 issues with CSS variables */
+
+/* Background color utilities */
+.bg-primary-orange {
+  background-color: var(--primary-orange);
+}
+.bg-primary-orange-hover {
+  background-color: var(--primary-orange-hover);
+}
+.bg-secondary-teal {
+  background-color: var(--secondary-teal);
+}
+.bg-accent-coral {
+  background-color: var(--accent-coral);
+}
+.bg-accent-red {
+  background-color: var(--accent-red);
+}
+.bg-cream {
+  background-color: var(--bg-cream);
+}
+.bg-navy {
+  background-color: var(--bg-navy);
+}
+
+/* Text color utilities */
+.text-primary-orange {
+  color: var(--primary-orange);
+}
+.text-secondary-teal {
+  color: var(--secondary-teal);
+}
+.text-accent-coral {
+  color: var(--accent-coral);
+}
+.text-accent-red {
+  color: var(--accent-red);
+}
+.text-navy {
+  color: var(--text-navy);
+}
+.text-cream {
+  color: var(--text-cream);
+}
+
+/* Border color utilities */
+.border-primary-orange {
+  border-color: var(--primary-orange);
+}
+.border-secondary-teal {
+  border-color: var(--secondary-teal);
+}
+.border-accent-coral {
+  border-color: var(--accent-coral);
+}
+.border-accent-red {
+  border-color: var(--accent-red);
+}
+
+/* Gradient utilities */
+.bg-gradient-primary {
+  background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
+}
+.bg-gradient-secondary {
+  background: linear-gradient(to right, var(--secondary-teal), var(--secondary-teal-hover));
+}
+.bg-gradient-accent {
+  background: linear-gradient(to right, var(--accent-coral), var(--accent-red));
+}
+.bg-gradient-cream {
+  background: var(--bg-cream-gradient);
+}
+.bg-gradient-navy {
+  background: var(--bg-navy-gradient);
+}
+
+/* Text with gradient */
+.text-gradient-primary {
+  background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.text-gradient-accent {
+  background: linear-gradient(to right, var(--accent-coral), var(--accent-red));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+} 

@@ -1,13 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef, ReactElement } from "react";
 import { Section } from "../ui/section";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-  } from '../ui/card';
 import {
     Select,
     SelectTrigger,
@@ -17,17 +9,60 @@ import {
 } from "../ui/select";
 import { TrendingUp } from "lucide-react";
 import {
-    ChartContainer,
     ChartStyle,
     ChartTooltip,
-    ChartTooltipContent,
 } from '../ui/chart';
 
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
-import { Label, Pie, PieChart, Sector } from 'recharts';
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { Pie, PieChart, Sector } from 'recharts';
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
-export default function VSCharts() {
-  const chartData = [
+// Define types for chart data
+interface ChartDataPoint {
+  month: string;
+  engagement: number;
+  conversion: number;
+}
+
+// Define types for metrics data
+interface MetricDataPoint {
+  metric: string;
+  value: number;
+  fill: string;
+}
+
+// Define the type for chart configuration
+interface ChartConfigItem {
+  label: string;
+  color?: string;
+}
+
+interface ChartConfig {
+  [key: string]: ChartConfigItem;
+}
+
+// Type for recharts tooltip payload item
+interface TooltipPayloadItem {
+  name?: string;
+  value?: number | string;
+  payload?: MetricDataPoint;
+  dataKey?: string;
+  color?: string;
+}
+
+// Type for recharts tooltip props
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+}
+
+export default function VSCharts(): ReactElement {
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Chart data for student progress
+  const chartData: ChartDataPoint[] = [
     { month: "Week 1", engagement: 10, conversion: 0 },
     { month: "Week 2", engagement: 35, conversion: 5 },
     { month: "Week 4", engagement: 70, conversion: 15 },
@@ -36,227 +71,390 @@ export default function VSCharts() {
     { month: "Week 10", engagement: 320, conversion: 140 },
   ];
   
-  const chartConfig = {
-    engagement: {
-      label: "Engagement",
-      color: "hsl(27, 98%, 67%)", // FEA35D
-    },
-    conversion: {
-      label: "Conversions",
-      color: "hsl(359, 72%, 43%)", // B92234
-    },
+  // Theme-aware chart colors for metrics
+  const chartColors = {
+    views: "var(--theme-color-views)",
+    followers: "var(--theme-color-followers)",
+    engagement: "var(--theme-color-engagement)",
+    revenue: "var(--theme-color-revenue)"
   };
-
+  
   // Success metrics data for pie chart
-  const metricsData = [
-    { metric: "views", value: 45, fill: "var(--color-views)" },
-    { metric: "followers", value: 32, fill: "var(--color-followers)" },
-    { metric: "engagement", value: 18, fill: "var(--color-engagement)" },
-    { metric: "revenue", value: 25, fill: "var(--color-revenue)" },
+  const metricsData: MetricDataPoint[] = [
+    { metric: "views", value: 45, fill: chartColors.views },
+    { metric: "followers", value: 32, fill: chartColors.followers },
+    { metric: "engagement", value: 18, fill: chartColors.engagement },
+    { metric: "revenue", value: 25, fill: chartColors.revenue },
   ];
   
-  const metricsConfig = {
+  const metricsConfig: ChartConfig = {
     metrics: {
       label: "Metrics",
     },
     views: {
       label: "Views (in millions)",
-      color: "hsl(27, 98%, 67%)", // FEA35D
+      color: chartColors.views,
     },
     followers: {
       label: "New Followers (in thousands)",
-      color: "hsl(204, 42%, 40%)", // 387292
+      color: chartColors.followers,
     },
     engagement: {
       label: "Engagement Rate (%)",
-      color: "hsl(359, 72%, 43%)", // B92234
+      color: chartColors.engagement,
     },
     revenue: {
       label: "Revenue Growth (%)",
-      color: "hsl(186, 61%, 22%)", // 154D59
+      color: chartColors.revenue,
     },
   };
 
-  const [activeMetric, setActiveMetric] = useState(metricsData[0].metric);
+  const [activeMetric, setActiveMetric] = useState<string>(metricsData[0].metric);
   const activeIndex = metricsData.findIndex((item) => item.metric === activeMetric);
   const metrics = metricsData.map((item) => item.metric);
 
+  useGSAP(() => {
+    // Get computed theme variables for animation
+    const styles = getComputedStyle(document.documentElement);
+    const distance = styles.getPropertyValue('--theme-anim-distance-md') || '-7px';
+    const duration = styles.getPropertyValue('--theme-anim-duration-med') || '0.45';
+    
+    const ctx = gsap.context(() => {
+      // Animate charts on load with staggered timing using theme variables
+      gsap.fromTo(".chart-container", 
+        { 
+          opacity: 0, 
+          y: Math.abs(parseInt(distance)) * 4 // Use theme distance but make it positive and larger for initial state
+        }, 
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: parseFloat(duration), 
+          stagger: 0.2, 
+          ease: "power2.out" 
+        }
+      );
+    }, containerRef);
+    
+    return () => ctx.revert();
+  }, []);
+
+  // Custom tooltip component
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps): ReactElement | null => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-theme-primary p-3 rounded-md border border-theme-border shadow-theme-sm">
+          <p className="text-theme-primary font-medium mb-1">{label}</p>
+          {payload.map((entry, index) => {
+            // Determine color class based on data key or use theme accent as fallback
+            const colorKey = entry.dataKey as string || "";
+            const tooltipColorClass = colorKey.includes("engagement") ? "bg-theme-accent-quaternary" : 
+                                      colorKey.includes("conversion") ? "bg-theme-accent-tertiary" :
+                                      colorKey.includes("views") ? "bg-theme-primary" :
+                                      colorKey.includes("followers") ? "bg-theme-accent-secondary" :
+                                      colorKey.includes("revenue") ? "bg-theme-accent-secondary" :
+                                      "bg-theme-accent";
+            
+            return (
+              <div key={`tooltip-${index}`} className="flex items-center gap-2">
+                <div 
+                  className={`w-2 h-2 rounded-full ${tooltipColorClass}`} 
+                  style={entry.color && !colorKey ? { backgroundColor: entry.color } : {}}
+                />
+                <p className="text-theme-secondary text-sm">
+                  {entry.name}: {entry.value}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
-    <Section className="py-24 bg-[#09232F] border-t border-[#154D59]/30">
-      <div className="max-w-container mx-auto grid md:grid-cols-2 gap-8">
-        <Card className="bg-[#0F1A22] border-white/10">
-          <CardHeader>
-            <CardTitle className="text-white">Student Progress Trajectory</CardTitle>
-            <CardDescription className="text-white/70">
-              Average growth in engagement and conversions during the 10-week program
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig}>
-              <AreaChart
-                accessibilityLayer
-                data={chartData}
-                margin={{
-                  left: -20,
-                  right: 12,
-                }}
-              >
-                <CartesianGrid vertical={false} stroke="#154D59" />
-                <XAxis
-                  dataKey="month"
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={8}
-                  stroke="#FFFFFF50"
-                />
-                <YAxis
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={8}
-                  tickCount={5}
-                  stroke="#FFFFFF50"
-                />
-                <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-                <Area
-                  dataKey="engagement"
-                  type="monotone"
-                  fill="var(--color-engagement)"
-                  fillOpacity={0.4}
-                  stroke="var(--color-engagement)"
-                  strokeWidth={2}
-                />
-                <Area
-                  dataKey="conversion"
-                  type="monotone"
-                  fill="var(--color-conversion)"
-                  fillOpacity={0.4}
-                  stroke="var(--color-conversion)"
-                  strokeWidth={2}
-                />
-              </AreaChart>
-            </ChartContainer>
-          </CardContent>
-          <CardFooter>
-            <div className="flex w-full items-start gap-2 text-sm">
-              <div className="grid gap-2">
-                <div className="flex items-center gap-2 font-medium leading-none text-white">
-                  320% increase in engagement <TrendingUp className="h-4 w-4 text-[#FEA35D]" />
+    <Section className="py-20 bg-theme-primary border-t border-theme-border relative overflow-hidden" ref={containerRef}>
+      {/* Theme-aware floating elements for visual interest */}
+      <div className="absolute -z-10 top-20 right-10 w-20 h-20 rounded-[40%] rotate-12 
+                   opacity-[var(--theme-float-opacity)]
+                   bg-[var(--theme-float-bg-primary)]
+                   animate-float-slow"></div>
+      <div className="absolute -z-10 bottom-40 left-10 w-32 h-32 rounded-[30%] -rotate-6 
+                   opacity-[var(--theme-float-opacity-secondary)]
+                   bg-[var(--theme-float-bg-secondary)]
+                   animate-float-medium"></div>
+                   
+      <div className="max-w-container mx-auto relative">
+        <div className="text-center mb-10">
+          <h2 className="text-theme-primary text-3xl md:text-4xl font-medium mb-3">Case Studies</h2>
+          <p className="text-theme-secondary max-w-2xl mx-auto">
+            Visualizing real-world impact and tracking growth metrics for content creators.
+          </p>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-10">
+          {/* Area Chart Card */}
+          <div className="chart-container">
+            <div className="mb-4">
+              <h3 className="text-theme-primary text-xl font-medium mb-1">Student Progress Trajectory</h3>
+              <p className="text-theme-secondary text-sm">
+                Average growth over the 10-week program
+              </p>
+            </div>
+            
+            <div className="bg-theme-secondary/30 p-6 rounded-md border border-theme-border shadow-theme-sm">
+              <div className="flex justify-between items-center mb-2">
+                <div className="flex items-center gap-4">
+                  <div className="flex gap-2 items-center">
+                    <div className="w-2 h-2 rounded-full bg-theme-primary"></div>
+                    <span className="text-theme-primary text-xs">Engagement</span>
+                  </div>
+                  <div className="flex gap-2 items-center">
+                    <div className="w-2 h-2 rounded-full bg-theme-accent-quaternary"></div>
+                    <span className="text-theme-primary text-xs">Conversions</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 leading-none text-white/60">
-                  Average across all Vertical Shortcut students
+                <div className="flex items-center gap-1 bg-theme-secondary/50 px-2 py-0.5 rounded-full">
+                  <span className="text-theme-primary text-xs font-medium">+320%</span>
+                  <TrendingUp className="h-3 w-3 text-theme-primary" />
+                </div>
+              </div>
+              
+              <ResponsiveContainer width="100%" height={240}>
+                <AreaChart
+                  data={chartData}
+                  margin={{
+                    top: 0,
+                    right: 0,
+                    left: 0,
+                    bottom: 0,
+                  }}
+                >
+                  <CartesianGrid vertical={false} stroke="var(--theme-grid-line)" />
+                  <XAxis
+                    dataKey="month"
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                    className="text-theme-tertiary text-xs"
+                    tick={{fontSize: 11}}
+                  />
+                  <YAxis
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                    tickCount={5}
+                    className="text-theme-tertiary text-xs"
+                    tick={{fontSize: 11}}
+                  />
+                  <ChartTooltip 
+                    cursor={{stroke: "var(--theme-grid-dot)", strokeDasharray: '3 3'}} 
+                    content={<CustomTooltip />} 
+                    wrapperStyle={{ outline: 'none' }}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="engagement"
+                    name="Engagement"
+                    stroke="var(--theme-primary)"
+                    strokeWidth={2}
+                    fill="var(--theme-primary)"
+                    fillOpacity={0.05}
+                    activeDot={{ 
+                      r: 4, 
+                      fill: "var(--theme-primary)", 
+                      stroke: "var(--theme-text-on-primary)", 
+                      strokeWidth: 2 
+                    }}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="conversion"
+                    name="Conversions"
+                    stroke="var(--theme-accent-quaternary)"
+                    strokeWidth={2}
+                    fill="var(--theme-accent-quaternary)"
+                    fillOpacity={0.05}
+                    activeDot={{ 
+                      r: 4, 
+                      fill: "var(--theme-accent-quaternary)", 
+                      stroke: "var(--theme-text-on-primary)", 
+                      strokeWidth: 2 
+                    }}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Pie Chart Card */}
+          <div className="chart-container">
+            <ChartStyle id="metrics-pie" config={metricsConfig} />
+            <div className="mb-4">
+              <h3 className="text-theme-primary text-xl font-medium mb-1">Success Metrics</h3>
+              <p className="text-theme-secondary text-sm">
+                Average student outcomes after completion
+              </p>
+            </div>
+            
+            <div className="bg-theme-secondary/30 p-6 rounded-md border border-theme-border shadow-theme-sm">
+              <div className="flex flex-wrap gap-2 mb-4">
+                {metricsData.map((item) => (
+                  <button 
+                    key={item.metric}
+                    className={`text-xs font-medium px-3 py-1 rounded-full transition-all duration-[var(--theme-transition-normal)] ${
+                      activeMetric === item.metric
+                        ? `text-theme-on-primary`
+                        : 'bg-theme-secondary/30 text-theme-primary hover:bg-theme-secondary/50'
+                    }`}
+                    style={
+                      activeMetric === item.metric 
+                        ? { 
+                            backgroundColor: item.fill,
+                            boxShadow: 'var(--theme-shadow-btn)'
+                          } 
+                        : {}
+                    }
+                    onClick={() => setActiveMetric(item.metric)}
+                  >
+                    {item.metric}
+                  </button>
+                ))}
+              </div>
+              
+              <div className="flex items-start">
+                <div className="flex-1">
+                  <ResponsiveContainer width="100%" height={180}>
+                    <PieChart>
+                      <ChartTooltip
+                        content={<CustomTooltip />}
+                        wrapperStyle={{ outline: 'none' }}
+                      />
+                      <Pie
+                        data={metricsData}
+                        dataKey="value"
+                        nameKey="metric"
+                        innerRadius={40}
+                        outerRadius={70}
+                        paddingAngle={2}
+                        strokeWidth={0}
+                        activeIndex={activeIndex}
+                        activeShape={(props: { cx: number; cy: number; innerRadius: number; outerRadius: number; startAngle: number; endAngle: number; fill: string; }) => (
+                          <g>
+                            <Sector
+                              cx={props.cx}
+                              cy={props.cy}
+                              innerRadius={props.innerRadius}
+                              outerRadius={props.outerRadius + 3}
+                              startAngle={props.startAngle}
+                              endAngle={props.endAngle}
+                              fill={props.fill}
+                            />
+                          </g>
+                        )}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+                
+                <div className="flex flex-col items-start ml-4 mt-4">
+                  <div className="text-5xl font-bold text-theme-primary mb-1">
+                    {metricsData[activeIndex].value}
+                  </div>
+                  <div className="text-sm text-theme-secondary">
+                    {metricsConfig[activeMetric]?.label}
+                  </div>
+                  <div className="mt-4 pt-4 border-t border-theme-border w-full">
+                    <Select value={activeMetric} onValueChange={setActiveMetric}>
+                      <SelectTrigger
+                        className="h-8 w-full rounded-md bg-theme-secondary/30 border-none text-theme-primary text-xs"
+                        aria-label="Select a metric"
+                      >
+                        <SelectValue placeholder="Select metric" />
+                      </SelectTrigger>
+                      <SelectContent align="end" className="rounded-md bg-theme-primary border-theme-border">
+                        {metrics.map((key) => {
+                          const config = metricsConfig[key];
+                          if (!config) {
+                            return null;
+                          }
+                          return (
+                            <SelectItem
+                              key={key}
+                              value={key}
+                              className="rounded-sm [&_span]:flex text-xs"
+                            >
+                              <div className="flex items-center gap-2">
+                                <span
+                                  className="flex h-2 w-2 shrink-0 rounded-full"
+                                  style={{
+                                    backgroundColor: config.color,
+                                  }}
+                                />
+                                {config?.label}
+                              </div>
+                            </SelectItem>
+                          );
+                        })}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
               </div>
             </div>
-          </CardFooter>
-        </Card>
-
-        <Card data-chart="metrics-pie" className="flex flex-col bg-[#0F1A22] border-white/10">
-          <ChartStyle id="metrics-pie" config={metricsConfig} />
-          <CardHeader className="flex-row items-start space-y-0 pb-0">
-            <div className="grid gap-1">
-              <CardTitle className="text-white">Success Metrics</CardTitle>
-              <CardDescription className="text-white/70">Average student outcomes after completion</CardDescription>
-            </div>
-            <Select value={activeMetric} onValueChange={setActiveMetric}>
-              <SelectTrigger
-                className="ml-auto h-7 w-[160px] rounded-lg pl-2.5 bg-[#154D59]/50 border-white/10"
-                aria-label="Select a metric"
+          </div>
+        </div>
+        
+        {/* Case Studies Selector */}
+        <div className="mt-12">
+          <h3 className="text-theme-primary text-xl font-medium mb-6">Creator Success Stories</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div 
+                key={i}
+                className={`group relative overflow-hidden rounded-md border border-theme-border bg-theme-secondary/30 p-4 cursor-pointer transition-all hover:shadow-theme-sm ${i === 1 ? 'ring-2 ring-theme-primary/50' : ''}`}
               >
-                <SelectValue placeholder="Select metric" />
-              </SelectTrigger>
-              <SelectContent align="end" className="rounded-xl bg-[#0F1A22] border-white/10">
-                {metrics.map((key) => {
-                  const config = metricsConfig[key];
-                  if (!config) {
-                    return null;
-                  }
-                  return (
-                    <SelectItem
-                      key={key}
-                      value={key}
-                      className="rounded-lg [&_span]:flex"
-                    >
-                      <div className="flex items-center gap-2 text-xs">
-                        <span
-                          className="flex h-3 w-3 shrink-0 rounded-sm"
-                          style={{
-                            backgroundColor: `var(--color-${key})`,
-                          }}
-                        />
-                        {config?.label}
-                      </div>
-                    </SelectItem>
-                  );
-                })}
-              </SelectContent>
-            </Select>
-          </CardHeader>
-          <CardContent className="flex flex-1 justify-center pb-0">
-            <ChartContainer
-              id="metrics-pie"
-              config={metricsConfig}
-              className="mx-auto aspect-square w-full max-w-[300px]"
-            >
-              <PieChart>
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent hideLabel />}
-                />
-                <Pie
-                  data={metricsData}
-                  dataKey="value"
-                  nameKey="metric"
-                  innerRadius={60}
-                  strokeWidth={5}
-                  activeIndex={activeIndex}
-                  activeShape={({
-                    outerRadius = 0,
-                    ...props
-                  }) => (
-                    <g>
-                      <Sector {...props} outerRadius={outerRadius + 10} />
-                      <Sector
-                        {...props}
-                        outerRadius={outerRadius + 25}
-                        innerRadius={outerRadius + 12}
-                      />
-                    </g>
-                  )}
-                >
-                  <Label
-                    content={({ viewBox }) => {
-                      if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                        return (
-                          <text
-                            x={viewBox.cx}
-                            y={viewBox.cy}
-                            textAnchor="middle"
-                            dominantBaseline="middle"
-                          >
-                            <tspan
-                              x={viewBox.cx}
-                              y={viewBox.cy}
-                              className="fill-white text-3xl font-bold"
-                            >
-                              {metricsData[activeIndex].value}
-                            </tspan>
-                            <tspan
-                              x={viewBox.cx}
-                              y={(viewBox.cy || 0) + 24}
-                              className="fill-white/60"
-                            >
-                              {metricsConfig[activeMetric].label}
-                            </tspan>
-                          </text>
-                        );
-                      }
-                    }}
-                  />
-                </Pie>
-              </PieChart>
-            </ChartContainer>
-          </CardContent>
-        </Card>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full overflow-hidden bg-theme-secondary">
+                    <div className="w-full h-full bg-theme-primary/10 flex items-center justify-center">
+                      <span className="text-theme-primary text-xs font-bold">
+                        {["JD", "TM", "KL", "AR"][i-1]}
+                      </span>
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="text-theme-primary text-sm font-medium mb-1">
+                      {["Joden Newman", "Tia Meyers", "Kyle Loft", "Alex Roth"][i-1]}
+                    </h4>
+                    <p className="text-theme-tertiary text-xs">
+                      {["Mentor", "Creator", "Student", "Coach"][i-1]}
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="mt-3 pt-3 border-t border-theme-border grid grid-cols-2 gap-2 text-xs">
+                  <div>
+                    <div className="text-theme-tertiary">Views</div>
+                    <div className="text-theme-primary font-medium">
+                      {["3.2M", "1.8M", "950K", "4.6M"][i-1]}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-theme-tertiary">Growth</div>
+                    <div className="text-theme-accent-quaternary font-medium">
+                      {["+620%", "+340%", "+280%", "+410%"][i-1]}
+                    </div>
+                  </div>
+                </div>
+                
+                {i === 1 && (
+                  <div className="absolute top-0 right-0 w-0 h-0 border-t-8 border-r-8 border-t-theme-primary border-r-transparent"></div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </Section>
   );

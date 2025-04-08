@@ -1,0 +1,40 @@
+/* AnimatedLogo.css */
+:root {
+  --secondary-200: var(--secondary-teal);
+  --secondary-400: var(--secondary-teal-hover);
+}
+
+.dash-line, 
+.vs-letters path,
+.dashed-path {
+  fill: var(--secondary-teal);
+}
+
+/* Dark mode colors */
+:global(.dark) .dash-line,
+:global(.dark) .vs-letters path,
+:global(.dark) .dashed-path {
+  fill: var(--secondary-teal-hover);
+}
+
+/* Accent elements */
+.accent-drop {
+  fill: var(--accent-coral);
+}
+
+.accent-inner {
+  fill: var(--bg-cream);
+}
+
+:global(.dark) .accent-drop {
+  fill: var(--accent-coral-glow);
+}
+
+:global(.dark) .accent-inner {
+  fill: white;
+}
+
+/* Animation container */
+svg.w-full {
+  max-height: 80vh;
+}
