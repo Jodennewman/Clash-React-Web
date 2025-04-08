@@ -60,7 +60,9 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
       <div className="flex flex-col md:flex-row gap-6">
         {/* Left panel - Video player area */}
         <div className="w-full md:w-2/3">
+
           <div className="aspect-video relative rounded-[--border-radius-lg] overflow-hidden shadow-[2px_2px_8px_rgba(0,0,0,0.05)] dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]">
+
             {/* Video thumbnail/player */}
             <img
               src={thumbnailUrl}
@@ -87,36 +89,44 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
           
           {/* Module description */}
           <div className="mt-6">
+
             <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-semibold mb-3">About This Module</h3>
             <p className="text-[var(--theme-text-primary)]/80 dark:text-white/70">
+
               This module covers essential techniques to create engaging content for your audience. You'll learn proven methods to increase retention and gain more followers through strategic content planning.
             </p>
             
             <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-4">
               {/* Module stats */}
+
               <div className="bg-theme-custom/50 /5 rounded-[--border-radius-md] p-4 flex flex-col items-center text-center">
                 <div className="text-[var(--theme-primary)]  text-2xl font-bold mb-1">
                   {submodules.length}
                 </div>
                 <div className="text-[var(--theme-text-primary)]/70 dark:text-white/60 text-sm">
+
                   Lessons
                 </div>
               </div>
               
+
               <div className="bg-theme-custom/50 /5 rounded-[--border-radius-md] p-4 flex flex-col items-center text-center">
                 <div className="text-[var(--theme-primary)]  text-2xl font-bold mb-1">
                   {submodules.filter(s => s.isCompleted).length} / {submodules.length}
                 </div>
                 <div className="text-[var(--theme-text-primary)]/70 dark:text-white/60 text-sm">
+
                   Completed
                 </div>
               </div>
               
+
               <div className="bg-theme-custom/50 /5 rounded-[--border-radius-md] p-4 flex flex-col items-center text-center">
                 <div className="text-[var(--theme-primary)]  text-2xl font-bold mb-1">
                   1h 24m
                 </div>
                 <div className="text-[var(--theme-text-primary)]/70 dark:text-white/60 text-sm">
+
                   Total Duration
                 </div>
               </div>
@@ -126,6 +136,7 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
         
         {/* Right panel - Submodule list */}
         <div className="w-full md:w-1/3">
+
           <div className="bg-white/50 dark:bg-[var(--theme-bg-primary)]/50 rounded-[--border-radius-lg] overflow-hidden border border-[var(--theme-bg-secondary)]/30 dark:border-white/5">
             <div className="p-4 border-b border-[var(--theme-bg-secondary)]/30 dark:border-white/5">
               <h3 className="text-[var(--theme-text-primary)] dark:text-white font-semibold">Module Content</h3>
@@ -133,19 +144,24 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
             
             <div className="max-h-[500px] overflow-y-auto">
               <ul className="divide-y divide-[--bg-cream-darker]/30 dark:divide-white/5">
+
                 {submodules.map((submodule, index) => (
                   <li
                     key={submodule.id}
                     className={`p-4 flex items-center hover:bg-[var(--theme-bg-primary)]/30 dark:hover:bg-white/5 cursor-pointer transition-colors ${selectedSubmoduleId === submodule.id ? 'bg-[var(--theme-bg-primary)]/50 dark:bg-white/10' : ''}`}
                     onClick={() => handlePlayModule(submodule.id)}
                   >
+
                     <div className="flex-shrink-0 mr-3 text-[var(--theme-primary)] ">
+
                       {submodule.isLocked ? (
                         <Lock className="h-5 w-5" />
                       ) : submodule.isCompleted ? (
                         <CheckCircle className="h-5 w-5" />
                       ) : (
+
                         <div className="w-5 h-5 rounded-full border-2 border-[var(--theme-primary)]  flex items-center justify-center">
+
                           <span className="text-xs font-semibold">{index + 1}</span>
                         </div>
                       )}
@@ -160,7 +176,9 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
                           {submodule.duration}
                         </span>
                         {submodule.isLocked && (
+
                           <span className="ml-2 text-xs px-2 py-0.5 bg-[var(--theme-bg-secondary)]/30 dark:bg-white/10 rounded-full text-[var(--theme-text-primary)]/60 dark:text-white/60">
+
                             Premium
                           </span>
                         )}
@@ -175,6 +193,7 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
           {/* Actions */}
           <div className="mt-6 flex flex-col gap-3">
             <button
+
               className="vs-btn-primary-gradient
                        dark:bg-gradient-to-r dark:from-[var(--theme-primary)] dark:to-[var(--theme-primary-hover)]
                        text-white px-4 py-2 rounded-[--border-radius-md] 
@@ -184,6 +203,7 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
                        hover:translate-y-[-3px] hover:scale-[1.03] 
                        hover:shadow-[1px_1px_8px_rgba(0,0,0,0.15)]
                        dark:hover:shadow-[0_0_15px_rgba(254,163,93,0.3)]
+
                        w-full flex items-center justify-center gap-2"
             >
               <Play className="h-4 w-4" />
@@ -191,12 +211,14 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
             </button>
             
             <button
+
               className="border border-[var(--theme-accent-secondary)] text-[var(--theme-accent-secondary)]
                        dark:border-white/20 dark:text-white
                        px-4 py-2 rounded-[--border-radius-md] 
                        hover:bg-[var(--theme-accent-secondary)]/5 dark:hover:bg-white/5
                        transition-all duration-[--transition-bounce]
                        hover:translate-y-[-2px] hover:scale-[1.02] 
+
                        w-full"
             >
               View Resources

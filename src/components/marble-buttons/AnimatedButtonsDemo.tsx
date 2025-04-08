@@ -7,7 +7,7 @@ const AnimatedButtonsDemo: React.FC = () => {
   return (
     <main 
       className="flex flex-col items-center justify-center min-h-screen w-screen 
-        bg-[var(--theme-bg-primary)] text-[var(--theme-text-primary)] dark:bg-[var(--theme-bg-primary)] dark:text-[var(--theme-text-secondary)]
+        bg-[var(--theme-bg-primary)] text-theme-primary dark:bg-[var(--theme-bg-primary)] dark:text-theme-secondary
         font-['Neue_Haas_Grotesk_Display_Pro'] p-8 transition-colors duration-500"
     >
       <button 

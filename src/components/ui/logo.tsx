@@ -33,10 +33,10 @@ export default function Logo({
         width={width}
         height={height}
         aria-hidden="true"
-        className="max-h-full max-w-full opacity-70 transition-opacity duration-[var(--theme-transition-normal)]"
+        className="max-h-full max-w-full opacity-70 transition-opacity transition-theme-normal"
       />
       <span className={cn(!showName && "sr-only")}>{name}</span>
-      {version && <span className="text-theme-secondary/70 transition-colors duration-[var(--theme-transition-normal)]">{version}</span>}
+      {version && <span className="text-theme-secondary/70 transition-colors transition-theme-normal">{version}</span>}
       {badge && (
         <Badge variant="brand" size="sm">
           {badge}

@@ -10,6 +10,8 @@ interface MarqueeProps {
   [key: string]: any;
 }
 
+import React from 'react';
+
 export default function Marquee({
   className,
   reverse,
@@ -19,35 +21,76 @@ export default function Marquee({
   repeat = 4,
   ...props
 }: MarqueeProps) {
+  // Define animation styles
+  const marqueeAnimationStyle = {
+    animation: `${vertical ? 'scroll-up' : reverse ? 'scroll-right' : 'scroll-left'} linear infinite`,
+    animationDuration: 'var(--duration, 40s)',
+    animationPlayState: 'running'
+  };
+
+  // Add any explicit CSS for animations
+  React.useEffect(() => {
+    // Check if the animation styles already exist
+    if (!document.getElementById('marquee-keyframes')) {
+      const styleEl = document.createElement('style');
+      styleEl.id = 'marquee-keyframes';
+      styleEl.textContent = `
+        @keyframes scroll-left {
+          from { transform: translateX(0); }
+          to { transform: translateX(-100%); }
+        }
+        @keyframes scroll-right {
+          from { transform: translateX(-100%); }
+          to { transform: translateX(0); }
+        }
+        @keyframes scroll-up {
+          from { transform: translateY(0); }
+          to { transform: translateY(-100%); }
+        }
+        .marquee-container:hover .marquee-hover-pause {
+          animation-play-state: paused !important;
+        }
+      `;
+      document.head.appendChild(styleEl);
+    }
+  }, []);
+
   return (
     <div
       {...props}
       data-slot="marquee"
       className={cn(
-        "group flex [gap:var(--gap)] overflow-hidden p-2 [--duration:var(--theme-anim-duration-marquee,40s)] [--gap:1rem] bg-theme-bg-light/20 backdrop-blur-sm",
+        "marquee-container flex overflow-hidden p-0 bg-theme-bg-light/20 backdrop-blur-sm relative",
         {
           "flex-row": !vertical,
           "flex-col": vertical,
         },
         className,
       )}
+      style={{
+        '--gap': '0.15rem',
+      }}
     >
-      {Array(repeat)
-        .fill(0)
-        .map((_, i) => (
-          <div
-            key={i}
-            data-slot="marquee-item"
-            className={cn("flex shrink-0 justify-around [gap:var(--gap)]", {
-              "animate-marquee flex-row": !vertical,
-              "animate-marquee-vertical flex-col": vertical,
-              "group-hover:[animation-play-state:paused]": pauseOnHover,
-              "[animation-direction:reverse]": reverse,
-            })}
-          >
-            {children}
-          </div>
-        ))}
+      <div 
+        className={cn(
+          "flex gap-0 shrink-0",
+          { "marquee-hover-pause": pauseOnHover }
+        )}
+        style={marqueeAnimationStyle}
+      >
+        {children}
+      </div>
+      
+      <div 
+        className={cn(
+          "flex gap-0 shrink-0",
+          { "marquee-hover-pause": pauseOnHover }
+        )}
+        style={marqueeAnimationStyle}
+        aria-hidden="true"
+      >
+        {children}
+      </div>
     </div>
   );
 }

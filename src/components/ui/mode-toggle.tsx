@@ -24,7 +24,7 @@ export function ModeToggle() {
   return (
     <Button 
       onClick={toggleTheme} 
-      className="bg-theme-gradient-primary text-theme-on-primary-4 py-2 rounded-full shadow-theme-sm hover-bubbly transition-all duration-[var(--theme-transition-bounce)]"
+      className="bg-theme-gradient-primary text-theme-on-primary-4 py-2 rounded-full shadow-theme-sm hover-bubbly transition-all transition-theme-bounce"
     >
       {theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"}
     </Button>

@@ -116,6 +116,7 @@ export default function VSNavbar() {
     }
   };
 
+
   // Handle "Get Your Plan" button click with qualification modal
   const handleApplyClick = () => {
     // Close mobile menu if open
@@ -125,6 +126,7 @@ export default function VSNavbar() {
     // This will be caught by the VerticalShortcutLanding component
     const event = new CustomEvent('openQualificationModal');
     window.dispatchEvent(event);
+
   };
 
   return (

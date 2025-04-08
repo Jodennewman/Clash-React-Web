@@ -212,7 +212,7 @@ const CourseStats = () => {
                                rounded-xl p-5 
                                border border-theme-border-light
                                shadow-theme-md
-                               transition-all duration-[var(--theme-transition-bounce)]
+                               transition-all transition-theme-bounce
                                hover:translate-y-[-6px] hover:scale-[1.03] hover:rotate-[0.5deg]
                                hover:shadow-theme-lg
                                group min-h-[160px] md:min-h-[200px] text-center overflow-hidden">

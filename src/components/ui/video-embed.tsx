@@ -73,7 +73,7 @@ const VideoEmbed = ({ videoUrl = "https://www.youtube.com/embed/your-video-id" }
         {/* Video container with curved border radius using CSS variables for consistent styling */}
         <div 
           ref={videoContainerRef} 
-          className="relative mx-auto max-w-5xl overflow-hidden rounded-xl bg-theme-bg-primary shadow-theme-md border border-theme-border transition-all duration-[var(--theme-transition-normal)]"
+          className="relative mx-auto max-w-5xl overflow-hidden rounded-xl bg-theme-bg-primary shadow-theme-md border border-theme-border transition-all transition-theme-normal"
         >
           {/* Video aspect ratio container */}
           <div className="aspect-[16/9] relative">
@@ -87,14 +87,14 @@ const VideoEmbed = ({ videoUrl = "https://www.youtube.com/embed/your-video-id" }
             
             {/* Video title overlay with theme-aware styling */}
             <div 
-              className="absolute bottom-8 right-8 text-xl md:text-2xl font-light z-10 text-theme-primary transition-colors duration-[var(--theme-transition-normal)]"
+              className="absolute bottom-8 right-8 text-xl md:text-2xl font-light z-10 text-theme-primary transition-colors transition-theme-normal"
             >
               the vertical shortcut.
             </div>
             
             {/* Optional title element overlay with theme-aware styling */}
             <div 
-              className="absolute top-8 right-8 opacity-70 text-sm md:text-base z-10 text-theme-secondary transition-colors duration-[var(--theme-transition-normal)]"
+              className="absolute top-8 right-8 opacity-70 text-sm md:text-base z-10 text-theme-secondary transition-colors transition-theme-normal"
             >
               Title Elements
             </div>
