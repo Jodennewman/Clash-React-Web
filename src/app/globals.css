@@ -22,17 +22,17 @@
   /* Background colors */
   --bg-cream: oklch(0.95 0.0319 59.91);
   --bg-cream-rgb: 255, 234, 219;
-  --bg-cream-gradient: linear-gradient(45deg, oklch(0.92 0.0537 55.3) 0%, oklch(0.98 0.0143 55.9302) 100%);
-  --bg-cream-gradient-rgb: linear-gradient(45deg, rgb(255, 220, 195) 0%, rgb(255, 246, 239) 100%);
+  --bg-cream-gradient: linear-gradient(in oklch 45deg, oklch(0.92 0.0537 55.3) 0%, oklch(0.98 0.0143 55.9302) 100%);
+  --bg-cream-gradient-rgb: linear-gradient(in oklch 45deg, rgb(255, 220, 195) 0%, rgb(255, 246, 239) 100%);
   --bg-cream-darker: oklch(0.89 0.0905 59.15);
   --bg-cream-darker-rgb: 255, 240, 229;
-  --bg-overlay: linear-gradient(218deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.63) 100%);
+  --bg-overlay: linear-gradient(in oklch 218deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.63) 100%);
   
   /* Navy backgrounds - defined in light mode for reference */
   --bg-navy: oklch(0.24 0.0473 225.22);
   --bg-navy-rgb: 0, 36, 48;
-  --bg-navy-gradient: linear-gradient(213deg, oklch(0.15 0.0317 226.83) 0%, oklch(0.24 0.0473 225.22) 100%);
-  --bg-navy-gradient-rgb: linear-gradient(213deg, rgba(9, 35, 47, 1) 0%, rgba(8, 29, 39, 1) 100%);
+  --bg-navy-gradient: linear-gradient(in oklch 213deg, oklch(0.15 0.0317 226.83) 0%, oklch(0.24 0.0473 225.22) 100%);
+  --bg-navy-gradient-rgb: linear-gradient(in oklch 213deg, rgba(9, 35, 47, 1) 0%, rgba(8, 29, 39, 1) 100%);
   --bg-navy-darker: oklch(0.15 0.0317 226.83);
   --bg-navy-darker-rgb: 8, 29, 39;
   
@@ -53,8 +53,17 @@
   --secondary-teal-hover-rgb: 0, 121, 134;
   --secondary-teal-light: oklch(0.67 0.0749 208.46);
   --secondary-teal-light-rgb: 89, 162, 174;
-  --secondary-teal-darkmode: oklch(0.52 0.0947 228.93);
-  --secondary-teal-darkmode-rgb: 26, 116, 149;
+
+
+  --secondary-blue: oklch(0.52 0.0947 228.93);
+  --secondary-blue-rgb: 25, 115, 148;
+  --secondary-blue-hover: oklch(0.59 0.1147 228.93);
+  --secondary-blue-hover-rgb: 8, 137, 179;
+  --secondary-blue-light: oklch(0.67 0.0797 228.93);
+  --secondary-blue-light-rgb: 94, 159, 188;
+  --secondary-blue-dark: oklch(0.40 0.1047 228.93);
+  --secondary-blue-dark-rgb: 0, 80, 116;
+
   /* Accent colors */
   --accent-coral: oklch(0.67 0.177 29.22);
   --accent-coral-rgb: 239, 98, 82;
@@ -75,8 +84,13 @@
   /* Text colors */
   --text-navy: oklch(0.28 0.0504 224.53);
   --text-navy-rgb: 4, 47, 60;
+  --text-navy-secondary: oklch(0.31 0.0523 223.86 / 0.92)
+  --text-navy-tertiary: oklch(0.33 0.0488 220.99 / 0.57)
+
   --text-cream: oklch(0.98 0.0219 68.466);
   --text-cream-rgb: 255, 245, 232;
+  --text-cream-secondary: oklch(0.94 0.0256 78.92 / 0.9)
+  --text-cream-tertiary: oklch(0.88 0.0339 77.58 / 0.8)
   
   /* Card colors */
   --card-bg-light: oklch(0.94 0.0488 55.91);
@@ -134,8 +148,8 @@
   --glow-tertiary: none;
   
   /* Grid - Light Mode */
-  --grid-line: rgba(18, 46, 59, 0.05);
-  --grid-dot: rgba(18, 46, 59, 0.08);
+  --grid-line: oklch(28.59% 0.0413 230.7 / 0.05);
+  --grid-dot: oklch(28.59% 0.0413 230.7 / 0.08);
   
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -158,9 +172,9 @@
   
   /* Theme text colors */
   --theme-text-primary: var(--text-navy) !important;
-  --theme-text-secondary: rgba(18, 46, 59, 0.8) !important;
-  --theme-text-tertiary: rgba(18, 46, 59, 0.6) !important;
-  --theme-text-subtle: rgba(18, 46, 59, 0.4);
+  --theme-text-secondary: oklch(28.59% 0.0413 230.7 / 0.8) !important;
+  --theme-text-tertiary: oklch(28.59% 0.0413 230.7 / 0.6) !important;
+  --theme-text-subtle: oklch(28.59% 0.0413 230.7 / 0.4);
   --theme-text-on-primary: white;
   
   /* Theme background colors */
@@ -184,9 +198,9 @@
   --theme-bg-cream-gradient: linear-gradient(to bottom right, var(--theme-gradient-start), var(--theme-gradient-end));
   
   /* Extended Module HUD Palette */
-  --hud-teal: var(--secondary-teal-darkmode); /* #387292 */
+  --hud-teal: var(--secondary-teal); /* #387292 */
   --hud-coral: var(--accent-coral); /* #DE6B59 */
-  --hud-navy: var(--card-bg-navy); /* #122E3B */
+  --hud-navy: var(--secondary-blue); /* #122E3B */
   --hud-red: var(--accent-red); /* #B92234 */
   --hud-pink: var(--accent-pink); /* #FA91A6 */
   --hud-orange: var(--primary-orange); /* #FEA35D */
@@ -235,6 +249,16 @@
   --theme-float-opacity-secondary: 0.2;
   --theme-float-bg-primary: var(--primary-orange);
   --theme-float-bg-secondary: var(--primary-orange-hover);
+  
+  /* Team section variables */
+  --theme-team-joden: linear-gradient(to bottom, var(--bg-cream), var(--bg-cream-darker));
+  --theme-team-alex: linear-gradient(to bottom, var(--bg-cream-darker), var(--bg-cream));
+  --theme-team-tia: linear-gradient(to bottom, var(--bg-cream), var(--secondary-teal-light)/10);
+  --theme-team-aydan: linear-gradient(to bottom, var(--secondary-teal-light)/10, var(--bg-cream));
+  --theme-team-joden-accent: var(--primary-orange);
+  --theme-team-alex-accent: var(--secondary-teal);
+  --theme-team-tia-accent: var(--accent-coral);
+  --theme-team-aydan-accent: var(--accent-red);
   
   /* Theme animation variables */
   --theme-anim-distance: -4px;
@@ -304,20 +328,9 @@
  * Only override the theme-aware variables that need to change
  */
 .dark, [data-theme="dark"] {
-  /* Background colors for dark mode - rich navy colors */
-  --bg-cream: oklch(0.12 0.03 240);
-  --bg-cream-rgb: 9, 35, 47;
+
   
-  /* Enhanced gradient with more richness for dark mode */
-  --bg-cream-gradient: linear-gradient(135deg, oklch(0.14 0.04 235) 0%, oklch(0.10 0.04 240) 100%);
-  --bg-cream-gradient-rgb: linear-gradient(135deg, rgb(10, 40, 55) 0%, rgb(5, 25, 35) 100%);
-  --bg-cream-darker: oklch(0.12 0.02 235);
-  --bg-cream-darker-rgb: 8, 29, 39;
-  
-  /* Card colors for dark mode with subtle gradients */
-  --card-bg-light: oklch(0.28 0.05 227);
-  --card-bg-light-rgb: 12, 67, 99;
-  --card-bg-dark: linear-gradient(145deg, oklch(0.28 0.05 227) 0%, oklch(0.22 0.05 225) 100%);
+
   
   /* Module backgrounds with gradients for dark mode */
   --module-bg-gradient: linear-gradient(120deg, oklch(0.25 0.05 225) 0%, oklch(0.20 0.04 230) 100%);
@@ -331,9 +344,9 @@
   
   /* Subtle glow effects for dark mode */
   --glow-accent: 0 0 20px rgba(222, 107, 89, 0.15);
-  --glow-primary: 0 0 20px rgba(254, 172, 109, 0.15);
+  --glow-primary: 0 0 30px rgba(254, 172, 109, 0.15);
   --glow-blue: 0 0 20px rgba(56, 114, 146, 0.15);
-  --glow-secondary: 0 0 20px rgba(70, 135, 155, 0.15);
+  --glow-secondary: 0 0 20px rgba(15, 157, 200, 0.15);
   --glow-tertiary: 0 0 20px rgba(239, 98, 82, 0.15);
   
   /* Text colors for dark mode */
@@ -369,15 +382,15 @@
   --grid-dot: rgba(255, 255, 255, 0.08);
   
   /* Enhanced HUD Colors */
-  --hud-teal: oklch(0.55 0.07 220);
-  --hud-coral: oklch(0.70 0.16 27);
-  --hud-navy: oklch(0.22 0.04 225);
-  --hud-red: oklch(0.55 0.23 25);
-  --hud-pink: oklch(0.75 0.15 350);
-  --hud-orange: oklch(0.80 0.14 57);
-  --hud-accent-red: oklch(0.70 0.25 25);
-  --hud-orange-light: oklch(0.85 0.08 60);
-  --hud-orange-lighter: oklch(0.87 0.09 65);
+  --hud-teal: var(--secondary-blue); /* #387292 */
+  --hud-coral: var(--accent-red); /* #DE6B59 */
+  --hud-navy: var(--secondary-blue-dark); /* #122E3B */
+  --hud-red: var(--accent-red-darker); /* #B92234 */
+  --hud-pink: var(--accent-pink-darkmode); /* #FA91A6 */
+  --hud-orange: var(--primary-orange-darkmode); /* #FEA35D */
+  --hud-accent-red: var(--accent-red-dark); /* #FF3C54 */
+  --hud-orange-light: var(--accent-yellow-darkmode); /* #FFD5B5 */
+  --hud-orange-lighter: var(--accent-peach-dark); /* #FFD79B */
   
   /* Theme-aware variables for dark mode */
   
@@ -389,8 +402,8 @@
   --theme-text-on-primary: white;
   
   /* Theme background colors - dark mode */
-  --theme-bg-primary: oklch(0.16 0.03 235) !important;
-  --theme-bg-secondary: oklch(0.12 0.02 235) !important;
+  --theme-bg-primary: var(--bg-navy);
+  --theme-bg-secondary: var(--bg-navy-darker);
   --theme-bg-surface: oklch(0.16 0.03 235) !important;
   --theme-bg-card: var(--card-bg-light);
   --theme-accent-coral: var(--accent-red);
@@ -413,7 +426,7 @@
   --theme-primary: var(--primary-orange-darkmode);
   --theme-primary-hover: var(--primary-orange-hover);
   --theme-primary-light: var(--primary-orange-light);
-  --theme-accent-secondary: var(--secondary-teal-darkmode);
+  --theme-accent-secondary: var(--secondary-blue);
   --theme-accent-secondary-hover: var(--secondary-teal-hover);
   --theme-accent-secondary-light: var(--secondary-teal-light);
   --theme-accent-tertiary: var(--accent-coral);
@@ -440,6 +453,16 @@
   --theme-float-opacity-secondary: 0.3;
   --theme-float-bg-primary: var(--primary-orange);
   --theme-float-bg-secondary: var(--secondary-teal);
+  
+  /* Team section variables - dark mode */
+  --theme-team-joden: linear-gradient(to bottom, var(--bg-navy), var(--bg-navy-darker));
+  --theme-team-alex: linear-gradient(to bottom, var(--bg-navy-darker), var(--bg-navy));
+  --theme-team-tia: linear-gradient(to bottom, var(--bg-navy), var(--secondary-teal-light)/10);
+  --theme-team-aydan: linear-gradient(to bottom, var(--secondary-teal-light)/10, var(--bg-navy));
+  --theme-team-joden-accent: var(--primary-orange-light);
+  --theme-team-alex-accent: var(--secondary-teal-light);
+  --theme-team-tia-accent: var(--accent-coral);
+  --theme-team-aydan-accent: var(--accent-red-dark);
   
   /* Theme animation variables - slightly more pronounced in dark mode */
   --theme-anim-distance: -5px;
@@ -898,7 +921,7 @@ a:hover {
 
 /* Gradient text effects */
 .gradient-text {
-  background: linear-gradient(120deg, var(--primary-orange) 0%, var(--accent-coral) 100%);
+  background: linear-gradient(in oklch 120deg, var(--primary-orange) 0%, var(--accent-coral) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1177,12 +1200,12 @@ a:hover {
 
 /* Section Backgrounds */
 .vs-section-light {
-  background: linear-gradient(to bottom, white, var(--theme-bg-primary));
+  background: linear-gradient(in oklab -135deg, white, var(--theme-bg-primary));
   color: var(--text-navy);
 }
 
 .dark .vs-section-light, [data-theme="dark"] .vs-section-light {
-  background: linear-gradient(to bottom, var(--theme-bg-primary), var(--theme-bg-secondary)); 
+  background: linear-gradient(in oklch -135deg, var(--bg-navy), var(--bg-navy-darker)); 
   color: white;
 }
 
@@ -2061,6 +2084,22 @@ a:hover {
 /* Theme-aware border utility classes */
 .border-theme-border {
   border-color: var(--theme-border) !important;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out forwards;
 }
 
 /* Responsive adjustments */
