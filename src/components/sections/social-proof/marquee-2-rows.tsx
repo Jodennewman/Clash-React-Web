@@ -85,16 +85,10 @@ export default function SocialProof() {
           
           {/* Deep side vignettes that fade out thumbnails completely using theme-aware colors */}
           <div 
-            className="pointer-events-none absolute inset-y-0 left-0 w-[35%] z-10" 
-            style={{ 
-              background: `linear-gradient(to right, var(--theme-bg-secondary) 0%, var(--theme-bg-secondary) 15%, rgba(var(--theme-bg-secondary-rgb, 8, 20, 27), 0.95) 30%, rgba(var(--theme-bg-secondary-rgb, 8, 20, 27), 0.8) 50%, rgba(var(--theme-bg-secondary-rgb, 8, 20, 27), 0.4) 70%, rgba(var(--theme-bg-secondary-rgb, 8, 20, 27), 0) 100%)` 
-            }}
+            className="pointer-events-none absolute inset-y-0 left-0 w-[35%] z-10 bg-theme-gradient-overlay-left"
           ></div>
           <div 
-            className="pointer-events-none absolute inset-y-0 right-0 w-[35%] z-10" 
-            style={{ 
-              background: `linear-gradient(to left, var(--theme-bg-secondary) 0%, var(--theme-bg-secondary) 15%, rgba(var(--theme-bg-secondary-rgb, 8, 20, 27), 0.95) 30%, rgba(var(--theme-bg-secondary-rgb, 8, 20, 27), 0.8) 50%, rgba(var(--theme-bg-secondary-rgb, 8, 20, 27), 0.4) 70%, rgba(var(--theme-bg-secondary-rgb, 8, 20, 27), 0) 100%)` 
-            }}
+            className="pointer-events-none absolute inset-y-0 right-0 w-[35%] z-10 bg-theme-gradient-overlay-right"
           ></div>
         </div>
       </div>

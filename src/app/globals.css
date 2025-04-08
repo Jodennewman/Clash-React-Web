@@ -1795,6 +1795,7 @@ a:hover {
   background: linear-gradient(135deg, 
     var(--theme-primary-gradient-start), 
     var(--theme-primary-gradient-end));
+}
 
 .text-theme-tertiary {
   color: var(--theme-text-tertiary);
@@ -1834,8 +1835,6 @@ a:hover {
 .bg-theme-pattern-dense {
   background-color: var(--theme-pattern-color);
   opacity: calc(var(--theme-pattern-opacity) * 1.5);
-}
-
 }
 
 .dark .vs-navbar-glass, [data-theme="dark"] .vs-navbar-glass {
@@ -1887,6 +1886,7 @@ a:hover {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
+}
 
 .dark .vs-logo-primary, [data-theme="dark"] .vs-logo-primary {
   background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
@@ -1902,6 +1902,7 @@ a:hover {
 /* Theme-aware borders */
 .border-theme-light {
   border: 1px solid var(--theme-border-light);
+}
 
 .text-theme-primary-light {
   color: var(--theme-primary-light);
@@ -1926,7 +1927,7 @@ a:hover {
 /* Theme-aware backgrounds */
 .bg-theme-primary {
   background-color: var(--theme-bg-primary);
-
+}
 
 .dark .vs-logo:hover, [data-theme="dark"] .vs-logo:hover {
   box-shadow: 0 0 15px rgba(254, 163, 93, 0.3);
@@ -2001,6 +2002,7 @@ a:hover {
   background: linear-gradient(135deg, 
     var(--theme-primary-gradient-start), 
     var(--theme-primary-gradient-end));
+}
 
 .text-theme-tertiary {
   color: var(--theme-text-tertiary);
@@ -2053,6 +2055,7 @@ a:hover {
 /* Theme-aware borders */
 .border-theme-light {
   border: 1px solid var(--theme-border-light);
+}
 
 .text-theme-primary-light {
   color: var(--theme-primary-light);
@@ -2119,6 +2122,7 @@ a:hover {
 /* Theme-aware border radius utilities */
 .rounded-theme-md {
   border-radius: var(--theme-border-radius-md);
+}
 
 .bg-theme-content {
   background-color: var(--theme-bg-primary);
@@ -2298,6 +2302,7 @@ a:hover {
 /* Theme-aware glow utility classes */
 .glow-theme-primary {
   box-shadow: var(--glow-primary);
+}
 
 .dark .bg-theme-gradient-primary, [data-theme="dark"] .bg-theme-gradient-primary {
   background: linear-gradient(135deg, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));
@@ -2397,6 +2402,7 @@ a:hover {
     var(--theme-primary-gradient-start), 
     var(--theme-primary-gradient-end));
   box-shadow: var(--shadow-btn), var(--glow-primary);
+}
 
 .border-theme-on-primary {
   border: 1px solid var(--theme-primary);
@@ -2418,6 +2424,7 @@ a:hover {
 /* Theme-aware border radius utilities */
 .rounded-theme-md {
   border-radius: var(--theme-border-radius-md);
+}
 
 .bg-theme-content {
   background-color: var(--theme-bg-primary);
@@ -2729,6 +2736,7 @@ a:hover {
 
 .dark .chart-theme-tooltip, [data-theme="dark"] .chart-theme-tooltip {
   box-shadow: var(--theme-shadow-md), var(--glow-blue);
+}
 
 .shadow-theme-lg {
   box-shadow: var(--theme-shadow-lg);
@@ -2827,6 +2835,7 @@ a:hover {
 /* Theme-aware glow utility classes */
 .glow-theme-primary {
   box-shadow: var(--glow-primary);
+}
 
 .dark .bg-theme-gradient-primary, [data-theme="dark"] .bg-theme-gradient-primary {
   background: linear-gradient(135deg, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));
@@ -2926,6 +2935,7 @@ a:hover {
     var(--theme-primary-gradient-start), 
     var(--theme-primary-gradient-end));
   box-shadow: var(--shadow-btn), var(--glow-primary);
+}
 
 .border-theme-on-primary {
   border: 1px solid var(--theme-primary);
@@ -3420,4 +3430,13 @@ a:hover {
   .module-grid {
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   }
+}
+
+/* Theme-aware marquee vignette overlays */
+.bg-theme-gradient-overlay-left {
+  background: linear-gradient(to right, var(--theme-bg-secondary) 0%, var(--theme-bg-secondary) 15%, transparent 100%);
+}
+
+.bg-theme-gradient-overlay-right {
+  background: linear-gradient(to left, var(--theme-bg-secondary) 0%, var(--theme-bg-secondary) 15%, transparent 100%);
 }
