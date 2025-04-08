@@ -49,6 +49,11 @@ export default {
           '100%': { transform: 'scale(1)', opacity: '0' },
 
         },
+        'progress-shimmer': {
+          '0%': { transform: 'translateX(-100%)' },
+          '50%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
         'float-pattern': {
           '0%': { transform: 'translateX(0) translateY(0)' },
           '25%': { transform: 'translateX(10px) translateY(-10px)' },

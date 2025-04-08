@@ -11,10 +11,14 @@ import { DirectClassTest } from './components/DirectClassTest';
 import VSModalShowcase from './components/VSModalShowcase';
 import { VSPainPoints, VSCharts } from './components/sections';
 import CalendlyDemo from './components/Calendly/CalendlyDemo';
+
+
 import ThemeStyleGuide from './components/ThemeStyleGuide';
+
 import ModalImplementation from './Qualification_components/modal-implementation';
 import ModuleHUDShowcase from './components/sections/ModuleHUDShowcase';
 import ThemeVisualizer from './components/Color-theme-display';
+
 
 function App() {
   // Load theme toggle script

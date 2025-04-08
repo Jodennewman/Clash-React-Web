@@ -137,10 +137,12 @@ const CaseStudies = React.forwardRef((props, ref) => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
+
         <div className="bg-theme-gradient-card
                       p-2.5 rounded-md shadow-theme-sm
                       border border-theme-border-light">
           <p className="font-medium text-sm text-theme-primary mb-1.5">
+
             {label}
           </p>
           {payload.map((entry, index) => (
@@ -158,6 +160,7 @@ const CaseStudies = React.forwardRef((props, ref) => {
   return (
     <Section
       ref={mergeRefs([sectionRef, ref])}
+
       className="bg-theme-primary min-h-screen flex flex-col justify-center py-20 relative overflow-hidden border-t border-theme-border-light"
     >
       {/* Background patterns */}
@@ -179,13 +182,16 @@ const CaseStudies = React.forwardRef((props, ref) => {
           <Badge variant="section" size="xl" className="mb-2">
             Success Stories
           </Badge>
+
           <h2 className="text-theme-primary text-4xl md:text-5xl font-bold mb-4">
             Creator Case Studies
           </h2>
           <p className="text-theme-secondary text-lg md:text-xl mb-2 max-w-3xl mx-auto">
+
             See how we've helped creators grow their audience and engagement through our proven strategies.
           </p>
         </div>
+
 
         {/* NEW: Stats row at the top showing all creators' views - more compact with bigger numbers*/}
         <div ref={statsRowRef} className="grid grid-cols-2 md:grid-cols-5 gap-2 mb-6 case-study-element">
@@ -206,12 +212,14 @@ const CaseStudies = React.forwardRef((props, ref) => {
               <div className="w-10 h-10 rounded-full overflow-hidden 
                           ring-2 ring-[var(--theme-primary)]/70
                           transition-all duration-300 flex-shrink-0 md:hidden">
+
                 <img
                   src={creator.avatar}
                   alt={creator.name}
                   className="w-full h-full object-cover"
                 />
               </div>
+
               <div className="flex-1 flex flex-col md:items-center">
                 <div className="hidden md:block w-11 h-11 rounded-full overflow-hidden 
                             ring-2 ring-[var(--theme-primary)]/70 mb-2
@@ -234,10 +242,12 @@ const CaseStudies = React.forwardRef((props, ref) => {
                 <h4 className="text-theme-primary/60 font-normal text-[8px] md:text-[9px] truncate w-full opacity-60">
                   {creator.name}
                 </h4>
+
               </div>
             </button>
           ))}
         </div>
+
 
         {/* Single column layout for main content - with narrower margins */}
         <div className="flex flex-col gap-5 mb-4 max-w-[98%] mx-auto">
@@ -455,6 +465,7 @@ const CaseStudies = React.forwardRef((props, ref) => {
                 className="w-full h-full object-cover"
               />
             </div>
+
 
             <div className="text-center md:text-left flex-1">
               <h3 className="text-theme-primary text-lg md:text-xl font-medium mb-0.5">

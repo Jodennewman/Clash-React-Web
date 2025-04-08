@@ -452,7 +452,7 @@ export const CourseViewer: React.FC = () => {
               <p className="text-theme-secondary text-sm">Including all future updates and expansions</p>
             </div>
           </div>
-          
+
           <button 
             className="cta-button bg-theme-gradient-primary
                      text-white px-8 py-4 rounded-[var(--border-radius-full)]

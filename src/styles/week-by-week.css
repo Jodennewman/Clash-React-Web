@@ -1,0 +1,357 @@
+/* week-by-week.css */
+/* Special styling for the Course Timeline component */
+
+/* Golden ratio grid classes */
+.grid-cols-golden-ratio {
+  display: grid;
+  grid-template-columns: 38.2% 61.8%; /* The golden ratio: approximately 0.382 : 0.618 */
+}
+
+/* Timeline-specific animations */
+@keyframes timeline-fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes timeline-progress {
+  from { height: 0%; }
+  to { height: 100%; }
+}
+
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 0 0 rgba(var(--primary-orange-rgb), 0.4); }
+  70% { box-shadow: 0 0 0 15px rgba(var(--primary-orange-rgb), 0); }
+  100% { box-shadow: 0 0 0 0 rgba(var(--primary-orange-rgb), 0); }
+}
+
+/* Timeline container styling */
+.timeline-container {
+  position: relative;
+  overflow: visible; /* Allow elements to be visible outside container */
+  padding-top: 16px; /* Add padding to the top to prevent cutoff */
+  margin-top: 16px; /* Additional margin for safe spacing */
+}
+
+/* Timeline progress bar with gradient */
+.timeline-progress-bar {
+  background: linear-gradient(to bottom, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));
+  animation: timeline-progress 0.8s ease-out forwards;
+}
+
+/* Timeline section responsive adjustments */
+@media (max-width: 768px) {
+  .timeline-circle {
+    left: 30px !important;
+    transform: translate(0, -50%) !important; /* Only translate vertically on mobile */
+  }
+  
+  .timeline-progress {
+    left: 30px !important;
+    transform: none !important; /* Reset transform on mobile */
+  }
+}
+
+/* Decorative timeline elements */
+.timeline-corner-accent {
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+  opacity: 0.6;
+}
+
+/* Enhanced floating elements */
+.timeline-float {
+  animation: float-slow 8s ease-in-out infinite;
+  opacity: var(--theme-float-opacity);
+}
+
+/* Decorative element animation */
+@keyframes float-rotate {
+  0% { transform: rotate(45deg) scale(1); }
+  50% { transform: rotate(60deg) scale(1.05); }
+  100% { transform: rotate(45deg) scale(1); }
+}
+
+/* Decorative week square */
+.week-visual-element {
+  position: relative;
+  box-shadow: var(--theme-shadow-sm);
+  z-index: 2;
+  transition: all 0.4s ease;
+  animation: float-rotate 5s ease-in-out infinite;
+}
+
+.week-visual-element:hover {
+  box-shadow: var(--theme-shadow-md);
+  transform: rotate(60deg) scale(1.15);
+}
+
+/* Timeline card hover effects with enhanced interactivity */
+.timeline-card {
+  transition: all var(--theme-transition-bounce);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.timeline-card:hover {
+  transform: translateY(var(--theme-anim-distance)) scale(var(--theme-anim-scale));
+}
+
+/* Week module colors */
+.week-0-circle { background: var(--hud-teal) !important; }
+.week-1-circle { background: var(--primary-orange) !important; }
+.week-2-circle { background: var(--hud-coral) !important; }
+.week-3-circle { background: var(--accent-coral) !important; }
+.week-4-circle { background: var(--secondary-teal) !important; }
+.week-5-circle { background: var(--accent-pink) !important; }
+.week-6-circle { background: var(--accent-yellow) !important; }
+.week-7-circle { background: var(--hud-red) !important; }
+.week-8-circle { background: var(--secondary-teal-light) !important; }
+.week-9-10-circle { background: var(--primary-orange-light) !important; }
+.week-10plus-circle { background: var(--hud-orange) !important; }
+
+/* Week module card border colors */
+.week-0-card { border-color: var(--hud-teal) !important; }
+.week-1-card { border-color: var(--primary-orange) !important; }
+.week-2-card { border-color: var(--hud-coral) !important; }
+.week-3-card { border-color: var(--accent-coral) !important; }
+.week-4-card { border-color: var(--secondary-teal) !important; }
+.week-5-card { border-color: var(--accent-pink) !important; }
+.week-6-card { border-color: var(--accent-yellow) !important; }
+.week-7-card { border-color: var(--hud-red) !important; }
+.week-8-card { border-color: var(--secondary-teal-light) !important; }
+.week-9-10-card { border-color: var(--primary-orange-light) !important; }
+.week-10plus-card { border-color: var(--hud-orange) !important; }
+
+/* Week number gradient text fix */
+.week-title {
+  opacity: 0; /* Start hidden for animation */
+  font-weight: 900 !important; /* Extra bold */
+}
+
+/* Make split text words visible for the week title */
+.week-title .word {
+  display: inline-block;
+  background-image: inherit;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  font-size: inherit !important;
+  font-weight: 900 !important; /* Extra bold */
+  text-shadow: 0 2px 10px rgba(var(--primary-orange-rgb), 0.2);
+  letter-spacing: -0.03em !important;
+}
+
+/* Reasonable text sizes for week numbers */
+.week-title {
+  font-size: 2.5rem !important;
+}
+
+@media (min-width: 768px) {
+  .week-title {
+    font-size: 3.5rem !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .week-title {
+    font-size: 4.5rem !important;
+  }
+}
+
+/* LARGER text for week titles */
+.week-heading {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+}
+
+@media (min-width: 768px) {
+  .week-heading {
+    font-size: 2.25rem !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .week-heading {
+    font-size: 2.75rem !important;
+  }
+}
+
+/* Improved content text and formatting */
+.content p {
+  font-size: 1.125rem !important;
+  line-height: 1.5 !important;
+}
+
+@media (min-width: 768px) {
+  .content p {
+    font-size: 1.25rem !important;
+    line-height: 1.6 !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .content p {
+    font-size: 1.375rem !important;
+    line-height: 1.6 !important;
+  }
+}
+
+/* Highlighted text within content */
+.highlight-text {
+  font-weight: 700;
+  font-size: 1.25em;
+  display: block;
+  margin: 0.8em 0;
+  background: linear-gradient(90deg, var(--theme-primary) 0%, var(--theme-accent-tertiary) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  padding-left: 1.5em;
+  max-width: 90%;
+}
+
+.highlight-text::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.25em;
+  width: 4px;
+  height: 90%;
+  background: linear-gradient(to bottom, var(--theme-primary), var(--theme-accent-tertiary));
+  border-radius: 2px;
+}
+
+/* Week bullet points */
+.week-bullets {
+  margin: 1em 0;
+  padding-left: 1.5em;
+}
+
+.week-bullets li {
+  position: relative;
+  list-style: none;
+  margin-bottom: 0.8em;
+  padding-left: 0.5em;
+}
+
+.week-bullets li::before {
+  content: "•";
+  position: absolute;
+  left: -1em;
+  color: var(--theme-primary);
+  font-size: 1.2em;
+}
+
+/* Week icons */
+.week-icon {
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: 0.5em;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+/* Founder tips */
+.founder-tip {
+  position: relative;
+  margin: 1.5em 0;
+  padding: 1em 1.5em;
+  border-radius: 0.5em;
+  background-color: rgba(var(--primary-orange-rgb), 0.1);
+  border-left: 4px solid var(--theme-primary);
+}
+
+.founder-tip::before {
+  content: "Founder Tip";
+  position: absolute;
+  top: -0.75em;
+  left: 1em;
+  padding: 0 0.5em;
+  background-color: var(--theme-bg-surface);
+  color: var(--theme-primary);
+  font-weight: 700;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Visual separators between weeks */
+.timeline-week-separator {
+  position: absolute;
+  bottom: -45px;
+  left: 30px;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--theme-primary) 0%, transparent 80%);
+  opacity: 0.2;
+  z-index: 1;
+}
+
+@media (min-width: 768px) {
+  .timeline-week-separator {
+    left: 38.2%;
+    width: 61.8%;
+  }
+}
+
+/* Enhanced week module indicators */
+.timeline-week-modules {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+/* Groovy timeline background for light/dark modes with enhanced textures */
+.timeline-groovy-bg {
+  /* Light mode gradient - enhanced warm gradient with texture */
+  background: 
+    linear-gradient(135deg, 
+      rgba(255, 248, 240, 0.8) 0%, 
+      rgba(255, 236, 210, 0.9) 50%,
+      rgba(255, 228, 196, 0.85) 100%
+    ),
+    radial-gradient(circle at 20% 30%, rgba(254, 163, 93, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(239, 98, 82, 0.07) 0%, transparent 50%);
+  background-attachment: fixed;
+  position: relative;
+}
+
+/* Create enhanced dot pattern overlay */
+.timeline-groovy-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    repeating-linear-gradient(45deg, rgba(var(--primary-orange-rgb), 0.01) 0px, rgba(var(--primary-orange-rgb), 0.01) 1px, transparent 1px, transparent 10px);
+  background-size: 20px 20px, 20px 20px;
+  pointer-events: none;
+}
+
+/* Dark mode variant with enhanced texture */
+.dark .timeline-groovy-bg {
+  background: 
+    linear-gradient(135deg, 
+      rgba(18, 36, 48, 0.9) 0%, 
+      rgba(26, 46, 60, 0.95) 50%,
+      rgba(30, 52, 68, 0.9) 100%
+    ),
+    radial-gradient(circle at 25% 25%, rgba(56, 114, 146, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(254, 163, 93, 0.1) 0%, transparent 50%);
+}
+
+/* Dark mode enhanced pattern */
+.dark .timeline-groovy-bg::before {
+  background-image: 
+    radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    repeating-linear-gradient(45deg, rgba(var(--primary-orange-rgb), 0.015) 0px, rgba(var(--primary-orange-rgb), 0.015) 1px, transparent 1px, transparent 10px);
+}
