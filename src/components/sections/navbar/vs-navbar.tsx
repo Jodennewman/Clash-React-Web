@@ -116,26 +116,17 @@ export default function VSNavbar() {
     }
   };
 
-  // Handle apply button click with adaptive scrolling
+
+  // Handle "Get Your Plan" button click with qualification modal
   const handleApplyClick = () => {
-    const applicationForm = document.getElementById("application-form");
+    // Close mobile menu if open
+    closeMobileMenu();
     
-    if (applicationForm) {
-      closeMobileMenu();
-      
-      setTimeout(() => {
-        gsap.to(window, {
-          duration: 1.2,
-          scrollTo: {
-            y: applicationForm,
-            offsetY: isMobile ? 60 : 80
-          },
-          ease: "power3.inOut"
-        });
-      }, 300);
-    } else {
-      window.location.href = '/application-form';
-    }
+    // Dispatch a custom event to open the qualification modal
+    // This will be caught by the VerticalShortcutLanding component
+    const event = new CustomEvent('openQualificationModal');
+    window.dispatchEvent(event);
+
   };
 
   return (
@@ -193,7 +184,7 @@ export default function VSNavbar() {
               className="bg-theme-primary hover:bg-theme-primary-hover text-theme-on-primary-5 py-1 sm:py-1.5 md:py-2 px-2.5 sm:px-3 md:px-4 text-xs sm:text-sm shadow-theme-sm transition-all duration-[--transition-bounce] hover:translate-y-[-2px] hover:scale-[1.02] md:hover:translate-y-[-3px] md:hover:scale-[1.03] hover:shadow-theme-md"
               onClick={handleApplyClick}
             >
-              Apply Now
+              Get Your Plan
             </Button>
             <Sheet>
               <SheetTrigger asChild>
@@ -262,7 +253,7 @@ export default function VSNavbar() {
                     className="mt-4 bg-theme-primary hover:bg-theme-primary-hover text-theme-on-primary text-sm sm:text-base py-2 sm:py-2.5 shadow-theme-sm transition-all duration-[--transition-bounce] hover:translate-y-[-2px] hover:scale-[1.02] hover:shadow-theme-md"
                     onClick={handleApplyClick}
                   >
-                    Apply Now
+                    Get Your Plan
                   </Button>
                 </nav>
               </SheetContent>

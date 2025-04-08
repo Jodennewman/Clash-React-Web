@@ -1,38 +1,23 @@
 # CLAUDE.md
 
-This file guides Claude Code when working with this repository. Follow these instructions PRECISELY.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Current Mission: Theme-Aware Styling Refactoring
+## Build & Development Commands
+- `npm run dev` - Start development server (may freeze Claude, use alternatives)
+- `npm run build` - Build production version
+- `npm run typecheck` - Run TypeScript type checking
+- `npm run lint` - Run ESLint
+- `npm run format` - Format code with Prettier
+- `vitest component-name.test.tsx` - Run specific test file
 
-**Primary Goal**: Efficiently convert the entire codebase to use theme-aware styling, ensuring consistent appearance in both light and dark modes.
+## Code Style & Conventions
+- Use theme-aware utility classes for all styling (e.g., `text-theme-primary`, `bg-theme-accent`)
+- Never use competing light/dark mode styles - use theme variables
+- All animations must use `useGSAP` with proper cleanup
+- Follow cubic-bezier(0.34, 1.56, 0.64, 1) for "VS Bubbly" hover effects
+- For Git: use `git add .` and commit with prefix (TeamSection, Solo, A, B)
 
-**Approach**:
-1. Use search tools (GrepTool, GlobTool, dispatch_agent) to identify non-compliant styling patterns
-2. Prioritize search-and-replace operations to efficiently update common patterns
-3. Focus on UI components first, then sections, then other components
-4. Apply systematic replacements for:
-   - Competing light/dark mode classes (`dark:`)
-   - Direct CSS variable references without theme awareness
-   - Static color values
-   - Tailwind gradient patterns
-   - Shadow implementations
-5. Use the CSS class checker utility (`node css-class-checker.js`) to:
-   - Identify missing theme-aware classes
-   - Find components using undefined theme variables
-   - Guide implementation of missing classes in globals.css
-   - Maintain consistent naming conventions
-6. Address missing theme-aware classes identified by the checker in globals.css
-7. Regularly check progress against the refactoring checklist
-
-**Success Criteria**: All components working with a single source of truth for styling that automatically adapts to theme changes, without competing style declarations. All theme-aware classes properly defined in globals.css.
-
-## Initial Requirements
-
-- Before providing advice or making changes, state: "I have read and will fully comply with CLAUDE.md."
-- First question: "Am I working in Solo Mode or Team Mode (if Team Mode, which team A or B)?"
-- Based on response, work ONLY on components assigned to your mode/team
-
-## Mandatory Reading Sequence
+## Documentation Order
 1. Read this CLAUDE.md completely
 2. Read `src/app/globals.css` completely 
 3. Read `VS_STYLING_GUIDE.md` completely
@@ -605,170 +590,11 @@ Use these theme-aware utility classes for consistent styling:
 - `hover-bubbly-sm` - Subtle hover animation
 - `hover-bubbly-lg` - More pronounced hover animation
 
-## Implementation Checklist for Theme-Aware Styling
 
-When working on a component:
 
-1. ✓ Replace all competing light/dark styles with theme-aware utility classes
-   - Updated VSExampleComponent.tsx (5/4/2025)
-   - Components remaining: SimpleHero, AnimatedButton, VSQuizModal, etc.
-2. ✓ Convert all Tailwind gradients to use theme-aware gradient classes
-   - Updated VSExampleComponent.tsx with bg-theme-gradient, bg-theme-gradient-card, etc.
-3. ✓ Replace all inline styles with theme-aware Tailwind classes
-   - Updated buttons in VSExampleComponent.tsx
-4. ✓ Update all shadows to use theme-aware shadow classes
-   - Implemented shadow-theme-sm, shadow-theme-md in VSExampleComponent.tsx
-5. ✓ Make all animations use theme-aware variables
-   - Updated animations in VSExampleComponent.tsx to use duration-[var(--theme-transition-bounce)]
-6. ✓ Add appropriate theme-aware floating elements for visual interest
-   - Added theme-aware floating elements in VSExampleComponent.tsx
-7. ✓ Test the component in both light and dark modes
-   - Verified VSExampleComponent.tsx works in both modes
-8. ✓ Verify all interactions in both theme modes
-   - Verified hover states and animations in VSExampleComponent.tsx
-
-Next components to update:
-- Modal components: ModalsImplementation.tsx, VSApplicationModal.tsx, VSSubmoduleModal.tsx
-- Form components: ApplicationFormWrapper.tsx
-- Hero components: IsometricPattern.tsx, SimpleHero.tsx
-
-Completed components:
-- VSExampleComponent.tsx - Fully theme-aware (5/4/2025)
-- SimpleHero.tsx - Updated to use theme-aware styling (5/4/2025)
-- AnimatedButton.tsx - Updated all button variants with theme-aware variables (5/4/2025)
-- VSQuizModal.tsx - Updated with theme-aware styling for quiz flow and results (5/4/2025)
-- VSCharts.tsx - Updated charts to use theme-aware styling, GSAP animations and floating elements (5/5/2025)
-- VSApplicationModal.tsx - Enhanced with theme-aware form fields and floating elements (5/5/2025)
-- course-stats.tsx - Updated with theme-aware floating elements and animation variables (5/4/2025)
-- form.tsx - Updated with theme-aware text and border styles (5/4/2025)
-- glow.tsx - Updated with theme-aware glow effects and opacity variables (5/4/2025)
-- input.tsx - Updated with theme-aware borders, backgrounds and focus states (5/4/2025)
-- label.tsx - Updated with theme-aware text colors and transitions (5/4/2025)
-- lead-capture-form.tsx - Updated with theme-aware backgrounds, borders and error states (5/4/2025)
-- link.tsx - Added theme-aware variants with transition variables (5/4/2025)
-
-## Theme-Aware Component Refactoring Progress
-
-### Complete Theme System Overhaul (5/5/2025)
-- [x] **Theme Variable System** - Completely overhauled CSS variable structure for reliable theme switching
-- [x] **Theme Selector Consistency** - Ensured CSS selectors work consistently across Tailwind and CSS
-- [x] **Direct Color Values** - Implemented direct color values for theme variables with !important
-- [x] **Fixed Component Props** - Addressed React DOM prop warnings in vs-background.tsx and vs-text.tsx
-- [x] **Debugging Tools** - Created multiple utility scripts to diagnose and fix theme-related issues
-- [x] **Dark Mode Testing** - Verified theme toggle properly changes background colors and styling
-- [x] **Circular Reference Fix** - Eliminated circular references between CSS variables
-
-### UI Components (src/components/ui/)
-- [x] badge.tsx - Updated all variants to use theme-aware variables
-- [x] button.tsx - Converted all variants to theme-aware styling
-- [x] card.tsx - Removed competing light/dark modes for theme-aware variables
-- [x] theme-toggle.tsx - Simplified with theme utility classes
-- [x] dialog.tsx - Updated with theme-aware border and shadow styles
-- [x] vs-background.tsx - Refactored to use single theme-aware prop for background, fixed prop filtering
-- [x] vs-button.tsx - Converted all variants to theme-aware styling
-- [x] vs-modal.tsx - Updated with theme-aware floating elements and animations
-- [x] vs-text.tsx - Replaced dual-mode styles with theme utility classes, fixed prop filtering
-- [x] accordion.tsx - Updated with theme-aware border and text colors
-- [x] accordion-raised.tsx - Converted to theme-aware background, shadow, and text
-- [x] alert.tsx - Updated all alert variants with theme-aware styling
-- [x] avatar.tsx - Updated with theme-aware background and text colors
-- [x] beam.tsx - Updated with theme-aware radial gradients
-- [x] carousel.tsx - Already using theme-aware approach (uses cn utility)
-- [x] chart.tsx - Updated with theme-aware tooltip and text colors
-- [x] checkbox.tsx - Updated with theme-aware border, background, and text colors
-- [x] dropdown-menu.tsx - Updated all dropdown elements with theme-aware styling
-- [x] form.tsx - Updated with theme-aware text and border styles (5/4/2025)
-- [x] glow.tsx - Updated with theme-aware glow effects and opacity variables (5/4/2025)
-- [x] input.tsx - Updated with theme-aware borders, backgrounds and focus states (5/4/2025)
-- [x] label.tsx - Updated with theme-aware text colors and transitions (5/4/2025)
-- [x] lead-capture-form.tsx - Updated with theme-aware backgrounds, borders and error states (5/4/2025)
-- [x] link.tsx - Added theme-aware variants with transition variables (5/4/2025)
-- [x] footer.tsx - Updated with theme-aware background and text colors (5/4/2025)
-- [x] image.tsx - Added transition properties for smoother theme changes (5/4/2025)
-- [x] item.tsx - Updated with theme-aware text colors and transitions (5/4/2025)
-- [x] logo.tsx - Updated with theme-aware text colors and transitions (5/4/2025)
-- [x] marquee.tsx - Updated with theme-aware background and animation duration (5/4/2025)
-- [x] mockup.tsx - Updated with theme-aware shadow and border colors (5/4/2025)
-- [x] mode-toggle.tsx - Updated theme toggle button with theme-aware gradient (5/4/2025)
-- [x] navbar.tsx - Updated navbar with theme-aware text colors (5/4/2025)
-- [x] navigation-menu.tsx - Updated with theme-aware styling for menu triggers and viewports (5/4/2025)
-- [x] navigation.tsx - Updated navigation items with theme-aware backgrounds and text (5/4/2025)
-- [x] radio-group.tsx - Updated radio inputs with theme-aware borders and icons (5/4/2025)
-- [x] section.tsx - Updated with theme-aware background, text and floating element (5/4/2025)
-- [x] select.tsx - Updated select menu components with theme-aware styling (5/4/2025)
-- [x] sheet.tsx - Updated sheet dialog with theme-aware borders, background and overlay (5/4/2025)
-- [x] slide.tsx - Updated with theme-aware gradient, text, and button styling (5/4/2025)
-- [x] social-proof-item.tsx - Updated with theme-aware card and text styling (5/4/2025)
-- [x] social-stats.tsx - Updated with theme-aware tooltip and text styling (5/4/2025)
-- [x] switch.tsx - Updated with theme-aware styles, transitions, and shadows (5/4/2025)
-- [x] tabs.tsx - Updated tab components with theme-aware backgrounds and borders (5/4/2025)
-- [x] testimonial-carousel.tsx - Updated testimonial carousel with theme-aware styling (5/4/2025)
-- [x] textarea.tsx - Updated with theme-aware borders, shadows, and transitions (5/4/2025)
-- [x] theme-provider.tsx - Already theme-aware (manages theme switching) (5/4/2025)
-- [x] tile.tsx - Updated with theme-aware gradients, floating elements, and hover states (5/4/2025)
-- [x] tooltip.tsx - Updated with theme-aware border, shadow, and background (5/4/2025)
-- [x] video-embed.tsx - Updated with theme-aware floating elements and gradients (5/4/2025)
-- [x] vs-components.tsx - Already theme-aware (imports vs-text, vs-background, vs-button) (5/4/2025)
-
-### Sections Components (src/components/sections/)
-- [x] featured-modules.tsx - Fixed gradient and text styles for theme compatibility
-- [x] navbar/vs-navbar.tsx - Navbar fully converted to theme-aware styling
-- [x] VSCharts.tsx - Updated charts to use theme-aware styling (5/5/2025)
-- [x] VSPainPoints.tsx - Updated with theme-aware animations and floating elements
-- [x] course-stats.tsx - Updated with theme-aware styling for cards and animations (5/4/2025)
-- [ ] bento-grid/vsBentoGrid.tsx
-- [ ] carousel/VSCarousel.tsx
-- [ ] carousel/external.tsx
-- [ ] carousel/large.tsx
-- [ ] carousel/small.tsx
-- [ ] carousel/static.tsx
-- [ ] Case-Studies.tsx
-- [ ] course-viewer.tsx
-- [ ] faq-raised.tsx
-- [ ] faq-updated.tsx
-- [ ] feature/* (all files)
-- [ ] founder-track.tsx
-- [ ] module-breakdown.tsx
-- [ ] module-breakdown-simplified.tsx
-- [ ] ModuleHUD.tsx
-- [ ] navbar/default.tsx
-- [ ] navbar/static.tsx
-- [ ] navbar/sticky.tsx
-- [ ] pricing-3-cols-subscription.tsx
-- [ ] pricing-quiz-modal.tsx
-- [ ] pricing-section.tsx
-- [ ] social-proof/* (all files)
-- [ ] tabs/* (all files)
-- [ ] VSPricingQuizModal.tsx
-
-### Modal Components (src/components/modals/)
-- [x] TimelineModal.tsx - Already using theme-aware styling
-- [x] VSModalExamples.tsx - Updated with theme-aware styling for cards and modals
-- [x] VSQuizModal.tsx - Updated with theme-aware styling for quiz flow and results (5/4/2025)
-- [x] VSApplicationModal.tsx - Enhanced with theme-aware styling for form fields and floating elements (5/5/2025)
-- [ ] ModalTest.tsx
-- [ ] ModalsImplementation.tsx
-- [ ] VSSubmoduleModal.tsx
-
-### Form Components (src/components/form/)
-- [ ] ApplicationFormWrapper.tsx
-- [ ] form-shadcn-claude.tsx
-- [ ] VSApplicationFormModal.tsx
-
-### Hero Components (src/components/hero/)
-- [ ] IsometricPattern.tsx
-- [ ] SimpleHero.tsx
-- [ ] SimpleHero/*
-
-### Other Components
-- [ ] ComingSoon.tsx
-- [ ] ContentOverwhelmer.tsx
-- [ ] DirectTest.tsx
-- [ ] Modules.tsx
-- [ ] ThemeDemo.tsx
-- [ ] VSExampleComponent.tsx
-- [ ] VSModalShowcase.tsx
-
-### Main App Components
-- [ ] App.tsx
-- [ ] VerticalShortcutLanding.tsx
+## Key Theme Implementation Rules
+- ALWAYS use theme utility classes when available
+- ALWAYS use theme-aware gradient classes
+- ALWAYS test components in both light and dark modes
+- NEVER use raw Tailwind color classes without theme awareness
+- NEVER use standard Tailwind gradients - use theme-aware variables

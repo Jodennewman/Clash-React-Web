@@ -16,6 +16,7 @@ export default {
         'float-gentle': 'float-gentle 9s ease-in-out infinite',
         'ripple': 'ripple 0.5s ease-out forwards',
         'float': 'float-pattern 20s linear infinite',
+        'progress-shimmer': 'progress-shimmer 3s infinite',
       },
       keyframes: {
         'fadeIn': {
@@ -42,6 +43,12 @@ export default {
         'ripple': {
           '0%': { transform: 'scale(0)', opacity: '1' },
           '100%': { transform: 'scale(1)', opacity: '0' },
+
+        },
+        'progress-shimmer': {
+          '0%': { transform: 'translateX(-100%)' },
+          '50%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(100%)' },
         },
         'float-pattern': {
           '0%': { transform: 'translateX(0) translateY(0)' },

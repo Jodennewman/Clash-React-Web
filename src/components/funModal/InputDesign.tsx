@@ -19,7 +19,7 @@ function InputDesign({
     <button
       type="button"
       onClick={onClick}
-      className={`inline-flex items-center justify-center text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors ${className}`}
+      className={`inline-flex items-center justify-center text-theme-tertiary hover:text-theme-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--theme-primary)] transition-colors ${className}`}
       aria-label={ariaLabel}
     >
       <span className="text-xl font-medium">×</span>
