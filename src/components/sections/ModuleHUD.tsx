@@ -1221,7 +1221,6 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         className="w-full max-w-[900px] h-full min-h-[600px] max-h-[800px] p-6 relative overflow-visible flex items-center justify-center"
         onClick={handleModuleClick}
       >
-
         {/* Theme-aware floating elements for background decoration */}
         <div className="absolute -z-10 top-[5%] left-[8%] w-[20%] h-[20%] max-w-[100px] max-h-[100px] rounded-[40%] rotate-12 
              opacity-[var(--theme-float-opacity)] 
