@@ -84,7 +84,7 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
             <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
               <div className="md:w-1/3">
                 <div className="relative">
-                  <div className="w-28 h-28 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-theme-primary shadow-theme-sm transition-all duration-[var(--theme-transition-normal)]">
+                  <div className="w-28 h-28 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-theme-primary shadow-theme-sm transition-all transition-theme-normal">
                     <img 
                       src={testimonial.image} 
                       alt={testimonial.name}
@@ -98,13 +98,13 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
               </div>
               
               <div className="md:w-2/3">
-                <blockquote className="text-xl md:text-2xl font-medium text-theme-primary mb-6 min-h-[150px] md:min-h-[200px] transition-colors duration-[var(--theme-transition-normal)]">
+                <blockquote className="text-xl md:text-2xl font-medium text-theme-primary mb-6 min-h-[150px] md:min-h-[200px] transition-colors transition-theme-normal">
                   "{testimonial.quote}"
                 </blockquote>
                 <div className="flex items-center">
                   <div>
-                    <div className="font-bold text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">{testimonial.name}</div>
-                    <div className="text-theme-secondary transition-colors duration-[var(--theme-transition-normal)]">{testimonial.role}</div>
+                    <div className="font-bold text-theme-primary transition-colors transition-theme-normal">{testimonial.name}</div>
+                    <div className="text-theme-secondary transition-colors transition-theme-normal">{testimonial.role}</div>
                   </div>
                 </div>
               </div>
@@ -118,7 +118,7 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
           onClick={prevTestimonial} 
           variant="ghost" 
           size="icon" 
-          className="rounded-full border border-theme-border hover:bg-theme-accent/10 hover:border-theme-accent hover-bubbly-sm transition-all duration-[var(--theme-transition-normal)]"
+          className="rounded-full border border-theme-border hover:bg-theme-accent/10 hover:border-theme-accent hover-bubbly-sm transition-all transition-theme-normal"
         >
           <ChevronLeft className="h-5 w-5 text-theme-primary" />
           <span className="sr-only">Previous testimonial</span>
@@ -143,7 +143,7 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
           onClick={nextTestimonial} 
           variant="ghost" 
           size="icon" 
-          className="rounded-full border border-theme-border hover:bg-theme-accent/10 hover:border-theme-accent hover-bubbly-sm transition-all duration-[var(--theme-transition-normal)]"
+          className="rounded-full border border-theme-border hover:bg-theme-accent/10 hover:border-theme-accent hover-bubbly-sm transition-all transition-theme-normal"
         >
           <ChevronRight className="h-5 w-5 text-theme-primary" />
           <span className="sr-only">Next testimonial</span>

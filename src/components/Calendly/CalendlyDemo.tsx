@@ -31,15 +31,15 @@ const CalendlyDemo: React.FC = () => {
                      
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)] font-medium mb-3 uppercase tracking-wide text-sm">
+            <div className="text-theme-accent dark:text-[var(--theme-accent-secondary-light)] font-medium mb-3 uppercase tracking-wide text-sm">
               Book a consultation
             </div>
             
-            <h1 className="text-[var(--theme-text-primary)] dark:text-white text-4xl md:text-5xl font-bold mb-6">
+            <h1 className="text-theme-primary dark:text-white text-4xl md:text-5xl font-bold mb-6">
               Ready to accelerate your journey?
             </h1>
             
-            <p className="text-[var(--theme-text-secondary)] dark:text-white/70 text-lg mb-8 max-w-2xl mx-auto">
+            <p className="text-theme-secondary dark:text-white/70 text-lg mb-8 max-w-2xl mx-auto">
               Schedule a personalized discovery call to discuss your goals and how we can help you achieve them faster with our proven strategies.
             </p>
             
@@ -65,7 +65,7 @@ const CalendlyDemo: React.FC = () => {
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-[var(--theme-text-primary)] dark:text-white text-3xl md:text-4xl font-bold mb-8 text-center">
+            <h2 className="text-theme-primary dark:text-white text-3xl md:text-4xl font-bold mb-8 text-center">
               Popup Widget Variations
             </h2>
             
@@ -75,65 +75,65 @@ const CalendlyDemo: React.FC = () => {
                      shadow-[2px_2px_8px_rgba(0,0,0,0.05)]
                      dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]">
               
-              <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-semibold mb-6">
+              <h3 className="text-theme-primary dark:text-white text-xl font-semibold mb-6">
                 Button Variants
               </h3>
               
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 mb-8">
                 <div className="flex flex-col items-center">
                   <CalendlyPopupWidget text="Default" variant="default" size="default" className="mb-2" />
-                  <span className="text-xs text-[var(--theme-text-secondary)] dark:text-white/70">Default</span>
+                  <span className="text-xs text-theme-secondary dark:text-white/70">Default</span>
                 </div>
                 <div className="flex flex-col items-center">
                   <CalendlyPopupWidget text="Secondary" variant="secondary" size="default" className="mb-2" />
-                  <span className="text-xs text-[var(--theme-text-secondary)] dark:text-white/70">Secondary</span>
+                  <span className="text-xs text-theme-secondary dark:text-white/70">Secondary</span>
                 </div>
                 <div className="flex flex-col items-center">
                   <CalendlyPopupWidget text="Vibrant" variant="vibrant" size="default" className="mb-2" />
-                  <span className="text-xs text-[var(--theme-text-secondary)] dark:text-white/70">Vibrant</span>
+                  <span className="text-xs text-theme-secondary dark:text-white/70">Vibrant</span>
                 </div>
                 <div className="flex flex-col items-center">
                   <CalendlyPopupWidget text="Outline" variant="outline" size="default" className="mb-2" />
-                  <span className="text-xs text-[var(--theme-text-secondary)] dark:text-white/70">Outline</span>
+                  <span className="text-xs text-theme-secondary dark:text-white/70">Outline</span>
                 </div>
                 <div className="flex flex-col items-center">
                   <CalendlyPopupWidget text="Subtle" variant="subtle" size="default" className="mb-2" />
-                  <span className="text-xs text-[var(--theme-text-secondary)] dark:text-white/70">Subtle</span>
+                  <span className="text-xs text-theme-secondary dark:text-white/70">Subtle</span>
                 </div>
                 <div className="flex flex-col items-center">
                   <CalendlyPopupWidget text="Destructive" variant="destructive" size="default" className="mb-2" />
-                  <span className="text-xs text-[var(--theme-text-secondary)] dark:text-white/70">Destructive</span>
+                  <span className="text-xs text-theme-secondary dark:text-white/70">Destructive</span>
                 </div>
               </div>
               
-              <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-semibold mb-6">
+              <h3 className="text-theme-primary dark:text-white text-xl font-semibold mb-6">
                 Button Sizes
               </h3>
               
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-8">
                 <div className="flex flex-col items-center">
                   <CalendlyPopupWidget text="XS" variant="default" size="xs" className="mb-2" />
-                  <span className="text-xs text-[var(--theme-text-secondary)] dark:text-white/70">Extra Small</span>
+                  <span className="text-xs text-theme-secondary dark:text-white/70">Extra Small</span>
                 </div>
                 <div className="flex flex-col items-center">
                   <CalendlyPopupWidget text="Small" variant="default" size="sm" className="mb-2" />
-                  <span className="text-xs text-[var(--theme-text-secondary)] dark:text-white/70">Small</span>
+                  <span className="text-xs text-theme-secondary dark:text-white/70">Small</span>
                 </div>
                 <div className="flex flex-col items-center">
                   <CalendlyPopupWidget text="Default" variant="default" size="default" className="mb-2" />
-                  <span className="text-xs text-[var(--theme-text-secondary)] dark:text-white/70">Default</span>
+                  <span className="text-xs text-theme-secondary dark:text-white/70">Default</span>
                 </div>
                 <div className="flex flex-col items-center">
                   <CalendlyPopupWidget text="Large" variant="default" size="lg" className="mb-2" />
-                  <span className="text-xs text-[var(--theme-text-secondary)] dark:text-white/70">Large</span>
+                  <span className="text-xs text-theme-secondary dark:text-white/70">Large</span>
                 </div>
                 <div className="flex flex-col items-center">
                   <CalendlyPopupWidget text="Extra Large" variant="default" size="xl" className="mb-2" />
-                  <span className="text-xs text-[var(--theme-text-secondary)] dark:text-white/70">Extra Large</span>
+                  <span className="text-xs text-theme-secondary dark:text-white/70">Extra Large</span>
                 </div>
               </div>
               
-              <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-semibold mb-6">
+              <h3 className="text-theme-primary dark:text-white text-xl font-semibold mb-6">
                 Icon Positions
               </h3>
               
@@ -147,7 +147,7 @@ const CalendlyDemo: React.FC = () => {
                     showIcon={true} 
                     className="mb-2"
                   />
-                  <span className="text-xs text-[var(--theme-text-secondary)] dark:text-white/70">Icon at Start</span>
+                  <span className="text-xs text-theme-secondary dark:text-white/70">Icon at Start</span>
                 </div>
                 <div className="flex flex-col items-center">
                   <CalendlyPopupWidget 
@@ -157,7 +157,7 @@ const CalendlyDemo: React.FC = () => {
                     showIcon={false} 
                     className="mb-2"
                   />
-                  <span className="text-xs text-[var(--theme-text-secondary)] dark:text-white/70">No Icon</span>
+                  <span className="text-xs text-theme-secondary dark:text-white/70">No Icon</span>
                 </div>
                 <div className="flex flex-col items-center">
                   <CalendlyPopupWidget 
@@ -168,11 +168,11 @@ const CalendlyDemo: React.FC = () => {
                     showIcon={true} 
                     className="mb-2"
                   />
-                  <span className="text-xs text-[var(--theme-text-secondary)] dark:text-white/70">Icon at End</span>
+                  <span className="text-xs text-theme-secondary dark:text-white/70">Icon at End</span>
                 </div>
               </div>
               
-              <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-semibold mb-6">
+              <h3 className="text-theme-primary dark:text-white text-xl font-semibold mb-6">
                 Custom Elements as Triggers
               </h3>
               
@@ -183,17 +183,17 @@ const CalendlyDemo: React.FC = () => {
                       <span>Custom Button</span>
                     </div>
                   </CalendlyPopupWidget>
-                  <span className="text-xs text-[var(--theme-text-secondary)] dark:text-white/70">Custom Button</span>
+                  <span className="text-xs text-theme-secondary dark:text-white/70">Custom Button</span>
                 </div>
                 
                 <div className="flex flex-col items-center">
                   <CalendlyPopupWidget className="mb-2">
                     <div className="cursor-pointer flex flex-col items-center bg-white dark:bg-[--bg-navy] p-4 rounded-lg shadow-md border border-gray-100 dark:border-gray-800 hover:shadow-lg transition-shadow">
                       <CalendarIcon className="w-8 h-8 text-[--primary-orange] mb-2" />
-                      <span className="text-[var(--theme-text-primary)] dark:text-white font-medium">Book Appointment</span>
+                      <span className="text-theme-primary dark:text-white font-medium">Book Appointment</span>
                     </div>
                   </CalendlyPopupWidget>
-                  <span className="text-xs text-[var(--theme-text-secondary)] dark:text-white/70">Card Trigger</span>
+                  <span className="text-xs text-theme-secondary dark:text-white/70">Card Trigger</span>
                 </div>
                 
                 <div className="flex flex-col items-center">
@@ -202,7 +202,7 @@ const CalendlyDemo: React.FC = () => {
                       Schedule your call here
                     </span>
                   </CalendlyPopupWidget>
-                  <span className="text-xs text-[var(--theme-text-secondary)] dark:text-white/70">Text Link</span>
+                  <span className="text-xs text-theme-secondary dark:text-white/70">Text Link</span>
                 </div>
               </div>
             </div>
@@ -213,14 +213,14 @@ const CalendlyDemo: React.FC = () => {
       {/* Inline widget variations */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-[var(--theme-text-primary)] dark:text-white text-3xl md:text-4xl font-bold mb-8 text-center">
+          <h2 className="text-theme-primary dark:text-white text-3xl md:text-4xl font-bold mb-8 text-center">
             Inline Widget Variations
           </h2>
           
           <div className="grid md:grid-cols-2 gap-8 mb-16">
             {/* First variation - Default styling */}
             <div>
-              <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-semibold mb-4">
+              <h3 className="text-theme-primary dark:text-white text-xl font-semibold mb-4">
                 Default Styling
               </h3>
               <CalendlyInlineWidget 
@@ -236,7 +236,7 @@ const CalendlyDemo: React.FC = () => {
             
             {/* Second variation - Elevated card */}
             <div>
-              <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-semibold mb-4">
+              <h3 className="text-theme-primary dark:text-white text-xl font-semibold mb-4">
                 Elevated Card Style
               </h3>
               <CalendlyInlineWidget 
@@ -255,7 +255,7 @@ const CalendlyDemo: React.FC = () => {
           <div className="grid md:grid-cols-2 gap-8 mb-16">
             {/* Third variation - Pattern background */}
             <div>
-              <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-semibold mb-4">
+              <h3 className="text-theme-primary dark:text-white text-xl font-semibold mb-4">
                 Pattern Background
               </h3>
               <CalendlyInlineWidget 
@@ -272,7 +272,7 @@ const CalendlyDemo: React.FC = () => {
             
             {/* Fourth variation - Borderless */}
             <div>
-              <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-semibold mb-4">
+              <h3 className="text-theme-primary dark:text-white text-xl font-semibold mb-4">
                 Borderless Style
               </h3>
               <CalendlyInlineWidget 
@@ -289,7 +289,7 @@ const CalendlyDemo: React.FC = () => {
           </div>
           
           <div className="max-w-6xl mx-auto">
-            <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-semibold mb-4 text-center">
+            <h3 className="text-theme-primary dark:text-white text-xl font-semibold mb-4 text-center">
               Full-Width Calendar
             </h3>
             <CalendlyInlineWidget 
@@ -313,10 +313,10 @@ const CalendlyDemo: React.FC = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-[var(--theme-text-primary)] dark:text-white text-3xl md:text-4xl font-bold mb-4">
+              <h2 className="text-theme-primary dark:text-white text-3xl md:text-4xl font-bold mb-4">
                 Complete Feature Breakdown
               </h2>
-              <p className="text-[var(--theme-text-secondary)] dark:text-white/70">
+              <p className="text-theme-secondary dark:text-white/70">
                 Both components offer extensive customization options to match your site's design.
               </p>
             </div>
@@ -329,43 +329,43 @@ const CalendlyDemo: React.FC = () => {
                        shadow-[2px_2px_8px_rgba(0,0,0,0.05)]
                        dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
                        border border-white/50 dark:border-white/5">
-                <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-semibold mb-4 flex items-center">
+                <h3 className="text-theme-primary dark:text-white text-xl font-semibold mb-4 flex items-center">
                   <svg className="w-5 h-5 mr-2 text-[--primary-orange]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                   Popup Widget Features
                 </h3>
-                <ul className="text-[var(--theme-text-secondary)] dark:text-white/70 space-y-2">
+                <ul className="text-theme-secondary dark:text-white/70 space-y-2">
                   <li className="flex items-start gap-2">
-                    <CheckIcon className="w-5 h-5 text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
+                    <CheckIcon className="w-5 h-5 text-theme-accent dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
                     <span>All VS design system button variants</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckIcon className="w-5 h-5 text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
+                    <CheckIcon className="w-5 h-5 text-theme-accent dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
                     <span>Multiple size options (xs to xl)</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckIcon className="w-5 h-5 text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
+                    <CheckIcon className="w-5 h-5 text-theme-accent dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
                     <span>Optional calendar icon with position control</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckIcon className="w-5 h-5 text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
+                    <CheckIcon className="w-5 h-5 text-theme-accent dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
                     <span>Widget position customization</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckIcon className="w-5 h-5 text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
+                    <CheckIcon className="w-5 h-5 text-theme-accent dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
                     <span>Custom color theming support</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckIcon className="w-5 h-5 text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
+                    <CheckIcon className="w-5 h-5 text-theme-accent dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
                     <span>Custom element support (any JSX as trigger)</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckIcon className="w-5 h-5 text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
+                    <CheckIcon className="w-5 h-5 text-theme-accent dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
                     <span>Dark/light mode compatible</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckIcon className="w-5 h-5 text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
+                    <CheckIcon className="w-5 h-5 text-theme-accent dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
                     <span>Branding toggle options</span>
                   </li>
                 </ul>
@@ -378,43 +378,43 @@ const CalendlyDemo: React.FC = () => {
                        shadow-[2px_2px_8px_rgba(0,0,0,0.05)]
                        dark:shadow-[0_0_15px_rgba(53,115,128,0.15)]
                        border border-white/50 dark:border-white/5">
-                <h3 className="text-[var(--theme-text-primary)] dark:text-white text-xl font-semibold mb-4 flex items-center">
+                <h3 className="text-theme-primary dark:text-white text-xl font-semibold mb-4 flex items-center">
                   <svg className="w-5 h-5 mr-2 text-[--primary-orange]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                   Inline Widget Features
                 </h3>
-                <ul className="text-[var(--theme-text-secondary)] dark:text-white/70 space-y-2">
+                <ul className="text-theme-secondary dark:text-white/70 space-y-2">
                   <li className="flex items-start gap-2">
-                    <CheckIcon className="w-5 h-5 text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
+                    <CheckIcon className="w-5 h-5 text-theme-accent dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
                     <span>Four background style options</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckIcon className="w-5 h-5 text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
+                    <CheckIcon className="w-5 h-5 text-theme-accent dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
                     <span>Four card style variations</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckIcon className="w-5 h-5 text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
+                    <CheckIcon className="w-5 h-5 text-theme-accent dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
                     <span>Custom width and height control</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckIcon className="w-5 h-5 text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
+                    <CheckIcon className="w-5 h-5 text-theme-accent dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
                     <span>Customizable title and subtitle</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckIcon className="w-5 h-5 text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
+                    <CheckIcon className="w-5 h-5 text-theme-accent dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
                     <span>Theme-aware styling with floating elements</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckIcon className="w-5 h-5 text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
+                    <CheckIcon className="w-5 h-5 text-theme-accent dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
                     <span>Controls for GDPR banner and event details</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckIcon className="w-5 h-5 text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
+                    <CheckIcon className="w-5 h-5 text-theme-accent dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
                     <span>Primary color customization</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckIcon className="w-5 h-5 text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
+                    <CheckIcon className="w-5 h-5 text-theme-accent dark:text-[var(--theme-accent-secondary-light)] mt-1 flex-shrink-0" />
                     <span>Responsive design for all screen sizes</span>
                   </li>
                 </ul>
@@ -429,10 +429,10 @@ const CalendlyDemo: React.FC = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-8">
-              <h2 className="text-[var(--theme-text-primary)] dark:text-white text-3xl font-bold mb-4">
+              <h2 className="text-theme-primary dark:text-white text-3xl font-bold mb-4">
                 Implementation Notes
               </h2>
-              <p className="text-[var(--theme-text-secondary)] dark:text-white/70">
+              <p className="text-theme-secondary dark:text-white/70">
                 How to use these components in your site
               </p>
             </div>

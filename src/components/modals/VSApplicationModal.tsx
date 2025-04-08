@@ -130,7 +130,7 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
       {/* Progress indicator */}
       <div className="mb-8">
         <div className="flex justify-between items-center mb-2">
-          <div className="text-sm text-theme-secondary transition-colors duration-[var(--theme-transition-normal)]">
+          <div className="text-sm text-theme-secondary transition-colors transition-theme-normal">
             Step {step} of {totalSteps}
           </div>
           <div className="flex gap-2">
@@ -153,7 +153,7 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
         {step === 1 && (
           <div className="space-y-6">
             <div>
-              <label htmlFor="fullName" className="block text-theme-primary text-sm font-medium mb-2 transition-colors duration-[var(--theme-transition-normal)]">
+              <label htmlFor="fullName" className="block text-theme-primary text-sm font-medium mb-2 transition-colors transition-theme-normal">
                 Full Name
               </label>
               <input
@@ -174,7 +174,7 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-theme-primary text-sm font-medium mb-2 transition-colors duration-[var(--theme-transition-normal)]">
+              <label htmlFor="email" className="block text-theme-primary text-sm font-medium mb-2 transition-colors transition-theme-normal">
                 Email Address
               </label>
               <input
@@ -200,7 +200,7 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
         {step === 2 && (
           <div className="space-y-6">
             <div>
-              <label htmlFor="experience" className="block text-theme-primary text-sm font-medium mb-2 transition-colors duration-[var(--theme-transition-normal)]">
+              <label htmlFor="experience" className="block text-theme-primary text-sm font-medium mb-2 transition-colors transition-theme-normal">
                 Content Creation Experience
               </label>
               <select
@@ -225,14 +225,14 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
             </div>
 
             <div className="bg-theme-surface/20 p-4 rounded-md border border-theme-border">
-              <h4 className="text-theme-primary text-sm font-medium mb-2 flex items-center transition-colors duration-[var(--theme-transition-normal)]">
+              <h4 className="text-theme-primary text-sm font-medium mb-2 flex items-center transition-colors transition-theme-normal">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 mr-2 text-theme-primary">
                   <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                   <polyline points="22 4 12 14.01 9 11.01"></polyline>
                 </svg>
                 Why We're Asking
               </h4>
-              <p className="text-theme-secondary text-sm transition-colors duration-[var(--theme-transition-normal)]">
+              <p className="text-theme-secondary text-sm transition-colors transition-theme-normal">
                 This helps us customize your learning experience and suggest the most relevant modules for your skill level.
               </p>
             </div>
@@ -243,7 +243,7 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
         {step === 3 && (
           <div className="space-y-6">
             <div>
-              <label htmlFor="goals" className="block text-theme-primary text-sm font-medium mb-2 transition-colors duration-[var(--theme-transition-normal)]">
+              <label htmlFor="goals" className="block text-theme-primary text-sm font-medium mb-2 transition-colors transition-theme-normal">
                 What do you hope to achieve?
               </label>
               <textarea
@@ -264,7 +264,7 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
             </div>
 
             <div className="bg-theme-surface/20 p-4 rounded-md border border-theme-border">
-              <h4 className="text-theme-primary text-sm font-medium mb-2 flex items-center transition-colors duration-[var(--theme-transition-normal)]">
+              <h4 className="text-theme-primary text-sm font-medium mb-2 flex items-center transition-colors transition-theme-normal">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 mr-2 text-theme-primary">
                   <circle cx="12" cy="12" r="10"></circle>
                   <line x1="12" y1="16" x2="12" y2="12"></line>
@@ -272,7 +272,7 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
                 </svg>
                 Final Step
               </h4>
-              <p className="text-theme-secondary text-sm transition-colors duration-[var(--theme-transition-normal)]">
+              <p className="text-theme-secondary text-sm transition-colors transition-theme-normal">
                 Your goals help us provide personalized guidance and track your progress throughout the program.
               </p>
             </div>
@@ -298,7 +298,7 @@ const VSApplicationModal: React.FC<VSApplicationModalProps> = ({ isOpen, onClose
             className="bg-theme-gradient-primary
                      text-theme-on-primary px-6 py-2 rounded-md 
                      shadow-theme-btn
-                     transition-all duration-[var(--theme-transition-bounce)]
+                     transition-all transition-theme-bounce
                      hover:translate-y-[var(--theme-anim-distance)] hover:scale-[var(--theme-anim-scale)] 
                      hover:shadow-theme-md"
           >

@@ -245,14 +245,14 @@ const VSQuizModal: React.FC<VSQuizModalProps> = ({
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={handleReset}
-              className="px-6 py-2 border border-theme-accent-secondary text-theme-accent-secondary rounded-[--border-radius-md] hover:bg-theme-accent-secondary/5 transition-all duration-[var(--theme-transition-bounce)] hover-bubbly-sm"
+              className="px-6 py-2 border border-theme-accent-secondary text-theme-accent-secondary rounded-[--border-radius-md] hover:bg-theme-accent-secondary/5 transition-all transition-theme-bounce hover-bubbly-sm"
             >
               Retake Quiz
             </button>
             
             <button
               onClick={handleComplete}
-              className="px-6 py-2 bg-theme-gradient-primary text-theme-on-primary-[--border-radius-md] shadow-theme-sm transition-all duration-[var(--theme-transition-bounce)] hover-bubbly"
+              className="px-6 py-2 bg-theme-gradient-primary text-theme-on-primary-[--border-radius-md] shadow-theme-sm transition-all transition-theme-bounce hover-bubbly"
             >
               Continue Learning
             </button>

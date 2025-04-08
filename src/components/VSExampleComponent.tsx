@@ -61,7 +61,7 @@ const VSExampleComponent = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <div className="bg-[var(--theme-bg-secondary)]/10 
-                       border border-[var(--theme-border-primary)] mb-4 py-2 px-4 
+                       border border-theme-primary mb-4 py-2 px-4 
                        inline-block rounded-full">
             <span className="text-theme-primary">
               Example Component
@@ -96,7 +96,7 @@ const VSExampleComponent = () => {
             
             <p className="text-theme-secondary mb-4">
               Tailwind v4 allows direct CSS variable references with the format 
-              <code className="text-[var(--theme-accent-tertiary)] mx-1 px-1 bg-[var(--theme-bg-secondary)]/10 rounded">
+              <code className="text-theme-accent-tertiary mx-1 px-1 bg-[var(--theme-bg-secondary)]/10 rounded">
                 text-[var(--theme-var-name)]
               </code>
             </p>
@@ -104,7 +104,7 @@ const VSExampleComponent = () => {
             <button className="bg-theme-gradient-primary
                              text-theme-on-primary-4 py-2 rounded-full
                              shadow-theme-sm
-                             transition-all duration-[var(--theme-transition-bounce)]
+                             transition-all transition-theme-bounce
                              hover-bubbly-sm">
               Learn More
             </button>
@@ -127,7 +127,7 @@ const VSExampleComponent = () => {
             
             <p className="text-theme-secondary mb-4">
               Use utility classes like 
-              <code className="text-[var(--theme-accent-tertiary)] mx-1 px-1 bg-[var(--theme-bg-secondary)]/10 rounded">
+              <code className="text-theme-accent-tertiary mx-1 px-1 bg-[var(--theme-bg-secondary)]/10 rounded">
                 hover-bubbly
               </code>
               to implement VS animation patterns easily.
@@ -136,7 +136,7 @@ const VSExampleComponent = () => {
             <button className="bg-theme-gradient-secondary
                              text-theme-on-primary-4 py-2 rounded-full
                              shadow-theme-sm
-                             transition-all duration-[var(--theme-transition-bounce)]
+                             transition-all transition-theme-bounce
                              hover-bubbly-sm">
               Explore Utilities
             </button>
@@ -164,7 +164,7 @@ const VSExampleComponent = () => {
             <button className="bg-theme-gradient-accent
                              text-theme-on-primary-4 py-2 rounded-full
                              shadow-theme-sm
-                             transition-all duration-[var(--theme-transition-bounce)]
+                             transition-all transition-theme-bounce
                              hover-bubbly-sm">
               See Animation Guide
             </button>
@@ -197,7 +197,7 @@ const VSExampleComponent = () => {
                   </td>
                   <td className="p-4 text-theme-secondary">
                     <code className="px-2 py-1 bg-[var(--theme-bg-secondary)]/10 rounded text-sm">
-                      className="text-[var(--theme-text-primary)]"
+                      className="text-theme-primary"
                     </code>
                   </td>
                 </tr>
@@ -239,7 +239,7 @@ const VSExampleComponent = () => {
                      max-w-4xl mx-auto">
           <div className="flex">
             <div className="w-10 h-10 rounded-full bg-theme-bg-surface-center justify-center mr-4 flex-shrink-0">
-              <span className="text-[var(--theme-accent-tertiary)] font-bold">!</span>
+              <span className="text-theme-accent-tertiary font-bold">!</span>
             </div>
             <div>
               <h4 className="text-xl font-medium mb-2">Pro Tip</h4>

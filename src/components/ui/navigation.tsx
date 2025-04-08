@@ -64,14 +64,14 @@ export default function Navigation() {
               <li className="row-span-3">
                 <NavigationMenuLink asChild>
                   <a
-                    className="flex h-full w-full flex-col justify-end rounded-md bg-theme-gradient p-6 no-underline outline-hidden select-none focus:shadow-theme-md transition-all duration-[var(--theme-transition-normal)]"
+                    className="flex h-full w-full flex-col justify-end rounded-md bg-theme-gradient p-6 no-underline outline-hidden select-none focus:shadow-theme-md transition-all transition-theme-normal"
                     href="/"
                   >
                     <LaunchUI />
                     <div className="mt-4 mb-2 text-lg font-medium">
                       Launch UI
                     </div>
-                    <p className="text-theme-secondary/70 text-sm leading-tight transition-colors duration-[var(--theme-transition-normal)]">
+                    <p className="text-theme-secondary/70 text-sm leading-tight transition-colors transition-theme-normal">
                       Landing page template built with React, Shadcn/ui and
                       Tailwind that you can copy/paste into your project.
                     </p>
@@ -135,8 +135,8 @@ function ListItem({
           )}
           {...props}
         >
-          <div className="text-sm leading-none font-medium text-theme-primary transition-colors duration-[var(--theme-transition-normal)]">{title}</div>
-          <p className="text-theme-secondary/70 line-clamp-2 text-sm leading-snug transition-colors duration-[var(--theme-transition-normal)]">
+          <div className="text-sm leading-none font-medium text-theme-primary transition-colors transition-theme-normal">{title}</div>
+          <p className="text-theme-secondary/70 line-clamp-2 text-sm leading-snug transition-colors transition-theme-normal">
             {children}
           </p>
         </a>

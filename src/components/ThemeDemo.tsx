@@ -40,13 +40,13 @@ export function ThemeDemo() {
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-medium mb-6 text-[var(--theme-text-primary)] dark:text-theme-on-primary">
+            <h1 className="text-4xl md:text-5xl font-medium mb-6 text-theme-primary dark:text-theme-on-primary">
               VS Theme System
             </h1>
-            <p className="text-xl text-[var(--theme-text-primary)] dark:text-theme-on-primary/80 mb-2">
+            <p className="text-xl text-theme-primary dark:text-theme-on-primary/80 mb-2">
               Current theme: <span className="font-medium">{theme}</span> (resolved to: <span className="font-medium">{resolvedTheme}</span>)
             </p>
-            <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/70 mb-4">
+            <p className="text-theme-primary dark:text-theme-on-primary/70 mb-4">
               Click the theme toggle in the corner to switch between light, dark, and system modes.
             </p>
             
@@ -94,15 +94,15 @@ export function ThemeDemo() {
                          shadow-theme-
                          transition-all duration-[--transition-bounce]
                          hover-bubbly">
-              <h2 className="text-xl font-medium mb-4 text-[var(--theme-text-primary)] dark:text-theme-on-primary">
+              <h2 className="text-xl font-medium mb-4 text-theme-primary dark:text-theme-on-primary">
                 Direct CSS Variable References
               </h2>
               <div className="mb-4 p-3 bg-theme-custom/50 /5 rounded-md">
-                <code className="text-sm text-[var(--theme-text-primary)] dark:text-theme-on-primary/90 font-mono">
-                  className="text-[var(--theme-text-primary)] dark:text-theme-on-primary"
+                <code className="text-sm text-theme-primary dark:text-theme-on-primary/90 font-mono">
+                  className="text-theme-primary dark:text-theme-on-primary"
                 </code>
               </div>
-              <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/80 mb-4">
+              <p className="text-theme-primary dark:text-theme-on-primary/80 mb-4">
                 This pattern uses direct CSS variable references with dark mode variants.
                 It ensures proper theming in both light and dark modes.
               </p>
@@ -115,15 +115,15 @@ export function ThemeDemo() {
               defaultClassName="rounded-xl p-6 transition-all duration-[--transition-bounce] hover-bubbly"
             >
               <div>
-                <h2 className="text-xl font-medium mb-4 text-[var(--theme-text-primary)] dark:text-theme-on-primary">
+                <h2 className="text-xl font-medium mb-4 text-theme-primary dark:text-theme-on-primary">
                   Using VSThemeWrapper
                 </h2>
                 <div className="mb-4 p-3 bg-theme-custom/50 /5 rounded-md">
-                  <code className="text-sm text-[var(--theme-text-primary)] dark:text-theme-on-primary/90 font-mono">
+                  <code className="text-sm text-theme-primary dark:text-theme-on-primary/90 font-mono">
                     {'<VSThemeWrapper lightClassName="..." darkClassName="...">'}
                   </code>
                 </div>
-                <p className="text-[var(--theme-text-primary)] dark:text-theme-on-primary/80 mb-4">
+                <p className="text-theme-primary dark:text-theme-on-primary/80 mb-4">
                   VSThemeWrapper makes it easy to apply different styles based on the current theme.
                 </p>
               </div>
@@ -135,7 +135,7 @@ export function ThemeDemo() {
                        rounded-xl p-6 mb-12
                        shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
                        shadow-theme-">
-            <h2 className="text-xl font-medium mb-6 text-[var(--theme-text-primary)] dark:text-theme-on-primary">
+            <h2 className="text-xl font-medium mb-6 text-theme-primary dark:text-theme-on-primary">
               Color Palette
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -151,7 +151,7 @@ export function ThemeDemo() {
                        rounded-xl p-6
                        shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
                        shadow-theme-">
-            <h2 className="text-xl font-medium mb-6 text-[var(--theme-text-primary)] dark:text-theme-on-primary">
+            <h2 className="text-xl font-medium mb-6 text-theme-primary dark:text-theme-on-primary">
               Button Styling
             </h2>
             <div className="flex flex-wrap gap-4">
@@ -188,7 +188,7 @@ export function ThemeDemo() {
               </button>
               
               <button className="bg-transparent 
-                               border border-[var(--theme-text-primary)]/20 dark:border-theme-border-light-[var(--theme-text-primary)] dark:text-theme-on-primary-4 py-2 rounded-full
+                               border text-theme-primary/20 dark:border-theme-text-theme-primary dark:text-theme-on-primary-4 py-2 rounded-full
                                transition-all duration-[--transition-bounce]
                                hover:translate-y-[-3px] hover:scale-[1.03]
                                hover:bg-[var(--theme-text-primary)]/5 dark:hover:bg-theme-bg-surface/5">
@@ -226,7 +226,7 @@ function ColorSwatch({ name }: { name: string }) {
         className={`w-16 h-16 rounded-full shadow-md`}
         style={{ backgroundColor: getColorStyle(name) }}
       ></div>
-      <p className="mt-2 text-sm text-[var(--theme-text-primary)] dark:text-theme-on-primary/80">
+      <p className="mt-2 text-sm text-theme-primary dark:text-theme-on-primary/80">
         {name}
       </p>
     </div>

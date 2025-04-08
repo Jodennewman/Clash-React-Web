@@ -134,7 +134,7 @@ export function Pricing3ColsSubscription() {
               />
               <div className="flex flex-col gap-7">
                 <div className="flex flex-col gap-2">
-                  <h2 className="flex items-center gap-2 font-bold text-[var(--theme-text-primary)] dark:text-theme-on-primary">
+                  <h2 className="flex items-center gap-2 font-bold text-theme-primary dark:text-theme-on-primary">
                     {plan.icon && (
                       <div className="flex items-center justify-center w-8 h-8 rounded-full
                                   vs-btn-primary-gradient 
@@ -145,7 +145,7 @@ export function Pricing3ColsSubscription() {
                     )}
                     {plan.name}
                   </h2>
-                  <p className="text-[var(--theme-text-primary)]/70 dark:text-theme-on-primary/70 max-w-[220px] text-sm">
+                  <p className="text-theme-primary/70 dark:text-theme-on-primary/70 max-w-[220px] text-sm">
                     {plan.description}
                   </p>
                 </div>
@@ -154,20 +154,20 @@ export function Pricing3ColsSubscription() {
                   <div className="absolute inset-0 -z-10 opacity-5 dot-bg opacity-"></div>
                   
                   <div className="flex items-baseline gap-1">
-                    <span className="text-[var(--theme-text-primary)]/70 dark:text-theme-on-primary/70 text-2xl font-bold">
+                    <span className="text-theme-primary/70 dark:text-theme-on-primary/70 text-2xl font-bold">
                       $
                     </span>
-                    <span className="text-6xl font-bold text-[var(--theme-primary)] ">
+                    <span className="text-6xl font-bold text-theme-primary-light ">
                       {isYearly
                         ? Math.round(plan.yearlyPrice / 12)
                         : plan.monthlyPrice}
                     </span>
                   </div>
                   <div className="flex min-h-[40px] flex-col">
-                    <span className="text-sm text-[var(--theme-text-primary)] dark:text-theme-on-primary">
+                    <span className="text-sm text-theme-primary dark:text-theme-on-primary">
                       {plan.monthlyPrice > 0 ? "/ month" : "free"}
                     </span>
-                    <span className="text-[var(--theme-text-primary)]/70 dark:text-theme-on-primary/70 text-sm">
+                    <span className="text-theme-primary/70 dark:text-theme-on-primary/70 text-sm">
                       {plan.monthlyPrice > 0
                         ? isYearly
                           ? "billed yearly"
@@ -179,7 +179,7 @@ export function Pricing3ColsSubscription() {
                 <Button variant={plan.cta.variant} size="lg" asChild className="vs-btn-primary-gradient text-theme-on-primary">
                   <Link href={plan.cta.href}>{plan.cta.label}</Link>
                 </Button>
-                <hr className="border-[var(--theme-bg-secondary)]/10 dark:border-theme-border-light" />
+                <hr className="bg-theme-secondary/10 dark:border-theme-border-light" />
               </div>
               <div>
                 <ul className="flex flex-col gap-2">
@@ -188,8 +188,8 @@ export function Pricing3ColsSubscription() {
                       key={feature}
                       className="flex items-center gap-2 text-sm group hover:bg-theme-bg-surface/5 dark:hover:bg-theme-bg-surface/5 rounded-md p-1 transition-colors"
                     >
-                      <CircleCheckBig className="text-[var(--theme-primary)]  size-4 shrink-0 group-hover:scale-110 transition-transform" />
-                      <span className="text-[var(--theme-text-primary)]/80 dark:text-theme-on-primary/80">{feature}</span>
+                      <CircleCheckBig className="text-theme-primary-light  size-4 shrink-0 group-hover:scale-110 transition-transform" />
+                      <span className="text-theme-primary/80 dark:text-theme-on-primary/80">{feature}</span>
                     </li>
                   ))}
                 </ul>
