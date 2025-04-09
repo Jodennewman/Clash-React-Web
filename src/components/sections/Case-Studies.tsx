@@ -252,15 +252,6 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
           <h2 className="text-theme-primary text-4xl md:text-5xl font-bold mb-4">
             Creator Case Studies
           </h2>
-          <p className="body-text mb-6 mx-auto max-w-[90%] md:max-w-3xl">
-            {/* This copy is parsed from the data inside of the components, as mentioned in the guidance */}
-            {creators.map((creator, index) => (
-              <span key={creator.id} className="inline-block mx-1">
-                {creator.name}: {formatLargeNumber(creator.totals.views)} views, {formatLargeNumber(creator.totals.followers)} followers - in just {getGrowthDuration(creator)} months
-                {index < creators.length - 1 ? ' • ' : ''}
-              </span>
-            ))}
-          </p>
         </div>
 
 
@@ -271,10 +262,10 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
             {/* Left scroll button */}
             <button 
               onClick={() => scrollCarousel('left')}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-theme-gradient p-2 rounded-full shadow-theme-sm text-white"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-theme-gradient-primary p-3 rounded-full shadow-theme-md text-white hover:scale-110 transition-transform duration-300 border border-white/20"
               aria-label="Scroll left"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M15 18l-6-6 6-6" />
               </svg>
             </button>
@@ -341,10 +332,10 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
             {/* Right scroll button */}
             <button 
               onClick={() => scrollCarousel('right')}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-theme-gradient p-2 rounded-full shadow-theme-sm text-white"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-theme-gradient-primary p-3 rounded-full shadow-theme-md text-white hover:scale-110 transition-transform duration-300 border border-white/20"
               aria-label="Scroll right"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M9 18l6-6-6-6" />
               </svg>
             </button>
