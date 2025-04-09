@@ -45,14 +45,14 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
   const sectionRef = useRef(null);
   const chartRef = useRef(null);
   const statsRowRef = useRef(null);
-  const carouselRef = useRef(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
   const [activeCreator, setActiveCreator] = useState(0);
   const [activeMetric, setActiveMetric] = useState("all");
   const [animateGraph, setAnimateGraph] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
   
   // Function to scroll the carousel
-  const scrollCarousel = (direction) => {
+  const scrollCarousel = (direction: 'left' | 'right') => {
     const container = carouselRef.current;
     if (!container) return;
     
