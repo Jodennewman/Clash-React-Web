@@ -41,169 +41,175 @@ interface CaseStudiesProps {
 // Get creators data from the database
 const creators: Creator[] = courseUtils.getCreators();
 
-const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref) => {
-  const sectionRef = useRef(null);
-  const chartRef = useRef(null);
-  const statsRowRef = useRef(null);
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const [activeCreator, setActiveCreator] = useState(0);
-  const [activeMetric, setActiveMetric] = useState("all");
-  const [animateGraph, setAnimateGraph] = useState(false);
-  const [scrollPosition, setScrollPosition] = useState(0);
-  
-  // Function to scroll the carousel
-  const scrollCarousel = (direction: 'left' | 'right') => {
-    const container = carouselRef.current;
-    if (!container) return;
+const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>(
+  (props: CaseStudiesProps, ref: React.ForwardedRef<HTMLElement>) => {
+    const sectionRef = useRef(null);
+    const chartRef = useRef(null);
+    const statsRowRef = useRef(null);
+    const carouselRef = useRef<HTMLDivElement>(null);
+    const [activeCreator, setActiveCreator] = useState(0);
+    const [activeMetric, setActiveMetric] = useState("all");
+    const [animateGraph, setAnimateGraph] = useState(false);
+    const [scrollPosition, setScrollPosition] = useState(0);
     
-    const scrollAmount = container.offsetWidth * 0.7; // Scroll by 70% of visible width
-    const newPosition = direction === 'right' 
-      ? scrollPosition + scrollAmount 
-      : scrollPosition - scrollAmount;
-    
-    // Clamp the scroll position between 0 and max scroll
-    const maxScroll = container.scrollWidth - container.offsetWidth;
-    const clampedPosition = Math.max(0, Math.min(newPosition, maxScroll));
-    
-    container.scrollTo({
-      left: clampedPosition,
-      behavior: 'smooth'
-    });
-    
-    setScrollPosition(clampedPosition);
-  };
-  
-  // Use the current creator data
-  const currentCreator = creators[activeCreator];
-
-  // Format numbers with comma separators
-  const formatNumber = (num: number) => {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
-  
-  // Format large numbers with abbreviations for top stats display
-  const formatLargeNumber = (num: number) => {
-    if (num >= 1000000000) {
-      return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
-    }
-    if (num >= 1000000) {
-      return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
-    }
-    if (num >= 1000) {
-      return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-    }
-    return num.toString();
-  };
-  
-  // Calculate growth duration in months for each creator
-  const getGrowthDuration = (creator: Creator): number => {
-    if (!creator.data || creator.data.length < 2) return 0;
-    
-    // Find months with actual data (excluding zero values)
-    const monthsWithData = creator.data.filter(item => 
-      item.views > 0 || item.followers > 0 || item.interactions > 0
-    );
-    
-    return monthsWithData.length;
-  };
-
-  // Reset animation when changing creators or metrics - faster animation transition
-  useEffect(() => {
-    setAnimateGraph(false);
-    const timer = setTimeout(() => {
-      setAnimateGraph(true);
-    }, 25); // Reduced from 100ms to 25ms for faster transitions
-    return () => clearTimeout(timer);
-  }, [activeCreator, activeMetric]);
-  
-  // Calculate Y-axis domain based on active metric
-  const getYAxisDomain = () => {
-    if (activeMetric === "views") {
-      const maxViews = Math.max(
-        ...currentCreator.data.map((item) => item.views)
-      );
-      return [0, Math.ceil(maxViews * 1.1)]; // Add 10% padding
-    } else if (activeMetric === "followers") {
-      const maxFollowers = Math.max(
-        ...currentCreator.data.map((item) => item.followers)
-      );
-      return [0, Math.ceil(maxFollowers * 1.1)];
-    } else if (activeMetric === "interactions") {
-      const maxInteractions = Math.max(
-        ...currentCreator.data.map((item) => item.interactions)
-      );
-      return [0, Math.ceil(maxInteractions * 1.1)];
-    }
-    // For 'all', let Recharts handle it
-    return "auto";
-  };
-
-  // GSAP animations
-  useGSAP(() => {
-    const ctx = gsap.context(() => {
-      // Create ScrollTrigger animation for main elements
-      gsap.from(".case-study-element", {
-        y: 40,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 75%",
-          end: "bottom bottom",
-          toggleActions: "play none none reverse",
-        }
+    // Function to scroll the carousel
+    const scrollCarousel = (direction: 'left' | 'right') => {
+      const container = carouselRef.current;
+      if (!container) return;
+      
+      const scrollAmount = container.offsetWidth * 0.7; // Scroll by 70% of visible width
+      const newPosition = direction === 'right' 
+        ? scrollPosition + scrollAmount 
+        : scrollPosition - scrollAmount;
+      
+      // Clamp the scroll position between 0 and max scroll
+      const maxScroll = container.scrollWidth - container.offsetWidth;
+      const clampedPosition = Math.max(0, Math.min(newPosition, maxScroll));
+      
+      container.scrollTo({
+        left: clampedPosition,
+        behavior: 'smooth'
       });
+      
+      setScrollPosition(clampedPosition);
+    };
+    
+    // Use the current creator data
+    const currentCreator = creators[activeCreator];
 
-      // Special animation for the stats row with staggered entry
-      gsap.from(".stats-box", {
-        y: 30,
-        opacity: 0,
-        stagger: 0.08,
-        duration: 0.7,
-        ease: "back.out(1.2)",
-        scrollTrigger: {
-          trigger: statsRowRef.current,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        }
-      });
-    }, sectionRef);
-
-    return () => ctx.revert(); // Cleanup
-  }, []);
-
-  // Custom tooltip component for the chart
-  const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-      return (
-
-        <div className="bg-theme-gradient-card
-                      p-2.5 rounded-md shadow-theme-sm
-                      border border-theme-border-light">
-          <p className="font-medium text-sm text-theme-primary mb-1.5">
-
-            {label}
-          </p>
-          {payload.map((entry, index) => (
-            <div key={`item-${index}`} className="flex justify-between items-center my-0.5 text-xs">
-              <span className="mr-4" style={{ color: entry.color }}>{entry.name}:</span>
-              <span className="font-medium" style={{ color: entry.color }}>{formatNumber(entry.value)}</span>
-            </div>
-          ))}
-        </div>
+    // Format numbers with comma separators
+    const formatNumber = (num: number) => {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
+    
+    // Format large numbers with abbreviations for top stats display
+    const formatLargeNumber = (num: number) => {
+      if (num >= 1000000000) {
+        return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+      }
+      if (num >= 1000000) {
+        return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+      }
+      if (num >= 1000) {
+        return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+      }
+      return num.toString();
+    };
+    
+    // Calculate growth duration in months for each creator
+    const getGrowthDuration = (creator: Creator): number => {
+      if (!creator.data || creator.data.length < 2) return 0;
+      
+      // Find months with actual data (excluding zero values)
+      const monthsWithData = creator.data.filter(item => 
+        item.views > 0 || item.followers > 0 || item.interactions > 0
       );
-    }
-    return null;
-  };
+      
+      return monthsWithData.length;
+    };
 
-  return (
-    <Section
-      ref={mergeRefs([sectionRef, ref])}
+    // Reset animation when changing creators or metrics - faster animation transition
+    useEffect(() => {
+      setAnimateGraph(false);
+      const timer = setTimeout(() => {
+        setAnimateGraph(true);
+      }, 25); // Reduced from 100ms to 25ms for faster transitions
+      return () => clearTimeout(timer);
+    }, [activeCreator, activeMetric]);
+    
+    // Calculate Y-axis domain based on active metric
+    const getYAxisDomain = () => {
+      if (activeMetric === "views") {
+        const maxViews = Math.max(
+          ...currentCreator.data.map((item) => item.views)
+        );
+        return [0, Math.ceil(maxViews * 1.1)]; // Add 10% padding
+      } else if (activeMetric === "followers") {
+        const maxFollowers = Math.max(
+          ...currentCreator.data.map((item) => item.followers)
+        );
+        return [0, Math.ceil(maxFollowers * 1.1)];
+      } else if (activeMetric === "interactions") {
+        const maxInteractions = Math.max(
+          ...currentCreator.data.map((item) => item.interactions)
+        );
+        return [0, Math.ceil(maxInteractions * 1.1)];
+      }
+      // For 'all', let Recharts handle it
+      return "auto";
+    };
 
-      className="bg-theme-primary min-h-screen flex flex-col justify-center py-20 relative overflow-hidden border-t border-theme-border-light"
-    >
+    // GSAP animations
+    useGSAP(() => {
+      const ctx = gsap.context(() => {
+        // Create ScrollTrigger animation for main elements
+        gsap.from(".case-study-element", {
+          y: 40,
+          opacity: 0,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 75%",
+            end: "bottom bottom",
+            toggleActions: "play none none reverse",
+          }
+        });
+
+        // Special animation for the stats row with staggered entry
+        gsap.from(".stats-box", {
+          y: 30,
+          opacity: 0,
+          stagger: 0.08,
+          duration: 0.7,
+          ease: "back.out(1.2)",
+          scrollTrigger: {
+            trigger: statsRowRef.current,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          }
+        });
+      }, sectionRef);
+
+      return () => ctx.revert(); // Cleanup
+    }, []);
+
+    // Custom tooltip component for the chart
+    const CustomTooltip = ({ 
+      active, 
+      payload, 
+      label 
+    }: { 
+      active?: boolean; 
+      payload?: any[]; 
+      label?: string;
+    }) => {
+      if (active && payload && payload.length) {
+        return (
+          <div className="bg-theme-gradient-card
+                        p-2.5 rounded-md shadow-theme-sm
+                        border border-theme-border-light">
+            <p className="font-medium text-sm text-theme-primary mb-1.5">
+              {label}
+            </p>
+            {payload.map((entry, index) => (
+              <div key={`item-${index}`} className="flex justify-between items-center my-0.5 text-xs">
+                <span className="mr-4" style={{ color: entry.color }}>{entry.name}:</span>
+                <span className="font-medium" style={{ color: entry.color }}>{formatNumber(entry.value)}</span>
+              </div>
+            ))}
+          </div>
+        );
+      }
+      return null;
+    };
+
+    return (
+      <Section
+        ref={mergeRefs([sectionRef, ref])}
+        className="bg-theme-primary min-h-screen flex flex-col justify-center py-20 relative overflow-hidden border-t border-theme-border-light"
+      >
       {/* Background patterns */}
       <div className="absolute inset-0 dot-bg opacity-[var(--theme-pattern-opacity)] pointer-events-none"></div>
       
@@ -572,20 +578,20 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
       <div className="absolute bottom-0 left-0 right-0 h-40 
                    bg-gradient-to-t from-[var(--theme-primary)]/5 to-transparent 
                    opacity-[var(--theme-glow-opacity)] pointer-events-none"></div>
-    </Section>
-  );
+      </Section>
+    );
 });
 
 // Helper function to merge refs
-function mergeRefs(refs) {
-  return (value) => {
+function mergeRefs(refs: React.Ref<any>[]) {
+  return (value: any) => {
     refs.forEach(ref => {
       if (!ref) return;
       
       if (typeof ref === 'function') {
         ref(value);
-      } else {
-        ref.current = value;
+      } else if (ref && 'current' in ref) {
+        (ref as React.MutableRefObject<any>).current = value;
       }
     });
   };
