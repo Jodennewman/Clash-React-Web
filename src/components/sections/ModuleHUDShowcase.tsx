@@ -277,7 +277,16 @@ const ModuleHUDShowcase: React.FC = () => {
             {/* ModuleHUD component */}
             <ModuleHUD 
               selectedSection={selectedSection}
-              onModuleClick={handleModuleClick}
+              onModuleClick={(moduleId) => {
+                // Ensure system block IDs are handled properly
+                if (moduleId.includes('-system-')) {
+                  // For system blocks, directly pass the ID
+                  setSelectedSection(moduleId === selectedSection ? null : moduleId);
+                } else {
+                  // For other modules, use the standard handler
+                  handleModuleClick(moduleId);
+                }
+              }}
             />
           </div>
 

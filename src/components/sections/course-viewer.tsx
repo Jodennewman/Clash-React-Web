@@ -356,12 +356,10 @@ export const CourseViewer: React.FC = () => {
       
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-
           <Badge 
             variant="outline" 
             className="bg-theme-surface/5 text-theme-primary border-theme-primary/30 mb-4 py-2 px-4 mx-auto shadow-theme-sm"
           >
-
             Course Navigator
           </Badge>
           <VSGradientText
@@ -372,13 +370,11 @@ export const CourseViewer: React.FC = () => {
           >
             Master Your Content Journey
           </VSGradientText>
-
           <VSHeading 
             variant="h2" 
             className="text-2xl md:text-3xl text-theme-primary max-w-3xl mx-auto"
           >
             A complete roadmap to <span className="text-theme-accent-secondary font-medium">short-form mastery</span>
-
           </VSHeading>
           <p className="text-theme-secondary text-lg mt-4 max-w-2xl mx-auto">
             Navigate our comprehensive curriculum designed to transform you from beginner to expert. Every skill, every strategy, all in one place.
@@ -399,8 +395,20 @@ export const CourseViewer: React.FC = () => {
             <ModuleHUD 
               selectedSection={selectedSection}
               onModuleClick={(moduleId) => {
+                // Check if it's a system block
+                if (moduleId.includes('-system-')) {
+                  // This is a system block with special animation handlers
+                  // Pass it directly to ModuleHUD without intercepting
+                  // We just need to update which section is selected
+                  const baseSectionId = moduleId.split('-')[0];
+                  if (selectedSection !== moduleId) {
+                    setSelectedSection(moduleId);
+                  } else {
+                    setSelectedSection(null);
+                  }
+                }
                 // Check if it's a section ID or a displayKey
-                if (moduleId.includes('-col') || moduleId.includes('-systems')) {
+                else if (moduleId.includes('-col') || moduleId.includes('-systems')) {
                   // This is a displayKey - extract the base section ID
                   const baseSectionId = moduleId.split('-')[0];
                   handleSectionClick(baseSectionId);
@@ -426,7 +434,6 @@ export const CourseViewer: React.FC = () => {
         </div>
         
         <div className="text-center mt-16 md:mt-24 max-w-4xl mx-auto">
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             <div className="bg-theme-gradient-card rounded-[var(--border-radius-lg)] p-6 shadow-theme-sm flex flex-col items-center hover-bubbly">
               <div className="w-12 h-12 rounded-full bg-theme-gradient-primary flex items-center justify-center mb-4 shadow-theme-sm">
@@ -452,7 +459,7 @@ export const CourseViewer: React.FC = () => {
               <p className="text-theme-secondary text-sm">Including all future updates and expansions</p>
             </div>
           </div>
-
+          
           <button 
             className="cta-button bg-theme-gradient-primary
                      text-white px-8 py-4 rounded-[var(--border-radius-full)]
@@ -510,9 +517,7 @@ export const CourseViewer: React.FC = () => {
                   </div>
                 </div>
                 
-
                 <h3 className="text-theme-primary text-lg font-medium mb-3 modal-content-item">Submodules</h3>
-
                 
                 <ul className="space-y-2 modal-content-item">
                   {[
@@ -522,13 +527,11 @@ export const CourseViewer: React.FC = () => {
                     { id: 4, title: "Implementation Framework", duration: 22, advanced: true, essential: true }
                   ].map((submodule, index) => (
                     <li 
-
                       key={submodule.id}
                       className="p-3 bg-theme-surface/10 rounded-[var(--border-radius-md)] text-theme-primary cursor-pointer hover:bg-theme-surface/30 
                                  transition-all duration-300 hover:translate-y-[-2px] shadow-theme-sm hover:shadow-theme-md
                                  border border-theme-border-light"
                       onClick={() => handleSubmoduleClick(index)}
-
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
@@ -570,25 +573,21 @@ export const CourseViewer: React.FC = () => {
               {/* Main Content */}
               <div className="w-full md:w-3/5">
                 <div className="flex justify-between items-start mb-4">
-
                   <h2 className="text-2xl font-bold text-theme-primary modal-content-item">About This Module</h2>
                   
                   <button 
                     onClick={closeModal}
                     className="text-theme-secondary hover:text-theme-primary transition-all duration-300 hover:scale-110 p-2 rounded-full hover:bg-theme-surface/10"
-
                     aria-label="Close modal"
                   >
                     <X className="h-5 w-5" />
                   </button>
                 </div>
                 
-
                 <p className="text-theme-secondary mb-6 modal-content-item">{selectedModule.subtitle}</p>
                 
                 <div className="mb-6 modal-content-item">
                   <h3 className="text-theme-primary text-lg font-medium mb-4">What You'll Learn</h3>
-
                   
                   <ul className="space-y-4">
                     {selectedModule.points.map((point, idx) => (
@@ -596,9 +595,7 @@ export const CourseViewer: React.FC = () => {
                         <div className="flex-shrink-0 w-6 h-6 rounded-full bg-theme-gradient-primary flex items-center justify-center text-white font-medium mt-0.5 mr-3 shadow-theme-sm">
                           {idx + 1}
                         </div>
-
                         <p className="text-theme-primary text-base">{point}</p>
-
                       </li>
                     ))}
                   </ul>

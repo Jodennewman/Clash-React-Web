@@ -1,12 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Section } from "../ui/section";
 import { Badge } from "../ui/badge";
 import { AnimatedButton } from "../marble-buttons/AnimatedButton";
-import { useContext } from 'react';
 import courseUtils, { Module, Submodule, Track, tracks, courseStats } from "../../lib/course-utils";
-import { BriefcaseBusiness, Clock, BookOpen, CheckCircle, ArrowRightCircle, Zap } from "lucide-react";
+import { BriefcaseBusiness, Clock, BookOpen, CheckCircle, ArrowRightCircle, Zap, Calendar, Users, Video } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
 import { Slide, SlideVisual, SlideButton, SlideContent, SlideDescription, SlideExpandedContent, SlideTitle } from "../ui/slide";
 
@@ -17,6 +16,7 @@ interface FounderTrackProps {
 const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
   // Get the founder modules from our data with null check
   const founderModules = courseUtils.getFounderModules() || [];
+  const [selectedModule, setSelectedModule] = useState<Module | null>(null);
   
   // Get the founder track color with null check
   const founderTrack = tracks?.find(track => track.name === "Founders");
@@ -25,6 +25,13 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
   // Safe access to stats with null checks
   const totalModules = courseStats?.totalModules || 0;
   const founderSpecificModules = courseUtils.getModulesByTrack("Founders")?.length || 0;
+  
+  // For featured module we'll use the first module by default but can be expanded
+  useEffect(() => {
+    if (founderModules.length > 0) {
+      setSelectedModule(founderModules[0]);
+    }
+  }, [founderModules]);
 
   // For expandable carousel items
   const [expandedSlides, setExpandedSlides] = useState(new Array(founderModules.length).fill(false));
@@ -112,26 +119,98 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
               Basically, the Founder's Track is an easy way to scan the course for the modules you actually <strong>have</strong> to watch, and the modules you can pass onto your team.
             </p>
             
+            {/* Featured Founder Module Display with rich details */}
             <div className="bg-theme-surface shadow-theme-md rounded-xl p-6 mb-8" ref={highlightsRef}>
-              <div className="text-xl font-bold text-theme-primary flex items-center">
-                <BriefcaseBusiness className="w-6 h-6 mr-3" style={{ color: founderColor }} />
-                Track Highlights
-              </div>
-              
-              <ul className="space-y-4 mt-4">
-                {[
-                  "Balance professional credibility with platform-native authenticity",
-                  "Strategic batching techniques that save 70% of your time",
-                  "Delegate content creation without losing your unique voice",
-                  "Convert viewers into clients and partners without appearing salesy",
-                  "Build a personal brand that drives business growth"
-                ].map((point, idx) => (
-                  <li key={idx} className="flex">
-                    <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0 text-theme-accent" />
-                    <span className="text-theme-secondary">{point}</span>
-                  </li>
-                ))}
-              </ul>
+              {selectedModule ? (
+                <div>
+                  <div className="text-xl font-bold text-theme-primary flex items-center mb-4">
+                    <Zap className="w-6 h-6 mr-3" style={{ color: founderColor }} />
+                    Featured Founder Module
+                  </div>
+                  
+                  <div className="rounded-lg overflow-hidden mb-4">
+                    <img 
+                      src={courseUtils.getThumbnailPath(selectedModule.thumbnail)} 
+                      alt={selectedModule.title}
+                      className="w-full h-auto object-cover rounded-lg shadow-theme-sm"
+                    />
+                  </div>
+                  
+                  <h3 className="text-lg font-bold text-theme-primary mb-2">{selectedModule.title}</h3>
+                  <p className="text-theme-secondary mb-4 text-sm">{selectedModule.subtitle}</p>
+                  
+                  <div className="flex justify-between mb-4">
+                    <div className="flex items-center text-sm text-theme-secondary">
+                      <Clock className="w-4 h-4 mr-1 text-theme-accent-secondary" />
+                      <span>{selectedModule.duration || 0} minutes</span>
+                    </div>
+                    <div className="px-2 py-1 rounded-full text-xs bg-theme-accent-secondary text-white">
+                      Founder Essential
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4">
+                    <div className="text-sm font-semibold text-theme-primary mb-2">Key Points:</div>
+                    <ul className="space-y-2">
+                      {(selectedModule.points || []).map((point, idx) => (
+                        <li key={idx} className="flex">
+                          <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0 text-theme-accent" />
+                          <span className="text-theme-secondary text-sm">{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  {selectedModule.submodules && selectedModule.submodules.length > 0 && (
+                    <div className="mt-4">
+                      <div className="text-sm font-semibold text-theme-primary mb-2">Includes:</div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="flex items-center text-theme-secondary text-sm">
+                          <Video className="w-4 h-4 mr-1 text-theme-accent" />
+                          <span>{selectedModule.submodules.length} lessons</span>
+                        </div>
+                        <div className="flex items-center text-theme-secondary text-sm">
+                          <Calendar className="w-4 h-4 mr-1 text-theme-accent" />
+                          <span>{Math.ceil(selectedModule.duration / 20)} sessions</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="mt-6">
+                    <AnimatedButton 
+                      text="Preview Module"
+                      variant="docs"
+                      saturation="normal"
+                      size="md"
+                      onClick={onCtaClick}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <div className="text-xl font-bold text-theme-primary flex items-center mb-4">
+                    <BriefcaseBusiness className="w-6 h-6 mr-3" style={{ color: founderColor }} />
+                    Track Highlights
+                  </div>
+                  
+                  <ul className="space-y-4">
+                    {[
+                      "Balance professional credibility with platform-native authenticity",
+                      "Strategic batching techniques that save 70% of your time",
+                      "Delegate content creation without losing your unique voice",
+                      "Convert viewers into clients and partners without appearing salesy",
+                      "Build a personal brand that drives business growth"
+                    ].map((point, idx) => (
+                      <li key={idx} className="flex">
+                        <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0 text-theme-accent" />
+                        <span className="text-theme-secondary">{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4">
@@ -173,9 +252,18 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
                   {founderModules.map((module: Module, index: number) => (
                     <CarouselItem key={index} className="flex pl-4 md:basis-1/2 lg:basis-3/4">
                       <Slide
-                        className="grow cursor-pointer group bg-theme-gradient shadow-theme-sm hover:shadow-theme-md transition-all duration-300"
+                        className={`grow cursor-pointer group bg-theme-gradient shadow-theme-sm hover:shadow-theme-md transition-all duration-300 ${selectedModule?.id === module.id ? 'ring-2 ring-theme-accent-secondary' : ''}`}
                         isExpanded={expandedSlides[index]}
-                        onClick={() => toggleSlide(index)}
+                        onClick={(e) => {
+                          // Toggle slide expansion
+                          toggleSlide(index);
+                          
+                          // Set as selected module to display in the left panel
+                          setSelectedModule(module);
+                          
+                          // Prevent event bubbling
+                          e.stopPropagation();
+                        }}
                       >
                         <SlideVisual
                           className="items-start overflow-hidden rounded-t-xl p-4 h-[120px]"
@@ -197,6 +285,11 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
                             </h3>
                           </div>
 
+                          {/* Selected indicator */}
+                          {selectedModule?.id === module.id && (
+                            <div className="absolute top-3 left-3 w-3 h-3 bg-theme-accent-secondary rounded-full"></div>
+                          )}
+
                           {/* Hover effect overlay */}
                           <div
                             className="absolute inset-0 bg-theme-accent/10 scale-[2.5] opacity-0 transition-all duration-500 group-hover:opacity-40"
@@ -206,7 +299,10 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
                         
                         <SlideButton
                           isExpanded={expandedSlides[index]}
-                          onClick={() => toggleSlide(index)}
+                          onClick={(e) => {
+                            toggleSlide(index);
+                            e.stopPropagation();
+                          }}
                           className="bg-theme-accent text-white"
                         />
                         

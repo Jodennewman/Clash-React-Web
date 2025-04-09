@@ -16,6 +16,7 @@ This document provides a comprehensive list of all theme-aware utility classes a
 - **text-theme-accent-quaternary** - Red accent text color
 - **text-theme-primary-light** - Lighter variant of primary text color
 - **text-theme-bg** - Text color matching background color (for special effects)
+- **text-theme-custom** - Custom text color with dynamic theming (specific per instance)
 
 ## Background Colors
 - **bg-theme-primary** - Main background (cream in light mode, navy in dark mode)
@@ -36,6 +37,8 @@ This document provides a comprehensive list of all theme-aware utility classes a
 - **bg-theme-bg-light** - Light surface background
 - **bg-theme-border-light** - Border color as background
 - **bg-theme-on** - Background that stands out on the primary background
+- **bg-theme-custom** - Custom background with dynamic theming (specific per instance)
+- **bg-theme-border** - Uses theme border color as background
 
 ## Pattern Colors
 - **bg-theme-pattern** - Background with theme-aware pattern color and opacity
@@ -86,6 +89,8 @@ This document provides a comprehensive list of all theme-aware utility classes a
 - **shadow-theme-btn-primary** - Primary button shadow + glow
 - **shadow-theme-btn-secondary** - Secondary button shadow + glow
 - **shadow-theme-btn-tertiary** - Tertiary button shadow + glow
+- **shadow-theme-card-hover** - Hover state for card shadow
+- **shadow-theme-btn-accent** - Accent button shadow + glow
 
 ## Transitions
 - **transition-theme-fast** - Fast transition (150ms cubic-bezier)
@@ -113,6 +118,9 @@ This document provides a comprehensive list of all theme-aware utility classes a
 ## Floating Elements
 - **float-theme-element-primary** - Orange floating shape with animation
 - **float-theme-element-secondary** - Teal floating shape with animation
+- **opacity-theme-float** - Theme-aware floating element opacity
+- **bg-theme-float-primary** - Theme-aware floating element background
+- **bg-theme-float-secondary** - Theme-aware floating element secondary background
 
 ## Interactive Animations
 - **hover-bubbly** - Standard "springy" hover animation with scale and translate
@@ -137,11 +145,25 @@ This document provides a comprehensive list of all theme-aware utility classes a
 - **chart-theme-area-revenue** - Area fill for revenue with theme color
 - **chart-theme-tooltip** - Tooltip with theme-aware styling
 
+## Team Section Utilities
+- **theme-team-joden** - Joden's team section background gradient
+- **theme-team-alex** - Alex's team section background gradient
+- **theme-team-tia** - Tia's team section background gradient
+- **theme-team-aydan** - Aydan's team section background gradient
+- **theme-team-joden-accent** - Joden's team accent color
+- **theme-team-alex-accent** - Alex's team accent color
+- **theme-team-tia-accent** - Tia's team accent color
+- **theme-team-aydan-accent** - Aydan's team accent color
+
 ## VS-Specific Components
 - **vs-btn-primary-gradient** - Orange gradient button
+- **vs-btn-primary-gradient-hover** - Orange gradient button hover state
 - **vs-btn-secondary-gradient** - Teal gradient button
+- **vs-btn-secondary-gradient-hover** - Teal gradient button hover state
 - **vs-btn-vibrant-gradient** - Coral-to-orange gradient button
+- **vs-btn-vibrant-gradient-hover** - Coral-to-orange gradient button hover state
 - **vs-btn-destructive-gradient** - Red destructive action button
+- **vs-btn-destructive-gradient-hover** - Red destructive action button hover state
 - **vs-carousel-container** - Gradient carousel container
 - **vs-carousel-slide** - Styled carousel slide with hover effects
 - **vs-fade-overlay-light/dark** - Fade overlay for images
@@ -155,6 +177,14 @@ This document provides a comprehensive list of all theme-aware utility classes a
 - **vs-module-gradient-light/dark** - Module with gradient background
 - **vs-gradient-*varieties*** - Various gradient combinations (orange, teal, coral, etc.)
 - **vs-text-gradient-orange/teal** - Text with gradient fill
+- **vs-navbar** - Navbar base styling
+- **vs-navbar-glass** - Navbar with glass effect
+- **vs-slide-btn** - Slide button styling
+- **vs-testimonial-accent** - Testimonial accent elements
+- **vs-testimonial-dot** - Testimonial pagination dots
+- **vs-testimonial-dot-active** - Active testimonial pagination dot
+- **vs-logo** - Base logo styling
+- **vs-logo-primary** - Primary colored logo
 
 ## Animation Utilities
 - **animate-float-slow** - 8-second floating animation
@@ -166,6 +196,14 @@ This document provides a comprehensive list of all theme-aware utility classes a
 - **text-over-image** - White text with shadow for overlay on images
 - **text-over-image-light** - Lighter version for image overlays
 - **text-over-image-secondary** - Secondary text style for image overlays
+
+## Statistics Components
+- **stats-badge** - Statistics badge container
+- **stats-badge-number** - Number display in stats badge
+- **stats-badge-label** - Label in stats badge
+
+## UI Effects
+- **fade-bottom** - Fade effect for bottom of elements
 
 ## Basic Utilities (For Reference)
 - **container** - Main container with responsive padding
@@ -182,3 +220,4 @@ This document provides a comprehensive list of all theme-aware utility classes a
 - **card** - Base card with shadow and hover effect
 - **module** - Aspect ratio 1:1 module with hover animation
 - **pro-tip** - Coral callout box
+- **feature-item** - Feature item with styling

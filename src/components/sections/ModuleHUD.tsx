@@ -705,6 +705,9 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
       
       // If this is a system section, we want to show a different layout with specific details
       if (isSystemSection) {
+        // Ensure the DOM exists
+        if (!document.body) return;
+        
         // Special layout for system sections - more detailed description
         modulesContainer.style.display = 'flex';
         modulesContainer.style.flexDirection = 'column';
@@ -958,6 +961,12 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         modulesContainer.appendChild(contentEl);
         
         // Create modal for system info when button is clicked
+        // Check if modal already exists, if so, remove it first
+        const existingModal = document.getElementById('system-modal-' + displayKey);
+        if (existingModal) {
+          document.body.removeChild(existingModal);
+        }
+        
         const modalContainer = document.createElement('div');
         modalContainer.className = 'fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300';
         modalContainer.id = 'system-modal-' + displayKey;
@@ -1024,6 +1033,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           e.stopPropagation(); // Prevent section click
           const modal = document.getElementById('system-modal-' + displayKey);
           if (modal) {
+            // Make sure modal is attached to the document body
+            if (!document.body.contains(modal)) {
+              document.body.appendChild(modal);
+            }
+            
             modal.style.opacity = '1';
             modal.style.pointerEvents = 'auto';
             

@@ -1,13 +1,29 @@
 # CLAUDE.md
 
-1. Read this CLAUDE.md completely
+You are helping to finish the landing page for "The Vertical Shortcut".
 
-2. Read `src/app/globals.css` completely 
-3. Read `VS_STYLING_GUIDE.md` completely
-4. Read `VS_COLOR_IMPLEMENTATION.md` completely
-5. Read `THEME_SYSTEM.md` completely
-6. Read `THEME_IMPLEMENTATION_SUMMARY.md` completely
-7. If in Team Mode, read `TEAM_STRUCTURE.md` completely
+Currently, we are refactoring the components to match the copy and structure provided in Website-Copy-Guidance.md. We are not changing any core functionality, just updating the copy and the structure.
+
+## Progress Update (04/09/2025)
+
+- [x] Restructured VerticalShortcutLanding.tsx to match the 18 sections in Website-Copy-Guidance.md
+- [x] Created missing components:
+  - [x] PricingSimple.tsx - A streamlined pricing component with toggle between monthly/yearly
+  - [x] Customisation.tsx - A component for displaying custom options for the program
+- [x] Updated copy in all components to match the guidance document
+- [x] Ensured all components follow theme-aware design principles
+- [x] Properly integrated the components with the qualification modal
+
+### Next steps:
+- [ ] Create a "Low view count before/after" component for section 11
+- [ ] Further improve mobile responsiveness
+- [ ] Ensure all components have proper animations
+- [ ] Test all components in both light and dark mode
+
+1. Read this CLAUDE.md completely
+2. Website-Copy-Guidance.md
+3. Read ALL classes in Theme-util-classes.md to understand options.
+4. Other Tailwind v4 classes are also present
 
 ## ⚠️⚠️⚠️ CRITICAL: PROJECT DOCUMENTATION ⚠️⚠️⚠️
 
@@ -22,9 +38,6 @@
 4. **VS_STYLING_GUIDE.md** - Core design system and styling standards
 5. **TAILWIND-V4-DOCS.txt** - Reference for Tailwind v4 specifics
 
-**Team Organization:**
-6. **TEAM_STRUCTURE.md** - Team assignments and top-down/bottom-up approach
-7. **SOLO_MODE.md** - Guidelines for solo development
 
 **Quick Reference:**
 8. **QUICK_COMMANDS.md** - Essential development commands
@@ -1005,7 +1018,7 @@ function ExampleCard() {
    - Solo Mode: `git commit -m "Solo: [description]"`
    - Team A: `git commit -m "A: [description]"`
    - Team B: `git commit -m "B: [description]"`
-5. Push to the correct branch: `git push origin the-reveal`
+5. Push to the correct branch: `git push origin Build-Approach`
 
 ### IMPORTANT: Branch Management
 - ALWAYS work in and push to the 'the-reveal' branch
