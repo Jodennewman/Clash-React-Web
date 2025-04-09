@@ -13,12 +13,25 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Section } from "../ui/section";
+import styled from "styled-components";
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
 
 // Import creator case study data from the database via course-utils
 import courseUtils, { Creator } from "../../lib/course-utils";
+
+// Styled component for the carousel with hidden scrollbar
+const ScrollbarHiddenContainer = styled.div`
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  
+  &::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
+`;
 
 // Define component props interface
 interface CaseStudiesProps {
@@ -32,9 +45,33 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
   const sectionRef = useRef(null);
   const chartRef = useRef(null);
   const statsRowRef = useRef(null);
+  const carouselRef = useRef(null);
   const [activeCreator, setActiveCreator] = useState(0);
   const [activeMetric, setActiveMetric] = useState("all");
   const [animateGraph, setAnimateGraph] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  
+  // Function to scroll the carousel
+  const scrollCarousel = (direction) => {
+    const container = carouselRef.current;
+    if (!container) return;
+    
+    const scrollAmount = container.offsetWidth * 0.7; // Scroll by 70% of visible width
+    const newPosition = direction === 'right' 
+      ? scrollPosition + scrollAmount 
+      : scrollPosition - scrollAmount;
+    
+    // Clamp the scroll position between 0 and max scroll
+    const maxScroll = container.scrollWidth - container.offsetWidth;
+    const clampedPosition = Math.max(0, Math.min(newPosition, maxScroll));
+    
+    container.scrollTo({
+      left: clampedPosition,
+      behavior: 'smooth'
+    });
+    
+    setScrollPosition(clampedPosition);
+  };
   
   // Use the current creator data
   const currentCreator = creators[activeCreator];
@@ -198,59 +235,90 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
         </div>
 
 
-        {/* NEW: Stats row at the top showing all creators' views - more compact with bigger numbers*/}
-        <div ref={statsRowRef} className="grid grid-cols-2 md:grid-cols-5 gap-2 mb-6 case-study-element">
-          {creators.map((creator, index) => (
-            <button
-              key={creator.id}
-              onClick={() => setActiveCreator(index)}
-              className={`stats-box bg-theme-gradient-card 
-                        rounded-lg p-2 md:p-3
-                        border border-theme-border-light
-                        shadow-theme-sm 
-                        transition-all duration-300
-                        ${activeCreator === index 
-                          ? 'translate-y-[-4px] scale-[1.02] shadow-theme-md ring-2 ring-[var(--theme-primary)]/70' 
-                          : 'hover:translate-y-[-3px] hover:shadow-theme-md'}
-                        flex items-center text-left md:text-center`}
+        {/* Stats carousel showing 4 creators at once with navigation buttons */}
+        <div ref={statsRowRef} className="mb-6 case-study-element">
+          {/* Carousel container with navigation buttons */}
+          <div className="relative">
+            {/* Left scroll button */}
+            <button 
+              onClick={() => scrollCarousel('left')}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-theme-gradient p-2 rounded-full shadow-theme-sm text-white"
+              aria-label="Scroll left"
             >
-              <div className="w-10 h-10 rounded-full overflow-hidden 
-                          ring-2 ring-[var(--theme-primary)]/70
-                          transition-all duration-300 flex-shrink-0 md:hidden">
-
-                <img
-                  src={creator.avatar}
-                  alt={creator.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              <div className="flex-1 flex flex-col md:items-center">
-                <div className="hidden md:block w-11 h-11 rounded-full overflow-hidden 
-                            ring-2 ring-[var(--theme-primary)]/70 mb-2
-                            transition-all duration-300 mx-auto">
-                  <img
-                    src={creator.avatar}
-                    alt={creator.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="text-theme-secondary/80 text-[10px] uppercase tracking-wider font-medium md:mt-0 md:mb-0">
-                  Views
-                </div>
-                <div className="text-theme-accent-primary font-bold text-2xl md:text-3xl lg:text-4xl leading-none">
-                  {formatLargeNumber(creator.totals.views)}
-                </div>
-                <div className="text-theme-secondary/90 text-[8px] md:text-[10px] mt-0.5">
-                  in {getGrowthDuration(creator)} months
-                </div>
-                <h4 className="text-theme-primary/60 font-normal text-[8px] md:text-[9px] truncate w-full opacity-60">
-                  {creator.name}
-                </h4>
-
-              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
             </button>
-          ))}
+            
+            {/* Carousel content */}
+            <ScrollbarHiddenContainer 
+              ref={carouselRef} 
+              className="flex gap-2 px-8 py-2 snap-x"
+            >
+              {creators.map((creator, index) => (
+                <button
+                  key={creator.id}
+                  onClick={() => setActiveCreator(index)}
+                  className={`stats-box bg-theme-gradient-card 
+                            rounded-lg p-2 md:p-3
+                            border border-theme-border-light
+                            shadow-theme-sm 
+                            transition-all duration-300
+                            flex-shrink-0 w-[calc(50%-0.5rem)] md:w-[calc(25%-0.75rem)]
+                            snap-start
+                            ${activeCreator === index 
+                              ? 'translate-y-[-4px] scale-[1.02] shadow-theme-md ring-2 ring-[var(--theme-primary)]/70' 
+                              : 'hover:translate-y-[-3px] hover:shadow-theme-md'}
+                            flex items-center text-left md:text-center`}
+                >
+                  <div className="w-10 h-10 rounded-full overflow-hidden 
+                              ring-2 ring-[var(--theme-primary)]/70
+                              transition-all duration-300 flex-shrink-0 md:hidden">
+                    <img
+                      src={creator.avatar}
+                      alt={creator.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <div className="flex-1 flex flex-col md:items-center">
+                    <div className="hidden md:block w-11 h-11 rounded-full overflow-hidden 
+                                ring-2 ring-[var(--theme-primary)]/70 mb-2
+                                transition-all duration-300 mx-auto">
+                      <img
+                        src={creator.avatar}
+                        alt={creator.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="text-theme-secondary/80 text-[10px] uppercase tracking-wider font-medium md:mt-0 md:mb-0">
+                      Views
+                    </div>
+                    <div className="text-theme-accent-primary font-bold text-2xl md:text-3xl lg:text-4xl leading-none">
+                      {formatLargeNumber(creator.totals.views)}
+                    </div>
+                    <div className="text-theme-secondary/90 text-[8px] md:text-[10px] mt-0.5">
+                      in {getGrowthDuration(creator)} months
+                    </div>
+                    <h4 className="text-theme-primary/60 font-normal text-[8px] md:text-[9px] truncate w-full opacity-60">
+                      {creator.name}
+                    </h4>
+                  </div>
+                </button>
+              ))}
+            </div>
+            
+            {/* Right scroll button */}
+            <button 
+              onClick={() => scrollCarousel('right')}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-theme-gradient p-2 rounded-full shadow-theme-sm text-white"
+              aria-label="Scroll right"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </div>
         </div>
 
 
@@ -458,7 +526,20 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
             </div>
           </div>
           
-          {/* Creator Profile - moved below the graph */}
+          {/* CTA section - moved directly after the graph */}
+          <div className="text-center py-8 case-study-element">
+            <p className="body-text-large font-bold text-theme-primary mb-6">
+              Want to be next on this list?
+            </p>
+            <button 
+              onClick={props?.onCtaClick || (() => console.log('CTA clicked'))} 
+              className="bg-theme-gradient-primary text-white px-8 py-3 rounded-full shadow-theme-md hover-bubbly-sm mx-auto inline-block"
+            >
+              Start your Journey
+            </button>
+          </div>
+          
+          {/* Creator Profile - moved below the CTA */}
           <div className="flex flex-col md:flex-row items-center gap-3 p-3
                     bg-theme-gradient-card
                     rounded-md border border-theme-border-light shadow-theme-md case-study-element">
@@ -480,19 +561,6 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                 {currentCreator.description}
               </p>
             </div>
-          </div>
-          
-          {/* CTA section - moved below the creator profile */}
-          <div className="text-center py-10 mt-6 case-study-element">
-            <p className="body-text-large font-bold text-theme-primary mb-6">
-              Want to be next on this list?
-            </p>
-            <button 
-              onClick={props?.onCtaClick || (() => console.log('CTA clicked'))} 
-              className="bg-theme-gradient-primary text-white px-8 py-3 rounded-full shadow-theme-md hover-bubbly-sm mx-auto inline-block"
-            >
-              Start your Journey
-            </button>
           </div>
         </div>
       </div>
