@@ -608,15 +608,12 @@ const VerticalShortcutLanding = () => {
               </div>
               
               {/* Video container with proper theme-aware styling */}
-              <div className="video-container rounded-[var(--border-radius-lg)] overflow-hidden shadow-theme-md max-w-4xl mx-auto mb-16">
+              <div className="video-container rounded-[var(--border-radius-lg)] overflow-hidden shadow-theme-md max-w-4xl mx-auto mb-10">
                 <SafeVideoEmbed videoUrl="https://www.youtube.com/embed/your-video-id" />
               </div>
               
-              {/* Section 3: Case studies - click on each to see graphs and more in detail stats */}
-              <CaseStudies onCtaClick={openQualificationModal} />
-              
-              {/* Copy moved below video and case studies */}
-              <div className="text-center max-w-4xl mx-auto mt-16">
+              {/* Copy moved directly below video embed (Section 2) */}
+              <div className="text-center max-w-4xl mx-auto mb-16">
                 <p className="body-text mb-8 mx-auto max-w-[90%] md:max-w-none">
                   We've worked with some of the biggest business creators in the world:
                   Chris Donnelly, Charlotte Mair, James Watt, Ben Askins, Jordan Schwarzenberger, just to name a few.
@@ -631,6 +628,9 @@ const VerticalShortcutLanding = () => {
                   The numbers speak for themselves
                 </p>
               </div>
+              
+              {/* Section 3: Case studies - click on each to see graphs and more in detail stats */}
+              <CaseStudies onCtaClick={openQualificationModal} />
             </div>
           </VSSection>
           
