@@ -41,11 +41,12 @@ interface CaseStudiesProps {
 // Get creators data from the database
 const creators: Creator[] = courseUtils.getCreators();
 
-const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>(
-  (props: CaseStudiesProps, ref: React.ForwardedRef<HTMLElement>) => {
-    const sectionRef = useRef(null);
-    const chartRef = useRef(null);
-    const statsRowRef = useRef(null);
+// Define the CaseStudies component with forwardRef
+const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefAttributes<HTMLElement>> = 
+  React.forwardRef((props, ref) => {
+    const sectionRef = useRef<HTMLElement>(null);
+    const chartRef = useRef<HTMLDivElement>(null);
+    const statsRowRef = useRef<HTMLDivElement>(null);
     const carouselRef = useRef<HTMLDivElement>(null);
     const [activeCreator, setActiveCreator] = useState(0);
     const [activeMetric, setActiveMetric] = useState("all");
