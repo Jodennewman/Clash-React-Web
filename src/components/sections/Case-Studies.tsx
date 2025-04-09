@@ -128,7 +128,7 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
         item.views > 0 || item.followers > 0 || item.interactions > 0
       );
       
-      return monthsWithData.length;
+      return monthsWithData.length - 1;
     };
 
     // Reset animation when changing creators or metrics - faster animation transition
@@ -547,20 +547,7 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
             </div>
           </div>
           
-          {/* CTA section - moved directly after the graph */}
-          <div className="text-center py-8 case-study-element">
-            <p className="body-text-large font-bold text-theme-primary mb-6">
-              Want to be next on this list?
-            </p>
-            <button 
-              onClick={props?.onCtaClick || (() => console.log('CTA clicked'))} 
-              className="bg-theme-gradient-primary text-white px-8 py-3 rounded-full shadow-theme-md hover-bubbly-sm mx-auto inline-block"
-            >
-              Start your Journey
-            </button>
-          </div>
-          
-          {/* Creator Profile - moved below the CTA */}
+          {/* Creator Profile */}
           <div className="flex flex-col md:flex-row items-center gap-3 p-3
                     bg-theme-gradient-card
                     rounded-md border border-theme-border-light shadow-theme-md case-study-element">
@@ -582,6 +569,19 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
                 {currentCreator.description}
               </p>
             </div>
+          </div>
+          
+          {/* CTA section - moved below the creator profile */}
+          <div className="text-center py-8 mt-6 case-study-element">
+            <p className="body-text-large font-bold text-theme-primary mb-6">
+              Want to be next on this list?
+            </p>
+            <button 
+              onClick={props?.onCtaClick || (() => console.log('CTA clicked'))} 
+              className="bg-theme-gradient-primary text-white px-8 py-3 rounded-full shadow-theme-md hover-bubbly-sm mx-auto inline-block"
+            >
+              Start your Journey
+            </button>
           </div>
         </div>
       </div>
