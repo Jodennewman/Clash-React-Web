@@ -12,22 +12,27 @@ import { Item, ItemIcon, ItemTitle, ItemDescription } from './components/ui/item
 import { Alert, AlertDescription, AlertTitle } from './components/ui/alert';
 import SafeVideoEmbed from './components/ui/video-embed';
 import VSNavbar from './components/sections/navbar/vs-navbar';
-import CourseStats from './components/sections/course-stats';
-import FounderTrack from './components/sections/founder-track';
-import FAQUpdated from './components/sections/faq-updated';
 import TabsLeft from './components/sections/tabs/left';
 import SocialProof from './components/sections/social-proof/marquee-2-rows';
 import TestimonialCarousel from './components/ui/testimonial-carousel';
 import LeadCaptureForm from './components/ui/lead-capture-form';
-import { CaseStudies, VSPainPoints } from './components/sections';
-import VSBigReveal from './components/sections/VS-BigReveal';
+import { 
+  CaseStudies, 
+  VSPainPoints, 
+  VSBigReveal, 
+  CourseViewer, 
+  TeamSection as MeetTheTeam, 
+  FAQUpdated, 
+  PricingSimple, 
+  Customisation, 
+  BeforeAfterStats,
+  CourseStats,
+  FounderTrack
+} from './components/sections';
 import { Link } from 'react-router-dom';
 import { AnimatedButton } from './components/marble-buttons/AnimatedButton';
-import { CourseViewer } from './components/sections/course-viewer';
-import MeetTheTeam from './components/sections/TeamSection';
 import CourseTimeline from './components/CourseTimeline';
-import PricingSimple from './components/sections/PricingSimple';
-import Customisation from './components/sections/Customisation';
+import { beforeAfterExamples } from './data/before-after-examples';
 
 // Import VS helper components for correct light/dark mode implementation
 import { VSText, VSHeading, VSGradientText } from './components/ui/vs-text';
@@ -600,19 +605,19 @@ const VerticalShortcutLanding = () => {
                 <VSHeading variant="h2" className="text-3xl md:text-4xl font-bold text-theme-primary mb-6">
                   What do we do?
                 </VSHeading>
-                <VSText className="text-lg md:text-xl text-theme-secondary mb-8 mx-auto max-w-[90%] md:max-w-none">
+                <p className="body-text mb-8 mx-auto max-w-[90%] md:max-w-none">
                   We've worked with some of the biggest business creators in the world:
                   Chris Donnelly, Charlotte Mair, James Watt, Ben Askins, Jordan Schwarzenberger, just to name a few.
-                </VSText>
-                <VSText className="text-lg md:text-xl text-theme-secondary mb-8 mx-auto max-w-[90%] md:max-w-none">
+                </p>
+                <p className="body-text mb-8 mx-auto max-w-[90%] md:max-w-none">
                   And built their content from the ground up.
-                </VSText>
-                <VSText className="text-lg md:text-xl text-theme-secondary mb-8 mx-auto max-w-[90%] md:max-w-none">
+                </p>
+                <p className="body-text mb-8 mx-auto max-w-[90%] md:max-w-none">
                   Building them over 1 Billion Views in just 2 years (we told you, we're the best)
-                </VSText>
-                <VSText className="text-xl md:text-2xl font-bold text-theme-primary">
+                </p>
+                <p className="body-text-large font-bold text-theme-primary">
                   The numbers speak for themselves
-                </VSText>
+                </p>
               </div>
               
               {/* Video container with proper theme-aware styling */}
@@ -640,108 +645,17 @@ const VerticalShortcutLanding = () => {
           {/* Section 8: Contents */}
           <CourseStats />
 
-          {/* Section 9: The Course Curriculum */}
-          <VSSection 
-            lightBg="bg-gradient-to-br from-[var(--theme-bg-primary)] to-[var(--theme-bg-secondary)]"
-            darkBg="dark:bg-gradient-to-br dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]"
-            className="py-24 relative overflow-hidden"
-          >
-            {/* Theme-aware floating elements */}
-            <div className="absolute -z-10 top-20 left-[10%] w-32 h-32 rounded-[40%] rotate-12 
-                 opacity-theme-float bg-theme-float-primary animate-float-slow"></div>
-            <div className="absolute -z-10 bottom-20 right-[15%] w-36 h-36 rounded-[35%] -rotate-6 
-                 opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium"></div>
-                 
-            <div className="container mx-auto px-4">
-              <div className="text-center max-w-4xl mx-auto">
-                <VSHeading 
-                  variant="h2" 
-                  color="white" 
-                  className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8"
-                >
-                  Is making actually good short form content really that complex?
-                </VSHeading>
-                
-                <VSText color="white" className="text-xl md:text-2xl dark:text-white/80 mb-10">
-                  Well yes and no. It's simple, but there's a lot to it.
-                </VSText>
-                
-                <VSGradientText
-                  variant="h3"
-                  fromColor="--primary-orange"
-                  toColor="--accent-coral"
-                  className="text-2xl md:text-3xl font-bold mb-12"
-                >
-                  The Course Curriculum
-                </VSGradientText>
-              </div>
-            </div>
-          </VSSection>
-
-          {/* ModuleHUD display */}
+          {/* Section 9: The Course Curriculum (Using CourseViewer component) */}
           <CourseViewer />
           
           {/* Section 10: Week by week structure */}
           <CourseTimeline />
           
           {/* Section 11: Low view count before and afters */}
-          {/* This component needs to be created */}
-          <VSSection 
-            lightBg="bg-theme-gradient"
-            darkBg="dark:bg-theme-gradient"
-            className="py-24 relative overflow-hidden"
-          >
-            {/* Theme-aware floating elements */}
-            <div className="absolute -z-10 top-20 left-[10%] w-32 h-32 rounded-[40%] rotate-12 
-                 opacity-theme-float bg-theme-float-primary animate-float-slow"></div>
-            <div className="absolute -z-10 bottom-20 right-[15%] w-36 h-36 rounded-[35%] -rotate-6 
-                 opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium"></div>
-            
-            <div className="container mx-auto px-4">
-              <div className="text-center mb-16">
-                <VSHeading 
-                  variant="h2" 
-                  className="text-3xl md:text-4xl lg:text-5xl font-bold text-theme-primary mb-6"
-                >
-                  Still not convinced?
-                </VSHeading>
-                <VSText className="text-xl text-theme-secondary">
-                  This could be you.
-                </VSText>
-              </div>
-              
-              {/* Placeholder for before/after examples */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <VSCard 
-                  className="p-6 rounded-xl shadow-theme-md"
-                  lightBg="bg-theme-surface"
-                  darkBg="dark:bg-theme-surface"
-                >
-                  <div className="mb-4 font-bold text-theme-primary">Before</div>
-                  <div className="aspect-[9/16] bg-theme-bg-secondary rounded-lg mb-4"></div>
-                  <div className="flex items-center text-theme-secondary">
-                    <div className="flex items-center bg-theme-bg-secondary/30 px-3 py-1 rounded-full">
-                      <span className="text-sm">123 views</span>
-                    </div>
-                  </div>
-                </VSCard>
-                
-                <VSCard 
-                  className="p-6 rounded-xl shadow-theme-md"
-                  lightBg="bg-theme-surface"
-                  darkBg="dark:bg-theme-surface"
-                >
-                  <div className="mb-4 font-bold text-theme-accent">After</div>
-                  <div className="aspect-[9/16] bg-theme-bg-secondary rounded-lg mb-4"></div>
-                  <div className="flex items-center text-theme-primary font-bold">
-                    <div className="flex items-center bg-theme-accent/10 px-3 py-1 rounded-full">
-                      <span className="text-sm">1.2M views</span>
-                    </div>
-                  </div>
-                </VSCard>
-              </div>
-            </div>
-          </VSSection>
+          <BeforeAfterStats 
+            onCtaClick={openQualificationModal}
+            examples={beforeAfterExamples}
+          />
           
           {/* Section 12: The Founders Track */}
           <FounderTrack onCtaClick={openQualificationModal} />
@@ -896,12 +810,19 @@ const VerticalShortcutLanding = () => {
                     variant="h2" 
                     className="cta-title text-4xl md:text-5xl lg:text-6xl font-bold text-theme-primary mb-6"
                   >
+                    Limited spots available for next cohort
+                  </VSHeading>
+                  
+                  <VSHeading 
+                    variant="h3" 
+                    className="cta-subtitle text-3xl md:text-4xl font-bold text-theme-primary mb-6"
+                  >
                     Ready to Transform Your Content?
                   </VSHeading>
                   
-                  <VSText className="cta-description text-xl text-theme-secondary mb-10 max-w-3xl mx-auto">
+                  <p className="body-text mb-10 mx-auto max-w-[90%] md:max-w-3xl">
                     Join Vertical Shortcut today and get access to our complete system for creating high-converting content that drives real business results.
-                  </VSText>
+                  </p>
                 </div>
                 
                 <div className="flex flex-col md:flex-row bg-theme-surface p-8 md:p-12 rounded-2xl shadow-theme-md">

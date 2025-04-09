@@ -10,15 +10,30 @@ Currently, we are refactoring the components to match the copy and structure pro
 - [x] Created missing components:
   - [x] PricingSimple.tsx - A streamlined pricing component with toggle between monthly/yearly
   - [x] Customisation.tsx - A component for displaying custom options for the program
-- [x] Updated copy in all components to match the guidance document
+  - [x] BeforeAfterStats.tsx - A component for displaying before/after examples with view count statistics
+- [x] Added custom text styling classes for better body text:
+  - [x] Created custom-text.css with .body-text, .body-text-sm, .body-text-large classes
+  - [x] Updated SimpleHero and Video section with larger text per feedback
+  - [x] Applied proper copy from Website-Copy-Guidance.md
 - [x] Ensured all components follow theme-aware design principles
 - [x] Properly integrated the components with the qualification modal
+- [x] Added images to BeforeAfterStats through a dedicated data file
+- [x] Used theme-aware styling for all components
+- [x] Consolidated imports through the sections/index.ts file
+- [x] Added badge to hero section per Website-Copy-Guidance.md
+- [x] Updated ModuleHUDShowcase with proper copy from Website-Copy-Guidance.md
+- [x] Fixed duplication in VerticalShortcutLanding.tsx for the Course Curriculum section
 
 ### Next steps:
-- [ ] Create a "Low view count before/after" component for section 11
-- [ ] Further improve mobile responsiveness
-- [ ] Ensure all components have proper animations
+- [ ] Update remaining sections' copy from Website-Copy-Guidance.md
+- [ ] Further improve mobile responsiveness across all components
+- [ ] Ensure all components have proper animations (especially floating elements)
 - [ ] Test all components in both light and dark mode
+- [ ] Add more animation to the BeforeAfterStats component
+- [x] Fix AnimatedButton saturation prop in PricingSimple component (changed "medium" to "normal")
+- [x] Fix VSPricingQuizModal import in sections/index.ts (removed unused import)
+- [x] Fix CSS utility class error by replacing @apply directives with standard CSS
+- [ ] Fix any remaining theme inconsistencies
 
 1. Read this CLAUDE.md completely
 2. Website-Copy-Guidance.md
