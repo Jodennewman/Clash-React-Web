@@ -13,7 +13,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Section } from "../ui/section";
-import styled from "styled-components";
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -21,17 +20,9 @@ gsap.registerPlugin(ScrollTrigger);
 // Import creator case study data from the database via course-utils
 import courseUtils, { Creator } from "../../lib/course-utils";
 
-// Styled component for the carousel with hidden scrollbar
-const ScrollbarHiddenContainer = styled.div`
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-  
-  &::-webkit-scrollbar {
-    display: none;  /* Chrome, Safari and Opera */
-  }
-`;
+// Custom CSS class to be added for hiding scrollbars
+// We'll use this with a regular div instead of a styled component
+const SCROLLBAR_HIDE_CLASS = "scrollbar-hide";
 
 // Define component props interface
 interface CaseStudiesProps {
@@ -48,6 +39,37 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
     const chartRef = useRef<HTMLDivElement>(null);
     const statsRowRef = useRef<HTMLDivElement>(null);
     const carouselRef = useRef<HTMLDivElement>(null);
+    
+    // Add inline styles to head to handle the scrollbar hiding
+    useEffect(() => {
+      // Create style element if it doesn't exist already
+      const styleId = "scrollbar-hide-styles";
+      if (!document.getElementById(styleId)) {
+        const style = document.createElement("style");
+        style.id = styleId;
+        style.textContent = `
+          .${SCROLLBAR_HIDE_CLASS} {
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+          }
+          
+          .${SCROLLBAR_HIDE_CLASS}::-webkit-scrollbar {
+            display: none;  /* Chrome, Safari and Opera */
+          }
+        `;
+        document.head.appendChild(style);
+      }
+      
+      // Cleanup function
+      return () => {
+        const styleElement = document.getElementById(styleId);
+        if (styleElement) {
+          document.head.removeChild(styleElement);
+        }
+      };
+    }, []);
     const [activeCreator, setActiveCreator] = useState(0);
     const [activeMetric, setActiveMetric] = useState("all");
     const [animateGraph, setAnimateGraph] = useState(false);
@@ -258,9 +280,10 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
             </button>
             
             {/* Carousel content */}
-            <ScrollbarHiddenContainer 
+            <div 
               ref={carouselRef} 
-              className="flex gap-2 px-8 py-2 snap-x"
+              className={`${SCROLLBAR_HIDE_CLASS} flex gap-2 px-8 py-2 snap-x`}
+              style={{ scrollBehavior: 'smooth' }}
             >
               {creators.map((creator, index) => (
                 <button
@@ -313,7 +336,7 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
                   </div>
                 </button>
               ))}
-            </ScrollbarHiddenContainer>
+            </div>
             
             {/* Right scroll button */}
             <button 
