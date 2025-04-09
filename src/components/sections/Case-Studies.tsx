@@ -313,7 +313,7 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
                   </div>
                 </button>
               ))}
-            </div>
+            </ScrollbarHiddenContainer>
             
             {/* Right scroll button */}
             <button 
