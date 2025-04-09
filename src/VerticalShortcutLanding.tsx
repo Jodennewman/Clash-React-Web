@@ -621,14 +621,14 @@ const VerticalShortcutLanding = () => {
               </div>
               
               {/* Video container with proper theme-aware styling */}
-              <div className="video-container rounded-[var(--border-radius-lg)] overflow-hidden shadow-theme-md max-w-4xl mx-auto">
+              <div className="video-container rounded-[var(--border-radius-lg)] overflow-hidden shadow-theme-md max-w-4xl mx-auto mb-16">
                 <SafeVideoEmbed videoUrl="https://www.youtube.com/embed/your-video-id" />
               </div>
+              
+              {/* Section 3: Case studies - click on each to see graphs and more in detail stats */}
+              <CaseStudies onCtaClick={openQualificationModal} />
             </div>
           </VSSection>
-          
-          {/* Section 3: Case studies - click on each to see graphs and more in detail stats */}
-          <CaseStudies />
           
           {/* Section 4: Double marquee with our biggest videos with biggest views */}
           <SocialProof />

@@ -23,6 +23,8 @@ Currently, we are refactoring the components to match the copy and structure pro
 - [x] Added badge to hero section per Website-Copy-Guidance.md
 - [x] Updated ModuleHUDShowcase with proper copy from Website-Copy-Guidance.md
 - [x] Fixed duplication in VerticalShortcutLanding.tsx for the Course Curriculum section
+- [x] Moved Case-Studies component inside the Video section per Website-Copy-Guidance.md
+- [x] Moved Case-Studies CTA ("Want to be next on this list?") below the graph section
 
 ### Next steps:
 - [ ] Update remaining sections' copy from Website-Copy-Guidance.md

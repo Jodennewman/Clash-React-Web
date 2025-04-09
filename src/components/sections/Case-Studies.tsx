@@ -13,7 +13,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Section } from "../ui/section";
-import { Badge } from "../ui/badge";
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -21,10 +20,15 @@ gsap.registerPlugin(ScrollTrigger);
 // Import creator case study data from the database via course-utils
 import courseUtils, { Creator } from "../../lib/course-utils";
 
+// Define component props interface
+interface CaseStudiesProps {
+  onCtaClick?: () => void;
+}
+
 // Get creators data from the database
 const creators: Creator[] = courseUtils.getCreators();
 
-const CaseStudies = React.forwardRef((props, ref) => {
+const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref) => {
   const sectionRef = useRef(null);
   const chartRef = useRef(null);
   const statsRowRef = useRef(null);
@@ -179,16 +183,17 @@ const CaseStudies = React.forwardRef((props, ref) => {
       <div className="container mx-auto px-4 relative z-10 flex flex-col">
         {/* Section header */}
         <div className="text-center mb-6 md:mb-8 case-study-element">
-          <Badge variant="section" size="xl" className="mb-2">
-            Success Stories
-          </Badge>
-
           <h2 className="text-theme-primary text-4xl md:text-5xl font-bold mb-4">
             Creator Case Studies
           </h2>
-          <p className="text-theme-secondary text-lg md:text-xl mb-2 max-w-3xl mx-auto">
-
-            See how we've helped creators grow their audience and engagement through our proven strategies.
+          <p className="body-text mb-6 mx-auto max-w-[90%] md:max-w-3xl">
+            {/* This copy is parsed from the data inside of the components, as mentioned in the guidance */}
+            {creators.map((creator, index) => (
+              <span key={creator.id} className="inline-block mx-1">
+                {creator.name}: {formatLargeNumber(creator.totals.views)} views, {formatLargeNumber(creator.totals.followers)} followers - in just {getGrowthDuration(creator)} months
+                {index < creators.length - 1 ? ' • ' : ''}
+              </span>
+            ))}
           </p>
         </div>
 
@@ -475,6 +480,19 @@ const CaseStudies = React.forwardRef((props, ref) => {
                 {currentCreator.description}
               </p>
             </div>
+          </div>
+          
+          {/* CTA section - moved below the creator profile */}
+          <div className="text-center py-10 mt-6 case-study-element">
+            <p className="body-text-large font-bold text-theme-primary mb-6">
+              Want to be next on this list?
+            </p>
+            <button 
+              onClick={props?.onCtaClick || (() => console.log('CTA clicked'))} 
+              className="bg-theme-gradient-primary text-white px-8 py-3 rounded-full shadow-theme-md hover-bubbly-sm mx-auto inline-block"
+            >
+              Start your Journey
+            </button>
           </div>
         </div>
       </div>
