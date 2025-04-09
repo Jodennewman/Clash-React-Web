@@ -13,6 +13,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Section } from "../ui/section";
+import { AnimatedButton } from "../marble-buttons/AnimatedButton";
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -576,12 +577,14 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
             <p className="body-text-large font-bold text-theme-primary mb-6">
               Want to be next on this list?
             </p>
-            <button 
-              onClick={props?.onCtaClick || (() => console.log('CTA clicked'))} 
-              className="bg-theme-gradient-primary text-white px-8 py-3 rounded-full shadow-theme-md hover-bubbly-sm mx-auto inline-block"
-            >
-              Start your Journey
-            </button>
+            <AnimatedButton 
+              text="Start your Journey"
+              variant="accent" 
+              saturation="high"
+              size="lg"
+              onClick={props?.onCtaClick || (() => console.log('CTA clicked'))}
+              className="mx-auto"
+            />
           </div>
         </div>
       </div>
