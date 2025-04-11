@@ -130,15 +130,11 @@ const TimelineDropdown: React.FC<{
           <span className="timeline-dropdown-icon text-2xl md:text-3xl">{week.icon}</span>
         )}
         
-        {/* Week title and dropdown marker */}
+        {/* Only highlight text, no duplicate title */}
         <div className="flex-1">
-          <h3 className="text-theme-accent-tertiary text-2xl md:text-3xl lg:text-4xl font-bold">
-            {week.title}
-          </h3>
-          
           {/* Highlight text (shortened) */}
           {week.highlight && (
-            <p className="text-theme-secondary text-base md:text-lg mt-1 pr-10">
+            <p className="text-theme-secondary text-base md:text-lg pr-10">
               {week.highlight.length > 120 ? `${week.highlight.substring(0, 120)}...` : week.highlight}
             </p>
           )}
