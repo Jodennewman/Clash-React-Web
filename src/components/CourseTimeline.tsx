@@ -516,7 +516,7 @@ const CourseTimeline: React.FC = () => {
           gsap.fromTo(
             weekTitle,
             {
-              opacity: 0,
+              opacity: 0.3,
               x: -20
             },
             {
@@ -533,17 +533,17 @@ const CourseTimeline: React.FC = () => {
           );
         }
         
-        // Animate week number (secondary now)
+        // Animate week number (badge above title)
         const weekNumber = section.querySelector('.week-number');
         if (weekNumber) {
           gsap.fromTo(
             weekNumber,
             {
-              opacity: 0,
-              y: 15
+              opacity: 0.3,
+              y: -15
             },
             {
-              opacity: 0.7, // Less opacity to show it's secondary
+              opacity: 1,
               y: 0,
               duration: animDuration,
               ease: 'power2.out',
@@ -667,12 +667,12 @@ const CourseTimeline: React.FC = () => {
                 {/* Left side information (now title is primary, week number as badge above) */}
                 <div className="flex flex-col items-start mb-3">
                   {/* Week number as badge above title */}
-                  <span className="week-number bg-theme-primary/10 text-theme-primary text-xs font-medium px-2 py-1 rounded-md mb-2">
+                  <span className="week-number bg-theme-primary/10 text-theme-primary text-xs font-medium px-2 py-1 rounded-md mb-2" style={{ opacity: 1 }}>
                     {week.week}
                   </span>
                   
                   {/* Week title (PRIMARY) */}
-                  <h3 className="week-title vs-text-gradient-orange text-2xl md:text-3xl font-bold">
+                  <h3 className="week-title vs-text-gradient-orange text-2xl md:text-3xl font-bold" style={{ opacity: 1 }}>
                     {week.title}
                   </h3>
                 </div>
