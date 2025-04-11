@@ -181,7 +181,7 @@ const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, i
       ref={ref}
       data-id={section.id}
       data-display-key={section.displayKey}
-      className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(53,115,128,0.3),_0_0_15px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.5),_0_0_20px_rgba(0,0,0,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
+      className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(53,115,128,0.3),_0_0_15px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.5),_0_0_20px_rgba(0,0,0,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
       style={{ 
         backgroundColor: section.color,
         opacity: 1 
@@ -213,7 +213,7 @@ const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ sect
       ref={ref}
       data-id={section.id}
       data-display-key={section.displayKey}
-      className="section-module module-item w-[var(--normal-square-width)] h-[var(--normal-square-width)] rounded-xl shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(53,115,128,0.3),_0_0_15px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.5),_0_0_20px_rgba(0,0,0,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
+      className="section-module module-item dark-glow-overlay w-[var(--normal-square-width)] h-[var(--normal-square-width)] rounded-xl shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(53,115,128,0.3),_0_0_15px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.5),_0_0_20px_rgba(0,0,0,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
       style={{ 
         backgroundColor: section.color,
         opacity: 1
@@ -1071,7 +1071,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           const moduleEl = document.createElement('div');
           moduleEl.dataset.id = module.id;
           moduleEl.dataset.title = module.title; // Store full title for tooltip
-          moduleEl.className = 'module-item rounded-lg shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_15px_rgba(53,115,128,0.3),_0_0_10px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.5),_0_0_15px_rgba(0,0,0,0.3)] cursor-pointer relative overflow-hidden tooltip-trigger';
+          moduleEl.className = 'module-item dark-glow-overlay rounded-lg shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_15px_rgba(53,115,128,0.3),_0_0_10px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.5),_0_0_15px_rgba(0,0,0,0.3)] cursor-pointer relative overflow-hidden tooltip-trigger';
           
           // Apply gradient background
           const moduleColor = module.color || 'var(--theme-accent)';
@@ -1298,8 +1298,10 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   }}
                   data-id={systemsColumn[0].id}
                   data-display-key={systemsColumn[0].displayKey}
-                  className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_5px_10px_rgba(0,0,0,0.2)] dark:shadow-[0_0_25px_rgba(53,115,128,0.4),_0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] dark:hover:shadow-[0_0_30px_rgba(53,115,128,0.6),_0_0_20px_rgba(0,0,0,0.4)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
-                  style={{ backgroundColor: "var(--hud-navy)" }}
+                  className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_5px_10px_rgba(0,0,0,0.2)] dark:shadow-[0_0_25px_rgba(53,115,128,0.4),_0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] dark:hover:shadow-[0_0_30px_rgba(53,115,128,0.6),_0_0_20px_rgba(0,0,0,0.4)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
+                  style={{ 
+                    background: "linear-gradient(135deg, var(--hud-navy), var(--bg-navy-darker))"
+                  }}
                 >
                   {/* Power connection point */}
                   <div className="absolute bottom-[5px] left-[50%] w-2 h-2 bg-theme-bg-secondary/60 rounded-full transform translate-x-[-50%] z-10 system-connector"></div>
@@ -1349,7 +1351,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   }}
                   data-id={systemsColumn[1].id}
                   data-display-key={systemsColumn[1].displayKey}
-                  className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_5px_10px_rgba(0,0,0,0.2)] dark:shadow-[0_0_25px_rgba(53,115,128,0.4),_0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] dark:hover:shadow-[0_0_30px_rgba(53,115,128,0.6),_0_0_20px_rgba(0,0,0,0.4)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
+                  className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_5px_10px_rgba(0,0,0,0.2)] dark:shadow-[0_0_25px_rgba(53,115,128,0.4),_0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] dark:hover:shadow-[0_0_30px_rgba(53,115,128,0.6),_0_0_20px_rgba(0,0,0,0.4)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
                   style={{ 
                     background: "linear-gradient(135deg, var(--primary-orange), var(--hud-coral))"
                   }}
@@ -1405,7 +1407,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   }}
                   data-id={systemsColumn[2].id}
                   data-display-key={systemsColumn[2].displayKey}
-                  className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_5px_10px_rgba(0,0,0,0.2)] dark:shadow-[0_0_25px_rgba(53,115,128,0.4),_0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] dark:hover:shadow-[0_0_30px_rgba(53,115,128,0.6),_0_0_20px_rgba(0,0,0,0.4)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
+                  className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_5px_10px_rgba(0,0,0,0.2)] dark:shadow-[0_0_25px_rgba(53,115,128,0.4),_0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] dark:hover:shadow-[0_0_30px_rgba(53,115,128,0.6),_0_0_20px_rgba(0,0,0,0.4)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
                   style={{ 
                     background: "linear-gradient(145deg, var(--hud-teal), #2A7590)"
                   }}

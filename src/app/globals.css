@@ -3449,3 +3449,41 @@ a:hover {
 .bg-theme-gradient-overlay-right {
   background: linear-gradient(to left, var(--theme-bg-secondary) 0%, var(--theme-bg-secondary) 15%, transparent 100%);
 }
+
+/* Module glow overlay for dark mode */
+.dark-glow-overlay {
+  position: relative;
+}
+
+.dark-glow-overlay::before {
+  content: "";
+  position: absolute;
+  inset: -4px; /* Extend beyond the element's border */
+  background: radial-gradient(circle at center, 
+              var(--theme-primary)/15%, 
+              transparent 70%);
+  mix-blend-mode: screen; /* More visible effect than overlay */
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease, filter 0.3s ease;
+  filter: blur(5px);
+  z-index: 0;
+}
+
+.dark .dark-glow-overlay::before, [data-theme="dark"] .dark-glow-overlay::before {
+  opacity: 0.7;
+}
+
+.dark-glow-overlay:hover::before {
+  opacity: 0.5;
+}
+
+.dark .dark-glow-overlay:hover::before, [data-theme="dark"] .dark-glow-overlay:hover::before {
+  opacity: 1;
+  background: radial-gradient(circle at center, 
+              var(--theme-primary)/30%, 
+              var(--theme-accent-secondary)/20%, 
+              transparent 75%);
+  filter: blur(8px);
+}
