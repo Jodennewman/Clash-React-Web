@@ -664,17 +664,17 @@ const CourseTimeline: React.FC = () => {
                   }}
                 ></div>
                 
-                {/* Left side information (now title is primary, week number is secondary) */}
-                <div className="flex items-start mb-3">
+                {/* Left side information (now title is primary, week number as badge above) */}
+                <div className="flex flex-col items-start mb-3">
+                  {/* Week number as badge above title */}
+                  <span className="week-number bg-theme-primary/10 text-theme-primary text-xs font-medium px-2 py-1 rounded-md mb-2">
+                    {week.week}
+                  </span>
+                  
                   {/* Week title (PRIMARY) */}
                   <h3 className="week-title vs-text-gradient-orange text-2xl md:text-3xl font-bold">
                     {week.title}
                   </h3>
-                  
-                  {/* Week number (SECONDARY) */}
-                  <span className="week-number text-theme-secondary text-sm md:text-base opacity-70 ml-2 mt-1.5">
-                    {week.week}
-                  </span>
                 </div>
                 
                 {/* Expandable content section */}
