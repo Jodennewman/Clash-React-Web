@@ -13,10 +13,102 @@ interface FounderTrackProps {
   onCtaClick?: () => void;
 }
 
+// Founder Module Card component
+const FounderModuleCard: React.FC<{
+  module: Module;
+  onPreview?: () => void;
+  founderColor?: string;
+}> = ({ module, onPreview, founderColor = "#FF3B30" }) => {
+  return (
+    <div 
+      className="transition-all duration-300 
+                cursor-pointer
+                hover:translate-y-[-2px] w-full h-full p-4 sm:p-5 md:p-6
+                flex flex-col"
+    >
+      {/* Thumbnail */}
+      <div className="rounded-lg overflow-hidden mb-3 md:mb-4">
+        <img 
+          src={courseUtils.getThumbnailPath(module.thumbnail)} 
+          alt={module.title}
+          className="w-full h-auto object-cover rounded-lg shadow-theme-sm"
+        />
+      </div>
+      
+      <h3 className="text-base sm:text-lg md:text-xl font-bold text-theme-primary mb-1 md:mb-2">{module.title}</h3>
+      <p className="text-theme-secondary mb-3 md:mb-4 text-xs sm:text-sm line-clamp-3">{module.subtitle}</p>
+      
+      <div className="flex justify-between items-center mb-3 md:mb-4">
+        <div className="flex items-center text-xs sm:text-sm text-theme-secondary">
+          <Clock className="w-3 h-3 sm:w-4 sm:h-4 mr-1 text-theme-accent-secondary" />
+          <span>{module.duration || 0} min</span>
+        </div>
+        <div className="px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs bg-theme-accent-secondary text-white">
+          Founder Essential
+        </div>
+      </div>
+      
+      {/* Content area with flex-grow to push button to bottom */}
+      <div className="flex-grow">
+        <div className="mt-3 md:mt-4">
+          <div className="text-xs sm:text-sm font-semibold text-theme-primary mb-1 md:mb-2">Key Points:</div>
+          <ul className="space-y-1 md:space-y-2">
+            {/* Show all points with responsive visibility instead of using window.innerWidth */}
+            {(module.points || []).map((point, idx) => (
+              <li key={idx} className={`flex items-start ${idx >= 3 ? 'hidden md:flex' : ''}`}>
+                <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 flex-shrink-0 text-theme-accent mt-0.5" />
+                <span className="text-theme-secondary text-xs sm:text-sm">{point}</span>
+              </li>
+            ))}
+            {/* Show "more points" indicator conditionally with CSS */}
+            {(module.points?.length || 0) > 3 && (
+              <li className="md:hidden text-[10px] sm:text-xs text-theme-accent pl-5">
+                +{(module.points?.length || 0) - 3} more points
+              </li>
+            )}
+          </ul>
+        </div>
+        
+        {module.submodules && module.submodules.length > 0 && (
+          <div className="mt-3 md:mt-4">
+            <div className="text-xs sm:text-sm font-semibold text-theme-primary mb-1 md:mb-2">Includes:</div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="flex items-center text-theme-secondary text-xs sm:text-sm">
+                <Video className="w-3 h-3 sm:w-4 sm:h-4 mr-1 text-theme-accent" />
+                <span>{module.submodules.length} lessons</span>
+              </div>
+              <div className="flex items-center text-theme-secondary text-xs sm:text-sm">
+                <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-1 text-theme-accent" />
+                <span>{Math.ceil(module.duration / 20)} sessions</span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+      
+      {/* Button always at the bottom */}
+      <div className="mt-4 sm:mt-5 md:mt-6">
+        <AnimatedButton 
+          text="Preview Module"
+          variant="docs"
+          saturation="normal"
+          size="md"
+          onClick={(e) => {
+            if (onPreview) {
+              e.stopPropagation();
+              onPreview();
+            }
+          }}
+          className="w-full"
+        />
+      </div>
+    </div>
+  );
+};
+
 const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
   // Get the founder modules from our data with null check
   const founderModules = courseUtils.getFounderModules() || [];
-  const [selectedModule, setSelectedModule] = useState<Module | null>(null);
   
   // Get the founder track color with null check
   const founderTrack = tracks?.find(track => track.name === "Founders");
@@ -24,25 +116,7 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
   
   // Safe access to stats with null checks
   const totalModules = courseStats?.totalModules || 0;
-  const founderSpecificModules = courseUtils.getModulesByTrack("Founders")?.length || 0;
-  
-  // For featured module we'll use the first module by default but can be expanded
-  useEffect(() => {
-    if (founderModules.length > 0) {
-      setSelectedModule(founderModules[0]);
-    }
-  }, [founderModules]);
-
-  // For expandable carousel items
-  const [expandedSlides, setExpandedSlides] = useState(new Array(founderModules.length).fill(false));
-  
-  const toggleSlide = (index: number) => {
-    setExpandedSlides((prev) => {
-      const newState = [...prev];
-      newState[index] = !newState[index];
-      return newState;
-    });
-  };
+  const founderSpecificModules = founderModules.length; // Use the founder modules array directly
 
   // Refs for animation
   const containerRef = useRef(null);
@@ -100,18 +174,13 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
         <div className="flex flex-col lg:flex-row gap-12 max-w-6xl mx-auto">
           {/* Left Column - Overview */}
           <div className="lg:w-5/12">
-            <div ref={titleRef}>
-              <Badge variant="section" size="xl" className="mb-4">
-                For Busy Entrepreneurs
-              </Badge>
-            </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 mx-auto md:mx-0 max-w-[90%] md:max-w-none" ref={subtitleRef}>
-              <span className="text-theme-gradient">The Founders Track</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 mx-auto md:mx-0 max-w-[90%] md:max-w-none text-theme-primary" ref={titleRef}>
+              The Founders Track
             </h2>
-            <p className="text-lg md:text-xl text-theme-secondary mb-8 mx-auto md:mx-0 max-w-[90%] md:max-w-none" ref={contentRef}>
+            <p className="body-text mb-6 mx-auto md:mx-0 max-w-[90%] md:max-w-none" ref={subtitleRef}>
               Built exactly for founders.
             </p>
-            <p className="text-lg text-theme-secondary mb-8 mx-auto md:mx-0 max-w-[90%] md:max-w-none">
+            <p className="body-text mb-8 mx-auto md:mx-0 max-w-[90%] md:max-w-none" ref={contentRef}>
               I'm sure at this point you're mindful of your time and how much of it this course will take (especially if you've actually read all of this copy). Which is why we've built the Vertical Shortcut with the founders track in mind. 
               
               <br/><br/>
@@ -119,98 +188,27 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
               Basically, the Founder's Track is an easy way to scan the course for the modules you actually <strong>have</strong> to watch, and the modules you can pass onto your team.
             </p>
             
-            {/* Featured Founder Module Display with rich details */}
+            {/* Track Highlights - No featured module card */}
             <div className="bg-theme-surface shadow-theme-md rounded-xl p-6 mb-8" ref={highlightsRef}>
-              {selectedModule ? (
-                <div>
-                  <div className="text-xl font-bold text-theme-primary flex items-center mb-4">
-                    <Zap className="w-6 h-6 mr-3" style={{ color: founderColor }} />
-                    Featured Founder Module
-                  </div>
-                  
-                  <div className="rounded-lg overflow-hidden mb-4">
-                    <img 
-                      src={courseUtils.getThumbnailPath(selectedModule.thumbnail)} 
-                      alt={selectedModule.title}
-                      className="w-full h-auto object-cover rounded-lg shadow-theme-sm"
-                    />
-                  </div>
-                  
-                  <h3 className="text-lg font-bold text-theme-primary mb-2">{selectedModule.title}</h3>
-                  <p className="text-theme-secondary mb-4 text-sm">{selectedModule.subtitle}</p>
-                  
-                  <div className="flex justify-between mb-4">
-                    <div className="flex items-center text-sm text-theme-secondary">
-                      <Clock className="w-4 h-4 mr-1 text-theme-accent-secondary" />
-                      <span>{selectedModule.duration || 0} minutes</span>
-                    </div>
-                    <div className="px-2 py-1 rounded-full text-xs bg-theme-accent-secondary text-white">
-                      Founder Essential
-                    </div>
-                  </div>
-                  
-                  <div className="mt-4">
-                    <div className="text-sm font-semibold text-theme-primary mb-2">Key Points:</div>
-                    <ul className="space-y-2">
-                      {(selectedModule.points || []).map((point, idx) => (
-                        <li key={idx} className="flex">
-                          <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0 text-theme-accent" />
-                          <span className="text-theme-secondary text-sm">{point}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  
-                  {selectedModule.submodules && selectedModule.submodules.length > 0 && (
-                    <div className="mt-4">
-                      <div className="text-sm font-semibold text-theme-primary mb-2">Includes:</div>
-                      <div className="grid grid-cols-2 gap-2">
-                        <div className="flex items-center text-theme-secondary text-sm">
-                          <Video className="w-4 h-4 mr-1 text-theme-accent" />
-                          <span>{selectedModule.submodules.length} lessons</span>
-                        </div>
-                        <div className="flex items-center text-theme-secondary text-sm">
-                          <Calendar className="w-4 h-4 mr-1 text-theme-accent" />
-                          <span>{Math.ceil(selectedModule.duration / 20)} sessions</span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  
-                  <div className="mt-6">
-                    <AnimatedButton 
-                      text="Preview Module"
-                      variant="docs"
-                      saturation="normal"
-                      size="md"
-                      onClick={onCtaClick}
-                      className="w-full"
-                    />
-                  </div>
-                </div>
-              ) : (
-                <div>
-                  <div className="text-xl font-bold text-theme-primary flex items-center mb-4">
-                    <BriefcaseBusiness className="w-6 h-6 mr-3" style={{ color: founderColor }} />
-                    Track Highlights
-                  </div>
-                  
-                  <ul className="space-y-4">
-                    {[
-                      "Balance professional credibility with platform-native authenticity",
-                      "Strategic batching techniques that save 70% of your time",
-                      "Delegate content creation without losing your unique voice",
-                      "Convert viewers into clients and partners without appearing salesy",
-                      "Build a personal brand that drives business growth"
-                    ].map((point, idx) => (
-                      <li key={idx} className="flex">
-                        <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0 text-theme-accent" />
-                        <span className="text-theme-secondary">{point}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              <div className="text-xl font-bold text-theme-primary flex items-center mb-4">
+                <BriefcaseBusiness className="w-6 h-6 mr-3" style={{ color: founderColor }} />
+                Track Highlights
+              </div>
+              
+              <ul className="space-y-4">
+                {[
+                  "Balance professional credibility with platform-native authenticity",
+                  "Strategic batching techniques that save 70% of your time",
+                  "Delegate content creation without losing your unique voice",
+                  "Convert viewers into clients and partners without appearing salesy",
+                  "Build a personal brand that drives business growth"
+                ].map((point, idx) => (
+                  <li key={idx} className="flex">
+                    <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0 text-theme-accent" />
+                    <span className="text-theme-secondary">{point}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4">
@@ -235,130 +233,93 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
           
           {/* Right Column - Modules Carousel */}
           <div className="lg:w-7/12" ref={carouselRef}>
-            <div className="bg-theme-surface shadow-theme-md rounded-xl p-6 mb-6">
+            <div className="bg-theme-surface shadow-theme-md rounded-xl p-6 mb-6 overflow-hidden bg-gradient-to-br from-[#F8F9FB] to-[#EDF0F5] dark:from-[#1A1F29] dark:to-[#111827]">
               <div className="text-xl font-bold text-theme-primary flex items-center mb-6">
                 <Zap className="w-6 h-6 mr-3 text-theme-accent" />
                 Must-Watch Modules for Founders
               </div>
               
-              <Carousel
-                opts={{
-                  align: "start",
-                  startIndex: 0,
-                }}
-                className="w-full"
-              >
-                <CarouselContent className="-ml-4">
-                  {founderModules.map((module: Module, index: number) => (
-                    <CarouselItem key={index} className="flex pl-4 md:basis-1/2 lg:basis-3/4">
-                      <Slide
-                        className={`grow cursor-pointer group bg-theme-gradient shadow-theme-sm hover:shadow-theme-md transition-all duration-300 ${selectedModule?.id === module.id ? 'ring-2 ring-theme-accent-secondary' : ''}`}
-                        isExpanded={expandedSlides[index]}
-                        onClick={(e) => {
-                          // Toggle slide expansion
-                          toggleSlide(index);
-                          
-                          // Set as selected module to display in the left panel
-                          setSelectedModule(module);
-                          
-                          // Prevent event bubbling
-                          e.stopPropagation();
-                        }}
-                      >
-                        <SlideVisual
-                          className="items-start overflow-hidden rounded-t-xl p-4 h-[120px]"
-                          isExpanded={expandedSlides[index]}
-                        >
-                          <div 
-                            className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs bg-theme-accent-secondary text-white flex items-center"
-                          >
-                            <Clock className="w-3 h-3 mr-1" />
-                            {module.duration || 0} min
+              <div className="relative">
+                <Carousel
+                  opts={{
+                    align: "start",
+                    startIndex: 0,
+                  }}
+                  className="w-full overflow-hidden"
+                >
+                  <CarouselContent className="-ml-4 overflow-visible px-6 sm:px-8 md:px-12">
+                    {/* Make sure we have modules to display */}
+                    {founderModules.length > 0 ? (
+                      founderModules.map((module: Module, index: number) => (
+                        <CarouselItem key={index} className="flex pl-4 basis-full sm:basis-full md:basis-3/4 lg:basis-2/3 p-3 md:p-4 pb-6 md:pb-8">
+                          {/* Card wrapper with theme-aware background color */}
+                          <div className="h-full min-h-[500px] bg-theme-surface rounded-xl shadow-theme-sm hover:shadow-theme-md transition-all duration-300 border border-theme-border/30">
+                            <FounderModuleCard 
+                              module={module}
+                              onPreview={onCtaClick}
+                              founderColor={founderColor}
+                            />
                           </div>
-                          
-                          <div className="relative z-10">
-                            <div className="text-xs uppercase tracking-wider font-medium text-theme-accent mb-1">
-                              Founder Essential
-                            </div>
-                            <h3 className="font-bold text-xl text-theme-primary">
-                              {module.title || 'Module'}
-                            </h3>
+                        </CarouselItem>
+                      ))
+                    ) : (
+                      // Display a placeholder message if no modules are found
+                      <CarouselItem className="flex pl-4 basis-full sm:basis-full md:basis-3/4 lg:basis-2/3 p-3 md:p-4">
+                        <div className="w-full h-full min-h-[300px] bg-theme-surface rounded-xl p-6 shadow-theme-sm flex flex-col items-center justify-center text-center text-theme-secondary">
+                          <div className="mb-5">
+                            <Zap className="w-12 h-12 md:w-16 md:h-16 mx-auto text-theme-accent-secondary opacity-50" />
                           </div>
-
-                          {/* Selected indicator */}
-                          {selectedModule?.id === module.id && (
-                            <div className="absolute top-3 left-3 w-3 h-3 bg-theme-accent-secondary rounded-full"></div>
-                          )}
-
-                          {/* Hover effect overlay */}
-                          <div
-                            className="absolute inset-0 bg-theme-accent/10 scale-[2.5] opacity-0 transition-all duration-500 group-hover:opacity-40"
-                            aria-hidden="true"
-                          />
-                        </SlideVisual>
-                        
-                        <SlideButton
-                          isExpanded={expandedSlides[index]}
-                          onClick={(e) => {
-                            toggleSlide(index);
-                            e.stopPropagation();
-                          }}
-                          className="bg-theme-accent text-white"
-                        />
-                        
-                        <SlideContent isExpanded={expandedSlides[index]} className="p-6">
-                          <SlideDescription className="text-theme-secondary text-sm">
-                            {module.subtitle || ''}
-                          </SlideDescription>
-                        </SlideContent>
-                        
-                        <SlideExpandedContent isExpanded={expandedSlides[index]} className="px-6 pb-6">
-                          <div className="text-theme-secondary mb-4">
-                            {module.subtitle || ''}
-                          </div>
-                          
-                          {/* Submodules preview with null check */}
-                          <div className="pl-3 border-l-2 mb-3 border-theme-accent">
-                            <div className="text-sm uppercase tracking-wider font-medium text-theme-accent mb-2">Key Topics</div>
-                            {(module.submodules || []).slice(0, 3).map((submodule: Submodule, idx: number) => (
-                              <div key={idx} className="mb-2">
-                                <div className="text-sm font-medium text-theme-primary">{submodule.title || 'Submodule'}</div>
-                                <div className="text-xs text-theme-secondary">{submodule.subtitle || ''}</div>
-                              </div>
-                            ))}
-                            {module.submodules && module.submodules.length > 3 && (
-                              <div className="text-sm text-theme-accent flex items-center mt-2">
-                                +{module.submodules.length - 3} more sections
-                                <ArrowRightCircle className="w-3 h-3 ml-1" />
-                              </div>
-                            )}
-                          </div>
-                          
-                          {/* Resources with null check */}
-                          <div className="mt-4">
-                            <div className="text-sm uppercase tracking-wider font-medium text-theme-accent mb-2">Included Resources</div>
-                            <div className="flex flex-wrap gap-2">
-                              {module.submodules && [...new Set((module.submodules || []).flatMap((sm: Submodule) => sm.resources || []))].map((resource: string, i: number) => (
-                                <span 
-                                  key={i}
-                                  className="text-xs bg-theme-surface/80 px-2 py-1 rounded-full text-theme-secondary border border-theme-border"
-                                >
-                                  {resource}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        </SlideExpandedContent>
-                      </Slide>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
+                          <p className="text-xl md:text-2xl font-medium mb-3">No founder modules found</p>
+                          <p className="text-sm md:text-base max-w-md mx-auto">Founder specific modules will appear here when available.</p>
+                        </div>
+                      </CarouselItem>
+                    )}
+                  </CarouselContent>
+                  <div className="mt-6 flex justify-center gap-4">
+                    <CarouselPrevious className="vs-carousel-prev" />
+                    <CarouselNext className="vs-carousel-next" />
+                  </div>
+                </Carousel>
                 
-                <div className="mt-8 flex justify-start gap-4">
-                  <CarouselPrevious className="static vs-carousel-btn" />
-                  <CarouselNext className="static vs-carousel-btn" />
-                </div>
-              </Carousel>
+                {/* Create custom navigation buttons that mimic the functionality - responsive for mobile */}
+                <button 
+                  className="absolute left-1 sm:left-2 md:left-3 top-1/2 -translate-y-1/2 z-10 
+                           bg-theme-gradient-primary 
+                           p-2 sm:p-2.5 md:p-3 
+                           rounded-full shadow-theme-md text-white 
+                           hover:scale-110 transition-transform duration-300 
+                           border border-white/20"
+                  onClick={() => document.querySelector('.vs-carousel-prev')?.click()}
+                  aria-label="Previous slide"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" 
+                       width="16" height="16" 
+                       className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6"
+                       viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                       strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M15 18l-6-6 6-6" />
+                  </svg>
+                </button>
+                
+                <button 
+                  className="absolute right-1 sm:right-2 md:right-3 top-1/2 -translate-y-1/2 z-10 
+                           bg-theme-gradient-primary 
+                           p-2 sm:p-2.5 md:p-3
+                           rounded-full shadow-theme-md text-white 
+                           hover:scale-110 transition-transform duration-300 
+                           border border-white/20"
+                  onClick={() => document.querySelector('.vs-carousel-next')?.click()}
+                  aria-label="Next slide"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" 
+                       width="16" height="16"
+                       className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6"
+                       viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                       strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 18l6-6-6-6" />
+                  </svg>
+                </button>
+              </div>
             </div>
             
             <p className="text-theme-tertiary text-sm text-center">

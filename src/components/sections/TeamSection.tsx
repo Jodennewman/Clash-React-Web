@@ -58,18 +58,27 @@ const TeamSection = () => {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-slate-50 to-slate-100 dark:from-gray-900 dark:to-gray-800">
+    <section className="py-16 md:py-24 bg-theme-gradient relative overflow-hidden">
+      {/* Theme-aware floating elements */}
+      <div className="absolute -z-10 top-20 left-[10%] w-32 h-32 rounded-[40%] rotate-12 
+                   opacity-theme-float bg-theme-float-primary animate-float-slow"></div>
+      <div className="absolute -z-10 bottom-20 right-[15%] w-36 h-36 rounded-[35%] -rotate-6 
+                   opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium"></div>
+      
       {/* Section header */}
       <div className="container mx-auto px-4 text-center mb-16 md:mb-20">
-        <div className="inline-block mb-3 px-4 py-1.5 bg-primary-orange/10 dark:bg-primary-orange/20 rounded-full">
-          <span className="text-primary-orange font-medium text-sm">Meet our team</span>
-        </div>
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
-          Meet the <span className="text-primary-orange">team</span>
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-theme-primary">
+          So who are we?
         </h2>
-        <p className="text-lg md:text-xl max-w-3xl mx-auto mb-4 text-gray-700 dark:text-gray-300">
-          We're not just a guy in a room. We're a team of creatives, who happen to be f*cking great at making content.
+        <h3 className="text-3xl md:text-4xl font-bold mb-6 text-theme-accent-primary">
+          Why trust us?
+        </h3>
+        <p className="body-text mx-auto max-w-[90%] md:max-w-3xl mb-8">
+          We're not just a guy in a room. We're a team of creatives, who just happen to be f*cking great at making content. It's why the number one short form agency in the world, and luckily for you we specialise in getting founders like yourself, millions of views.
         </p>
+        <h3 className="text-3xl md:text-4xl font-bold mb-8 text-theme-primary">
+          Meet the team
+        </h3>
       </div>
 
       {/* Team member cards - simple side-by-side layout */}
@@ -78,7 +87,7 @@ const TeamSection = () => {
           {teamMembers.map((member, index) => (
             <div 
               key={index}
-              className={`relative overflow-hidden rounded-3xl shadow-xl bg-white dark:bg-gray-800 
+              className={`relative overflow-hidden rounded-3xl shadow-theme-md bg-theme-surface
                 ${index % 2 === 0 ? 'md:ml-0 md:mr-auto' : 'md:ml-auto md:mr-0'}`}
               style={{maxWidth: '1100px'}}
             >
@@ -119,7 +128,7 @@ const TeamSection = () => {
                 <div className={`relative md:w-1/2 p-6 md:p-8 ${index % 2 === 1 ? 'md:order-1' : ''}`}>
                   {/* Name and title */}
                   <div className="border-l-4 pl-4 mb-6" style={{ borderColor: member.color }}>
-                    <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">
+                    <h3 className="text-3xl md:text-4xl font-bold text-theme-primary mb-1">
                       {member.name}
                     </h3>
                     <p className="text-xl font-medium" style={{ color: member.color }}>
@@ -128,7 +137,7 @@ const TeamSection = () => {
                   </div>
                   
                   {/* Bio */}
-                  <p className="text-gray-700 dark:text-gray-300 mb-6">
+                  <p className="body-text mb-6">
                     {member.bio}
                   </p>
                   
@@ -138,7 +147,7 @@ const TeamSection = () => {
                       <h4 className="font-bold mb-2 flex items-center" style={{ color: member.color }}>
                         <span className="mr-2">❤️</span> Likes
                       </h4>
-                      <ul className="space-y-1 text-sm text-gray-700 dark:text-gray-300">
+                      <ul className="space-y-1 text-sm text-theme-secondary">
                         {member.likes.map((like, idx) => (
                           <li key={idx} className="flex items-start">
                             <span className="mr-2">•</span>
@@ -152,7 +161,7 @@ const TeamSection = () => {
                       <h4 className="font-bold mb-2 flex items-center" style={{ color: member.color }}>
                         <span className="mr-2">👎</span> Dislikes
                       </h4>
-                      <ul className="space-y-1 text-sm text-gray-700 dark:text-gray-300">
+                      <ul className="space-y-1 text-sm text-theme-secondary">
                         {member.dislikes.map((dislike, idx) => (
                           <li key={idx} className="flex items-start">
                             <span className="mr-2">•</span>
@@ -164,11 +173,11 @@ const TeamSection = () => {
                   </div>
                   
                   {/* Quote */}
-                  <blockquote className="italic text-lg border-l-2 pl-4 text-gray-600 dark:text-gray-400"
+                  <blockquote className="italic text-lg border-l-2 pl-4 text-theme-secondary"
                     style={{ borderColor: member.color }}
                   >
                     "{member.quote}"
-                    <cite className="block text-sm mt-2 not-italic font-medium text-gray-500 dark:text-gray-500">
+                    <cite className="block text-sm mt-2 not-italic font-medium text-theme-tertiary">
                       — {member.quoteAuthor}
                     </cite>
                   </blockquote>

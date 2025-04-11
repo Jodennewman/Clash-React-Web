@@ -19,31 +19,31 @@ const ThumbnailItem = ({ src, alt }: { src: string; alt: string }) => {
 // Thumbnail paths from your webp folder
 const thumbnails = [
   { src: "/assets/main/thumbnails-with-views-webp/JW-Hiring-Sea.webp", alt: "JW Hiring Sea" },
-  { src: "/assets/main/thumbnails-with-views-webp/JW-Socialtip-rorysutherland.webp", alt: "JW Social Tip Rory Sutherland" },
-  { src: "/assets/main/thumbnails-with-views-webp/JW-jellycat.webp", alt: "JW Jellycat" },
-  { src: "/assets/main/thumbnails-with-views-webp/JS-David D.webp", alt: "JS David D" },
-  { src: "/assets/main/thumbnails-with-views-webp/JS-sidemenenightclub.webp", alt: "JS Sidemen Nightclub" },
-  { src: "/assets/main/thumbnails-with-views-webp/JW-BrewBeers-1.webp", alt: "JW Brew Beers" },
-  { src: "/assets/main/thumbnails-with-views-webp/JC-insanecults.webp", alt: "JC Insane Cults" },
-  { src: "/assets/main/thumbnails-with-views-webp/JC-taylorswift.webp", alt: "JC Taylor Swift" },
-  { src: "/assets/main/thumbnails-with-views-webp/JC-evilcriminals.webp", alt: "JC Evil Criminals" },
-  { src: "/assets/main/thumbnails-with-views-webp/JC-deadlyfilmaccidents.webp", alt: "JC Deadly Film Accidents" },
-  { src: "/assets/main/thumbnails-with-views-webp/JC-conspiracies.webp", alt: "JC Conspiracies" },
-  { src: "/assets/main/thumbnails-with-views-webp/JC-Slime.webp", alt: "JC Slime" },
-  { src: "/assets/main/thumbnails-with-views-webp/JC-Stupid-Deaths.webp", alt: "JC Stupid Deaths" },
   { src: "/assets/main/thumbnails-with-views-webp/CM-brat-summer.webp", alt: "CM Brat Summer" },
-  { src: "/assets/main/thumbnails-with-views-webp/CM-chappelle.webp", alt: "CM Chappelle" },
-  { src: "/assets/main/thumbnails-with-views-webp/CM-FYOU.webp", alt: "CM F You" },
-  { src: "/assets/main/thumbnails-with-views-webp/CM-Jlo.webp", alt: "CM JLo" },
-  { src: "/assets/main/thumbnails-with-views-webp/CM-Marketing.webp", alt: "CM Marketing" },
-  { src: "/assets/main/thumbnails-with-views-webp/CD-TOXIC#55.webp", alt: "CD Toxic #55" },
-  { src: "/assets/main/thumbnails-with-views-webp/CM -Successful women.webp", alt: "CM Successful Women" },
-  { src: "/assets/main/thumbnails-with-views-webp/CM-Agency Predictions.webp", alt: "CM Agency Predictions" },
-  { src: "/assets/main/thumbnails-with-views-webp/Baskins worse boss.webp", alt: "Baskins Worse Boss" },
-  { src: "/assets/main/thumbnails-with-views-webp/CD COFFEE.webp", alt: "CD Coffee" },
-  { src: "/assets/main/thumbnails-with-views-webp/CD-REGRET.webp", alt: "CD Regret" },
+  { src: "/assets/main/thumbnails-with-views-webp/JC-insanecults.webp", alt: "JC Insane Cults" },
+  { src: "/assets/main/thumbnails-with-views-webp/CD-TOXICno55.webp", alt: "CD Toxic #55" },
   { src: "/assets/main/thumbnails-with-views-webp/BA-something.webp", alt: "BA Something" },
+  { src: "/assets/main/thumbnails-with-views-webp/JS-David D.webp", alt: "JS David D" },
+  { src: "/assets/main/thumbnails-with-views-webp/JW-Socialtip-rorysutherland.webp", alt: "JW Social Tip Rory Sutherland" },
+  { src: "/assets/main/thumbnails-with-views-webp/CM-chappelle.webp", alt: "CM Chappelle" },
+  { src: "/assets/main/thumbnails-with-views-webp/JC-taylorswift.webp", alt: "JC Taylor Swift" },
+  { src: "/assets/main/thumbnails-with-views-webp/CD COFFEE.webp", alt: "CD Coffee" },
   { src: "/assets/main/thumbnails-with-views-webp/BA.BOOMERSVGENZ.webp", alt: "BA Boomers vs Gen Z" },
+  { src: "/assets/main/thumbnails-with-views-webp/JS-sidemenenightclub.webp", alt: "JS Sidemen Nightclub" },
+  { src: "/assets/main/thumbnails-with-views-webp/JW-jellycat.webp", alt: "JW Jellycat" },
+  { src: "/assets/main/thumbnails-with-views-webp/CM-FYOU.webp", alt: "CM F You" },
+  { src: "/assets/main/thumbnails-with-views-webp/JC-evilcriminals.webp", alt: "JC Evil Criminals" },
+  { src: "/assets/main/thumbnails-with-views-webp/CD-REGRET.webp", alt: "CD Regret" },
+  { src: "/assets/main/thumbnails-with-views-webp/JW-BrewBeers-1.webp", alt: "JW Brew Beers" },
+  { src: "/assets/main/thumbnails-with-views-webp/CM-Jlo.webp", alt: "CM JLo" },
+  { src: "/assets/main/thumbnails-with-views-webp/JC-deadlyfilmaccidents.webp", alt: "JC Deadly Film Accidents" },
+  { src: "/assets/main/thumbnails-with-views-webp/CM-Marketing.webp", alt: "CM Marketing" },
+  { src: "/assets/main/thumbnails-with-views-webp/JC-conspiracies.webp", alt: "JC Conspiracies" },
+  { src: "/assets/main/thumbnails-with-views-webp/CM -Successful women.webp", alt: "CM Successful Women" },
+  { src: "/assets/main/thumbnails-with-views-webp/JC-Slime.webp", alt: "JC Slime" },
+  { src: "/assets/main/thumbnails-with-views-webp/CM-Agency Predictions.webp", alt: "CM Agency Predictions" },
+  { src: "/assets/main/thumbnails-with-views-webp/JC-Stupid-Deaths.webp", alt: "JC Stupid Deaths" },
+  { src: "/assets/main/thumbnails-with-views-webp/Baskins worse boss.webp", alt: "Baskins Worse Boss" },
 ];
 
 // Split thumbnails into two roughly equal groups for the two rows
@@ -56,10 +56,10 @@ export default function SocialProof() {
       <div className="mx-auto flex max-w-container flex-col items-center gap-4 text-center sm:gap-16">
         <div className="flex flex-col items-center gap-4 px-4 sm:gap-8">
           <h2 className="max-w-[800px] text-3xl font-bold leading-tight sm:text-5xl sm:leading-tight text-theme-gradient">
-            Our Videos Get Millions of Views
+            You may have seen some of our work before:
           </h2>
-          <p className="text-md max-w-[700px] text-theme-secondary sm:text-xl">
-            We've created content that's reached over 800M views across platforms. Here's a small sample of our work.
+          <p className="body-text max-w-[700px] mx-auto max-w-[90%] md:max-w-none">
+            These are just some of the videos we've created that have gone viral, reaching hundreds of millions of views across platforms.
           </p>
         </div>
         

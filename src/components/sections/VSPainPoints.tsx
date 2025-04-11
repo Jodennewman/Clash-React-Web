@@ -106,7 +106,7 @@ const VSPainPoints = () => {
       <IsometricGridBackground />
       <div className="container mx-auto px-4">
         <h1 className="text-center text-theme-primary text-4xl md:text-5xl lg:text-6xl font-bold mb-16">
-          For Founders Feeling Fed Up
+          You're bored of failing content.
         </h1>
       </div>
       
@@ -141,72 +141,63 @@ const VSPainPoints = () => {
       
       {/* Pain Point Sections */}
       <div className="relative z-20 container mx-auto max-w-5xl px-4">
-        <div className="text-theme-secondary text-lg mb-20 mx-auto max-w-4xl text-center">
-          Founders complain a lot. And despite what certain, less hard working people think of them, sometimes they actually have a point. Being a founder is hard. Making content that actually gets views on top of that is impossible. We've worked with people just like you if you are:
+        <div className="body-text mb-20 mx-auto max-w-[90%] md:max-w-4xl text-center">
+          At this point you've sunk years of your life, millions of pounds and an army of creative freelancers into the dream of working out the "algorithm". And all it's done is reward your optimism and naivety with a slew of 200 view videos, and comments from russian bots.
         </div>
         
-        {/* Pain Point 1 */}
+        {/* Pain Point 1 - Money Pit */}
         <div className="my-40">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6 items-center">
             <div className="md:text-right order-2 md:order-1">
               <h2 className="pain-heading text-theme-primary text-3xl md:text-4xl lg:text-5xl font-bold">
-                Bored of <br />Failing Content<span className="text-theme-accent text-5xl">.</span>
+                You're bleeding money into Meta's money-pit<span className="text-theme-accent text-5xl">.</span>
               </h2>
             </div>
             <div className="order-1 md:order-2">
-              <p className="pain-desc text-theme-secondary">
-                Ploughing time, money and personnel into the dream of working out the "algorithm" and going from optimism to plain confusion every time your content tanks.
+              <p className="pain-desc body-text">
+                Without an organic strategy that works, you're relying entirely on paid ads which get marginal views on instagram (because genZ HATE feeling like they're being sold to) or pretty decent views on facebook — but that's completely useless unless boomers are your dream clientele.
               </p>
             </div>
           </div>
         </div>
         
-        {/* Pain Point 2 */}
+        {/* Pain Point 2 - Stressed Team */}
         <div className="my-40">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6 items-center">
             <div>
-              <p className="pain-desc text-theme-secondary">
-                Without organic content that works, you're forced to push unimaginable funds into paid ads just to generate leads.
+              <p className="pain-desc body-text">
+                Whether your team are top level marketers or graduates with a point to prove, nailing short form content is a very niche skill and there isn't much education on how to do it right. You're frustrated at the results and your team has no idea what to do.
               </p>
             </div>
             <div>
               <h2 className="pain-heading text-theme-primary text-3xl md:text-4xl lg:text-5xl font-bold">
-                Fighting Meta's <br />Money Pit<span className="text-theme-accent text-5xl">.</span>
+                Your social team is stressed (and so are you)<span className="text-theme-accent text-5xl">.</span>
               </h2>
             </div>
           </div>
         </div>
         
-        {/* Pain Point 3 */}
+        {/* Pain Point 3 - Inbound Leads */}
         <div className="my-40">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6 items-center">
             <div className="md:text-right order-2 md:order-1">
               <h2 className="pain-heading text-theme-primary text-3xl md:text-4xl lg:text-5xl font-bold">
-                Struggling With <br />Your Socials Team<span className="text-theme-accent text-5xl">.</span>
+                You want more inbound leads<span className="text-theme-accent text-5xl">.</span>
               </h2>
             </div>
             <div className="order-1 md:order-2">
-              <p className="pain-desc text-theme-secondary">
-                Whether your team are top level marketers or just starting out, nailing social media video is a niche, high value skill that has only been around since 2020.
+              <p className="pain-desc body-text">
+                You've got the product, the business, the vision. But your dream clients don't even know you exist. You're craving inbound leads, and a full inbox of DMs from people who <strong>already</strong> see you as the authority in your space.
               </p>
             </div>
           </div>
         </div>
         
-        {/* Pain Point 4 */}
-        <div className="my-40">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6 items-center">
-            <div>
-              <p className="pain-desc text-theme-secondary">
-                Your audience doesn't even know that you exist, and you dream of the advantages that come from being the best known in your category.
-              </p>
-            </div>
-            <div>
-              <h2 className="pain-heading text-theme-primary text-3xl md:text-4xl lg:text-5xl font-bold">
-                A Life <br />Without Leads<span className="text-theme-accent text-5xl">.</span>
-              </h2>
-            </div>
-          </div>
+        {/* Conclusion */}
+        <div className="my-40 text-center">
+          <h2 className="pain-heading text-theme-primary text-3xl md:text-4xl lg:text-5xl font-bold mb-8">
+            If that's you, we've got the solution<span className="text-theme-accent text-5xl">.</span>
+          </h2>
         </div>
       </div>
       

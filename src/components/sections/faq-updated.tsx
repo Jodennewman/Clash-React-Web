@@ -15,76 +15,52 @@ const courseData = {
   getSection: (id: string) => sections?.find(s => s.id === id)?.name || "specialized"
 };
 
-// FAQ data incorporating course information with null checks
+// FAQ data from guidance document
 const faqItems = [
   {
-    question: "What exactly is the Vertical Shortcut program?",
+    question: "Why is short form a good investment?",
     answer: [
-      `Vertical Shortcut is a comprehensive ${courseData.totalModules}+ module training program designed to help creators and entrepreneurs master short-form video content across all major platforms.`,
-      `The program includes over ${courseData.totalHours} hours of content, covering everything from content strategy and psychology to production techniques and monetization methods.`
+      "Short form content has only really been around since 2020. But in that short space of time it has grown an insane amount. 62.6% of the global population is currently on social media, that's well over 5 billion people, and each of them spends around 2 and a half hours on there. Every single day. 5 billion people watching for 2 and a half hours.",
+      "Short form is where the attention is and it's where people are buying. Studies show that 96% of all consumers prefer video over text when learning about a product or a service, and 73% of those consumers prefer to learn about it through short form video specifically.",
+      "So if you have a product - and that product could be you - short form is the only reasonable place to start dominating. Especially if you're trying to target gen z. 70% of them watch short form videos every single day, this is the place to reach them."
     ]
   },
   {
-    question: "How is Vertical Shortcut different from other short-form courses?",
+    question: "Who is this course designed for?",
     answer: [
-      "While most courses focus only on basic filming techniques or platform-specific tricks, Vertical Shortcut provides a complete system for creating high-converting content that builds your business.",
-      "Our program stands out with premium design quality, custom frameworks, and delightful touches that position your product as professional. Unlike many courses that rely on outdated practices, we're built with modern technologies and best practices."
+      "This course is for founders and creative team members who are ready to transform their approach to short form over an 8-week period. Our clients include agency founders, CMOs, MDs, experts and straight up growth hackers. So, if you want to understand how to get views on short form, this course is for you."
     ]
   },
   {
-    question: "Who is this program best suited for?",
+    question: "How is the course structured?",
     answer: [
-      `Vertical Shortcut is designed for multiple learning paths through our specialized tracks: ${courseData.trackNames}.`,
-      "Whether you're a busy founder with limited time, a content creator looking to grow your audience, or a technical professional wanting to improve production quality, we have a custom learning path for you."
+      "Well you *should* read the course structure. But here's the top line: 8 weeks of pre-recorded content, live sessions, workshops and PDFs. Lifetime access to all our resources, plus our founder community and our team of experts."
     ]
   },
   {
-    question: "How much time do I need to commit to see results?",
+    question: "What topics does the course cover?",
     answer: [
-      "We recommend committing 4 hours per week over the 10-week program period for optimal results.",
-      "The program is designed to be flexible, and many busy entrepreneurs see significant improvements by implementing just 1-2 strategies per week. Our most successful students complete one module per day."
+      "Our course covers everything. And we mean everything. From the fundamentals of starting your account, to what makes a good video (and a bad one). And all the tools and theory you need to make videos that algorithms 'aka audiences' love. Plus how to get this all up and running with a content team that runs itself. And then make money and leads from it."
     ]
   },
   {
-    question: "Do I need expensive equipment to implement what I learn?",
+    question: "How much time should I commit weekly?",
     answer: [
-      "Not at all! Many of our most successful students started with just a smartphone.",
-      `Our ${courseData.getSection("shooting")} section includes specific modules like "Solo Phone Shooter" that show you how to create professional-quality content with minimal equipment.`
+      "We know how busy you are, so outside of the hour weekly sessions, the course is designed to be completely flexible. Ideally, you and/or your team dedicate 3-4 hours per week to maximise value from the weekly sessions.",
+      "If you're a very time-strapped founder, please check out the founder and team tracks to know which modules you need to watch, and which ones to hand over to them."
     ]
   },
   {
-    question: "What if I'm camera shy or don't want to be on camera?",
+    question: "How quickly will I see results?",
     answer: [
-      `We have a dedicated module called "Camera Confidence" in our ${courseData.getSection("shooting")} section specifically designed to help overcome camera anxiety with proven techniques.`,
-      "Additionally, we teach strategies for creating engaging content without appearing on camera, or ways to build a team so you can be the strategist rather than the on-camera talent."
+      "Despite our glowing results, short form is a tricky beast, and requires commitment. If you use the contact time right, apply yourself fully and trust the process, we'd expect you'll do great.",
+      "Founders that work with us tend to see an initial warming up period, then a steady, consistent increase in views over the first 3 months."
     ]
   },
   {
-    question: "What kind of results can I expect?",
+    question: "What happens when I sign up?",
     answer: [
-      "Our students typically see 300-500% increases in engagement within the first 30 days of implementing our hook and content strategies.",
-      "For business owners, most report significant increases in leads and sales within 60-90 days of consistent implementation."
-    ]
-  },
-  {
-    question: "Do you offer any guarantees?",
-    answer: [
-      "Yes! We offer a 30-day action-based guarantee. If you complete the first 4 modules, implement the strategies, and don't see improvements in your content performance, we'll refund your investment.",
-      "We stand behind our methodology because we've seen it work across industries, platforms, and for creators at all skill levels."
-    ]
-  },
-  {
-    question: "Is there ongoing support after I purchase?",
-    answer: [
-      "Absolutely! Your investment includes lifetime access to all current and future content, plus 12 months of access to our community for feedback and support.",
-      "We also offer weekly live Q&A sessions and content reviews with our expert team for active students."
-    ]
-  },
-  {
-    question: "Can I get a discount?",
-    answer: [
-      "We're looking for beta testers and great examples of Vertical Shortcut in action to feature on our website. If you provide feedback to help us improve the program, you could get a huge discount plus a solid backlink for your product.",
-      "If this interests you, don't hesitate to reach out by email."
+      "Once you've applied, and you're all signed off and ready to go, you'll be given immediate access to the first week of content (we don't want to overwhelm you) plus a group chat directly in contact with us, and the other lucky founders in your cohort."
     ]
   }
 ];
@@ -93,9 +69,12 @@ export default function FAQ() {
   return (
     <Section>
       <div className="mx-auto flex max-w-container flex-col items-center gap-12">
-        <h2 className="text-center text-3xl font-semibold sm:text-5xl">
-          Questions and Answers
+        <h2 className="text-center text-4xl md:text-5xl font-bold text-theme-primary mb-6">
+          FAQs
         </h2>
+        <h3 className="text-center text-2xl md:text-3xl text-theme-primary mb-8">
+          And frequently given answers
+        </h3>
         <Accordion type="single" collapsible className="w-full max-w-[800px]">
           {faqItems.map((item, index) => (
             <AccordionItem key={`item-${index + 1}`} value={`item-${index + 1}`}>
@@ -106,7 +85,7 @@ export default function FAQ() {
                 {item.answer.map((paragraph, pIndex) => (
                   <p 
                     key={pIndex} 
-                    className={`mb-4 max-w-[640px] text-balance text-muted-foreground ${pIndex < item.answer.length - 1 ? 'mb-4' : ''}`}
+                    className={`body-text-sm mb-4 max-w-[640px] text-balance ${pIndex < item.answer.length - 1 ? 'mb-4' : ''}`}
                   >
                     {paragraph}
                   </p>

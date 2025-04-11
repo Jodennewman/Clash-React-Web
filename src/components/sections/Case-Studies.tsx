@@ -12,11 +12,21 @@ import {
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+
+// Type the ScrollTrigger for proper usage with TypeScript
+declare global {
+  interface ScrollTriggerInstance extends ScrollTrigger {}
+}
 import { Section } from "../ui/section";
 import { AnimatedButton } from "../marble-buttons/AnimatedButton";
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
+
+// Set ScrollTrigger defaults for better performance
+ScrollTrigger.config({
+  ignoreMobileResize: true, // Reduces updates during mobile resize events
+});
 
 // Import creator case study data from the database via course-utils
 import courseUtils, { Creator } from "../../lib/course-utils";
@@ -96,6 +106,9 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
       });
       
       setScrollPosition(clampedPosition);
+      
+      // Refresh ScrollTrigger to update positions after scrolling
+      ScrollTrigger.refresh();
     };
     
     // Use the current creator data
@@ -141,6 +154,16 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
       return () => clearTimeout(timer);
     }, [activeCreator, activeMetric]);
     
+    // Refresh ScrollTrigger when active creator changes
+    useEffect(() => {
+      // Small delay to ensure DOM has updated
+      const refreshTimer = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 50);
+      
+      return () => clearTimeout(refreshTimer);
+    }, [activeCreator]);
+    
     // Calculate Y-axis domain based on active metric
     const getYAxisDomain = () => {
       if (activeMetric === "views") {
@@ -163,11 +186,14 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
       return "auto";
     };
 
-    // GSAP animations
+    // GSAP animations with proper cleanup
     useGSAP(() => {
+      // Store ScrollTrigger instances for explicit cleanup
+      const scrollTriggers: ScrollTriggerInstance[] = [];
+      
       const ctx = gsap.context(() => {
         // Create ScrollTrigger animation for main elements
-        gsap.from(".case-study-element", {
+        const mainElementsAnimation = gsap.from(".case-study-element", {
           y: 40,
           opacity: 0,
           stagger: 0.1,
@@ -178,11 +204,17 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
             start: "top 75%",
             end: "bottom bottom",
             toggleActions: "play none none reverse",
+            id: "case-study-elements" // Add ID for easier debugging
           }
         });
+        
+        // Store the ScrollTrigger instance for explicit cleanup
+        if (mainElementsAnimation.scrollTrigger) {
+          scrollTriggers.push(mainElementsAnimation.scrollTrigger);
+        }
 
         // Special animation for the stats row with staggered entry
-        gsap.from(".stats-box", {
+        const statsAnimation = gsap.from(".stats-box", {
           y: 30,
           opacity: 0,
           stagger: 0.08,
@@ -192,12 +224,31 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
             trigger: statsRowRef.current,
             start: "top 85%",
             toggleActions: "play none none reverse",
+            id: "stats-boxes" // Add ID for easier debugging
           }
         });
+        
+        // Store the ScrollTrigger instance for explicit cleanup
+        if (statsAnimation.scrollTrigger) {
+          scrollTriggers.push(statsAnimation.scrollTrigger);
+        }
       }, sectionRef);
 
-      return () => ctx.revert(); // Cleanup
-    }, []);
+      // Return comprehensive cleanup function
+      return () => {
+        // First kill all ScrollTrigger instances explicitly
+        scrollTriggers.forEach(trigger => {
+          trigger.kill();
+        });
+        
+        // Then revert the GSAP context
+        ctx.revert();
+        
+        // Log cleanup for debugging (remove in production)
+        console.log('ScrollTrigger instances cleaned up:', scrollTriggers.length);
+      };
+    }, []); // Empty dependency array since animations should only initialize once
+             // Using refs as triggers handles dynamic content
 
     // Custom tooltip component for the chart
     const CustomTooltip = ({ 

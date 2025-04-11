@@ -4,7 +4,7 @@ import React, { useRef, useEffect } from "react";
 
 export interface AnimatedButtonProps {
   text: string;
-  variant: "start" | "pro" | "learn" | "docs";
+  variant: "start" | "pro" | "learn" | "docs" | "accent";
   saturation?: "normal" | "high" | "low" | "subtle";
   className?: string;
   onClick?: () => void;
@@ -64,6 +64,40 @@ export const AnimatedButton: React.FC<AnimatedButtonProps> = ({
         bgColor: "bg-theme-card",
         shadow: "shadow-theme-sm",
         border: "border border-theme-primary border-opacity-30",
+        pattern:
+          "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDEwMCwxMDAgTCA1MCw1MCBMIDE1MCw1MCBaIiBmaWxsPSJyZ2JhKDIyMiwxMDcsODksMC4wNSkiLz48L3N2Zz4=')",
+      },
+    },
+    accent: {
+      normal: {
+        textColor: "text-white",
+        bgColor: "bg-theme-accent",
+        shadow: "shadow-theme-md",
+        border: "",
+        pattern:
+          "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDEwMCwxMDAgTCA1MCw1MCBMIDE1MCw1MCBaIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz48L3N2Zz4=')",
+      },
+      high: {
+        textColor: "text-white",
+        bgColor: "bg-theme-accent",
+        shadow: "shadow-theme-lg",
+        border: "",
+        pattern:
+          "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDEwMCwxMDAgTCA1MCw1MCBMIDE1MCw1MCBaIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMTUpIi8+PC9zdmc+')",
+      },
+      low: {
+        textColor: "text-white",
+        bgColor: "bg-theme-accent",
+        shadow: "shadow-theme-sm",
+        border: "",
+        pattern:
+          "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDEwMCwxMDAgTCA1MCw1MCBMIDE1MCw1MCBaIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDgpIi8+PC9zdmc+')",
+      },
+      subtle: {
+        textColor: "text-theme-accent",
+        bgColor: "bg-theme-accent/10",
+        shadow: "shadow-theme-sm",
+        border: "border border-theme-accent border-opacity-30",
         pattern:
           "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDEwMCwxMDAgTCA1MCw1MCBMIDE1MCw1MCBaIiBmaWxsPSJyZ2JhKDIyMiwxMDcsODksMC4wNSkiLz48L3N2Zz4=')",
       },
@@ -175,6 +209,7 @@ export const AnimatedButton: React.FC<AnimatedButtonProps> = ({
   // Animation parameters based on variant
   const animationParams = {
     start: { scale: "1.05", rotate: "3deg", duration: 9 },
+    accent: { scale: "1.07", rotate: "2.5deg", duration: 8 },
     pro: { scale: "1.1", rotate: "-2deg", duration: 12 },
     learn: { scale: "1.08", rotate: "2deg", duration: 10 },
     docs: { scale: "1.03", rotate: "-1.5deg", duration: 11 },

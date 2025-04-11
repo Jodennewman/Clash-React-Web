@@ -356,29 +356,25 @@ export const CourseViewer: React.FC = () => {
       
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <Badge 
-            variant="outline" 
-            className="bg-theme-surface/5 text-theme-primary border-theme-primary/30 mb-4 py-2 px-4 mx-auto shadow-theme-sm"
-          >
-            Course Navigator
-          </Badge>
-          <VSGradientText
-            variant="h2"
-            fromColor="var(--theme-primary)"
-            toColor="var(--theme-accent-secondary)"
-            className="text-4xl md:text-5xl font-bold mb-6"
-          >
-            Master Your Content Journey
-          </VSGradientText>
           <VSHeading 
             variant="h2" 
-            className="text-2xl md:text-3xl text-theme-primary max-w-3xl mx-auto"
+            className="text-4xl md:text-5xl font-bold mb-6 text-theme-primary"
           >
-            A complete roadmap to <span className="text-theme-accent-secondary font-medium">short-form mastery</span>
+            Is making actually good short form content really that complex?
           </VSHeading>
-          <p className="text-theme-secondary text-lg mt-4 max-w-2xl mx-auto">
-            Navigate our comprehensive curriculum designed to transform you from beginner to expert. Every skill, every strategy, all in one place.
+          
+          <p className="body-text mb-6 mx-auto max-w-[90%] md:max-w-3xl">
+            Well yes and no. It's simple, but there's a lot to it.
           </p>
+          
+          <VSGradientText
+            variant="h3"
+            fromColor="var(--theme-primary)"
+            toColor="var(--theme-accent-secondary)"
+            className="text-2xl md:text-3xl font-bold mb-12"
+          >
+            The Course Curriculum
+          </VSGradientText>
         </div>
         
         {/* ModuleHUD container with theme-aware styling and proper centering */}

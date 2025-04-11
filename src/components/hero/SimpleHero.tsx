@@ -231,49 +231,51 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
           >
             <div className="flex items-center">
               <h1 className="hero-content mb-4 lg:mb-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight text-theme-primary transition-all duration-500">
-
                 <span className="font-medium text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-theme-accent-tertiary transition-all duration-500">
-
-                  Billions
+                  1 Billion+
                 </span>
-                <span className="font-light"> of views,</span>
+                <span className="font-light"> views,</span>
                 <span className="font-normal block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-all duration-500">
-                  zero ad spend.
+                  zero ad spend
                 </span>
               </h1>
             </div>
 
-
             {/* Subheading now attached to heading */}
             <div className="z-10">
-              <h4 className="hero-content text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-4 sm:mb-6 lg:mb-8 text-theme-primary transition-all duration-500">
-                <span>A </span>
-
-                <span className="text-theme-accent-tertiary font-bold">proven, turn-key system </span>
-
-                <span className="inline md:hidden">for short form content.</span>
-                <span className="hidden md:inline">to survive, thrive, </span>
-                <span className="hidden md:block">and monetise with short form content,</span>
-                <span className="hidden md:block">for founders.</span>
+              <h4 className="hero-content body-text-large mb-4 sm:mb-6 lg:mb-8 text-theme-primary transition-all duration-500">
+                The proven system to survive, thrive and monetise with short form content 
+                <span className="hidden md:inline"> — specifically for founders</span>.
               </h4>
+              
+              {/* Badge */}
+              <div className="hero-content mb-6">
+                <div className="inline-flex items-center gap-2 bg-theme-primary/10 border border-theme-primary/30 rounded-full py-2 px-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-theme-primary">
+                    <path d="M12 1v4"></path>
+                    <path d="M6.1 4.5l2.3 3.5"></path>
+                    <path d="M1.4 10.5l3.5 2.3"></path>
+                    <path d="M1 17.9h4"></path>
+                    <path d="M6.1 19.5l2.3-3.5"></path>
+                    <path d="M16.9 19.5l-2.3-3.5"></path>
+                    <path d="M19 17.9h4"></path>
+                    <path d="M22.6 10.5l-3.5 2.3"></path>
+                    <path d="M17.9 4.5l-2.3 3.5"></path>
+                  </svg>
+                  <span className="text-sm md:text-base font-medium text-theme-primary">
+                    From the number one short form agency in the world (we're deadly serious)
+                  </span>
+                </div>
+              </div>
               
               {/* Animated Buttons with responsive sizes */}
               <div className="hero-content flex flex-wrap gap-2 sm:gap-3 lg:gap-4 transition-all duration-500">
                 <AnimatedButton 
-
                   text="Get Your Plan"
-
                   variant="start"
                   saturation="high"
                   size="md"
                   onClick={onCtaClick}
-                  className="w-auto text-sm sm:text-base"
-                />
-                <AnimatedButton 
-                  text="Book a Call"
-                  variant="docs"
-                  saturation="normal"
-                  size="md"
                   className="w-auto text-sm sm:text-base"
                 />
               </div>

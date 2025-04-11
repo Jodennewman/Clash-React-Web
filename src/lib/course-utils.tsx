@@ -255,8 +255,11 @@ export const getSection = (sectionId: string): Section | null => {
 };
 
 // Get modules that are marked for founders with safety checks
+// Only checking for founderMustWatch property as per user clarification
 export const getFounderModules = (): Module[] => {
-  const founderModules: Module[] = [];
+  let repurposingLinkedInModule: Module | null = null;
+  let authorityBrandModule: Module | null = null;
+  const otherFounderModules: Module[] = [];
   
   if (courseData && Array.isArray(courseData.categories)) {
     courseData.categories.forEach(category => {
@@ -264,10 +267,25 @@ export const getFounderModules = (): Module[] => {
         category.sections.forEach(section => {
           if (Array.isArray(section.modules)) {
             section.modules.forEach(module => {
-              if (module && module.founderMustWatch === true && 
-                  Array.isArray(module.tracks) && 
-                  module.tracks.includes("Founders")) {
-                founderModules.push(module);
+              console.log('Checking module for founder criteria:', module.title, {
+                founderMustWatch: module.founderMustWatch
+              });
+              
+              // Check for specific priority modules first
+              if (module && module.title) {
+                const title = module.title.toLowerCase();
+                if (title.includes("repurposing linkedin") || title.includes("repurposing")) {
+                  repurposingLinkedInModule = module;
+                  repurposingLinkedInModule.founderMustWatch = true;
+                  console.log('✅ Found repurposing LinkedIn module:', module.title);
+                } else if (title.includes("authority") || title.includes("brand wholism") || title.includes("authority and brand")) {
+                  authorityBrandModule = module;
+                  authorityBrandModule.founderMustWatch = true;
+                  console.log('✅ Found authority and brand module:', module.title);
+                } else if (module.founderMustWatch === true) {
+                  otherFounderModules.push(module);
+                  console.log('✅ Found other founder module:', module.title);
+                }
               }
             });
           }
@@ -276,7 +294,191 @@ export const getFounderModules = (): Module[] => {
     });
   }
   
-  return founderModules;
+  // Prioritize the specified modules
+  const prioritizedModules: Module[] = [];
+  
+  // Add priority modules first if found
+  if (repurposingLinkedInModule) prioritizedModules.push(repurposingLinkedInModule);
+  if (authorityBrandModule) prioritizedModules.push(authorityBrandModule);
+  
+  // Add other founder modules
+  prioritizedModules.push(...otherFounderModules);
+  
+  console.log(`Total founder modules found: ${prioritizedModules.length}`);
+  
+  // If no founder modules found, create some fallback modules with example data
+  if (prioritizedModules.length === 0) {
+    console.log('No founder modules found, creating fallback modules');
+    
+    // Get some featured modules to use as fallbacks if available
+    let fallbackModules = getFeaturedModules().slice(0, 5);
+    
+    // If still no modules, create placeholder modules
+    if (fallbackModules.length === 0) {
+      console.log('Creating placeholder modules');
+      
+      // Add priority placeholder modules
+      fallbackModules.push({
+        id: 'repurposing-linkedin',
+        title: 'Repurposing LinkedIn',
+        subtitle: 'Transform your LinkedIn content into engaging short-form videos across platforms.',
+        icon: "rocket",
+        color: "#FF3B30",
+        thumbnail: "repurposing.webp",
+        points: [
+          "Convert LinkedIn posts to social media videos",
+          "Maintain professional positioning while creating viral content",
+          "Leverage existing content to save time and effort",
+          "Use LinkedIn insights to inform content strategy"
+        ],
+        tracks: ["Content Strategy", "Advanced"],
+        duration: 45,
+        founderMustWatch: true,
+        entrepreneurSpecific: true,
+        popular: true,
+        featured: true,
+        submodules: [
+          {
+            id: 'repurposing-linkedin-sub-1',
+            title: 'LinkedIn Content Audit',
+            subtitle: "Analyzing your best performing LinkedIn content",
+            duration: 15,
+            difficulty: 3,
+            resources: ["Audit Template", "Performance Tracker"],
+            highValue: true,
+            week: 1,
+            instructor: "Joden Newman"
+          },
+          {
+            id: 'repurposing-linkedin-sub-2',
+            title: 'Video Repurposing Workflow',
+            subtitle: "Step-by-step system for transforming text to video",
+            duration: 20,
+            difficulty: 3,
+            resources: ["Production Template", "Content Calendar"],
+            highValue: true,
+            week: 1,
+            instructor: "Joden Newman"
+          }
+        ]
+      });
+      
+      fallbackModules.push({
+        id: 'authority-brand-wholism',
+        title: 'Authority and Brand Wholism',
+        subtitle: 'Create a cohesive brand presence that positions you as a thought leader.',
+        icon: "briefcase",
+        color: "#FF3B30",
+        thumbnail: "big_picture.webp",
+        points: [
+          "Establish yourself as the authority in your industry",
+          "Develop a consistent voice across all platforms",
+          "Balance authenticity with professional positioning",
+          "Create a content strategy that enhances your brand"
+        ],
+        tracks: ["Content Strategy", "Advanced"],
+        duration: 50,
+        founderMustWatch: true,
+        entrepreneurSpecific: true,
+        popular: true,
+        featured: true,
+        submodules: [
+          {
+            id: 'authority-brand-wholism-sub-1',
+            title: 'Authority Positioning Framework',
+            subtitle: "Define your unique expertise and positioning",
+            duration: 18,
+            difficulty: 4,
+            resources: ["Positioning Worksheet", "Brand Voice Guide"],
+            highValue: true,
+            week: 2,
+            instructor: "Joden Newman"
+          },
+          {
+            id: 'authority-brand-wholism-sub-2',
+            title: 'Creating a Cohesive Brand Strategy',
+            subtitle: "Maintaining brand consistency across platforms",
+            duration: 22,
+            difficulty: 3,
+            resources: ["Brand Strategy Template", "Content Style Guide"],
+            highValue: true,
+            week: 2,
+            instructor: "Joden Newman"
+          }
+        ]
+      });
+      
+      // Create additional sample founder modules
+      for (let i = 1; i <= 3; i++) {
+        fallbackModules.push({
+          id: `founder-sample-${i}`,
+          title: `Founder Essential ${i}`,
+          subtitle: `Essential knowledge for founders to scale their content strategy efficiently.`,
+          icon: "rocket",
+          color: "#FF3B30",
+          thumbnail: "advanced_metrics_analytics.webp", // Using existing thumbnails
+          points: [
+            "Strategic content planning for leadership visibility",
+            "Delegating content creation while maintaining voice",
+            "ROI-focused approach to social media",
+            "Time-efficient production systems"
+          ],
+          tracks: ["Content Strategy", "Advanced"],
+          duration: 45,
+          founderMustWatch: true,
+          entrepreneurSpecific: true,
+          popular: true,
+          featured: true,
+          submodules: [
+            {
+              id: `founder-sample-${i}-sub-1`,
+              title: `Leadership Positioning Strategy`,
+              subtitle: "How to position yourself as a thought leader",
+              duration: 15,
+              difficulty: 3,
+              resources: ["Template", "Worksheet"],
+              highValue: true,
+              week: 1,
+              instructor: "Joden Newman"
+            },
+            {
+              id: `founder-sample-${i}-sub-2`,
+              title: `Delegation Framework`,
+              subtitle: "Systems for delegating content without losing control",
+              duration: 20,
+              difficulty: 3,
+              resources: ["SOP Template", "Team Structure Guide"],
+              highValue: true,
+              week: 1,
+              instructor: "Joden Newman"
+            },
+            {
+              id: `founder-sample-${i}-sub-3`,
+              title: `Time Management for Busy Founders`,
+              subtitle: "Creating content while running your business",
+              duration: 10,
+              difficulty: 2,
+              resources: ["Schedule Template"],
+              highValue: true,
+              week: 2,
+              instructor: "Joden Newman"
+            }
+          ]
+        });
+      }
+    } else {
+      // Mark the fallback modules as founder modules
+      fallbackModules = fallbackModules.map(module => ({
+        ...module,
+        founderMustWatch: true,
+        entrepreneurSpecific: true
+      }));
+    }
+    
+    return fallbackModules;
+  }
+  
+  return prioritizedModules;
 };
 
 // Get modules by track name with safety checks
@@ -343,9 +545,9 @@ export const getCreators = (): Creator[] => {
     {
       id: 1,
       name: "Chris Donnelly",
-      avatar: "/assets/main/DataBaseThumbnails/JodenExplain0.webp",
+      avatar: "/assets/main/Clients-webp-300px/Chris_Donnelly.webp",
       description:
-        "Founder of Verb Brands. We helped Chris grow his thought leadership content from March to August 2024, focusing on luxury branding insights.",
+        "Chris Donnelly is the founder of luxury digital marketing agency Verb, the cofounder of Lottie, a tech startup for social care, plus an investor, author, speaker and creator. He is now the founder of the creator accelerator, and host of the Wake Up podcast.\nWe started working with Chris in 2022, and grew his TikTok and Instagram accounts from 1k to 1m followers, in just under 2 years, amassing over 250 million views. His account focusses on business, management, leadership and investment.",
       data: [
         { month: "Mar", views: 5500, followers: 2253, interactions: 840 },
         {
@@ -388,9 +590,9 @@ export const getCreators = (): Creator[] => {
     {
       id: 2,
       name: "Charlotte Mair",
-      avatar: "/assets/main/DataBaseThumbnails/TiaExplainng0.webp",
+      avatar: "/assets/main/Clients-webp-300px/Charlotte_mair.webp",
       description:
-        "Founder of The Fitting Room. Charlotte partnered with us from January to July 2024 to expand her fashion tech influence.",
+        "Charlotte Mair is the Founder and Managing Director of award winning culture and communications agency, The Fitting Room, a cultural forecaster, speaker, and brand strategist.\nWe started working with Charlotte in October of 2024, and in just 6 months she’s built 170k followers across her TikTok and YouTube, and amassed 28 million views. Her account focusses on all things marketing, pop culture and business.",
       data: [
         { month: "Oct", views: 30800, followers: 594, interactions: 347 },
         {
@@ -427,9 +629,9 @@ export const getCreators = (): Creator[] => {
     {
       id: 3,
       name: "James Watt",
-      avatar: "/assets/main/DataBaseThumbnails/AlexExplainsmore0.webp",
+      avatar: "assets/main/Clients-webp-300px/James_Watt.webp",
       description:
-        "Co-founder of BrewDog. We collaborated with James from April to October 2024 to build an authentic personal brand separate from his company identity.",
+        "James Watt is the co-founder and captain of BrewDog the biggest independent beer company on the planet. He’s also a best-selling author, investor, North Atlantic captain and the founder of Social Tip, the platform that makes ‘anyone an influencer’. \nWe started working with James at the end of 2024 and together grew an audience of 15k followers and 20 million views in just 2 months on TikTok alone. His account focusses on business, beer and lobster fishing (of course).",
       data: [
         { month: "Oct", views: 0, followers: 0, interactions: 0 },
         { month: "Nov", views: 7123640, followers: 7649, interactions: 232779 },
@@ -455,9 +657,9 @@ export const getCreators = (): Creator[] => {
     {
       id: 4,
       name: "Ben Askins",
-      avatar: "/assets/main/DataBaseThumbnails/data-led0.webp",
+      avatar: "/assets/main/Clients-webp-300px/Ben_Askins.webp  ",
       description:
-        "Managing Director of Verb. Ben worked with us from February to August 2024 to position himself as a digital marketing thought leader.",
+        "Ben Askins is the co-founder of Gaia, a green tech company that helps businesses hit environmental targets efficiently. He alsoo co-founded Verb Brands alongside Chris Donnelly.\nWe started working with Ben in 2022, and grew his audience to 1 million followers across TikTok and Instagram, hitting an insane 387 million views in under 7 months. His account focusses on business, management and genZ.",
       data: [
         { month: "Feb", views: 7263, followers: 104, interactions: 197 },
         { month: "Mar", views: 420099, followers: 1248, interactions: 42877 },
@@ -513,9 +715,9 @@ export const getCreators = (): Creator[] => {
     },
     {
       id: 5,
-      name: "Joden Newman",
-      avatar: "/assets/main/DataBaseThumbnails/Joden React0.webp",
-      description: "Founder of Vertical Shortcut.",
+      name: "Joden Clash",
+      avatar: "/assets/main/Clients-webp-300px/Joden_Clash.webp",
+      description: "Joden Newman is the Founder and Creative Director of Clash Creation. In early 2024 he decided to apply the vertical shortcut techniques to his own content, and grew himself 110 million views and 1 million followers across all platforms in just 3 months. His account focusses on current events, true crime and film. ",
       data: [
         { month: "Feb", views: 90000, followers: 8322, interactions: 12678 },
         {
@@ -560,6 +762,43 @@ export const getCreators = (): Creator[] => {
         followers: 936760 + 126212,
         interactions: 9360000,
       },
+    },
+      {
+        id: 6,
+        name: "Jordan Schwarz",
+        avatar: "/assets/main/Clients-webp-300px/Jordan_Schwarzenberger.webp",
+        description: "Jordan Schwarzenberger is the co-founder Arcade Media, author, creative and the manager of The Sidemen: the UK’s biggest creator empire. \nWe started working with Jordan towards the end of 2024 and together grew his TikTok and Instagram to 39 million views and 15k followers in just 3 months. His account focusses on GenZ, the creator economy, and pop culture.",
+        data: [
+          {
+            month: "Oct",
+            views: 0,
+            followers: 14562+5344,
+            interactions: 0,
+          },
+          {
+            month: "Nov",
+            views: 3348513,
+            followers: 16896+16900,
+            interactions: 231295,
+          },
+          {
+            month: "Dec",
+            views: 5518878,
+            followers: 21057+18279,
+            interactions: 323166,
+          },
+          {
+            month: "Jan",
+            views: 9215739+145782+1598500,
+            followers: 22255+21710,
+            interactions: 566426,
+          },
+        ],
+        totals: {
+          views: 9215739+145782+1598500,
+          followers: 936760 + 126212,
+          interactions: 9360000,
+        },
     }
   ];
 };
@@ -866,6 +1105,13 @@ interface SystemData {
   description: string;
   features: string[];
   subtitle?: string; // Short description for small block display
+  emoji?: string; // Emoji for the system
+  tagline?: string; // Tagline for the system
+  hasCustomCode?: boolean;
+  hasTemplates?: boolean;
+  hasAutomation?: boolean;
+  implementationTime?: string;
+  complexityLevel?: string;
 }
 
 // Get system data for the Systems blocks in ModuleHUD
@@ -874,42 +1120,96 @@ export const getSystemData = (systemId: string): SystemData | null => {
   // For now, we'll define it here but it could be moved to the JSON later
   const systemsData: SystemData[] = [
     {
-      id: 'notion_system',
-      title: 'Notion System',
-      subtitle: 'Content Organization',
-      description: 'Our comprehensive content organization system powered by a custom Notion database with advanced integrations.',
-      features: [
-        'Content planning with linked databases',
-        'Ready-to-use templates for scripts',
-        'Database analytics for performance tracking',
-        'Automated content scheduling and workflows'
-      ]
+      "id": "content-management-framework",
+      "title": "Content Management Framework",
+      "emoji": "💾",
+      "tagline": "The Quantity and Quality Notion system",
+      "description": "**Never stare at a blank content calendar again.** Our Notion-based command center lets a 3-person team have the power of 20, managing hundreds of videos monthly with military precision and creative freedom. Say goodbye to missed deadlines and chaotic workflows forever.",
+      "features": [
+        "Manage hundreds of scripts and videos a month",
+        "Have a super slick team workflow",
+        "With Custom Code",
+        "Complete delegation and tracking solution"
+      ],
+      "hasCustomCode": true,
+      "hasTemplates": true,
+      "hasAutomation": true,
+      "implementationTime": "medium",
+      "complexityLevel": "moderate"
     },
     {
-      id: 'engine_room',
-      title: 'Engine Room',
-      subtitle: 'Content Production',
-      description: 'Our streamlined content production system that turns raw footage into professional-quality videos.',
-      features: [
-        'AI-powered video transcription',
-        'Content optimization suggestions',
-        'Automated editing workflows',
-        'Quality control checkpoints'
-      ]
+      "id": "production-automation-suite",
+      "title": "Production Automation Suite",
+      "emoji": "🏭",
+      "tagline": "The Home-Delivered Engine Room",
+      "description": "**Transform 8 hours of production work into 90 minutes flat.** Stop drowning in file management and tedious setup. This automation powerhouse connects your planning directly to production, automatically ingesting footage and laying out projects so you can focus exclusively on what humans do best—creating.",
+      "features": [
+        "Video Ingester app that speaks to notion scripts & camera log",
+        "Premiere Pro extension that lays out footage",
+        "Automated file management and organization",
+        "Production pipeline acceleration tools"
+      ],
+      "hasCustomCode": true,
+      "hasTemplates": true,
+      "hasAutomation": true,
+      "implementationTime": "medium",
+      "complexityLevel": "moderate"
     },
     {
-      id: 'viral_os',
-      title: 'Video OS',
-      subtitle: 'Editing Tools',
-      description: 'A powerful editing system with specialized templates and editing presets for high-conversion videos.',
-      features: [
-        'Custom transitions and effects library',
-        'Proven hook templates for maximum retention',
-        'Auto-captioning with style presets',
-        'Analytics integration for performance tracking'
-      ]
+      "id": "video-editing-ecosystem",
+      "title": "Video Editing Ecosystem",
+      "emoji": "🖥️",
+      "tagline": "The Viral Video OS",
+      "description": "**Cut your editing time in half while doubling video quality.** Never waste hours on repetitive edits or struggle with amateur-looking content again. This complete editing arsenal gives you Hollywood-level production values with push-button simplicity, including AI-powered smart cutting that intuitively knows exactly where to make the perfect edit.",
+      "features": [
+        "Premiere Pro assets and templates library",
+        "Time saving plugins for editors",
+        "Presets, think less!",
+        "Auto-cutter with semantic detection and 'flow' recognition"
+      ],
+      "hasCustomCode": true,
+      "hasTemplates": true,
+      "hasAutomation": true,
+      "implementationTime": "short",
+      "complexityLevel": "moderate"
+    },
+    {
+      "id": "content-operations-protocol",
+      "title": "Content Operations Protocol",
+      "emoji": "📋",
+      "tagline": "The exact day-to-day content review, delegation, and checking structure",
+      "description": "**Never let another video fall through the cracks again.** Turn content chaos into a precision operation that runs like clockwork—even when you're not in the room. This bulletproof system ensures every piece of content meets your standards before hitting publish, with crystal-clear accountability that prevents the 'I thought someone else was handling that' syndrome forever.",
+      "features": [
+        "Comprehensive review and approval workflow",
+        "Clear delegation framework with accountability",
+        "Quality control checkpoints and metrics",
+        "Team coordination and communication structure"
+      ],
+      "hasCustomCode": true,
+      "hasTemplates": true,
+      "hasAutomation": true,
+      "implementationTime": "medium",
+      "complexityLevel": "moderate"
+    },
+    {
+      "id": "lifetime-updates",
+      "title": "Lifetime Infrastructure Updates",
+      "emoji": "🔄",
+      "tagline": "Continuous Evolution, One-Time Investment",
+      "description": "**Future-proof your content operation forever.** By joining the legacy cohort, you receive permanent access to all future updates of these infrastructure systems at no added cost. As we enhance and expand these tools based on evolving platforms and technologies, you'll automatically get every upgrade, refinement, and new feature without ever paying another penny.",
+      "features": [
+        "Permanent access to all infrastructure updates",
+        "First access to new tools and features",
+        "Grandfathered benefits for legacy members",
+        "No additional costs for future versions"
+      ],
+      "hasCustomCode": true,
+      "hasTemplates": true,
+      "hasAutomation": true,
+      "implementationTime": "ongoing",
+      "complexityLevel": "variable"
     }
-  ];
+  ]
   
   return systemsData.find(system => system.id === systemId) || null;
 };

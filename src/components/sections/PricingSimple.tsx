@@ -46,7 +46,7 @@ const PricingSimple: React.FC<PricingSimpleProps> = ({ onCtaClick }) => {
             className="bg-theme-primary/10 border-theme-primary/30 mb-4 py-2 px-4 mx-auto"
           >
             <VSText className="font-semibold text-theme-primary">
-              Limited Enrollment
+              Program Details
             </VSText>
           </Badge>
           
@@ -54,13 +54,26 @@ const PricingSimple: React.FC<PricingSimpleProps> = ({ onCtaClick }) => {
             variant="h2" 
             className="text-3xl md:text-4xl lg:text-5xl font-bold text-theme-primary mb-6"
           >
-            Choose Your Path to Success
+            Choose Your Plan
           </VSHeading>
           
-          <VSText className="text-lg md:text-xl text-theme-secondary mx-auto max-w-[800px]">
-            Get access to {courseStats?.totalModules || 50}+ modules, {courseStats?.workshops || 8} live sessions,
-            and {courseStats?.resources || 20}+ resources designed to transform your content strategy.
-          </VSText>
+          <div className="body-text mb-6 mx-auto max-w-[90%] md:max-w-3xl">
+            <p className="mb-4">
+              Duration: 8 Weeks (ish)
+            </p>
+            <p className="mb-4">
+              Commitment: 4 Hours a week
+            </p>
+            <p className="mb-4">
+              Format: Online + Live Sessions
+            </p>
+            <p className="mb-4">
+              Next Cohort: 25th April, 2025
+            </p>
+            <p className="mb-4">
+              Class Size: limited to 20 students
+            </p>
+          </div>
           
           <div className="flex justify-center items-center gap-3 mt-6 mb-10">
             <span className={`text-sm ${!isYearly ? 'text-theme-primary font-bold' : 'text-theme-secondary'}`}>
@@ -159,7 +172,7 @@ const PricingSimple: React.FC<PricingSimpleProps> = ({ onCtaClick }) => {
                   <AnimatedButton
                     text={tier.ctaText}
                     variant={tier.popular ? "accent" : "start"}
-                    saturation={tier.popular ? "high" : "medium"}
+                    saturation={tier.popular ? "high" : "normal"}
                     size="md"
                     onClick={onCtaClick}
                     className="w-full"

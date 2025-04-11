@@ -189,14 +189,14 @@ const CourseStats = () => {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <Badge variant="section" size="xl" className="mb-4">
-            Program Overview
-          </Badge>
           <h2 className="text-theme-primary text-4xl md:text-5xl font-bold mb-6">
-            By The Numbers
+            So what's actually in it?
           </h2>
-          <p className="text-theme-secondary text-xl mb-2 max-w-3xl mx-auto">
-            Vertical Shortcut isn't just another course. It's a comprehensive system built on real-world results and years of testing.
+          <p className="body-text mb-6 mx-auto max-w-[90%] md:max-w-3xl">
+            The Vertical Shortcut is packed full of content - and don't worry its not just videos.
+          </p>
+          <p className="body-text-large font-bold text-theme-primary mb-6">
+            You'll get lifetime access to:
           </p>
         </div>
         

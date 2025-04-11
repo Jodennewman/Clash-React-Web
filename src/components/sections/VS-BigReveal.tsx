@@ -243,7 +243,7 @@ const VSBigReveal = () => {
           </p>
           
           <div ref={taglineRef} className="text-center md:text-left md:pl-12">
-            <p className="text-theme-secondary text-xl mb-8 mx-auto md:mx-0 max-w-[90%] md:max-w-none">
+            <p className="body-text mb-8 mx-auto md:mx-0 max-w-[90%] md:max-w-none">
               We've combined everything we know: All the knowledge, systems and tools that we use on a daily basis to get our clients billions of views — so you can do it all yourself.
             </p>
             
@@ -251,7 +251,7 @@ const VSBigReveal = () => {
               variant="h2"
               className="text-2xl md:text-3xl font-bold mb-12 mx-auto md:mx-0 max-w-[90%] md:max-w-none"
             >
-              The proven system for content creation that's guaranteed millions of views
+              The Vertical Shortcut is the proven system for content creation that's guaranteed millions of views
             </VSGradientText>
           </div>
         </div>
@@ -271,9 +271,9 @@ const VSBigReveal = () => {
                     <VSHeading variant="h3" color="theme-primary" className="text-xl font-bold mb-3">
                       {feature.title}
                     </VSHeading>
-                    <VSText color="theme-secondary" className="text-base md:text-sm lg:text-base max-w-[95%] mx-auto md:mx-0">
+                    <p className="body-text-sm max-w-[95%] mx-auto md:mx-0">
                       {feature.description}
-                    </VSText>
+                    </p>
                   </div>
                 </li>
               ))}

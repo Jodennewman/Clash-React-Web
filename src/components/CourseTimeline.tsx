@@ -520,17 +520,17 @@ const CourseTimeline: React.FC = () => {
           <h2 
             ref={titleRef}
             data-text-split="true"
-            className="text-6xl md:text-7xl lg:text-8xl font-black mb-10 text-theme-primary"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-10 text-theme-primary"
             style={{ opacity: 1 }}
           >
-            Week by week structure
+            We know it's a lot.
           </h2>
           <p 
             ref={introRef}
-            className="text-xl md:text-2xl lg:text-3xl text-theme-primary max-w-4xl mx-auto font-medium"
+            className="body-text mb-6 mx-auto max-w-[90%] md:max-w-4xl"
             style={{ opacity: 1 }}
           >
-            We know it's a lot. That's why we've broken it down into 8 weeks of structured learning to take you from short form newbie, to millions of views, in just 8 weeks.
+            That's why we've broken it down into 8 weeks of structured learning to take you from short form newbie, to millions of views, in just 8 weeks.
           </p>
         </div>
         

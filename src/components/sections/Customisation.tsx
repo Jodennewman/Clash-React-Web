@@ -64,13 +64,14 @@ const Customisation: React.FC<CustomisationProps> = ({ onCtaClick }) => {
               variant="h2" 
               className="text-3xl md:text-4xl lg:text-5xl font-bold text-theme-primary mb-6"
             >
-              Customised to Your Needs
+              Customisation
             </VSHeading>
             
-            <VSText className="text-lg md:text-xl text-theme-secondary mx-auto max-w-[90%] md:max-w-none">
-              The Vertical Shortcut is designed to work for everyone, but we understand that as founders, 
-              you're not everyone. That's why we offer custom solutions tailored to your specific needs.
-            </VSText>
+            <div className="body-text mb-6 mx-auto max-w-[90%] md:max-w-3xl">
+              <p>
+                The vertical shortcut is designed to work for everyone, but we understand as founders, you're not everyone. So you think you'll need something more bespoke, we're able to tailor the offering to you, additional possibilities depending.
+              </p>
+            </div>
           </div>
           
           <VSCard 
@@ -120,7 +121,7 @@ const Customisation: React.FC<CustomisationProps> = ({ onCtaClick }) => {
               
               <div className="mt-8 flex justify-center md:justify-start">
                 <AnimatedButton 
-                  text="Find Your Custom Plan"
+                  text="Find your plan"
                   variant="accent" 
                   saturation="high"
                   size="lg"

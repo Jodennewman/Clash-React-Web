@@ -1618,12 +1618,18 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
       {/* Modal content - adjust size for recommendation stage */}
       <div 
         ref={modalRef}
-        className={`relative z-10 w-full ${stage === 'recommendation' ? 'max-w-4xl' : 'max-w-2xl'} bg-theme-gradient rounded-xl shadow-theme-md opacity-0 transition-all duration-500 overflow-auto`}
+        className={`relative z-10 w-full ${stage === 'recommendation' ? 'max-w-4xl' : 'max-w-2xl'} bg-theme-gradient-card rounded-xl shadow-theme-md opacity-0 transition-all duration-500 overflow-auto border border-theme-border-light`}
         style={{ maxHeight: 'min(85vh, 800px)' }}
       >
         {/* Floating elements for visual interest */}
         <div className="modal-floating-element absolute top-10 right-10 -z-10 w-20 h-20 rounded-[40%] rotate-12 opacity-[var(--theme-float-opacity)] bg-[var(--theme-float-bg-primary)]"></div>
         <div className="modal-floating-element absolute bottom-10 left-10 -z-10 w-24 h-24 rounded-[30%] -rotate-6 opacity-[var(--theme-float-opacity-secondary)] bg-[var(--theme-float-bg-secondary)]"></div>
+        
+        {/* Theme-aware dot pattern background */}
+        <div className="absolute inset-0 dot-bg opacity-[var(--theme-pattern-opacity)] pointer-events-none rounded-xl overflow-hidden"></div>
+        
+        {/* Subtle glow effect at the top */}
+        <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[var(--theme-primary)]/10 to-transparent opacity-[var(--theme-glow-opacity)] pointer-events-none rounded-t-xl"></div>
         
         {/* Modal header */}
 
