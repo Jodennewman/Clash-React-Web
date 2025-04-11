@@ -37,6 +37,32 @@ Currently, we are refactoring the components to match the copy and structure pro
 - [x] Fix CSS utility class error by replacing @apply directives with standard CSS
 - [ ] Fix any remaining theme inconsistencies
 
+## ✅ Primary Mission COMPLETED: Fix the CourseTimeline Component  
+
+The CourseTimeline component has been completely redesigned with the following improvements:
+
+1. ✅ Timeline is now more compact with reduced spacing
+2. ✅ Line now draws/animates on scroll with a scrub effect
+3. ✅ Restructured layout:
+   - LEFT SIDE: 
+     - ✅ Primary: Week title as header (e.g., "Theory")
+     - ✅ Secondary (smaller, less colorful): Week number (e.g., "Week 1")
+   - RIGHT SIDE:
+     - ✅ Shows only the highlight/title of each week
+     - ✅ Added orange underline for each week
+     - ✅ Added clear dropdown markers with animation
+     - ✅ Content is contained in dropdowns (collapsed by default)
+     - ✅ Smooth animation for expanding/collapsing dropdowns
+
+Implementation details:
+- ✅ Used theme-aware classes for all styling
+- ✅ Ensured mobile responsiveness with special mobile layout
+- ✅ Implemented smooth GSAP animations with proper cleanup
+- ✅ Added VS Bubbly hover effects on dropdown headers
+- ✅ Shortened highlight text to keep UI clean and focused
+- ✅ Separated component into main component and reusable dropdown component
+- ✅ Fixed animations to properly trigger based on scroll position
+
 1. Read this CLAUDE.md completely
 2. Website-Copy-Guidance.md
 3. Read ALL classes in Theme-util-classes.md to understand options.

@@ -181,7 +181,7 @@ const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, i
       ref={ref}
       data-id={section.id}
       data-display-key={section.displayKey}
-      className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
+      className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm dark:shadow-[0_0_15px_rgba(0,0,0,0.2),_0_0_8px_rgba(53,115,128,0.15)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_0_20px_rgba(0,0,0,0.25),_0_0_12px_rgba(53,115,128,0.25)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
       style={{ 
         backgroundColor: section.color,
         opacity: 1 
@@ -213,7 +213,7 @@ const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ sect
       ref={ref}
       data-id={section.id}
       data-display-key={section.displayKey}
-      className="section-module module-item w-[var(--normal-square-width)] h-[var(--normal-square-width)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
+      className="section-module module-item w-[var(--normal-square-width)] h-[var(--normal-square-width)] rounded-xl shadow-theme-sm dark:shadow-[0_0_15px_rgba(0,0,0,0.2),_0_0_8px_rgba(53,115,128,0.15)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_0_20px_rgba(0,0,0,0.25),_0_0_12px_rgba(53,115,128,0.25)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
       style={{ 
         backgroundColor: section.color,
         opacity: 1
@@ -242,8 +242,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedModuleId, setSelectedModuleId] = useState<string>('');
   
-  // Calculate square dimensions for the layout
-  const normalSquareWidth = 40; // Base width in px
+  // Calculate square dimensions for the layout - increased for better visibility
+  const normalSquareWidth = 48; // Base width in px (increased from 40)
   const squareGapX = normalSquareWidth * 1.5; // Horizontal gap (1.5x width)
   const squareGapY = normalSquareWidth * 1; // Vertical gap (1x width)
   
@@ -298,7 +298,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             if (block1 && block2) {
               // Create power line element
               const powerLine = document.createElement('div');
-              powerLine.className = 'power-line absolute rounded-full h-[3px] bg-white/20';
+              powerLine.className = 'power-line absolute rounded-full h-[3px] bg-theme-bg-secondary/30';
               
               // Calculate positions
               const rect1 = block1.getBoundingClientRect();
@@ -323,27 +323,12 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
               powerLine.style.height = `${end.y - start.y}px`;
               powerLine.style.transformOrigin = 'top';
               
-              // Add power ball (electricity pulse) element
-              const powerBall = document.createElement('div');
-              powerBall.className = 'power-ball absolute w-2 h-2 bg-white/80 rounded-full shadow-[0_0_5px_2px_rgba(255,255,255,0.5)]';
-              powerBall.style.top = '0';
-              powerBall.style.left = '-3px';
+              // Removed power balls for cleaner design
               
-              // Add elements to the DOM
-              powerLine.appendChild(powerBall);
+              // Add power line to DOM
               powerLinesContainer.appendChild(powerLine);
               
-              // Animate the power ball
-              gsap.fromTo(powerBall, 
-                { top: '0px' }, 
-                { 
-                  top: '100%', 
-                  duration: 1.5, 
-                  repeat: -1, 
-                  ease: 'power1.inOut',
-                  repeatDelay: 0.3
-                }
-              );
+              // Removed power ball animation for cleaner design
             }
           }
         }
@@ -359,9 +344,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         stagger: 0.3
       });
       
-      // System connector points pulsing glow
+      // System connector points subtle pulse animation
       gsap.to('.system-connector', {
-        boxShadow: '0 0 12px rgba(255,255,255,0.8)',
         scale: 1.2,
         duration: 1,
         ease: "sine.inOut",
@@ -380,7 +364,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           if (el1 && el2) {
             // Create power line element
             const powerLine = document.createElement('div');
-            powerLine.className = 'power-line absolute bg-gradient-to-b from-white/10 to-white/30';
+            powerLine.className = 'power-line absolute bg-theme-bg-secondary/30';
             
             // Get positions
             const rect1 = el1.getBoundingClientRect();
@@ -405,26 +389,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                 powerLine.style.width = '2px';
                 powerLine.style.height = `${endY - startY}px`;
                 
-                // Create power ball elements for electricity effect
-                for (let i = 0; i < 3; i++) {
-                  const powerBall = document.createElement('div');
-                  powerBall.className = `power-ball-${i} absolute w-2 h-2 bg-white/60 rounded-full shadow-[0_0_8px_rgba(255,255,255,0.5)]`;
-                  powerBall.style.left = '-3px';
-                  powerBall.style.top = '0';
-                  powerLine.appendChild(powerBall);
-                  
-                  // Animate each power ball with different timing
-                  gsap.fromTo(powerBall, 
-                    { top: '0%' },
-                    { 
-                      top: '100%', 
-                      duration: 2 + i*0.5, 
-                      delay: i * 0.6,
-                      repeat: -1, 
-                      ease: 'power2.inOut' 
-                    }
-                  );
-                }
+                // Removed power ball elements for cleaner design
                 
                 // Add the power line to the container
                 container.appendChild(powerLine);
@@ -434,22 +399,20 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         }
       });
       
-      // Animate notion system data pulse
+      // Animate notion system data pulse - more subtle
       gsap.to('.notion-pulse', {
         scale: 1.5,
         opacity: 0.3,
-        boxShadow: '0 0 10px rgba(255,255,255,0.8)',
         duration: 1.2,
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut"
       });
       
-      // Animate video pulse
+      // Animate video pulse - more subtle
       gsap.to('.video-pulse', {
         scale: 2,
         opacity: 0.6,
-        boxShadow: '0 0 12px rgba(0,200,255,0.6)',
         duration: 0.8,
         repeat: -1,
         repeatDelay: 0.5,
@@ -696,7 +659,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     function createModulesGrid(sectionEl: HTMLDivElement, gridSize: number) {
       // Create modules container
       const modulesContainer = document.createElement('div');
-      modulesContainer.className = 'modules-container absolute inset-0 z-10 p-4';
+      modulesContainer.className = 'modules-container absolute inset-0 z-10 p-4 bg-gradient-to-br from-transparent to-theme-primary/5 dark:from-transparent dark:to-theme-accent/10 rounded-xl';
       
       // Get section ID from sectionEl to check if it's a system section
       const sectionId = sectionEl.getAttribute('data-id');
@@ -1108,7 +1071,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           const moduleEl = document.createElement('div');
           moduleEl.dataset.id = module.id;
           moduleEl.dataset.title = module.title; // Store full title for tooltip
-          moduleEl.className = 'module-item rounded-lg shadow-theme-sm cursor-pointer relative overflow-hidden tooltip-trigger';
+          moduleEl.className = 'module-item rounded-lg shadow-theme-sm hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_0_20px_rgba(0,0,0,0.25),_0_0_12px_rgba(53,115,128,0.25)] cursor-pointer relative overflow-hidden tooltip-trigger';
           
           // Apply gradient background
           const moduleColor = module.color || 'var(--theme-accent)';
@@ -1228,11 +1191,20 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         .tooltip-trigger:hover .tooltip-content {
           opacity: 1;
         }
+        
+        .section-module, .module-item {
+          cursor: pointer;
+          transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .section-module:hover, .module-item:hover {
+          transform: translateY(-2px);
+        }
       `}</style>
       
       <div 
         ref={containerRef}
-        className="w-full max-w-[900px] h-full min-h-[600px] max-h-[800px] p-6 relative overflow-visible flex items-center justify-center"
+        className="w-full max-w-[1100px] h-full min-h-[700px] max-h-[900px] p-6 relative overflow-visible flex items-center justify-center"
         onClick={handleModuleClick}
       >
         {/* Theme-aware floating elements for background decoration */}
@@ -1247,7 +1219,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
              animate-float-medium"></div>
         
         {/* Grid pattern background */}
-        <div className="absolute inset-0 -z-20 opacity-[0.15] grid-bg"></div>
+        <div className="absolute inset-0 -z-20 opacity-[0.15] grid-bg bg-gradient-to-br from-theme-primary/5 to-theme-accent/5 dark:from-theme-primary/10 dark:to-theme-accent/10"></div>
         
         {/* Main HUD Layout */}
         <div 
@@ -1326,11 +1298,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   }}
                   data-id={systemsColumn[0].id}
                   data-display-key={systemsColumn[0].displayKey}
-                  className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-md cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
+                  className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-md dark:shadow-[0_0_20px_rgba(0,0,0,0.3),_0_0_10px_rgba(53,115,128,0.2)] hover:shadow-[0_4px_15px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_25px_rgba(0,0,0,0.3),_0_0_15px_rgba(53,115,128,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
                   style={{ backgroundColor: "var(--hud-navy)" }}
                 >
                   {/* Power connection point */}
-                  <div className="absolute bottom-[5px] left-[50%] w-2 h-2 bg-white/60 rounded-full transform translate-x-[-50%] shadow-[0_0_8px_rgba(255,255,255,0.6)] z-10 system-connector"></div>
+                  <div className="absolute bottom-[5px] left-[50%] w-2 h-2 bg-theme-bg-secondary/60 rounded-full transform translate-x-[-50%] z-10 system-connector"></div>
                   
                   {/* Tooltip */}
                   <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
@@ -1350,8 +1322,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     
                     {/* Enhanced database representation with animation */}
                     <div className="w-full max-w-[80%] h-20 bg-white/10 rounded-lg p-2 flex flex-col justify-between system-notion-container relative">
-                      {/* Animated data pulse effect */}
-                      <div className="absolute top-[10%] right-[10%] w-1 h-1 bg-white/80 rounded-full shadow-[0_0_5px_rgba(255,255,255,0.5)] notion-pulse"></div>
+                      {/* Animated data pulse effect - more subtle */}
+                      <div className="absolute top-[10%] right-[10%] w-1 h-1 bg-theme-bg-secondary/80 rounded-full notion-pulse"></div>
                       
                       {[1, 2, 3].map(i => (
                         <div key={i} className="flex space-x-2 items-center">
@@ -1377,14 +1349,14 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   }}
                   data-id={systemsColumn[1].id}
                   data-display-key={systemsColumn[1].displayKey}
-                  className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-md cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
+                  className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-md dark:shadow-[0_0_20px_rgba(0,0,0,0.3),_0_0_10px_rgba(53,115,128,0.2)] hover:shadow-[0_4px_15px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_25px_rgba(0,0,0,0.3),_0_0_15px_rgba(53,115,128,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
                   style={{ 
                     background: "linear-gradient(135deg, var(--primary-orange), var(--hud-coral))"
                   }}
                 >
                   {/* Power connection points */}
-                  <div className="absolute top-[5px] left-[50%] w-2 h-2 bg-white/60 rounded-full transform translate-x-[-50%] shadow-[0_0_8px_rgba(255,255,255,0.6)] z-10 system-connector"></div>
-                  <div className="absolute bottom-[5px] left-[50%] w-2 h-2 bg-white/60 rounded-full transform translate-x-[-50%] shadow-[0_0_8px_rgba(255,255,255,0.6)] z-10 system-connector"></div>
+                  <div className="absolute top-[5px] left-[50%] w-2 h-2 bg-theme-bg-secondary/60 rounded-full transform translate-x-[-50%] z-10 system-connector"></div>
+                  <div className="absolute bottom-[5px] left-[50%] w-2 h-2 bg-theme-bg-secondary/60 rounded-full transform translate-x-[-50%] z-10 system-connector"></div>
                   
                   {/* Tooltip */}
                   <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
@@ -1433,13 +1405,13 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   }}
                   data-id={systemsColumn[2].id}
                   data-display-key={systemsColumn[2].displayKey}
-                  className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-md cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
+                  className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-md dark:shadow-[0_0_20px_rgba(0,0,0,0.3),_0_0_10px_rgba(53,115,128,0.2)] hover:shadow-[0_4px_15px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_25px_rgba(0,0,0,0.3),_0_0_15px_rgba(53,115,128,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
                   style={{ 
                     background: "linear-gradient(145deg, var(--hud-teal), #2A7590)"
                   }}
                 >
                   {/* Power connection point */}
-                  <div className="absolute top-[5px] left-[50%] w-2 h-2 bg-white/60 rounded-full transform translate-x-[-50%] shadow-[0_0_8px_rgba(255,255,255,0.6)] z-10 system-connector"></div>
+                  <div className="absolute top-[5px] left-[50%] w-2 h-2 bg-theme-bg-secondary/60 rounded-full transform translate-x-[-50%] z-10 system-connector"></div>
                   
                   {/* Tooltip */}
                   <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
@@ -1459,8 +1431,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     
                     {/* Enhanced timeline with playhead animation */}
                     <div className="w-full max-w-[80%] bg-black/20 h-16 rounded-lg p-2 relative system-video-container">
-                      {/* Data processing pulse effect */}
-                      <div className="absolute top-1 right-2 w-1 h-1 bg-[var(--hud-teal)]/80 rounded-full video-pulse"></div>
+                      {/* Data processing pulse effect - more subtle */}
+                      <div className="absolute top-1 right-2 w-1 h-1 bg-theme-bg-secondary/80 rounded-full video-pulse"></div>
                       
                       {/* Video track */}
                       <div className="h-3 mb-2 bg-black/30 rounded-full relative overflow-hidden">
