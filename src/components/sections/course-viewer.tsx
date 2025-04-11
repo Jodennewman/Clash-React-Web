@@ -387,7 +387,7 @@ export const CourseViewer: React.FC = () => {
                opacity-[var(--theme-float-opacity-secondary)] 
                bg-[var(--theme-float-bg-secondary)]"></div>
           
-          <div className="module-hud-container relative flex items-center justify-center h-full min-h-[700px] w-full max-w-5xl mx-auto">
+          <div className="module-hud-container relative flex items-center justify-center h-full min-h-[700px] w-full max-w-5xl mx-auto bg-gradient-to-br from-transparent to-theme-primary/10 dark:from-transparent dark:to-theme-accent/15 p-6 rounded-2xl">
             <ModuleHUD 
               selectedSection={selectedSection}
               onModuleClick={(moduleId) => {
