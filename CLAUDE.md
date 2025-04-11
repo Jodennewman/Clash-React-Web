@@ -37,31 +37,31 @@ Currently, we are refactoring the components to match the copy and structure pro
 - [x] Fix CSS utility class error by replacing @apply directives with standard CSS
 - [ ] Fix any remaining theme inconsistencies
 
-## ✅ Primary Mission COMPLETED: Fix the CourseTimeline Component  
+## ⚠️ Course Timeline Fixes ⚠️
 
-The CourseTimeline component has been completely redesigned with the following improvements:
+The CourseTimeline component needs to be redesigned with the following improvements:
 
-1. ✅ Timeline is now more compact with reduced spacing
-2. ✅ Line now draws/animates on scroll with a scrub effect
-3. ✅ Restructured layout:
+1. [ ] Timeline is too expansive - needs to be more compact with reduced spacing
+2. [ ] Line animation should be more prominent with a smooth scrub effect on scroll
+3. [ ] Restructured layout:
    - LEFT SIDE: 
-     - ✅ Primary: Week title as header (e.g., "Theory")
-     - ✅ Secondary (smaller, less colorful): Week number (e.g., "Week 1")
+     - [ ] Primary: Week title as header (e.g., "Theory")
+     - [ ] Secondary (smaller, less colorful): Week number (e.g., "Week 1")
    - RIGHT SIDE:
-     - ✅ Shows only the highlight/title of each week
-     - ✅ Added orange underline for each week
-     - ✅ Added clear dropdown markers with animation
-     - ✅ Content is contained in dropdowns (collapsed by default)
-     - ✅ Smooth animation for expanding/collapsing dropdowns
+     - [ ] Shows only the highlight/title of each week
+     - [ ] Added orange underline for each week
+     - [ ] Added clear dropdown markers with animation
+     - [ ] Content is contained in dropdowns (collapsed by default)
+     - [ ] Smooth animation for expanding/collapsing dropdowns
 
-Implementation details:
-- ✅ Used theme-aware classes for all styling
-- ✅ Ensured mobile responsiveness with special mobile layout
-- ✅ Implemented smooth GSAP animations with proper cleanup
-- ✅ Added VS Bubbly hover effects on dropdown headers
-- ✅ Shortened highlight text to keep UI clean and focused
-- ✅ Separated component into main component and reusable dropdown component
-- ✅ Fixed animations to properly trigger based on scroll position
+Implementation details to address:
+- [ ] Use theme-aware classes for all styling
+- [ ] Ensure mobile responsiveness with special mobile layout
+- [ ] Implement smooth GSAP animations with proper cleanup
+- [ ] Add VS Bubbly hover effects on dropdown headers
+- [ ] Shorten highlight text to keep UI clean and focused
+- [ ] Separate component into main component and reusable dropdown component
+- [ ] Fix animations to properly trigger based on scroll position
 
 1. Read this CLAUDE.md completely
 2. Website-Copy-Guidance.md

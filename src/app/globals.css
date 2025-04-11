@@ -3460,7 +3460,7 @@ a:hover {
   position: absolute;
   inset: -4px; /* Extend beyond the element's border */
   background: radial-gradient(circle at center, 
-              var(--theme-primary)/15%, 
+              rgba(255, 159, 81, 0.15), 
               transparent 70%);
   mix-blend-mode: screen; /* More visible effect than overlay */
   border-radius: inherit;
@@ -3482,8 +3482,8 @@ a:hover {
 .dark .dark-glow-overlay:hover::before, [data-theme="dark"] .dark-glow-overlay:hover::before {
   opacity: 1;
   background: radial-gradient(circle at center, 
-              var(--theme-primary)/30%, 
-              var(--theme-accent-secondary)/20%, 
+              rgba(255, 159, 81, 0.3), 
+              rgba(53, 115, 128, 0.2), 
               transparent 75%);
   filter: blur(8px);
 }

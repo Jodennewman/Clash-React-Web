@@ -1300,7 +1300,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   data-display-key={systemsColumn[0].displayKey}
                   className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_5px_10px_rgba(0,0,0,0.2)] dark:shadow-[0_0_25px_rgba(53,115,128,0.4),_0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] dark:hover:shadow-[0_0_30px_rgba(53,115,128,0.6),_0_0_20px_rgba(0,0,0,0.4)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
                   style={{ 
-                    background: "linear-gradient(135deg, var(--hud-navy), var(--bg-navy-darker))"
+                    background: "linear-gradient(135deg, rgb(0, 36, 48), rgb(8, 29, 39))"
                   }}
                 >
                   {/* Power connection point */}
