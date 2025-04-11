@@ -2300,8 +2300,18 @@ a:hover {
 /* Theme-aware enhanced cards */
 .card-theme {
   background: linear-gradient(to bottom right, 
-    var(--theme-gradient-card-start), 
-    var(--theme-gradient-card-end));
+    rgb(var(--color-white)), 
+    rgb(var(--bg-cream-darker-rgb)));
+  border-radius: var(--theme-border-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--theme-shadow-card);
+  transition: all var(--theme-transition-bounce);
+}
+
+.dark .card-theme, [data-theme="dark"] {
+  background: linear-gradient(to bottom right, 
+    rgb(var(--bg-navy-rgb)), 
+    rgb(var(--bg-navy-darker-rgb)));
   border-radius: var(--theme-border-radius-lg);
   padding: 1.5rem;
   box-shadow: var(--theme-shadow-card);

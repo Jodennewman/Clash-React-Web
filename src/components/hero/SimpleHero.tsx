@@ -248,23 +248,66 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                 <span className="hidden md:inline"> — specifically for founders</span>.
               </h4>
               
-              {/* Badge */}
-              <div className="hero-content mb-6">
-                <div className="inline-flex items-center gap-2 bg-theme-primary/10 border border-theme-primary/30 rounded-full py-2 px-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-theme-primary">
-                    <path d="M12 1v4"></path>
-                    <path d="M6.1 4.5l2.3 3.5"></path>
-                    <path d="M1.4 10.5l3.5 2.3"></path>
-                    <path d="M1 17.9h4"></path>
-                    <path d="M6.1 19.5l2.3-3.5"></path>
-                    <path d="M16.9 19.5l-2.3-3.5"></path>
-                    <path d="M19 17.9h4"></path>
-                    <path d="M22.6 10.5l-3.5 2.3"></path>
-                    <path d="M17.9 4.5l-2.3 3.5"></path>
-                  </svg>
-                  <span className="text-sm md:text-base font-medium text-theme-primary">
-                    From the number one short form agency in the world (we're deadly serious)
-                  </span>
+              {/* Award Badge - Pill-shaped with prominent #1 */}
+              <div className="hero-content absolute bottom-14 sm:bottom-16 md:bottom-20 lg:bottom-24 right-8 sm:right-12 md:right-16 lg:right-20 z-30">
+                <div className="group relative overflow-hidden hover-bubbly-sm rounded-full 
+                                shadow-[0_6px_20px_rgba(0,0,0,0.15)] dark:shadow-[0_0_25px_rgba(239,98,82,0.4)]">
+                  {/* Shadow background for depth */}
+                  <div className="absolute inset-0 bg-theme-accent-quaternary shadow-theme-lg transform rotate-1 rounded-full"></div>
+                  
+                  {/* Main badge container - wider on desktop */}
+                  <div className="relative flex items-center gap-3 md:gap-4 bg-theme-gradient-accent py-3 px-5 md:px-7 lg:px-8 rounded-full 
+                                 shadow-theme-tertiary border border-white/20">
+                    
+                    {/* Trophy icon with prominent circle */}
+                    <div className="relative flex-shrink-0">
+                      {/* Outer glow for trophy */}
+                      <div className="absolute inset-0 rounded-full bg-white/30 blur-[10px] transform scale-150
+                                     dark:bg-white/40 dark:blur-[15px]"></div>
+                      {/* Circle background */}
+                      <div className="relative bg-white/25 rounded-full p-3 border-2 border-white/40 shadow-inner
+                                     dark:bg-white/30 dark:border-white/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" 
+                             className="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]
+                                       dark:drop-shadow-[0_0_12px_rgba(255,255,255,0.8)]">
+                          <path d="M6 9H4.5a2.5 2.5 0 0 0 0 5H6"></path>
+                          <path d="M18 9h1.5a2.5 2.5 0 0 1 0 5H18"></path>
+                          <path d="M4 22h16"></path>
+                          <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                          <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                          <path d="M9 2v4"></path>
+                          <path d="M15 2v4"></path>
+                          <path d="M12 2v2"></path>
+                          <path d="M12 6v2"></path>
+                          <path d="M9 12H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                          <path d="M15 12h4.5a2.5 2.5 0 0 0 0-5H18"></path>
+                        </svg>
+                      </div>
+                    </div>
+                    
+                    {/* Text with increased emphasis */}
+                    <div className="text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]
+                                  dark:drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]">
+                      <span className="block text-sm uppercase tracking-wider font-bold letter-spacing-wide opacity-90">From the</span>
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-3xl md:text-4xl font-black leading-none tracking-tight 
+                                      bg-gradient-to-r from-white via-amber-100 to-white bg-clip-text text-transparent 
+                                      drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]
+                                      dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]">
+                          #1
+                        </span>
+                        <span className="text-lg md:text-xl font-extrabold uppercase tracking-tight leading-none">
+                          Short Form
+                        </span>
+                      </div>
+                      <span className="block text-base md:text-lg font-bold uppercase tracking-tight">
+                        Agency <span className="opacity-85">in the world</span>
+                      </span>
+                    </div>
+                  </div>
+                  
+                  {/* Enhanced shine effect on hover */}
+                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-all duration-700 ease-out"></div>
                 </div>
               </div>
               

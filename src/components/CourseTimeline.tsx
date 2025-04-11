@@ -132,9 +132,9 @@ const TimelineDropdown: React.FC<{
         
         {/* Only highlight text, no duplicate title */}
         <div className="flex-1">
-          {/* Highlight text (shortened) */}
+          {/* Highlight text (shortened) - increased size by 1.5x */}
           {week.highlight && (
-            <p className="text-theme-secondary text-base md:text-lg pr-10">
+            <p className="text-theme-secondary text-lg md:text-xl lg:text-2xl pr-10">
               {week.highlight.length > 120 ? `${week.highlight.substring(0, 120)}...` : week.highlight}
             </p>
           )}
@@ -188,8 +188,8 @@ const TimelineDropdown: React.FC<{
             <div className="timeline-float absolute -bottom-8 -left-8 w-16 h-16 rounded-[40%] rotate-12 bg-theme-float-secondary"></div>
             <div className="timeline-float absolute top-1/3 -right-6 w-10 h-10 rounded-[38%] -rotate-12 opacity-theme-float bg-theme-float-primary animate-float-medium"></div>
             
-            {/* Main content paragraph */}
-            <p className="text-theme-secondary relative z-10 text-lg md:text-xl leading-relaxed">
+            {/* Main content paragraph - increased size */}
+            <p className="text-theme-secondary relative z-10 text-xl md:text-2xl leading-relaxed">
               {week.content}
             </p>
             
@@ -197,7 +197,7 @@ const TimelineDropdown: React.FC<{
             {week.bullets && week.bullets.length > 0 && (
               <ul className="week-bullets mt-4">
                 {week.bullets.map((bullet, idx) => (
-                  <li key={`${week.id}-bullet-${idx}`} className="text-theme-secondary">
+                  <li key={`${week.id}-bullet-${idx}`} className="text-theme-secondary text-lg md:text-xl leading-relaxed">
                     {bullet}
                   </li>
                 ))}
@@ -206,7 +206,7 @@ const TimelineDropdown: React.FC<{
             
             {/* Founder tips */}
             {week.founderTip && (
-              <div className="founder-tip text-theme-secondary">
+              <div className="founder-tip text-theme-secondary text-lg md:text-xl italic mt-4">
                 {week.founderTip}
               </div>
             )}
@@ -529,21 +529,23 @@ const CourseTimeline: React.FC = () => {
           );
         }
         
-        // Animate week number (badge above title)
+        // Animate week number (big thin number above title)
         const weekNumber = section.querySelector('.week-number');
         if (weekNumber) {
           gsap.fromTo(
             weekNumber,
             {
-              opacity: 0.3,
-              y: -15
+              opacity: 0.2,
+              y: -10,
+              scale: 0.95
             },
             {
               opacity: 1,
               y: 0,
-              duration: animDuration,
+              scale: 1,
+              duration: animDuration * 1.2,
               ease: 'power2.out',
-              delay: 0.1,
+              delay: 0.05,
               scrollTrigger: {
                 trigger: section,
                 start: 'top 85%',
@@ -624,7 +626,7 @@ const CourseTimeline: React.FC = () => {
           </h2>
           <p 
             ref={introRef}
-            className="text-xl md:text-2xl text-theme-secondary max-w-3xl mx-auto"
+            className="text-2xl md:text-3xl lg:text-4xl text-theme-secondary max-w-3xl mx-auto"
           >
             We know it's a lot. That's why we've broken it down into 8 weeks of structured learning to take you from short form newbie, to millions of views, in just 8 weeks.
           </p>
@@ -661,14 +663,18 @@ const CourseTimeline: React.FC = () => {
                 ></div>
                 
                 {/* Left side information (now title is primary, week number as badge above) */}
-                <div className="flex flex-col items-start mb-3">
-                  {/* Week number as badge above title */}
-                  <span className="week-number bg-theme-primary/10 text-theme-primary text-xs font-medium px-2 py-1 rounded-md mb-2" style={{ opacity: 1 }}>
-                    {week.week}
+                <div className="flex flex-col items-start mb-4">
+                  {/* Week number as big, thin font */}
+                  <span className="week-number text-theme-primary text-4xl md:text-6xl font-extralight tracking-wider mb-1 opacity-90" style={{ opacity: 1, letterSpacing: '0.05em' }}>
+                    {week.id === 'week9-10' 
+                      ? '09' 
+                      : week.id === 'week10plus' 
+                        ? '10+' 
+                        : week.week.replace('Week ', '').padStart(2, '0')}
                   </span>
                   
-                  {/* Week title (PRIMARY) */}
-                  <h3 className="week-title vs-text-gradient-orange text-2xl md:text-3xl font-bold" style={{ opacity: 1 }}>
+                  {/* Week title (PRIMARY) - smaller size and lighter weight */}
+                  <h3 className="week-title vs-text-gradient-orange text-xl md:text-2xl font-semibold" style={{ opacity: 1 }}>
                     {week.title}
                   </h3>
                 </div>
