@@ -145,17 +145,9 @@ const _calculateCourseStats = () => {
   return {};
 };
 
-// Course statistics - showcasing our incredible results as the #1 in the world
-export const courseStats = {
-  totalModules: 178,
-  totalHours: 1000,
-  resources: 450,
-  workshops: 42,
-  pdfs: 89,
-  templates: 64,
-  systems: 37,
-  bonusResources: 12
-};
+// Course statistics - imported from course-data.ts source of truth
+import { courseStats as courseStatsData } from '../data/course-data';
+export const courseStats = courseStatsData;
 
 
 // Safe getter for tracks
