@@ -11,7 +11,8 @@ interface ModuleHUDProps {
 
 // Section data structure for our section types
 interface SectionData {
-  id: string;
+  id: string;        // Base ID for the section
+  uniqueId?: string; // Combination of id + displayKey for unique identification
   name: string;
   color: string;
   type: 'bigSquare' | 'normalSquare'; // Type to determine rendering
@@ -38,9 +39,15 @@ const generateMainSections = (): SectionData[] => {
   // Map course data sections to UI section data structure
   let sectionsData: SectionData[] = [];
   
+  // Helper function to create uniqueId from id and displayKey
+  const createUniqueId = (id: string, displayKey?: string): string => {
+    return displayKey ? `${id}-${displayKey}` : id;
+  };
+  
   // First BigSquare - Basic Theory/Core Concepts
   sectionsData.push({
     id: "basic_theory",
+    uniqueId: "basic_theory",
     name: "Basic Theory",
     color: "var(--hud-teal)",
     type: 'bigSquare',
@@ -51,6 +58,7 @@ const generateMainSections = (): SectionData[] => {
   // First Column - Upskillers
   sectionsData.push({
     id: "upskiller_authentic_research_writer",
+    uniqueId: "upskiller_authentic_research_writer",
     name: "Research & Writing",
     color: "var(--secondary-teal)",
     type: 'normalSquare',
@@ -59,6 +67,7 @@ const generateMainSections = (): SectionData[] => {
   
   sectionsData.push({
     id: "upskiller_shorts_ready_videographer",
+    uniqueId: "upskiller_shorts_ready_videographer",
     name: "Shooting",
     color: "var(--hud-pink)",
     type: 'normalSquare',
@@ -67,6 +76,7 @@ const generateMainSections = (): SectionData[] => {
   
   sectionsData.push({
     id: "upskiller_vertical_video_editors",
+    uniqueId: "upskiller_vertical_video_editors",
     name: "Editing",
     color: "var(--accent-coral)",
     type: 'normalSquare',
@@ -76,42 +86,50 @@ const generateMainSections = (): SectionData[] => {
   // Second Column - PR/Authority & Delegation
   sectionsData.push({
     id: "pr_authority",
+    uniqueId: "pr_authority",
     name: "PR & Authority",
     color: "var(--hud-coral)",
     type: 'normalSquare',
     size: 'normal'
   });
   
+  // First delegation section - with unique ID
+  const delegationCol2Key = 'delegation-col2';
   sectionsData.push({
     id: "delegation",
+    uniqueId: createUniqueId("delegation", delegationCol2Key),
     name: "Delegation",
     color: "var(--hud-navy)",
     type: 'normalSquare',
     size: 'normal',
-    displayKey: 'delegation-col2'
+    displayKey: delegationCol2Key
   });
   
   // Second BigSquare - Advanced Theory
   sectionsData.push({
     id: "advanced_theory",
+    uniqueId: "advanced_theory",
     name: "Advanced Theory",
     color: "var(--hud-coral)",
     type: 'bigSquare',
     size: 'double'
   });
   
-  // Third Column - Business Scaling
+  // Second delegation section (Team Building) - with unique ID
+  const delegationCol3Key = 'delegation-col3';
   sectionsData.push({
     id: "delegation",
-    name: "Team Building",
+    uniqueId: createUniqueId("delegation", delegationCol3Key),
+    name: "Team Building", 
     color: "var(--hud-navy)",
     type: 'normalSquare',
     size: 'normal',
-    displayKey: 'delegation-col3'
+    displayKey: delegationCol3Key
   });
   
   sectionsData.push({
     id: "monetisation",
+    uniqueId: "monetisation",
     name: "Monetisation",
     color: "var(--hud-orange)",
     type: 'normalSquare',
@@ -120,89 +138,58 @@ const generateMainSections = (): SectionData[] => {
   
   sectionsData.push({
     id: "conversion",
+    uniqueId: "conversion",
     name: "Conversion",
     color: "var(--secondary-teal)",
     type: 'normalSquare',
     size: 'normal'
   });
   
-  // Find system sections from courseUtils
-  const systemSections = courseUtilsSections.filter(section => 
-    section.id === 'notion_system' || 
-    section.id === 'engine_room' || 
-    section.id === 'viral_os' ||
-    section.displayKey?.startsWith('system-')
-  );
+  // Use courseUtils.systemDataMap to get proper system identifiers
+  const systemDataMap = courseUtils.systemDataMap;
   
-  // Add system sections with proper naming from courseUtils
-  if (systemSections.length > 0) {
-    // System names can be based on courseUtils data, or fallback to defaults
-    // First System: Content Management Framework (Notion)
-    sectionsData.push({
-      id: "notion_system",
-      name: "Notion System 💾",
-      color: "var(--hud-navy)",
-      type: 'normalSquare',
-      size: 'normal',
-      featured: true,
-      displayKey: 'system-notion'
-    });
-    
-    // Second System: Production Automation Suite (Engine Room)
-    sectionsData.push({
-      id: "engine_room",
-      name: "Engine Room 🏭",
-      color: "var(--primary-orange)",
-      type: 'normalSquare',
-      size: 'normal',
-      featured: true,
-      displayKey: 'system-engine'
-    });
-    
-    // Third System: Video Editing Ecosystem (Viral OS)
-    sectionsData.push({
-      id: "viral_os",
-      name: "Viral Video OS 🖥️",
-      color: "var(--accent-coral)", 
-      type: 'normalSquare',
-      size: 'normal',
-      featured: true,
-      displayKey: 'system-viral'
-    });
-  } else {
-    // Fallback system sections if not found in courseUtils
-    console.warn("System sections not found in courseUtils, using fallbacks");
-    
-    sectionsData.push({
-      id: "notion_system",
-      name: "Notion System 💾",
-      color: "var(--hud-navy)",
-      type: 'normalSquare',
-      size: 'normal',
-      featured: true,
-      displayKey: 'system-notion'
-    });
-    
-    sectionsData.push({
-      id: "engine_room",
-      name: "Engine Room 🏭",
-      color: "var(--primary-orange)",
-      type: 'normalSquare',
-      size: 'normal',
-      featured: true,
-      displayKey: 'system-engine'
-    });
-    
-    sectionsData.push({
-      id: "viral_os",
-      name: "Viral Video OS 🖥️",
-      color: "var(--accent-coral)", 
-      type: 'normalSquare',
-      size: 'normal',
-      featured: true,
-      displayKey: 'system-viral'
-    });
-  }
+  // Create system sections with data from courseUtils
+  // First System: Content Management Framework (Notion)
+  const notionSystemKey = 'system-notion';
+  const notionSystemData = courseUtils.getSystemData(systemDataMap['notion']);
+  sectionsData.push({
+    id: "notion_system",
+    uniqueId: createUniqueId("notion_system", notionSystemKey),
+    name: notionSystemData?.title ? `${notionSystemData.title} 💾` : "Content Management Framework 💾",
+    color: "var(--hud-navy)",
+    type: 'normalSquare',
+    size: 'normal',
+    featured: true,
+    displayKey: notionSystemKey
+  });
+  
+  // Second System: Production Automation Suite (Engine Room)
+  const engineSystemKey = 'system-engine';
+  const engineSystemData = courseUtils.getSystemData(systemDataMap['engine']);
+  sectionsData.push({
+    id: "engine_room",
+    uniqueId: createUniqueId("engine_room", engineSystemKey),
+    name: engineSystemData?.title ? `${engineSystemData.title} 🏭` : "Production Automation Suite 🏭",
+    color: "var(--primary-orange)",
+    type: 'normalSquare',
+    size: 'normal',
+    featured: true,
+    displayKey: engineSystemKey
+  });
+  
+  // Third System: Video Editing Ecosystem (Viral OS)
+  const viralSystemKey = 'system-viral';
+  const viralSystemData = courseUtils.getSystemData(systemDataMap['viral']);
+  sectionsData.push({
+    id: "viral_os",
+    uniqueId: createUniqueId("viral_os", viralSystemKey),
+    name: viralSystemData?.title ? `${viralSystemData.title} 🖥️` : "Video Editing Ecosystem 🖥️",
+    color: "var(--accent-coral)", 
+    type: 'normalSquare',
+    size: 'normal',
+    featured: true,
+    displayKey: viralSystemKey
+  });
   
   return sectionsData;
 };
@@ -223,11 +210,11 @@ const SquareColumn: React.FC<SquareColumnProps> = ({ squares, selectedSection, s
     <div className="flex flex-row md:flex-col gap-[var(--square-gap-x)] md:gap-[var(--square-gap-y)]">
       {squares.map((square) => (
         <NormalSquare 
-          key={square.id}
+          key={square.uniqueId || square.id}
           section={square}
-          isSelected={selectedSection === square.id}
+          isSelected={selectedSection === (square.uniqueId || square.id)}
           ref={(el) => { 
-            if (el) sectionRefs.current[square.id] = el;
+            if (el) sectionRefs.current[square.uniqueId || square.id] = el;
             return undefined;
           }}
         />
@@ -246,7 +233,8 @@ const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, i
   return (
     <div 
       ref={ref}
-      data-id={section.id}
+      data-id={section.uniqueId || section.id}
+      data-base-id={section.id}
       data-display-key={section.displayKey}
       className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(53,115,128,0.3),_0_0_15px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.5),_0_0_20px_rgba(0,0,0,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
       style={{ 
@@ -278,7 +266,8 @@ const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ sect
   return (
     <div 
       ref={ref}
-      data-id={section.id}
+      data-id={section.uniqueId || section.id}
+      data-base-id={section.id}
       data-display-key={section.displayKey}
       className="section-module module-item dark-glow-overlay w-[var(--normal-square-width)] h-[var(--normal-square-width)] rounded-xl shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(53,115,128,0.3),_0_0_15px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.5),_0_0_20px_rgba(0,0,0,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
       style={{ 
@@ -324,14 +313,19 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   const selectedSectionModules = useMemo(() => {
     if (!selectedSection) return [];
     
-    // Get the displayKey for the selected section from refs
+    // Find the section element using the unique ID
     const sectionEl = document.querySelector(`[data-id="${selectedSection}"]`);
+    
+    // Get both the base ID and the display key
+    const baseId = sectionEl?.getAttribute('data-base-id') || selectedSection;
     const displayKey = sectionEl?.getAttribute('data-display-key') || undefined;
     
-    console.log(`Getting modules for section: ${selectedSection} with displayKey: ${displayKey || 'none'}`);
+    console.log(`Getting modules for section with uniqueId: ${selectedSection}`);
+    console.log(`Base ID: ${baseId}, displayKey: ${displayKey || 'none'}`);
     
-    // Pass both sectionId and displayKey to getModulesForSection
-    return courseUtils.getModulesForSection(selectedSection, displayKey).map(module => ({
+    // Use the base ID and displayKey to get modules
+    // This ensures proper handling of sections with the same base ID but different display contexts
+    return courseUtils.getModulesForSection(baseId, displayKey).map(module => ({
       id: module.id,
       title: module.title,
       color: module.color,
@@ -587,10 +581,10 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     if (previousSection && previousSection !== selectedSection) {
       const prevSectionEl = sectionRefs.current[previousSection];
       if (prevSectionEl) {
-        // Find previous section data
+        // Find previous section data by uniqueId first, then fall back to other methods
         const prevSectionData = mainSections.find(s => 
-          s.id === previousSection || 
-          (s.id === previousSection.split('-')[0] && s.displayKey === previousSection.split('-')[1])
+          s.uniqueId === previousSection || 
+          s.id === previousSection
         );
         
         if (prevSectionData) {
@@ -642,30 +636,26 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     
     // If a section is selected, expand it after previous collapses
     if (selectedSection) {
-      // For system sections we need special handling because of the displayKey formatting
+      // Find the section element directly using the uniqueId stored in sectionRefs
       let sectionEl = sectionRefs.current[selectedSection];
-      
-      // If we couldn't find the section directly, it might be because it's a system section 
-      // with a special compound ID format (id-displayKey)
-      if (!sectionEl && selectedSection.includes('-system-')) {
-        const [baseId, displayKey] = selectedSection.split('-system-');
-        const fullKey = baseId + '-system-' + displayKey;
-        sectionEl = sectionRefs.current[fullKey];
-      }
       
       if (!sectionEl) return;
       
-      // Find the section data - check if it's a system section first
-      let sectionData;
-      if (selectedSection.includes('-system-')) {
-        // For system sections, we need to find by both id and displayKey
-        const [baseId, displayKey] = selectedSection.split('-system-');
-        sectionData = mainSections.find(s => 
-          s.id === baseId && s.displayKey === 'system-' + displayKey
-        );
-      } else {
-        // For regular sections
-        sectionData = mainSections.find(s => s.id === selectedSection);
+      // Find the section data using uniqueId first
+      let sectionData = mainSections.find(s => s.uniqueId === selectedSection || s.id === selectedSection);
+      
+      // If we still can't find the section data, handle special cases (like system sections)
+      if (!sectionData) {
+        const sectionDOMEl = document.querySelector(`[data-id="${selectedSection}"]`);
+        const baseId = sectionDOMEl?.getAttribute('data-base-id');
+        const displayKey = sectionDOMEl?.getAttribute('data-display-key');
+        
+        if (baseId && displayKey) {
+          // Try to find by baseId and displayKey
+          sectionData = mainSections.find(s => 
+            s.id === baseId && s.displayKey === displayKey
+          );
+        }
       }
         
       if (!sectionData) return;
@@ -1219,8 +1209,9 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     const moduleItem = (e.target as HTMLElement).closest('.module-item');
     if (!moduleItem) return;
     
-    // Get module ID and display key
+    // Get module/section data attributes
     const moduleId = moduleItem.getAttribute('data-id');
+    const baseId = moduleItem.getAttribute('data-base-id');
     const displayKey = moduleItem.getAttribute('data-display-key');
     
     if (!moduleId) return;
@@ -1237,22 +1228,13 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         onModuleClick(moduleId);
       }
     } else {
-      // Handle section click - if it has a system-specific displayKey, use that combined ID
-      let sectionIdentifier = moduleId;
+      // We're clicking on a section square - use the uniqueId (data-id) which already 
+      // incorporates both the baseId and displayKey when needed
       
-      if (displayKey) {
-        if (displayKey.startsWith('system-')) {
-          // For system blocks, we want to pass the combined ID (including the displayKey)
-          // so it can be handled properly by the parent component
-          sectionIdentifier = moduleId + '-' + displayKey;
-        } else {
-          // For other cases, just use the display key
-          sectionIdentifier = displayKey;
-        }
-      }
-      
+      // The uniqueId should already be properly formatted in the data-id attribute
+      // This ensures proper identification of sections with the same base ID but different display contexts
       if (onModuleClick) {
-        onModuleClick(sectionIdentifier);
+        onModuleClick(moduleId);
       }
     }
   };
@@ -1371,10 +1353,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                 <div 
                   key={systemsColumn[0].displayKey}
                   ref={(el) => { 
-                    if (el) sectionRefs.current[systemsColumn[0].id + '-' + systemsColumn[0].displayKey] = el;
+                    if (el) sectionRefs.current[systemsColumn[0].uniqueId || (systemsColumn[0].id + '-' + systemsColumn[0].displayKey)] = el;
                     return undefined;
                   }}
-                  data-id={systemsColumn[0].id}
+                  data-id={systemsColumn[0].uniqueId || (systemsColumn[0].id + '-' + systemsColumn[0].displayKey)}
+                  data-base-id={systemsColumn[0].id}
                   data-display-key={systemsColumn[0].displayKey}
                   className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_5px_10px_rgba(0,0,0,0.2)] dark:shadow-[0_0_25px_rgba(53,115,128,0.4),_0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] dark:hover:shadow-[0_0_30px_rgba(53,115,128,0.6),_0_0_20px_rgba(0,0,0,0.4)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
                   style={{ 
@@ -1424,10 +1407,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                 <div 
                   key={systemsColumn[1].displayKey}
                   ref={(el) => { 
-                    if (el) sectionRefs.current[systemsColumn[1].id + '-' + systemsColumn[1].displayKey] = el;
+                    if (el) sectionRefs.current[systemsColumn[1].uniqueId || (systemsColumn[1].id + '-' + systemsColumn[1].displayKey)] = el;
                     return undefined;
                   }}
-                  data-id={systemsColumn[1].id}
+                  data-id={systemsColumn[1].uniqueId || (systemsColumn[1].id + '-' + systemsColumn[1].displayKey)}
+                  data-base-id={systemsColumn[1].id}
                   data-display-key={systemsColumn[1].displayKey}
                   className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_5px_10px_rgba(0,0,0,0.2)] dark:shadow-[0_0_25px_rgba(53,115,128,0.4),_0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] dark:hover:shadow-[0_0_30px_rgba(53,115,128,0.6),_0_0_20px_rgba(0,0,0,0.4)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
                   style={{ 
@@ -1480,10 +1464,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                 <div 
                   key={systemsColumn[2].displayKey}
                   ref={(el) => { 
-                    if (el) sectionRefs.current[systemsColumn[2].id + '-' + systemsColumn[2].displayKey] = el;
+                    if (el) sectionRefs.current[systemsColumn[2].uniqueId || (systemsColumn[2].id + '-' + systemsColumn[2].displayKey)] = el;
                     return undefined;
                   }}
-                  data-id={systemsColumn[2].id}
+                  data-id={systemsColumn[2].uniqueId || (systemsColumn[2].id + '-' + systemsColumn[2].displayKey)}
+                  data-base-id={systemsColumn[2].id}
                   data-display-key={systemsColumn[2].displayKey}
                   className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_5px_10px_rgba(0,0,0,0.2)] dark:shadow-[0_0_25px_rgba(53,115,128,0.4),_0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] dark:hover:shadow-[0_0_30px_rgba(53,115,128,0.6),_0_0_20px_rgba(0,0,0,0.4)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
                   style={{ 
