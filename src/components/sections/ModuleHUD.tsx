@@ -1141,9 +1141,18 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           moduleEl.dataset.title = module.title; // Store full title for tooltip
           moduleEl.className = 'module-item dark-glow-overlay rounded-lg shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_15px_rgba(53,115,128,0.3),_0_0_10px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.5),_0_0_15px_rgba(0,0,0,0.3)] cursor-pointer relative overflow-hidden tooltip-trigger';
           
-          // Apply gradient background
-          const moduleColor = module.color || 'var(--theme-accent)';
-          moduleEl.style.background = `linear-gradient(135deg, ${moduleColor}, ${moduleColor}dd)`;
+          // Get section color for overlay
+          const sectionColor = section.color || 'var(--theme-accent)';
+          
+          // Get module thumbnail URL - handle different data structures
+          const thumbnailPath = module.thumbnail || courseUtils.getModuleThumbnail(module.id);
+          const thumbnailUrl = courseUtils.getThumbnailPath(thumbnailPath);
+          
+          // Set background with section color overlay on thumbnail
+          moduleEl.style.backgroundColor = sectionColor; // Fallback if image fails
+          moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${thumbnailUrl}')`;
+          moduleEl.style.backgroundSize = 'cover';
+          moduleEl.style.backgroundPosition = 'center';
           
           // Make it square
           moduleEl.style.aspectRatio = '1/1';
