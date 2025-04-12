@@ -100,23 +100,17 @@ export interface Course {
   creators?: Creator[]; // Add creators/case studies to the course data structure
 }
 
-// Safe access to course data with fallbacks - using import
-import rawCourseData from '../data/course-data.json';
+// Import course data from TypeScript file with proper typing
+import { courseData as typedCourseData } from '../data/course-data';
 
-// Safe access to course data to prevent runtime errors
-let courseData: Course;
+// Use the typed course data directly
+const courseData: Course = typedCourseData;
 
-try {
-  courseData = rawCourseData;
-} catch (error) {
-  console.error('Failed to parse course data:', error);
-  // Fallback minimal structure
-  courseData = {
-    title: "The Vertical Shortcut",
-    categories: [],
-    tracks: []
-  };
-}
+// Log for debugging
+console.log("Course data loaded:", courseData.title, 
+  `Categories: ${courseData.categories.length}`, 
+  `Tracks: ${courseData.tracks.length}`
+);
 
 // Helper function to get icon component by name
 export const getTrackIcon = (iconName: string) => {
@@ -175,25 +169,67 @@ const getTracksWithFallback = (): Track[] => {
 // Get all tracks from course data
 export const tracks: Track[] = getTracksWithFallback();
 
-// Safe getter for sections
+// Safe getter for sections with additional debugging
 const getSectionsWithFallback = () => {
   const result = [];
+  console.log("Building sections list from course data...");
   
+  // Add system sections first
+  const systemSections = [
+    {
+      id: 'notion_system',
+      name: 'Content Management Framework',
+      number: 97,
+      color: 'var(--hud-navy)',
+      modules: 1,
+      displayKey: 'system-notion'
+    },
+    {
+      id: 'engine_room',
+      name: 'Production Automation Suite',
+      number: 98,
+      color: 'var(--primary-orange)',
+      modules: 1,
+      displayKey: 'system-engine'
+    },
+    {
+      id: 'viral_os',
+      name: 'Video Editing Ecosystem',
+      number: 99,
+      color: 'var(--accent-coral)',
+      modules: 1,
+      displayKey: 'system-viral'
+    }
+  ];
+  
+  // Add system sections to result
+  result.push(...systemSections);
+  
+  // Add regular sections from course data
   if (courseData && Array.isArray(courseData.categories)) {
     for (const category of courseData.categories) {
       if (Array.isArray(category.sections)) {
         for (const section of category.sections) {
-          result.push({
+          // Create a section entry with basic properties
+          const sectionEntry = {
             id: section.id || '',
             name: section.name || '',
             number: section.number || 0,
             color: category.color || '#000000',
             modules: Array.isArray(section.modules) ? section.modules.length : 0
-          });
+          };
+          
+          // Log for debugging
+          console.log(`Found section: ${sectionEntry.name} (ID: ${sectionEntry.id}) with ${sectionEntry.modules} modules`);
+          
+          result.push(sectionEntry);
         }
       }
     }
   }
+  
+  // Sort by section number
+  result.sort((a, b) => a.number - b.number);
   
   return result;
 };
@@ -226,31 +262,230 @@ export const getFeaturedModules = (): Module[] => {
 
 export const featuredModules = getFeaturedModules();
 
-// Get modules for a specific section with safety checks
-export const getModulesForSection = (sectionId: string): Module[] => {
-  if (!sectionId || !courseData) return [];
+// Mapping from ModuleHUD section IDs to course data section IDs
+const sectionIdMap: Record<string, string> = {
+  // Map UI section IDs to actual data section IDs
+  "basic_theory": "theory_basics",
+  "advanced_theory": "theory_advanced",
+  "upskiller_authentic_research_writer": "research",
+  "upskiller_shorts_ready_videographer": "shooting",
+  "upskiller_vertical_video_editors": "editing",
+  "pr_authority": "authority_brand", // This maps to the Authority and Brand Holism section
+  "delegation": "business_delegation", // This would map to a delegation section if it exists
+  "monetisation": "monetisation",
+  "conversion": "conversions",
+  // Systems are handled separately
+  "notion_system": "system_notion",
+  "engine_room": "system_engine",
+  "viral_os": "system_viral"
+};
+
+// Helper function to map UI section ID to actual data section ID
+export const mapSectionId = (sectionId: string, displayKey?: string): string => {
+  // For handling systems and compound IDs
+  if (displayKey?.startsWith('system-')) {
+    const systemId = displayKey.replace('system-', '');
+    console.log(`Mapping system section: ${sectionId} with displayKey ${displayKey}`);
+    
+    // Return a special identifier for system sections
+    return `system_${systemId}`;
+  }
   
+  // Handle duplicate section IDs with display keys
+  if (sectionId === "delegation" && displayKey) {
+    console.log(`Using compound ID for delegation: ${sectionId}-${displayKey}`);
+    return "business_delegation"; // Use a consistent ID for all delegation sections
+  }
+  
+  // Map the section ID if it exists in the map
+  if (sectionIdMap[sectionId]) {
+    const mappedId = sectionIdMap[sectionId];
+    console.log(`Mapping section ID: ${sectionId} -> ${mappedId}`);
+    return mappedId;
+  }
+  
+  // For debugging
+  console.log(`No mapping found for section ID: ${sectionId}, using as is`);
+  
+  // Return as is if no mapping exists
+  return sectionId;
+};
+
+// Get modules for a specific section with improved section ID mapping
+export const getModulesForSection = (sectionId: string, displayKey?: string): Module[] => {
+  if (!sectionId || !courseData) {
+    console.log(`No section ID or course data for: ${sectionId}`);
+    return [];
+  }
+  
+  // Handle system sections separately
+  if (displayKey?.startsWith('system-')) {
+    console.log(`Getting system modules for: ${sectionId} with displayKey ${displayKey}`);
+    
+    // For system sections, we would normally return modules from the corresponding section
+    // Since this appears to be handled outside the normal course data, we'll use the system data
+    const systemData = getSystemData(sectionId);
+    if (systemData) {
+      // Create mock modules for system sections if not in course data
+      console.log(`Creating modules for system: ${systemData.title}`);
+      return [{
+        id: `${sectionId}_module`,
+        title: systemData.title,
+        subtitle: systemData.description,
+        icon: "system",
+        color: "#4A90E2",
+        thumbnail: "system.webp",
+        points: systemData.features,
+        tracks: ["Technical Skills"],
+        duration: 30,
+        founderMustWatch: true, 
+        entrepreneurSpecific: true,
+        popular: true,
+        featured: true,
+        submodules: []
+      }];
+    }
+    
+    return [];
+  }
+  
+  // Map the section ID to the actual ID in the data
+  const mappedSectionId = mapSectionId(sectionId, displayKey);
+  
+  console.log(`Looking for section with mapped ID: ${mappedSectionId}`);
+  
+  // First search in the course data
   for (const category of courseData.categories || []) {
     for (const section of category.sections || []) {
-      if (section.id === sectionId) {
-        return Array.isArray(section.modules) ? section.modules : [];
+      if (section.id === mappedSectionId) {
+        const modules = Array.isArray(section.modules) ? section.modules : [];
+        console.log(`✅ Found ${modules.length} modules for section: ${mappedSectionId}`);
+        return modules;
       }
     }
   }
+  
+  // If not found, provide fallback modules for specific sections
+  if (mappedSectionId.startsWith('system_')) {
+    console.log(`Providing fallback modules for system section: ${mappedSectionId}`);
+    const systemType = mappedSectionId.replace('system_', '');
+    
+    // Create a mapping from system type to the appropriate system data ID
+    const systemDataMap: Record<string, string> = {
+      'notion': 'content-management-framework',
+      'engine': 'production-automation-suite',
+      'viral': 'video-editing-ecosystem'
+    };
+    
+    // Get the correct system data ID
+    const systemDataId = systemDataMap[systemType] || '';
+    console.log(`Mapped system type ${systemType} to system data ID: ${systemDataId}`);
+    
+    const systemData = getSystemData(systemDataId);
+    
+    if (systemData) {
+      console.log(`Found system data for: ${systemDataId}`);
+      return [{
+        id: `${mappedSectionId}_module`,
+        title: systemData.title,
+        subtitle: systemData.description,
+        icon: "system",
+        color: "#4A90E2",
+        thumbnail: "system.webp",
+        points: systemData.features,
+        tracks: ["Technical Skills"],
+        duration: 30,
+        founderMustWatch: true,
+        entrepreneurSpecific: true,
+        popular: true,
+        featured: true,
+        submodules: []
+      }];
+    } else {
+      console.log(`No system data found for: ${systemDataId}`);
+    }
+  }
+  
+  // Log for debugging when section not found
+  console.log(`⚠️ Section not found: ${mappedSectionId} (original ID: ${sectionId})`);
   return [];
 };
 
-// Get section by ID with safety checks
-export const getSection = (sectionId: string): Section | null => {
-  if (!sectionId || !courseData) return null;
+// Get section by ID with safety checks and ID mapping
+export const getSection = (sectionId: string, displayKey?: string): Section | null => {
+  if (!sectionId || !courseData) {
+    console.log(`No section ID or course data for getSection: ${sectionId}`);
+    return null;
+  }
   
+  // Handle system sections separately
+  if (displayKey?.startsWith('system-')) {
+    console.log(`Getting system section: ${sectionId} with displayKey ${displayKey}`);
+    
+    // For system sections, create a mock section using system data
+    const systemId = displayKey.replace('system-', '');
+    
+    // Create a mapping from system type to the appropriate system data ID
+    const systemDataMap: Record<string, string> = {
+      'notion': 'content-management-framework',
+      'engine': 'production-automation-suite',
+      'viral': 'video-editing-ecosystem'
+    };
+    
+    // Get the correct system data ID
+    const systemDataId = systemDataMap[systemId] || '';
+    console.log(`Mapped system ID ${systemId} to system data ID: ${systemDataId}`);
+    
+    const systemData = getSystemData(systemDataId);
+                     
+    if (systemData) {
+      console.log(`Creating section for system: ${systemData.title}`);
+      
+      // Create a mock section with a module from the system data
+      const mockSection: Section = {
+        id: `system_${systemId}`,
+        name: systemData.title,
+        number: 99, // High number for systems
+        modules: [{
+          id: `system_${systemId}_module`,
+          title: systemData.title,
+          subtitle: systemData.description,
+          icon: "system",
+          color: "#4A90E2",
+          thumbnail: "system.webp",
+          points: systemData.features,
+          tracks: ["Technical Skills"],
+          duration: 30,
+          founderMustWatch: true,
+          entrepreneurSpecific: true,
+          popular: true,
+          featured: true,
+          submodules: []
+        }]
+      };
+      
+      return mockSection;
+    }
+    
+    return null;
+  }
+  
+  // Map the section ID to the actual ID in the data
+  const mappedSectionId = mapSectionId(sectionId, displayKey);
+  console.log(`Looking for section with mapped ID: ${mappedSectionId}`);
+  
+  // Search for the section in the course data
   for (const category of courseData.categories || []) {
     for (const section of category.sections || []) {
-      if (section.id === sectionId) {
+      if (section.id === mappedSectionId) {
+        console.log(`✅ Found section: ${section.name} (ID: ${mappedSectionId})`);
         return section;
       }
     }
   }
+  
+  // Log for debugging when section not found
+  console.log(`⚠️ Section not found in getSection: ${mappedSectionId} (original ID: ${sectionId})`);
   return null;
 };
 
@@ -619,11 +854,17 @@ export const getCreators = (): Creator[] => {
           followers: 109125 + 41105,
           interactions: 2077460,
         },
+        {
+        month: "Mar",
+        views: 34698532,
+        followers: 178638,
+        interactions: 2906438,
+        },
       ],
       totals: {
-        views: 28377845,
-        followers: 153258,
-        interactions: 2304322,
+        views: 34698532,
+        followers: 178638,
+        interactions: 2906438,
       },
     },
     {

@@ -36,6 +36,8 @@ Currently, we are refactoring the components to match the copy and structure pro
 - [x] Fix VSPricingQuizModal import in sections/index.ts (removed unused import)
 - [x] Fix CSS utility class error by replacing @apply directives with standard CSS
 - [ ] Fix any remaining theme inconsistencies
+- [x] Fix course utils implementation to correctly map section IDs between UI and data
+- [x] Implement proper system section data retrieval with consistent mapping
 
 ## ✅ Course Timeline Fixes ✅
 

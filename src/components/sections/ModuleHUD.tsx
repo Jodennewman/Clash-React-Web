@@ -256,7 +256,15 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   // Get modules for the selected section
   const selectedSectionModules = useMemo(() => {
     if (!selectedSection) return [];
-    return courseUtils.getModulesForSection(selectedSection).map(module => ({
+    
+    // Get the displayKey for the selected section from refs
+    const sectionEl = document.querySelector(`[data-id="${selectedSection}"]`);
+    const displayKey = sectionEl?.getAttribute('data-display-key') || undefined;
+    
+    console.log(`Getting modules for section: ${selectedSection} with displayKey: ${displayKey || 'none'}`);
+    
+    // Pass both sectionId and displayKey to getModulesForSection
+    return courseUtils.getModulesForSection(selectedSection, displayKey).map(module => ({
       id: module.id,
       title: module.title,
       color: module.color,
@@ -695,10 +703,17 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         const illustrationContainer = document.createElement('div');
         illustrationContainer.className = 'mt-2 mb-4 w-full flex justify-center';
         
+        // Create a mapping from system type to the appropriate system data ID
+        const systemDataMap: Record<string, string> = {
+          'notion': 'content-management-framework',
+          'engine': 'production-automation-suite',
+          'viral': 'video-editing-ecosystem'
+        };
+        
         // Determine which system we're showing and set appropriate content
         if (displayKey === 'system-notion') {
-          // Get system data from course-utils
-          const systemData = courseUtils.getSystemData('notion_system');
+          // Get system data from course-utils with correct mapping
+          const systemData = courseUtils.getSystemData(systemDataMap['notion']);
           systemTitle = systemData?.title || 'Notion System';
           systemDescription = systemData?.description || 'Our comprehensive content organization system powered by a custom Notion database with advanced integrations.';
           systemFeatures = systemData?.features || [
@@ -740,8 +755,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           illustrationContainer.appendChild(notionIllustration);
           
         } else if (displayKey === 'system-engine') {
-          // Get system data from course-utils
-          const systemData = courseUtils.getSystemData('engine_room');
+          // Get system data from course-utils with correct mapping using the system map
+          const systemData = courseUtils.getSystemData(systemDataMap['engine']);
           systemTitle = systemData?.title || 'Engine Room';
           systemDescription = systemData?.description || 'Our streamlined content production system that turns raw footage into professional-quality videos.';
           systemFeatures = systemData?.features || [
@@ -814,8 +829,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           illustrationContainer.appendChild(engineIllustration);
           
         } else if (displayKey === 'system-viral') {
-          // Get system data from course-utils
-          const systemData = courseUtils.getSystemData('viral_os');
+          // Get system data from course-utils with correct mapping using the system map
+          const systemData = courseUtils.getSystemData(systemDataMap['viral']);
           systemTitle = systemData?.title || 'Video OS';
           systemDescription = systemData?.description || 'A powerful editing system with specialized templates and editing presets for high-conversion videos.';
           systemFeatures = systemData?.features || [
