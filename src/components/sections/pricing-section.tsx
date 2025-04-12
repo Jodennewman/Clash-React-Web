@@ -17,12 +17,11 @@ import {
   pricingConfig,
   moduleCategories,
   supportFeatures,
-  quizSteps,
-  calculateCourseStats
+  quizSteps
 } from '../../data/pricing';
 
-// Import course information from course-utils for track-related data
-import { tracks } from '../../lib/course-utils';
+// Import course information from course-utils for all course data access
+import courseUtils from '../../lib/course-utils';
 
 function formatPrice(price: number): string {
   return new Intl.NumberFormat('en-GB', {
@@ -39,11 +38,11 @@ const ModulePreview = () => {
   const categoryNames = Object.keys(moduleCategories).sort();
   const midpoint = Math.ceil(categoryNames.length / 2);
   
-  // Access stats from course-utils and pricing stats as needed
-  const stats = calculateCourseStats();
+  // Access stats from course-utils as the single source of truth
+  const stats = courseUtils.courseStats;
   const totalModules = stats.totalModules || 0;
   const totalHours = stats.totalHours || 0;
-  const totalCategories = stats.totalCategories || 0;
+  const totalCategories = courseUtils.tracks.length || 0;
 
   return (
     <div className="relative overflow-hidden 
@@ -456,7 +455,8 @@ export const PricingSection = () => {
   const [showQuiz, setShowQuiz] = useState(false);
   const [recommendedPlan, setRecommendedPlan] = useState<number | null>(null);
   const [showPricingSection, setShowPricingSection] = useState(true);
-  const pricingStats = calculateCourseStats();
+  // Use courseUtils instead of local calculation
+  const pricingStats = courseUtils.courseStats;
 
   // Price logic
   const calculateDisplayPrice = (tier: number) => {
@@ -521,9 +521,9 @@ export const PricingSection = () => {
     }
   };
 
-  // Get course stats with null checks
-  const totalCategories = tracks?.length || 0;
-  const totalModules = pricingStats.totalModules || 0;
+  // Get course stats from courseUtils
+  const totalCategories = courseUtils.tracks.length || 0;
+  const totalModules = courseUtils.courseStats.totalModules || 0;
 
   const getTrackAccessContent = (tierIndex: number) => {
     const plan = pricingTiers[tierIndex];

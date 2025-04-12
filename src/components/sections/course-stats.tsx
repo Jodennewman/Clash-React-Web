@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from "@gsap/react";
 import { Book, Clock, FileText, FileCode, Layers, CheckSquare } from 'lucide-react';
 import courseUtils from "../../lib/course-utils";
-import { courseStats as courseStatsData } from "../../data/course-data"; // Backup import
+// Using courseUtils as the single source of truth instead of direct import
 import { Section } from "../ui/section";
 import { Badge } from "../ui/badge";
 
@@ -83,8 +83,8 @@ const CourseStats = () => {
   const statsRef = useRef(null);
   const [animatedCounters, setAnimatedCounters] = useState(false);
   
-  // Get stats from courseUtils, with backup from direct import if needed
-  const courseStats = courseUtils.courseStats || courseStatsData;
+  // Get stats from courseUtils as the single source of truth
+  const courseStats = courseUtils.courseStats;
   
   // Use useGSAP hook for proper animation lifecycle management
   useGSAP(() => {
