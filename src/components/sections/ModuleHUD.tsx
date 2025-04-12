@@ -30,118 +30,185 @@ interface ModuleData {
   duration?: number; // Add duration property for module sizing
 }
 
-// Configure our main sections based on the spec in MODULE-HUD.md and matching course-data.json
-const mainSections: SectionData[] = [
+// Get sections from course utils to generate section data
+const generateMainSections = (): SectionData[] => {
+  // Get all sections from courseUtils
+  const courseUtilsSections = courseUtils.sections;
+  
+  // Map course data sections to UI section data structure
+  let sectionsData: SectionData[] = [];
+  
   // First BigSquare - Basic Theory/Core Concepts
-  {
+  sectionsData.push({
     id: "basic_theory",
     name: "Basic Theory",
     color: "var(--hud-teal)",
     type: 'bigSquare',
     size: 'double',
     featured: true
-  },
+  });
+  
   // First Column - Upskillers
-  {
+  sectionsData.push({
     id: "upskiller_authentic_research_writer",
     name: "Research & Writing",
     color: "var(--secondary-teal)",
     type: 'normalSquare',
     size: 'normal'
-  },
-  {
+  });
+  
+  sectionsData.push({
     id: "upskiller_shorts_ready_videographer",
     name: "Shooting",
     color: "var(--hud-pink)",
     type: 'normalSquare',
     size: 'normal'
-  },
-  {
+  });
+  
+  sectionsData.push({
     id: "upskiller_vertical_video_editors",
     name: "Editing",
     color: "var(--accent-coral)",
     type: 'normalSquare',
     size: 'normal'
-  },
+  });
+  
   // Second Column - PR/Authority & Delegation
-  {
+  sectionsData.push({
     id: "pr_authority",
     name: "PR & Authority",
     color: "var(--hud-coral)",
     type: 'normalSquare',
     size: 'normal'
-  },
-  {
+  });
+  
+  sectionsData.push({
     id: "delegation",
     name: "Delegation",
     color: "var(--hud-navy)",
     type: 'normalSquare',
     size: 'normal',
-    displayKey: 'delegation-col2' // Add a display key to differentiate
-  },
+    displayKey: 'delegation-col2'
+  });
+  
   // Second BigSquare - Advanced Theory
-  {
+  sectionsData.push({
     id: "advanced_theory",
     name: "Advanced Theory",
     color: "var(--hud-coral)",
     type: 'bigSquare',
     size: 'double'
-  },
+  });
+  
   // Third Column - Business Scaling
-  {
+  sectionsData.push({
     id: "delegation",
     name: "Team Building",
     color: "var(--hud-navy)",
     type: 'normalSquare',
     size: 'normal',
-    displayKey: 'delegation-col3' // Add a display key to differentiate 
-  },
-  {
+    displayKey: 'delegation-col3'
+  });
+  
+  sectionsData.push({
     id: "monetisation",
     name: "Monetisation",
     color: "var(--hud-orange)",
     type: 'normalSquare',
     size: 'normal'
-  },
-  {
+  });
+  
+  sectionsData.push({
     id: "conversion",
     name: "Conversion",
     color: "var(--secondary-teal)",
     type: 'normalSquare',
     size: 'normal'
-  },
-  // Infrastructure Products (Systems) - These will be displayed as 3 individual systems
-  // First System: Quantity and Quality Notion System 💾
-  {
-    id: "notion_system",
-    name: "Notion System 💾",
-    color: "var(--hud-navy)",
-    type: 'normalSquare',
-    size: 'normal',
-    featured: true,
-    displayKey: 'system-notion'
-  },
-  // Second System: Home-Delivered Engine Room 🏭
-  {
-    id: "engine_room",
-    name: "Engine Room 🏭",
-    color: "var(--primary-orange)",
-    type: 'normalSquare',
-    size: 'normal',
-    featured: true,
-    displayKey: 'system-engine'
-  },
-  // Third System: Viral Video OS 🖥️
-  {
-    id: "viral_os",
-    name: "Viral Video OS 🖥️",
-    color: "var(--accent-coral)", 
-    type: 'normalSquare',
-    size: 'normal',
-    featured: true,
-    displayKey: 'system-viral'
+  });
+  
+  // Find system sections from courseUtils
+  const systemSections = courseUtilsSections.filter(section => 
+    section.id === 'notion_system' || 
+    section.id === 'engine_room' || 
+    section.id === 'viral_os' ||
+    section.displayKey?.startsWith('system-')
+  );
+  
+  // Add system sections with proper naming from courseUtils
+  if (systemSections.length > 0) {
+    // System names can be based on courseUtils data, or fallback to defaults
+    // First System: Content Management Framework (Notion)
+    sectionsData.push({
+      id: "notion_system",
+      name: "Notion System 💾",
+      color: "var(--hud-navy)",
+      type: 'normalSquare',
+      size: 'normal',
+      featured: true,
+      displayKey: 'system-notion'
+    });
+    
+    // Second System: Production Automation Suite (Engine Room)
+    sectionsData.push({
+      id: "engine_room",
+      name: "Engine Room 🏭",
+      color: "var(--primary-orange)",
+      type: 'normalSquare',
+      size: 'normal',
+      featured: true,
+      displayKey: 'system-engine'
+    });
+    
+    // Third System: Video Editing Ecosystem (Viral OS)
+    sectionsData.push({
+      id: "viral_os",
+      name: "Viral Video OS 🖥️",
+      color: "var(--accent-coral)", 
+      type: 'normalSquare',
+      size: 'normal',
+      featured: true,
+      displayKey: 'system-viral'
+    });
+  } else {
+    // Fallback system sections if not found in courseUtils
+    console.warn("System sections not found in courseUtils, using fallbacks");
+    
+    sectionsData.push({
+      id: "notion_system",
+      name: "Notion System 💾",
+      color: "var(--hud-navy)",
+      type: 'normalSquare',
+      size: 'normal',
+      featured: true,
+      displayKey: 'system-notion'
+    });
+    
+    sectionsData.push({
+      id: "engine_room",
+      name: "Engine Room 🏭",
+      color: "var(--primary-orange)",
+      type: 'normalSquare',
+      size: 'normal',
+      featured: true,
+      displayKey: 'system-engine'
+    });
+    
+    sectionsData.push({
+      id: "viral_os",
+      name: "Viral Video OS 🖥️",
+      color: "var(--accent-coral)", 
+      type: 'normalSquare',
+      size: 'normal',
+      featured: true,
+      displayKey: 'system-viral'
+    });
   }
-];
+  
+  return sectionsData;
+};
+
+// Initialize main sections with data from courseUtils
+const mainSections: SectionData[] = generateMainSections();
 
 // Square Column Component - takes an array of squares to display in a column
 interface SquareColumnProps {
