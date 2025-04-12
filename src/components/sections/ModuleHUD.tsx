@@ -728,8 +728,16 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
       
       // Get section ID from sectionEl to check if it's a system section
       const sectionId = sectionEl.getAttribute('data-id');
+      const baseId = sectionEl.getAttribute('data-base-id');
       const displayKey = sectionEl.getAttribute('data-display-key');
       const isSystemSection = displayKey && displayKey.startsWith('system-');
+      
+      // Find the section data for color information
+      const sectionData = mainSections.find(s => 
+        s.uniqueId === sectionId || 
+        s.id === sectionId || 
+        (s.id === baseId && s.displayKey === displayKey)
+      );
       
       // If this is a system section, we want to show a different layout with specific details
       if (isSystemSection) {
@@ -1142,7 +1150,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           moduleEl.className = 'module-item dark-glow-overlay rounded-lg shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_15px_rgba(53,115,128,0.3),_0_0_10px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.5),_0_0_15px_rgba(0,0,0,0.3)] cursor-pointer relative overflow-hidden tooltip-trigger';
           
           // Get section color for overlay
-          const sectionColor = section.color || 'var(--theme-accent)';
+          const sectionColor = sectionData?.color || module.color || 'var(--theme-accent)';
           
           // Get module thumbnail URL - handle different data structures
           const thumbnailPath = module.thumbnail || courseUtils.getModuleThumbnail(module.id);
