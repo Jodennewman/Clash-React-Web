@@ -703,12 +703,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         const illustrationContainer = document.createElement('div');
         illustrationContainer.className = 'mt-2 mb-4 w-full flex justify-center';
         
-        // Create a mapping from system type to the appropriate system data ID
-        const systemDataMap: Record<string, string> = {
-          'notion': 'content-management-framework',
-          'engine': 'production-automation-suite',
-          'viral': 'video-editing-ecosystem'
-        };
+        // Use the systemDataMap from course-utils to ensure consistency
+        const systemDataMap = courseUtils.systemDataMap;
         
         // Determine which system we're showing and set appropriate content
         if (displayKey === 'system-notion') {

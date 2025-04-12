@@ -370,12 +370,7 @@ export const getModulesForSection = (sectionId: string, displayKey?: string): Mo
     console.log(`Providing fallback modules for system section: ${mappedSectionId}`);
     const systemType = mappedSectionId.replace('system_', '');
     
-    // Create a mapping from system type to the appropriate system data ID
-    const systemDataMap: Record<string, string> = {
-      'notion': 'content-management-framework',
-      'engine': 'production-automation-suite',
-      'viral': 'video-editing-ecosystem'
-    };
+    // Use the global systemDataMap for consistency
     
     // Get the correct system data ID
     const systemDataId = systemDataMap[systemType] || '';
@@ -425,12 +420,7 @@ export const getSection = (sectionId: string, displayKey?: string): Section | nu
     // For system sections, create a mock section using system data
     const systemId = displayKey.replace('system-', '');
     
-    // Create a mapping from system type to the appropriate system data ID
-    const systemDataMap: Record<string, string> = {
-      'notion': 'content-management-framework',
-      'engine': 'production-automation-suite',
-      'viral': 'video-editing-ecosystem'
-    };
+    // Use the global systemDataMap for consistency
     
     // Get the correct system data ID
     const systemDataId = systemDataMap[systemId] || '';
@@ -1455,6 +1445,13 @@ export const getSystemData = (systemId: string): SystemData | null => {
   return systemsData.find(system => system.id === systemId) || null;
 };
 
+// Export the system data mapping for consistent use across components
+export const systemDataMap: Record<string, string> = {
+  'notion': 'content-management-framework',
+  'engine': 'production-automation-suite',
+  'viral': 'video-editing-ecosystem'
+};
+
 // Export default object with all utils
 export default {
   tracks,
@@ -1480,5 +1477,6 @@ export default {
   getCreators, // Add the new case study/creators function
   getModuleTitle, // Helper for modal
   getModuleThumbnail, // Helper for modal
-  getSystemData // System data for ModuleHUD
+  getSystemData, // System data for ModuleHUD
+  systemDataMap // Exported system data mapping
 };
