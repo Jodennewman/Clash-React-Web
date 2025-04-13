@@ -1,5 +1,9 @@
 import { Briefcase, Compass, Pencil, Camera, Scissors, Rocket, Wrench } from 'lucide-react';
 
+// Import the thumbnail mapper to use instead of direct path construction
+import { getThumbnail } from '../utils/thumbnailMapper';
+import { findImageByBasename } from '../utils/importImages';
+
 // Types for course data structure matching the JSON format
 export interface Submodule {
   id: string;
@@ -58,30 +62,36 @@ export interface Module {
 
 // Helper function to get the full path for a thumbnail
 export const getThumbnailPath = (thumbnailName: string): string => {
-  // Handle null/undefined case
-  if (!thumbnailName) {
-    console.warn('Missing thumbnail name, using default');
-    return '../assets/main/DataBaseThumbnails/renamed/the_algorithm.webp'; // Fallback to a default image
-  }
-  
-  // If the thumbnail already has a full path, return it
-  if (thumbnailName.startsWith('/') || thumbnailName.startsWith('./') || thumbnailName.startsWith('http')) {
-    return thumbnailName;
-  }
-  
-  // Check if the thumbnail already has .webp extension
-  if (!thumbnailName.endsWith('.webp') && !thumbnailName.endsWith('.jpg') && 
-      !thumbnailName.endsWith('.png') && !thumbnailName.endsWith('.jpeg')) {
-    thumbnailName = `${thumbnailName}.webp`;
-  }
-  
-  // Otherwise, construct the path to the renamed thumbnails directory
-  // Use relative path without leading slash since assets are in the project directory, not public
-  return `../assets/main/DataBaseThumbnails/renamed/${thumbnailName}`;
+  // Use the thumbnailMapper's getThumbnail function which handles
+  // Vite imports properly and integrates with imageMap.js
+  return getThumbnail(thumbnailName);
 };
 
-// Helper function to get submodule thumbnail path
+// Helper function to get avatar path properly
+export const getAvatarPath = (avatarPath: string): string => {
+  // Try to find the avatar in the explicitly imported images
+  const foundAvatar = findImageByBasename(avatarPath);
+  if (foundAvatar) {
+    return foundAvatar;
+  }
+  
+  // If not found, return the original path (warning will be shown in console)
+  console.warn(`Avatar not found in imported images: ${avatarPath}, using direct path`);
+  return avatarPath;
+};
+
+// Helper function to get submodule thumbnail path with caching
+const submoduleThumbnailCache = new Map<string, string>();
+
 export const getSubmoduleThumbnail = (submoduleId: string, moduleId?: string): string => {
+  // Create a cache key that combines submoduleId and moduleId (if provided)
+  const cacheKey = moduleId ? `${submoduleId}-${moduleId}` : submoduleId;
+  
+  // Check if we have a cached result
+  if (submoduleThumbnailCache.has(cacheKey)) {
+    return submoduleThumbnailCache.get(cacheKey) || '';
+  }
+  
   // Try to find the submodule to get its explicit thumbnail
   let thumbnail = '';
   
@@ -94,25 +104,22 @@ export const getSubmoduleThumbnail = (submoduleId: string, moduleId?: string): s
       }
     }
   } else {
-    // If no moduleId is provided, search through all modules
+    // If no moduleId is provided, search through all modules - use more efficient indexing
     if (courseData && Array.isArray(courseData.categories)) {
-      for (const category of courseData.categories) {
-        if (Array.isArray(category.sections)) {
-          for (const section of category.sections) {
-            if (Array.isArray(section.modules)) {
-              for (const module of section.modules) {
-                if (Array.isArray(module.submodules)) {
-                  const submodule = module.submodules.find(sub => sub.id === submoduleId);
-                  if (submodule && submodule.thumbnail) {
-                    thumbnail = submodule.thumbnail;
-                    break;
-                  }
-                }
-              }
+      // Use a flat map approach to reduce nesting
+      const foundThumbnail = courseData.categories
+        .flatMap(category => category.sections || [])
+        .flatMap(section => section.modules || [])
+        .find(module => {
+          if (Array.isArray(module.submodules)) {
+            const submodule = module.submodules.find(sub => sub.id === submoduleId);
+            if (submodule && submodule.thumbnail) {
+              thumbnail = submodule.thumbnail;
+              return true;
             }
           }
-        }
-      }
+          return false;
+        });
     }
   }
   
@@ -121,12 +128,20 @@ export const getSubmoduleThumbnail = (submoduleId: string, moduleId?: string): s
     // Try the parent module's thumbnail
     const moduleThumbnail = getModuleThumbnail(moduleId);
     if (moduleThumbnail) {
-      return getThumbnailPath(moduleThumbnail);
+      const result = getThumbnailPath(moduleThumbnail);
+      // Cache the result
+      submoduleThumbnailCache.set(cacheKey, result);
+      return result;
     }
   }
   
   // If we found a thumbnail or we're falling back to a default
-  return getThumbnailPath(thumbnail || 'the_algorithm');
+  const result = getThumbnailPath(thumbnail || 'the_algorithm');
+  
+  // Cache the result
+  submoduleThumbnailCache.set(cacheKey, result);
+  
+  return result;
 };
 
 export interface Section {
@@ -192,20 +207,10 @@ export const getTrackIcon = (iconName: string) => {
 };
 
 /**
- * Course statistics calculation function - here for reference but not used
- * We use real, verified statistics from course analysis instead of potentially
- * inaccurate calculations based on sample data
+ * Course statistics - imported from course-data.ts source of truth
  */
-const _calculateCourseStats = () => {
-  // This code is preserved for future database integration
-  // but replaced with real verified course statistics
-  return {};
-};
-
-// Course statistics - imported from course-data.ts source of truth
 import { courseStats as courseStatsData } from '../data/course-data';
 export const courseStats = courseStatsData;
-
 
 // Safe getter for tracks
 const getTracksWithFallback = (): Track[] => {
@@ -360,11 +365,22 @@ export const mapSectionId = (sectionId: string, displayKey?: string): string => 
   return sectionId;
 };
 
+// Section ID to modules mapping cache
+const sectionModulesCache = new Map<string, Module[]>();
+
 // Get modules for a specific section with improved section ID mapping
 export const getModulesForSection = (sectionId: string, displayKey?: string): Module[] => {
   if (!sectionId || !courseData) {
     console.log(`No section ID or course data for: ${sectionId}`);
     return [];
+  }
+  
+  // Create a cache key that combines sectionId and displayKey (if provided)
+  const cacheKey = displayKey ? `${sectionId}-${displayKey}` : sectionId;
+  
+  // Check if we have a cached result
+  if (sectionModulesCache.has(cacheKey)) {
+    return sectionModulesCache.get(cacheKey) || [];
   }
   
   // Handle system sections separately
@@ -377,7 +393,7 @@ export const getModulesForSection = (sectionId: string, displayKey?: string): Mo
     if (systemData) {
       // Create mock modules for system sections if not in course data
       console.log(`Creating modules for system: ${systemData.title}`);
-      return [{
+      const modules = [{
         id: `${sectionId}_module`,
         title: systemData.title,
         subtitle: systemData.description,
@@ -393,8 +409,14 @@ export const getModulesForSection = (sectionId: string, displayKey?: string): Mo
         featured: true,
         submodules: []
       }];
+      
+      // Cache the result
+      sectionModulesCache.set(cacheKey, modules);
+      return modules;
     }
     
+    // Cache empty array for not found
+    sectionModulesCache.set(cacheKey, []);
     return [];
   }
   
@@ -403,15 +425,26 @@ export const getModulesForSection = (sectionId: string, displayKey?: string): Mo
   
   console.log(`Looking for section with mapped ID: ${mappedSectionId}`);
   
-  // First search in the course data
-  for (const category of courseData.categories || []) {
-    for (const section of category.sections || []) {
-      if (section.id === mappedSectionId) {
-        const modules = Array.isArray(section.modules) ? section.modules : [];
-        console.log(`✅ Found ${modules.length} modules for section: ${mappedSectionId}`);
-        return modules;
-      }
-    }
+  // Use a more efficient flat-map approach to find the section
+  const foundSection = courseData.categories
+    ?.flatMap(category => 
+      (category.sections || []).map(section => ({
+        section,
+        category
+      }))
+    )
+    .find(({ section }) => section.id === mappedSectionId);
+  
+  if (foundSection) {
+    const modules = Array.isArray(foundSection.section.modules) 
+      ? foundSection.section.modules 
+      : [];
+    
+    console.log(`✅ Found ${modules.length} modules for section: ${mappedSectionId}`);
+    
+    // Cache the result
+    sectionModulesCache.set(cacheKey, modules);
+    return modules;
   }
   
   // If not found, provide fallback modules for specific sections
@@ -429,7 +462,7 @@ export const getModulesForSection = (sectionId: string, displayKey?: string): Mo
     
     if (systemData) {
       console.log(`Found system data for: ${systemDataId}`);
-      return [{
+      const modules = [{
         id: `${mappedSectionId}_module`,
         title: systemData.title,
         subtitle: systemData.description,
@@ -445,6 +478,10 @@ export const getModulesForSection = (sectionId: string, displayKey?: string): Mo
         featured: true,
         submodules: []
       }];
+      
+      // Cache the result
+      sectionModulesCache.set(cacheKey, modules);
+      return modules;
     } else {
       console.log(`No system data found for: ${systemDataId}`);
     }
@@ -452,14 +489,28 @@ export const getModulesForSection = (sectionId: string, displayKey?: string): Mo
   
   // Log for debugging when section not found
   console.log(`⚠️ Section not found: ${mappedSectionId} (original ID: ${sectionId})`);
+  
+  // Cache empty array for not found
+  sectionModulesCache.set(cacheKey, []);
   return [];
 };
+
+// Cache for sections by ID
+const sectionCache = new Map<string, Section | null>();
 
 // Get section by ID with safety checks and ID mapping
 export const getSection = (sectionId: string, displayKey?: string): Section | null => {
   if (!sectionId || !courseData) {
     console.log(`No section ID or course data for getSection: ${sectionId}`);
     return null;
+  }
+  
+  // Create a cache key that combines sectionId and displayKey (if provided)
+  const cacheKey = displayKey ? `${sectionId}-${displayKey}` : sectionId;
+  
+  // Check if we have a cached result
+  if (sectionCache.has(cacheKey)) {
+    return sectionCache.get(cacheKey);
   }
   
   // Handle system sections separately
@@ -503,9 +554,13 @@ export const getSection = (sectionId: string, displayKey?: string): Section | nu
         }]
       };
       
+      // Cache the mock section
+      sectionCache.set(cacheKey, mockSection);
       return mockSection;
     }
     
+    // Cache the null result for not found
+    sectionCache.set(cacheKey, null);
     return null;
   }
   
@@ -513,18 +568,24 @@ export const getSection = (sectionId: string, displayKey?: string): Section | nu
   const mappedSectionId = mapSectionId(sectionId, displayKey);
   console.log(`Looking for section with mapped ID: ${mappedSectionId}`);
   
-  // Search for the section in the course data
-  for (const category of courseData.categories || []) {
-    for (const section of category.sections || []) {
-      if (section.id === mappedSectionId) {
-        console.log(`✅ Found section: ${section.name} (ID: ${mappedSectionId})`);
-        return section;
-      }
-    }
+  // Use a more efficient flat-map approach to find the section
+  const section = courseData.categories
+    ?.flatMap(category => category.sections || [])
+    .find(section => section.id === mappedSectionId);
+  
+  if (section) {
+    console.log(`✅ Found section: ${section.name} (ID: ${mappedSectionId})`);
+    
+    // Cache the found section
+    sectionCache.set(cacheKey, section);
+    return section;
   }
   
   // Log for debugging when section not found
   console.log(`⚠️ Section not found in getSection: ${mappedSectionId} (original ID: ${sectionId})`);
+  
+  // Cache the null result for not found
+  sectionCache.set(cacheKey, null);
   return null;
 };
 
@@ -819,7 +880,7 @@ export const getCreators = (): Creator[] => {
     {
       id: 1,
       name: "Chris Donnelly",
-      avatar: "/assets/main/Clients-webp-300px/Chris_Donnelly.webp",
+      avatar: getAvatarPath("src/assets/main/Clients-webp-300px/Chris_Donnelly.webp"),
       description:
         "Chris Donnelly is the founder of luxury digital marketing agency Verb, the cofounder of Lottie, a tech startup for social care, plus an investor, author, speaker and creator. He is now the founder of the creator accelerator, and host of the Wake Up podcast.\nWe started working with Chris in 2022, and grew his TikTok and Instagram accounts from 1k to 1m followers, in just under 2 years, amassing over 250 million views. His account focusses on business, management, leadership and investment.",
       data: [
@@ -864,9 +925,9 @@ export const getCreators = (): Creator[] => {
     {
       id: 2,
       name: "Charlotte Mair",
-      avatar: "/assets/main/Clients-webp-300px/Charlotte_mair.webp",
+      avatar: getAvatarPath("/assets/main/Clients-webp-300px/Charlotte_mair.webp"),
       description:
-        "Charlotte Mair is the Founder and Managing Director of award winning culture and communications agency, The Fitting Room, a cultural forecaster, speaker, and brand strategist.\nWe started working with Charlotte in October of 2024, and in just 6 months she’s built 170k followers across her TikTok and YouTube, and amassed 28 million views. Her account focusses on all things marketing, pop culture and business.",
+        "Charlotte Mair is the Founder and Managing Director of award winning culture and communications agency, The Fitting Room, a cultural forecaster, speaker, and brand strategist.\nWe started working with Charlotte in October of 2024, and in just 6 months she's built 170k followers across her TikTok and YouTube, and amassed 28 million views. Her account focusses on all things marketing, pop culture and business.",
       data: [
         { month: "Oct", views: 30800, followers: 594, interactions: 347 },
         {
@@ -909,9 +970,9 @@ export const getCreators = (): Creator[] => {
     {
       id: 3,
       name: "James Watt",
-      avatar: "assets/main/Clients-webp-300px/James_Watt.webp",
+      avatar: getAvatarPath("assets/main/Clients-webp-300px/James_Watt.webp"),
       description:
-        "James Watt is the co-founder and captain of BrewDog the biggest independent beer company on the planet. He’s also a best-selling author, investor, North Atlantic captain and the founder of Social Tip, the platform that makes ‘anyone an influencer’. \nWe started working with James at the end of 2024 and together grew an audience of 15k followers and 20 million views in just 2 months on TikTok alone. His account focusses on business, beer and lobster fishing (of course).",
+        "James Watt is the co-founder and captain of BrewDog the biggest independent beer company on the planet. He's also a best-selling author, investor, North Atlantic captain and the founder of Social Tip, the platform that makes 'anyone an influencer'. \nWe started working with James at the end of 2024 and together grew an audience of 15k followers and 20 million views in just 2 months on TikTok alone. His account focusses on business, beer and lobster fishing (of course).",
       data: [
         { month: "Oct", views: 0, followers: 0, interactions: 0 },
         { month: "Nov", views: 7123640, followers: 7649, interactions: 232779 },
@@ -937,7 +998,7 @@ export const getCreators = (): Creator[] => {
     {
       id: 4,
       name: "Ben Askins",
-      avatar: "/assets/main/Clients-webp-300px/Ben_Askins.webp  ",
+      avatar: getAvatarPath("/assets/main/Clients-webp-300px/Ben_Askins.webp"),
       description:
         "Ben Askins is the co-founder of Gaia, a green tech company that helps businesses hit environmental targets efficiently. He alsoo co-founded Verb Brands alongside Chris Donnelly.\nWe started working with Ben in 2022, and grew his audience to 1 million followers across TikTok and Instagram, hitting an insane 387 million views in under 7 months. His account focusses on business, management and genZ.",
       data: [
@@ -996,7 +1057,7 @@ export const getCreators = (): Creator[] => {
     {
       id: 5,
       name: "Joden Clash",
-      avatar: "/assets/main/Clients-webp-300px/Joden_Clash.webp",
+      avatar: getAvatarPath("/assets/main/Clients-webp-300px/Joden_Clash.webp"),
       description: "Joden Newman is the Founder and Creative Director of Clash Creation. In early 2024 he decided to apply the vertical shortcut techniques to his own content, and grew himself 110 million views and 1 million followers across all platforms in just 3 months. His account focusses on current events, true crime and film. ",
       data: [
         { month: "Feb", views: 90000, followers: 8322, interactions: 12678 },
@@ -1046,8 +1107,8 @@ export const getCreators = (): Creator[] => {
       {
         id: 6,
         name: "Jordan Schwarz",
-        avatar: "/assets/main/Clients-webp-300px/Jordan_Schwarzenberger.webp",
-        description: "Jordan Schwarzenberger is the co-founder Arcade Media, author, creative and the manager of The Sidemen: the UK’s biggest creator empire. \nWe started working with Jordan towards the end of 2024 and together grew his TikTok and Instagram to 39 million views and 15k followers in just 3 months. His account focusses on GenZ, the creator economy, and pop culture.",
+        avatar: getAvatarPath("/assets/main/Clients-webp-300px/Jordan_Schwarzenberger.webp"),
+        description: "Jordan Schwarzenberger is the co-founder Arcade Media, author, creative and the manager of The Sidemen: the UK's biggest creator empire. \nWe started working with Jordan towards the end of 2024 and together grew his TikTok and Instagram to 39 million views and 15k followers in just 3 months. His account focusses on GenZ, the creator economy, and pop culture.",
         data: [
           {
             month: "Oct",
@@ -1249,7 +1310,19 @@ export const getContentHierarchy = () => {
         id: category.id || `category-${catIndex}`,
         name: category.name || `Category ${catIndex}`,
         color: category.color || '#000000',
-        sections: [] as any[]
+        sections: [] as Array<{
+          id: string;
+          name: string;
+          number: number;
+          modules: Array<{
+            id: string;
+            title: string;
+            thumbnail: string;
+            duration: number;
+            submoduleCount: number;
+            key: string;
+          }>;
+        }>
       };
       
       if (Array.isArray(category.sections)) {
@@ -1260,7 +1333,14 @@ export const getContentHierarchy = () => {
             id: section.id || `section-${sectionIndex}`,
             name: section.name || `Section ${sectionIndex}`,
             number: section.number || sectionIndex,
-            modules: [] as any[]
+            modules: [] as Array<{
+              id: string;
+              title: string;
+              thumbnail: string;
+              duration: number;
+              submoduleCount: number;
+              key: string;
+            }>
           };
           
           if (Array.isArray(section.modules)) {
@@ -1549,5 +1629,6 @@ export default {
   getModuleThumbnail, // Helper for modal
   getSubmoduleThumbnail, // Helper for submodule thumbnails
   getSystemData, // System data for ModuleHUD
-  systemDataMap // Exported system data mapping
+  systemDataMap, // Exported system data mapping
+  mapSectionId // Add this line to export the mapSectionId function
 };
