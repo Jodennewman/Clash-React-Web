@@ -38,8 +38,7 @@ The numbers speak for themselves
 ##Section 3: Case studies - click on each to see graphs and more in detail stats
 
 ###Component: Caste-studies.tsx
-<This copy is provided correctly and parsed from the data inside of the components, and is just here for example>
-<Chris Donnelly: 270M views, 1M followers - in just 2 years Charlotte Mair: 28M views, 170k followers - in just 6 months    James Watt: 20M views, 15k follower - in just 3 months  Ben Askins: 387M views, 1M followers - in just 2 years  Joden Newman: 110M views, 1M followers - in just 3 months>
+
     
 Want to be next on this list?
 <Button: > Start your Journey
@@ -400,6 +399,272 @@ Limited spots available for next cohort
  **Ready to Transform Your Content?**
 
 Join Vertical Shortcut today and get access to our complete system for creating high-converting content that drives real business results.
+
+##Qualification Modal / Personalised Strategy Quiz 
+
+Component: VSQualificationModal.tsx (and it’s imports)
+
+Build your Perfect Content System 
+
+Find the perfect plan for you to scale your content - fast
+
+The Process 
+
+(don’t worry it takes less than 60 seconds)
+
+Quiz Assessment → Your Personalised Solution → Start Growing
+
+We’ll tailor our 1 Billion view system to match your team size, implementation preference, vision and growth timeline 
+
+No obligation | Personalised to your specific needs
+
+Maybe later
+
+Get my personalised plan: 
+
+1. **How Big is your Content Team?** 
+
+We’ll tailor our system to match your team’s specific structure and size.
+
+- Option 1: Solo Creator: Just you, a dream (and occasional freelance help)
+
+- Option 2: Small Team: You lead a tight-knit team of 1-4 creatives, maybe a writer, an editor and/or an all-rounder
+
+- Option 3: Growing Team: You’ve got a dedicated team of 5+ researchers, writers, producers, editors, strategists, and videographers
+
+1. **How do you prefer to learn new systems?** 
+
+We’ll match you with the right level of support.
+
+- Option 1: Self Driven: I’d prefer to take the course at my own pace.
+
+- Option 2: Coaching & Support: I’d like guidance and coaching, but want to take the lead on implementing it myself.
+
+- Option 3: Help. I want dedicated experts to implement it all for me.
+
+1. **When do you want to see results?** 
+
+We’ll adjust the timeline to match your goals.  
+
+- Option 1: ASAP Growth: I’m ready to implement now and want results immediately.
+
+- Option 2: Next 90 Days: I need some time to warm up, and would like to implement in the next 1-3 months
+
+- Option 3: Strategic Planning: I want a roadmap to help implement it some time this year.
+
+1. **What’s your content vision?** 
+
+We’ll adjust the framework to fit your content growth goals. 
+
+- Option 1: High Impact Focus: I want a small-scale strategy to maximise ROI and conversions
+
+- Option 2: Consistent Growth: I want an content system putting out 10-30 pieces a month.
+
+- Option 3: Full Scale Engine: I want a comprehensive efficient content system to scale across multiple platforms.
+
+**About You** 
+
+Your Name
+
+Your Email 
+
+**About Your Brand** 
+
+Company/Brand Name
+
+Your Position
+
+Your information is secure and never shared with third parties 
+
+sign up to our mailing list checkbox
+
+→ show my recommendation
+
+Your results
+
+- Comprehensive
+    
+    Comprehensive Implementation: Complete Support 
+    
+    Price £5,500
+    
+    About your match:
+    
+    Designed just for you to achieve your goals based on your unique responses:
+    
+    icon: small team
+    
+    icon: coaching and support 
+    
+    icon: ASAP growth
+    
+    icon: full scale engine
+    
+    Schedule a Strategy Session: calendly link
+    
+    The Comprehensive Implementation includes:
+    
+    - group coaching sessions
+    - two 1:1 strategy sessions
+    - complete system templates
+    - 3 month support package
+    - Private community access
+    
+    Personalised Enhancements 
+    
+    - private coaching sessions : 850
+    - content audit and strategy: 950
+    - advanced template package: 450
+    
+    Compare with Executive Partnership
+    
+
+- Foundation
+
+**Your Match: The Foundation Implementation**
+
+**Build your content foundation**
+
+**£1,950 one-time payment**
+
+You’re not quite ready to start right away — but you’re not messing around.
+
+The Foundation Implementation is a lean, self-paced option for solo founders or small teams who want clarity, templates, and a proper system to launch with confidence (not confusion).
+
+You don’t need hand-holding. You need a jumpstart.
+
+The Foundation Implementation is exactly that.
+
+About your match:
+
+Designed just for you to achieve your goals based on your unique responses:
+
+•    Solo creator or small team
+
+•    Prefer self-guided over “done-for-you”
+
+•    Just starting to explore content systems
+
+•    Wanting flexibility (and zero faff)
+
+**What You Get:**
+
+•    Lifetime access to the full system
+
+•    Our most essential content templates
+
+•    Strategy walkthroughs on video
+
+•    Credit towards upgrading later
+
+**Optional Extras:**
+
+- 1:1 Coaching Session — £850
+- Content Audit + Strategy — £950
+- Upgrade to Comprehensive — £3,550
+
+> Not quite sure? Most of our top clients started here. Then scaled like hell.
+> 
+
+**→ Start Instantly**
+
+**Your Match: The Comprehensive Implementation**
+
+**Complete support, zero guesswork**
+
+**£5,500 one time payment**
+
+You’re growing fast — and it’s time your content systems did too.
+
+This isn’t another course or set of templates. It’s live support, 1:1 strategy, and a full plug-and-play content engine that actually fits your business.
+
+We’ll give you the frameworks, the guidance, and the knowledge to back it up.
+
+You bring the momentum. We’ll build the machine.
+
+About your match:
+
+Designed just for you to achieve your goals based on your unique responses:
+
+•    Team in place or growing
+
+•    Want coaching, not chaos
+
+•    Ready to scale content, ASAP
+
+•    Want a full engine, not just bits and bobs
+
+**What You Get:**
+
+•    Two 1:1 strategy sessions
+
+•    Weekly Group coaching + support
+
+•    Full template + system access
+
+•    3-month implementation support
+
+•    Access to private founder community
+
+**Optional Extras:**
+
+- Additional coaching sessions — £850
+- Content Audit + Strategy — £950
+- Upgrade to Executive — £4,000+
+
+> Scaling without support = burnout. Don’t do it to yourself.
+> 
+
+**→ Book your first strategy session**
+
+**Your Match: The Executive Partnership**
+
+**Premium implementation. Full scale. No stress.**
+
+**Starting from £9,500**
+
+You’re not playing around. Your business is moving fast, your team needs results, and content is a growth lever — not a side project.
+
+This is where we step in and build it *with* you.
+
+Custom strategy. Full system setup. Ongoing support.
+
+We embed with your team to make short-form your biggest growth channel.
+
+About your match:
+
+Designed just for you to achieve your goals based on your unique responses:
+
+•    Larger or fast-scaling team
+
+•    Tight timelines, serious targets
+
+•    Want hands-on help, not more “advice”
+
+•    Cross-platform, high-volume vision
+
+**What You Get:**
+
+Everything included in the Comprehensive Course PLUS:
+
+•    A dedicated implementation manager
+
+•    Custom strategy development
+
+•    Done-with-you system install
+
+•    6 months of premium support
+
+•    Private team onboarding + training
+
+**Optional Extras:**
+
+•    Extended Support (3 more months) — £1,800
+
+> We’ll build it. You focus on growth.
+> 
+
+**→ Book your executive strategy session**
 
 #still to do
 

@@ -13,6 +13,11 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
+// Import the image utility - only import what we use
+import { getImage } from "../../utils/imageMap";
+// Import the explicit image finder
+import { findImageByBasename } from "../../utils/importImages";
+
 // Type the ScrollTrigger for proper usage with TypeScript
 declare global {
   interface ScrollTriggerInstance extends ScrollTrigger {}
@@ -31,6 +36,12 @@ ScrollTrigger.config({
 // Import creator case study data from the database via course-utils
 import courseUtils, { Creator } from "../../lib/course-utils";
 
+// Extend Creator interface to support our image mapping system
+interface EnhancedCreator extends Creator {
+  // Original property might be a string path
+  avatarSrc?: string;
+}
+
 // Custom CSS class to be added for hiding scrollbars
 // We'll use this with a regular div instead of a styled component
 const SCROLLBAR_HIDE_CLASS = "scrollbar-hide";
@@ -41,7 +52,44 @@ interface CaseStudiesProps {
 }
 
 // Get creators data from the database
-const creators: Creator[] = courseUtils.getCreators();
+const creators: EnhancedCreator[] = courseUtils.getCreators();
+
+// Process creator avatars to use our image mapping
+creators.forEach(creator => {
+  // Store the original avatar path if needed
+  creator.avatarSrc = creator.avatar;
+  
+  // Try to get the avatar from our image map system
+  try {
+    // Extract filename without extension from the path
+    const filenameMatch = creator.avatar.match(/([^/]+)(?:\.\w+)?$/);
+    if (filenameMatch && filenameMatch[1]) {
+      const filename = filenameMatch[1];
+      
+      // Try multiple methods to get the image:
+      // 1. Try to get from our explicit imports first (most reliable)
+      // 2. Then try the dynamic image map
+      // 3. Fall back to original path if neither works
+      const explicitImage = findImageByBasename(filename);
+      const mappedImage = getImage(filename);
+      
+      if (explicitImage) {
+        console.log(`Found explicit image for ${creator.name}:`, explicitImage);
+        creator.avatar = explicitImage;
+      } else if (mappedImage) {
+        console.log(`Found mapped image for ${creator.name}:`, mappedImage);
+        creator.avatar = mappedImage;
+      } else {
+        // If we can't find the image, load from its original path
+        // This might not work unless the image is in the public directory
+        console.warn(`No mapped image found for ${creator.name}, using original path`);
+      }
+    }
+  } catch (error) {
+    console.warn(`Could not map avatar for creator ${creator.name}`, error);
+    // Keep the original avatar path if mapping fails
+  }
+});
 
 // Define the CaseStudies component with forwardRef
 const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefAttributes<HTMLElement>> = 
@@ -170,20 +218,20 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
         const maxViews = Math.max(
           ...currentCreator.data.map((item) => item.views)
         );
-        return [0, Math.ceil(maxViews * 1.1)]; // Add 10% padding
+        return [0, Math.ceil(maxViews * 1.1)] as [number, number]; // Add 10% padding and type assertion
       } else if (activeMetric === "followers") {
         const maxFollowers = Math.max(
           ...currentCreator.data.map((item) => item.followers)
         );
-        return [0, Math.ceil(maxFollowers * 1.1)];
+        return [0, Math.ceil(maxFollowers * 1.1)] as [number, number];
       } else if (activeMetric === "interactions") {
         const maxInteractions = Math.max(
           ...currentCreator.data.map((item) => item.interactions)
         );
-        return [0, Math.ceil(maxInteractions * 1.1)];
+        return [0, Math.ceil(maxInteractions * 1.1)] as [number, number];
       }
       // For 'all', let Recharts handle it
-      return "auto";
+      return undefined;
     };
 
     // GSAP animations with proper cleanup
@@ -257,7 +305,11 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
       label 
     }: { 
       active?: boolean; 
-      payload?: any[]; 
+      payload?: Array<{
+        name: string;
+        value: number;
+        color: string;
+      }>; 
       label?: string;
     }) => {
       if (active && payload && payload.length) {

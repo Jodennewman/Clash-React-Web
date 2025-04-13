@@ -1,0 +1,19 @@
+{
+  "name": "css-refactor-scripts",
+  "version": "1.0.0",
+  "description": "Scripts for CSS refactoring",
+  "private": true,
+  "scripts": {
+    "analyze": "node analyze-css.js",
+    "usage": "node analyze-usage.js",
+    "visual:before": "node setup-visual-tests.js",
+    "visual:after": "node setup-visual-tests.js --after",
+    "compare": "node compare-visual-tests.js"
+  },
+  "dependencies": {
+    "glob": "^10.3.10",
+    "puppeteer": "^22.0.0",
+    "pixelmatch": "^5.3.0",
+    "pngjs": "^7.0.0"
+  }
+}

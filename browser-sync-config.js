@@ -1,6 +1,6 @@
 module.exports = {
     proxy: "localhost:5173",
-    port: 3008,
+    port: 3000,
     open: false,
     notify: false,
     ui: false,

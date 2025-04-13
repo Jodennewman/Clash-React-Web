@@ -16,8 +16,8 @@ This plan outlines the steps to refactor the course utilities module to ensure:
 - [x] Determine the optimal file structure
 
 ## Phase 2: Create Optimized Implementation
-1. [ ] Rename course-utils.tsx to course-utils.ts (remove .tsx extension if not needed)
-2. [ ] Restructure the file with the following organization:
+1. [x] Rename course-utils.tsx to course-utils.ts (remove .tsx extension if not needed)
+2. [x] Restructure the file with the following organization:
    - Import statements and types
    - Data initialization with proper typing
    - Memoization utilities and caches
@@ -26,12 +26,12 @@ This plan outlines the steps to refactor the course utilities module to ensure:
    - Complex calculations
    - API exports and default export
 
-3. [ ] Implement efficient data processing:
+3. [x] Implement efficient data processing:
    - Use Maps for O(1) lookups
    - Implement memoization for expensive calculations
    - Build efficient cache invalidation
 
-4. [ ] Enhance courseStats implementation:
+4. [x] Enhance courseStats implementation:
    - Replace hardcoded values with dynamic calculations
    - Implement all stats as getters that calculate from actual data:
      - totalModules: Count of all modules
@@ -42,13 +42,13 @@ This plan outlines the steps to refactor the course utilities module to ensure:
      - templates: Count of template resources
      - systems: Count of system modules
 
-5. [ ] Ensure image mapping functions are optimized:
+5. [x] Ensure image mapping functions are optimized:
    - Preserve getThumbnailPath functionality
    - Maintain getAvatarPath with proper caching
    - Optimize getSubmoduleThumbnail
    - Keep getModuleThumbnail functionality
 
-6. [ ] Ensure all functions work with proper error handling:
+6. [x] Ensure all functions work with proper error handling:
    - Add null checks throughout
    - Provide appropriate type assertions
    - Handle edge cases gracefully
@@ -71,7 +71,7 @@ This plan outlines the steps to refactor the course utilities module to ensure:
 ## Implementation Log
 - Initial plan created: 2025-04-13
 - Phase 1 completed: 2025-04-13 - Analysis & preparation
-- Phase 2 started: 2025-04-13
+- Phase 2 completed: 2025-04-13
   - Created a copy of course-utils.tsx as course-utils.ts
   - Implemented dynamic courseStats with getters for all properties
   - Removed fallback modules from getFounderModules
@@ -80,6 +80,8 @@ This plan outlines the steps to refactor the course utilities module to ensure:
   - Renamed getTracksWithFallback to getTracks and eliminated fallbacks
   - Renamed getSectionsWithFallback to getAllSections with better comments
   - Clarified system section handling in getModulesForSection
+  - Removed original course-utils.tsx file
+  - Made 2 separate commits to track changes clearly
 
 ## Current API Surface (Must Preserve)
 The following functions and properties must be preserved to maintain compatibility:
