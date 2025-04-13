@@ -51,8 +51,55 @@ interface CaseStudiesProps {
   onCtaClick?: () => void;
 }
 
-// Get creators data from the database
-const creators: EnhancedCreator[] = courseUtils.getCreators();
+// Get creators data from the database with a fallback for UI display
+// Note: This fallback is only for display in the UI component and doesn't affect the course-utils module
+const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ? 
+  courseUtils.getCreators() : 
+  [
+    {
+      id: 1,
+      name: "Chris Donnelly",
+      avatar: "/assets/main/Clients-webp-300px/Chris_Donnelly.webp",
+      description: "Chris Donnelly is the founder of luxury digital marketing agency Verb, the cofounder of Lottie, a tech startup for social care, plus an investor, author, speaker and creator. He is now the founder of the creator accelerator, and host of the Wake Up podcast.\nWe started working with Chris in 2022, and grew his TikTok and Instagram accounts from 1k to 1m followers, in just under 2 years, amassing over 250 million views. His account focusses on business, management, leadership and investment.",
+      data: [
+        { month: "Mar", views: 5500, followers: 2253, interactions: 840 },
+        { month: "Apr", views: 4779726, followers: 14679, interactions: 294209 },
+        { month: "Jun", views: 21365179, followers: 72955, interactions: 1215532 },
+        { month: "Jul", views: 30939528, followers: 112591, interactions: 1777674 },
+        { month: "Nov", views: 60280586, followers: 270903, interactions: 3510967 },
+        { month: "Feb", views: 136764121, followers: 673444, interactions: 3510967 }
+      ],
+      totals: { views: 270859954, followers: 906890, interactions: 7746523 }
+    },
+    {
+      id: 2,
+      name: "Charlotte Mair",
+      avatar: "/assets/main/Clients-webp-300px/Charlotte_mair.webp",
+      description: "Charlotte Mair is the Founder and Managing Director of award winning culture and communications agency, The Fitting Room, a cultural forecaster, speaker, and brand strategist.\nWe started working with Charlotte in October of 2024, and in just 6 months she's built 170k followers across her TikTok and YouTube, and amassed 28 million views. Her account focusses on all things marketing, pop culture and business.",
+      data: [
+        { month: "Oct", views: 30800, followers: 594, interactions: 347 },
+        { month: "Nov", views: 2504982, followers: 17790, interactions: 63745 },
+        { month: "Dec", views: 17493045, followers: 89779, interactions: 1267938 },
+        { month: "Jan", views: 21878423, followers: 123181, interactions: 1629321 },
+        { month: "Feb", views: 26359144, followers: 150230, interactions: 2077460 },
+        { month: "Mar", views: 34698532, followers: 178638, interactions: 2906438 }
+      ],
+      totals: { views: 34698532, followers: 178638, interactions: 2906438 }
+    },
+    {
+      id: 3,
+      name: "James Watt",
+      avatar: "/assets/main/Clients-webp-300px/James_Watt.webp",
+      description: "James Watt is the co-founder and captain of BrewDog the biggest independent beer company on the planet. He's also a best-selling author, investor, North Atlantic captain and the founder of Social Tip, the platform that makes 'anyone an influencer'. \nWe started working with James at the end of 2024 and together grew an audience of 15k followers and 20 million views in just 2 months on TikTok alone. His account focusses on business, beer and lobster fishing (of course).",
+      data: [
+        { month: "Oct", views: 0, followers: 0, interactions: 0 },
+        { month: "Nov", views: 7123640, followers: 7649, interactions: 232779 },
+        { month: "Dec", views: 9456943, followers: 11265, interactions: 291559 },
+        { month: "Jan", views: 9880702, followers: 11611, interactions: 304054 }
+      ],
+      totals: { views: 9880702, followers: 11611, interactions: 304054 }
+    }
+  ];
 
 // Process creator avatars to use our image mapping
 creators.forEach(creator => {
