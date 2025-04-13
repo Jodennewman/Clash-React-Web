@@ -183,14 +183,14 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
     
     // Calculate growth duration in months for each creator
     const getGrowthDuration = (creator: Creator): number => {
-      if (!creator.data || creator.data.length < 2) return 0;
+      if (!creator?.data || creator?.data?.length < 2) return 0;
       
       // Find months with actual data (excluding zero values)
-      const monthsWithData = creator.data.filter(item => 
-        item.views > 0 || item.followers > 0 || item.interactions > 0
-      );
+      const monthsWithData = creator?.data?.filter(item => 
+        item?.views > 0 || item?.followers > 0 || item?.interactions > 0
+      ) || [];
       
-      return monthsWithData.length - 1;
+      return (monthsWithData?.length || 0) - 1;
     };
 
     // Reset animation when changing creators or metrics - faster animation transition
@@ -216,17 +216,17 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
     const getYAxisDomain = () => {
       if (activeMetric === "views") {
         const maxViews = Math.max(
-          ...currentCreator.data.map((item) => item.views)
+          ...(currentCreator?.data?.map((item) => item?.views) || [])
         );
         return [0, Math.ceil(maxViews * 1.1)] as [number, number]; // Add 10% padding and type assertion
       } else if (activeMetric === "followers") {
         const maxFollowers = Math.max(
-          ...currentCreator.data.map((item) => item.followers)
+          ...(currentCreator?.data?.map((item) => item?.followers) || [])
         );
         return [0, Math.ceil(maxFollowers * 1.1)] as [number, number];
       } else if (activeMetric === "interactions") {
         const maxInteractions = Math.max(
-          ...currentCreator.data.map((item) => item.interactions)
+          ...(currentCreator?.data?.map((item) => item?.interactions) || [])
         );
         return [0, Math.ceil(maxInteractions * 1.1)] as [number, number];
       }
@@ -420,7 +420,7 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
                       Views
                     </div>
                     <div className="text-theme-accent-primary font-bold text-2xl md:text-3xl lg:text-4xl leading-none">
-                      {formatLargeNumber(creator.totals.views)}
+                      {formatLargeNumber(creator?.totals?.views || 0)}
                     </div>
                     <div className="text-theme-secondary/90 text-[8px] md:text-[10px] mt-0.5">
                       in {getGrowthDuration(creator)} months
@@ -490,7 +490,7 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
                 <div className="flex-1">
                   <div className="text-theme-secondary text-[10px] uppercase tracking-wider font-medium">Total Views</div>
                   <div className="text-[var(--theme-primary)] text-xl font-bold mt-1">
-                    {formatNumber(currentCreator.totals.views)}
+                    {formatNumber(currentCreator?.totals?.views || 0)}
                   </div>
                 </div>
               </div>
@@ -508,7 +508,7 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
                 <div className="flex-1">
                   <div className="text-theme-secondary text-[10px] uppercase tracking-wider font-medium">Followers</div>
                   <div className="text-[var(--theme-accent-secondary)] text-xl font-bold mt-1">
-                    {formatNumber(currentCreator.totals.followers)}
+                    {formatNumber(currentCreator?.totals?.followers || 0)}
                   </div>
                 </div>
               </div>
@@ -525,7 +525,7 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
                 <div className="flex-1">
                   <div className="text-theme-secondary text-[10px] uppercase tracking-wider font-medium">Interactions</div>
                   <div className="text-[var(--theme-accent-tertiary)] text-xl font-bold mt-1">
-                    {formatNumber(currentCreator.totals.interactions)}
+                    {formatNumber(currentCreator?.totals?.interactions || 0)}
                   </div>
                 </div>
                 <div className="bg-[var(--theme-accent-tertiary)]/10 p-1 rounded-full">
@@ -544,7 +544,7 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
             <div className="h-[300px] md:h-[400px]">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart
-                  data={currentCreator.data}
+                  data={currentCreator?.data || []}
                   margin={{ top: 5, right: 20, left: 15, bottom: 5 }}
                 >
                   <defs>
