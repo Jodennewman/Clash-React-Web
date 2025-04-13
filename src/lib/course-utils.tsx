@@ -207,10 +207,17 @@ export const getTrackIcon = (iconName: string) => {
 };
 
 /**
- * Course statistics - imported from course-data.ts source of truth
+ * Course statistics - defined directly since JSON imports don't support named exports
  */
-import { courseStats as courseStatsData } from '../data/course-data';
-export const courseStats = courseStatsData;
+export const courseStats = {
+  totalModules: 178,
+  totalHours: 1000,
+  resources: 450,
+  workshops: 42,
+  pdfs: 89,
+  templates: 64,
+  systems: 37
+};
 
 // Safe getter for tracks
 const getTracksWithFallback = (): Track[] => {
