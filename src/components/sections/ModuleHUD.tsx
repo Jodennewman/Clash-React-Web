@@ -230,6 +230,67 @@ interface BigSquareProps {
 }
 
 const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, isSelected }, ref) => {
+  // Get a thumbnail based on section ID
+  const getSectionThumbnail = () => {
+    // Match section ID to appropriate thumbnail and use the courseUtils.getThumbnailPath function
+    let thumbnail = '';
+    
+    switch (section.id) {
+      case "basic_theory":
+        thumbnail = "the_algorithm";
+        break;
+      case "advanced_theory":
+        thumbnail = "advanced_metrics_analytics";
+        break;
+      default:
+        thumbnail = "big_picture";
+        break;
+    }
+    
+    return courseUtils.getThumbnailPath(thumbnail);
+  };
+  
+  // Reference to track if component is mounted
+  const mounted = React.useRef(true);
+  
+  // Effect to set background with thumbnail
+  React.useEffect(() => {
+    // Ensure the ref exists and component is mounted
+    if (!ref || !mounted.current) return;
+    
+    // Get current element from ref (if it's available)
+    const el = ref as React.MutableRefObject<HTMLDivElement | null>;
+    if (!el.current) return;
+    
+    // Get thumbnail URL
+    const thumbnailUrl = getSectionThumbnail();
+    
+    // Create image to test loading
+    const img = new Image();
+    img.onload = () => {
+      if (!mounted.current || !el.current) return;
+      
+      // Apply background with section color overlay
+      el.current.style.background = `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${thumbnailUrl}')`;
+      el.current.style.backgroundSize = 'cover';
+      el.current.style.backgroundPosition = 'center';
+    };
+    
+    img.onerror = () => {
+      if (!mounted.current || !el.current) return;
+      // Fallback to gradient background
+      el.current.style.background = `linear-gradient(135deg, ${section.color}, ${section.color}dd)`;
+    };
+    
+    // Start loading the image
+    img.src = thumbnailUrl;
+    
+    // Cleanup
+    return () => {
+      mounted.current = false;
+    };
+  }, [section, ref]);
+  
   return (
     <div 
       ref={ref}
@@ -238,7 +299,7 @@ const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, i
       data-display-key={section.displayKey}
       className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(53,115,128,0.3),_0_0_15px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.5),_0_0_20px_rgba(0,0,0,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
       style={{ 
-        backgroundColor: section.color,
+        backgroundColor: section.color, // Initial background color as fallback
         opacity: 1 
       }}
     >
@@ -263,6 +324,91 @@ interface NormalSquareProps {
 }
 
 const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ section, isSelected }, ref) => {
+  // Get a thumbnail based on section ID
+  const getSectionThumbnail = () => {
+    // Match section ID to appropriate thumbnail and use the courseUtils.getThumbnailPath function
+    let thumbnail = '';
+    
+    switch (section.id) {
+      case "upskiller_authentic_research_writer":
+        thumbnail = "research";
+        break;
+      case "upskiller_shorts_ready_videographer":
+        thumbnail = "shooting_for_short_form";
+        break;
+      case "upskiller_vertical_video_editors":
+        thumbnail = "editing";
+        break;
+      case "pr_authority":
+        thumbnail = "pr_who_are_you";
+        break;
+      case "delegation":
+        thumbnail = "team_building_delegation";
+        break;
+      case "monetisation":
+        thumbnail = "monetisation_evolving";
+        break;
+      case "conversion":
+        thumbnail = "building_your_funnel";
+        break;
+      // For system sections based on displayKey
+      default:
+        if (section.displayKey?.includes('notion')) {
+          thumbnail = "managing_comments";
+        } else if (section.displayKey?.includes('engine')) {
+          thumbnail = "content_fidelity";
+        } else if (section.displayKey?.includes('viral')) {
+          thumbnail = "editing";
+        } else {
+          thumbnail = "big_picture"; // Default fallback
+        }
+        break;
+    }
+    
+    return courseUtils.getThumbnailPath(thumbnail);
+  };
+  
+  // Reference to track if component is mounted
+  const mounted = React.useRef(true);
+  
+  // Effect to set background with thumbnail
+  React.useEffect(() => {
+    // Ensure the ref exists and component is mounted
+    if (!ref || !mounted.current) return;
+    
+    // Get current element from ref (if it's available)
+    const el = ref as React.MutableRefObject<HTMLDivElement | null>;
+    if (!el.current) return;
+    
+    // Get thumbnail URL
+    const thumbnailUrl = getSectionThumbnail();
+    
+    // Create image to test loading
+    const img = new Image();
+    img.onload = () => {
+      if (!mounted.current || !el.current) return;
+      
+      // Apply background with section color overlay
+      el.current.style.background = `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${thumbnailUrl}')`;
+      el.current.style.backgroundSize = 'cover';
+      el.current.style.backgroundPosition = 'center';
+    };
+    
+    img.onerror = () => {
+      if (!mounted.current || !el.current) return;
+      // Fallback to gradient background
+      el.current.style.background = `linear-gradient(135deg, ${section.color}, ${section.color}dd)`;
+    };
+    
+    // Start loading the image
+    img.src = thumbnailUrl;
+    
+    // Cleanup
+    return () => {
+      mounted.current = false;
+    };
+  }, [section, ref]);
+  
   return (
     <div 
       ref={ref}
@@ -271,7 +417,7 @@ const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ sect
       data-display-key={section.displayKey}
       className="section-module module-item dark-glow-overlay w-[var(--normal-square-width)] h-[var(--normal-square-width)] rounded-xl shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(53,115,128,0.3),_0_0_15px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.5),_0_0_20px_rgba(0,0,0,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
       style={{ 
-        backgroundColor: section.color,
+        backgroundColor: section.color, // Initial background color as fallback
         opacity: 1
       }}
     >
@@ -1156,11 +1302,49 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           const thumbnailPath = module.thumbnail || courseUtils.getModuleThumbnail(module.id);
           const thumbnailUrl = courseUtils.getThumbnailPath(thumbnailPath);
           
-          // Set background with section color overlay on thumbnail
-          moduleEl.style.backgroundColor = sectionColor; // Fallback if image fails
-          moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${thumbnailUrl}')`;
-          moduleEl.style.backgroundSize = 'cover';
-          moduleEl.style.backgroundPosition = 'center';
+          // Debug the thumbnail path to see what's happening
+          console.log(`Module: ${module.title}, Thumbnail Path: ${thumbnailPath}, URL: ${thumbnailUrl}`);
+          
+          // Set background color as fallback
+          moduleEl.style.backgroundColor = sectionColor; 
+          
+          // Create an Image object to test if the thumbnail loads properly
+          const img = new Image();
+          
+          // Set up onload handler
+          img.onload = () => {
+            // Successfully loaded, apply as background with color overlay
+            moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${thumbnailUrl}')`;
+            moduleEl.style.backgroundSize = 'cover';
+            moduleEl.style.backgroundPosition = 'center';
+            console.log(`✅ Successfully loaded thumbnail for ${module.title}`);
+          };
+          
+          // Set up error handler
+          img.onerror = () => {
+            console.warn(`❌ Failed to load thumbnail: ${thumbnailUrl} for module ${module.title}`);
+            // Fallback to gradient if image fails to load
+            moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}, ${sectionColor}dd)`;
+            
+            // Try a different known-good thumbnail as backup
+            const backupThumbnail = '../assets/main/DataBaseThumbnails/renamed/the_algorithm.webp';
+            const backupImg = new Image();
+            backupImg.onload = () => {
+              moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${backupThumbnail}')`;
+              moduleEl.style.backgroundSize = 'cover';
+              moduleEl.style.backgroundPosition = 'center';
+              console.log(`✅ Using backup thumbnail for ${module.title}`);
+            };
+            backupImg.src = backupThumbnail;
+          };
+          
+          // Start loading the image if we have a valid URL
+          if (thumbnailUrl) {
+            img.src = thumbnailUrl;
+          } else {
+            // No valid URL, use fallback gradient
+            moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}, ${sectionColor}dd)`;
+          }
           
           // Make it square
           moduleEl.style.aspectRatio = '1/1';
@@ -1552,21 +1736,27 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
              animate-float-medium"></div>
       </div>
       
-      {/* Module modal using VSSubmoduleModal */}
+      {/* Module modal using VSSubmoduleModal with real data */}
       {selectedModuleId && (
         <VSSubmoduleModal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           moduleId={selectedModuleId}
           moduleTitle={selectedModuleId ? courseUtils.getModuleTitle(selectedModuleId) || "Module Details" : "Module Details"}
-          submodules={[
-            { id: "sub1", title: "Introduction to the Concept", duration: "5:30" },
-            { id: "sub2", title: "Core Principles", duration: "12:45", isCompleted: true },
-            { id: "sub3", title: "Advanced Techniques", duration: "18:20" },
-            { id: "sub4", title: "Practical Applications", duration: "15:10" },
-            { id: "sub5", title: "Case Studies & Examples", duration: "22:05", isLocked: true }
-          ]}
-          thumbnailUrl={selectedModuleId ? courseUtils.getThumbnailPath(courseUtils.getModuleThumbnail(selectedModuleId)) : ""}
+          submodules={courseUtils.getSubmodulesForModule(selectedModuleId).map(submodule => ({
+            id: submodule.id,
+            title: submodule.title,
+            duration: submodule.formattedDuration || `${submodule.duration}:00`,
+            subtitle: submodule.subtitle,
+            thumbnailUrl: submodule.thumbnailUrl || courseUtils.getThumbnailPath(courseUtils.getModuleThumbnail(selectedModuleId)),
+            isCompleted: false, // Set this based on user progress when implemented
+            isLocked: false,    // Set this based on user access when implemented
+            instructor: submodule.instructor,
+            week: submodule.week,
+            difficulty: submodule.difficulty,
+            resources: submodule.resources || []
+          }))}
+          thumbnailUrl={selectedModuleId ? courseUtils.getThumbnailPath(courseUtils.getModuleThumbnail(selectedModuleId)) : "../assets/main/DataBaseThumbnails/renamed/the_algorithm.webp"}
         />
       )}
     </div>

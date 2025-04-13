@@ -11,6 +11,7 @@ export interface Submodule {
   highValue: boolean;
   week: number;
   instructor: string;
+  thumbnail?: string; // Added thumbnail property for submodules
   key?: string; // Optional key for React rendering
 }
 
@@ -60,7 +61,7 @@ export const getThumbnailPath = (thumbnailName: string): string => {
   // Handle null/undefined case
   if (!thumbnailName) {
     console.warn('Missing thumbnail name, using default');
-    return '/assets/main/DataBaseThumbnails/renamed/default.webp'; // Fallback to a default image
+    return '../assets/main/DataBaseThumbnails/renamed/the_algorithm.webp'; // Fallback to a default image
   }
   
   // If the thumbnail already has a full path, return it
@@ -68,8 +69,64 @@ export const getThumbnailPath = (thumbnailName: string): string => {
     return thumbnailName;
   }
   
+  // Check if the thumbnail already has .webp extension
+  if (!thumbnailName.endsWith('.webp') && !thumbnailName.endsWith('.jpg') && 
+      !thumbnailName.endsWith('.png') && !thumbnailName.endsWith('.jpeg')) {
+    thumbnailName = `${thumbnailName}.webp`;
+  }
+  
   // Otherwise, construct the path to the renamed thumbnails directory
-  return `/assets/main/DataBaseThumbnails/renamed/${thumbnailName}`;
+  // Use relative path without leading slash since assets are in the project directory, not public
+  return `../assets/main/DataBaseThumbnails/renamed/${thumbnailName}`;
+};
+
+// Helper function to get submodule thumbnail path
+export const getSubmoduleThumbnail = (submoduleId: string, moduleId?: string): string => {
+  // Try to find the submodule to get its explicit thumbnail
+  let thumbnail = '';
+  
+  if (moduleId) {
+    const module = getModuleById(moduleId);
+    if (module && Array.isArray(module.submodules)) {
+      const submodule = module.submodules.find(sub => sub.id === submoduleId);
+      if (submodule && submodule.thumbnail) {
+        thumbnail = submodule.thumbnail;
+      }
+    }
+  } else {
+    // If no moduleId is provided, search through all modules
+    if (courseData && Array.isArray(courseData.categories)) {
+      for (const category of courseData.categories) {
+        if (Array.isArray(category.sections)) {
+          for (const section of category.sections) {
+            if (Array.isArray(section.modules)) {
+              for (const module of section.modules) {
+                if (Array.isArray(module.submodules)) {
+                  const submodule = module.submodules.find(sub => sub.id === submoduleId);
+                  if (submodule && submodule.thumbnail) {
+                    thumbnail = submodule.thumbnail;
+                    break;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // If no explicit thumbnail found, derive from submodule ID or use parent module's
+  if (!thumbnail && moduleId) {
+    // Try the parent module's thumbnail
+    const moduleThumbnail = getModuleThumbnail(moduleId);
+    if (moduleThumbnail) {
+      return getThumbnailPath(moduleThumbnail);
+    }
+  }
+  
+  // If we found a thumbnail or we're falling back to a default
+  return getThumbnailPath(thumbnail || 'the_algorithm');
 };
 
 export interface Section {
@@ -1126,18 +1183,39 @@ export const getSubmodule = (sectionId: string, moduleId: string, submoduleId: s
   return submodule || null;
 };
 
-// Get all submodules for a specific module
+// Get all submodules for a specific module with enhanced data
 export const getSubmodulesForModule = (moduleId: string): Submodule[] => {
   if (!moduleId || !courseData) return [];
   
   const module = getModuleById(moduleId);
-  if (!module || !Array.isArray(module.submodules)) return [];
+  if (!module || !Array.isArray(module.submodules)) {
+    console.warn(`No submodules found for module: ${moduleId}`);
+    return [];
+  }
   
   // Add a key property to each submodule for React rendering
-  return module.submodules.map((submodule, index) => ({
-    ...submodule,
-    key: `${moduleId}-submodule-${submodule.id || index}` // Unique key for React rendering
-  }));
+  // and ensure thumbnail paths are properly set
+  return module.submodules.map((submodule, index) => {
+    // Convert duration from minutes to "MM:SS" format if it's a number
+    let formattedDuration = submodule.duration.toString();
+    if (typeof submodule.duration === 'number') {
+      const minutes = Math.floor(submodule.duration);
+      const seconds = Math.round((submodule.duration - minutes) * 60);
+      formattedDuration = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+    }
+    
+    // Get thumbnail for this submodule
+    const thumbnailPath = submodule.thumbnail ? 
+      getThumbnailPath(submodule.thumbnail) : 
+      getSubmoduleThumbnail(submodule.id, moduleId);
+    
+    return {
+      ...submodule,
+      key: `${moduleId}-submodule-${submodule.id || index}`, // Unique key for React rendering
+      formattedDuration, // Add formatted duration for display
+      thumbnailUrl: thumbnailPath, // Add processed thumbnail URL
+    };
+  });
 };
 
 // Get content hierarchy for navigation and course viewer
@@ -1469,6 +1547,7 @@ export default {
   getCreators, // Add the new case study/creators function
   getModuleTitle, // Helper for modal
   getModuleThumbnail, // Helper for modal
+  getSubmoduleThumbnail, // Helper for submodule thumbnails
   getSystemData, // System data for ModuleHUD
   systemDataMap // Exported system data mapping
 };
