@@ -1752,10 +1752,10 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-white leading-tight mb-0.5">
-                    Build Your Content System
+                    Build your Perfect Content System
                   </h3>
                   <p className="text-white/90 text-xs">
-                    Let's find the perfect approach to scale your content performance
+                    Find the perfect plan for you to scale your content - fast
                   </p>
                 </div>
               </div>
@@ -1808,15 +1808,15 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               {/* Process steps - more compact and colorful */}
               <div className="bg-theme-gradient/5 rounded-lg p-2 mb-2 border border-theme-border-light">
                 <div className="flex justify-between items-center mb-1">
-                  <h4 className="text-[10px] font-medium text-theme-primary">Fast 60-Second Process</h4>
-                  <span className="text-[9px] text-theme-tertiary bg-theme-primary/10 rounded-full px-1.5">Free</span>
+                  <h4 className="text-[10px] font-medium text-theme-primary">The Process</h4>
+                  <span className="text-[9px] text-theme-tertiary bg-theme-primary/10 rounded-full px-1.5">(don't worry it takes less than 60 seconds)</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <div className="flex flex-col items-center">
                     <div className="relative">
                       <div className="flex items-center justify-center h-6 w-6 rounded-full bg-theme-gradient text-white text-[9px] mb-0.5 shadow-theme-sm">1</div>
                     </div>
-                    <span className="text-theme-secondary text-[8px] text-center">Quick<br/>Assessment</span>
+                    <span className="text-theme-secondary text-[8px] text-center">Quiz<br/>Assessment</span>
                   </div>
                   <div className="text-theme-primary text-sm">→</div>
                   <div className="flex flex-col items-center">
@@ -1834,7 +1834,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
 
               {/* Call to action bubble */}
               <div className="bg-theme-gradient-primary/10 rounded-full text-[9px] px-3 py-1 text-center text-theme-primary font-medium w-fit mx-auto">
-                No obligation • Personalized to your specific needs
+                No obligation | Personalised to your specific needs
               </div>
             </div>
           )}
@@ -1852,7 +1852,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               <div className="bg-theme-gradient-primary/5 rounded-lg p-3 mb-3">
                 <h4 className="text-theme-primary font-medium text-center mb-1 text-base">Just One More Step</h4>
                 <p className="text-theme-secondary text-center text-sm">
-                  We'll create your personalized implementation strategy and send it directly to you
+                  We'll create your personalised implementation strategy and send it directly to you
                 </p>
               </div>
               
@@ -1955,7 +1955,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               <div className="bg-vs-gradient-primary-accent rounded-lg p-3 mb-3 text-white shadow-theme-md">
                 <h4 className="font-medium text-center mb-1 text-base">Your Content Team</h4>
                 <p className="text-white/80 text-center text-sm">
-                  We'll tailor our system to match your team's specific structure and size
+                  We'll tailor our system to match your team's specific structure and size.
                 </p>
               </div>
               
@@ -1974,7 +1974,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   </div>
                   <div className="flex-grow">
                     <h3 className="text-theme-primary font-medium">Solo Creator</h3>
-                    <p className="text-theme-secondary text-sm">Just you (or with occasional freelance help)</p>
+                    <p className="text-theme-secondary text-sm">Just you, a dream (and occasional freelance help)</p>
                   </div>
                   {answers.teamSize === '1' && (
                     <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
@@ -1995,7 +1995,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   </div>
                   <div className="flex-grow">
                     <h3 className="text-theme-primary font-medium">Small Team</h3>
-                    <p className="text-theme-secondary text-sm">You lead a tight-knit team of 2-9 people</p>
+                    <p className="text-theme-secondary text-sm">You lead a tight-knit team of 1-4 creatives, maybe a writer, an editor and/or an all-rounder</p>
                   </div>
                   {answers.teamSize === '5' && (
                     <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
@@ -2016,7 +2016,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   </div>
                   <div className="flex-grow">
                     <h3 className="text-theme-primary font-medium">Growing Team</h3>
-                    <p className="text-theme-secondary text-sm">Your team has 10+ members across functions</p>
+                    <p className="text-theme-secondary text-sm">You've got a dedicated team of 5+ researchers, writers, producers, editors, strategists, and videographers</p>
                   </div>
                   {answers.teamSize === '15' && (
                     <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
@@ -2037,9 +2037,9 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               </div>
               
               <div className="bg-vs-gradient-teal rounded-lg p-3 mb-3 text-white shadow-theme-md">
-                <h4 className="font-medium text-center mb-1 text-base">Your Implementation Style</h4>
+                <h4 className="font-medium text-center mb-1 text-base">How do you prefer to learn new systems?</h4>
                 <p className="text-white/80 text-center text-sm">
-                  How do you prefer to learn new systems? We'll match you with the right level of support.
+                  We'll match you with the right level of support.
                 </p>
               </div>
               
@@ -2057,8 +2057,8 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                     <Briefcase size={24} className="text-theme-primary" />
                   </div>
                   <div className="flex-grow">
-                    <h3 className="text-theme-primary font-medium">Self-Driven</h3>
-                    <p className="text-theme-secondary text-sm">I prefer complete resources I can implement at my own pace</p>
+                    <h3 className="text-theme-primary font-medium">Self Driven</h3>
+                    <p className="text-theme-secondary text-sm">I'd prefer to take the course at my own pace.</p>
                   </div>
                   {answers.implementationSupport === 'self_directed' && (
                     <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
@@ -2079,7 +2079,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   </div>
                   <div className="flex-grow">
                     <h3 className="text-theme-primary font-medium">Coaching & Support</h3>
-                    <p className="text-theme-secondary text-sm">I value strategic guidance while implementing myself</p>
+                    <p className="text-theme-secondary text-sm">I'd like guidance and coaching, but want to take the lead on implementing it myself.</p>
                   </div>
                   {answers.implementationSupport === 'guided' && (
                     <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
@@ -2099,8 +2099,8 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                     <Briefcase size={24} className="text-theme-primary" />
                   </div>
                   <div className="flex-grow">
-                    <h3 className="text-theme-primary font-medium">Full Implementation</h3>
-                    <p className="text-theme-secondary text-sm">I want dedicated experts handling the implementation for me</p>
+                    <h3 className="text-theme-primary font-medium">Help</h3>
+                    <p className="text-theme-secondary text-sm">I want dedicated experts to implement it all for me.</p>
                   </div>
                   {answers.implementationSupport === 'full_service' && (
                     <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
@@ -2121,9 +2121,9 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               </div>
               
               <div className="bg-vs-gradient-coral-orange rounded-lg p-3 mb-3 text-white shadow-theme-md">
-                <h4 className="font-medium text-center mb-1 text-base">Your Growth Timeline</h4>
+                <h4 className="font-medium text-center mb-1 text-base">When do you want to see results?</h4>
                 <p className="text-white/80 text-center text-sm">
-                  When do you want to see results? We'll adjust our approach to match your goals.
+                  We'll adjust the timeline to match your goals.
                 </p>
               </div>
               
@@ -2142,7 +2142,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   </div>
                   <div className="flex-grow">
                     <h3 className="text-theme-primary font-medium">ASAP Growth</h3>
-                    <p className="text-theme-secondary text-sm">I need results immediately, ready to implement now</p>
+                    <p className="text-theme-secondary text-sm">I'm ready to implement now and want results immediately.</p>
                   </div>
                   {answers.timeline === 'immediate' && (
                     <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
@@ -2163,7 +2163,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   </div>
                   <div className="flex-grow">
                     <h3 className="text-theme-primary font-medium">Next 90 Days</h3>
-                    <p className="text-theme-secondary text-sm">Planning for implementation within 1-3 months</p>
+                    <p className="text-theme-secondary text-sm">I need some time to warm up, and would like to implement in the next 1-3 months</p>
                   </div>
                   {answers.timeline === 'next_quarter' && (
                     <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
@@ -2184,7 +2184,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   </div>
                   <div className="flex-grow">
                     <h3 className="text-theme-primary font-medium">Strategic Planning</h3>
-                    <p className="text-theme-secondary text-sm">Building roadmap for implementation later this year</p>
+                    <p className="text-theme-secondary text-sm">I want a roadmap to help implement it some time this year.</p>
                   </div>
                   {answers.timeline === 'exploratory' && (
                     <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
@@ -2205,9 +2205,9 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
               </div>
               
               <div className="bg-vs-gradient-orange rounded-lg p-3 mb-3 text-white shadow-theme-md">
-                <h4 className="font-medium text-center mb-1 text-base">Your Content Vision</h4>
+                <h4 className="font-medium text-center mb-1 text-base">What's your content vision?</h4>
                 <p className="text-white/80 text-center text-sm">
-                  What volume and approach fits your growth goals? We'll design your ideal framework.
+                  We'll adjust the framework to fit your content growth goals.
                 </p>
               </div>
               
@@ -2225,8 +2225,8 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                     <BarChart4 size={24} className="text-theme-primary" />
                   </div>
                   <div className="flex-grow">
-                    <h3 className="text-theme-primary font-medium">High-Impact Focus</h3>
-                    <p className="text-theme-secondary text-sm">Strategic pieces that maximize ROI and conversions</p>
+                    <h3 className="text-theme-primary font-medium">High Impact Focus</h3>
+                    <p className="text-theme-secondary text-sm">I want a small-scale strategy to maximise ROI and conversions</p>
                   </div>
                   {answers.contentVolume === 'low' && (
                     <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
@@ -2247,7 +2247,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   </div>
                   <div className="flex-grow">
                     <h3 className="text-theme-primary font-medium">Consistent Growth</h3>
-                    <p className="text-theme-secondary text-sm">Regular content system (10-30 pieces monthly)</p>
+                    <p className="text-theme-secondary text-sm">I want an content system putting out 10-30 pieces a month.</p>
                   </div>
                   {answers.contentVolume === 'medium' && (
                     <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
@@ -2267,8 +2267,8 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                     <BarChart4 size={24} className="text-theme-primary" />
                   </div>
                   <div className="flex-grow">
-                    <h3 className="text-theme-primary font-medium">Full-Scale Engine</h3>
-                    <p className="text-theme-secondary text-sm">Comprehensive system across multiple platforms</p>
+                    <h3 className="text-theme-primary font-medium">Full Scale Engine</h3>
+                    <p className="text-theme-secondary text-sm">I want a comprehensive efficient content system to scale across multiple platforms.</p>
                   </div>
                   {answers.contentVolume === 'high' && (
                     <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
@@ -2391,7 +2391,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                   className="flex items-center gap-1"
 
                 >
-                  Get my personalized plan
+                  Get my personalised plan
                   <ChevronRight className="h-3.5 w-3.5" />
                 </Button>
               </div>
@@ -2408,7 +2408,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
                 className="flex items-center gap-1"
 
               >
-                Show My Recommendation
+                → show my recommendation
                 <ChevronRight className="h-3.5 w-3.5" />
               </Button>
             )}
