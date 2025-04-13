@@ -248,44 +248,52 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
       
       const ctx = gsap.context(() => {
         // Create ScrollTrigger animation for main elements
-        const mainElementsAnimation = gsap.from(".case-study-element", {
-          y: 40,
-          opacity: 0,
-          stagger: 0.1,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-            end: "bottom bottom",
-            toggleActions: "play none none reverse",
-            id: "case-study-elements" // Add ID for easier debugging
-          }
-        });
+        // Only create animation if there are elements to animate and section is available
+        const caseStudyElements = document.querySelectorAll(".case-study-element");
+        if (caseStudyElements.length > 0 && sectionRef.current) {
+          const mainElementsAnimation = gsap.from(".case-study-element", {
+            y: 40,
+            opacity: 0,
+            stagger: 0.1,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 75%",
+              end: "bottom bottom",
+              toggleActions: "play none none reverse",
+              id: "case-study-elements" // Add ID for easier debugging
+            }
+          });
         
-        // Store the ScrollTrigger instance for explicit cleanup
-        if (mainElementsAnimation.scrollTrigger) {
-          scrollTriggers.push(mainElementsAnimation.scrollTrigger);
+          // Store the ScrollTrigger instance for explicit cleanup
+          if (mainElementsAnimation.scrollTrigger) {
+            scrollTriggers.push(mainElementsAnimation.scrollTrigger);
+          }
         }
 
         // Special animation for the stats row with staggered entry
-        const statsAnimation = gsap.from(".stats-box", {
-          y: 30,
-          opacity: 0,
-          stagger: 0.08,
-          duration: 0.7,
-          ease: "back.out(1.2)",
-          scrollTrigger: {
-            trigger: statsRowRef.current,
+        // Only create the animation if there are stats boxes to animate
+        const statsBoxes = document.querySelectorAll(".stats-box");
+        if (statsBoxes.length > 0 && statsRowRef.current) {
+          const statsAnimation = gsap.from(".stats-box", {
+            y: 30,
+            opacity: 0,
+            stagger: 0.08,
+            duration: 0.7,
+            ease: "back.out(1.2)",
+            scrollTrigger: {
+              trigger: statsRowRef.current,
             start: "top 85%",
             toggleActions: "play none none reverse",
             id: "stats-boxes" // Add ID for easier debugging
           }
-        });
-        
-        // Store the ScrollTrigger instance for explicit cleanup
-        if (statsAnimation.scrollTrigger) {
-          scrollTriggers.push(statsAnimation.scrollTrigger);
+          });
+          
+          // Store the ScrollTrigger instance for explicit cleanup
+          if (statsAnimation.scrollTrigger) {
+            scrollTriggers.push(statsAnimation.scrollTrigger);
+          }
         }
       }, sectionRef);
 
