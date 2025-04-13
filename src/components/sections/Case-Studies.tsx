@@ -69,7 +69,7 @@ const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ?
         { month: "Nov", views: 60280586, followers: 270903, interactions: 3510967 },
         { month: "Feb", views: 136764121, followers: 673444, interactions: 3510967 }
       ],
-      totals: { views: 270859954, followers: 906890, interactions: 7746523 }
+      totals: { views: 168427385 + 102432554, followers: 509736 + 397154, interactions: 7746523 }
     },
     {
       id: 2,
@@ -78,10 +78,10 @@ const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ?
       description: "Charlotte Mair is the Founder and Managing Director of award winning culture and communications agency, The Fitting Room, a cultural forecaster, speaker, and brand strategist.\nWe started working with Charlotte in October of 2024, and in just 6 months she's built 170k followers across her TikTok and YouTube, and amassed 28 million views. Her account focusses on all things marketing, pop culture and business.",
       data: [
         { month: "Oct", views: 30800, followers: 594, interactions: 347 },
-        { month: "Nov", views: 2504982, followers: 17790, interactions: 63745 },
-        { month: "Dec", views: 17493045, followers: 89779, interactions: 1267938 },
-        { month: "Jan", views: 21878423, followers: 123181, interactions: 1629321 },
-        { month: "Feb", views: 26359144, followers: 150230, interactions: 2077460 },
+        { month: "Nov", views: 2504982, followers: 6400 + 11390, interactions: 63745 },
+        { month: "Dec", views: 17493045, followers: 69983 + 19796, interactions: 1267938 },
+        { month: "Jan", views: 21878423, followers: 94881 + 28300, interactions: 1629321 },
+        { month: "Feb", views: 26359144, followers: 109125 + 41105, interactions: 2077460 },
         { month: "Mar", views: 34698532, followers: 178638, interactions: 2906438 }
       ],
       totals: { views: 34698532, followers: 178638, interactions: 2906438 }
@@ -98,6 +98,54 @@ const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ?
         { month: "Jan", views: 9880702, followers: 11611, interactions: 304054 }
       ],
       totals: { views: 9880702, followers: 11611, interactions: 304054 }
+    },
+    {
+      id: 4,
+      name: "Ben Askins",
+      avatar: "/assets/main/Clients-webp-300px/Ben_Askins.webp",
+      description: "Ben Askins is the co-founder of Gaia, a green tech company that helps businesses hit environmental targets efficiently. He alsoo co-founded Verb Brands alongside Chris Donnelly.\nWe started working with Ben in 2022, and grew his audience to 1 million followers across TikTok and Instagram, hitting an insane 387 million views in under 7 months. His account focusses on business, management and genZ.",
+      data: [
+        { month: "Feb", views: 7263, followers: 104, interactions: 197 },
+        { month: "Mar", views: 420099, followers: 1248, interactions: 42877 },
+        { month: "Apr", views: 4669887, followers: 1913, interactions: 300616 },
+        { month: "May", views: 19004595, followers: 52343, interactions: 1576752 },
+        { month: "Jun", views: 40342874, followers: 167153, interactions: 3145698 },
+        { month: "Jul", views: 57794777, followers: 264207, interactions: 4458406 },
+        { month: "Aug", views: 68410279, followers: 287704, interactions: 5196815 },
+        { month: "Sep", views: 83934226, followers: 346018, interactions: 6476592 },
+        { month: "Nov", views: 124724682, followers: 450644, interactions: 9287518 },
+        { month: "Jan", views: 209465478, followers: 655586, interactions: 14918792 }
+      ],
+      totals: { views: 387228032, followers: 1017913, interactions: 22529225 }
+    },
+    {
+      id: 5,
+      name: "Joden Clash",
+      avatar: "/assets/main/Clients-webp-300px/Joden_Clash.webp",
+      description: "Joden Newman is the Founder and Creative Director of Clash Creation. In early 2024 he decided to apply the vertical shortcut techniques to his own content, and grew himself 110 million views and 1 million followers across all platforms in just 3 months. His account focusses on current events, true crime and film.",
+      data: [
+        { month: "Feb", views: 90000, followers: 8322, interactions: 12678 },
+        { month: "Mar", views: 8830000, followers: 69630, interactions: 725790 },
+        { month: "Apr", views: 46300000, followers: 407360, interactions: 4950000 },
+        { month: "May", views: 62080000, followers: 680950, interactions: 6450000 },
+        { month: "Jun", views: 69720000, followers: 809000, interactions: 7510000 },
+        { month: "Jul", views: 89630000, followers: 936760, interactions: 9360000 },
+        { month: "Aug", views: 89630000, followers: 936760, interactions: 9360000 }
+      ],
+      totals: { views: 109630000, followers: 936760 + 126212, interactions: 9360000 }
+    },
+    {
+      id: 6,
+      name: "Jordan Schwarz",
+      avatar: "/assets/main/Clients-webp-300px/Jordan2.webp",
+      description: "Jordan Schwarzenberger is the co-founder Arcade Media, author, creative and the manager of The Sidemen: the UK's biggest creator empire. \nWe started working with Jordan towards the end of 2024 and together grew his TikTok and Instagram to 39 million views and 15k followers in just 3 months. His account focusses on GenZ, the creator economy, and pop culture.",
+      data: [
+        { month: "Oct", views: 0, followers: 14562+5344, interactions: 0 },
+        { month: "Nov", views: 3348513, followers: 16896+16900, interactions: 231295 },
+        { month: "Dec", views: 5518878, followers: 21057+18279, interactions: 323166 },
+        { month: "Jan", views: 9215739+145782+1598500, followers: 22255+21710, interactions: 566426 }
+      ],
+      totals: { views: 9215739+145782+1598500, followers: 936760 + 126212, interactions: 9360000 }
     }
   ];
 
