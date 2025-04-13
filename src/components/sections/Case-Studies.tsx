@@ -159,8 +159,15 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
       ScrollTrigger.refresh();
     };
     
-    // Use the current creator data
-    const currentCreator = creators[activeCreator];
+    // Use the current creator data with a fallback empty object if not found
+    const currentCreator = creators?.[activeCreator] || {
+      name: 'Sample Creator',
+      description: 'Example creator profile. No creators found in data.',
+      avatar: '/assets/main/Main-Logo.png',
+      data: [],
+      totals: { views: 0, followers: 0, interactions: 0 },
+      id: 0
+    };
 
     // Format numbers with comma separators
     const formatNumber = (num: number) => {
@@ -658,8 +665,8 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
             <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden flex-shrink-0
                         ring-2 ring-[var(--theme-primary)]/80">
               <img
-                src={currentCreator.avatar}
-                alt={currentCreator.name}
+                src={currentCreator?.avatar || '/assets/main/Main-Logo.png'}
+                alt={currentCreator?.name || 'Creator'}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -667,10 +674,10 @@ const CaseStudies: React.ForwardRefExoticComponent<CaseStudiesProps & React.RefA
 
             <div className="text-center md:text-left flex-1">
               <h3 className="text-theme-primary text-lg md:text-xl font-medium mb-0.5">
-                {currentCreator.name}
+                {currentCreator?.name || 'Creator'}
               </h3>
               <p className="text-theme-secondary text-xs md:text-sm">
-                {currentCreator.description}
+                {currentCreator?.description || 'No description available.'}
               </p>
             </div>
           </div>
