@@ -179,9 +179,10 @@ import courseDataJson from '../data/course-data.json';
 const courseData: Course = courseDataJson as Course;
 
 // Log for debugging
-console.log("Course data loaded:", courseData.title, 
-  `Categories: ${courseData.categories.length}`, 
-  `Tracks: ${courseData.tracks.length}`
+console.log("Course data loaded:", 
+  courseData?.title || "Unknown", 
+  `Categories: ${courseData?.categories?.length || 0}`, 
+  `Tracks: ${courseData?.tracks?.length || 0}`
 );
 
 // Helper function to get icon component by name
