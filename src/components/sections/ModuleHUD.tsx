@@ -44,23 +44,29 @@ const generateMainSections = (): SectionData[] => {
     return displayKey ? `${id}-${displayKey}` : id;
   };
   
+  // Function to get section name from courseUtils
+  const getSectionName = (id: string): string => {
+    const section = courseUtilsSections.find(s => s.id === id);
+    return section?.name || id;
+  };
+  
   // First BigSquare - Basic Theory/Core Concepts
   sectionsData.push({
     id: "basic_theory",
     uniqueId: "basic_theory",
-    name: "Basic Theory",
+    name: getSectionName("theory_basics") || "Basic Theory",
     color: "var(--hud-teal)",
     type: 'bigSquare',
     size: 'double',
     featured: true
   });
   
-  // First Column - Upskillers
+  // First Column - Upskillers - Using course data
   sectionsData.push({
     id: "upskiller_authentic_research_writer",
     uniqueId: "upskiller_authentic_research_writer",
-    name: "Research & Writing",
-    color: "var(--secondary-teal)",
+    name: getSectionName("research") || "Research & Writing",
+    color: "var(--hud-teal)",
     type: 'normalSquare',
     size: 'normal'
   });
@@ -68,7 +74,7 @@ const generateMainSections = (): SectionData[] => {
   sectionsData.push({
     id: "upskiller_shorts_ready_videographer",
     uniqueId: "upskiller_shorts_ready_videographer",
-    name: "Shooting",
+    name: getSectionName("shooting") || "Shooting",
     color: "var(--hud-pink)",
     type: 'normalSquare',
     size: 'normal'
@@ -77,7 +83,7 @@ const generateMainSections = (): SectionData[] => {
   sectionsData.push({
     id: "upskiller_vertical_video_editors",
     uniqueId: "upskiller_vertical_video_editors",
-    name: "Editing",
+    name: getSectionName("editing") || "Editing",
     color: "var(--accent-coral)",
     type: 'normalSquare',
     size: 'normal'
@@ -87,7 +93,7 @@ const generateMainSections = (): SectionData[] => {
   sectionsData.push({
     id: "pr_authority",
     uniqueId: "pr_authority",
-    name: "PR & Authority",
+    name: getSectionName("authority_brand") || "PR & Authority",
     color: "var(--hud-coral)",
     type: 'normalSquare',
     size: 'normal'
@@ -98,8 +104,8 @@ const generateMainSections = (): SectionData[] => {
   sectionsData.push({
     id: "delegation",
     uniqueId: createUniqueId("delegation", delegationCol2Key),
-    name: "Delegation",
-    color: "var(--hud-navy)",
+    name: getSectionName("business_delegation") || "Delegation",
+    color: "var(--hud-teal)",
     type: 'normalSquare',
     size: 'normal',
     displayKey: delegationCol2Key
@@ -109,8 +115,8 @@ const generateMainSections = (): SectionData[] => {
   sectionsData.push({
     id: "advanced_theory",
     uniqueId: "advanced_theory",
-    name: "Advanced Theory",
-    color: "var(--hud-coral)",
+    name: getSectionName("theory_advanced") || "Advanced Theory",
+    color: "var(--hud-navy)",
     type: 'bigSquare',
     size: 'double'
   });
@@ -121,7 +127,7 @@ const generateMainSections = (): SectionData[] => {
     id: "delegation",
     uniqueId: createUniqueId("delegation", delegationCol3Key),
     name: "Team Building", 
-    color: "var(--hud-navy)",
+    color: "var(--hud-teal)",
     type: 'normalSquare',
     size: 'normal',
     displayKey: delegationCol3Key
@@ -130,7 +136,7 @@ const generateMainSections = (): SectionData[] => {
   sectionsData.push({
     id: "monetisation",
     uniqueId: "monetisation",
-    name: "Monetisation",
+    name: getSectionName("monetisation") || "Monetisation",
     color: "var(--hud-orange)",
     type: 'normalSquare',
     size: 'normal'
@@ -139,8 +145,8 @@ const generateMainSections = (): SectionData[] => {
   sectionsData.push({
     id: "conversion",
     uniqueId: "conversion",
-    name: "Conversion",
-    color: "var(--secondary-teal)",
+    name: getSectionName("conversions") || "Conversion",
+    color: "var(--hud-teal)",
     type: 'normalSquare',
     size: 'normal'
   });
@@ -155,8 +161,8 @@ const generateMainSections = (): SectionData[] => {
   sectionsData.push({
     id: "notion_system",
     uniqueId: createUniqueId("notion_system", notionSystemKey),
-    name: notionSystemData?.title ? `${notionSystemData.title} 💾` : "Content Management Framework 💾",
-    color: "var(--hud-navy)",
+    name: notionSystemData?.title ? `${notionSystemData.title} ${notionSystemData.emoji || "💾"}` : "Content Management Framework 💾",
+    color: "var(--hud-teal)",
     type: 'normalSquare',
     size: 'normal',
     featured: true,
@@ -169,8 +175,8 @@ const generateMainSections = (): SectionData[] => {
   sectionsData.push({
     id: "engine_room",
     uniqueId: createUniqueId("engine_room", engineSystemKey),
-    name: engineSystemData?.title ? `${engineSystemData.title} 🏭` : "Production Automation Suite 🏭",
-    color: "var(--primary-orange)",
+    name: engineSystemData?.title ? `${engineSystemData.title} ${engineSystemData.emoji || "🏭"}` : "Production Automation Suite 🏭",
+    color: "var(--hud-orange)",
     type: 'normalSquare',
     size: 'normal',
     featured: true,
@@ -183,8 +189,8 @@ const generateMainSections = (): SectionData[] => {
   sectionsData.push({
     id: "viral_os",
     uniqueId: createUniqueId("viral_os", viralSystemKey),
-    name: viralSystemData?.title ? `${viralSystemData.title} 🖥️` : "Video Editing Ecosystem 🖥️",
-    color: "var(--accent-coral)", 
+    name: viralSystemData?.title ? `${viralSystemData.title} ${viralSystemData.emoji || "🖥️"}` : "Video Editing Ecosystem 🖥️",
+    color: "var(--hud-navy)", 
     type: 'normalSquare',
     size: 'normal',
     featured: true,
@@ -455,19 +461,45 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   const column3 = useMemo(() => [mainSections[7], mainSections[8], mainSections[9]], []); // Third column - Business Scaling
   const systemsColumn = useMemo(() => [mainSections[10], mainSections[11], mainSections[12]], []); // Systems column - 3 products
   
-  // Get modules for the selected section
+  // Get modules for the selected section with improved performance
   const selectedSectionModules = useMemo(() => {
     if (!selectedSection) return [];
     
     // Find the section element using the unique ID
     const sectionEl = document.querySelector(`[data-id="${selectedSection}"]`);
     
-    // Get both the base ID and the display key
+    // If element not found in DOM (happens during initial render), use the selectedSection directly
+    if (!sectionEl) {
+      // Parse selectedSection to extract displayKey if it contains a hyphen
+      const parts = selectedSection.split('-');
+      if (parts.length > 1) {
+        const baseId = parts[0];
+        const displayKey = parts.slice(1).join('-');
+        
+        return courseUtils.getModulesForSection(baseId, displayKey).map(module => ({
+          id: module.id,
+          title: module.title,
+          color: module.color,
+          founderMustWatch: module.founderMustWatch,
+          featured: module.featured,
+          duration: module.duration // Include duration for module sizing
+        }));
+      }
+      
+      // No hyphen, use selectedSection directly
+      return courseUtils.getModulesForSection(selectedSection).map(module => ({
+        id: module.id,
+        title: module.title,
+        color: module.color,
+        founderMustWatch: module.founderMustWatch,
+        featured: module.featured,
+        duration: module.duration // Include duration for module sizing
+      }));
+    }
+    
+    // Get both the base ID and the display key from the DOM element
     const baseId = sectionEl?.getAttribute('data-base-id') || selectedSection;
     const displayKey = sectionEl?.getAttribute('data-display-key') || undefined;
-    
-    console.log(`Getting modules for section with uniqueId: ${selectedSection}`);
-    console.log(`Base ID: ${baseId}, displayKey: ${displayKey || 'none'}`);
     
     // Use the base ID and displayKey to get modules
     // This ensures proper handling of sections with the same base ID but different display contexts
@@ -1298,52 +1330,104 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           // Get section color for overlay
           const sectionColor = sectionData?.color || module.color || 'var(--theme-accent)';
           
-          // Get module thumbnail URL - handle different data structures
-          const thumbnailPath = module.thumbnail || courseUtils.getModuleThumbnail(module.id);
-          const thumbnailUrl = courseUtils.getThumbnailPath(thumbnailPath);
+          // Implement a thumbnail caching mechanism
+          const thumbnailCache = moduleRefs.current['thumbnail-cache'] || new Map();
+          if (!moduleRefs.current['thumbnail-cache']) {
+            moduleRefs.current['thumbnail-cache'] = thumbnailCache;
+          }
           
-          // Debug the thumbnail path to see what's happening
-          console.log(`Module: ${module.title}, Thumbnail Path: ${thumbnailPath}, URL: ${thumbnailUrl}`);
+          // First check the cache for this module ID
+          let thumbnailUrl = thumbnailCache.get(module.id);
+          
+          if (!thumbnailUrl) {
+            // Not in cache, get it and store in cache
+            const thumbnailPath = module.thumbnail || courseUtils.getModuleThumbnail(module.id);
+            thumbnailUrl = courseUtils.getThumbnailPath(thumbnailPath);
+            thumbnailCache.set(module.id, thumbnailUrl);
+          }
           
           // Set background color as fallback
           moduleEl.style.backgroundColor = sectionColor; 
           
-          // Create an Image object to test if the thumbnail loads properly
-          const img = new Image();
+          // Use a module load state cache
+          const moduleLoadState = moduleRefs.current['load-state'] || new Map();
+          if (!moduleRefs.current['load-state']) {
+            moduleRefs.current['load-state'] = moduleLoadState;
+          }
           
-          // Set up onload handler
-          img.onload = () => {
-            // Successfully loaded, apply as background with color overlay
+          // Check if we've already tried to load this thumbnail
+          const loadState = moduleLoadState.get(module.id);
+          
+          if (loadState === 'success') {
+            // We've already successfully loaded this thumbnail before
             moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${thumbnailUrl}')`;
             moduleEl.style.backgroundSize = 'cover';
             moduleEl.style.backgroundPosition = 'center';
-            console.log(`✅ Successfully loaded thumbnail for ${module.title}`);
-          };
-          
-          // Set up error handler
-          img.onerror = () => {
-            console.warn(`❌ Failed to load thumbnail: ${thumbnailUrl} for module ${module.title}`);
-            // Fallback to gradient if image fails to load
+          } else if (loadState === 'error') {
+            // We've already tried and failed to load this thumbnail
             moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}, ${sectionColor}dd)`;
             
-            // Try a different known-good thumbnail as backup
+            // Use the backup if available
             const backupThumbnail = '../assets/main/DataBaseThumbnails/renamed/the_algorithm.webp';
-            const backupImg = new Image();
-            backupImg.onload = () => {
+            if (moduleLoadState.get('backup-loaded') === 'success') {
               moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${backupThumbnail}')`;
               moduleEl.style.backgroundSize = 'cover';
               moduleEl.style.backgroundPosition = 'center';
-              console.log(`✅ Using backup thumbnail for ${module.title}`);
-            };
-            backupImg.src = backupThumbnail;
-          };
-          
-          // Start loading the image if we have a valid URL
-          if (thumbnailUrl) {
-            img.src = thumbnailUrl;
+            }
           } else {
-            // No valid URL, use fallback gradient
-            moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}, ${sectionColor}dd)`;
+            // First time trying to load this thumbnail
+            const img = new Image();
+            
+            // Set up onload handler
+            img.onload = () => {
+              // Successfully loaded, apply as background with color overlay
+              moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${thumbnailUrl}')`;
+              moduleEl.style.backgroundSize = 'cover';
+              moduleEl.style.backgroundPosition = 'center';
+              
+              // Cache the successful load state
+              moduleLoadState.set(module.id, 'success');
+            };
+            
+            // Set up error handler
+            img.onerror = () => {
+              // Fallback to gradient if image fails to load
+              moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}, ${sectionColor}dd)`;
+              
+              // Cache the error state
+              moduleLoadState.set(module.id, 'error');
+              
+              // Try a different known-good thumbnail as backup
+              const backupThumbnail = '../assets/main/DataBaseThumbnails/renamed/the_algorithm.webp';
+              if (moduleLoadState.get('backup-loaded') !== 'success') {
+                const backupImg = new Image();
+                backupImg.onload = () => {
+                  moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${backupThumbnail}')`;
+                  moduleEl.style.backgroundSize = 'cover';
+                  moduleEl.style.backgroundPosition = 'center';
+                  
+                  // Cache that the backup loaded successfully
+                  moduleLoadState.set('backup-loaded', 'success');
+                };
+                backupImg.src = backupThumbnail;
+              } else {
+                // We already know the backup loads, so use it directly
+                moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${backupThumbnail}')`;
+                moduleEl.style.backgroundSize = 'cover';
+                moduleEl.style.backgroundPosition = 'center';
+              }
+            };
+            
+            // Start loading the image if we have a valid URL
+            if (thumbnailUrl) {
+              img.src = thumbnailUrl;
+            } else {
+              // No valid URL, use fallback gradient
+              moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}, ${sectionColor}dd)`;
+              
+              // Cache the error state
+              moduleLoadState.set(module.id, 'error');
+            }
           }
           
           // Make it square
