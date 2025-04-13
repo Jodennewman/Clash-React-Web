@@ -1,8 +1,8 @@
 import { Briefcase, Compass, Pencil, Camera, Scissors, Rocket, Wrench } from 'lucide-react';
 
 // Import the thumbnail mapper to use instead of direct path construction
-import { getThumbnail } from '../utils/thumbnailMapper';
-import { findImageByBasename } from '../utils/importImages';
+import { getThumbnail } from '@/utils/thumbnailMapper';
+import { findImageByBasename } from '@/utils/importImages';
 
 // Types for course data structure matching the JSON format
 export interface Submodule {
@@ -172,11 +172,11 @@ export interface Course {
   creators?: Creator[]; // Add creators/case studies to the course data structure
 }
 
-// Import course data from TypeScript file with proper typing
-import { courseData as typedCourseData } from '../data/course-data';
+// Import course data from JSON file
+import courseDataJson from '../data/course-data.json';
 
-// Use the typed course data directly
-const courseData: Course = typedCourseData;
+// Use the course data from JSON
+const courseData: Course = courseDataJson as Course;
 
 // Log for debugging
 console.log("Course data loaded:", courseData.title, 
