@@ -43,14 +43,29 @@ export default function TeamParallaxSection() {
           const speed = parseFloat(element.dataset.speed || '0.85');
           const direction = element.classList.contains('halftone-image') ? -1 : 1;
           
-          // Amount to move (percentage of element's height)
-          const yPercent = (1 - speed) * 50 * direction;
-          
-          // Add to timeline - animate based on scroll position
-          tl.to(element, {
-            yPercent: yPercent,
-            ease: "none",
-          }, 0); // Start at the beginning of the timeline
+          // If this is a floating team image, apply enhanced movement for falling effect
+          if (element.classList.contains('floating-team-image')) {
+            // Get custom speed and create more pronounced vertical movement
+            // Higher speed = faster falling
+            const verticalMovement = (speed * 80) * direction; // Much more vertical movement
+            const horizontalMovement = ((Math.random() * 20) - 10); // Small random horizontal drift
+            
+            // Add to timeline - animate based on scroll position
+            tl.to(element, {
+              y: verticalMovement,
+              x: horizontalMovement,
+              ease: "none",
+            }, 0);
+          } else {
+            // Regular parallax for other elements (like halftone)
+            const yPercent = (1 - speed) * 50 * direction;
+            
+            // Add to timeline - animate based on scroll position
+            tl.to(element, {
+              yPercent: yPercent,
+              ease: "none",
+            }, 0); // Start at the beginning of the timeline
+          }
         });
         
         // Additional animations for floating images
@@ -151,13 +166,15 @@ export default function TeamParallaxSection() {
         }
         
         .floating-team-image {
-          transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, z-index 0s;
+          transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, opacity 0.3s ease-out, z-index 0s;
         }
         
+        /* Enhanced hover effect - brings images into focus */
         .floating-team-image:hover {
-          transform: scale(1.05) rotate(0deg) !important;
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-          z-index: 20 !important;
+          transform: scale(1.1) rotate(0deg) !important;
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+          z-index: 50 !important; /* Ensure hovered image is on top */
+          opacity: 1 !important; /* Full opacity on hover */
         }
         
         @keyframes float {
@@ -169,7 +186,13 @@ export default function TeamParallaxSection() {
         /* Add a subtle transition to parallax elements for smoother movement */
         .halftone-image, .floating-team-image {
           will-change: transform;
-          transition: transform 0.1s ease-out;
+          transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+          filter: brightness(0.95); /* Slightly dimmed by default */
+        }
+        
+        /* Brighten on hover */
+        .floating-team-image:hover img {
+          filter: brightness(1.1) contrast(1.05); /* Pop effect on hover */
         }
       `}</style>
       
@@ -244,18 +267,18 @@ export default function TeamParallaxSection() {
                 key={`team-img-${imgIndex}`}
                 className="absolute floating-team-image shadow-[var(--theme-shadow-md)] overflow-hidden hover:z-20 pointer-events-auto"
                 style={{
-                  width: `${220 + (img.scale * 100)}px`, // Much larger base size (was 120)
+                  width: `${180 + (img.scale * 120)}px`, // Varied sizes based on scale
                   // Let height be determined by aspect ratio
-                  opacity: Math.min(1, img.opacity + 0.2), // Increased opacity
-                  borderRadius: `10px`, // Consistent subtle rounded corners (was variable 40%+)
+                  opacity: img.opacity, // Use strategic opacity from our imageMap adjustments
+                  borderRadius: `${8 + (Math.random() * 8)}px`, // Slight variation in corners 
                   top: `${img.position.top}%`,
                   left: `${img.position.left}%`,
-                  transform: `rotate(${img.position.rotate/3}deg)`, // Reduced rotation (1/3 of original)
+                  transform: `rotate(${img.position.rotate}deg)`, // Use full rotation for more dynamic feel
                   transition: 'transform 0.3s ease-out, box-shadow 0.3s ease-out, z-index 0s',
                   zIndex: img.zIndex,
                 }}
-                data-rotate={img.position.rotate/3} // Reduced rotation for animation
-                data-speed={Math.min(img.speed, 0.92)} // Limit max speed for more subtle movement
+                data-rotate={img.position.rotate} // Full rotation for dynamic effect
+                data-speed={img.speed} // Use calculated speed from imageMap for varying "falling" speeds
                 data-direction={img.direction}
               >
                 <img 

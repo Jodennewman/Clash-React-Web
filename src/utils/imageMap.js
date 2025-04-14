@@ -238,27 +238,54 @@ const getTeamImageCollection = (memberName, options = {}) => {
       zIndex = Math.max(1, zIndex - 1);
     }
     
-    // Generate more organized, structured positioning data
-    // Create a grid-like pattern with less randomness
-    const gridRows = 3; // Number of vertical segments
-    const gridCols = 4; // Number of horizontal segments
+    // Create a more dynamic "falling" effect with strategic placement
+    // Keep images away from the center content area
     
-    // Calculate grid cell position (more structured)
-    const gridRow = Math.floor(index / gridCols) % gridRows;
-    const gridCol = index % gridCols;
+    // Determine "lane" - keep images primarily on the sides
+    const lane = Math.floor(Math.random() * 10); // 0-9
+    let horizontalPosition;
+    let horizontalVariation = Math.random() * 10; // 0-10% variation
+    let opacityFactor = 1.0; // Default full opacity multiplier
     
-    // Add small variation within grid cell
-    const smallVariation = (Math.random() * 4) - 2; // -2 to +2
+    if (lane < 3) {
+      // Left side - 30% chance
+      horizontalPosition = horizontalVariation + 5; // 5-15% from left
+      opacityFactor = 1.0; // Full opacity for side images
+    } else if (lane >= 7) {
+      // Right side - 30% chance
+      horizontalPosition = 85 - horizontalVariation; // 75-85% from left (i.e., 15-25% from right)
+      opacityFactor = 1.0; // Full opacity for side images
+    } else {
+      // Middle areas - 40% chance, but with strategic placement
+      if (lane === 3 || lane === 4) {
+        // Left-center - 20% chance
+        horizontalPosition = 20 + (horizontalVariation * 1.5); // 20-35% from left
+        opacityFactor = 0.85; // Slightly reduced opacity
+      } else if (lane === 5 || lane === 6) {
+        // Right-center - 20% chance
+        horizontalPosition = 65 - (horizontalVariation * 1.5); // 50-65% from left
+        opacityFactor = 0.85; // Slightly reduced opacity
+      } else {
+        // True center (should be rare due to lane distribution) - excluded from lanes
+        horizontalPosition = 40 + (Math.random() * 20); // 40-60% (center)
+        opacityFactor = 0.7; // Much lower opacity for center images
+      }
+    }
+    
+    // Create vertical "falling" effect with different speeds
+    // Images higher in the view (lower top %) will move faster when scrolling
+    const verticalPosition = Math.random() * 80 + 10; // 10-90% from top
+    
+    // Calculate speed based on vertical position
+    // Higher images (smaller top %) move faster
+    const speedMultiplier = 1 - (verticalPosition / 100); // 0.1 to 0.9
     
     const position = {
-      // Structured vertical position (top third, middle third, bottom third)
-      top: 10 + (gridRow * 25) + smallVariation,
-      
-      // Structured horizontal position (divide width into 4 columns)
-      left: 10 + (gridCol * 20) + smallVariation,
-      
-      // Much more subtle rotation
-      rotate: (index % 2 === 0 ? 1 : -1) * (Math.random() * 3 + 1)
+      top: verticalPosition,
+      left: horizontalPosition,
+      rotate: (index % 2 === 0 ? 1 : -1) * (Math.random() * 5 + 2), // More rotation for dynamic feel
+      speedMultiplier: 0.8 + (speedMultiplier * 0.4), // Speed between 0.8-1.2
+      opacityFactor: opacityFactor // Apply strategic opacity
     };
     
     return {
@@ -266,8 +293,10 @@ const getTeamImageCollection = (memberName, options = {}) => {
       key: img.key,
       isPrimary: img.isPrimary,
       isShared: img.isShared,
-      speed,
-      opacity,
+      // Apply speed based on vertical position for "falling" effect
+      speed: speed * position.speedMultiplier,
+      // Apply strategic opacity based on image position
+      opacity: opacity * position.opacityFactor,
       scale,
       zIndex,
       position,
