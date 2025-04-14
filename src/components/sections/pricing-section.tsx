@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Book, Award, Zap, Check, X, Shield } from 'lucide-react';
 import ReactDOM from 'react-dom/client';
 import { AnimatedButton } from "../marble-buttons/AnimatedButton";
+import TeamPhotoDecoration from "../ui/TeamPhotoDecoration";
 
 // Import data and utility from your pricing.ts file
 import {
@@ -238,8 +239,18 @@ const PricingFAQ = () => {
       <div className="absolute -z-10 bottom-10 left-1/4 w-20 h-20 rounded-[30%] -rotate-6 opacity-10
                     vs-btn-secondary-gradient 
                     animate-float-medium hidden dark:block"></div>
+                    
+      {/* Add a team photo decoration to FAQ section */}
+      <TeamPhotoDecoration 
+        memberName="random" 
+        count={1} 
+        position="bottom-right" 
+        opacity={0.25}
+        maxWidth={110}
+        parentSelector=".pricing-faq"
+      />
     
-      <h3 className="text-2xl font-semibold mb-6 text-theme-custom ">Frequently Asked Questions</h3>
+      <h3 className="text-2xl font-semibold mb-6 text-theme-custom pricing-faq">Frequently Asked Questions</h3>
       <Accordion type="single" collapsible className="w-full space-y-4">
         <AccordionItem value="item-1" className="border border-white/10 dark:border-theme-border-light-lg overflow-hidden
                                               shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
@@ -560,6 +571,25 @@ export const PricingSection = () => {
         {/* Dark mode floating elements */}
         <div className="absolute top-20 left-10 w-16 h-16 rounded-[40%] rotate-12 vs-float-element-dark-1"></div>
         <div className="absolute bottom-20 right-10 w-24 h-24 rounded-[30%] -rotate-6 vs-float-element-dark-2"></div>
+        
+        {/* Add team photo decorations */}
+        <TeamPhotoDecoration 
+          memberName="random" 
+          count={1} 
+          position="top-right" 
+          opacity={0.3}
+          maxWidth={120}
+          parentSelector="#pricing"
+        />
+        
+        <TeamPhotoDecoration 
+          memberName="random" 
+          count={1} 
+          position="bottom-left" 
+          opacity={0.3}
+          maxWidth={100}
+          parentSelector="#pricing"
+        />
                       
         <div className="text-center mb-16 relative z-10">
           <Badge variant="outline" className="vs-accent-badge mb-4 py-2 px-4">
