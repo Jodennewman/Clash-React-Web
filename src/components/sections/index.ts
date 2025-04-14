@@ -15,6 +15,7 @@ import { CourseViewer } from "./course-viewer";
 import FounderTrack from "./founder-track";
 import TeamSection from "./TeamSection";
 import ModuleHUDShowcase from "./ModuleHUDShowcase";
+import ConnectEverything from "./ConnectEverything";
 
 // Re-export the components
 export { 
@@ -33,7 +34,8 @@ export {
   CourseViewer,
   FounderTrack,
   TeamSection,
-  ModuleHUDShowcase
+  ModuleHUDShowcase,
+  ConnectEverything
 };
 
 // Note: Additional components from subdirectories like navbar, carousel,

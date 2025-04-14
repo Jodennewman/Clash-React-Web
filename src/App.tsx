@@ -9,9 +9,11 @@ import { ThemeToggle } from './components/ui/theme-toggle';
 import { DirectTest } from './components/DirectTest';
 import { DirectClassTest } from './components/DirectClassTest';
 import VSModalShowcase from './components/VSModalShowcase';
-import { VSPainPoints, VSCharts } from './components/sections';
+import { VSPainPoints, VSCharts, ConnectEverything } from './components/sections';
 import CalendlyDemo from './components/Calendly/CalendlyDemo';
-
+import ScrollTextEffect from './components/scroll-effect-component';
+import { WordRoller } from './components/Word-Rollers/WordRoller';
+import { WordRollerWithPrefix } from './components/Word-Rollers/WordRollerWithPrefix';
 
 import ThemeStyleGuide from './components/ThemeStyleGuide';
 
@@ -46,6 +48,11 @@ function App() {
                 </Link>
               </div>
               <div>
+                <Link to="/scroll-effect" className="px-6 py-2 bg-theme-gradient-secondary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                  Scroll Text Effect
+                </Link>
+              </div>
+              <div>
                 <Link to="/modals" className="px-6 py-2 bg-theme-gradient-secondary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
                   VS Modal Showcase
                 </Link>
@@ -66,12 +73,26 @@ function App() {
                 </Link>
               </div>
               <div>
+                <Link to="/connect-everything" className="px-6 py-2 bg-gradient-to-r from-cyan-800 to-cyan-950 text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                  Connect Everything
+                </Link>
+              </div>
+              <div>
                 <Link to="/calendly" className="px-6 py-2 bg-gradient-to-r from-[var(--primary-orange)] to-[var(--accent-coral)] text-white rounded-lg">
                   Calendly Scheduling Demo
                 </Link>
               </div>
               <div>
-
+                <Link to="/word-roller" className="px-6 py-2 bg-gradient-to-r from-[#FEA35D] to-[#F89A67] text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                  Word Roller Demo
+                </Link>
+              </div>
+              <div>
+                <Link to="/word-roller-prefix" className="px-6 py-2 bg-gradient-to-r from-[#154D59] to-[#387292] text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                  Word Roller with Prefix
+                </Link>
+              </div>
+              <div>
                 <Link to="/style-guide" className="px-6 py-2 bg-theme-primary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
                   Theme Style Guide
                 </Link>
@@ -90,6 +111,7 @@ function App() {
           </div>
         } />
         <Route path="/landing" element={<VerticalShortcutLanding />} />
+        <Route path="/scroll-effect" element={<ScrollTextEffect />} />
         <Route path="/application-form" element={<ApplicationFormWrapper />} />
         <Route path="/example" element={<VSExampleComponent />} />
         <Route path="/marble-buttons" element={<AnimatedButtonsDemo />} />
@@ -97,12 +119,15 @@ function App() {
         <Route path="/painpoints" element={<VSPainPoints />} />
         <Route path="/charts" element={<VSCharts />} />
         <Route path="/calendly" element={<CalendlyDemo />} />
+        <Route path="/word-roller" element={<WordRoller />} />
+        <Route path="/word-roller-prefix" element={<WordRollerWithPrefix />} />
 
         <Route path="/style-guide" element={<ThemeStyleGuide />} />
 
         <Route path="/qualification" element={<ModalImplementation />} />
         <Route path="/modulehud" element={<ModuleHUDShowcase />} />
         <Route path="/theme-visualizer" element={<ThemeVisualizer />} />
+        <Route path="/connect-everything" element={<ConnectEverything />} />
 
       </Routes>
       

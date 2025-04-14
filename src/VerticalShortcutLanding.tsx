@@ -1,21 +1,13 @@
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import VSQualificationModal from './Qualification_components/qualification-modal';
 import SimpleHero from './components/hero/SimpleHero';
-import ContentOverwhelmer from './components/ContentOverwhelmer';
-import { PricingSection } from './components/sections/pricing-section.tsx';
-import { Section } from './components/ui/section';
-import { Button } from './components/ui/button';
 import { Badge } from './components/ui/badge';
-import SocialProofItem from './components/ui/social-proof-item';
-import Glow from './components/ui/glow';
-import { Item, ItemIcon, ItemTitle, ItemDescription } from './components/ui/item';
-import { Alert, AlertDescription, AlertTitle } from './components/ui/alert';
 import SafeVideoEmbed from './components/ui/video-embed';
 import VSNavbar from './components/sections/navbar/vs-navbar';
 import TabsLeft from './components/sections/tabs/left';
 import SocialProof from './components/sections/social-proof/marquee-2-rows';
 import TestimonialCarousel from './components/ui/testimonial-carousel';
-import LeadCaptureForm from './components/ui/lead-capture-form';
+import SocialProofWithIntro from "@/components/sections/social-proof/SocialProofWithIntro.tsx";
 import { 
   CaseStudies, 
   VSPainPoints, 
@@ -27,7 +19,8 @@ import {
   Customisation, 
   BeforeAfterStats,
   CourseStats,
-  FounderTrack
+  FounderTrack,
+  ConnectEverything
 } from './components/sections';
 import { Link } from 'react-router-dom';
 import { AnimatedButton } from './components/marble-buttons/AnimatedButton';
@@ -35,7 +28,7 @@ import CourseTimeline from './components/CourseTimeline';
 import { beforeAfterExamples } from './data/before-after-examples';
 
 // Import VS helper components for correct light/dark mode implementation
-import { VSText, VSHeading, VSGradientText } from './components/ui/vs-text';
+import { VSText, VSHeading} from './components/ui/vs-text';
 import { VSBackground, VSCard, VSSection } from './components/ui/vs-background';
 
 // Import only the icons we're using
@@ -64,16 +57,13 @@ import { ScrollSmoother } from 'gsap/ScrollSmoother';
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
+// Add custom CSS classes
+import './video-peek.css';
+
 // Global GSAP context - key for preventing conflicts
 let globalScrollSmoother: globalThis.ScrollSmoother | null = null;
 const globalAnimations = {};
 
-// Hero section settings
-const heroSettings = {
-  title: "800 million views, zero spent on ads",
-  subtitle: "A proven turn-key system to survive, thrive, and monetise with short-form content.",
-  badgeText: "10-Week Transformation Program"
-};
 
 // Testimonials data
 const testimonials = [
@@ -103,75 +93,7 @@ const testimonials = [
   }
 ];
 
-// Program benefits data 
-const benefits = [
-  {
-    title: "Hook Your Audience Instantly",
-    description: "Master the psychological triggers that make people stop scrolling and start watching. Our students see average engagement increases of 300% within 14 days.",
-    icon: <Zap className="h-6 w-6 text-white" />,
-    color: "#FEA35D"
-  },
-  {
-    title: "Create Content That Converts",
-    description: "Learn our proven script structures that turn passive viewers into paying customers. Stop creating content that gets views but no sales.",
-    icon: <DollarSign className="h-6 w-6 text-white" />,
-    color: "#B92234"
-  },
-  {
-    title: "Build A Content Machine",
-    description: "Transform from a one-person show to a content production powerhouse with our delegation systems. Produce more without sacrificing quality or authenticity.",
-    icon: <Repeat className="h-6 w-6 text-white" />,
-    color: "#387292"
-  },
-  {
-    title: "Never Run Out Of Ideas",
-    description: "Our content research system gives you an endless supply of proven topics your audience wants. No more staring at a blank screen wondering what to post.",
-    icon: <Lightbulb className="h-6 w-6 text-white" />,
-    color: "#154D59"
-  },
-  {
-    title: "Stand Out From The Noise",
-    description: "Develop your unique voice and content style that makes you unmistakable in your industry. Stop blending in with thousands of forgettable creators.",
-    icon: <Award className="h-6 w-6 text-white" />,
-    color: "#DE6B59"
-  },
-  {
-    title: "Scale With Systems",
-    description: "Implement our proven workflows that let you produce more content with less personal time. Our students average 5X output with 50% less effort.",
-    icon: <Rocket className="h-6 w-6 text-white" />,
-    color: "#FEAC6D"
-  }
-];
-
-// Course tracks data
-const tracks = [
-  {
-    name: "Content Creator Growth",
-    description: "For ambitious creators looking to rapidly scale from zero to millions of views and build sustainable income streams.",
-    icon: <Rocket className="h-6 w-6" />,
-    color: "#4A90E2"
-  },
-  {
-    name: "Founders Track",
-    description: "For entrepreneurs and business leaders who need to build personal brands while minimizing time investment.",
-    icon: <BriefcaseBusiness className="h-6 w-6" />,
-    color: "#FF3B30"
-  },
-  {
-    name: "Technical Skills",
-    description: "For those focused on mastering the production aspects of content creation, from filming to editing.",
-    icon: <Zap className="h-6 w-6" />,
-    color: "#8E8E93"
-  },
-  {
-    name: "Holistic Approach",
-    description: "The complete system covering strategy, production, and monetization for those who want to master it all.",
-    icon: <Flame className="h-6 w-6" />,
-    color: "#FF9500"
-  }
-];
-
-// Testimonial Carousel data
+// Testimonials data for carousel
 const carouselTestimonials = [
   {
     quote: "I was skeptical about another course, but this is different. After 10 years of posting content, I finally understand why some videos blow up while others die. Everything finally makes sense.",
@@ -196,40 +118,6 @@ const carouselTestimonials = [
     name: "Michelle Thompson",
     role: "Agency Owner",
     image: "/avatars/michelle.jpg"
-  }
-];
-
-// Learning outcomes data
-const learningOutcomes = [
-  {
-    title: "Master Hook Creation",
-    description: "Learn 15+ hook formats that immediately capture viewer attention, including the 'Impossible Question', 'False Assumption' and 'Big-Small' techniques.",
-    icon: <Zap />
-  },
-  {
-    title: "Decode Platform Algorithms",
-    description: "Understand exactly what TikTok, Instagram and YouTube algorithms prioritize, and how to craft content specifically for each platform's nuances.",
-    icon: <BarChart3 />
-  },
-  {
-    title: "Build Converting Funnels",
-    description: "Create seamless pathways that turn casual viewers into email subscribers, leads, and ultimately paying customers.",
-    icon: <ArrowRightCircle />
-  },
-  {
-    title: "Create Content at Scale",
-    description: "Implement our batch production system to create a month of content in a single day, without sacrificing quality or authenticity.",
-    icon: <Repeat />
-  },
-  {
-    title: "Leverage Data-Driven Iteration",
-    description: "Use our analytics framework to systematically improve your content performance based on real audience behavior, not guesswork.",
-    icon: <BarChart3 />
-  },
-  {
-    title: "Develop Your Unique Voice",
-    description: "Find and amplify what makes you distinctive to stand out in a crowded market and build a recognizable brand.",
-    icon: <Zap />
   }
 ];
 
@@ -320,7 +208,7 @@ const VerticalShortcutLanding = () => {
   const testimonialsRef = useRef(null);
   const ctaRef = useRef(null);
   const videoRef = useRef(null);
-  const caseStudiesRef = useRef(null);
+
 
   // Add state for qualification modal
   const [showQualificationModal, setShowQualificationModal] = useState(false);
@@ -332,7 +220,6 @@ const VerticalShortcutLanding = () => {
     const ctx = gsap.context(() => {
       // Hero section animations - centralized batch for performance
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  
       
       // Stats section - register once
       if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).statsSection && statsRef.current) {
@@ -584,15 +471,19 @@ const VerticalShortcutLanding = () => {
           darkBg="dark:bg-gradient-to-b dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]"
           className="min-h-screen overflow-hidden"
         >
-          {/* Section 1: Header, rotating headlines, big numbers, emotional */}
-          <SimpleHero ref={heroRef} onCtaClick={openQualificationModal} />
-          
-          {/* Section 2: Video (What do we do?) */}
+          {/* Section 1: Header with integrated video */}
+          <SimpleHero 
+            ref={heroRef} 
+            onCtaClick={openQualificationModal} 
+            videoUrl="https://www.youtube.com/embed/your-video-id"
+            videoRef={videoRef}
+          />
+            
+          {/* Section 2: What do we do? - Adjusted spacing for video peek */}
           <VSSection 
-            ref={videoRef} 
             lightBg="bg-theme-gradient"
             darkBg="dark:bg-theme-gradient"
-            className="py-16 relative overflow-hidden"
+            className="py-16 relative overflow-hidden mt-[-25vh] pt-[30vh]"
           >
             {/* Theme-aware floating elements */}
             <div className="absolute -z-10 top-20 left-[10%] w-32 h-32 rounded-[40%] rotate-12 
@@ -601,18 +492,14 @@ const VerticalShortcutLanding = () => {
                  opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium"></div>
                  
             <div className="container mx-auto px-4">
-              <div className="text-center max-w-4xl mx-auto mb-10">
+              {/* Section header */}
+              <div className="text-center max-w-4xl mx-auto mb-8">
                 <VSHeading variant="h2" className="text-3xl md:text-4xl font-bold text-theme-primary mb-6">
                   What do we do?
                 </VSHeading>
               </div>
               
-              {/* Video container with proper theme-aware styling */}
-              <div className="video-container rounded-[var(--border-radius-lg)] overflow-hidden shadow-theme-md max-w-4xl mx-auto mb-10">
-                <SafeVideoEmbed videoUrl="https://www.youtube.com/embed/your-video-id" />
-              </div>
-              
-              {/* Copy moved directly below video embed (Section 2) */}
+              {/* Copy content */}
               <div className="text-center max-w-4xl mx-auto mb-16">
                 <p className="body-text mb-8 mx-auto max-w-[90%] md:max-w-none">
                   We've worked with some of the biggest business creators in the world:
@@ -633,12 +520,10 @@ const VerticalShortcutLanding = () => {
               <CaseStudies onCtaClick={openQualificationModal} />
             </div>
           </VSSection>
-          
+
+
           {/* Section 4: Double marquee with our biggest videos with biggest views */}
           <SocialProof />
-          
-          {/* Section 5: Team intros */}
-          <MeetTheTeam />
           
           {/* Section 6: Pain Points */}
           <VSPainPoints />
@@ -652,8 +537,13 @@ const VerticalShortcutLanding = () => {
           {/* Section 9: The Course Curriculum (Using CourseViewer component) */}
           <CourseViewer />
           
+          {/* Tools & Integrations - Custom systems built for creators */}
+          <ConnectEverything />
+          
           {/* Section 10: Week by week structure */}
           <CourseTimeline />
+
+          <MeetTheTeam />
           
           {/* Section 11: Low view count before and afters */}
           <BeforeAfterStats 
@@ -670,7 +560,7 @@ const VerticalShortcutLanding = () => {
           {/* Section 14: Testimonials slideshow */}
           <TestimonialCarousel
             testimonials={carouselTestimonials}
-            className="py-24 bg-theme-gradient"
+            wrapperClassName="py-24 bg-theme-gradient"
           />
           
           {/* Section 15: Buy/Apply - Pricing Section */}

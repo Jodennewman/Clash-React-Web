@@ -7,7 +7,7 @@ export default function TeamParallaxSection() {
   // Main container ref
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // GSAP ScrollTrigger for team photos and section tracking
+  // GSAP ScrollTrigger parallax - smooth and optimized
   useEffect(() => {
     // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger);
@@ -17,100 +17,81 @@ export default function TeamParallaxSection() {
     
     // Create separate context for our animations to prevent conflicts
     const teamParallaxContext = gsap.context(() => {
-      // Apply parallax to each team member section to track which section is active
+      // Apply parallax to each team member section
       document.querySelectorAll('.team-member-section').forEach((section, sectionIndex) => {
-        // Get the corresponding team photo layer
-        const photoLayer = document.getElementById(`member-photos-${sectionIndex}`);
-        if (!photoLayer) return;
-        
-        // Set up a ScrollTrigger to control the visibility of team photos
-        // based on which team member section is in view
-        const sectionTrigger = ScrollTrigger.create({
-          trigger: section,
-          start: "top 60%", // When section is 60% in view
-          end: "bottom 40%", // Until section is 40% out of view
-          id: `section-visibility-${sectionIndex}`,
-          onEnter: () => {
-            // Show this member's photos, hide others
-            document.querySelectorAll('.team-photos-layer').forEach(layer => {
-              layer.style.opacity = layer.dataset.memberIndex === sectionIndex.toString() ? '1' : '0';
-            });
-          },
-          onEnterBack: () => {
-            // When scrolling back up into this section
-            document.querySelectorAll('.team-photos-layer').forEach(layer => {
-              layer.style.opacity = layer.dataset.memberIndex === sectionIndex.toString() ? '1' : '0';
-            });
-          }
-        });
-        
-        triggers.push(sectionTrigger);
-        
-        // Create a timeline for halftone image parallax only
+        // Create a timeline for this section
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
             start: "top bottom", // Start when top of section reaches bottom of viewport
             end: "bottom top",   // End when bottom of section leaves top of viewport
             scrub: 0.5,          // Smooth scrubbing effect (0.5 second lag)
-            id: `section-parallax-${sectionIndex}`,
+            // markers: true,    // For debugging - remove in production
+            id: `section-${sectionIndex}`,
             invalidateOnRefresh: true,
           }
         });
         
-        // Store this trigger for cleanup
-        triggers.push(ScrollTrigger.getById(`section-parallax-${sectionIndex}`));
+        // Store the trigger for cleanup
+        triggers.push(ScrollTrigger.getById(`section-${sectionIndex}`));
         
-        // Animate halftone images with basic parallax
-        section.querySelectorAll('.halftone-image').forEach(element => {
+        // Find all parallax elements in this section with data-speed
+        const parallaxElements = section.querySelectorAll('[data-speed]');
+        
+        // Add each element to the timeline with its own speed
+        parallaxElements.forEach(element => {
           const speed = parseFloat(element.dataset.speed || '0.85');
-          const direction = -1; // Halftone images always move opposite direction
+          const direction = element.classList.contains('halftone-image') ? -1 : 1;
           
-          // Regular parallax for halftone elements
-          const yPercent = (1 - speed) * 50 * direction;
-          
-          // Add to timeline - animate based on scroll position
-          tl.to(element, {
-            yPercent: yPercent,
-            ease: "none",
-          }, 0); // Start at the beginning of the timeline
+          // If this is a floating team image, apply enhanced movement for falling effect
+          if (element.classList.contains('floating-team-image')) {
+            // Get custom speed and create more pronounced vertical movement
+            // Higher speed = faster falling
+            const verticalMovement = (speed * 80) * direction; // Much more vertical movement
+            const horizontalMovement = ((Math.random() * 20) - 10); // Small random horizontal drift
+            
+            // Add to timeline - animate based on scroll position
+            tl.to(element, {
+              y: verticalMovement,
+              x: horizontalMovement,
+              ease: "none",
+            }, 0);
+          } else {
+            // Regular parallax for other elements (like halftone)
+            const yPercent = (1 - speed) * 50 * direction;
+            
+            // Add to timeline - animate based on scroll position
+            tl.to(element, {
+              yPercent: yPercent,
+              ease: "none",
+            }, 0); // Start at the beginning of the timeline
+          }
         });
-      });
-      
-      // Create a separate global timeline for all floating team images
-      // This works because they're now fixed position relative to the viewport
-      const photosTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: "body",
-          start: "top top", 
-          end: "bottom bottom",
-          scrub: 0.7,
-          id: "floating-images-timeline",
-          invalidateOnRefresh: true,
-        }
-      });
-      
-      // Store this trigger for cleanup
-      triggers.push(ScrollTrigger.getById("floating-images-timeline"));
-      
-      // Get all floating team images across all team members
-      document.querySelectorAll('.floating-team-image').forEach((img, index) => {
-        // Extract data for animation
-        const speed = parseFloat(img.dataset.speed || '0.9');
-        const rotation = parseFloat(img.dataset.rotate || '0');
         
-        // Calculate movement based on speed
-        // Higher speeds (closer to 1.0) create more dramatic falling effect
-        const verticalMovement = speed * 300; // Much more pronounced vertical movement
-        const horizontalMovement = ((index % 3) - 1) * 20; // Some horizontal drift
-        
-        // Add to the global timeline
-        photosTl.to(img, {
-          y: verticalMovement,
-          x: horizontalMovement, 
-          rotation: rotation,
-          ease: "none",
-        }, 0); // All start at the beginning of the timeline
+        // Additional animations for floating images
+        section.querySelectorAll('.floating-team-image').forEach((img, index) => {
+          // Extract rotation from data attribute
+          const rotation = img.dataset.rotate || (index % 2 === 0 ? 5 : -5);
+          
+          // Create a unique ID for this trigger
+          const triggerId = `floating-${sectionIndex}-${index}`;
+          
+          // Add subtle rotation and movement that's independent of the main parallax
+          gsap.to(img, {
+            rotation: rotation,
+            scrollTrigger: {
+              trigger: section,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 0.7,  // Even smoother scrub for subtle effect
+              id: triggerId,
+              invalidateOnRefresh: true,
+            }
+          });
+          
+          // Store the trigger for cleanup
+          triggers.push(ScrollTrigger.getById(triggerId));
+        });
       });
     });
     
@@ -215,52 +196,6 @@ export default function TeamParallaxSection() {
         }
       `}</style>
       
-      {/* Non-section container for all team photos to ensure they're not constrained */}
-      <div className="team-photos-container fixed inset-0 w-screen h-screen overflow-visible pointer-events-none z-5">
-        {/* Container for each team member's photos */}
-        {teamMembers.map((member, memberIndex) => (
-          <div 
-            key={`member-photos-${memberIndex}`}
-            id={`member-photos-${memberIndex}`}
-            className={`team-photos-layer absolute inset-0 w-full h-full overflow-visible ${
-              memberIndex === 0 ? 'opacity-100' : 'opacity-0'
-            } transition-opacity duration-500`}
-            data-member-index={memberIndex}
-          >
-            {/* Render all dynamically loaded team images for this member */}
-            {member.teamImages.map((img, imgIndex) => (
-              <div
-                key={`team-img-${memberIndex}-${imgIndex}`}
-                className="fixed floating-team-image shadow-[var(--theme-shadow-md)] overflow-hidden hover:z-50 pointer-events-auto"
-                style={{
-                  width: `${180 + (img.scale * 120)}px`, // Varied sizes based on scale
-                  // Let height be determined by aspect ratio
-                  opacity: img.opacity * 0.9, // Slightly reduced base opacity  
-                  borderRadius: `${8 + (Math.random() * 8)}px`, // Slight variation in corners
-                  top: `${img.position.top}vh`, // Use vh units for viewport-based positioning
-                  left: `${img.position.left}vw`, // Use vw units for viewport-based positioning
-                  transform: `rotate(${img.position.rotate}deg)`, // Use full rotation for more dynamic feel
-                  transition: 'transform 0.3s ease-out, box-shadow 0.3s ease-out, z-index 0s, opacity 0.5s ease',
-                  zIndex: img.zIndex,
-                }}
-                data-rotate={img.position.rotate} // Full rotation for dynamic effect
-                data-speed={img.speed} // Use calculated speed from imageMap for varying "falling" speeds
-                data-direction={img.direction}
-                data-member-index={memberIndex}
-              >
-                <img 
-                  src={img.url} 
-                  alt={`${member.name} team moment ${imgIndex + 1}`}
-                  className="w-full object-contain" // Use object-contain to preserve aspect ratio
-                  style={{ maxHeight: `${320 + (img.scale * 80)}px` }} // Control max height for aspect ratio
-                  loading="lazy"
-                />
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-
       <div className="team-section-container relative" ref={containerRef}>
       
       {/* Header section */}
@@ -279,31 +214,30 @@ export default function TeamParallaxSection() {
                      bg-gradient-to-r from-[var(--theme-accent-secondary)] to-[var(--theme-accent-secondary-hover)]
                      floating-element hidden md:dark:block"></div>
                  
-        <h2 className="intro-heading text-[var(--theme-text-primary)] text-4xl md:text-5xl font-bold mb-4 relative z-20">
+        <h2 className="intro-heading text-[var(--theme-text-primary)] text-4xl md:text-5xl font-bold mb-4 relative z-10">
           So who are we?
         </h2>
         <div className="max-w-3xl mx-auto">
-          <h3 className="intro-heading text-[var(--theme-text-primary)] text-2xl md:text-3xl font-medium mb-4 relative z-20">
+          <h3 className="intro-heading text-[var(--theme-text-primary)] text-2xl md:text-3xl font-medium mb-4 relative z-10">
             Why trust us?
           </h3>
-          <p className="intro-text text-[var(--theme-text-secondary)] text-lg md:text-xl mb-6 relative z-20">
+          <p className="intro-text text-[var(--theme-text-secondary)] text-lg md:text-xl mb-6 relative z-10">
             We're not just a guy in a room. We're a team of creatives, who just happen to be f*cking great at making content. 
             It's why we're the number one short form agency in the world, and luckily for you we specialise in getting founders like yourself, millions of views.
           </p>
-          <h3 className="intro-heading text-[var(--theme-text-primary)] text-2xl md:text-3xl font-bold mt-6 mb-4 relative z-20">
+          <h3 className="intro-heading text-[var(--theme-text-primary)] text-2xl md:text-3xl font-bold mt-6 mb-4 relative z-10">
             Meet the team
           </h3>
         </div>
       </section>
       
-      {/* Team member sections - each is a full viewport height - NO FLOATING IMAGES HERE ANYMORE */}
+      {/* Team member sections - each is a full viewport height */}
       {teamMembers.map((member, index) => (
         <section 
           key={member.name}
           id={`team-member-${index}`}
-          className={`team-member-section min-h-screen flex items-center py-10 relative
+          className={`team-member-section min-h-screen flex items-center py-10 relative overflow-hidden
                      ${index % 2 === 0 ? 'bg-[var(--theme-bg-primary)]' : 'bg-[var(--theme-bg-secondary)]'}`}
-          data-member-section-index={index}
         >
           {/* Background floating elements */}
           {[...Array(6)].map((_, i) => (
@@ -324,6 +258,39 @@ export default function TeamParallaxSection() {
               }}
             />
           ))}
+          
+          {/* Floating team images - larger and with parallax data attributes */}
+          <div className="team-images-wrapper absolute top-0 left-0 right-0 bottom-0 pointer-events-none">
+            {/* Render all dynamically loaded team images */}
+            {member.teamImages.map((img, imgIndex) => (
+              <div
+                key={`team-img-${imgIndex}`}
+                className="absolute floating-team-image shadow-[var(--theme-shadow-md)] overflow-hidden hover:z-20 pointer-events-auto"
+                style={{
+                  width: `${180 + (img.scale * 120)}px`, // Varied sizes based on scale
+                  // Let height be determined by aspect ratio
+                  opacity: img.opacity, // Use strategic opacity from our imageMap adjustments
+                  borderRadius: `${8 + (Math.random() * 8)}px`, // Slight variation in corners 
+                  top: `${img.position.top}%`,
+                  left: `${img.position.left}%`,
+                  transform: `rotate(${img.position.rotate}deg)`, // Use full rotation for more dynamic feel
+                  transition: 'transform 0.3s ease-out, box-shadow 0.3s ease-out, z-index 0s',
+                  zIndex: img.zIndex,
+                }}
+                data-rotate={img.position.rotate} // Full rotation for dynamic effect
+                data-speed={img.speed} // Use calculated speed from imageMap for varying "falling" speeds
+                data-direction={img.direction}
+              >
+                <img 
+                  src={img.url} 
+                  alt={`${member.name} team moment ${imgIndex + 1}`}
+                  className="w-full object-contain" // Use object-contain to preserve aspect ratio
+                  style={{ maxHeight: `${320 + (img.scale * 80)}px` }} // Control max height for aspect ratio
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
           
           {/* Content container */}
           <div className="container mx-auto px-4">
@@ -362,8 +329,8 @@ export default function TeamParallaxSection() {
                 </div>
               </div>
               
-              {/* Content - has z-index of 100, much higher than all images with backdrop for readability */}
-              <div className={`member-content space-y-6 ${index % 2 === 1 ? 'lg:order-1' : ''} relative z-100 p-6 rounded-lg backdrop-blur-sm bg-theme-bg-surface/20 shadow-theme-md`}>
+              {/* Content - has z-index of 30, higher than all images */}
+              <div className={`member-content space-y-6 ${index % 2 === 1 ? 'lg:order-1' : ''} relative z-30`}>
                 <h3 className="text-[var(--theme-text-primary)] text-4xl font-bold">{member.name}</h3>
                 <p className="text-[var(--theme-primary)] text-xl font-medium">{member.title}</p>
                 <div className="space-y-6">

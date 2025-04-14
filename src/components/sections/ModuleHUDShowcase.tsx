@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ModuleHUD } from './ModuleHUD';
-import { Tab } from '@headlessui/react';
+import ConnectEverything from './ConnectEverything';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { VSHeading } from "../ui/vs-text";
@@ -9,9 +9,19 @@ const ModuleHUDShowcase: React.FC = () => {
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
 
-  // Handle module click
+  // Handle module click with enhanced debugging
   const handleModuleClick = (moduleId: string) => {
-    setSelectedSection(moduleId === selectedSection ? null : moduleId);
+    console.log(`ModuleHUD: Clicked on module/section with ID: ${moduleId}`);
+    console.log(`ModuleHUD: Current selected section: ${selectedSection}`);
+    // Toggle selection
+    const newSelection = moduleId === selectedSection ? null : moduleId;
+    console.log(`ModuleHUD: Setting new selection to: ${newSelection}`);
+    
+    // Provide visual feedback in console
+    console.log('%c ModuleHUD Click Event ', 'background: #4A90E2; color: white; padding: 2px 6px; border-radius: 4px;');
+    
+    // Apply selection
+    setSelectedSection(newSelection);
   };
 
   // GSAP animations for scroll-triggered animations
@@ -128,6 +138,9 @@ const ModuleHUDShowcase: React.FC = () => {
             }}
           />
         </div>
+
+        {/* Connect Everything Section */}
+        <ConnectEverything />
 
         {/* Animation utilities */}
         <style>{`
