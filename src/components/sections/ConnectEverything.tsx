@@ -17,322 +17,62 @@ export const ConnectEverything: React.FC<ConnectEverythingProps> = (props) => {
     spitt: getImage('main', 'AppIcons', 'Scranar-prPRO extension') || ''
   };
 
-  // GSAP animations
+  // Simplified GSAP animations to reduce lag
   useGSAP(() => {
     const ctx = gsap.context(() => {
-      // Animate headers and text on scroll
-      gsap.utils.toArray<Element>('.connect-animate').forEach((element, i) => {
-        gsap.fromTo(
-          element,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: element,
-              start: "top 80%",
-              toggleActions: "play none none none"
-            },
-            delay: i * 0.1
-          }
-        );
-      });
-
-      // Advanced floating animation for app icons with 3D effect
+      // Only do minimal icon animations - simplified to reduce lag
       gsap.utils.toArray<Element>('.app-icon').forEach((icon, index) => {
-        // Create a timeline for complex animations
-        const tl = gsap.timeline({ repeat: -1 });
-        
-        // Random floating animation parameters for natural movement
-        const floatDuration = 3 + Math.random() * 2; // 3-5 seconds
-        const floatY = 10 + Math.random() * 5; // 10-15px movement
-        const floatX = 5 + Math.random() * 3; // subtle horizontal movement
-        
-        // Initial position offset for staggered start
-        const startDelay = index * 0.3;
-        
-        // Create 3D floating effect with multiple movements combined
-        tl.to(icon, {
-          y: `-=${floatY/2}`,
-          x: `+=${floatX/2}`,
-          rotationY: 2,
-          rotationX: -1,
-          scale: 1.02,
-          duration: floatDuration/2,
+        // Simple floating animation instead of complex 3D movement
+        gsap.to(icon, {
+          y: -10,
+          duration: 2 + index * 0.3,
           ease: "sine.inOut",
-          delay: startDelay
-        })
-        .to(icon, {
-          y: `+=${floatY}`,
-          x: `-=${floatX}`,
-          rotationY: -2,
-          rotationX: 2,
-          scale: 0.98,
-          duration: floatDuration,
-          ease: "sine.inOut"
-        })
-        .to(icon, {
-          y: `-=${floatY/2}`,
-          x: `+=${floatX/2}`,
-          rotationY: 0,
-          rotationX: 0,
-          scale: 1,
-          duration: floatDuration/2,
-          ease: "sine.inOut"
+          repeat: -1,
+          yoyo: true
         });
         
-        // Create hover interaction
+        // Simple hover effect
         icon.addEventListener('mouseenter', () => {
           gsap.to(icon, {
             scale: 1.05,
-            rotationY: 10,
-            duration: 0.4,
-            ease: "power2.out",
-            zIndex: 20
+            duration: 0.3
           });
-          
-          // Also animate the glow on hover
-          const parentEl = icon.parentElement;
-          if (parentEl) {
-            const glowEl = parentEl.querySelector('.app-icon-glow');
-            if (glowEl) {
-              gsap.to(glowEl, {
-                opacity: 0.9, 
-                scale: 1.2,
-                duration: 0.4
-              });
-            }
-          }
         });
         
         icon.addEventListener('mouseleave', () => {
           gsap.to(icon, {
             scale: 1,
-            rotationY: 0,
-            duration: 0.6,
-            ease: "power2.inOut",
-            zIndex: 10
+            duration: 0.3
           });
-          
-          // Reset glow on mouse leave
-          const parentEl = icon.parentElement;
-          if (parentEl) {
-            const glowEl = parentEl.querySelector('.app-icon-glow');
-            if (glowEl) {
-              gsap.to(glowEl, {
-                opacity: 0.6, 
-                scale: 1,
-                duration: 0.6
-              });
-            }
-          }
         });
       });
       
-      // Create dynamic glow pulse effect for app icons with randomized parameters
+      // Simplified glow effect - just one simple animation per glow
       gsap.utils.toArray<Element>('.app-icon-glow').forEach((glow, i) => {
-        // Different parameters for each glow for more organic feel
-        const delay = i * 0.8;
-        const baseDuration = 3 + Math.random() * 2;
-        const scaleAmount = 1.03 + (Math.random() * 0.06);
-        
-        // Create a timeline for complex glow animations
-        const glowTl = gsap.timeline({
-          repeat: -1,
-          delay: delay
-        });
-        
-        // Multi-stage animation for more interesting effect
-        glowTl.to(glow, {
-          opacity: 0.7,
-          scale: scaleAmount,
-          duration: baseDuration * 0.6,
-          ease: "sine.inOut"
-        })
-        .to(glow, {
-          opacity: 0.4,
-          scale: 1,
-          duration: baseDuration * 0.4,
-          ease: "sine.inOut"
-        })
-        .to(glow, {
+        gsap.to(glow, {
           opacity: 0.6,
-          scale: scaleAmount * 0.95,
-          duration: baseDuration * 0.5,
-          ease: "sine.inOut"
-        })
-        .to(glow, {
-          opacity: 0.3,
-          scale: 0.98,
-          duration: baseDuration * 0.3,
-          ease: "sine.inOut"
+          scale: 1.1,
+          duration: 2,
+          repeat: -1,
+          yoyo: true,
+          delay: i * 0.5
         });
-        
-        // Random color shifts for extra visual interest
-        if (i === 0) {
-          // Cyan HUD glow variations
-          glowTl.to(glow, {
-            backgroundColor: "rgba(66, 206, 255, 0.15)",
-            duration: baseDuration * 2,
-            ease: "sine.inOut", 
-            repeat: -1,
-            yoyo: true
-          }, 0);
-        } else if (i === 1) {
-          // Rose/Orange Scran.ar glow variations
-          glowTl.to(glow, {
-            backgroundColor: "rgba(254, 163, 93, 0.15)",
-            duration: baseDuration * 2,
-            ease: "sine.inOut",
-            repeat: -1,
-            yoyo: true
-          }, 0);
-        } else {
-          // Purple Spitt glow variations
-          glowTl.to(glow, {
-            backgroundColor: "rgba(202, 54, 255, 0.15)",
-            duration: baseDuration * 2,
-            ease: "sine.inOut",
-            repeat: -1,
-            yoyo: true
-          }, 0);
-        }
       });
 
-      // Animate tools cards when they come into view
-      gsap.utils.toArray<Element>('.tool-card').forEach((card, i) => {
-        gsap.fromTo(
-          card,
-          { opacity: 0, scale: 0.9, y: 40 },
-          {
-            opacity: 1,
-            scale: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "back.out(1.5)",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 85%",
-              toggleActions: "play none none none"
-            },
-            delay: 0.1 + (i * 0.2)
-          }
-        );
-      });
-      
-      // Animate the connector lines in the "They speak to each-other" section
-      const animateConnectors = () => {
-        // Connector vertical line animation
-        gsap.fromTo('.connector-line-vertical', 
-          { height: 0, opacity: 0 },
-          { 
-            height: '100%', 
-            opacity: 0.6, 
-            duration: 1.5, 
-            ease: 'power2.inOut',
-            scrollTrigger: {
-              trigger: '.integration-section',
-              start: 'top 70%'
-            }
-          }
-        );
-        
-        // Horizontal connector lines with staggered animation
-        gsap.fromTo('.connector-line-left', 
-          { width: 0, opacity: 0 },
-          { 
-            width: '100%', 
-            opacity: 0.8, 
-            duration: 0.8, 
-            ease: 'power2.inOut',
-            scrollTrigger: {
-              trigger: '.integration-section',
-              start: 'top 60%'
-            },
-            onComplete: () => {
-              // Animate data "pulse" along the line
-              animateDataPulse('.connector-line-left');
-            }
-          }
-        );
-        
-        gsap.fromTo('.connector-line-right', 
-          { width: 0, opacity: 0 },
-          { 
-            width: '100%', 
-            opacity: 0.8, 
-            duration: 0.8, 
-            delay: 0.2,
-            ease: 'power2.inOut',
-            scrollTrigger: {
-              trigger: '.integration-section',
-              start: 'top 60%'
-            },
-            onComplete: () => {
-              // Animate data "pulse" along the line
-              animateDataPulse('.connector-line-right');
-            }
-          }
-        );
-      };
-      
-      // Data pulse animation along connector lines
-      const animateDataPulse = (selector: string) => {
-        // Create data pulse elements programmatically
-        const line = document.querySelector(selector) as HTMLElement;
-        if (!line) return;
-        
-        // Create moving data "packet" effect
-        for (let i = 0; i < 3; i++) {
-          const dataPulse = document.createElement('div');
-          dataPulse.className = 'data-pulse absolute h-2 w-2 rounded-full bg-white/90';
-          line.appendChild(dataPulse);
-          
-          // Set initial position
-          gsap.set(dataPulse, { 
-            left: selector.includes('left') ? '100%' : '0%',
-            opacity: 0
-          });
-          
-          // Animate pulse along the line
-          gsap.to(dataPulse, {
-            left: selector.includes('left') ? '0%' : '100%',
-            opacity: function(i) {
-              return gsap.utils.wrap([0, 0.8, 0, 0.8, 0], i); // Fade in and out
-            },
-            duration: 2 + (i * 0.5),
-            delay: i * 1.5,
-            ease: 'power1.inOut',
-            repeat: -1,
-            repeatDelay: 1
-          });
-        }
-      };
-      
-      // Start connector animations
-      animateConnectors();
+      // No scroll triggers anymore - all animations are just looping
+      // to prevent lag from scroll-based animations
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={containerRef} className="w-full bg-radial-[at_75%_-11%] from-cyan-950 to-black to-78% py-20 overflow-hidden relative">
-      {/* Abstract tech background elements */}
+    <section ref={containerRef} className="w-[1874px] h-[3383px] px-64 py-6 bg-radial-[at_75%_-11%] from-cyan-950 to-black to-78% dark:inline-flex flex-col justify-center items-center gap-40 overflow-hidden hidden">
+      {/* Simplified background elements */}
       <div className="absolute inset-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
         <div className="absolute top-[10%] left-[5%] w-[30%] h-[1px] bg-gradient-to-r from-transparent via-sky-400 to-transparent"></div>
         <div className="absolute top-[30%] right-[10%] w-[20%] h-[1px] bg-gradient-to-r from-transparent via-rose-300 to-transparent"></div>
         <div className="absolute bottom-[20%] left-[15%] w-[40%] h-[1px] bg-gradient-to-r from-transparent via-purple-400 to-transparent"></div>
-        <div className="absolute -bottom-10 left-0 right-0 h-20 bg-gradient-to-t from-black/50 to-transparent"></div>
-        
-        {/* Circuit-like patterns */}
-        <svg width="100%" height="100%" className="absolute inset-0 opacity-10" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 100 Q 250 50 500 100 T 1000 100" stroke="rgba(56, 189, 248, 0.5)" strokeWidth="1" fill="none" />
-          <path d="M0 200 Q 250 150 500 200 T 1000 200" stroke="rgba(251, 113, 133, 0.4)" strokeWidth="1" fill="none" />
-          <path d="M0 300 Q 250 250 500 300 T 1000 300" stroke="rgba(167, 139, 250, 0.5)" strokeWidth="1" fill="none" />
-        </svg>
       </div>
       
       <div className="container mx-auto px-4 md:px-8 lg:px-16 flex flex-col justify-center items-center gap-20 lg:gap-40 relative z-10">
@@ -504,65 +244,31 @@ export const ConnectEverything: React.FC<ConnectEverythingProps> = (props) => {
           </div>
         </div>
 
-        {/* Integration section with animated connector lines */}
-        <div className="integration-section relative flex flex-col items-center gap-6 max-w-5xl text-center mt-10">
-          {/* Connection visualization */}
-          <div className="absolute -top-24 left-0 right-0 h-24 flex justify-center pointer-events-none opacity-60">
-            <div className="connector-line-vertical w-[1px] h-full bg-gradient-to-b from-transparent to-orange-400"></div>
-          </div>
-          
-          <div className="connect-animate w-full relative px-6 py-8 rounded-xl border border-orange-500/20 bg-gradient-to-b from-orange-950/20 to-transparent">
-            <p className="text-white text-xl md:text-2xl lg:text-4xl">
-              The best part is, all of these developments are <span className="font-semibold">seamlessly integrated</span><sup className="text-xl">**</sup>, meaning:
-            </p>
-            
-            <div className="relative py-5">
-              <p className="text-orange-400 text-3xl md:text-4xl lg:text-6xl font-semibold">
-                They speak to each-other.
-              </p>
-              
-              {/* Animated connector lines */}
-              <div className="hidden lg:block absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <div className="connector-line-left absolute w-40 h-1 left-[-130px] bg-gradient-to-r from-sky-400 to-transparent overflow-visible"></div>
-                <div className="connector-line-right absolute w-40 h-1 right-[-130px] bg-gradient-to-l from-purple-400 to-transparent overflow-visible"></div>
-                
-                {/* Data node indicators */}
-                <div className="absolute w-4 h-4 rounded-full bg-gradient-to-r from-sky-500 to-sky-400 -left-[150px] top-[-6px] shadow-[0_0_10px_rgba(56,189,248,0.6)] animate-pulse"></div>
-                <div className="absolute w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-purple-400 -right-[150px] top-[-6px] shadow-[0_0_10px_rgba(167,139,250,0.6)] animate-pulse"></div>
-              </div>
-            </div>
-            
-            <p className="text-white text-xl md:text-2xl lg:text-4xl mt-8">
-              So, so much easier.
-            </p>
-            
-            <div className="absolute bottom-3 right-4">
-              <p className="text-white/60 text-sm italic">
-                **Seams may still be present.
-              </p>
-            </div>
-          </div>
+        {/* Integration section - using original design */}
+        <div className="w-[1158px] min-h-72 text-center justify-center">
+          <p className="text-white text-4xl font-normal">
+            The best part is,<br/>
+            all of these developments are <span className="text-white text-4xl font-semibold">seamlessly integrated</span><sup className="text-3xl font-semibold">**</sup>, meaning:<br/>
+            <br/>
+          </p>
+          <p className="text-orange-400 text-6xl font-semibold">
+            They speak to each-other.<br/>
+          </p>
+          <p className="text-white text-4xl font-normal mt-8">
+            So, so much easier.<br/>
+          </p>
+          <p className="text-white text-2xl font-normal mt-4">
+            **Seams may still be present.
+          </p>
         </div>
 
-        {/* Cohort section */}
-        <div className="connect-animate max-w-5xl text-center rounded-2xl px-6 py-10 bg-gradient-to-r from-blue-950/30 to-indigo-900/30 border border-blue-800/20">
-          <div className="absolute -top-3 -right-3 w-6 h-6 border-t-2 border-r-2 border-blue-500"></div>
-          <div className="absolute -bottom-3 -left-3 w-6 h-6 border-b-2 border-l-2 border-blue-500"></div>
-          
-          <p className="text-white text-xl md:text-2xl lg:text-3xl leading-relaxed">
-            We have custom analytics tools, video editing automators, A.I driven 'authentic performance' checkers.
-            <span className="block my-6">
-              As we work towards offering more of our custom systems publicly, you, as a part of <span className="text-blue-400 font-semibold">Vertical Shortcut Cohort α</span>, will have permanent access to the entire suite, as well as permanent updates and expansions to the course.
-            </span>
-            <span className="block mt-6 text-blue-300 font-medium">
-              You would be one of the only 12 people we would include in this alpha testing group.
-            </span>
+        {/* Cohort section - using original design */}
+        <div className="w-[1074px] text-center justify-center">
+          <p className="text-white text-4xl font-normal">
+            We have custom analytics tools, video editing automators, A.I driven 'authentic performance' checkers.<br/><br/>
+            As we work towards offering more of our custom systems publicly, you, as a part of <span className="text-blue-500 text-4xl font-semibold">Vertical Shortcut Cohort α</span>, will have permanent access to the entire suite, as well as permanent updates and expansions to the course. <br/><br/>
+            You would be one of the only 12 people we would include in this alpha testing group.
           </p>
-          
-          <div className="mt-8 inline-flex items-center px-4 py-2 rounded-md bg-blue-600/20 border border-blue-500/40">
-            <span className="inline-block size-3 bg-blue-400 rounded-full mr-2 animate-pulse"></span>
-            <span className="text-blue-200 font-medium">Applications open until April 30th</span>
-          </div>
         </div>
       </div>
     </section>
