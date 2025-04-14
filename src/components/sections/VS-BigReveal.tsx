@@ -7,7 +7,6 @@ import AnimatedLogo from '../../components/logos/AnimatedLogo';
 import IsometricGridBackground from '../hero/IsometricPattern';
 import { VSText, VSHeading, VSGradientText } from '../ui/vs-text';
 import { VSBackground, VSCard, VSSection } from '../ui/vs-background';
-import TeamPhotoDecoration from '../ui/TeamPhotoDecoration';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -220,25 +219,6 @@ const VSBigReveal = () => {
       <div className="absolute bottom-1/4 right-10 w-16 h-16 rounded-full border-8 border-theme-primary/15
                      opacity-theme-float
                      animate-float-medium"></div>
-                     
-      {/* Add team photo decorations */}
-      <TeamPhotoDecoration 
-        memberName="Joden" 
-        count={1} 
-        position="top-right" 
-        opacity={0.35}
-        maxWidth={180}
-        parentSelector=".big-reveal-section"
-      />
-      
-      <TeamPhotoDecoration 
-        memberName="Tia" 
-        count={1} 
-        position="bottom-left" 
-        opacity={0.35}
-        maxWidth={160}
-        parentSelector=".big-reveal-section"
-      />
       
       {/* VS Logo with animation - ABSOLUTELY MASSIVE and ALL THE WAY to the right */}
       <div ref={logoRef} className="vs-logo-wrapper absolute top-[350px] right-[-120vw] md:right-[-100vw] lg:right-[-80vw] xl:right-[-70vw] w-[200vw] max-w-[none] min-w-[1200px] z-0 transform-gpu pointer-events-none scale-[3]">

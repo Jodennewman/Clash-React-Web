@@ -4,7 +4,6 @@ import gsap from "gsap";
 import { VSSection } from '../ui/vs-background';
 import { VSHeading, VSText } from '../ui/vs-text';
 import { ArrowRight, TrendingUp } from 'lucide-react';
-import TeamPhotoDecoration from '../ui/TeamPhotoDecoration';
 
 // Define the data structure for before/after examples
 interface BeforeAfterExample {
@@ -88,24 +87,6 @@ const BeforeAfterStats: React.FC<BeforeAfterStatsProps> = ({ examples, onCtaClic
       <div className="absolute -z-10 bottom-20 right-[15%] w-36 h-36 rounded-[35%] -rotate-6 
                 opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium"></div>
       
-      {/* Add team photo decorations */}
-      <TeamPhotoDecoration 
-        memberName="Alex" 
-        count={1} 
-        position="top-left" 
-        opacity={0.35}
-        maxWidth={170}
-        parentSelector=".before-after-container"
-      />
-      
-      <TeamPhotoDecoration 
-        memberName="Aydan" 
-        count={1} 
-        position="bottom-right" 
-        opacity={0.35}
-        maxWidth={140}
-        parentSelector=".before-after-container"
-      />
       
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
