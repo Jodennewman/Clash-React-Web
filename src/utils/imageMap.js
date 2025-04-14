@@ -131,6 +131,151 @@ const getAllInDirectory = (directory) => {
   return imageMap[directory] || {};
 };
 
+/**
+ * Get team member images with rich metadata for dynamic display
+ * @param {string} memberName - Name of team member (Joden, Alex, Tia, Aydan)
+ * @param {Object} options - Options for image filtering/sorting
+ * @param {number} options.limit - Maximum number of images to return
+ * @param {boolean} options.includeShared - Include images with multiple people
+ * @param {boolean} options.randomize - Randomize the order of images
+ * @returns {Array} Array of image objects with metadata
+ */
+const getTeamImageCollection = (memberName, options = {}) => {
+  const {
+    limit = 20,
+    includeShared = true,
+    randomize = true
+  } = options;
+  
+  // Standardize member name for matching
+  const memberNameLower = memberName.toLowerCase();
+  
+  // Get all team images from the All-Team-Images directory
+  const allTeamImagesDir = getAllInDirectory('main')?.['Meet_The_Team-webp']?.['All-Team-Images'] || {};
+  
+  // Convert to array for filtering - filter out entries with problematic filenames like question marks
+  const allImages = Object.entries(allTeamImagesDir)
+    .filter(([key]) => {
+      // Filter out problematic filenames with characters that might cause issues
+      return !key.includes('?') && !key.includes('#');
+    })
+    .map(([key, url]) => ({
+      key,
+      url,
+    // Check if this image belongs primarily to this team member
+    isPrimary: key.toLowerCase().includes(memberNameLower),
+    // Check if this image includes this team member at all
+    includes: key.toLowerCase().includes(memberNameLower),
+    // Check if image includes multiple team members
+    isShared: ['joden', 'alex', 'tia', 'aydan'].filter(name => 
+      name !== memberNameLower && key.toLowerCase().includes(name)
+    ).length > 0,
+    // Estimate size category based on image name hints
+    sizeHint: key.includes('crop') ? 'small' : 
+              key.includes('full') ? 'large' : 'medium'
+  }));
+  
+  // Filter based on team member and options
+  let filteredImages = allImages.filter(img => {
+    // Always include primary images of this team member
+    if (img.isPrimary) return true;
+    
+    // Include shared images if option is enabled
+    if (includeShared && img.includes) return true;
+    
+    return false;
+  });
+  
+  // Sort by relevance (primary images first, then shared)
+  filteredImages.sort((a, b) => {
+    // Primary images come first
+    if (a.isPrimary && !b.isPrimary) return -1;
+    if (!a.isPrimary && b.isPrimary) return 1;
+    
+    // Non-shared images come before shared
+    if (!a.isShared && b.isShared) return -1;
+    if (a.isShared && !b.isShared) return 1;
+    
+    return 0;
+  });
+  
+  // Randomize if requested
+  if (randomize) {
+    // Keep first 3 most relevant images at the top
+    const topImages = filteredImages.slice(0, 3);
+    const restImages = filteredImages.slice(3);
+    
+    // Shuffle the rest
+    for (let i = restImages.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [restImages[i], restImages[j]] = [restImages[j], restImages[i]];
+    }
+    
+    filteredImages = [...topImages, ...restImages];
+  }
+  
+  // Apply limit
+  if (limit > 0 && filteredImages.length > limit) {
+    filteredImages = filteredImages.slice(0, limit);
+  }
+  
+  // Format result with metadata for UI presentation
+  return filteredImages.map((img, index) => {
+    // Calculate suggested display properties based on image characteristics
+    let speed = img.isPrimary ? 0.95 : 0.85 + (Math.random() * 0.15);
+    let opacity = img.isPrimary ? 1 : 0.6 + (Math.random() * 0.4);
+    let scale = img.isPrimary ? 1 : 0.7 + (Math.random() * 0.5);
+    let zIndex = img.isPrimary ? 5 : 2 + Math.floor(Math.random() * 3);
+    
+    // Adjust based on size hint
+    if (img.sizeHint === 'small') {
+      scale *= 0.8;
+      speed = Math.min(1.1, speed * 1.2);
+    } else if (img.sizeHint === 'large') {
+      scale *= 1.2;
+      speed = Math.max(0.8, speed * 0.9);
+      zIndex = Math.max(1, zIndex - 1);
+    }
+    
+    // Generate semi-random positioning data
+    const position = {
+      top: 10 + (index % 5) * 15 + (Math.random() * 10),
+      left: index % 2 === 0 
+        ? 5 + (index % 7) * 10 + (Math.random() * 15)
+        : 80 - (index % 7) * 10 - (Math.random() * 15),
+      rotate: (index % 2 === 0 ? 1 : -1) * (Math.random() * 10 + 2)
+    };
+    
+    return {
+      url: img.url,
+      key: img.key,
+      isPrimary: img.isPrimary,
+      isShared: img.isShared,
+      speed,
+      opacity,
+      scale,
+      zIndex,
+      position,
+      // Direction alternates between team members for visual variety
+      direction: index % 2 === 0 ? "up" : "down"
+    };
+  });
+};
+
+// Get halftone image for a team member
+const getTeamMemberHalftone = (memberName) => {
+  // Try direct match in the member's specific folder
+  const directPath = getImage('main', 'Meet_The_Team-webp', memberName, `${memberName}-Halftone`);
+  if (directPath) return directPath;
+  
+  // Try at the root of Meet_The_Team-webp
+  const rootPath = getImage('main', 'Meet_The_Team-webp', `${memberName}-Halftone`);
+  if (rootPath) return rootPath;
+  
+  // Fallback
+  return null;
+};
+
 // Export utility functions and maps
 export {
   getImage,
@@ -138,5 +283,7 @@ export {
   addPublicImage,
   getAllImageKeys,
   getAllInDirectory,
+  getTeamImageCollection,
+  getTeamMemberHalftone,
   imageMap
 }; 
