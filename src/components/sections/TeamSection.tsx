@@ -1,39 +1,7 @@
 import React, { useRef, useEffect } from 'react';
-import { getImage, getAllInDirectory } from "../../utils/imageMap";
+import { getTeamMemberHalftone, getTeamImageCollection } from "../../utils/imageMap";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-// Helper function to get team member images
-const getTeamMemberImages = (name) => {
-  const basePath = 'main';
-  const memberFolder = `Meet_The_Team-webp/${name}`;
-  
-  // Main Halftone image
-  const mainImage = getImage(basePath, memberFolder, `${name}-Halftone`) || 
-                    // Fallback if not found
-                    getImage(basePath, memberFolder, `${name}-main-full`);
-  
-  // Get all other images for this team member (excluding Halftone)
-  const teamImages = [];
-  
-  try {
-    const folderImages = getAllInDirectory(basePath)[memberFolder] || {};
-    
-    // Convert object to array and filter out the Halftone image
-    Object.entries(folderImages).forEach(([key, value]) => {
-      if (key !== `${name}-Halftone` && typeof value === 'string') {
-        teamImages.push(value);
-      }
-    });
-  } catch (error) {
-    console.error(`Error getting images for ${name}:`, error);
-  }
-  
-  return {
-    main: mainImage,
-    team: teamImages.length > 0 ? teamImages : []
-  };
-};
 
 export default function TeamParallaxSection() {
   // Main container ref
@@ -58,8 +26,7 @@ export default function TeamParallaxSection() {
             start: "top bottom", // Start when top of section reaches bottom of viewport
             end: "bottom top",   // End when bottom of section leaves top of viewport
             scrub: 0.5,          // Smooth scrubbing effect (0.5 second lag)
-            // toggleActions: "play none none reverse",
-            // markers: true,       // For debugging - remove in production
+            // markers: true,    // For debugging - remove in production
             id: `section-${sectionIndex}`,
             invalidateOnRefresh: true,
           }
@@ -73,7 +40,7 @@ export default function TeamParallaxSection() {
         
         // Add each element to the timeline with its own speed
         parallaxElements.forEach(element => {
-          const speed = parseFloat(element.dataset.speed || 0.85);
+          const speed = parseFloat(element.dataset.speed || '0.85');
           const direction = element.classList.contains('halftone-image') ? -1 : 1;
           
           // Amount to move (percentage of element's height)
@@ -124,14 +91,8 @@ export default function TeamParallaxSection() {
       teamParallaxContext.revert();
     };
   }, []);
-  
-  // Get team member images
-  const jodenImages = getTeamMemberImages('Joden');
-  const alexImages = getTeamMemberImages('Alex');
-  const tiaImages = getTeamMemberImages('Tia');
-  const aydanImages = getTeamMemberImages('Aydan');
-  
-  // Team members data
+
+  // Team members data with dynamic image loading
   const teamMembers = [
     {
       name: "Joden Newman",
@@ -141,14 +102,10 @@ export default function TeamParallaxSection() {
       likes: "long boring films in a language that doesn't exist (french) grindset influencers, web design — he literally made this entire website himself",
       dislikes: "long walks on the beach, meal deals, people not buying the vertical shortcut",
       quote: "\"his preferred order is 20 spicy wings and a strawberry miranda\" - his local boss man",
-      image: jodenImages.main || "/src/assets/main/Meet_The_Team-webp/Joden/Joden-Halftone.webp",
-      teamImages: jodenImages.team.length > 0 ? jodenImages.team : [
-        "/src/assets/main/Meet_The_Team-webp/Joden/Joden-curt-full.webp", 
-        "/src/assets/main/Meet_The_Team-webp/Joden/Joden-log-full.webp", 
-        "/src/assets/main/Meet_The_Team-webp/Joden/Joden-main1-full.webp",
-        "/src/assets/main/Meet_The_Team-webp/Joden/Joden-saw-full.webp",
-        "/src/assets/main/Meet_The_Team-webp/Joden/Joden-tape-full.webp"
-      ]
+      // Get halftone image for the main display
+      halftoneImage: getTeamMemberHalftone('Joden') || "/src/assets/main/Meet_The_Team-webp/Joden/Joden-Halftone.webp",
+      // Get dynamic collection of team images
+      teamImages: getTeamImageCollection('Joden', { limit: 15 })
     },
     {
       name: "Alex O'Connor",
@@ -158,12 +115,8 @@ export default function TeamParallaxSection() {
       likes: "networking, networthing, gut health",
       dislikes: "ketchup, fizzy drinks and you (unless you buy the vertical shortcut)",
       quote: "\"he's actually pretty sound\" - his number one opp",
-      image: alexImages.main || "/src/assets/main/Meet_The_Team-webp/Alex/Alex-Halftone.webp",
-      teamImages: alexImages.team.length > 0 ? alexImages.team : [
-        "/src/assets/main/Meet_The_Team-webp/Alex/Alex-laugh-full.webp", 
-        "/src/assets/main/Meet_The_Team-webp/Alex/Alex-main-full.webp", 
-        "/src/assets/main/Meet_The_Team-webp/Alex/Alex-puppet-full.webp"
-      ]
+      halftoneImage: getTeamMemberHalftone('Alex') || "/src/assets/main/Meet_The_Team-webp/Alex/Alex-Halftone.webp",
+      teamImages: getTeamImageCollection('Alex', { limit: 15 })
     },
     {
       name: "Tia Warner",
@@ -173,11 +126,8 @@ export default function TeamParallaxSection() {
       likes: "cooking 10/10 dinners, eating said 10/10 dinners and 'writing' her sci-fi book",
       dislikes: "people asking how the book is going, people who don't buy the vertical shortcut",
       quote: "\"A veritable genius\" - an anonymous source close to Tia",
-      image: tiaImages.main || "/src/assets/main/Meet_The_Team-webp/Tia/Tia-Halftone.webp",
-      teamImages: tiaImages.team.length > 0 ? tiaImages.team : [
-        "/src/assets/main/Meet_The_Team-webp/Tia/Tia-Boat-Full.webp", 
-        "/src/assets/main/Meet_The_Team-webp/Tia/Tia-main-full.webp"
-      ]
+      halftoneImage: getTeamMemberHalftone('Tia') || "/src/assets/main/Meet_The_Team-webp/Tia/Tia-Halftone.webp",
+      teamImages: getTeamImageCollection('Tia', { limit: 15 })
     },
     {
       name: "Aydan Banks",
@@ -187,16 +137,10 @@ export default function TeamParallaxSection() {
       likes: "stand up (when it goes well), small hats, lime bikes",
       dislikes: "standup (when it goes badly), matt hancock, when people don't by the vertical short cut",
       quote: "\"he knows all the secrets of the london underground\" - a high level TV exec (did you know he used to work in TV)",
-      image: aydanImages.main || "/src/assets/main/Meet_The_Team-webp/Aydan/Aydan-Halftone.webp",
-      teamImages: aydanImages.team.length > 0 ? aydanImages.team : [
-        "/src/assets/main/Meet_The_Team-webp/Aydan/Aydan-explain-full.webp", 
-        "/src/assets/main/Meet_The_Team-webp/Aydan/Aydan-main-full.webp", 
-        "/src/assets/main/Meet_The_Team-webp/Aydan/Aydan-puppet-full.webp"
-      ]
+      halftoneImage: getTeamMemberHalftone('Aydan') || "/src/assets/main/Meet_The_Team-webp/Aydan/Aydan-Halftone.webp",
+      teamImages: getTeamImageCollection('Aydan', { limit: 15 })
     }
   ];
-
-  // Pure CSS animations for floating effect
 
   return (
     <>
@@ -213,7 +157,7 @@ export default function TeamParallaxSection() {
         .floating-team-image:hover {
           transform: scale(1.05) rotate(0deg) !important;
           box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-          z-index: 30 !important;
+          z-index: 20 !important;
         }
         
         @keyframes float {
@@ -294,27 +238,31 @@ export default function TeamParallaxSection() {
           
           {/* Floating team images - larger and with parallax data attributes */}
           <div className="team-images-wrapper absolute top-0 left-0 right-0 bottom-0 pointer-events-none">
-            {member.teamImages.slice(0, 5).map((img, imgIndex) => (
+            {/* Render all dynamically loaded team images */}
+            {member.teamImages.map((img, imgIndex) => (
               <div
                 key={`team-img-${imgIndex}`}
-                className="absolute floating-team-image z-10 shadow-[var(--theme-shadow-md)] overflow-hidden hover:z-20 pointer-events-auto"
+                className="absolute floating-team-image shadow-[var(--theme-shadow-md)] overflow-hidden hover:z-20 pointer-events-auto"
                 style={{
-                  width: `${120 + (imgIndex * 15)}px`,
-                  height: `${120 + (imgIndex * 15)}px`,
-                  borderRadius: `${40 + (imgIndex * 3)}%`,
-                  top: `${15 + (imgIndex * 12)}%`,
-                  left: imgIndex % 2 === 0 
-                    ? `${5 + (imgIndex * 10)}%` 
-                    : `${80 - (imgIndex * 12)}%`,
+                  width: `${220 + (img.scale * 100)}px`, // Much larger base size (was 120)
+                  // Let height be determined by aspect ratio
+                  opacity: Math.min(1, img.opacity + 0.2), // Increased opacity
+                  borderRadius: `10px`, // Consistent subtle rounded corners (was variable 40%+)
+                  top: `${img.position.top}%`,
+                  left: `${img.position.left}%`,
+                  transform: `rotate(${img.position.rotate/3}deg)`, // Reduced rotation (1/3 of original)
                   transition: 'transform 0.3s ease-out, box-shadow 0.3s ease-out, z-index 0s',
+                  zIndex: img.zIndex,
                 }}
-                data-rotate={imgIndex % 2 === 0 ? 5 : -5}
-                data-speed={`${0.95 - (imgIndex * 0.02)}`}
+                data-rotate={img.position.rotate/3} // Reduced rotation for animation
+                data-speed={Math.min(img.speed, 0.92)} // Limit max speed for more subtle movement
+                data-direction={img.direction}
               >
                 <img 
-                  src={img} 
+                  src={img.url} 
                   alt={`${member.name} team moment ${imgIndex + 1}`}
-                  className="w-full h-full object-cover"
+                  className="w-full object-contain" // Use object-contain to preserve aspect ratio
+                  style={{ maxHeight: `${320 + (img.scale * 80)}px` }} // Control max height for aspect ratio
                   loading="lazy"
                 />
               </div>
@@ -330,9 +278,9 @@ export default function TeamParallaxSection() {
               <div className={`member-image-container relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
                 <div className="relative min-h-[400px] lg:min-h-[500px] flex justify-center">
                   {/* Halftone image that peeks from the bottom of the section */}
-                  <div className="absolute bottom-[-10%] w-full h-[120%] flex items-end justify-center overflow-visible">
+                  <div className="absolute bottom-[-20%] w-full h-[150%] flex items-end justify-center overflow-visible">
                     <img 
-                      src={member.image} 
+                      src={member.halftoneImage} 
                       alt={member.name} 
                       className="halftone-image h-full w-auto max-w-none object-contain drop-shadow-2xl"
                       style={{
@@ -341,7 +289,6 @@ export default function TeamParallaxSection() {
                       }}
                       data-speed="0.85"
                     />
-                
                   </div>
                   
                   {/* Quote overlay */}
@@ -359,8 +306,8 @@ export default function TeamParallaxSection() {
                 </div>
               </div>
               
-              {/* Content */}
-              <div className={`member-content space-y-6 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
+              {/* Content - has z-index of 30, higher than all images */}
+              <div className={`member-content space-y-6 ${index % 2 === 1 ? 'lg:order-1' : ''} relative z-30`}>
                 <h3 className="text-[var(--theme-text-primary)] text-4xl font-bold">{member.name}</h3>
                 <p className="text-[var(--theme-primary)] text-xl font-medium">{member.title}</p>
                 <div className="space-y-6">

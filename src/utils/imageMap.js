@@ -222,9 +222,10 @@ const getTeamImageCollection = (memberName, options = {}) => {
   // Format result with metadata for UI presentation
   return filteredImages.map((img, index) => {
     // Calculate suggested display properties based on image characteristics
-    let speed = img.isPrimary ? 0.95 : 0.85 + (Math.random() * 0.15);
-    let opacity = img.isPrimary ? 1 : 0.6 + (Math.random() * 0.4);
-    let scale = img.isPrimary ? 1 : 0.7 + (Math.random() * 0.5);
+    // Higher values for more visible and larger images
+    let speed = img.isPrimary ? 0.95 : 0.88 + (Math.random() * 0.1); // Less variation (was 0.15)
+    let opacity = img.isPrimary ? 1 : 0.85 + (Math.random() * 0.15); // Much higher base opacity (was 0.6)
+    let scale = img.isPrimary ? 1.2 : 0.9 + (Math.random() * 0.3); // Larger overall scaling (was 0.7)
     let zIndex = img.isPrimary ? 5 : 2 + Math.floor(Math.random() * 3);
     
     // Adjust based on size hint
@@ -237,13 +238,27 @@ const getTeamImageCollection = (memberName, options = {}) => {
       zIndex = Math.max(1, zIndex - 1);
     }
     
-    // Generate semi-random positioning data
+    // Generate more organized, structured positioning data
+    // Create a grid-like pattern with less randomness
+    const gridRows = 3; // Number of vertical segments
+    const gridCols = 4; // Number of horizontal segments
+    
+    // Calculate grid cell position (more structured)
+    const gridRow = Math.floor(index / gridCols) % gridRows;
+    const gridCol = index % gridCols;
+    
+    // Add small variation within grid cell
+    const smallVariation = (Math.random() * 4) - 2; // -2 to +2
+    
     const position = {
-      top: 10 + (index % 5) * 15 + (Math.random() * 10),
-      left: index % 2 === 0 
-        ? 5 + (index % 7) * 10 + (Math.random() * 15)
-        : 80 - (index % 7) * 10 - (Math.random() * 15),
-      rotate: (index % 2 === 0 ? 1 : -1) * (Math.random() * 10 + 2)
+      // Structured vertical position (top third, middle third, bottom third)
+      top: 10 + (gridRow * 25) + smallVariation,
+      
+      // Structured horizontal position (divide width into 4 columns)
+      left: 10 + (gridCol * 20) + smallVariation,
+      
+      // Much more subtle rotation
+      rotate: (index % 2 === 0 ? 1 : -1) * (Math.random() * 3 + 1)
     };
     
     return {

@@ -26,8 +26,8 @@ export default function TeamPhotoDecoration({
   count = 1,
   position = 'random',
   parentSelector,
-  maxWidth = 140,
-  opacity = 0.6,
+  maxWidth = 280, // Much larger default size (was 140)
+  opacity = 0.85, // Higher default opacity (was 0.6)
 }: TeamPhotoDecorationProps) {
   // Get images from all team members if random, or specific member
   const randomizeMember = memberName === 'random';
