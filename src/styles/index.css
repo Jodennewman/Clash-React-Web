@@ -11,9 +11,9 @@
 /* Define dark mode variant using Tailwind v4 custom variant approach */
 
 @import "./modules/variables.css";
-@import "./modules/dark-mode.css";
 @import "./modules/base-elements.css";
 @import "./modules/animations.css";
 @import "./modules/theme-utilities.css";
 @import "./modules/components.css";
 @import "./modules/utilities.css";
+@import "./modules/dark-mode.css";

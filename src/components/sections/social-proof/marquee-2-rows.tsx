@@ -36,10 +36,10 @@ const MarqueeTwoRows: React.FC<MarqueeTwoRowsProps> = ({
     <Section className="w-full overflow-hidden bg-theme-bg-secondary py-12 md:py-24 border-t border-theme-border px-0">
       <div className="mx-auto flex max-w-container flex-col items-center gap-4 text-center sm:gap-16">
         <div className="flex flex-col items-center gap-4 px-4 sm:gap-8">
-          <h2 className="max-w-[800px] text-2xl md:text-3xl font-bold leading-tight sm:text-5xl sm:leading-tight text-theme-gradient">
+          <h2 className="max-w-[800px] text-3xl md:text-4xl font-bold leading-tight sm:text-6xl sm:leading-tight">
             {sectionTitle}
           </h2>
-          <p className="body-text max-w-[700px] mx-auto max-w-[90%] md:max-w-none text-sm md:text-base">
+          <p className="body-text max-w-[600px] mx-auto md:max-w-none text-sm md:text-base">
             {sectionDescription}
           </p>
         </div>

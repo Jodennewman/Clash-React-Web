@@ -247,11 +247,11 @@ const getTeamImageCollection = (memberName, options = {}) => {
     let horizontalVariation = Math.random() * 10; // 0-10% variation
     let opacityFactor = 1.0; // Default full opacity multiplier
     
-    if (lane < 3) {
+    if (lane < 4) {
       // Left side - 30% chance
       horizontalPosition = horizontalVariation + 5; // 5-15% from left
       opacityFactor = 1.0; // Full opacity for side images
-    } else if (lane >= 7) {
+    } else if (lane >= 6) {
       // Right side - 30% chance
       horizontalPosition = 85 - horizontalVariation; // 75-85% from left (i.e., 15-25% from right)
       opacityFactor = 1.0; // Full opacity for side images

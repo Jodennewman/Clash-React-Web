@@ -9,19 +9,18 @@ import { getImage, addPublicImage } from './imageMap';
 
 // Database thumbnail path mapping - used to convert relative paths in course-utils.tsx
 // to proper Vite imports
-const DB_THUMBNAIL_BASE = '../assets/main/DataBaseThumbnails/renamed/';
+const DB_THUMBNAIL_BASE = '/assets/main/DataBaseThumbnails/renamed/';
 const VIEWS_THUMBNAIL_BASE = '/assets/main/thumbnails-with-views-webp/';
 
 /**
- * Import specific thumbnails explicitly for the most common/important ones
- * We do this to ensure they're definitely included in the build
+ * Import specific thumbnails from the public directory for module thumbnails
  */
-import theAlgorithm from '../assets/main/DataBaseThumbnails/renamed/the_algorithm.webp';
-import bigPicture from '../assets/main/DataBaseThumbnails/renamed/big_picture.webp';
-import repurposing from '../assets/main/DataBaseThumbnails/renamed/repurposing.webp';
-import advancedMetricsAnalytics from '../assets/main/DataBaseThumbnails/renamed/advanced_metrics_analytics.webp';
+const theAlgorithm = DB_THUMBNAIL_BASE + 'the_algorithm.webp';
+const bigPicture = DB_THUMBNAIL_BASE + 'big_picture.webp';
+const repurposing = DB_THUMBNAIL_BASE + 'repurposing.webp';
+const advancedMetricsAnalytics = DB_THUMBNAIL_BASE + 'advanced_metrics_analytics.webp';
 
-// Import social proof thumbnails
+// Import social proof thumbnails directly from the src directory 
 import jwHiringSea from '../assets/main/thumbnails-with-views-webp/JW-Hiring-Sea.webp';
 import cmBratSummer from '../assets/main/thumbnails-with-views-webp/CM-brat-summer.webp';
 import jcInsaneCults from '../assets/main/thumbnails-with-views-webp/JC-insanecults.webp';
@@ -119,8 +118,10 @@ export function getThumbnail(thumbnailName) {
     return thumbnails.the_algorithm; // Fallback to a default image
   }
   
-  // If the thumbnail already has a full path starting with /src or http, return it
+  // If the thumbnail already has a full path starting with /src, /public, /assets, or http, return it
   if (thumbnailName.startsWith('/src/') || 
+      thumbnailName.startsWith('/public/') ||
+      thumbnailName.startsWith('/assets/') ||
       thumbnailName.startsWith('http')) {
     return thumbnailName;
   }
@@ -166,8 +167,8 @@ export function getThumbnail(thumbnailName) {
     return mappedImage;
   }
   
-  // If not found, return the full path but with a warning
-  console.warn(`Thumbnail not explicitly imported: ${thumbnailName}, using path-based reference`);
+  // Enhanced thumbnail debugging information
+  console.debug(`Thumbnail attempted: ${thumbnailName}, trying fallback strategies...`);
   
   // Check if it might be a social proof thumbnail
   if (thumbnailName.includes('-') && (
@@ -177,7 +178,20 @@ export function getThumbnail(thumbnailName) {
       thumbnailName.startsWith('CD-') || 
       thumbnailName.startsWith('BA-') || 
       thumbnailName.startsWith('JS-'))) {
-    return `${VIEWS_THUMBNAIL_BASE}${thumbnailName}.webp`;
+    const fullPath = `${VIEWS_THUMBNAIL_BASE}${thumbnailName}.webp`;
+    console.debug(`Using social proof thumbnail: ${fullPath}`);
+    return fullPath;
+  }
+  
+  // Special case for module mapping - convert hyphenated names to underscore format
+  const underscoreName = thumbnailName.replace(/-/g, '_');
+  if (underscoreName !== thumbnailName) {
+    console.debug(`Converting hyphenated name "${thumbnailName}" to underscore format: "${underscoreName}"`);
+    // Check if the underscore version exists in thumbnails map
+    if (thumbnails[underscoreName]) {
+      console.debug(`Found underscore match in thumbnails map: ${underscoreName}`);
+      return thumbnails[underscoreName];
+    }
   }
   
   // Use the same path construction logic as in course-utils.tsx
@@ -187,7 +201,9 @@ export function getThumbnail(thumbnailName) {
     thumbnailName.endsWith('.jpeg') ? 
     thumbnailName : `${thumbnailName}.webp`;
     
-  return `${DB_THUMBNAIL_BASE}${pathWithExtension}`;
+  const fullPath = `${DB_THUMBNAIL_BASE}${pathWithExtension}`;
+  console.debug(`Using generic thumbnail path: ${fullPath}`);
+  return fullPath;
 }
 
 /**
@@ -216,15 +232,24 @@ export function getViewsThumbnail(thumbnailPath) {
     return viewsThumbnails[basenameWithoutExt];
   }
   
+  // Check if it's a direct path to the public directory
+  if (thumbnailPath.includes('/') && (
+      thumbnailPath.startsWith('/') || 
+      thumbnailPath.startsWith('./') || 
+      thumbnailPath.startsWith('../'))) {
+    // This is likely already a path, return it
+    return thumbnailPath;
+  }
+  
   // Check in the general image map
   const mappedImage = getImage(thumbnailPath);
   if (mappedImage) {
     return mappedImage;
   }
   
-  // If all else fails, return the original path
-  console.warn(`Views thumbnail not found in map: ${thumbnailPath}`);
-  return thumbnailPath;
+  // If all else fails, construct a path for the views thumbnail
+  console.warn(`Views thumbnail not found in map: ${thumbnailPath}, using direct path`);
+  return `${VIEWS_THUMBNAIL_BASE}${thumbnailPath}${!thumbnailPath.endsWith('.webp') ? '.webp' : ''}`;
 }
 
 export default {

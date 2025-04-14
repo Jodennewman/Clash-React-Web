@@ -15,10 +15,8 @@ import { useGSAP } from "@gsap/react";
 import { Section } from "../ui/section";
 import { AnimatedButton } from "../marble-buttons/AnimatedButton";
 
-// Import the image utility - only import what we use
-import { getImage } from "../../utils/imageMap";
-// Import the explicit image finder
-import { findImageByBasename } from "../../utils/importImages";
+// Import creator case study data from the database via course-utils
+import courseUtils, { Creator } from "../../lib/course-utils";
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -27,9 +25,6 @@ gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({
   ignoreMobileResize: true, // Reduces updates during mobile resize events
 });
-
-// Import creator case study data from the database via course-utils
-import courseUtils, { Creator } from "../../lib/course-utils";
 
 // Extend Creator interface to support our image mapping system
 interface EnhancedCreator extends Creator {
@@ -50,9 +45,12 @@ interface CaseStudiesProps {
 type ScrollTriggerInstance = ReturnType<typeof ScrollTrigger.create>;
 
 // Get creators data from the database with a fallback for UI display
-// Note: This fallback is only for display in the UI component and doesn't affect the course-utils module
 const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ? 
-  courseUtils.getCreators() : 
+  courseUtils.getCreators().map(creator => ({
+    ...creator,
+    // Ensure avatar paths are correct by prepending public path if needed
+    avatar: creator.avatar.startsWith('/') ? creator.avatar : `/assets/main/Clients-webp-300px/${creator.avatar}`
+  })) : 
   [
     {
       id: 1,
@@ -147,41 +145,9 @@ const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ?
     }
   ];
 
-// Process creator avatars to use our image mapping
+// Remove the image mapping attempt since we're using direct public paths
 creators.forEach(creator => {
-  // Store the original avatar path if needed
   creator.avatarSrc = creator.avatar;
-  
-  // Try to get the avatar from our image map system
-  try {
-    // Extract filename without extension from the path
-    const filenameMatch = creator.avatar.match(/([^/]+)(?:\.\w+)?$/);
-    if (filenameMatch && filenameMatch[1]) {
-      const filename = filenameMatch[1];
-      
-      // Try multiple methods to get the image:
-      // 1. Try to get from our explicit imports first (most reliable)
-      // 2. Then try the dynamic image map
-      // 3. Fall back to original path if neither works
-      const explicitImage = findImageByBasename(filename);
-      const mappedImage = getImage(filename);
-      
-      if (explicitImage) {
-        console.log(`Found explicit image for ${creator.name}:`, explicitImage);
-        creator.avatar = explicitImage;
-      } else if (mappedImage) {
-        console.log(`Found mapped image for ${creator.name}:`, mappedImage);
-        creator.avatar = mappedImage;
-      } else {
-        // If we can't find the image, load from its original path
-        // This might not work unless the image is in the public directory
-        console.warn(`No mapped image found for ${creator.name}, using original path`);
-      }
-    }
-  } catch (error) {
-    console.warn(`Could not map avatar for creator ${creator.name}`, error);
-    // Keep the original avatar path if mapping fails
-  }
 });
 
 // Define the CaseStudies component with forwardRef
@@ -192,6 +158,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
   const carouselRef = useRef<HTMLDivElement>(null);
   
   // Add inline styles to head to handle the scrollbar hiding
+  // Also add component-level ScrollTrigger cleanup
   useEffect(() => {
     // Create style element if it doesn't exist already
     const styleId = "scrollbar-hide-styles";
@@ -213,11 +180,37 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
       document.head.appendChild(style);
     }
     
-    // Cleanup function
+    // Comprehensive cleanup function for component unmount
     return () => {
+      // Clean up style element
       const styleElement = document.getElementById(styleId);
       if (styleElement) {
         document.head.removeChild(styleElement);
+      }
+      
+      // Ensure all ScrollTrigger instances associated with this component are killed
+      try {
+        // Get all ScrollTrigger instances
+        const allTriggers = ScrollTrigger.getAll();
+        
+        // Kill any triggers related to this component
+        allTriggers.forEach(trigger => {
+          if (
+            trigger.vars.id === "case-study-elements" || 
+            trigger.vars.id === "stats-boxes" ||
+            (trigger.trigger && sectionRef.current && 
+             sectionRef.current.contains(trigger.trigger as HTMLElement))
+          ) {
+            trigger.kill();
+          }
+        });
+        
+        // Clear any pending refresh calls
+        if (debouncedRefresh.current) {
+          clearTimeout(debouncedRefresh.current);
+        }
+      } catch (error) {
+        console.error("Error cleaning up ScrollTrigger on unmount:", error);
       }
     };
   }, []);
@@ -225,6 +218,23 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
   const [activeMetric, setActiveMetric] = useState("all");
   const [animateGraph, setAnimateGraph] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
+  
+  // Create a debounced version of ScrollTrigger.refresh
+  const debouncedRefresh = useRef<NodeJS.Timeout | null>(null);
+  
+  const debounceScrollTriggerRefresh = () => {
+    if (debouncedRefresh.current) {
+      clearTimeout(debouncedRefresh.current);
+    }
+    
+    debouncedRefresh.current = setTimeout(() => {
+      try {
+        ScrollTrigger.refresh();
+      } catch (error) {
+        console.error("Error refreshing ScrollTrigger:", error);
+      }
+    }, 200); // 200ms delay before refreshing
+  };
   
   // Function to scroll the carousel
   const scrollCarousel = (direction: 'left' | 'right') => {
@@ -247,8 +257,8 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
     
     setScrollPosition(clampedPosition);
     
-    // Refresh ScrollTrigger to update positions after scrolling
-    ScrollTrigger.refresh();
+    // Use debounced refresh instead of immediate refresh
+    debounceScrollTriggerRefresh();
   };
   
   // Use the current creator data with a fallback empty object if not found
@@ -301,15 +311,18 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
     return () => clearTimeout(timer);
   }, [activeCreator, activeMetric]);
   
-  // Refresh ScrollTrigger when active creator changes
+  // Refresh ScrollTrigger when relevant state changes
   useEffect(() => {
-    // Small delay to ensure DOM has updated
-    const refreshTimer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 50);
+    // Use the debounced refresh function for all state changes
+    debounceScrollTriggerRefresh();
     
-    return () => clearTimeout(refreshTimer);
-  }, [activeCreator]);
+    // Cleanup on unmount
+    return () => {
+      if (debouncedRefresh.current) {
+        clearTimeout(debouncedRefresh.current);
+      }
+    };
+  }, [activeCreator, activeMetric, animateGraph]);
   
   // Calculate Y-axis domain based on active metric
   const getYAxisDomain = () => {
@@ -333,77 +346,90 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
     return undefined;
   };
 
-  // GSAP animations with proper cleanup
+  // GSAP animations with enhanced cleanup
   useGSAP(() => {
     // Store ScrollTrigger instances for explicit cleanup
     const scrollTriggers: ScrollTriggerInstance[] = [];
     
     const ctx = gsap.context(() => {
-      // Create ScrollTrigger animation for main elements
-      // Only create animation if there are elements to animate and section is available
-      const caseStudyElements = document.querySelectorAll(".case-study-element");
-      if (caseStudyElements.length > 0 && sectionRef.current) {
-        const mainElementsAnimation = gsap.from(".case-study-element", {
-          y: 40,
-          opacity: 0,
-          stagger: 0.1,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-            end: "bottom bottom",
-            toggleActions: "play none none reverse",
-            id: "case-study-elements" // Add ID for easier debugging
-          }
-        });
-      
-        // Store the ScrollTrigger instance for explicit cleanup
-        if (mainElementsAnimation.scrollTrigger) {
-          scrollTriggers.push(mainElementsAnimation.scrollTrigger);
-        }
-      }
-
-      // Special animation for the stats row with staggered entry
-      // Only create the animation if there are stats boxes to animate
-      const statsBoxes = document.querySelectorAll(".stats-box");
-      if (statsBoxes.length > 0 && statsRowRef.current) {
-        const statsAnimation = gsap.from(".stats-box", {
-          y: 30,
-          opacity: 0,
-          stagger: 0.08,
-          duration: 0.7,
-          ease: "back.out(1.2)",
-          scrollTrigger: {
-            trigger: statsRowRef.current,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-          id: "stats-boxes" // Add ID for easier debugging
-        }
-        });
+      try {
+        // Direct DOM manipulation without requestAnimationFrame to avoid timing issues
+        // Create ScrollTrigger animation for main elements
+        const caseStudyElements = document.querySelectorAll(".case-study-element");
+        if (caseStudyElements.length > 0 && sectionRef.current) {
+          const mainElementsAnimation = gsap.from(caseStudyElements, {
+            y: 20, // Reduced movement for smoother animation
+            opacity: 0,
+            stagger: 0.05, // Reduced stagger time for quicker animation
+            duration: 0.6, // Shorter duration for better performance
+            ease: "power2.out", // Simpler easing function
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 80%",
+              end: "bottom bottom",
+              toggleActions: "play none none none", // Changed to avoid reverse animation issues
+              once: false, // Don't keep the animation state in memory
+              id: "case-study-elements"
+            }
+          });
         
-        // Store the ScrollTrigger instance for explicit cleanup
-        if (statsAnimation.scrollTrigger) {
-          scrollTriggers.push(statsAnimation.scrollTrigger);
+          if (mainElementsAnimation.scrollTrigger) {
+            scrollTriggers.push(mainElementsAnimation.scrollTrigger);
+          }
         }
+
+        // Special animation for the stats row with staggered entry
+        const statsBoxes = document.querySelectorAll(".stats-box");
+        if (statsBoxes.length > 0 && statsRowRef.current) {
+          const statsAnimation = gsap.from(statsBoxes, {
+            y: 15, // Reduced movement
+            opacity: 0,
+            stagger: 0.04, // Reduced stagger
+            duration: 0.5, // Shorter duration
+            ease: "power2.out", // Simpler easing
+            scrollTrigger: {
+              trigger: statsRowRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none", // Changed to avoid reverse issues
+              once: false,
+              id: "stats-boxes"
+            }
+          });
+          
+          if (statsAnimation.scrollTrigger) {
+            scrollTriggers.push(statsAnimation.scrollTrigger);
+          }
+        }
+      } catch (error) {
+        console.error("Error setting up GSAP animations:", error);
       }
     }, sectionRef);
 
-    // Return comprehensive cleanup function
+    // Return comprehensive cleanup function with enhanced error handling
     return () => {
-      // First kill all ScrollTrigger instances explicitly
-      scrollTriggers.forEach(trigger => {
-        trigger.kill();
-      });
-      
-      // Then revert the GSAP context
-      ctx.revert();
-      
-      // Log cleanup for debugging (remove in production)
-      console.log('ScrollTrigger instances cleaned up:', scrollTriggers.length);
+      try {
+        // First kill all ScrollTrigger instances explicitly
+        scrollTriggers.forEach(trigger => {
+          if (trigger && typeof trigger.kill === 'function') {
+            trigger.kill();
+          }
+        });
+        
+        // Kill all ScrollTrigger instances to ensure thorough cleanup
+        const allTriggers = ScrollTrigger.getAll();
+        allTriggers.forEach(trigger => {
+          if (trigger.vars.id === "case-study-elements" || trigger.vars.id === "stats-boxes") {
+            trigger.kill();
+          }
+        });
+        
+        // Then revert the GSAP context
+        ctx.revert();
+      } catch (error) {
+        console.error("Error cleaning up GSAP animations:", error);
+      }
     };
-  }, []); // Empty dependency array since animations should only initialize once
-           // Using refs as triggers handles dynamic content
+  }, []);
 
   // Custom tooltip component for the chart
   const CustomTooltip = ({ 
@@ -441,7 +467,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
 
   return (
     <Section
-      ref={mergeRefs([sectionRef, ref])}
+      ref={(el) => mergeRefs(sectionRef, ref)(el)}
       className="bg-theme-primary min-h-screen flex flex-col justify-center py-20 relative overflow-hidden border-t border-theme-border-light"
     >
     {/* Background patterns */}
@@ -644,19 +670,20 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
           </div>
         </div>
       
-        {/* Graph component - slightly narrower */}
+        {/* Graph component - optimized for performance */}
         <div ref={chartRef} className="bg-theme-gradient-card
                     p-3 rounded-md
                     border border-theme-border-light shadow-theme-md case-study-element">
-          <div className="h-[300px] md:h-[400px]">
+          <div className="h-[250px] md:h-[350px]"> {/* Reduced height slightly */}
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 data={currentCreator?.data || []}
                 margin={{ top: 5, right: 20, left: 15, bottom: 5 }}
               >
                 <defs>
-                  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="4.5" result="coloredBlur" />
+                  {/* Simplified glow effect */}
+                  <filter id="simpleGlow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="2" result="coloredBlur" />
                     <feMerge>
                       <feMergeNode in="coloredBlur" />
                       <feMergeNode in="SourceGraphic" />
@@ -666,20 +693,29 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                 <CartesianGrid 
                   strokeDasharray="3 3" 
                   stroke="var(--theme-border-light)" 
-                  opacity={0.5}
+                  opacity={0.4} // Reduced opacity
+                  vertical={false} // Only show horizontal grid lines
                 />
                 <XAxis 
                   dataKey="month" 
                   className="text-theme-secondary text-xs"
                   stroke="var(--theme-border-light)"
+                  tick={{ fontSize: 10 }} // Smaller font size
+                  tickLine={false} // Remove tick lines
                 />
                 <YAxis
                   className="text-theme-secondary text-xs"
                   stroke="var(--theme-border-light)"
                   domain={getYAxisDomain()}
+                  tick={{ fontSize: 10 }} // Smaller font size
+                  tickLine={false} // Remove tick lines
+                  tickCount={5} // Limit tick count
                 />
                 <Tooltip content={<CustomTooltip />} />
-                <Legend />
+                <Legend 
+                  iconSize={8} // Smaller icons
+                  wrapperStyle={{ fontSize: '10px', paddingTop: '5px' }} // Smaller font
+                />
                 {(activeMetric === "all" || activeMetric === "views") && (
                   <Line
                     type="monotone"
@@ -688,8 +724,9 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                     stroke="var(--theme-primary)"
                     strokeWidth={2}
                     dot={false}
-                    activeDot={{ r: 4, filter: "url(#glow)" }}
-                    animationDuration={animateGraph ? 1000 : 0}
+                    activeDot={{ r: 3, filter: "url(#simpleGlow)" }} // Smaller dots
+                    animationDuration={animateGraph ? 700 : 0} // Faster animation
+                    isAnimationActive={animateGraph} // Disable animation when not needed
                   />
                 )}
                 {(activeMetric === "all" || activeMetric === "followers") && (
@@ -698,10 +735,11 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                     dataKey="followers"
                     name="Followers"
                     stroke="var(--theme-accent-secondary)"
-                    strokeWidth={2}
+                    strokeWidth={1.5} // Thinner line
                     dot={false}
-                    activeDot={{ r: 4, filter: "url(#glow)" }}
-                    animationDuration={animateGraph ? 1000 : 0}
+                    activeDot={{ r: 3, filter: "url(#simpleGlow)" }} // Smaller dots
+                    animationDuration={animateGraph ? 700 : 0} // Faster animation
+                    isAnimationActive={animateGraph} // Disable animation when not needed
                   />
                 )}
                 {(activeMetric === "all" || activeMetric === "interactions") && (
@@ -710,10 +748,11 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                     dataKey="interactions"
                     name="Interactions"
                     stroke="var(--theme-accent-tertiary)"
-                    strokeWidth={2}
+                    strokeWidth={1.5} // Thinner line
                     dot={false}
-                    activeDot={{ r: 4, filter: "url(#glow)" }}
-                    animationDuration={animateGraph ? 1000 : 0}
+                    activeDot={{ r: 3, filter: "url(#simpleGlow)" }} // Smaller dots
+                    animationDuration={animateGraph ? 700 : 0} // Faster animation
+                    isAnimationActive={animateGraph} // Disable animation when not needed
                   />
                 )}
               </LineChart>
@@ -777,9 +816,11 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
 CaseStudies.displayName = 'CaseStudies';
 
 // Helper function to merge refs
-function mergeRefs<T>(...refs: Array<React.RefObject<T> | React.MutableRefObject<T> | ((instance: T | null) => void) | null>) {
+function mergeRefs<T>(...refs: (React.RefObject<T> | React.MutableRefObject<T> | React.ForwardedRef<T> | ((instance: T | null) => void) | null)[]) {
   return (value: T | null): void => {
     refs.forEach((ref) => {
+      if (!ref) return;
+      
       if (typeof ref === 'function') {
         ref(value);
       } else if (ref != null) {

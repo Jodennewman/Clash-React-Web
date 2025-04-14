@@ -475,6 +475,25 @@
   color: transparent;
 }
 
+.vs-text-gradient-nav-title{
+  background: linear-gradient(to left,
+ var(--color-cyan-400),
+  oklch(52% 0.105 223.128));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.dark .vs-text-gradient-nav-title {
+  background: linear-gradient(to right, oklch(63.7% 0.237 25.331), oklch(76.9% 0.188 70.08));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  box-shadow: var(--theme-shadow-btn);
+}
+
 .vs-float-orange {
   background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
 }

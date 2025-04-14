@@ -236,7 +236,7 @@ interface BigSquareProps {
 }
 
 const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, isSelected }, ref) => {
-  // Get a thumbnail based on section ID
+  // Get a thumbnail based on section ID - using exact paths from JSON
   const getSectionThumbnail = () => {
     // Match section ID to appropriate thumbnail and use the courseUtils.getThumbnailPath function
     let thumbnail = '';
@@ -253,7 +253,8 @@ const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, i
         break;
     }
     
-    return courseUtils.getThumbnailPath(thumbnail);
+    // The actual thumbnails are in the renamed folder
+    return `/assets/main/DataBaseThumbnails/renamed/${thumbnail}.webp`;
   };
   
   // Reference to track if component is mounted
@@ -276,16 +277,36 @@ const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, i
     img.onload = () => {
       if (!mounted.current || !el.current) return;
       
-      // Apply background with section color overlay
-      el.current.style.background = `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${thumbnailUrl}')`;
-      el.current.style.backgroundSize = 'cover';
-      el.current.style.backgroundPosition = 'center';
+      // Apply background with section color overlay using stronger style application
+      el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${thumbnailUrl}')`, 'important');
+      el.current.style.setProperty('background-size', 'cover', 'important');
+      el.current.style.setProperty('background-position', 'center', 'important');
+      el.current.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
     };
     
     img.onerror = () => {
       if (!mounted.current || !el.current) return;
-      // Fallback to gradient background
-      el.current.style.background = `linear-gradient(135deg, ${section.color}, ${section.color}dd)`;
+      console.error(`Failed to load BigSquare thumbnail for ${section.id}: ${thumbnailUrl}`);
+      
+      // Fallback to gradient background using stronger style application
+      el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}, ${section.color}dd)`, 'important');
+      el.current.style.setProperty('background-size', 'cover', 'important');
+      el.current.style.setProperty('background-position', 'center', 'important');
+      
+      // Try default thumbnail as backup
+      const backupThumbnail = '/assets/main/DataBaseThumbnails/renamed/default.webp';
+      const backupImg = new Image();
+      
+      backupImg.onload = () => {
+        if (!mounted.current || !el.current) return;
+        // Use stronger style application for backup
+        el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${backupThumbnail}')`, 'important');
+        el.current.style.setProperty('background-size', 'cover', 'important');
+        el.current.style.setProperty('background-position', 'center', 'important');
+        el.current.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
+      };
+      
+      backupImg.src = backupThumbnail;
     };
     
     // Start loading the image
@@ -308,6 +329,16 @@ const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, i
         backgroundColor: section.color, // Initial background color as fallback
         opacity: 1 
       }}
+      onClick={(e) => {
+        e.stopPropagation(); // Prevent event bubbling
+        const moduleId = section.uniqueId || section.id;
+        // Dispatch a custom event that will be caught by handleModuleClick
+        const clickEvent = new CustomEvent('module-click', {
+          bubbles: true,
+          detail: { moduleId }
+        });
+        e.currentTarget.dispatchEvent(clickEvent);
+      }}
     >
       {/* Tooltip for section name */}
       <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
@@ -315,9 +346,11 @@ const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, i
         <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
       </div>
       
-      {/* Small red circle indicator for featured modules */}
+      {/* iPhone-style notification dot */}
       {section.featured && (
-        <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
+        <div className="absolute -top-1.5 -right-1.5 w-[16px] h-[16px] bg-[#FF3B30] rounded-full shadow-[0_0_8px_rgba(255,59,48,0.4),0_0_3px_rgba(0,0,0,0.5)] border border-white/50 z-[1] flex items-center justify-center overflow-visible">
+          <span className="text-white text-[9px] font-bold">1</span>
+        </div>
       )}
     </div>
   );
@@ -330,9 +363,9 @@ interface NormalSquareProps {
 }
 
 const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ section, isSelected }, ref) => {
-  // Get a thumbnail based on section ID
+  // Get a thumbnail based on section ID using direct paths
   const getSectionThumbnail = () => {
-    // Match section ID to appropriate thumbnail and use the courseUtils.getThumbnailPath function
+    // Match section ID to appropriate thumbnail 
     let thumbnail = '';
     
     switch (section.id) {
@@ -371,7 +404,8 @@ const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ sect
         break;
     }
     
-    return courseUtils.getThumbnailPath(thumbnail);
+    // The actual thumbnails are in the renamed folder
+    return `/assets/main/DataBaseThumbnails/renamed/${thumbnail}.webp`;
   };
   
   // Reference to track if component is mounted
@@ -394,16 +428,36 @@ const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ sect
     img.onload = () => {
       if (!mounted.current || !el.current) return;
       
-      // Apply background with section color overlay
-      el.current.style.background = `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${thumbnailUrl}')`;
-      el.current.style.backgroundSize = 'cover';
-      el.current.style.backgroundPosition = 'center';
+      // Apply background with section color overlay using stronger style application
+      el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${thumbnailUrl}')`, 'important');
+      el.current.style.setProperty('background-size', 'cover', 'important');
+      el.current.style.setProperty('background-position', 'center', 'important');
+      el.current.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
     };
     
     img.onerror = () => {
       if (!mounted.current || !el.current) return;
-      // Fallback to gradient background
-      el.current.style.background = `linear-gradient(135deg, ${section.color}, ${section.color}dd)`;
+      console.error(`Failed to load BigSquare thumbnail for ${section.id}: ${thumbnailUrl}`);
+      
+      // Fallback to gradient background using stronger style application
+      el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}, ${section.color}dd)`, 'important');
+      el.current.style.setProperty('background-size', 'cover', 'important');
+      el.current.style.setProperty('background-position', 'center', 'important');
+      
+      // Try default thumbnail as backup
+      const backupThumbnail = '/assets/main/DataBaseThumbnails/renamed/default.webp';
+      const backupImg = new Image();
+      
+      backupImg.onload = () => {
+        if (!mounted.current || !el.current) return;
+        // Use stronger style application for backup
+        el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${backupThumbnail}')`, 'important');
+        el.current.style.setProperty('background-size', 'cover', 'important');
+        el.current.style.setProperty('background-position', 'center', 'important');
+        el.current.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
+      };
+      
+      backupImg.src = backupThumbnail;
     };
     
     // Start loading the image
@@ -426,6 +480,16 @@ const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ sect
         backgroundColor: section.color, // Initial background color as fallback
         opacity: 1
       }}
+      onClick={(e) => {
+        e.stopPropagation(); // Prevent event bubbling
+        const moduleId = section.uniqueId || section.id;
+        // Dispatch a custom event that will be caught by handleModuleClick
+        const clickEvent = new CustomEvent('module-click', {
+          bubbles: true,
+          detail: { moduleId }
+        });
+        e.currentTarget.dispatchEvent(clickEvent);
+      }}
     >
       {/* Tooltip for section name */}
       <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
@@ -433,9 +497,11 @@ const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ sect
         <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
       </div>
       
-      {/* Small red circle indicator for featured modules */}
+      {/* iPhone-style notification dot */}
       {section.featured && (
-        <div className="absolute -top-2 -right-2 w-[12px] h-[12px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
+        <div className="absolute -top-1.5 -right-1.5 w-[14px] h-[14px] bg-[#FF3B30] rounded-full shadow-[0_0_8px_rgba(255,59,48,0.4),0_0_3px_rgba(0,0,0,0.5)] border border-white/50 z-[1] flex items-center justify-center overflow-visible">
+          <span className="text-white text-[8px] font-bold">1</span>
+        </div>
       )}
     </div>
   );
@@ -737,6 +803,28 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   
   // Track previous selection for smoother transitions
   const [previousSection, setPreviousSection] = useState<string | null>(null);
+  
+  // Set up event listener for custom module-click events
+  useEffect(() => {
+    // Add event listener for custom events
+    const handleModuleClickEvent = (e: Event) => {
+      if (e instanceof CustomEvent && e.type === 'module-click') {
+        handleModuleClick(e);
+      }
+    };
+    
+    // Add listener to container
+    if (containerRef.current) {
+      containerRef.current.addEventListener('module-click', handleModuleClickEvent);
+    }
+    
+    // Clean up
+    return () => {
+      if (containerRef.current) {
+        containerRef.current.removeEventListener('module-click', handleModuleClickEvent);
+      }
+    };
+  }, [onModuleClick]);
   
   // Smoother animation for section expansion/collapse with sequenced transitions
   useEffect(() => {
@@ -1340,9 +1428,35 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           let thumbnailUrl = thumbnailCache.get(module.id);
           
           if (!thumbnailUrl) {
-            // Not in cache, get it and store in cache
-            const thumbnailPath = module.thumbnail || courseUtils.getModuleThumbnail(module.id);
-            thumbnailUrl = courseUtils.getThumbnailPath(thumbnailPath);
+            // First look for module ID-specific thumbnail, then fall back to a standard one
+            let thumbnailName;
+            
+            switch (module.id) {
+              // Use the ids from the JSON 
+              case "intro-founder-specific":
+                thumbnailName = "big_picture";
+                break;
+              case "algorithm":
+                thumbnailName = "the_algorithm";
+                break;
+              case "cardinal-sins":
+                thumbnailName = "cardinal_sins";
+                break;
+              case "hook-mastery":
+                thumbnailName = "crafting_compelling_hooks"; 
+                break;
+              case "script-fundamentals":
+                thumbnailName = "scripting_fundamentals";
+                break;
+              // Add more cases based on the JSON ids
+              default:
+                // For fallback, try to convert hyphenated IDs to underscores
+                thumbnailName = module.id.replace(/-/g, '_');
+                break;
+            }
+            
+            // Using direct path to thumbnails in renamed folder
+            thumbnailUrl = `/assets/main/DataBaseThumbnails/renamed/${thumbnailName}.webp`;
             thumbnailCache.set(module.id, thumbnailUrl);
           }
           
@@ -1380,10 +1494,13 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             
             // Set up onload handler
             img.onload = () => {
-              // Successfully loaded, apply as background with color overlay
-              moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${thumbnailUrl}')`;
-              moduleEl.style.backgroundSize = 'cover';
-              moduleEl.style.backgroundPosition = 'center';
+              console.log(`Thumbnail loaded for module: ${module.id}`);
+              
+              // IMPORTANT: Use !important to override any conflicting styles
+              moduleEl.style.setProperty('background-image', `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${thumbnailUrl}')`, 'important');
+              moduleEl.style.setProperty('background-size', 'cover', 'important');
+              moduleEl.style.setProperty('background-position', 'center', 'important');
+              moduleEl.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
               
               // Cache the successful load state
               moduleLoadState.set(module.id, 'success');
@@ -1391,6 +1508,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             
             // Set up error handler
             img.onerror = () => {
+              console.error(`Failed to load thumbnail for module: ${module.id} from ${thumbnailUrl}`);
+              
               // Fallback to gradient if image fails to load
               moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}, ${sectionColor}dd)`;
               
@@ -1398,23 +1517,36 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
               moduleLoadState.set(module.id, 'error');
               
               // Try a different known-good thumbnail as backup
-              const backupThumbnail = '../assets/main/DataBaseThumbnails/renamed/the_algorithm.webp';
+              const backupThumbnail = '/assets/main/DataBaseThumbnails/renamed/default.webp';
+              console.log(`Using default fallback thumbnail for ${module.id}: ${backupThumbnail}`);
+              
               if (moduleLoadState.get('backup-loaded') !== 'success') {
                 const backupImg = new Image();
                 backupImg.onload = () => {
-                  moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${backupThumbnail}')`;
-                  moduleEl.style.backgroundSize = 'cover';
-                  moduleEl.style.backgroundPosition = 'center';
+                  // Use !important to override any conflicting styles
+                  moduleEl.style.setProperty('background-image', `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${backupThumbnail}')`, 'important');
+                  moduleEl.style.setProperty('background-size', 'cover', 'important');
+                  moduleEl.style.setProperty('background-position', 'center', 'important');
+                  moduleEl.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
                   
                   // Cache that the backup loaded successfully
                   moduleLoadState.set('backup-loaded', 'success');
                 };
+                
+                backupImg.onerror = () => {
+                  console.error(`Even default thumbnail failed to load: ${backupThumbnail}`);
+                  // Final fallback is just the gradient
+                  moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}, ${sectionColor}dd)`;
+                };
+                
                 backupImg.src = backupThumbnail;
               } else {
                 // We already know the backup loads, so use it directly
-                moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${backupThumbnail}')`;
-                moduleEl.style.backgroundSize = 'cover';
-                moduleEl.style.backgroundPosition = 'center';
+                // Use !important to override any conflicting styles
+                moduleEl.style.setProperty('background-image', `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${backupThumbnail}')`, 'important');
+                moduleEl.style.setProperty('background-size', 'cover', 'important');
+                moduleEl.style.setProperty('background-position', 'center', 'important');
+                moduleEl.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
               }
             };
             
@@ -1461,6 +1593,16 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             tooltipEl.style.opacity = '0';
           });
           
+          // Add click handler for this module
+          moduleEl.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent event bubbling
+            console.log(`Module clicked: ${module.id}`);
+            
+            // Handle module click
+            setSelectedModuleId(module.id);
+            setIsModalOpen(true);
+          });
+          
           // Add to container
           modulesContainer.appendChild(moduleEl);
         });
@@ -1490,8 +1632,20 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     }
   
   // Handle click events
-  const handleModuleClick = (e: React.MouseEvent) => {
-    const moduleItem = (e.target as HTMLElement).closest('.module-item');
+  const handleModuleClick = (e: React.MouseEvent | Event) => {
+    // Handle custom module-click events
+    if (e instanceof CustomEvent && e.type === 'module-click') {
+      const moduleId = e.detail?.moduleId;
+      if (moduleId && onModuleClick) {
+        console.log("Custom module click event received for:", moduleId);
+        onModuleClick(moduleId);
+      }
+      return;
+    }
+    
+    // Regular mouse event handling
+    const mouseEvent = e as React.MouseEvent;
+    const moduleItem = (mouseEvent.target as HTMLElement).closest('.module-item');
     if (!moduleItem) return;
     
     // Get module/section data attributes
@@ -1500,6 +1654,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     const displayKey = moduleItem.getAttribute('data-display-key');
     
     if (!moduleId) return;
+    
+    console.log("Module click detected on:", moduleId, "baseId:", baseId, "displayKey:", displayKey);
     
     // Check if it's a module or section
     const isInsideModulesContainer = moduleItem.closest('.modules-container');
@@ -1540,10 +1696,16 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         .section-module, .module-item {
           cursor: pointer;
           transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+          pointer-events: auto;
         }
         
         .section-module:hover, .module-item:hover {
           transform: translateY(-3px) scale(1.03);
+        }
+        
+        /* Ensure all module blocks receive clicks */
+        .modules-container .module-item {
+          z-index: 20;
         }
       `}</style>
       
@@ -1648,6 +1810,17 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   style={{ 
                     background: "linear-gradient(135deg, rgb(0, 36, 48), rgb(8, 29, 39))"
                   }}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent event bubbling
+                    const moduleId = systemsColumn[0].uniqueId || (systemsColumn[0].id + '-' + systemsColumn[0].displayKey);
+                    console.log("System block clicked:", moduleId);
+                    // Dispatch a custom event that will be caught by handleModuleClick
+                    const clickEvent = new CustomEvent('module-click', {
+                      bubbles: true,
+                      detail: { moduleId }
+                    });
+                    e.currentTarget.dispatchEvent(clickEvent);
+                  }}
                 >
                   {/* Power connection point */}
                   <div className="absolute bottom-[5px] left-[50%] w-2 h-2 bg-theme-bg-secondary/60 rounded-full transform translate-x-[-50%] z-10 system-connector"></div>
@@ -1682,9 +1855,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     </div>
                   </div>
                   
-                  {/* Featured indicator with glow */}
+                  {/* iPhone-style notification dot */}
                   {systemsColumn[0].featured && (
-                    <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-[0_0_5px_rgba(255,0,0,0.3)]"></div>
+                    <div className="absolute -top-1.5 -right-1.5 w-[16px] h-[16px] bg-[#FF3B30] rounded-full shadow-[0_0_8px_rgba(255,59,48,0.4),0_0_3px_rgba(0,0,0,0.5)] border border-white/50 z-[1] flex items-center justify-center overflow-visible">
+                      <span className="text-white text-[9px] font-bold">1</span>
+                    </div>
                   )}
                 </div>
                 
@@ -1701,6 +1876,17 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_5px_10px_rgba(0,0,0,0.2)] dark:shadow-[0_0_25px_rgba(53,115,128,0.4),_0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] dark:hover:shadow-[0_0_30px_rgba(53,115,128,0.6),_0_0_20px_rgba(0,0,0,0.4)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
                   style={{ 
                     background: "linear-gradient(135deg, var(--primary-orange), var(--hud-coral))"
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent event bubbling
+                    const moduleId = systemsColumn[1].uniqueId || (systemsColumn[1].id + '-' + systemsColumn[1].displayKey);
+                    console.log("System block clicked:", moduleId);
+                    // Dispatch a custom event that will be caught by handleModuleClick
+                    const clickEvent = new CustomEvent('module-click', {
+                      bubbles: true,
+                      detail: { moduleId }
+                    });
+                    e.currentTarget.dispatchEvent(clickEvent);
                   }}
                 >
                   {/* Power connection points */}
@@ -1739,9 +1925,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     </div>
                   </div>
                   
-                  {/* Featured indicator with glow */}
+                  {/* iPhone-style notification dot */}
                   {systemsColumn[1].featured && (
-                    <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-[0_0_5px_rgba(255,0,0,0.3)]"></div>
+                    <div className="absolute -top-1.5 -right-1.5 w-[16px] h-[16px] bg-[#FF3B30] rounded-full shadow-[0_0_8px_rgba(255,59,48,0.4),0_0_3px_rgba(0,0,0,0.5)] border border-white/50 z-[1] flex items-center justify-center overflow-visible">
+                      <span className="text-white text-[9px] font-bold">1</span>
+                    </div>
                   )}
                 </div>
                 
@@ -1758,6 +1946,17 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_5px_10px_rgba(0,0,0,0.2)] dark:shadow-[0_0_25px_rgba(53,115,128,0.4),_0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] dark:hover:shadow-[0_0_30px_rgba(53,115,128,0.6),_0_0_20px_rgba(0,0,0,0.4)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
                   style={{ 
                     background: "linear-gradient(145deg, var(--hud-teal), #2A7590)"
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent event bubbling
+                    const moduleId = systemsColumn[2].uniqueId || (systemsColumn[2].id + '-' + systemsColumn[2].displayKey);
+                    console.log("System block clicked:", moduleId);
+                    // Dispatch a custom event that will be caught by handleModuleClick
+                    const clickEvent = new CustomEvent('module-click', {
+                      bubbles: true,
+                      detail: { moduleId }
+                    });
+                    e.currentTarget.dispatchEvent(clickEvent);
                   }}
                 >
                   {/* Power connection point */}
@@ -1799,9 +1998,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     </div>
                   </div>
                   
-                  {/* Featured indicator with glow */}
+                  {/* iPhone-style notification dot */}
                   {systemsColumn[2].featured && (
-                    <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-[0_0_5px_rgba(255,0,0,0.3)]"></div>
+                    <div className="absolute -top-1.5 -right-1.5 w-[16px] h-[16px] bg-[#FF3B30] rounded-full shadow-[0_0_8px_rgba(255,59,48,0.4),0_0_3px_rgba(0,0,0,0.5)] border border-white/50 z-[1] flex items-center justify-center overflow-visible">
+                      <span className="text-white text-[9px] font-bold">1</span>
+                    </div>
                   )}
                 </div>
               </div>
@@ -1832,7 +2033,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             title: submodule.title,
             duration: submodule.formattedDuration || `${submodule.duration}:00`,
             subtitle: submodule.subtitle,
-            thumbnailUrl: submodule.thumbnailUrl || courseUtils.getThumbnailPath(courseUtils.getModuleThumbnail(selectedModuleId)),
+            thumbnailUrl: `/assets/main/DataBaseThumbnails/renamed/${submodule.id.replace(/-/g, '_')}.webp`,
             isCompleted: false, // Set this based on user progress when implemented
             isLocked: false,    // Set this based on user access when implemented
             instructor: submodule.instructor,
@@ -1840,7 +2041,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             difficulty: submodule.difficulty,
             resources: submodule.resources || []
           }))}
-          thumbnailUrl={selectedModuleId ? courseUtils.getThumbnailPath(courseUtils.getModuleThumbnail(selectedModuleId)) : "../assets/main/DataBaseThumbnails/renamed/the_algorithm.webp"}
+          thumbnailUrl={`/assets/main/DataBaseThumbnails/renamed/${selectedModuleId.replace(/-/g, '_')}.webp`}
         />
       )}
     </div>

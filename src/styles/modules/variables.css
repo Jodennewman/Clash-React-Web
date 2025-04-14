@@ -7,6 +7,9 @@
 /* ==========================================
    VARIABLES
    ========================================== */
+@theme: {
+  --breakpoint-xs: 30rem;
+}
 :root {
   /* Chart variables */
   --chart-grid-light: rgba(0, 0, 0, 0.05);

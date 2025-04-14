@@ -175,6 +175,21 @@
               "submodules": [
                 {
                   "id": "cardinal-sins-01",
+                  "title": "Three Cardinal Sins Intro",
+                  "thumbnail": "01-cardinal-sins-01.webp",
+                  "subtitle": "Introduction to the three cardianl sins",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "cardinal-sins-02",
                   "title": "Sin #1: Being Boring",
                   "thumbnail": "01-cardinal-sins-01.webp",
                   "subtitle": "Why info dumping will always tank",
@@ -189,7 +204,7 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "cardinal-sins-02",
+                  "id": "cardinal-sins-03",
                   "thumbnail": "01-cardinal-sins-02.webp",
                   "title": "Sin #2: Being Confusing",
                   "subtitle": "How over complexity drives viewers away",
@@ -204,7 +219,7 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "cardinal-sins-03",
+                  "id": "cardinal-sins-04",
                   "title": "Sin #3: Being Corporate",
                   "thumbnail": "01-cardinal-sins-03.webp",
                   "subtitle": "How to lose trust on the platform of the people",
@@ -219,7 +234,7 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "cardinal-sins-04",
+                  "id": "cardinal-sins-05",
                   "title": "Virtue #1: Framing",
                   "thumbnail": "01-cardinal-sins-04.webp",
                   "subtitle": "Transforming boring topics by changing how you present them.",
@@ -234,7 +249,7 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "cardinal-sins-05",
+                  "id": "cardinal-sins-06",
                   "title": "Virtue #2: Clarity",
                   "thumbnail": "01-cardinal-sins-05.webp",
                   "subtitle": "Crafting hooks and scripts that instantly communicate value",
@@ -249,7 +264,7 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "cardinal-sins-06",
+                  "id": "cardinal-sins-07",
                   "title": "Virtue #3: Authenticity",
                   "thumbnail": "01-cardinal-sins-06.webp",
                   "subtitle": "How to be real online.",
@@ -315,6 +330,19 @@
                 },
                 {
                   "id": "starting-an-account-03",
+                  "title": "Naming Your Account: Brands",
+                  "subtitle": "Select a memorable and effective account name for your brand.",
+                  "duration": 7,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "starting-an-account-04",
                   "title": "Creating Your Bio",
                   "subtitle": "Communicate your brand and drive click through.",
                   "duration": 4,
@@ -328,7 +356,7 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "starting-an-account-04",
+                  "id": "starting-an-account-05",
                   "title": "Managing Highlights",
                   "subtitle": "Use highlights to tell your story.",
                   "duration": 4,
@@ -341,7 +369,7 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "starting-an-account-05",
+                  "id": "starting-an-account-06",
                   "title": "Managing Your Links",
                   "subtitle": "Optimizing your link-space for maximum conversion.",
                   "duration": 3,
@@ -354,7 +382,7 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "starting-an-account-06",
+                  "id": "starting-an-account-07",
                   "title": "Manage Pinned Videos",
                   "subtitle": "How to use your best content to introduce yourself.",
                   "duration": 7,
@@ -368,7 +396,7 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "starting-an-account-07",
+                  "id": "starting-an-account-08",
                   "title": "The Summary",
                   "subtitle": "Review of key takeaways and next steps for account setup.",
                   "duration": 3,
@@ -488,7 +516,7 @@
               "submodules": [
                 {
                   "id": "helpful-formats-01",
-                  "title": "Understanding Formats",
+                  "title": "Understanding Formats: Intro",
                   "subtitle": "What is a format and why would you use them?",
                   "duration": 0,
                   "difficulty": 1,
@@ -1070,6 +1098,20 @@
                   "highValue": false,
                   "week": 1,
                   "instructor": "Joden"
+                },
+                {
+                  "id": "metrics-that-matter-07",
+                  "title": "Outro",
+                  "subtitle": "Metrics summary.",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
                 }
               ]
             },
@@ -1121,16 +1163,16 @@
           "number": 1.1,
           "modules": [
             {
-              "id": "basic-research",
-              "title": "Basic Research",
-              "subtitle": "The basic skills of short form research.",
+              "id": "advanced-research",
+              "title": "Advanced Research",
+              "subtitle": "The advanced skills of short form research, what to keep, and what not to.",
               "icon": "pencil",
               "color": "#FFCC00",
               "thumbnail": "research.jpg",
               "points": [
                 "Master advanced research techniques to generate innovative content ideas.",
-                "Learn to map keywords effectively to boost discoverability.",
-                "Refine your research and writing process for clarity and impact."
+                "Learn what to keep, and what not to.",
+                "Refine your research process so no time is wasted."
               ],
               "tracks": [
                 "The Writer"
@@ -1142,9 +1184,9 @@
               "featured": false,
               "submodules": [
                 {
-                  "id": "basic-research-01",
-                  "title": "Basic Research",
-                  "subtitle": "Deep dive into methodologies for gathering high-quality information.",
+                  "id": "advanced_research_01",
+                  "title": "Advanced Research",
+                  "subtitle": "What to keep, and what NOT to keep when researching.",
                   "duration": 0,
                   "difficulty": 1,
                   "resources": [
@@ -1157,8 +1199,8 @@
               ]
             },
             {
-              "id": "advanced-research",
-              "title": "Advanced Research",
+              "id": "research-basics",
+              "title": "Basic Research",
               "subtitle": "How to research content ideas efficiently - like a pro .",
               "icon": "pencil",
               "color": "#FFCC00",
@@ -1178,20 +1220,7 @@
               "featured": false,
               "submodules": [
                 {
-                  "id": "advanced-research-01",
-                  "title": "Advanced Research Intro",
-                  "subtitle": "Deep dive into methodologies for gathering high-quality information.",
-                  "duration": 0,
-                  "difficulty": 1,
-                  "resources": [
-                    "pdf"
-                  ],
-                  "highValue": false,
-                  "week": 1,
-                  "instructor": "Tia"
-                },
-                {
-                  "id": "advanced-research-02",
+                  "id": "research-basics-01",
                   "title": "Generating Ideas",
                   "subtitle": "Techniques to brainstorm and develop innovative content ideas",
                   "duration": 0,
@@ -1205,7 +1234,7 @@
                   "instructor": "Tia"
                 },
                 {
-                  "id": "advanced-research-03",
+                  "id": "research-basics-02",
                   "title": "Keyword Mapping",
                   "subtitle": "Strategically mapping keywords to boost content discoverability",
                   "duration": 0,
@@ -1218,7 +1247,7 @@
                   "instructor": "Tia"
                 },
                 {
-                  "id": "advanced-research-04",
+                  "id": "research-basics-03",
                   "title": "Tailoring Your Algorithm",
                   "subtitle": "Using your algorithm for research.",
                   "duration": 0,
@@ -1231,7 +1260,7 @@
                   "instructor": "Tia"
                 },
                 {
-                  "id": "advanced-research-05",
+                  "id": "research-basics-04",
                   "title": "Varied Inspiration",
                   "subtitle": "There is no new idea under the sun. Use historical and varied media to find ideas that work.",
                   "duration": 0,
@@ -1245,7 +1274,7 @@
                   "instructor": "Tia"
                 },
                 {
-                  "id": "advanced-research-06",
+                  "id": "research-basics-05",
                   "title": "Targeted Search",
                   "subtitle": "Using search to efficiently scope out concepts",
                   "duration": 0,
@@ -1258,7 +1287,7 @@
                   "instructor": "Tia"
                 },
                 {
-                  "id": "advanced-research-07",
+                  "id": "research-basics-06",
                   "title": "Refining Your Script",
                   "subtitle": "Polish your script using insights from thorough research",
                   "duration": 0,
@@ -1272,7 +1301,7 @@
                   "instructor": "Tia"
                 },
                 {
-                  "id": "advanced-research-08",
+                  "id": "research-basics-07",
                   "title": "The Research Toolkit",
                   "subtitle": "The essential tools we use to streamline the research process.",
                   "duration": 0,
@@ -1314,6 +1343,20 @@
               "submodules": [
                 {
                   "id": "repurposing-01",
+                  "title": "Repurposing Introduction",
+                  "subtitle": "How to steal like an artist.",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "repurposing-02",
                   "title": "From Short-Form",
                   "subtitle": "How to take inspiration & use what works best from pre-validated videos.",
                   "duration": 0,
@@ -1327,7 +1370,7 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "repurposing-02",
+                  "id": "repurposing-03",
                   "title": "From Long-Form",
                   "subtitle": "The fundamentals of translating Podcasts, Youtube videos, or any longer form clip into short form.",
                   "duration": 0,
@@ -1341,7 +1384,7 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "repurposing-03",
+                  "id": "repurposing-04",
                   "title": "From Articles",
                   "subtitle": "Adapt written articles for the small screen.",
                   "duration": 0,
@@ -1379,7 +1422,7 @@
               "submodules": [
                 {
                   "id": "repurposing-linkedin-01",
-                  "title": "Repurposing LinkedIn Example 1",
+                  "title": "How to make LinkedIn, work on TikTok",
                   "subtitle": "How to convert the listicle",
                   "duration": 0,
                   "difficulty": 1,
@@ -1392,6 +1435,19 @@
                 },
                 {
                   "id": "repurposing-linkedin-02",
+                  "title": "Repurposing LinkedIn Example 1",
+                  "subtitle": "How to convert the listicle",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "repurposing-linkedin-03",
                   "title": "Repurposing LinkedIn Example 2",
                   "subtitle": "How to convert the generic case study ",
                   "duration": 0,
@@ -1404,7 +1460,7 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "repurposing-linkedin-03",
+                  "id": "repurposing-linkedin-04",
                   "title": "Repurposing LinkedIn Example 3",
                   "subtitle": "How to convert the - crazy story",
                   "duration": 0,
@@ -1425,6 +1481,43 @@
           "name": "Upskiller: The Shorts Ready Videographer",
           "number": 1.2,
           "modules": [
+            {
+              "id": "upskiller-intro",
+              "title": "Upskiller Introduction",
+              "subtitle": "Mastering techniques to capture professional-quality short form video",
+              "icon": "camera",
+              "color": "#5856d6",
+              "thumbnail": "shooting-for-short-form.jpg",
+              "points": [
+                "Learn essential techniques for shooting high-quality short form videos.",
+                "Master camera settings and lighting.",
+                "Understand the nuances of shooting and studio setups."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Producer"
+              ],
+              "duration": 0,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "upskiller-intro-01",
+                  "title": "Introduction",
+                  "subtitle": "Overview of short form shooting techniques and best practices.",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Aydan"
+                }
+              ]
+            },
             {
               "id": "solo-shooter",
               "title": "Solo Shooting for Short Form",
@@ -1448,20 +1541,7 @@
               "featured": false,
               "submodules": [
                 {
-                  "id": "shooting-for-short-form-01",
-                  "title": "Introduction",
-                  "subtitle": "Overview of short form shooting techniques and best practices.",
-                  "duration": 0,
-                  "difficulty": 1,
-                  "resources": [
-                    "pdf"
-                  ],
-                  "highValue": false,
-                  "week": 1,
-                  "instructor": "Aydan"
-                },
-                {
-                  "id": "shooting-for-short-form-02",
+                  "id": "solo-shooter-01",
                   "title": "Shooting Solo",
                   "subtitle": "Techniques for effective self-recording and solo shooting.",
                   "duration": 0,
@@ -1498,7 +1578,7 @@
               "featured": false,
               "submodules": [
                 {
-                  "id": "videography-pro",
+                  "id": "videography-pro-01",
                   "title": "Videography Pro",
                   "subtitle": "Learn the short form shooting techniques and best practices.",
                   "duration": 0,
@@ -1573,7 +1653,7 @@
               "featured": false,
               "submodules": [
                 {
-                  "id": "shooting-for-short-form-04",
+                  "id": "studio-setup-01",
                   "title": "Setting Up Your Studio",
                   "subtitle": "Guidelines for creating a professional home studio for video production.",
                   "duration": 0,
@@ -1732,7 +1812,7 @@
               "featured": false,
               "submodules": [
                 {
-                  "id": "editing-advanced-01",
+                  "id": "editing-team-01",
                   "title": "Team Collaboration",
                   "subtitle": "Using the best system for teams.",
                   "duration": 0,
@@ -1816,8 +1896,8 @@
               "submodules": [
                 {
                   "id": "authority-brand-holism-01",
-                  "title": "Brand Holism",
-                  "subtitle": "Understanding your brand and how to represent it.",
+                  "title": "Introduction",
+                  "subtitle": "Intro to authority and brand holism on short form - how to become an authority in your niche.",
                   "duration": 0,
                   "difficulty": 1,
                   "resources": [
@@ -1827,42 +1907,32 @@
                   "highValue": false,
                   "week": 1,
                   "instructor": "Joden"
-                }
-              ]
-            },
-            {
-              "id": "pr-who-are-you",
-              "title": "PR: Who Are You?",
-              "subtitle": "Define your personal brand and public identity for effective PR.",
-              "icon": "pr",
-              "color": "#bf5af2",
-              "thumbnail": "pr-who-are-you.jpg",
-              "points": [
-                "Learn how to position yourself as a credible authority.",
-                "Develop your unique brand voice.",
-                "Establish strategies for public recognition and media relations."
-              ],
-              "tracks": [
-                "The Creator",
-                "The Founder",
-                "The Producer"
-              ],
-              "duration": 10,
-              "founderMustWatch": false,
-              "entrepreneurSpecific": false,
-              "popular": false,
-              "featured": false,
-              "submodules": [
+                },
                 {
-                  "id": "pr-who-are-you-01",
-                  "title": "PR: Who Are You?",
-                  "subtitle": "Define your personal brand and public identity for effective PR.",
+                  "id": "authority-brand-holism-02",
+                  "title": "Scripting Authority",
+                  "subtitle": "The 6 ways of scripting authority.",
                   "duration": 0,
-                  "difficulty": 0,
+                  "difficulty": 1,
                   "resources": [
-                    "pdf"
+                    "pdf",
+                    "worksheets"
                   ],
-                  "highValue": true,
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "authority-brand-holism-03",
+                  "title": "Brand Holism",
+                  "subtitle": "Understanding your brand and how to represent it.",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
                   "week": 1,
                   "instructor": "Joden"
                 }
@@ -2241,6 +2311,19 @@
               "submodules": [
                 {
                   "id": "script-mastery-01",
+                  "title": "Intro",
+                  "subtitle": "How to become a master of scripting - for engagement.",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "script-mastery-02",
                   "title": "Getting it Wrong (On Purpose)",
                   "subtitle": "How a mistake can become an asset.",
                   "duration": 0,
@@ -2253,7 +2336,7 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "script-mastery-02",
+                  "id": "script-mastery-03",
                   "title": "The FOMO Comment Section",
                   "subtitle": "Creating FOMO surges.",
                   "duration": 0,
@@ -2267,7 +2350,7 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "script-mastery-03",
+                  "id": "script-mastery-04",
                   "title": "Using Controversy",
                   "subtitle": "Incorporate controlled controversy to spark conversations",
                   "duration": 0,
@@ -2280,7 +2363,7 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "script-mastery-04",
+                  "id": "script-mastery-05",
                   "title": "The Best Type Of Comment",
                   "subtitle": "Craft scripts that inspire the most engaging viewer comments",
                   "duration": 0,
@@ -2294,7 +2377,7 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "script-mastery-05",
+                  "id": "script-mastery-06",
                   "title": "Optimising For Conversion",
                   "subtitle": "The secret to CTAs that actually work.",
                   "duration": 0,
@@ -2307,7 +2390,7 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "script-mastery-06",
+                  "id": "script-mastery-07",
                   "title": "Optimising For Watch Time",
                   "subtitle": "The final step in creating a video that is retention optimised",
                   "duration": 0,
@@ -2415,7 +2498,7 @@
               ]
             },
             {
-              "id": "lo-fi-hi-fi-paradox",
+              "id": "lofi-hifi-paradox",
               "title": "The importance of Lo-Fi and the Founder's Paradox",
               "subtitle": "Respecting short form platforms, and how to marry lo-fi with brand vision.",
               "icon": "authentic",
@@ -2438,7 +2521,7 @@
               "featured": false,
               "submodules": [
                 {
-                  "id": "lo-fi-hi-fi-paradox-01",
+                  "id": "lofi-hifi-paradox-01",
                   "title": "Semantics: Understanding Content Fidelity",
                   "subtitle": "Explore the principles of aligning content with your brand values and medium expectations",
                   "duration": 0,
@@ -2451,8 +2534,8 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "lo-fi-hi-fi-paradox-02",
-                  "title": "Lo-Fi: Respecting the Medium",
+                  "id": "lofi-hifi-paradox-02",
+                  "title": "Lo-Fi: Respecting the Medium - part 1",
                   "subtitle": "Adopt a lo-fi approach to enhance authenticity without overproduction",
                   "duration": 0,
                   "difficulty": 1,
@@ -2465,7 +2548,35 @@
                   "instructor": "Joden"
                 },
                 {
-                  "id": "lo-fi-hi-fi-paradox-03",
+                  "id": "lofi-hifi-paradox-03",
+                  "title": "Lo-Fi: Respecting the Medium - part 2",
+                  "subtitle": "Adopt a lo-fi approach to enhance authenticity without overproduction",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "lofi-hifi-paradox-04",
+                  "title": "Lo-Fi: Respecting the Medium - part 3",
+                  "subtitle": "Adopt a lo-fi approach to enhance authenticity without overproduction",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "lofi-hifi-paradox-05",
                   "title": "Hi-Fi: Navigating the Founder's Paradox",
                   "subtitle": "Balance high production values with authenticity to meet founder expectations",
                   "duration": 0,
@@ -2745,7 +2856,91 @@
               "submodules": [
                 {
                   "id": "managing-creative-team-01",
-                  "title": "Managing Creative Talent",
+                  "title": "Introduction",
+                  "subtitle": "Creating structure and leading creative teams.",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "managing-creative-team-02",
+                  "title": "Managing a Writer",
+                  "subtitle": "Creating structure and leading creative teams.",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "managing-creative-team-03",
+                  "title": "Managing a Video Producer",
+                  "subtitle": "Creating structure and leading creative teams.",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "managing-creative-team-04",
+                  "title": "Managing a Videographer",
+                  "subtitle": "Creating structure and leading creative teams.",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "managing-creative-team-05",
+                  "title": "Managing a Video Editor",
+                  "subtitle": "Creating structure and leading creative teams.",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "managing-creative-team-06",
+                  "title": "Managing a Social Media Manager",
+                  "subtitle": "Creating structure and leading creative teams.",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "managing-creative-team-07",
+                  "title": "Managing a General Manager",
                   "subtitle": "Creating structure and leading creative teams.",
                   "duration": 0,
                   "difficulty": 1,
@@ -2784,8 +2979,64 @@
               "submodules": [
                 {
                   "id": "content-run-itself-01",
-                  "title": "Creating Self-Sustaining Content Systems",
+                  "title": "Creating Self-Sustaining Content System: Intro",
                   "subtitle": "Build systems that allow your content operation to run smoothly with minimal oversight.",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "content-run-itself-02",
+                  "title": "Editor",
+                  "subtitle": "The role of the editor, how to hire, what talents to look for.",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "content-run-itself-03",
+                  "title": "Videographer",
+                  "subtitle": "The role of the videographer, how to hire, what talents to look for.",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "content-run-itself-04",
+                  "title": "Producer",
+                  "subtitle": "The role of the video producer, how to hire, what talents to look for.",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "content-run-itself-05",
+                  "title": "Writer",
+                  "subtitle": "The role of the writer, how to hire, what talents to look for with minimal oversight.",
                   "duration": 0,
                   "difficulty": 1,
                   "resources": [
@@ -2822,7 +3073,7 @@
               "featured": false,
               "submodules": [
                 {
-                  "id": "team-building-delegation-04",
+                  "id": "creating-team-workflow-01",
                   "title": "Team Pipeline Architecture",
                   "subtitle": "Design an efficient workflow to manage and scale your creative team.",
                   "duration": 0,
@@ -3171,7 +3422,21 @@
               "submodules": [
                 {
                   "id": "newsletter-01",
-                  "title": "Creating An Engaged Newsletter",
+                  "title": "Creating An Engaged Newsletter pt 1",
+                  "subtitle": "Grow and nurture your email list with content that converts.",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "newsletter-02",
+                  "title": "Creating An Engaged Newsletter pt 2",
                   "subtitle": "Grow and nurture your email list with content that converts.",
                   "duration": 0,
                   "difficulty": 1,

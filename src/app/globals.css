@@ -99,13 +99,13 @@
   --text-navy: oklch(0.28 0.0504 224.53);
   --text-navy-rgb: 4, 47, 60;
 
-  --text-navy-secondary: oklch(0.31 0.0523 223.86 / 0.92)
-  --text-navy-tertiary: oklch(0.33 0.0488 220.99 / 0.57)
+  --text-navy-secondary: oklch(0.31 0.0523 223.86 / 0.92);
+  --text-navy-tertiary: oklch(0.33 0.0488 220.99 / 0.57);
 
   --text-cream: oklch(0.98 0.0219 68.466);
   --text-cream-rgb: 255, 245, 232;
-  --text-cream-secondary: oklch(0.94 0.0256 78.92 / 0.9)
-  --text-cream-tertiary: oklch(0.88 0.0339 77.58 / 0.8)
+  --text-cream-secondary: oklch(0.94 0.0256 78.92 / 0.9);
+  --text-cream-tertiary: oklch(0.88 0.0339 77.58 / 0.8);
 
   
   /* Card colors */
@@ -225,7 +225,7 @@
   --theme-gradient-card-start: var(--text-cream);
   --theme-gradient-card-end: var(--bg-cream);
   --theme-primary-gradient-start: var(--primary-orange);
-  --theme-primary-gradient-end: var(--primary-orange-hover);
+--theme-primary-gradient-end: var(--primary-orange-hover);
   --theme-secondary-gradient-start: var(--secondary-teal);
   --theme-secondary-gradient-end: var(--secondary-teal-hover);
   --theme-accent-gradient-start: var(--accent-coral);
@@ -1673,11 +1673,6 @@ a:hover {
   color: var(--theme-accent-quaternary);
 }
 
-/* Theme-aware backgrounds */
-.bg-theme-primary {
-  background-color: var(--theme-bg-primary);
-}
-
 .bg-theme-secondary {
   background-color: var(--theme-bg-secondary);
 }
@@ -1934,9 +1929,6 @@ a:hover {
 }
 
 /* Theme-aware backgrounds */
-.bg-theme-primary {
-  background-color: var(--theme-bg-primary);
-}
 
 .dark .vs-logo:hover, [data-theme="dark"] .vs-logo:hover {
   box-shadow: 0 0 15px rgba(254, 163, 93, 0.3);
@@ -3412,8 +3404,8 @@ a:hover {
 
 /* Responsive adjustments */
 @media (max-width: 1280px) {
-  h1 { font-size: 4rem; }
-  h2 { font-size: 3rem; }
+  h1 { font-size: 5rem; }
+  h2 { font-size: 4rem; }
   h3 { font-size: 2.25rem; }
   h4 { font-size: 1.75rem; }
 }

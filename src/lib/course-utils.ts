@@ -456,16 +456,16 @@ export const featuredModules = getFeaturedModules();
 
 // Mapping from ModuleHUD section IDs to course data section IDs
 const sectionIdMap: Record<string, string> = {
-  // Map UI section IDs to actual data section IDs
-  "basic_theory": "theory_basics",
-  "advanced_theory": "theory_advanced",
-  "upskiller_authentic_research_writer": "research",
-  "upskiller_shorts_ready_videographer": "shooting",
-  "upskiller_vertical_video_editors": "editing",
-  "pr_authority": "authority_brand", // This maps to the Authority and Brand Holism section
-  "delegation": "business_delegation", // This would map to a delegation section if it exists
+  // Map UI section IDs to actual data section IDs - EXACT MATCHES to course-data.json
+  "basic_theory": "basic-theory",
+  "advanced_theory": "advanced-theory",
+  "upskiller_authentic_research_writer": "upskiller-authentic-research-writer",
+  "upskiller_shorts_ready_videographer": "upskiller-shorts-ready-videographer",
+  "upskiller_vertical_video_editors": "upskiller-vertical-video-editors",
+  "pr_authority": "pr-authority",
+  "delegation": "delegation",
   "monetisation": "monetisation",
-  "conversion": "conversions",
+  "conversion": "conversion",
   // Systems are handled separately
   "notion_system": "system_notion",
   "engine_room": "system_engine",
@@ -561,7 +561,30 @@ export const getModulesForSection = (sectionId: string, displayKey?: string): Mo
   // Map the section ID to the actual ID in the data
   const mappedSectionId = mapSectionId(sectionId, displayKey);
   
-  console.log(`Looking for section with mapped ID: ${mappedSectionId}`);
+  console.log(`Looking for section with mapped ID: ${mappedSectionId} (original: ${sectionId})`);
+  
+  // Debugging: Check if the mapped section ID exists in courseData
+  let sectionExists = false;
+  if (courseData && Array.isArray(courseData.categories)) {
+    // Check if this section ID exists in the course data
+    for (const category of courseData.categories) {
+      if (Array.isArray(category.sections)) {
+        if (category.sections.some(section => section.id === mappedSectionId)) {
+          sectionExists = true;
+          break;
+        }
+      }
+    }
+    
+    // If not found, log all available sections to help diagnose
+    if (!sectionExists) {
+      console.log(`Section '${mappedSectionId}' not found in course data. Available sections:`);
+      const allSections = courseData.categories
+        .flatMap(category => category.sections || [])
+        .map(section => `"${section.id}"`);
+      console.log(allSections.join(", "));
+    }
+  }
   
   // Use a more efficient flat-map approach to find the section
   const foundSection = courseData.categories
@@ -630,7 +653,8 @@ export const getModulesForSection = (sectionId: string, displayKey?: string): Mo
   // Log for debugging when section not found
   console.log(`⚠️ Section not found: ${mappedSectionId} (original ID: ${sectionId})`);
   
-  // Cache empty array for not found
+  // No placeholders - if section not found, return empty array
+  // Cache empty result
   sectionModulesCache.set(cacheKey, []);
   return [];
 };

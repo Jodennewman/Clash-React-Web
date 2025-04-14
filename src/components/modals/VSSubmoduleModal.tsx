@@ -37,6 +37,19 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
   thumbnailUrl
 }) => {
   const [selectedSubmoduleId, setSelectedSubmoduleId] = useState<string | null>(null);
+  
+  // Ensure the modal is positioned correctly with proper z-index
+  React.useEffect(() => {
+    if (isOpen) {
+      // Ensure modal appears above everything else
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      
+      // Reset when modal closes
+      return () => {
+        document.body.style.overflow = '';
+      };
+    }
+  }, [isOpen]);
 
   const handlePlayModule = (submoduleId: string) => {
     // Check if submodule is locked
@@ -69,12 +82,33 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
                           bg-[var(--theme-float-bg-primary)]
                           animate-float-slow"></div>
 
-            {/* Video thumbnail/player */}
-            <img
-              src={thumbnailUrl}
-              alt={moduleTitle}
-              className="w-full h-full object-cover"
-            />
+            {/* Video thumbnail/player with defensive error handling */}
+            <div 
+              className="w-full h-full bg-cover bg-center bg-no-repeat"
+              style={{
+                backgroundImage: `url(${thumbnailUrl})`,
+                backgroundColor: 'rgba(0,0,0,0.2)', // Fallback background color
+              }}
+            >
+              {/* Hidden img element for better error handling */}
+              <img
+                src={thumbnailUrl}
+                alt={moduleTitle}
+                className="hidden" // Hide actual img element
+                onError={(e) => {
+                  // If image fails to load, set a fallback
+                  console.error(`Failed to load thumbnail for module: ${moduleId}`);
+                  const target = e.target as HTMLImageElement;
+                  // Try a direct public path as fallback
+                  target.src = "/assets/main/DataBaseThumbnails/renamed/default.webp";
+                  // Update parent div background
+                  const parentDiv = target.parentElement as HTMLDivElement;
+                  if (parentDiv) {
+                    parentDiv.style.backgroundImage = `url(/assets/main/DataBaseThumbnails/renamed/default.webp)`;
+                  }
+                }}
+              />
+            </div>
             
             {/* Play button overlay */}
             <div className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors cursor-pointer group">

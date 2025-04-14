@@ -1,0 +1,93 @@
+/* Custom styles for video peek effect */
+
+/* Container for the video in hero section */
+.video-peek-container {
+  width: 90%;
+  max-width: 800px;
+  z-index: 999; /* Highest z-index to appear above everything */
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25); /* Stronger shadow for immediate visibility */
+  border-radius: var(--border-radius-lg);
+  transform-origin: center bottom;
+  transform: translateY(100%); /* Start fully offscreen for clean appearance */
+  opacity: 0; /* Start invisible */
+  will-change: transform, opacity; /* Optimize for animation */
+  transition: transform 0.3s ease-out, opacity 0.3s ease-in-out; /* Faster transitions */
+}
+
+/* This class is added by ScrollTrigger to keep the video visible */
+.video-peek-visible {
+  transform: translateY(-120px) !important;
+  opacity: 1 !important;
+}
+
+/* Styling for the video itself */
+.video-peek-container iframe {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--border-radius-lg);
+}
+
+/* Enhanced drop shadow for video */
+.video-peek-container > div {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+}
+
+/* Extra visual enhancements for better visibility */
+.vs-section-light {
+  position: relative;
+  overflow: visible !important; /* Allow content to overflow for the video peek effect */
+}
+
+/* Create gradient fade between sections */
+.vs-section-light::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20vh;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.8));
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Make the video container bigger */
+.video-container iframe {
+  width: 100%;
+  height: 100%;
+}
+
+/* Gradient background to fade from hero to content section */
+.video-peek-section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 30%;
+  bottom: 0;
+  background: linear-gradient(to bottom, 
+    rgba(255,255,255,0) 0%, 
+    var(--theme-gradient-start, #ffffff) 70%
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Ensure the video won't be hidden behind content */
+.vs-section-light {
+  position: relative;
+  z-index: 5;
+}
+
+/* Make sure badge is visible and positioned correctly */
+.hero-content.award-badge {
+  position: absolute;
+  bottom: 20%; /* Base positioning */
+  right: 8%;
+  z-index: 30;
+  opacity: 1;
+  transform: translateY(0);
+}

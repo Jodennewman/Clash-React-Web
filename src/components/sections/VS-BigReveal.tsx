@@ -6,7 +6,7 @@ import { CheckCircle, ArrowRightCircle } from 'lucide-react';
 import AnimatedLogo from '../../components/logos/AnimatedLogo';
 import IsometricGridBackground from '../hero/IsometricPattern';
 import { VSText, VSHeading, VSGradientText } from '../ui/vs-text';
-import { VSBackground, VSCard, VSSection } from '../ui/vs-background';
+import { VSCard, VSSection } from '../ui/vs-background';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -54,9 +54,7 @@ const VSBigReveal = () => {
   // GSAP animations with proper cleanup
   useGSAP(() => {
     if (!sectionRef.current) return;
-    
-    const section = sectionRef.current;
-    
+
     // Get computed theme variables for animation
     const styles = getComputedStyle(document.documentElement);
     const animDistance = styles.getPropertyValue('--theme-anim-distance') || '-4px';
@@ -246,7 +244,7 @@ const VSBigReveal = () => {
             <p className="body-text mb-8 mx-auto md:mx-0 max-w-[90%] md:max-w-none">
               We've combined everything we know: All the knowledge, systems and tools that we use on a daily basis to get our clients billions of views — so you can do it all yourself.
             </p>
-            
+
             <VSGradientText
               variant="h2"
               className="text-2xl md:text-3xl font-bold mb-12 mx-auto md:mx-0 max-w-[90%] md:max-w-none"
@@ -292,14 +290,14 @@ const VSBigReveal = () => {
               
               <div className="space-y-10 mb-10">
                 {programDetails.map((detail, index) => (
-                  <div key={index} className="flex flex-col items-center justify-center pb-6 border-b border-theme-border text-center">
+                  <div key={index} className="flex flex-col items-center justify-center p-3 border border-theme-accent rounded-theme-md card-theme text-center text-[20px] font-bold">
                     <div className="mb-4">
-                      <VSText color="theme-secondary" className="text-lg uppercase tracking-wider font-semibold">
+                      <VSText color="theme-secondary" className="text-lg uppercase tracking-wider font-semibold m4">
                         {detail.label}
                       </VSText>
                     </div>
                     {detail.highlight ? (
-                      <div className="inline-block px-6 py-3 rounded-full bg-theme-accent/10">
+                      <div className="inline-block px-6 py-3 rounded-full bg-theme-accent/10 m4 ">
                         <VSText color="theme-accent" className="text-2xl font-bold">
                           {detail.value}
                         </VSText>

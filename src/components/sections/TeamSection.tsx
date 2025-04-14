@@ -49,7 +49,7 @@ export default function TeamParallaxSection() {
             // Higher speed = faster falling
             const verticalMovement = (speed * 80) * direction; // Much more vertical movement
             const horizontalMovement = ((Math.random() * 20) - 10); // Small random horizontal drift
-            
+
             // Add to timeline - animate based on scroll position
             tl.to(element, {
               y: verticalMovement,
@@ -59,7 +59,7 @@ export default function TeamParallaxSection() {
           } else {
             // Regular parallax for other elements (like halftone)
             const yPercent = (1 - speed) * 50 * direction;
-            
+
             // Add to timeline - animate based on scroll position
             tl.to(element, {
               yPercent: yPercent,
@@ -101,7 +101,7 @@ export default function TeamParallaxSection() {
       triggers.forEach(trigger => {
         if (trigger) trigger.kill(false);
       });
-      
+
       // Clear the GSAP context
       teamParallaxContext.revert();
     };
@@ -120,18 +120,26 @@ export default function TeamParallaxSection() {
       // Get halftone image for the main display
       halftoneImage: getTeamMemberHalftone('Joden') || "/src/assets/main/Meet_The_Team-webp/Joden/Joden-Halftone.webp",
       // Get dynamic collection of team images
-      teamImages: getTeamImageCollection('Joden', { limit: 15 })
+      teamImages: getTeamImageCollection('Joden', {
+        limit: 4,
+        includeShared: false,
+        randomize: false
+      })
     },
     {
       name: "Alex O'Connor",
       title: "Co-Founder and MD",
       bio: "Alex O'Connor is the Co-Founder and Managing Director at Clash Creation. He is the king of startups, with years of experience in organic marketing and management that he uses to keep us all getting paid. Plus he's got the gift of the gab which he uses to schmooz new clients and distract everyone in the office.",
       beliefs: "",
-      likes: "networking, networthing, gut health",
+      likes: "Networking, Networthing, Gut health",
       dislikes: "ketchup, fizzy drinks and you (unless you buy the vertical shortcut)",
       quote: "\"he's actually pretty sound\" - his number one opp",
       halftoneImage: getTeamMemberHalftone('Alex') || "/src/assets/main/Meet_The_Team-webp/Alex/Alex-Halftone.webp",
-      teamImages: getTeamImageCollection('Alex', { limit: 15 })
+      teamImages: getTeamImageCollection('Alex', {
+        limit: 4,
+        includeShared: false,
+        randomize: false
+      })
     },
     {
       name: "Tia Warner",
@@ -142,7 +150,11 @@ export default function TeamParallaxSection() {
       dislikes: "people asking how the book is going, people who don't buy the vertical shortcut",
       quote: "\"A veritable genius\" - an anonymous source close to Tia",
       halftoneImage: getTeamMemberHalftone('Tia') || "/src/assets/main/Meet_The_Team-webp/Tia/Tia-Halftone.webp",
-      teamImages: getTeamImageCollection('Tia', { limit: 15 })
+      teamImages: getTeamImageCollection('Tia', {
+        limit: 4,
+        includeShared: false,
+        randomize: false
+      })
     },
     {
       name: "Aydan Banks",
@@ -153,7 +165,11 @@ export default function TeamParallaxSection() {
       dislikes: "standup (when it goes badly), matt hancock, when people don't by the vertical short cut",
       quote: "\"he knows all the secrets of the london underground\" - a high level TV exec (did you know he used to work in TV)",
       halftoneImage: getTeamMemberHalftone('Aydan') || "/src/assets/main/Meet_The_Team-webp/Aydan/Aydan-Halftone.webp",
-      teamImages: getTeamImageCollection('Aydan', { limit: 15 })
+      teamImages: getTeamImageCollection('Aydan', {
+        limit: 4,
+        includeShared: false,
+        randomize: false
+      })
     }
   ];
 
@@ -201,7 +217,7 @@ export default function TeamParallaxSection() {
       {/* Header section */}
       <section className="team-section-heading text-center py-16 min-h-screen flex flex-col justify-center bg-[var(--theme-bg-primary)]">
         {/* Floating background elements */}
-        <div className="absolute top-20 left-1/4 w-20 h-20 rounded-[40%] rotate-12 opacity-5 
+        <div className="absolute top-20 left-1/4 w-20 h-20 rounded-[40%] rotate-12 opacity-5
                      bg-[var(--theme-float-bg-primary)] floating-element hidden md:block dark:hidden"></div>
         <div className="absolute bottom-10 right-1/3 w-24 h-24 rounded-[30%] -rotate-6 opacity-8 
                      bg-[var(--theme-float-bg-secondary)] floating-element hidden md:block dark:hidden"></div>
@@ -270,10 +286,10 @@ export default function TeamParallaxSection() {
                   width: `${180 + (img.scale * 120)}px`, // Varied sizes based on scale
                   // Let height be determined by aspect ratio
                   opacity: img.opacity, // Use strategic opacity from our imageMap adjustments
-                  borderRadius: `${8 + (Math.random() * 8)}px`, // Slight variation in corners 
+                  borderRadius: `${20 + (Math.random() * 8)}px`, // Slight variation in corners
                   top: `${img.position.top}%`,
                   left: `${img.position.left}%`,
-                  transform: `rotate(${img.position.rotate}deg)`, // Use full rotation for more dynamic feel
+                  transform: `rotate(${img.position.rotate/50}deg)`, // Use full rotation for more dynamic feel
                   transition: 'transform 0.3s ease-out, box-shadow 0.3s ease-out, z-index 0s',
                   zIndex: img.zIndex,
                 }}
@@ -299,20 +315,23 @@ export default function TeamParallaxSection() {
             }`}>
               {/* Image container */}
               <div className={`member-image-container relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
-                <div className="relative min-h-[400px] lg:min-h-[500px] flex justify-center">
+                <div className="relative min-h-[350px] lg:min-h-[450px] flex justify-center ">
                   {/* Halftone image that peeks from the bottom of the section */}
-                  <div className="absolute bottom-[-20%] w-full h-[150%] flex items-end justify-center overflow-visible">
+                  <div className="absolute bottom-[-25%] w-full h-[160%] flex items-end justify-center overflow-visible">
                     <img 
                       src={member.halftoneImage} 
                       alt={member.name} 
                       className="halftone-image h-full w-auto max-w-none object-contain drop-shadow-2xl"
                       style={{
                         filter: 'drop-shadow(0 20px 15px rgba(0, 0, 0, 0.3))',
-                        zIndex: 5
+                        zIndex: 5,
+                        transform: 'scale(1.2)'
                       }}
-                      data-speed="0.85"
+                      data-speed="0.9"
                     />
                   </div>
+                  
+
                   
                   {/* Quote overlay */}
                   <div 
@@ -326,11 +345,16 @@ export default function TeamParallaxSection() {
                       <p className="text-[var(--theme-text-primary)] italic text-base">{member.quote}</p>
                     </div>
                   </div>
+
                 </div>
+
               </div>
-              
+              {/* Gradient overlay for halftone transition */}
+
               {/* Content - has z-index of 30, higher than all images */}
+
               <div className={`member-content space-y-6 ${index % 2 === 1 ? 'lg:order-1' : ''} relative z-30`}>
+
                 <h3 className="text-[var(--theme-text-primary)] text-4xl font-bold">{member.name}</h3>
                 <p className="text-[var(--theme-primary)] text-xl font-medium">{member.title}</p>
                 <div className="space-y-6">

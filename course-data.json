@@ -1,0 +1,3586 @@
+{
+  "title": "The Vertical Shortcut: Master Short Form Video",
+  "categories": [
+    {
+      "id": "theory",
+      "name": "Theory",
+      "color": "#4A90E2",
+      "sections": [
+        {
+          "id": "basic-theory",
+          "name": "Basic Theory",
+          "number": 1,
+          "modules": [
+            {
+              "id": "intro-founder-specific",
+              "title": "Introduction to Short Form",
+              "subtitle": "The big picture on short form",
+              "icon": "lightbulb",
+              "color": "#4a90e2",
+              "points": [
+                "Discover why 5 billion people spend 2.5 hours daily on platforms you can dominate.,",
+                "Learn why 73% of consumers prefer to learn about products through short form.,",
+                "Understand how to position yourself to capture attention in the new digital landscape.,",
+                "LEARN MORE EXAMPLES EXAMPLES EXAMPLES LOOK HERE."
+              ],
+              "thumbnail": "01-intro-founder.webp",
+              "tracks": [
+                "The Creator",
+                "The Founder"
+              ],
+              "duration": 0,
+              "founderMustWatch": true,
+              "entrepreneurSpecific": true,
+              "popular": true,
+              "featured": true,
+              "submodules": [
+                {
+                  "id": "intro-founder-specific-01",
+                  "title": "Introduction to Short Form",
+                  "subtitle": "The BIG picture on short form: why it's the best investment you can make into your brand. Right. Now.",
+                  "duration": null,
+                  "Thumbnail": "01-intro-founder.webp",
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "the-algorithm",
+              "title": "The Algorithm",
+              "subtitle": "What actually is 'The Algorithm?",
+              "icon": "algorithm",
+              "color": "#ff3b30",
+              "thumbnail": "01-algorithm.webp",
+              "points": [
+                "Get to the bottom of what we mean by 'the algorithm'.",
+                "Learn how content performance is measured and boosted.",
+                "Learn to avoid common misconceptions around making content for 'the algorithm'."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer",
+                "The Writer"
+              ],
+              "duration": 22,
+              "founderMustWatch": true,
+              "entrepreneurSpecific": false,
+              "popular": true,
+              "featured": true,
+              "submodules": [
+                {
+                  "id": "the-algorithm-01",
+                  "title": "What Is The Algorithm?",
+                  "thumbnail": "01-algorithm-01.webp",
+                  "subtitle": "Debunking the myths and getting to the bottom of the mysterious 'algorithm'.",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "the-algorithm-02",
+                  "title": "How Videos Grow",
+                  "thumbnail": "01-algorithm-02.webp",
+                  "subtitle": "Understanding the life cycle of a viral video.",
+                  "duration": 5,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "the-algorithm-03",
+                  "title": "Good VS Bad In Short Form",
+                  "thumbnail": "01-algorithm-03.webp",
+                  "subtitle": "Getting to the bottom of the dos and don'ts in short form",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "the-algorithm-04",
+                  "title": "How to game the algorithm",
+                  "thumbnail": "01-algorithm-04.webp",
+                  "subtitle": "Now you understand it, this is how to play it for millions of views",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "the-algorithm-05",
+                  "title": "Applying it across platforms",
+                  "thumbnail": "01-algorithm-05.webp",
+                  "subtitle": "How to game every algorithm, with one basic strategy",
+                  "duration": 6,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "cardinal-sins",
+              "title": "The Cardinal Sins",
+              "subtitle": "The 3 mistakes that are killing your videos and their powerful antidotes.",
+              "icon": "warning",
+              "color": "#ff3b30",
+              "thumbnail": "01-cardinal-sins.webp",
+              "points": [
+                "Identify the three fatal errors that guarantee your videos will flop.",
+                "Learn how to spot and weed them out of your content.",
+                "Master the three virtues that will absolve your content of its' sins."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer",
+                "The Writer",
+                "The Editor",
+                "The Technician"
+              ],
+              "duration": 19,
+              "founderMustWatch": true,
+              "entrepreneurSpecific": false,
+              "popular": true,
+              "featured": true,
+              "submodules": [
+                {
+                  "id": "cardinal-sins-01",
+                  "title": "Three Cardinal Sins Intro",
+                  "thumbnail": "01-cardinal-sins-01.webp",
+                  "subtitle": "Introduction to the three cardianl sins",
+                  "duration": 1,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "cardinal-sins-02",
+                  "title": "Sin #1: Being Boring",
+                  "thumbnail": "01-cardinal-sins-01.webp",
+                  "subtitle": "Why info dumping will always tank",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "cardinal-sins-03",
+                  "thumbnail": "01-cardinal-sins-02.webp",
+                  "title": "Sin #2: Being Confusing",
+                  "subtitle": "How over complexity drives viewers away",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "cardinal-sins-04",
+                  "title": "Sin #3: Being Corporate",
+                  "thumbnail": "01-cardinal-sins-03.webp",
+                  "subtitle": "How to lose trust on the platform of the people",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "cardinal-sins-05",
+                  "title": "Virtue #1: Framing",
+                  "thumbnail": "01-cardinal-sins-04.webp",
+                  "subtitle": "Transforming boring topics by changing how you present them.",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "cardinal-sins-06",
+                  "title": "Virtue #2: Clarity",
+                  "thumbnail": "01-cardinal-sins-05.webp",
+                  "subtitle": "Crafting hooks and scripts that instantly communicate value",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "cardinal-sins-07",
+                  "title": "Virtue #3: Authenticity",
+                  "thumbnail": "01-cardinal-sins-06.webp",
+                  "subtitle": "How to be real online.",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "starting-an-account",
+              "title": "Starting An Account",
+              "subtitle": "Setting up and optimizing your social media presence.",
+              "icon": "lightbulb",
+              "color": "#4a90e2",
+              "thumbnail": "big-picture.jpg",
+              "points": [
+                "Discover why 5 billion people spend 2.5 hours daily on platforms you can dominate.",
+                "Learn why 73% of consumers prefer to learn about products through short form.",
+                "Understand how to position yourself to capture attention in the new digital landscape."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder"
+              ],
+              "duration": 30,
+              "founderMustWatch": true,
+              "entrepreneurSpecific": true,
+              "popular": true,
+              "featured": true,
+              "submodules": [
+                {
+                  "id": "starting-an-account-01",
+                  "title": "Introduction to Short Form",
+                  "subtitle": "Understanding vertical video and how to use it to grow faster than ever.",
+                  "duration": 1,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "starting-an-account-02",
+                  "title": "Naming Your Account",
+                  "subtitle": "Select a memorable and effective account name.",
+                  "duration": 6,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "starting-an-account-03",
+                  "title": "Naming Your Account: Brands",
+                  "subtitle": "Select a memorable and effective account name for your brand.",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "starting-an-account-04",
+                  "title": "Creating Your Bio",
+                  "subtitle": "Communicate your brand and drive click through.",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "starting-an-account-05",
+                  "title": "Managing Highlights",
+                  "subtitle": "Use highlights to tell your story.",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "starting-an-account-06",
+                  "title": "Managing Your Links",
+                  "subtitle": "Optimizing your link-space for maximum conversion.",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "starting-an-account-07",
+                  "title": "Manage Pinned Videos",
+                  "subtitle": "How to use your best content to introduce yourself.",
+                  "duration": 7,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "starting-an-account-08",
+                  "title": "The Summary",
+                  "subtitle": "Review of key takeaways and next steps for account setup.",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "posting-and-scheduling",
+              "title": "Posting and Scheduling",
+              "subtitle": "How to run a daily posting operation across multiple platforms with maximum efficiency.",
+              "icon": "calendar",
+              "color": "#34c759",
+              "thumbnail": "posting-and-scheduling.jpg",
+              "points": [
+                "Implement an efficient and rigorous posting system to eliminate the daily slog.",
+                "Leverage community management to foster active interaction.",
+                "How to craft captions that rehook a viewer."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer"
+              ],
+              "duration": 25,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "posting-and-scheduling-01",
+                  "title": "Community Management",
+                  "subtitle": "The dos and don'ts of managing your community.",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "posting-and-scheduling-02",
+                  "title": "Scheduling",
+                  "subtitle": "Learn to the scheduling process that will remove hours from your week.",
+                  "duration": 6,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "posting-and-scheduling-03",
+                  "title": "Debunking the Myths",
+                  "subtitle": "Tackling the myths around posting and scheduling.",
+                  "duration": 5,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "posting-and-scheduling-04",
+                  "title": "Captions & Interaction",
+                  "subtitle": "Use captions and interaction to boost retention and go VIRAL.",
+                  "duration": 10,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "helpful-formats",
+              "title": "Helpful Formats",
+              "subtitle": "Explore various content formats to maximise engagement across platforms.",
+              "icon": "formats",
+              "color": "#FFCC00",
+              "thumbnail": "helpful-formats.jpg",
+              "points": [
+                "Understand different content formats and their unique strengths.",
+                "Learn how to adapt your content for maximum impact with formats.",
+                "Explore creative examples to inspire your own content strategy."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Producer",
+                "The Writer",
+                "The Editor"
+              ],
+              "duration": 39,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "helpful-formats-01",
+                  "title": "Understanding Formats: Intro",
+                  "subtitle": "What is a format and why would you use them?",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "helpful-formats-02",
+                  "title": "Reacts",
+                  "subtitle": "The reaction video: when, where and why should you use them?",
+                  "duration": 5,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "helpful-formats-03",
+                  "title": "The Visual Pacifier",
+                  "subtitle": "Why slime slaps. How to use this type of visual hook to keep people watching.",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "helpful-formats-04",
+                  "title": "The Listicle",
+                  "subtitle": "Using the age old list to your advantage. A run down on the science of listicles.",
+                  "duration": 15,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "helpful-formats-05",
+                  "title": "The Podcast Clip",
+                  "subtitle": "Understanding the right segments to use from podcasts for short-form content",
+                  "duration": 6,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "helpful-formats-06",
+                  "title": "The Green Screen",
+                  "subtitle": "Using the green screen format to jump on current events.",
+                  "duration": 8,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "building-your-content-strategy",
+              "title": "Building Your Content Strategy",
+              "subtitle": "Craft a robust plan to generate consistent, engaging content.",
+              "icon": "strategy",
+              "color": "#ffcc00",
+              "thumbnail": "building-your-content-strategy.jpg",
+              "points": [
+                "Develop a systematic approach to content creation.",
+                "Identify your core pillars and generate relevant topics.",
+                "Adapt your strategy for different platforms."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer",
+                "The Writer"
+              ],
+              "duration": 34,
+              "founderMustWatch": true,
+              "entrepreneurSpecific": false,
+              "popular": true,
+              "featured": true,
+              "submodules": [
+                {
+                  "id": "building-your-content-strategy-01",
+                  "title": "Introducing Strategy",
+                  "subtitle": "Move through a framework that will create the core tenets of your strategy.",
+                  "duration": 1,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "building-your-content-strategy-02",
+                  "title": "Creating Your Pillars",
+                  "subtitle": "Establish the core of what you want to be known for.",
+                  "duration": 7,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "building-your-content-strategy-03",
+                  "title": "Developing Topics",
+                  "subtitle": "Go deeper on the topics you want to talk about",
+                  "duration": 6,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "building-your-content-strategy-04",
+                  "title": "Using Buckets",
+                  "subtitle": "Organize your content into distinct buckets for variety and consistency",
+                  "duration": 20,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "crafting-compelling-hooks",
+              "title": "Crafting Compelling Hooks",
+              "subtitle": "The essential skill: creating hooks that buy time.",
+              "icon": "hook",
+              "color": "#50e3c2",
+              "thumbnail": "crafting-compelling-hooks.jpg",
+              "points": [
+                "Learn techniques to capture viewers in the first 3 seconds.",
+                "Master using clarity and intrigue.",
+                "Explore methods to establish authority and boost retention."
+              ],
+              "tracks": [
+                "The Founder",
+                "The Creator",
+                "The Producer",
+                "The Writer",
+                "The Editor"
+              ],
+              "duration": 34,
+              "founderMustWatch": true,
+              "entrepreneurSpecific": false,
+              "popular": true,
+              "featured": true,
+              "submodules": [
+                {
+                  "id": "crafting-compelling-hooks-01",
+                  "title": "Introduction",
+                  "subtitle": "The most important part of your short form content: what are they? How do you get them right?",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "crafting-compelling-hooks-02",
+                  "title": "Using Clarity and Intrigue",
+                  "subtitle": "Sparking curiosity by being as clear as possible.",
+                  "duration": 5,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "crafting-compelling-hooks-03",
+                  "title": "Creating Authority",
+                  "subtitle": "Understanding what builds authority and how to apply it to your page",
+                  "duration": 6,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "crafting-compelling-hooks-04",
+                  "title": "Developing Delivery",
+                  "subtitle": "Learn how to deliver to camera",
+                  "duration": 5,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "crafting-compelling-hooks-05",
+                  "title": "Text Hook Mastery",
+                  "subtitle": "Leveraging on-screen text to capture attention and provide context",
+                  "duration": 5,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "crafting-compelling-hooks-06",
+                  "title": "Visual Hook Mastery",
+                  "subtitle": "Utilizing visuals to create hooks that stop the scroll",
+                  "duration": 9,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "scripting-fundamentals",
+              "title": "Scripting Fundamentals",
+              "subtitle": "Creating the backbone of your video.",
+              "icon": "script",
+              "color": "#50e3c2",
+              "thumbnail": "scripting-fundamentals.jpg",
+              "points": [
+                "Learn retention writing.",
+                "Understand curiosity loops and rehooks.",
+                "Write for normal speech, not high drama."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Producer",
+                "The Writer"
+              ],
+              "duration": 22,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": true,
+              "featured": true,
+              "submodules": [
+                {
+                  "id": "scripting-fundamentals-01",
+                  "title": "Rule 1: Write Simply",
+                  "subtitle": "The impact of keeping language clear.",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "scripting-fundamentals-02",
+                  "title": "Rule 2: Be Concise",
+                  "subtitle": "Time is money. Learn to get to the point.",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "scripting-fundamentals-03",
+                  "title": "Rule 3: Use Rehooks",
+                  "subtitle": "A hook is not enough. Introducing rehooks.",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "scripting-fundamentals-04",
+                  "title": "Rule 4: Be Authentic",
+                  "subtitle": "Writing for realness.",
+                  "duration": 5,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "scripting-fundamentals-05",
+                  "title": "Rule 5: Tell A Story",
+                  "subtitle": "Understanding the storytelling people want from short form",
+                  "duration": 5,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "scripting-fundamentals-06",
+                  "title": "Rule 6: Would I Watch This?",
+                  "subtitle": "If you don't like it, no one will.",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "scripting-boulder-theory",
+              "title": "Understanding Attention (Boulder Theory)",
+              "subtitle": "Explore the principles of attention and engagement as explained through the Boulder Theory",
+              "icon": "lightbulb",
+              "color": "#4a90e2",
+              "thumbnail": "big-picture.jpg",
+              "points": [
+                "Viewers don't want to watch your video. Think of them watching your video like pushing a boulder up a hill, literally",
+                "This is how to use your script to take that weight off"
+              ],
+              "tracks": [
+                "The Creator",
+                "The Producer",
+                "The Writer"
+              ],
+              "duration": 20,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": true,
+              "featured": true,
+              "submodules": [
+                {
+                  "id": "scripting-boulder-theory-01",
+                  "title": "Scripting Boulder Theory",
+                  "subtitle": "Understanding the viewer is the way to understand scripting",
+                  "duration": 20,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "understanding-the-frame",
+              "title": "Understanding The Frame",
+              "subtitle": "Mastering visual composition for maximum impact.",
+              "icon": "frame",
+              "color": "#4a90e2",
+              "thumbnail": "understanding-the-frame.jpg",
+              "points": [
+                "Learn how to frame your visuals to capture and hold attention.",
+                "Apply composition techniques to create a balanced and engaging layout.",
+                "Utilize visual hierarchy and contrast for effective storytelling."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Producer",
+                "The Editor"
+              ],
+              "duration": 15,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": true,
+              "featured": true,
+              "submodules": [
+                {
+                  "id": "understanding-the-frame-01",
+                  "title": "Safe Zones & Clutter",
+                  "subtitle": "Understanding platform safe zones and removing what isn't needed on screen",
+                  "duration": 6,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "understanding-the-frame-02",
+                  "title": "Visual Hierarchy",
+                  "subtitle": "Establishing a clear order of visual elements to guide the viewer's eye",
+                  "duration": 5,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "understanding-the-frame-03",
+                  "title": "Movement & Contrast",
+                  "subtitle": "Using dynamic movement and contrast to enhance visual storytelling",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "metrics-that-matter",
+              "title": "Metrics That Matter",
+              "subtitle": "Understand key metrics and use them to 10x your reach.",
+              "icon": "metrics",
+              "color": "#4A90E2",
+              "thumbnail": "metrics-that-matter.jpg",
+              "points": [
+                "Identify the metrics that truly impact your content success.",
+                "Understand audience engagement through likes, saves, shares, retention, and comments.",
+                "Use data-driven insights to optimize your strategy."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer",
+                "The Writer"
+              ],
+              "duration": 27,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": true,
+              "featured": true,
+              "submodules": [
+                {
+                  "id": "metrics-that-matter-01",
+                  "title": "Introducing Metrics",
+                  "subtitle": "What are metrics, and why are they useful?",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "metrics-that-matter-02",
+                  "title": "Likes",
+                  "subtitle": "What likes can tell you about your content",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "metrics-that-matter-03",
+                  "title": "Saves",
+                  "subtitle": "Why are my saves going up and what does it actually mean?",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "metrics-that-matter-04",
+                  "title": "Shares",
+                  "subtitle": "Understanding shares as a core indicator of good content.",
+                  "duration": 9,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "metrics-that-matter-05",
+                  "title": "Retention",
+                  "subtitle": "Using retention graphs to identify issues with your content",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "metrics-that-matter-06",
+                  "title": "Comments",
+                  "subtitle": "Why comments are so important and how to drive them.",
+                  "duration": 7,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "metrics-that-matter-07",
+                  "title": "Outro",
+                  "subtitle": "Metrics summary.",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "platform-differences",
+              "title": "Platform Differences",
+              "subtitle": "Understand the different platforms - and how to adjust your content strategy for each",
+              "icon": "metrics",
+              "color": "#4A90E2",
+              "thumbnail": "metrics-that-matter.jpg",
+              "points": [
+                "Learn what's unique about each platform.",
+                "Understand how audiences are the same - everywhere on short form.",
+                "Learn the universal techniques to captivate audiences - everywhere."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer",
+                "The Writer"
+              ],
+              "duration": 12,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": true,
+              "featured": true,
+              "submodules": [
+                {
+                  "id": "platform-differences-01",
+                  "title": "Understanding Platform Differences",
+                  "subtitle": "Tailor your strategy to the unique characteristics of each platform",
+                  "duration": 12,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "upskiller-authentic-research-writer",
+          "name": "Upskiller: The Authentic Researcher Writer",
+          "number": 1.1,
+          "modules": [
+            {
+              "id": "advanced-research",
+              "title": "Advanced Research",
+              "subtitle": "The advanced skills of short form research, what to keep, and what not to.",
+              "icon": "pencil",
+              "color": "#FFCC00",
+              "thumbnail": "research.jpg",
+              "points": [
+                "Master advanced research techniques to generate innovative content ideas.",
+                "Learn what to keep, and what not to.",
+                "Refine your research process so no time is wasted."
+              ],
+              "tracks": [
+                "The Writer"
+              ],
+              "duration": 10,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "advanced_research_01",
+                  "title": "Advanced Research",
+                  "subtitle": "What to keep, and what NOT to keep when researching.",
+                  "duration": 10,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Tia"
+                }
+              ]
+            },
+            {
+              "id": "research-basics",
+              "title": "Basic Research",
+              "subtitle": "How to research content ideas efficiently - like a pro .",
+              "icon": "pencil",
+              "color": "#FFCC00",
+              "thumbnail": "research.jpg",
+              "points": [
+                "Master advanced research techniques to generate innovative content ideas.",
+                "Learn to map keywords effectively to boost discoverability.",
+                "Refine your research and writing process for clarity and impact."
+              ],
+              "tracks": [
+                "The Writer"
+              ],
+              "duration": 23,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "research-basics-01",
+                  "title": "Generating Ideas",
+                  "subtitle": "Techniques to brainstorm and develop innovative content ideas",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Tia"
+                },
+                {
+                  "id": "research-basics-02",
+                  "title": "Keyword Mapping",
+                  "subtitle": "Strategically mapping keywords to boost content discoverability",
+                  "duration": 5,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Tia"
+                },
+                {
+                  "id": "research-basics-03",
+                  "title": "Tailoring Your Algorithm",
+                  "subtitle": "Using your algorithm for research.",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Tia"
+                },
+                {
+                  "id": "research-basics-04",
+                  "title": "Varied Inspiration",
+                  "subtitle": "There is no new idea under the sun. Use historical and varied media to find ideas that work.",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Tia"
+                },
+                {
+                  "id": "research-basics-05",
+                  "title": "Targeted Search",
+                  "subtitle": "Using search to efficiently scope out concepts",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Tia"
+                },
+                {
+                  "id": "research-basics-06",
+                  "title": "Refining Your Script",
+                  "subtitle": "Polish your script using insights from thorough research",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Tia"
+                },
+                {
+                  "id": "research-basics-07",
+                  "title": "The Research Toolkit",
+                  "subtitle": "The essential tools we use to streamline the research process.",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "templates"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Tia"
+                }
+              ]
+            },
+            {
+              "id": "repurposing",
+              "title": "Repurposing",
+              "subtitle": "How to use and reuse all types of content for short form.",
+              "icon": "recycle",
+              "color": "#30d158",
+              "thumbnail": "repurposing.jpg",
+              "points": [
+                "Learn how to identify high-potential content for repurposing.",
+                "Discover techniques to adapt content from specific formats.",
+                "Understand how platform differences shape your approach to repurposing."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer",
+                "The Writer",
+                "The Editor"
+              ],
+              "duration": 24,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "repurposing-01",
+                  "title": "Repurposing Introduction",
+                  "subtitle": "How to steal like an artist.",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "repurposing-02",
+                  "title": "From Short-Form",
+                  "subtitle": "How to take inspiration & use what works best from pre-validated videos.",
+                  "duration": 12,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "repurposing-03",
+                  "title": "From Long-Form",
+                  "subtitle": "The fundamentals of translating Podcasts, Youtube videos, or any longer form clip into short form.",
+                  "duration": 6,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "repurposing-04",
+                  "title": "From Articles",
+                  "subtitle": "Adapt written articles for the small screen.",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "repurposing-linkedin",
+              "title": "Repurposing LinkedIn",
+              "subtitle": "Turn your boring LinkedIn content into short form videos that are actually entertaining - 3 worked examples",
+              "icon": "pencil",
+              "color": "#30d158",
+              "thumbnail": "repurposing.jpg",
+              "points": [
+                "You don't have to reinvent the wheel every time you write a short form video",
+                "Here are three typical linkedin posts and 3 worked examples for how to convert it to social media",
+                "PS. No linkedin influencers were harmed in the making of this video"
+              ],
+              "tracks": [
+                "The Founder",
+                "The Writer"
+              ],
+              "duration": 69,
+              "founderMustWatch": true,
+              "entrepreneurSpecific": true,
+              "popular": true,
+              "featured": true,
+              "submodules": [
+                {
+                  "id": "repurposing-linkedin-01",
+                  "title": "How to make LinkedIn, work on TikTok",
+                  "subtitle": "How to convert the listicle",
+                  "duration": 6,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "repurposing-linkedin-02",
+                  "title": "Repurposing LinkedIn Example 1",
+                  "subtitle": "How to convert the listicle",
+                  "duration": 37,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "repurposing-linkedin-03",
+                  "title": "Repurposing LinkedIn Example 2",
+                  "subtitle": "How to convert the generic case study ",
+                  "duration": 16,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "repurposing-linkedin-04",
+                  "title": "Repurposing LinkedIn Example 3",
+                  "subtitle": "How to convert the - crazy story",
+                  "duration": 10,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "upskiller-shorts-ready-videographer",
+          "name": "Upskiller: The Shorts Ready Videographer",
+          "number": 1.2,
+          "modules": [
+            {
+              "id": "upskiller-intro",
+              "title": "Upskiller Introduction",
+              "subtitle": "Mastering techniques to capture professional-quality short form video",
+              "icon": "camera",
+              "color": "#5856d6",
+              "thumbnail": "shooting-for-short-form.jpg",
+              "points": [
+                "Learn essential techniques for shooting high-quality short form videos.",
+                "Master camera settings and lighting.",
+                "Understand the nuances of shooting and studio setups."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Producer"
+              ],
+              "duration": 1,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "upskiller-intro-01",
+                  "title": "Introduction",
+                  "subtitle": "Overview of short form shooting techniques and best practices.",
+                  "duration": 1,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Aydan"
+                }
+              ]
+            },
+            {
+              "id": "solo-shooter",
+              "title": "Solo Shooting for Short Form",
+              "subtitle": "Mastering techniques to capture professional-quality short form video, with just a phone",
+              "icon": "camera",
+              "color": "#5856d6",
+              "thumbnail": "shooting-for-short-form.jpg",
+              "points": [
+                "Learn essential techniques for shooting high-quality short form videos.",
+                "Master camera settings and lighting.",
+                "Understand the nuances of solo shooting and studio setups."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Producer"
+              ],
+              "duration": 14,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "solo-shooter-01",
+                  "title": "Shooting Solo",
+                  "subtitle": "Techniques for effective self-recording and solo shooting.",
+                  "duration": 14,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Aydan"
+                }
+              ]
+            },
+            {
+              "id": "videography-pro",
+              "title": "Videography Pro",
+              "subtitle": "The advanced techniques to capture professional-quality short form video.",
+              "icon": "camera",
+              "color": "#5856d6",
+              "thumbnail": "shooting-for-short-form.jpg",
+              "points": [
+                "Advanced techniques for shooting high-quality short form videos.",
+                "Master camera settings and lighting.",
+                "Understand the nuances of solo shooting and studio setups."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Producer"
+              ],
+              "duration": 0,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "videography-pro-01",
+                  "title": "Videography Pro",
+                  "subtitle": "Learn the short form shooting techniques and best practices.",
+                  "duration": null,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Aydan"
+                }
+              ]
+            },
+            {
+              "id": "camera-confidence",
+              "title": "Camera Confidence",
+              "subtitle": "How to actually be in front of a camera, and look good.",
+              "icon": "camera",
+              "color": "#5856d6",
+              "thumbnail": "camera-confidence.jpg",
+              "points": [
+                "Tips and tricks to come across well on camera.",
+                "And how to make the talent come across well too.",
+                "The reality of short form filming (don't be scared)."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Producer"
+              ],
+              "duration": 6,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "camera-confidence-01",
+                  "title": "Camera Confidence",
+                  "subtitle": "How to actually be in front of a camera, and look good.",
+                  "duration": 6,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Aydan"
+                }
+              ]
+            },
+            {
+              "id": "studio-setup",
+              "title": "Setting Up Your Studio",
+              "subtitle": "How to make a professional studio set up.",
+              "icon": "camera",
+              "color": "#5856d6",
+              "thumbnail": "camera-confidence.jpg",
+              "points": [
+                "What to buy and where to buy it",
+                "The basics of a good studio setup.",
+                "How to install it all."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Producer"
+              ],
+              "duration": 0,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "studio-setup-01",
+                  "title": "Setting Up Your Studio",
+                  "subtitle": "Guidelines for creating a professional home studio for video production.",
+                  "duration": null,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Aydan"
+                }
+              ]
+            },
+            {
+              "id": "producing-podcast-clips",
+              "title": "Producing a Podcast for Clips",
+              "subtitle": "How to produce a long form podcast, for short form clips.",
+              "icon": "camera",
+              "color": "#5856d6",
+              "thumbnail": "camera-confidence.jpg",
+              "points": [
+                "The essentials of podcast clips",
+                "How to control the clipping, before any filming is done.",
+                "Make podcast clips guaranteed to go viral."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Producer"
+              ],
+              "duration": 7,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "producing-podcast-clips-01",
+                  "title": "Producing a Podcast for Clips",
+                  "subtitle": "Techniques for capturing engaging content from podcast recordings.",
+                  "duration": 7,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "workshop"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Aydan"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "upskiller-vertical-video-editors",
+          "name": "Upskiller: Vertical Video Editors",
+          "number": 1.3,
+          "modules": [
+            {
+              "id": "editing-basics",
+              "title": "Editing Basics",
+              "subtitle": "The basics of turning raw footage into retention optimised content through our in house editing framework",
+              "icon": "scissors",
+              "color": "#34C759",
+              "thumbnail": "editing.jpg",
+              "points": [
+                "Learn fundamental editing techniques to enhance visual storytelling",
+                "Understand the art of 'unseen' editing in short form",
+                "Master advanced editing skills to nail the final deliverable"
+              ],
+              "tracks": [
+                "The Creator",
+                "The Editor"
+              ],
+              "duration": 0,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "editing-basics-01",
+                  "title": "Editing Basics",
+                  "subtitle": "Understand the basics, for speed and efficiency.",
+                  "duration": null,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "workshop"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "editing-advanced",
+              "title": "Editing Advanced",
+              "subtitle": "Advanced techniques to edit efficiently",
+              "icon": "scissors",
+              "color": "#34C759",
+              "thumbnail": "editing.jpg",
+              "points": [
+                "Learn advanced editing techniques to enhance visual storytelling",
+                "Understand the art of 'unseen' editing in short form",
+                "Master advanced editing skills to nail the final deliverable - as fast as possible"
+              ],
+              "tracks": [
+                "The Creator",
+                "The Editor"
+              ],
+              "duration": 0,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "editing-advanced-01",
+                  "title": "Advanced Editing Techniques",
+                  "subtitle": "Building on basics, find the 1% with training for pros.",
+                  "duration": null,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "workshop"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "editing-team",
+              "title": "Editing Team",
+              "subtitle": "Our in house system for a team to edit content: efficiently and proffessionally",
+              "icon": "scissors",
+              "color": "#34C759",
+              "thumbnail": "editing.jpg",
+              "points": [
+                "Learn advanced team editing techniques",
+                "Systematise your in house editing team so they're actually efficient",
+                "Exclusive access to our in house editing pipeline)"
+              ],
+              "tracks": [
+                "The Creator",
+                "The Editor"
+              ],
+              "duration": 0,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "editing-team-01",
+                  "title": "Team Collaboration",
+                  "subtitle": "Using the best system for teams.",
+                  "duration": null,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "podcast-clipping",
+              "title": "Podcast Clipping",
+              "subtitle": "The best ways to cut up a podcast for short form clips",
+              "icon": "scissors",
+              "color": "#34C759",
+              "thumbnail": "editing.jpg",
+              "points": [
+                "Learn advanced editing techniques",
+                "Systematise podcast clipping so its actually efficient",
+                "When to use AI (and when not to)"
+              ],
+              "tracks": [
+                "The Creator",
+                "The Editor"
+              ],
+              "duration": 0,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "podcast-clipping-01",
+                  "title": "Podcast Clipping",
+                  "subtitle": "Extract key moments from podcasts and transform them into viral clips",
+                  "duration": null,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "pr-authority",
+          "name": "PR and Authority",
+          "number": 2,
+          "modules": [
+            {
+              "id": "authority-brand-holism",
+              "title": "Authority and Brand Holism",
+              "subtitle": "How to become an authority on short-form.",
+              "icon": "authority",
+              "color": "#FF3B30",
+              "thumbnail": "scripting-for-authority.jpg",
+              "points": [
+                "Learn how to convey authority in every video",
+                "Master the principles that elevate your personal brand",
+                "Become 'the guy who'"
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder"
+              ],
+              "duration": 33,
+              "founderMustWatch": true,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": true,
+              "submodules": [
+                {
+                  "id": "authority-brand-holism-01",
+                  "title": "Introduction",
+                  "subtitle": "Intro to authority and brand holism on short form - how to become an authority in your niche.",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "authority-brand-holism-02",
+                  "title": "Scripting Authority",
+                  "subtitle": "The 6 ways of scripting authority.",
+                  "duration": 18,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "authority-brand-holism-03",
+                  "title": "Brand Holism",
+                  "subtitle": "Understanding your brand and how to represent it.",
+                  "duration": 13,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "managing-comments",
+              "title": "Managing Comments",
+              "subtitle": "Turn your comment section into a powerful engagement tool.",
+              "icon": "comments",
+              "color": "#30d158",
+              "thumbnail": "managing-comments.jpg",
+              "points": [
+                "Learn techniques to effectively engage with your audience through comments.",
+                "Leverage emotional responses to build a supportive community.",
+                "Develop strategies to moderate debates and maintain constructive dialogue."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Producer",
+                "The Writer"
+              ],
+              "duration": 39,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "managing-comments-01",
+                  "title": "Introduction",
+                  "subtitle": "Overview of managing comments and their impact on engagement.",
+                  "duration": 11,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "managing-comments-02",
+                  "title": "Using Emotion",
+                  "subtitle": "Leveraging emotional cues to enhance community interaction.",
+                  "duration": 18,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "managing-comments-03",
+                  "title": "Managing Debate",
+                  "subtitle": "Strategies to navigate and moderate contentious discussions.",
+                  "duration": 10,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "advanced-theory",
+          "name": "Advanced Theory",
+          "number": 3,
+          "modules": [
+            {
+              "id": "using-complex-formats",
+              "title": "Using Complex Formats",
+              "subtitle": "Combining formats to create original content that flies.",
+              "icon": "remix",
+              "color": "#ff9500",
+              "thumbnail": "using-complex-formats.jpg",
+              "points": [
+                "Discover how to combine different content formats for unique, engaging videos.",
+                "Learn techniques to remix and transform your content into fresh formats.",
+                "Break expectations and captivate your audience."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Producer",
+                "The Writer"
+              ],
+              "duration": 18,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "using-complex-formats-01",
+                  "title": "Remixing Formats",
+                  "subtitle": "Combine multiple formats to create compelling, fresh content.",
+                  "duration": 9,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "using-complex-formats-02",
+                  "title": "Breaking Expectations",
+                  "subtitle": "How to surprise your audience by defying conventional content norms.",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "using-complex-formats-03",
+                  "title": "The Unexpected Pivot",
+                  "subtitle": "Make strategic last-minute changes that drive engagement.",
+                  "duration": 7,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "data-led-iteration",
+              "title": "Data Led Iteration",
+              "subtitle": "Using data to lead your iteration process.",
+              "icon": "data",
+              "color": "#5856d6",
+              "thumbnail": "data-led-iteration.jpg",
+              "points": [
+                "Learn actionable steps for when content under-performs.",
+                "Analyze retention and comment data to identify improvement areas.",
+                "Understand your audience through data."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Producer",
+                "The Writer"
+              ],
+              "duration": 57,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "data-led-iteration-01",
+                  "title": "What To Do When It Goes Wrong",
+                  "subtitle": "Actionable steps to diagnose and address under-performance",
+                  "duration": 6,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "data-led-iteration-02",
+                  "title": "Studying Retention",
+                  "subtitle": "How to iterate towards better retention.",
+                  "duration": 18,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "data-led-iteration-03",
+                  "title": "Using Comments",
+                  "subtitle": "Creating content that incites comments.",
+                  "duration": 14,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "data-led-iteration-04",
+                  "title": "Followers, Saves and Shares",
+                  "subtitle": "Diving into the rest of the metrics",
+                  "duration": 5,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "data-led-iteration-05",
+                  "title": "Saving Your Page",
+                  "subtitle": "Using data to turn around a struggling page.",
+                  "duration": 10,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "data-led-iteration-06",
+                  "title": "Conclusion",
+                  "subtitle": "The summary.",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "using-nuanced-hooks",
+              "title": "Using Nuanced Hooks",
+              "subtitle": "Understanding viral hook structures",
+              "icon": "advanced-hook",
+              "color": "#ff9500",
+              "thumbnail": "using-nuanced-hooks.jpg",
+              "points": [
+                "Learn advanced strategies to craft hooks that capture attention",
+                "Go beyond hook lists, understand why they work, and why they tire quickly",
+                "Avoid clickbait, whilst nailing hooks that really do the job."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Writer"
+              ],
+              "duration": 25,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "using-nuanced-hooks-01",
+                  "title": "Introduction",
+                  "subtitle": "Overview of nuanced hook strategies and their benefits.",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "using-nuanced-hooks-02",
+                  "title": "BIG small",
+                  "subtitle": "Connecting small details to big concepts for instant intrigue.",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "using-nuanced-hooks-03",
+                  "title": "False Assumptions",
+                  "subtitle": "Crafting hooks that challenge viewer expectations.",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "using-nuanced-hooks-04",
+                  "title": "The Impossible Question",
+                  "subtitle": "Leading with questions on the edge of believability.",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "using-nuanced-hooks-05",
+                  "title": "The Contrarian Statement",
+                  "subtitle": "Utilize unexpected, counter-intuitive statements.",
+                  "duration": 5,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "using-nuanced-hooks-06",
+                  "title": "This Just Happened?!",
+                  "subtitle": "Create urgency and relevance with current events.",
+                  "duration": 6,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "script-mastery",
+              "title": "Script Mastery",
+              "subtitle": "Optimising for Engagement",
+              "icon": "script-pro",
+              "color": "#50e3c2",
+              "thumbnail": "script-mastery.jpg",
+              "points": [
+                "Learn the hacks that top creators use to generate engagement.",
+                "Master the fundamental techniques that drive comments every time.",
+                "Use emotional techniques to drive FOMO."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Writer"
+              ],
+              "duration": 37,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": true,
+              "submodules": [
+                {
+                  "id": "script-mastery-01",
+                  "title": "Intro",
+                  "subtitle": "How to become a master of scripting - for engagement.",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "script-mastery-02",
+                  "title": "Getting it Wrong (On Purpose)",
+                  "subtitle": "How a mistake can become an asset.",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "script-mastery-03",
+                  "title": "The FOMO Comment Section",
+                  "subtitle": "Creating FOMO surges.",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "script-mastery-04",
+                  "title": "Using Controversy",
+                  "subtitle": "Incorporate controlled controversy to spark conversations",
+                  "duration": 6,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "script-mastery-05",
+                  "title": "The Best Type Of Comment",
+                  "subtitle": "Craft scripts that inspire the most engaging viewer comments",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "script-mastery-06",
+                  "title": "Optimising For Conversion",
+                  "subtitle": "The secret to CTAs that actually work.",
+                  "duration": 9,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "script-mastery-07",
+                  "title": "Optimising For Watch Time",
+                  "subtitle": "The final step in creating a video that is retention optimised",
+                  "duration": 9,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "advanced-metrics-analytics",
+              "title": "Advanced Metrics & Analytics",
+              "subtitle": "Learn the exact reasons certain metrics peak and trough and a framework to manipulate them.",
+              "icon": "analytics",
+              "color": "#4A90E2",
+              "thumbnail": "advanced-metrics-analytics.jpg",
+              "points": [
+                "Gain insights into advanced performance metrics that influence content success",
+                "Learn how to convert followers through data",
+                "Analyse watch time, demographics, and traffic sources to fundamentally steer your approach"
+              ],
+              "tracks": [
+                "The Creator",
+                "The Producer"
+              ],
+              "duration": 45,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "advanced-metrics-analytics-01",
+                  "title": "Introduction to Advanced Metrics",
+                  "subtitle": "Going deeper on metrics.",
+                  "duration": 1,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "advanced-metrics-analytics-02",
+                  "title": "Follower Conversion",
+                  "subtitle": "Analysing conversion.",
+                  "duration": 16,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "advanced-metrics-analytics-03",
+                  "title": "Completed Watch Time",
+                  "subtitle": "Watch time vs retention, what's more important and how can I use both?",
+                  "duration": 9,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "advanced-metrics-analytics-04",
+                  "title": "Demographics",
+                  "subtitle": "What demographics mean about your page.",
+                  "duration": 6,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "advanced-metrics-analytics-05",
+                  "title": "Understanding Traffic Sources",
+                  "subtitle": "Learn the sources of traffic and how it will impact reach.",
+                  "duration": 13,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "lofi-hifi-paradox",
+              "title": "The importance of Lo-Fi and the Founder's Paradox",
+              "subtitle": "Respecting short form platforms, and how to marry lo-fi with brand vision.",
+              "icon": "authentic",
+              "color": "#FF9500",
+              "thumbnail": "content-fidelity.jpg",
+              "points": [
+                "Ensure your content remains true to your brand voice.",
+                "Balance production quality with genuine storytelling.",
+                "Learn strategies to keep your content consistent across formats."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer"
+              ],
+              "duration": 63,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "lofi-hifi-paradox-01",
+                  "title": "Semantics: Understanding Content Fidelity",
+                  "subtitle": "Explore the principles of aligning content with your brand values and medium expectations",
+                  "duration": 6,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "lofi-hifi-paradox-02",
+                  "title": "Lo-Fi: Respecting the Medium - part 1",
+                  "subtitle": "Adopt a lo-fi approach to enhance authenticity without overproduction",
+                  "duration": 10,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "lofi-hifi-paradox-03",
+                  "title": "Lo-Fi: Respecting the Medium - part 2",
+                  "subtitle": "Adopt a lo-fi approach to enhance authenticity without overproduction",
+                  "duration": 10,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "lofi-hifi-paradox-04",
+                  "title": "Lo-Fi: Respecting the Medium - part 3",
+                  "subtitle": "Adopt a lo-fi approach to enhance authenticity without overproduction",
+                  "duration": 9,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "lofi-hifi-paradox-05",
+                  "title": "Hi-Fi: Navigating the Founder's Paradox",
+                  "subtitle": "Balance high production values with authenticity to meet founder expectations",
+                  "duration": 28,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "serialisation",
+              "title": "Serialisation",
+              "subtitle": "Create consistent series that build audience anticipation and loyalty.",
+              "icon": "series",
+              "color": "#FFCC00",
+              "thumbnail": "serialisation.jpg",
+              "points": [
+                "Learn when to turn a video into a series.",
+                "Discover how to effectively create a successful series.",
+                "Learn how to pace a series."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Writer"
+              ],
+              "duration": 81,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "serialisation-01",
+                  "title": "Why Use Series?",
+                  "subtitle": "Understand the strategic benefits of creating content series.",
+                  "duration": 10,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "serialisation-02",
+                  "title": "Why Can't All Buckets Be Series?",
+                  "subtitle": "Learn why not every content bucket is suited for serialisation.",
+                  "duration": 8,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "serialisation-03",
+                  "title": "Types Of Series",
+                  "subtitle": "Explore different formats and structures for content series.",
+                  "duration": 15,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "serialisation-04",
+                  "title": "Comment Ideas",
+                  "subtitle": "Generate ideas to encourage audience interaction through series.",
+                  "duration": 8,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "serialisation-05",
+                  "title": "When Does Success Become a Series",
+                  "subtitle": "Determine the right moment to expand a viral hit into a series.",
+                  "duration": 40,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "serialisation-06",
+                  "title": "Efficiency & Getting it Right",
+                  "subtitle": "Streamline your series production and ensure consistent quality.",
+                  "duration": 0,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            },
+            {
+              "id": "emotional-positioning-for-impact",
+              "title": "Emotional Positioning for Impact",
+              "subtitle": "When and how to evoke emotions in your scripts.",
+              "icon": "script-pro",
+              "color": "#50e3c2",
+              "thumbnail": "emotional-positioning-for-impact.jpg",
+              "points": [
+                "Learn to evoke emotions that drive engagement.",
+                "Craft scripts that resonate on a personal level.",
+                "Find catharsis in your topics."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Writer"
+              ],
+              "duration": 19,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": true,
+              "featured": true,
+              "submodules": [
+                {
+                  "id": "emotional-positioning-for-impact-01",
+                  "title": "Emotional Positioning Part 1",
+                  "subtitle": "Introduction and foundational techniques for emotional engagement.",
+                  "duration": 13,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                },
+                {
+                  "id": "emotional-positioning-for-impact-02",
+                  "title": "Emotional Positioning Part 2",
+                  "subtitle": "Advanced strategies to deepen emotional connection.",
+                  "duration": 6,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": true,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "delegation",
+          "name": "Delegation",
+          "number": 4,
+          "modules": [
+            {
+              "id": "intro-to-delegation",
+              "title": "Introduction to Delegation",
+              "subtitle": "Remove the time burden of content and build a team that can take it on.",
+              "icon": "team",
+              "color": "#5856d6",
+              "thumbnail": "team-building-delegation.jpg",
+              "points": [
+                "Learn how to get over the problems of delegation, without having to experience them yourself.",
+                "Implement systems for self-sustaining content production.",
+                "Establish a robust pipeline architecture for efficient workflow."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer"
+              ],
+              "duration": 2,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "intro-to-delegation-01",
+                  "title": "Introduction to Delegation",
+                  "subtitle": "Removing yourself from the process entirely.",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                }
+              ]
+            },
+            {
+              "id": "first-bottlenecks",
+              "title": "First Bottlenecks and Setup",
+              "subtitle": "Implement our system designed to avoid the first bottlenecks.",
+              "icon": "team",
+              "color": "#5856d6",
+              "thumbnail": "team-building-delegation.jpg",
+              "points": [
+                "Identify the problems of content delegation.",
+                "Implement systems to overcome them.",
+                "Establish a robust pipeline architecture for efficient workflow."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer"
+              ],
+              "duration": 4,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "first-bottlenecks-01",
+                  "title": "Identifying First Bottlenecks",
+                  "subtitle": "Removing yourself from the process.",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                }
+              ]
+            },
+            {
+              "id": "managing-creative-team",
+              "title": "Managing a Creative Team",
+              "subtitle": "How to hire, and manage, the right kind of talent.",
+              "icon": "team",
+              "color": "#5856d6",
+              "thumbnail": "team-building-delegation.jpg",
+              "points": [
+                "Learn who to hire.",
+                "How to hire them.",
+                "And how to manage them to get the best content possible."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer"
+              ],
+              "duration": 7,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "managing-creative-team-01",
+                  "title": "Introduction",
+                  "subtitle": "Creating structure and leading creative teams.",
+                  "duration": 1,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "managing-creative-team-02",
+                  "title": "Managing a Writer",
+                  "subtitle": "Creating structure and leading creative teams.",
+                  "duration": 1,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "managing-creative-team-03",
+                  "title": "Managing a Video Producer",
+                  "subtitle": "Creating structure and leading creative teams.",
+                  "duration": 1,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "managing-creative-team-04",
+                  "title": "Managing a Videographer",
+                  "subtitle": "Creating structure and leading creative teams.",
+                  "duration": 1,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "managing-creative-team-05",
+                  "title": "Managing a Video Editor",
+                  "subtitle": "Creating structure and leading creative teams.",
+                  "duration": 1,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "managing-creative-team-06",
+                  "title": "Managing a Social Media Manager",
+                  "subtitle": "Creating structure and leading creative teams.",
+                  "duration": 1,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "managing-creative-team-07",
+                  "title": "Managing a General Manager",
+                  "subtitle": "Creating structure and leading creative teams.",
+                  "duration": 1,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                }
+              ]
+            },
+            {
+              "id": "content-run-itself",
+              "title": "How to make your content run itself",
+              "subtitle": "Content creation is... long. This module will give you the tools to build it - and leave it.",
+              "icon": "team",
+              "color": "#5856d6",
+              "thumbnail": "team-building-delegation.jpg",
+              "points": [
+                "How to build an efficient content pipeline.",
+                "That runs itself.",
+                "With minimal founder input, that still. represents. you."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer"
+              ],
+              "duration": 13,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "content-run-itself-01",
+                  "title": "Creating Self-Sustaining Content System: Intro",
+                  "subtitle": "Build systems that allow your content operation to run smoothly with minimal oversight.",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "content-run-itself-02",
+                  "title": "Editor",
+                  "subtitle": "The role of the editor, how to hire, what talents to look for.",
+                  "duration": 5,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "content-run-itself-03",
+                  "title": "Videographer",
+                  "subtitle": "The role of the videographer, how to hire, what talents to look for.",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "content-run-itself-04",
+                  "title": "Producer",
+                  "subtitle": "The role of the video producer, how to hire, what talents to look for.",
+                  "duration": 1,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "content-run-itself-05",
+                  "title": "Writer",
+                  "subtitle": "The role of the writer, how to hire, what talents to look for with minimal oversight.",
+                  "duration": 2,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                }
+              ]
+            },
+            {
+              "id": "creating-team-workflow",
+              "title": "Creating a Team Workflow",
+              "subtitle": "Use our custom in-house pipeline to make your team run smoothly.",
+              "icon": "team",
+              "color": "#5856d6",
+              "thumbnail": "team-building-delegation.jpg",
+              "points": [
+                "How to build an efficient content pipeline.",
+                "That runs itself.",
+                "With minimal founder input, that still. represents. you."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer"
+              ],
+              "duration": 0,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "creating-team-workflow-01",
+                  "title": "Team Pipeline Architecture",
+                  "subtitle": "Design an efficient workflow to manage and scale your creative team.",
+                  "duration": null,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Joden"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "monetisation",
+          "name": "Monetisation",
+          "number": 5,
+          "modules": [
+            {
+              "id": "monetisation",
+              "title": "Monetisation",
+              "subtitle": "Expand revenue streams and scale your business through strategic monetisation.",
+              "icon": "money-pro",
+              "color": "#FF9500",
+              "thumbnail": "monetisation-evolving.jpg",
+              "points": [
+                "Unlock multiple revenue streams from your content.",
+                "Leverage partnerships and product opportunities.",
+                "Build a sustainable business model through strategic monetisation."
+              ],
+              "tracks": [
+                "Founders",
+                "Content Creator Growth"
+              ],
+              "duration": 9,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": true,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "monetisation-01",
+                  "title": "Platform Revenue Streams",
+                  "subtitle": "Understand when and how platforms pay for your viewership.",
+                  "duration": 6,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Aydan"
+                },
+                {
+                  "id": "monetisation-02",
+                  "title": "Strategic Partnerships",
+                  "subtitle": "How brand deals work and what you can do to get the right ones.",
+                  "duration": null,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Aydan"
+                },
+                {
+                  "id": "monetisation-03",
+                  "title": "Building Business",
+                  "subtitle": "Understand the wider opportunities a large online following brings, with an exploration of business models that are built for the internet.",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "conversion",
+          "name": "Conversion",
+          "number": 6,
+          "modules": [
+            {
+              "id": "taking-people-off-platform",
+              "title": "Taking People Off Platform",
+              "subtitle": "Intro to conversions.",
+              "icon": "funnel",
+              "color": "#ff3b30",
+              "thumbnail": "building-your-funnel.jpg",
+              "points": [
+                "Build a funnel that converts stranger to paying customer.",
+                "Understand the most effective call to actions, lead magnets and more.",
+                "An inventory of every tool you have to pull leads down the funnel."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer"
+              ],
+              "duration": 1,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "taking-people-off-platform-01",
+                  "title": "Taking People Off Platform",
+                  "subtitle": "How to transition your audience to channels you control.",
+                  "duration": 1,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                }
+              ]
+            },
+            {
+              "id": "lead-magnets",
+              "title": "Lead Magnets",
+              "subtitle": "Creating effective lead magnets that people will actually engage with",
+              "icon": "funnel",
+              "color": "#ff3b30",
+              "thumbnail": "building-your-funnel.jpg",
+              "points": [
+                "The lead magnets people will actually click on.",
+                "How to use ctas to efficiently get people clicking on them.",
+                "The importance of owning your own data."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer"
+              ],
+              "duration": 5,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "lead-magnets-01",
+                  "title": "Creating Effective Lead Magnets",
+                  "subtitle": "Design irresistible offers to capture and convert leads.",
+                  "duration": 5,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                }
+              ]
+            },
+            {
+              "id": "podcasting",
+              "title": "Podcasting",
+              "subtitle": "How to use podcasts to increase your reach",
+              "icon": "funnel",
+              "color": "#ff3b30",
+              "thumbnail": "building-your-funnel.jpg",
+              "points": [
+                "How to use short form to get more podcast listeners.",
+                "How to use your podcast to get more short form viewers.",
+                "And get the perfect synergy between them for maximum views across ALL platforms."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer"
+              ],
+              "duration": 8,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "podcasting-01",
+                  "title": "Using Podcasts",
+                  "subtitle": "Understand the different ways you can use podcasts to develop your community.",
+                  "duration": 8,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                }
+              ]
+            },
+            {
+              "id": "youtube",
+              "title": "YouTube Conversion",
+              "subtitle": "How to funnel short form views into long form views.",
+              "icon": "funnel",
+              "color": "#ff3b30",
+              "thumbnail": "building-your-funnel.jpg",
+              "points": [
+                "YouTube is a different beast entirely.",
+                "Using your short form to boost your long form is the BEST way to grow on YouTube fast.",
+                "Here are the tools you need to do that effectively."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer"
+              ],
+              "duration": 5,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "youtube-01",
+                  "title": "Building for long form: YouTube",
+                  "subtitle": "Using long form to develop your audience relationship.",
+                  "duration": 5,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                }
+              ]
+            },
+            {
+              "id": "speaking-engagements",
+              "title": "Securing Speaking Engagements",
+              "subtitle": "How to take short form presence, and use it to become an industry authority (that pays well).",
+              "icon": "funnel",
+              "color": "#ff3b30",
+              "thumbnail": "building-your-funnel.jpg",
+              "points": [
+                "How to build your feed to secure speaking engagements.",
+                "Payment expectations and management.",
+                "How to leverage your speaking engagements in short form."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer"
+              ],
+              "duration": 3,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "speaking-engagements-01",
+                  "title": "Securing Speaking Engagements",
+                  "subtitle": "Understand the best approach to secure high profile speaking engagements, and how to use them to build your personal brand.",
+                  "duration": 3,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                }
+              ]
+            },
+            {
+              "id": "leveraging-for-sales",
+              "title": "Leveraging Your Platform for Sales",
+              "subtitle": "Understand how to actually convert your audience.",
+              "icon": "funnel",
+              "color": "#ff3b30",
+              "thumbnail": "building-your-funnel.jpg",
+              "points": [
+                "Turn viewers into actual paying customers",
+                "What viewers love (and hate) about short form selling.",
+                "The step by step process to pull them down your funnel."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer"
+              ],
+              "duration": 7,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "leveraging-for-sales-01",
+                  "title": "Leveraging Your Platform for Sales",
+                  "subtitle": "Understand how to convert your audience.",
+                  "duration": 7,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                }
+              ]
+            },
+            {
+              "id": "newsletter",
+              "title": "Newsletter",
+              "subtitle": "How to create an engaging newsletter .",
+              "icon": "funnel",
+              "color": "#ff3b30",
+              "thumbnail": "building-your-funnel.jpg",
+              "points": [
+                "The best way to own your own data",
+                "The benefits of a newsletter for your short form (and vice versa).",
+                "How to actually write a newsletter that people will follow - and make it better each week."
+              ],
+              "tracks": [
+                "The Creator",
+                "The Founder",
+                "The Producer"
+              ],
+              "duration": 14,
+              "founderMustWatch": false,
+              "entrepreneurSpecific": false,
+              "popular": false,
+              "featured": false,
+              "submodules": [
+                {
+                  "id": "newsletter-01",
+                  "title": "Creating An Engaged Newsletter pt 1",
+                  "subtitle": "Grow and nurture your email list with content that converts.",
+                  "duration": 10,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                },
+                {
+                  "id": "newsletter-02",
+                  "title": "Creating An Engaged Newsletter pt 2",
+                  "subtitle": "Grow and nurture your email list with content that converts.",
+                  "duration": 4,
+                  "difficulty": 1,
+                  "resources": [
+                    "pdf",
+                    "worksheets"
+                  ],
+                  "highValue": false,
+                  "week": 1,
+                  "instructor": "Alex"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tracks": [
+        {
+          "name": "The Creator",
+          "icon": "rocket",
+          "color": "#4A90E2",
+          "description": "The fastest path to growing your audience from zero to millions of views."
+        },
+        {
+          "name": "The Founder",
+          "icon": "briefcase",
+          "color": "#FF3B30",
+          "description": "The essential pathway for entrepreneurs and business leaders to build their brands."
+        },
+        {
+          "name": "The Writer",
+          "icon": "pencil",
+          "color": "#FFCC00",
+          "description": "Hooks, curiosity and retention. Learn how to keep a viewer engaged with everything you need to know as a short form writer."
+        },
+        {
+          "name": "The Editor",
+          "icon": "scissors",
+          "color": "#34C759",
+          "description": "Everything an editor needs to know to create viral content."
+        },
+        {
+          "name": "The Producer",
+          "icon": "camera",
+          "color": "#5856D6",
+          "description": "Managing the end-to-end creative process."
+        }
+      ]
+    },
+    {
+      "infrastructure": [
+        {
+          "id": "content-management-framework",
+          "title": "Content Management Framework",
+          "emoji": "💾",
+          "tagline": "The Quantity and Quality Notion system",
+          "description": "**Never stare at a blank content calendar again.** Our Notion-based command center lets a 3-person team have the power of 20, managing hundreds of videos monthly with military precision and creative freedom. Say goodbye to missed deadlines and chaotic workflows forever.",
+          "features": [
+            "Manage hundreds of scripts and videos a month",
+            "Have a super slick team workflow",
+            "With Custom Code",
+            "Complete delegation and tracking solution"
+          ],
+          "hasCustomCode": true,
+          "hasTemplates": true,
+          "hasAutomation": true,
+          "implementationTime": "medium",
+          "complexityLevel": "moderate"
+        },
+        {
+          "id": "production-automation-suite",
+          "title": "Production Automation Suite",
+          "emoji": "🏭",
+          "tagline": "The Home-Delivered Engine Room",
+          "description": "**Transform 8 hours of production work into 90 minutes flat.** Stop drowning in file management and tedious setup. This automation powerhouse connects your planning directly to production, automatically ingesting footage and laying out projects so you can focus exclusively on what humans do best—creating.",
+          "features": [
+            "Video Ingest app that speaks to notion scripts & camera log",
+            "Premiere Pro extension that lays out footage",
+            "Automated file management and organization",
+            "Production pipeline acceleration tools"
+          ],
+          "hasCustomCode": true,
+          "hasTemplates": true,
+          "hasAutomation": true,
+          "implementationTime": "medium",
+          "complexityLevel": "moderate"
+        },
+        {
+          "id": "video-editing-ecosystem",
+          "title": "Video Editing Ecosystem",
+          "emoji": "🖥️",
+          "tagline": "The Viral Video OS",
+          "description": "**Cut your editing time in half while doubling video quality.** Never waste hours on repetitive edits or struggle with amateur-looking content again. This complete editing arsenal gives you Hollywood-level production values with push-button simplicity, including AI-powered smart cutting that intuitively knows exactly where to make the perfect edit.",
+          "features": [
+            "Premiere Pro assets and templates library",
+            "Time saving plugins for editors",
+            "Presets, think less!",
+            "Auto-cutter with semantic detection and 'flow' recognition"
+          ],
+          "hasCustomCode": true,
+          "hasTemplates": true,
+          "hasAutomation": true,
+          "implementationTime": "short",
+          "complexityLevel": "moderate"
+        },
+        {
+          "id": "content-operations-protocol",
+          "title": "Content Operations Protocol",
+          "emoji": "📋",
+          "tagline": "The exact day-to-day content review, delegation, and checking structure",
+          "description": "**Never let another video fall through the cracks again.** Turn content chaos into a precision operation that runs like clockwork—even when you're not in the room. This bulletproof system ensures every piece of content meets your standards before hitting publish, with crystal-clear accountability that prevents the 'I thought someone else was handling that' syndrome forever.",
+          "features": [
+            "Comprehensive review and approval workflow",
+            "Clear delegation framework with accountability",
+            "Quality control checkpoints and metrics",
+            "Team coordination and communication structure"
+          ],
+          "hasCustomCode": true,
+          "hasTemplates": true,
+          "hasAutomation": true,
+          "implementationTime": "medium",
+          "complexityLevel": "moderate"
+        },
+        {
+          "id": "lifetime-updates",
+          "title": "Lifetime Infrastructure Updates",
+          "emoji": "🔄",
+          "tagline": "Continuous Evolution, One-Time Investment",
+          "description": "**Future-proof your content operation forever.** By joining the legacy cohort, you receive permanent access to all future updates of these infrastructure systems at no added cost. As we enhance and expand these tools based on evolving platforms and technologies, you'll automatically get every upgrade, refinement, and new feature without ever paying another penny.",
+          "features": [
+            "Permanent access to all infrastructure updates",
+            "First access to new tools and features",
+            "Grandfathered benefits for legacy members",
+            "No additional costs for future versions"
+          ],
+          "hasCustomCode": true,
+          "hasTemplates": true,
+          "hasAutomation": true,
+          "implementationTime": "ongoing",
+          "complexityLevel": "variable"
+        }
+      ]
+    }
+  ]
+}

@@ -1,43 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
-  X, ChevronRight, Check, Info, Calendar, CheckCircle, Moon, Sun,
   Users, Compass, Clock, BarChart4, Mail, Award, Briefcase
 } from 'lucide-react';
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { Button } from "../components/ui/button";
 
-// Stage icon component to render the appropriate icon for each stage
-interface StageIconProps {
-  stage: string;
-  className?: string;
-  size?: number;
-}
-
-const StageIcon: React.FC<StageIconProps> = ({ stage, className = '', size = 24 }) => {
-  switch (stage) {
-    case 'intro':
-      return <Compass className={className} size={size} />;
-    case 'teamSize':
-      return <Users className={className} size={size} />;
-    case 'implementationSupport':
-      return <Briefcase className={className} size={size} />;
-    case 'timeline':
-      return <Clock className={className} size={size} />;
-    case 'contentVolume':
-      return <BarChart4 className={className} size={size} />;
-    case 'contact':
-      return <Mail className={className} size={size} />;
-    case 'analysis':
-      return <BarChart4 className={className} size={size} />;
-    case 'breakdown':
-      return <CheckCircle className={className} size={size} />;
-    case 'recommendation':
-      return <Award className={className} size={size} />;
-    default:
-      return <Info className={className} size={size} />;
-  }
-};
+import {
+  ModalContainer,
+  ModalFooter,
+  StageIcon,
+  IntroStage,
+  QuestionStage,
+  ContactStage,
+  AnalysisAnimation,
+  AnalysisBreakdown,
+  FoundationRecommendation,
+  PremiumRecommendation
+} from './modal-components';
 
 interface VSQualificationModalProps {
   isOpen: boolean;
@@ -58,613 +35,11 @@ interface VSQualificationModalProps {
  * The component uses theme-aware styling to ensure proper appearance in both
  * light and dark modes according to the VS design system.
  */
-// Analysis Animation Component
-const AnalysisAnimation: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
-  const animationRef = useRef<HTMLDivElement>(null);
-  const [isAnimationComplete, setIsAnimationComplete] = useState(false);
-  
-  useGSAP(() => {
-    let timeout: NodeJS.Timeout;
-    
-    // GSAP animation sequence
-    if (animationRef.current) {
-      const ctx = gsap.context(() => {
-        const tl = gsap.timeline({
-          onComplete: () => {
-            setIsAnimationComplete(true);
-            // Delay the completion callback to ensure loading bar is seen completing
-            timeout = setTimeout(onComplete, 1500);
-          }
-        });
-        
-        // Animation for analysis steps
-        tl.from(".analysis-step", {
-          y: 20,
-          opacity: 0,
-          stagger: 0.5,
-          duration: 0.4
-        });
-        
-        // Progress bar animation - faster to ensure it completes
-        tl.to(".progress-bar", {
-          width: "100%",
-          duration: 2.5,
-          ease: "power1.inOut"
-        }, 0);
-        
-        // Loading bar shimmer effect
-        gsap.to(".progress-bar-shimmer", {
-          x: "150%",
-          repeat: -1,
-          duration: 1.5,
-          ease: "power1.inOut"
-        });
-        
-        // Animate data connection lines
-        gsap.fromTo(".data-line-1", 
-          { width: 0 },
-          { width: "300px", duration: 1.5, ease: "power2.out", delay: 0.3 }
-        );
-        gsap.fromTo(".data-line-2", 
-          { width: 0 },
-          { width: "250px", duration: 1.3, ease: "power2.out", delay: 0.8 }
-        );
-        gsap.fromTo(".data-line-3", 
-          { width: 0 },
-          { width: "200px", duration: 1.2, ease: "power2.out", delay: 1.3 }
-        );
-        gsap.fromTo(".data-line-4", 
-          { width: 0 },
-          { width: "280px", duration: 1.4, ease: "power2.out", delay: 1.8 }
-        );
-        
-        // Particle/dot animations with more varied colors
-        const createParticles = () => {
-          // Array of theme-aware colors for particles
-          const particleColors = [
-            "bg-theme-primary/60",
-            "bg-theme-accent-secondary/60",
-            "bg-theme-accent-tertiary/60",
-            "bg-vs-gradient-coral-orange/60",
-            "bg-vs-gradient-primary-accent/60"
-          ];
-          
-          for (let i = 0; i < 25; i++) {
-            const dot = document.createElement("div");
-            // Randomly select a color from the array
-            const colorClass = particleColors[Math.floor(Math.random() * particleColors.length)];
-            dot.className = `absolute w-${Math.random() > 0.7 ? '2.5' : '1.5'} h-${Math.random() > 0.7 ? '2.5' : '1.5'} rounded-full ${colorClass}`;
-            
-            // Random position
-            dot.style.left = `${gsap.utils.random(10, 90)}%`;
-            dot.style.top = `${gsap.utils.random(20, 80)}%`;
-            
-            animationRef.current?.appendChild(dot);
-            
-            // Animate dot
-            gsap.to(dot, {
-              y: gsap.utils.random(-70, 70),
-              x: gsap.utils.random(-70, 70),
-              opacity: 0,
-              scale: gsap.utils.random(0, 0.8),
-              duration: gsap.utils.random(1.2, 2.5),
-              ease: "power2.out",
-              onComplete: () => {
-                if (dot.parentNode) {
-                  dot.parentNode.removeChild(dot);
-                }
-              }
-            });
-          }
-        };
-        
-        // Trigger particles multiple times
-        const particleInterval = setInterval(createParticles, 500);
-        
-        return () => {
-          clearInterval(particleInterval);
-        };
-      }, animationRef);
-      
-      return () => {
-        ctx.revert();
-        if (timeout) clearTimeout(timeout);
-      };
-    }
-  }, [onComplete]);
-  
-  return (
-
-    <div className="flex flex-col items-center justify-center relative overflow-hidden bg-vs-gradient-navy-deep min-h-[280px]" ref={animationRef}>
-      {/* Colorful background gradient overlay */}
-      <div className="absolute inset-0 bg-opacity-30 vs-gradient-coral-orange opacity-10"></div>
-      
-      {/* Tech pattern overlay */}
-      <div className="absolute inset-0 dot-bg opacity-20"></div>
-      
-      {/* Technical circuit-like animation elements */}
-      <div className="absolute w-full h-full">
-        <div className="absolute top-1/4 left-1/4 w-1 h-1 rounded-full bg-theme-primary"></div>
-        <div className="absolute top-1/3 right-1/4 w-1 h-1 rounded-full bg-theme-accent-secondary"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-1 h-1 rounded-full bg-theme-accent-tertiary"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-1 h-1 rounded-full bg-vs-gradient-coral-orange"></div>
-        
-        {/* Animated "data" connections */}
-        <div className="absolute top-1/4 left-1/4 w-[200px] h-px bg-gradient-to-r from-theme-primary to-transparent data-line-1"></div>
-        <div className="absolute top-1/3 right-1/4 w-[150px] h-px bg-gradient-to-l from-theme-accent-secondary to-transparent data-line-2"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-[120px] h-px bg-gradient-to-r from-theme-accent-tertiary to-transparent data-line-3"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-[180px] h-px bg-gradient-to-l from-theme-primary to-transparent data-line-4"></div>
-      </div>
-      
-      <div className="text-center z-10 max-w-md mx-auto bg-theme-bg-surface/5 p-4 rounded-xl backdrop-blur-md border border-theme-border-light">
-        <h3 className="text-xl font-bold vs-text-gradient-orange mb-4">Finding Your Perfect Solution</h3>
-        
-        <div className="space-y-3 mb-5">
-          <div className="analysis-step flex items-center opacity-0 bg-theme-bg-surface/20 p-2 rounded-lg shadow-theme-sm backdrop-blur-sm border border-theme-primary/10">
-            <div className="w-6 h-6 rounded-full bg-theme-primary/20 flex items-center justify-center mr-2">
-              <Check className="h-4 w-4 text-theme-primary" />
-            </div>
-            <span className="text-white/90 text-sm">Analyzing response patterns</span>
-
-          </div>
-          <div className="analysis-step flex items-center opacity-0 bg-theme-bg-surface/20 p-2 rounded-lg shadow-theme-sm backdrop-blur-sm border border-theme-accent-secondary/10">
-            <div className="w-6 h-6 rounded-full bg-theme-accent-secondary/20 flex items-center justify-center mr-2">
-              <Check className="h-4 w-4 text-theme-accent-secondary" />
-            </div>
-            <span className="text-white/90 text-sm">Matching implementation frameworks</span>
-          </div>
-          <div className="analysis-step flex items-center opacity-0 bg-theme-bg-surface/20 p-2 rounded-lg shadow-theme-sm backdrop-blur-sm border border-theme-accent-tertiary/10">
-            <div className="w-6 h-6 rounded-full bg-theme-accent-tertiary/20 flex items-center justify-center mr-2">
-              <Check className="h-4 w-4 text-theme-accent-tertiary" />
-            </div>
-            <span className="text-white/90 text-sm">Calculating resource requirements</span>
-          </div>
-          <div className="analysis-step flex items-center opacity-0 bg-theme-bg-surface/20 p-2 rounded-lg shadow-theme-sm backdrop-blur-sm border border-theme-primary/10">
-            <div className="w-6 h-6 rounded-full bg-vs-gradient-coral-orange/20 flex items-center justify-center mr-2">
-              <Check className="h-4 w-4 text-vs-gradient-coral-orange" />
-            </div>
-            <span className="text-white/90 text-sm">Generating personalized recommendation</span>
-          </div>
-        </div>
-        
-        {/* Centered, wider progress bar with shimmer effect */}
-        <div className="relative w-64 h-2 bg-theme-bg-surface/40 rounded-full overflow-hidden mx-auto border border-white/10">
-          <div className="progress-bar h-full w-0 vs-gradient-primary-accent rounded-full relative">
-            {/* Shimmer effect */}
-            <div className="progress-bar-shimmer absolute inset-0 w-1/3 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full"></div>
-          </div>
-        </div>
-        
-        {/* Completion message that appears when the bar is full */}
-        <div className={`mt-3 transition-opacity duration-300 ${isAnimationComplete ? 'opacity-100' : 'opacity-0'}`}>
-          <span className="text-white text-xs font-medium px-3 py-1.5 bg-theme-primary/20 rounded-full">
-            Analysis complete! Preparing recommendation...
-          </span>
-        </div>
-      </div>
-      
-      {/* Minimized floating elements */}
-      <div className="absolute top-8 right-8 -z-0 w-16 h-16 rounded-[40%] rotate-12 opacity-20 bg-theme-primary animate-float-slow blur-lg"></div>
-      <div className="absolute bottom-8 left-8 -z-0 w-20 h-20 rounded-[30%] -rotate-12 opacity-15 bg-theme-accent-secondary animate-float-medium blur-lg"></div>
-    </div>
-  );
-};
-
-// Analysis Breakdown Component
-const AnalysisBreakdown: React.FC<{ 
-  answers: any, 
-  score: number, 
-  onContinue: () => void 
-}> = ({ answers, score, onContinue }) => {
-  // Calculate individual scores for visualization
-  const teamSizeScore = parseInt(answers.teamSize || '0') >= 20 ? 3 : 
-                     parseInt(answers.teamSize || '0') >= 10 ? 2 : 1;
-  
-  const supportScore = answers.implementationSupport === 'full_service' ? 3 :
-                     answers.implementationSupport === 'guided' ? 2 : 1;
-                       
-  const timelineScore = answers.timeline === 'immediate' ? 2 :
-                      answers.timeline === 'next_quarter' ? 1 : 0;
-                      
-  const volumeScore = answers.contentVolume === 'high' ? 2 :
-                    answers.contentVolume === 'medium' ? 1 : 0;
-  
-  // Calculate percentage scores for visualization
-  const percentages = {
-    teamSize: (teamSizeScore / 3) * 100,
-    support: (supportScore / 3) * 100,
-    timeline: (timelineScore / 2) * 100,
-    volume: (volumeScore / 2) * 100
-  };
-  
-  return (
-    <div className="flex flex-col p-4">
-      <h3 className="text-xl font-bold text-theme-primary mb-2 text-center">Your Implementation Analysis</h3>
-      
-      <p className="text-theme-secondary text-center mb-4 text-sm">
-        We've analyzed your responses to find the implementation approach that best matches your needs
-      </p>
-
-      
-      {/* Factor breakdown - without showing the actual score */}
-      <div className="grid grid-cols-2 gap-3 mb-4">
-        <div className="space-y-2">
-          <h4 className="text-xs font-medium text-theme-primary">Team Structure</h4>
-          <div className="h-3 bg-theme-bg-surface rounded-full overflow-hidden">
-
-            <div 
-              className="h-full bg-theme-primary rounded-full"
-              style={{ width: `${percentages.teamSize}%` }}
-            />
-          </div>
-          <p className="text-xs text-theme-tertiary">
-            {answers.teamSize === '25' ? 'Large organization' :
-             answers.teamSize === '15' ? 'Mid-size team' :
-             answers.teamSize === '5' ? 'Small team' : 'Solo creator'}
-          </p>
-        </div>
-        
-        <div className="space-y-2">
-          <h4 className="text-xs font-medium text-theme-primary">Implementation Support</h4>
-          <div className="h-3 bg-theme-bg-surface rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-theme-primary rounded-full"
-              style={{ width: `${percentages.support}%` }}
-            />
-          </div>
-          <p className="text-xs text-theme-tertiary">
-            {answers.implementationSupport === 'full_service' ? 'Hands-on support' :
-             answers.implementationSupport === 'guided' ? 'Coaching & support' :
-             answers.implementationSupport === 'self_directed' ? 'Self-guided' : 'Flexible'}
-          </p>
-        </div>
-        
-        <div className="space-y-2">
-          <h4 className="text-xs font-medium text-theme-primary">Timeline</h4>
-          <div className="h-3 bg-theme-bg-surface rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-theme-primary rounded-full"
-              style={{ width: `${percentages.timeline}%` }}
-            />
-          </div>
-          <p className="text-xs text-theme-tertiary">
-            {answers.timeline === 'immediate' ? 'Ready now' :
-             answers.timeline === 'next_quarter' ? 'Next quarter' :
-             answers.timeline === 'exploratory' ? 'Planning' : 'Flexible'}
-          </p>
-        </div>
-        
-        <div className="space-y-2">
-          <h4 className="text-xs font-medium text-theme-primary">Content Vision</h4>
-          <div className="h-3 bg-theme-bg-surface rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-theme-primary rounded-full"
-              style={{ width: `${percentages.volume}%` }}
-            />
-          </div>
-          <p className="text-xs text-theme-tertiary">
-            {answers.contentVolume === 'high' ? 'Content engine' :
-             answers.contentVolume === 'medium' ? 'Consistent' :
-             answers.contentVolume === 'low' ? 'Focused' : 'Strategic'}
-          </p>
-        </div>
-      </div>
-      
-      {/* Implementation match */}
-      <div className={`p-3 rounded-lg mb-4 text-white shadow-theme-sm ${
-          score >= 8 ? 'bg-vs-gradient-coral-orange' : 
-          score >= 5 ? 'bg-vs-gradient-primary-accent' : 
-          'bg-vs-gradient-teal'
-        }`}>
-        <h4 className="font-medium text-white text-sm mb-1">Your Implementation Match</h4>
-        <p className="text-xs text-white/90">
-          {score >= 8 ? 
-            'Your needs align with our Executive Partnership approach for complex teams with hands-on support and ambitious content goals.' :
-           score >= 5 ?
-            'Your profile fits our Comprehensive Implementation approach for growing teams with balanced support needs.' :
-            'The Foundation Program is your ideal starting point. This self-paced approach helps you build momentum at your own pace.'}
-        </p>
-      </div>
-      
-      <Button
-        onClick={onContinue}
-        variant="default"
-        size="sm"
-        className="self-center"
-      >
-        See My Recommendation
-      </Button>
-    </div>
-  );
-};
-
-// Differentiated recommendation views
-const FoundationRecommendationView: React.FC<{
-  recommendation: any,
-  onUpgradeSelect: () => void,
-  onPurchase: () => void,
-  answers: any
-}> = ({ recommendation, onUpgradeSelect, onPurchase, answers }) => {
-  return (
-    <div className="grid grid-cols-2 gap-3 p-4">
-      {/* LEFT COLUMN - Recommended Foundation Program */}
-      <div className="border border-theme-border-light rounded-lg overflow-hidden shadow-theme-sm flex flex-col">
-        <div className="p-3 bg-theme-bg-surface border-b border-theme-border-light">
-          <div className="bg-theme-primary/10 text-theme-primary text-xs font-medium px-2 py-0.5 rounded-full inline-block mb-1">
-            Recommended for You
-          </div>
-          <h3 className="text-lg font-bold text-theme-primary">Foundation Program</h3>
-          <p className="text-theme-tertiary text-xs">Get started on your content journey</p>
-        </div>
-        
-        <div className="p-3 flex-grow">
-          <div className="mb-3">
-            <span className="text-xs text-theme-tertiary">One-time payment</span>
-            <div className="text-2xl font-bold text-theme-primary">{recommendation.pricing}</div>
-          </div>
-          
-          <div className="space-y-3 mb-4">
-            <p className="text-xs text-theme-secondary">
-              Our Foundation Program gives you the essential building blocks to start implementing our content system.
-            </p>
-            
-            <h4 className="text-xs font-medium text-theme-primary border-b border-theme-border-light pb-1">
-              Perfect If You're:
-            </h4>
-            <ul className="space-y-1.5">
-              <li className="flex items-start gap-1.5">
-                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-xs">Just starting your content journey</p>
-              </li>
-              <li className="flex items-start gap-1.5">
-                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-xs">Testing waters before commitment</p>
-              </li>
-              <li className="flex items-start gap-1.5">
-                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-xs">Building foundations on a budget</p>
-              </li>
-            </ul>
-          </div>
-          
-          <Button
-            onClick={onPurchase}
-            variant="default"
-            size="sm"
-            className="w-full mb-2"
-          >
-            Start Foundation Program Now
-          </Button>
-          
-          <p className="text-center text-theme-tertiary text-xs">
-            Secure checkout • Instant access • 14-day guarantee
-          </p>
-        </div>
-      </div>
-      
-      {/* RIGHT COLUMN - Executive Partnership (what they're missing) */}
-      <div className="border border-theme-border-light rounded-lg overflow-hidden bg-theme-bg-surface shadow-theme-sm flex flex-col opacity-90">
-        <div className="p-3 bg-theme-bg-surface border-b border-theme-border-light">
-          <div className="bg-[#B92234]/10 text-[#B92234] text-xs font-medium px-2 py-0.5 rounded-full inline-block mb-1">
-            Premium Offering
-          </div>
-          <h3 className="text-lg font-bold text-theme-primary">Executive Partnership</h3>
-          <p className="text-theme-tertiary text-xs">Full-service implementation support</p>
-        </div>
-        
-        <div className="p-3 flex-grow">
-          <div className="mb-3">
-            <span className="text-xs text-theme-tertiary">Starting from</span>
-            <div className="text-2xl font-bold text-theme-primary">£9,500</div>
-          </div>
-          
-          <div className="space-y-3 mb-4">
-            <p className="text-xs text-theme-secondary">
-              When ready for comprehensive support, our Executive Partnership provides white-glove implementation.
-            </p>
-            
-            <h4 className="text-xs font-medium text-theme-primary border-b border-theme-border-light pb-1">
-              Future Access To:
-            </h4>
-            <ul className="space-y-1.5">
-              <li className="flex items-start gap-1.5">
-                <CheckCircle className="h-3 w-3 text-[#B92234] shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-xs">Dedicated implementation manager</p>
-              </li>
-              <li className="flex items-start gap-1.5">
-                <CheckCircle className="h-3 w-3 text-[#B92234] shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-xs">Custom strategy development</p>
-              </li>
-              <li className="flex items-start gap-1.5">
-                <CheckCircle className="h-3 w-3 text-[#B92234] shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-xs">6 months premium support</p>
-              </li>
-            </ul>
-            
-            <div className="bg-theme-bg-primary/50 p-2 rounded-lg border border-theme-border-light mt-3">
-              <h4 className="font-medium text-theme-primary text-xs">Not quite ready yet?</h4>
-              <p className="text-xs text-theme-tertiary">
-                Start with Foundation today, credit toward Executive when ready.
-              </p>
-            </div>
-          </div>
-          
-          <Button
-            onClick={onUpgradeSelect}
-            variant="outline"
-            size="sm"
-            className="w-full border-[#B92234] text-[#B92234] hover:bg-[#B92234]/5"
-          >
-            Learn About Executive Partnership
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Premium recommendation view
-const PremiumRecommendationView: React.FC<{
-  recommendation: any,
-  showCalendly: boolean,
-  onClose: () => void,
-  answers: any
-}> = ({ recommendation, showCalendly, onClose, answers }) => {
-  const [selectedEnhancements, setSelectedEnhancements] = useState<string[]>([]);
-  const [showComparison, setShowComparison] = useState(false);
-  
-  // Handle enhancement toggles
-  const toggleEnhancement = (id: string) => {
-    if (selectedEnhancements.includes(id)) {
-      setSelectedEnhancements(prev => prev.filter(item => item !== id));
-    } else {
-      setSelectedEnhancements(prev => [...prev, id]);
-    }
-  };
-  
-  // Available enhancements based on recommendation type
-  const enhancements = recommendation.type === 'executive' ? [
-    { id: 'team_training', name: 'Team Training Sessions', price: '£1,200' },
-    { id: 'content_audit', name: 'Content Audit & Strategy', price: '£950' },
-    { id: 'extended_support', name: 'Extended Support (3 months)', price: '£1,800' }
-  ] : [
-    { id: 'private_coaching', name: 'Private Coaching Sessions', price: '£850' },
-    { id: 'content_audit', name: 'Content Audit & Strategy', price: '£950' },
-    { id: 'template_pkg', name: 'Advanced Template Package', price: '£450' }
-  ];
-  
-  return (
-    <div className="grid grid-cols-5 gap-0">
-      {/* Left side - Features and enhancements */}
-      <div className="col-span-2 p-3 flex flex-col">
-        <div className="bg-theme-primary/5 p-2.5 rounded-lg mb-3">
-          <h3 className="font-medium text-theme-primary text-sm mb-1">Perfect Match for Your Needs</h3>
-          <p className="text-theme-secondary text-xs">
-            {recommendation.explanation}
-          </p>
-        </div>
-        
-        {/* Core features */}
-        <h4 className="text-xs font-medium text-theme-primary mb-2 border-b border-[var(--theme-border-light)] pb-1">
-          {recommendation.type === 'executive' ? 'Executive Partnership Includes' : 'Comprehensive Implementation Includes'}
-        </h4>
-        
-        <ul className="space-y-1.5 mb-4">
-          {recommendation.type === 'executive' ? (
-            <>
-              <li className="flex items-start gap-1.5">
-                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-xs">Dedicated implementation manager</p>
-              </li>
-              <li className="flex items-start gap-1.5">
-                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-xs">Custom strategy development</p>
-              </li>
-              <li className="flex items-start gap-1.5">
-                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-xs">6 months premium support</p>
-              </li>
-              <li className="flex items-start gap-1.5">
-                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-xs">Advanced analytics & reporting</p>
-              </li>
-            </>
-          ) : (
-            <>
-              <li className="flex items-start gap-1.5">
-                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-xs">Group coaching sessions</p>
-              </li>
-              <li className="flex items-start gap-1.5">
-                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-xs">Complete system templates</p>
-              </li>
-              <li className="flex items-start gap-1.5">
-                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-xs">3-month support package</p>
-              </li>
-              <li className="flex items-start gap-1.5">
-                <CheckCircle className="h-3 w-3 text-theme-primary shrink-0 mt-0.5" />
-                <p className="text-theme-secondary text-xs">Private community access</p>
-              </li>
-            </>
-          )}
-        </ul>
-        
-        {/* Optional enhancements */}
-        <div className="mt-auto">
-          <h4 className="text-xs font-medium text-theme-primary mb-2 border-b border-[var(--theme-border-light)] pb-1">
-            Personalized Enhancements
-          </h4>
-          
-          <div className="space-y-1.5">
-            {enhancements.map(enhancement => (
-              <div 
-                key={enhancement.id}
-                className={`flex items-center justify-between p-2 border rounded-lg cursor-pointer transition-colors ${
-                  selectedEnhancements.includes(enhancement.id)
-                    ? 'border-theme-primary bg-theme-primary/5'
-                    : 'border-theme-border-light'
-                }`}
-                onClick={() => toggleEnhancement(enhancement.id)}
-              >
-                <div className="flex items-center">
-                  <div className={`w-4 h-4 rounded-md border mr-2 flex items-center justify-center ${
-                    selectedEnhancements.includes(enhancement.id)
-                      ? 'border-theme-primary bg-theme-primary'
-                      : 'border-theme-border-light'
-                  }`}>
-                    {selectedEnhancements.includes(enhancement.id) && (
-                      <Check className="h-2.5 w-2.5 text-white" />
-                    )}
-                  </div>
-                  <span className="text-theme-secondary text-xs">{enhancement.name}</span>
-                </div>
-                <span className="text-theme-primary text-xs font-medium">{enhancement.price}</span>
-              </div>
-            ))}
-          </div>
-          
-          {recommendation.type === 'comprehensive' && (
-            <Button
-              onClick={() => setShowComparison(!showComparison)}
-              variant="ghost"
-              size="xs" 
-              className="w-full mt-2 text-theme-tertiary hover:text-theme-primary"
-            >
-              {showComparison ? 'Hide comparison' : 'Compare with Executive Partnership'}
-            </Button>
-          )}
-        </div>
-      </div>
-      
-      {/* Right side - Calendly */}
-      <div className="col-span-3 border-l border-[var(--theme-border-light)]"> 
-        <div className="flex flex-col h-full max-h-[400px]">
-          {/* Calendly header */}
-          <div className="p-2 border-b border-[var(--theme-border-light)] flex justify-between items-center">
-            <h3 className="text-sm font-medium text-theme-primary">Schedule Your Strategy Session</h3>
-            <div className="text-xs text-theme-tertiary">30 min • Free</div>
-          </div>
-          
-          {/* Calendly Widget - Takes up remaining height */}
-          <div 
-            className="calendly-inline-widget w-full flex-grow" 
-            data-url={`https://calendly.com/jodenclashnewman/vertical-shortcut-discovery-call?hide_gdpr_banner=1&primary_color=FEA35D${
-              recommendation.type === 'executive' ? '&name=Executive_Partnership' : 
-              '&name=Comprehensive_Implementation'
-            }${
-              selectedEnhancements.length > 0 ? `&custom_enhancements=${selectedEnhancements.join(',')}` : ''
-            }`}
-            style={{ height: "350px", minWidth: "320px" }}
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onClose, testMode = false }) => {
+const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ 
+  isOpen, 
+  onClose, 
+  testMode = false 
+}) => {
   // Modal state management
   const [stage, setStage] = useState('intro');
   const [answers, setAnswers] = useState({
@@ -677,13 +52,16 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
     timeline: '',
     contentVolume: ''
   });
+  
   // Define the sequence of stages
   const stageSequence = ['intro', 'teamSize', 'implementationSupport', 'timeline', 'contentVolume', 'contact', 'analysis', 'breakdown', 'recommendation'];
+  
   const [errors, setErrors] = useState({
     name: '',
     email: '',
     company: ''
   });
+  
   const [recommendation, setRecommendation] = useState<{
     type: string;
     score: number;
@@ -704,13 +82,13 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
     showDirectPurchase: boolean;
     showUpgradeOption: boolean;
   } | null>(null);
+  
   const [showCalendly, setShowCalendly] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   
-  // Refs for GSAP animations
-  const modalRef = useRef<HTMLDivElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  // Animation state
+  const [isAnimatingSelection, setIsAnimatingSelection] = useState(false);
+  const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
   
   // Tracking modal engagement for analytics and scoring
   const [engagement, setEngagement] = useState({
@@ -718,164 +96,6 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
     questionInteractions: 0,
     focusChanges: 0
   });
-  
-  // Stage transition animation refs
-  const contentRef = useRef<HTMLDivElement>(null);
-  const progressBarRef = useRef<HTMLDivElement>(null);
-  const lastStageRef = useRef<string>(stage);
-
-  // Handle animation with GSAP
-  useGSAP(() => {
-    if (!isOpen || !modalRef.current || !overlayRef.current) return;
-
-    // Get computed theme variables for animation
-    const styles = getComputedStyle(document.documentElement);
-    const animDistance = parseFloat(styles.getPropertyValue('--theme-anim-distance') || '-4px');
-    const animDuration = parseFloat(styles.getPropertyValue('--theme-anim-duration') || '0.35');
-
-    const ctx = gsap.context(() => {
-      // Initial modal animation
-      if (!modalRef.current.style.opacity || modalRef.current.style.opacity === '0') {
-        // Animate overlay
-        gsap.to(overlayRef.current, {
-          opacity: 1,
-          duration: 0.3,
-          ease: "power2.out"
-        });
-
-        // Animate modal
-        gsap.fromTo(modalRef.current,
-          { opacity: 0, y: -animDistance * 5, scale: 0.95 },
-          { opacity: 1, y: 0, scale: 1, duration: animDuration + 0.05, ease: "back.out(1.2)" }
-        );
-      }
-
-      // Floating elements animation
-      gsap.to(".modal-floating-element", {
-        y: animDistance * 2.5,
-        duration: 3,
-        ease: "sine.inOut",
-        repeat: -1,
-        yoyo: true, 
-        stagger: 0.4
-      });
-
-      // Stage transition animation - sequential fade with no overlap
-      if (lastStageRef.current !== stage && contentRef.current) {
-        // Wait until any existing animations are complete to prevent double animations
-        if (contentRef.current.style.opacity !== "0") {
-          // First fade out the current content completely
-          gsap.to(contentRef.current, {
-            opacity: 0,
-            y: -10,
-            duration: 0.25,
-            ease: "power2.in",
-            onComplete: () => {
-              // Then fade in the new content only after old content is gone
-              gsap.fromTo(contentRef.current,
-                { opacity: 0, y: 10 },
-                { 
-                  opacity: 1, 
-                  y: 0, 
-                  duration: 0.3, 
-                  ease: "power2.out",
-                  clearProps: "all"
-                }
-              );
-            }
-          });
-        } else {
-          // If content is already faded out, just fade in the new content
-          gsap.fromTo(contentRef.current,
-            { opacity: 0, y: 10 },
-            { 
-              opacity: 1, 
-              y: 0, 
-              duration: 0.3, 
-              ease: "power2.out",
-              clearProps: "all"
-            }
-          );
-        }
-
-        // Add particle effect animation to signify processing
-        const createProcessingEffect = () => {
-          // Only create the effect for question stages
-          if (['teamSize', 'implementationSupport', 'timeline', 'contentVolume'].includes(stage)) {
-            // Get the container dimensions
-            const container = contentRef.current;
-            if (!container) return;
-            
-            const rect = container.getBoundingClientRect();
-            
-            // Create and animate 12-15 particles
-            const particleCount = gsap.utils.random(12, 15, 1);
-            
-            for (let i = 0; i < particleCount; i++) {
-              // Create a particle
-              const particle = document.createElement('div');
-              particle.className = 'absolute rounded-full bg-theme-primary/40 z-10';
-              particle.style.width = `${gsap.utils.random(3, 8)}px`;
-              particle.style.height = particle.style.width;
-              
-              // Position it randomly within the container
-              particle.style.left = `${gsap.utils.random(10, rect.width - 20)}px`;
-              particle.style.top = `${gsap.utils.random(10, rect.height - 20)}px`;
-              
-              container.appendChild(particle);
-              
-              // Animate the particle
-              gsap.to(particle, {
-                y: gsap.utils.random(-40, -100),
-                x: gsap.utils.random(-50, 50),
-                opacity: 0,
-                scale: gsap.utils.random(0.2, 0.8),
-                duration: gsap.utils.random(0.8, 1.5),
-                ease: "power2.out",
-                onComplete: () => {
-                  if (particle.parentNode) {
-                    particle.parentNode.removeChild(particle);
-                  }
-                }
-              });
-            }
-          }
-        };
-        
-        createProcessingEffect();
-      }
-
-      // Animate the progress bar when stage changes
-      if (progressBarRef.current && 
-          lastStageRef.current !== stage && 
-          stage !== 'intro' && 
-          stage !== 'recommendation') {
-        // Calculate progress for animation
-        const progress = getProgress();
-        
-        // Helper function to get progress for a specific stage
-        const getProgressForStage = (stg: string) => {
-          const stgIndex = stageSequence.indexOf(stg);
-          return Math.round((stgIndex / (stageSequence.length - 1)) * 100);
-        };
-        
-        // Animate the progress bar with a bounce effect
-        gsap.fromTo(progressBarRef.current,
-          { width: `${lastStageRef.current !== 'intro' ? getProgressForStage(lastStageRef.current) : 0}%` },
-          { 
-            width: `${progress}%`, 
-            duration: 0.6, 
-            ease: "power2.out"
-          }
-        );
-      }
-
-      // Update last stage
-      lastStageRef.current = stage;
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, [isOpen, stage]);
   
   // Timer for tracking time spent in qualification process
   useEffect(() => {
@@ -903,10 +123,6 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
     });
   };
 
-  // State to track selection animation
-  const [isAnimatingSelection, setIsAnimatingSelection] = useState(false);
-  const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
-
   // Handle user answers with validation, animation, and auto-advance
   const handleAnswerChange = (key: string, value: string) => {
     // Special handling for form fields (name, email, company, position)
@@ -919,6 +135,19 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
     if (!isFormField) {
       setSelectedChoice(value);
       setIsAnimatingSelection(true);
+      
+      // Simulate the animation completion for multiple-choice questions
+      setTimeout(() => {
+        // Get the next stage in the sequence
+        const currentIndex = stageSequence.indexOf(stage);
+        if (currentIndex >= 0 && currentIndex < stageSequence.length - 1) {
+          setStage(stageSequence[currentIndex + 1]);
+        }
+        
+        // Reset animation state
+        setIsAnimatingSelection(false);
+        setSelectedChoice(null);
+      }, 1000);
     }
     
     // Update actual answer
@@ -927,7 +156,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
       [key]: value
     }));
     
-    // Clear error for this field
+    // Clear error for this field if it exists
     if (errors[key as keyof typeof errors]) {
       setErrors(prev => ({
         ...prev,
@@ -947,90 +176,6 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
       stage: stage,
       interactionCount: engagement.questionInteractions + 1
     });
-    
-    // Animate selection for multiple-choice questions only (not form fields)
-    if (!isFormField && ['teamSize', 'implementationSupport', 'timeline', 'contentVolume'].includes(stage)) {
-      // Get all option buttons
-      const optionButtons = document.querySelectorAll(`.${stage}-option`);
-      const selectedButton = document.querySelector(`.${stage}-option[data-value="${value}"]`);
-      // Get the index within the visible dots (excluding intro and recommendation)
-      const visibleDotIndex = stageSequence.filter(s => s !== 'intro' && s !== 'recommendation').indexOf(stage);
-      const progressDot = document.querySelector(`.progress-dot-${visibleDotIndex}`);
-      
-      if (selectedButton && optionButtons.length && progressDot) {
-        
-        // Create a complete timeline that properly handles stage transition
-        const tl = gsap.timeline({
-          onComplete: () => {
-            // Reset animation state
-            setIsAnimatingSelection(false);
-            setSelectedChoice(null);
-            
-            // Track the stage completion event
-            trackEvent('qualification_step_completed', {
-              stage: stage,
-              timeSpent: engagement.timeSpent,
-              interactionCount: engagement.questionInteractions
-            });
-            
-            // Process animation only if we haven't already changed stage
-            if (stage === lastStageRef.current) {
-              // Get the next stage in the sequence - delayed to allow animation to complete
-              const currentIndex = stageSequence.indexOf(stage);
-              if (currentIndex >= 0 && currentIndex < stageSequence.length - 1) {
-                setStage(stageSequence[currentIndex + 1]);
-              }
-            }
-          }
-        });
-
-        // 1. First just highlight the selected option (don't fade others yet)
-        tl.to(selectedButton, {
-          backgroundColor: 'var(--theme-primary)',
-          color: 'white',
-          borderColor: 'var(--theme-primary)',
-          scale: 1.05,
-          duration: 0.2,
-          ease: "power2.out"
-        });
-        
-        // 2. Now fade out EVERYTHING together
-        optionButtons.forEach(btn => {
-          tl.to(btn, {
-            opacity: 0,
-            scale: btn === selectedButton ? 0 : 0.95,
-            duration: 0.25,
-            ease: btn === selectedButton ? "back.in(1.2)" : "power2.out",
-          }, "fadeAll");
-        });
-        
-        // 3. Highlight the progress dot to show connection
-        tl.to(progressDot, {
-          scale: 1.5,
-          backgroundColor: 'var(--theme-primary)',
-          boxShadow: '0 0 10px var(--theme-primary)',
-          duration: 0.25,
-          ease: "back.out(1.2)"
-        }, "fadeAll");
-        
-        // 4. Return progress dot to normal
-        tl.to(progressDot, {
-          scale: 1.1,
-          boxShadow: 'none',
-          duration: 0.2,
-          ease: "power2.out",
-        }, "+=0.05");
-      } else {
-        // If animation isn't working, fall back to immediate stage change
-        setIsAnimatingSelection(false);
-        
-        // Get the next stage in the sequence
-        const currentIndex = stageSequence.indexOf(stage);
-        if (currentIndex >= 0 && currentIndex < stageSequence.length - 1) {
-          setStage(stageSequence[currentIndex + 1]);
-        }
-      }
-    }
   };
   
   // Validate form fields
@@ -1137,38 +282,10 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
     }
   }, [isOpen]);
   
-  // Store first visit timestamp
-  useEffect(() => {
-    if (!sessionStorage.getItem('firstVisit')) {
-      sessionStorage.setItem('firstVisit', Date.now().toString());
-    }
-    
-    // Store UTM parameters if present
-    const urlParams = new URLSearchParams(window.location.search);
-    const utmParams = {
-      utm_source: urlParams.get('utm_source') || '',
-      utm_medium: urlParams.get('utm_medium') || '',
-      utm_campaign: urlParams.get('utm_campaign') || '',
-      utm_content: urlParams.get('utm_content') || '',
-      utm_term: urlParams.get('utm_term') || ''
-    };
-    
-    if (Object.values(utmParams).some(value => value !== '')) {
-      sessionStorage.setItem('utmParams', JSON.stringify(utmParams));
-    }
-  }, []);
-  
-  // Process CRM integration for recommendation stage
-  useEffect(() => {
-    if (stage === 'recommendation' && recommendation) {
-      processCrmIntegration();
-    }
-  }, [stage, recommendation]);
-  
   // Calendly script loading
   useEffect(() => {
     // Load Calendly script when needed
-    if (stage === 'recommendation') {
+    if (stage === 'recommendation' && recommendation?.showCalendly) {
       const script = document.createElement('script');
       script.src = 'https://assets.calendly.com/assets/external/widget.js';
       script.async = true;
@@ -1183,7 +300,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         }
       };
     }
-  }, [stage]);
+  }, [stage, recommendation]);
   
   // Calculate recommendation based on answers and engagement
   const processAnswers = () => {
@@ -1336,10 +453,15 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
       timeSpent: engagement.timeSpent,
       totalInteractions: engagement.questionInteractions
     });
+    
+    // Process CRM integration
+    processCrmIntegration();
   };
   
   // Process CRM integration for lead data
-  const processCrmIntegration = () => {
+  const processCrmIntegration = async () => {
+    if (!recommendation) return;
+    
     // Build comprehensive lead data for CRM integration
     const leadData = {
       contact: {
@@ -1353,27 +475,18 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         implementationSupport: answers.implementationSupport,
         timeline: answers.timeline,
         contentVolume: answers.contentVolume,
-        recommendedApproach: recommendation?.type,
-        score: recommendation?.score || 0
+        recommendedApproach: recommendation.type,
+        score: recommendation.score || 0
       },
       engagement: {
         timeSpent: engagement.timeSpent,
         questionInteractions: engagement.questionInteractions,
         focusChanges: engagement.focusChanges
       },
-      funnel: {
-        qualificationCompleted: true,
-        recommendationViewed: true,
-        calendlyScheduled: true,
-        callCompleted: false,
-        followupStatus: 'pending'
-      },
       timestamps: {
         qualificationStarted: new Date(Date.now() - (engagement.timeSpent * 1000)),
         qualificationCompleted: new Date(),
-        recommendationViewed: new Date(),
-        calendlyScheduled: new Date(),
-        firstVisit: new Date(sessionStorage.getItem('firstVisit') || Date.now())
+        recommendationViewed: new Date()
       },
       source: {
         initialReferrer: document.referrer || 'direct',
@@ -1393,56 +506,84 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
     sessionStorage.setItem('qualificationData', JSON.stringify(leadData));
     
     // Track the booking event
-    trackEvent('calendly_viewed', {
-      recommendation: recommendation?.type,
-      score: recommendation?.score,
+    trackEvent('qualification_data_saved', {
+      recommendation: recommendation.type,
+      score: recommendation.score,
       journeyDuration: engagement.timeSpent,
       totalInteractions: engagement.questionInteractions
     });
     
-    // In production, we would integrate with Kajabi and Kit here
-    const integrateWithKajabi = async (data: any) => {
-      try {
-        // This would be implemented in production
-        // const response = await fetch('/api/kajabi/contact', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify(data)
-        // });
-        // return await response.json();
-        console.log('[Kajabi Integration]', data);
-        return { success: true };
-      } catch (error) {
-        console.error('Error integrating with Kajabi:', error);
-        return { success: false, error };
+    // Send to backend API for Kajabi and Kit integration
+    try {
+      // Prepare data for Kajabi integration
+      const kajabiData = {
+        person: {
+          name: leadData.contact.name,
+          email: leadData.contact.email,
+          custom_field_values: {
+            qualification_score: leadData.qualification.score.toString(),
+            recommended_approach: leadData.qualification.recommendedApproach,
+            team_size: leadData.qualification.teamSize.toString(),
+            implementation_support: leadData.qualification.implementationSupport,
+            timeline: leadData.qualification.timeline,
+            content_volume: leadData.qualification.contentVolume
+          },
+          tags: [
+            `qualification_complete`,
+            `recommended_${leadData.qualification.recommendedApproach.toLowerCase()}`,
+            `timeline_${leadData.qualification.timeline}`
+          ]
+        }
+      };
+      
+      // Prepare data for Kit integration
+      const kitData = {
+        email: leadData.contact.email,
+        first_name: leadData.contact.name.split(' ')[0],
+        fields: {
+          last_name: leadData.contact.name.split(' ').slice(1).join(' '),
+          company: leadData.contact.company,
+          position: leadData.contact.position,
+          qualification_score: leadData.qualification.score,
+          recommended_approach: leadData.qualification.recommendedApproach,
+          team_size: leadData.qualification.teamSize,
+          implementation_support: leadData.qualification.implementationSupport,
+          timeline: leadData.qualification.timeline,
+          content_volume: leadData.qualification.contentVolume
+        },
+        tags: [
+          `qualified_lead`,
+          `recommendation_${leadData.qualification.recommendedApproach.toLowerCase()}`,
+          `timeline_${leadData.qualification.timeline}`,
+          `team_size_${leadData.qualification.teamSize < 5 ? 'small' : leadData.qualification.teamSize < 15 ? 'medium' : 'large'}`
+        ]
+      };
+      
+      // Send data to backend API for processing
+      const response = await fetch('/api/crm-integration', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          leadData,
+          kajabiData,
+          kitData
+        }),
+      });
+      
+      const result = await response.json();
+      if (result.success) {
+        console.log('[CRM Integration] Successfully sent data to Kajabi and Kit');
+      } else {
+        console.error('[CRM Integration] Failed to send data:', result.error);
       }
-    };
+    } catch (error) {
+      console.error('[CRM Integration] Error sending data:', error);
+    }
     
-    const integrateWithKit = async (data: any) => {
-      try {
-        // This would be implemented in production
-        // const response = await fetch('/api/kit/subscriber', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify(data)
-        // });
-        // return await response.json();
-        console.log('[Kit Integration]', data);
-        return { success: true };
-      } catch (error) {
-        console.error('Error integrating with Kit:', error);
-        return { success: false, error };
-      }
-    };
-    
-    // For demonstration purposes - would be activated in production
-    // integrateWithKajabi(leadData);
-    // integrateWithKit(leadData);
-  };
-  
-  // Close Calendly popup
-  const handleCalendlyClose = () => {
-    setShowCalendly(false);
+    // Log the data for debugging
+    console.log('[CRM Integration]', leadData);
   };
   
   // Proceed to next stage
@@ -1471,10 +612,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
         trackEvent('qualification_started');
         break;
       case 'contact':
-        processAnswers(); // Calculate recommendation and go to recommendation stage
-        break;
-      case 'contentVolume':
-        setStage('contact');
+        processAnswers(); // Calculate recommendation and go to analysis stage
         break;
       default:
         // Use the stage sequence for the default case
@@ -1500,38 +638,21 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
       setStage(stageSequence[currentIndex - 1]);
     }
   };
-
-  // Handle modal close animation
-  const handleClose = () => {
-    // Track modal close event with journey data
-    trackEvent('qualification_abandoned', {
-      stage: stage,
-      timeSpent: engagement.timeSpent,
-      progress: getProgress(),
-      hasContactInfo: Boolean(answers.email)
-    });
-
-    if (!modalRef.current || !overlayRef.current) {
-      onClose();
-      return;
+  
+  // Function to get the stage title
+  const getStageTitle = () => {
+    switch (stage) {
+      case 'intro': return 'How can we help?';
+      case 'teamSize': return 'About Your Team';
+      case 'implementationSupport': return 'Your Implementation Style';
+      case 'timeline': return 'Project Timeline';
+      case 'contentVolume': return 'Content Vision';
+      case 'contact': return 'Let\'s Personalize Your Plan';
+      case 'analysis': return 'Crafting Your Solution';
+      case 'breakdown': return 'Your Implementation Analysis';
+      case 'recommendation': return 'Your Personalized Strategy';
+      default: return 'Qualification Journey';
     }
-
-    // Animate overlay
-    gsap.to(overlayRef.current, {
-      opacity: 0,
-      duration: 0.3,
-      ease: "power2.in"
-    });
-
-    // Animate modal
-    gsap.to(modalRef.current, {
-      opacity: 0,
-      y: 20,
-      scale: 0.95,
-      duration: 0.3,
-      ease: "power3.in",
-      onComplete: onClose
-    });
   };
   
   // Validate if current stage can proceed
@@ -1588,834 +709,251 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({ isOpen, onC
     }
   };
   
+  // Define question stage options
+  const teamSizeOptions = [
+    { 
+      id: 'solo', 
+      label: 'Solo Creator', 
+      description: 'Just you, a dream (and occasional freelance help)',
+      value: '1'
+    },
+    { 
+      id: 'small', 
+      label: 'Small Team', 
+      description: 'You lead a tight-knit team of 1-4 creatives',
+      value: '5'
+    },
+    { 
+      id: 'growing', 
+      label: 'Growing Team', 
+      description: 'You\'ve got a dedicated team of 5+ content professionals',
+      value: '15'
+    }
+  ];
+  
+  const implementationOptions = [
+    { 
+      id: 'self', 
+      label: 'Self Driven', 
+      description: 'I\'d prefer to take the course at my own pace.',
+      value: 'self_directed'
+    },
+    { 
+      id: 'guided', 
+      label: 'Coaching & Support', 
+      description: 'I\'d like guidance and coaching, but want to implement myself.',
+      value: 'guided'
+    },
+    { 
+      id: 'full', 
+      label: 'Full Support', 
+      description: 'I want dedicated experts to implement it all for me.',
+      value: 'full_service'
+    }
+  ];
+  
+  const timelineOptions = [
+    { 
+      id: 'immediate', 
+      label: 'ASAP Growth', 
+      description: 'I\'m ready to implement now and want results immediately.',
+      value: 'immediate'
+    },
+    { 
+      id: 'next_quarter', 
+      label: 'Next 90 Days', 
+      description: 'I need some time to warm up, planning for the next 1-3 months.',
+      value: 'next_quarter'
+    },
+    { 
+      id: 'exploratory', 
+      label: 'Strategic Planning', 
+      description: 'I want a roadmap to help implement it some time this year.',
+      value: 'exploratory'
+    }
+  ];
+  
+  const contentVolumeOptions = [
+    { 
+      id: 'low', 
+      label: 'High Impact Focus', 
+      description: 'I want a small-scale strategy to maximize ROI and conversions.',
+      value: 'low'
+    },
+    { 
+      id: 'medium', 
+      label: 'Consistent Growth', 
+      description: 'I want a content system putting out 10-30 pieces a month.',
+      value: 'medium'
+    },
+    { 
+      id: 'high', 
+      label: 'Full Scale Engine', 
+      description: 'I want a comprehensive efficient content system to scale across platforms.',
+      value: 'high'
+    }
+  ];
+  
   return (
-    <div ref={containerRef} className="fixed inset-0 z-50 flex items-center justify-center">
+    <>
       {/* Test mode controls */}
       {testMode && (
         <div className="fixed top-4 right-4 z-[60] flex items-center gap-2 bg-white dark:bg-[#0a0a0a] p-2 rounded-md shadow-md">
           <span className="text-xs font-medium">Test Controls:</span>
-          <Button
+          <button
             onClick={toggleTheme}
-            variant="ghost"
-            size="icon"
-            className="h-7 w-7 bg-gray-100 dark:bg-gray-800 rounded-md"
+            className="h-7 w-7 bg-gray-100 dark:bg-gray-800 rounded-md flex items-center justify-center"
             aria-label="Toggle theme"
           >
             <Sun className="h-3.5 w-3.5 hidden dark:inline-block" />
             <Moon className="h-3.5 w-3.5 inline-block dark:hidden" />
-          </Button>
+          </button>
           <span className="text-xs">{stage}</span>
         </div>
       )}
       
-      {/* Overlay backdrop */}
-      <div 
-        ref={overlayRef}
-        className="fixed inset-0 bg-black/60 backdrop-blur-[2px] opacity-0 transition-opacity" 
-        onClick={handleClose}
-      />
-      
-      {/* Modal content - adjust size for recommendation stage */}
-      <div 
-        ref={modalRef}
-        className={`relative z-10 w-full ${stage === 'recommendation' ? 'max-w-4xl' : 'max-w-2xl'} bg-theme-gradient-card rounded-xl shadow-theme-md opacity-0 transition-all duration-500 overflow-auto border border-theme-border-light`}
-        style={{ maxHeight: 'min(85vh, 800px)' }}
+      {/* Main Modal Component */}
+      <ModalContainer
+        isOpen={isOpen}
+        onClose={onClose}
+        stage={stage}
+        showProgressBar={stage !== 'intro' && stage !== 'recommendation'}
+        progress={getProgress()}
+        stageIcon={<StageIcon stage={stage} size={20} />}
+        stageTitle={getStageTitle()}
       >
-        {/* Floating elements for visual interest */}
-        <div className="modal-floating-element absolute top-10 right-10 -z-10 w-20 h-20 rounded-[40%] rotate-12 opacity-[var(--theme-float-opacity)] bg-[var(--theme-float-bg-primary)]"></div>
-        <div className="modal-floating-element absolute bottom-10 left-10 -z-10 w-24 h-24 rounded-[30%] -rotate-6 opacity-[var(--theme-float-opacity-secondary)] bg-[var(--theme-float-bg-secondary)]"></div>
-        
-        {/* Theme-aware dot pattern background */}
-        <div className="absolute inset-0 dot-bg opacity-[var(--theme-pattern-opacity)] pointer-events-none rounded-xl overflow-hidden"></div>
-        
-        {/* Subtle glow effect at the top */}
-        <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[var(--theme-primary)]/10 to-transparent opacity-[var(--theme-glow-opacity)] pointer-events-none rounded-t-xl"></div>
-        
-        {/* Modal header */}
-
-        <div className="flex items-center justify-between border-b border-[var(--theme-border-light)] p-4">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-full bg-theme-primary/10 text-theme-primary">
-              <StageIcon stage={stage} size={18} />
-            </div>
-            <h2 className="text-lg font-medium text-theme-primary">
-              {stage === 'intro' && 'Discover Your Perfect Implementation'}
-
-              {stage === 'contact' && 'Let\'s Personalize Your Plan'}
-              {stage === 'teamSize' && 'About Your Team'}
-              {stage === 'implementationSupport' && 'Your Implementation Style'}
-              {stage === 'timeline' && 'Project Timeline'}
-              {stage === 'contentVolume' && 'Content Vision'}
-              {stage === 'analysis' && 'Crafting Your Solution'}
-              {stage === 'breakdown' && 'Your Implementation Analysis'}
-              {stage === 'recommendation' && 'Your Personalized Strategy'}
-            </h2>
-          </div>
-          
-          <Button
-            onClick={handleClose}
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 rounded-full text-theme-tertiary hover:text-theme-primary hover-bubbly-sm transition-colors"
-            aria-label="Close modal"
-          >
-            <X className="h-4 w-4" />
-          </Button>
-        </div>
-        
-        {/* Progress bar - only show during questions */}
-        {stage !== 'intro' && stage !== 'recommendation' && (
-          <div className="w-full h-1.5 bg-theme-bg-secondary relative">
-            <div 
-              className="h-full bg-theme-primary relative overflow-hidden transition-all duration-700 ease-out"
-              style={{ width: `${getProgress()}%` }}
-              ref={progressBarRef}
-            >
-              {/* Add decorative elements within the progress bar */}
-              <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -inset-1 bg-theme-primary-hover/30 rotate-45 blur-sm transform -translate-x-full animate-[progress-shimmer_3s_infinite]"></div>
-              </div>
-            </div>
-            
-            {/* Progress markers for each stage - explicitly include exactly 5 dots */}
-            <div className="absolute top-0 left-0 w-full h-full flex justify-between px-1">
-              {/* Team Size dot */}
-              <div 
-                className={`progress-dot-0 h-4 w-4 rounded-full -mt-1.25 transition-all duration-500 ${
-                  stageSequence.indexOf(stage) > stageSequence.indexOf('teamSize')
-                    ? 'bg-theme-primary scale-100 shadow-theme-sm' 
-                    : stageSequence.indexOf(stage) === stageSequence.indexOf('teamSize')
-                      ? 'bg-theme-primary scale-110 ring-3 ring-theme-primary/40 shadow-theme-md' 
-                      : 'bg-theme-bg-surface border-2 border-theme-border-light'
-                }`}
-              />
-              
-              {/* Implementation Support dot */}
-              <div 
-                className={`progress-dot-1 h-5 w-5 rounded-full -mt-1.5 transition-all duration-500 ${
-                  stageSequence.indexOf(stage) > stageSequence.indexOf('implementationSupport')
-                    ? 'bg-theme-primary scale-100 shadow-theme-sm' 
-                    : stageSequence.indexOf(stage) === stageSequence.indexOf('implementationSupport')
-                      ? 'bg-theme-primary scale-110 ring-3 ring-theme-primary/40 shadow-theme-md' 
-                      : 'bg-theme-bg-surface border-2 border-theme-border-light'
-                }`}
-              />
-              
-              {/* Timeline dot */}
-              <div 
-                className={`progress-dot-2 h-5 w-5 rounded-full -mt-1.5 transition-all duration-500 ${
-                  stageSequence.indexOf(stage) > stageSequence.indexOf('timeline')
-                    ? 'bg-theme-primary scale-100 shadow-theme-sm' 
-                    : stageSequence.indexOf(stage) === stageSequence.indexOf('timeline')
-                      ? 'bg-theme-primary scale-110 ring-3 ring-theme-primary/40 shadow-theme-md' 
-                      : 'bg-theme-bg-surface border-2 border-theme-border-light'
-                }`}
-              />
-              
-              {/* Content Volume dot */}
-              <div 
-                className={`progress-dot-3 h-5 w-5 rounded-full -mt-1.5 transition-all duration-500 ${
-                  stageSequence.indexOf(stage) > stageSequence.indexOf('contentVolume')
-                    ? 'bg-theme-primary scale-100 shadow-theme-sm' 
-                    : stageSequence.indexOf(stage) === stageSequence.indexOf('contentVolume')
-                      ? 'bg-theme-primary scale-110 ring-3 ring-theme-primary/40 shadow-theme-md' 
-                      : 'bg-theme-bg-surface border-2 border-theme-border-light'
-                }`}
-              />
-              
-              {/* Contact dot */}
-              <div 
-                className={`progress-dot-4 h-5 w-5 rounded-full -mt-1.5 transition-all duration-500 ${
-                  stageSequence.indexOf(stage) > stageSequence.indexOf('contact')
-                    ? 'bg-theme-primary scale-100 shadow-theme-sm' 
-                    : stageSequence.indexOf(stage) === stageSequence.indexOf('contact')
-                      ? 'bg-theme-primary scale-110 ring-3 ring-theme-primary/40 shadow-theme-md' 
-                      : 'bg-theme-bg-surface border-2 border-theme-border-light'
-                }`}
-              />
-            </div>
-          </div>
+        {/* Intro Stage */}
+        {stage === 'intro' && (
+          <IntroStage
+            onNext={goToNextStage}
+            onClose={onClose}
+          />
         )}
         
-        {/* Modal content - changes based on current stage */}
-        <div className="p-4" ref={contentRef}>
-          {/* Introduction Stage - More compact with colorful elements */}
-          {stage === 'intro' && (
-            <div className="flex flex-col">
-              {/* Add a colorful gradient background to the entire intro */}
-              <div className="absolute inset-0 vs-gradient-primary-accent opacity-5 -z-10"></div>
-              
-              {/* Main title section with more vibrant styling */}
-              <div className="bg-theme-gradient rounded-xl p-3 mb-2 flex items-center shadow-theme-md">
-                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mr-3 backdrop-blur-sm">
-                  <Compass size={20} className="text-white" />
-                </div>
-                <div>
-                  <h3 className="text-base font-bold text-white leading-tight mb-0.5">
-                    Build your Perfect Content System
-                  </h3>
-                  <p className="text-white/90 text-xs">
-                    Find the perfect plan for you to scale your content - fast
-                  </p>
-                </div>
-              </div>
-              
-
-              {/* Social proof badge with enhanced styling */}
-              <div className="flex items-center gap-1 text-xs bg-theme-gradient-primary/10 border border-theme-primary/20 rounded-full px-2 py-1 mb-2 w-fit mx-auto shadow-theme-sm">
-                <Users size={10} className="text-theme-primary"/>
-                <span className="text-theme-primary font-medium text-[10px]">Trusted by 1,200+ clients in 27 industries</span>
-              </div>
-              
-              {/* Mini Feature Showcase - Improved with more vibrant styling */}
-              <div className="grid grid-cols-3 gap-2 mb-2">
-                {/* Feature 1 */}
-                <div className="bg-theme-gradient-primary/5 p-2 rounded-lg shadow-theme-sm border border-theme-primary/10 hover-bubbly-sm transition-all">
-                  <div className="flex items-center mb-1">
-                    <div className="p-1 rounded-full vs-gradient-orange flex items-center justify-center mr-2 shadow-theme-sm">
-                      <BarChart4 size={14} className="text-white" />
-
-                    </div>
-                    <h4 className="font-medium text-theme-primary text-xs">800M+ Views</h4>
-                  </div>
-                  <p className="text-xs text-theme-secondary">Generated for 120+ clients</p>
-                </div>
-                
-                {/* Feature 2 */}
-                <div className="bg-theme-gradient-secondary/5 p-2 rounded-lg shadow-theme-sm border border-theme-accent-secondary/10 hover-bubbly-sm transition-all">
-                  <div className="flex items-center mb-1">
-                    <div className="p-1 rounded-full vs-gradient-teal flex items-center justify-center mr-2 shadow-theme-sm">
-                      <Clock size={14} className="text-white" />
-                    </div>
-                    <h4 className="font-medium text-theme-accent-secondary text-xs">42% Growth</h4>
-                  </div>
-                  <p className="text-xs text-theme-secondary">30-day audience increase</p>
-                </div>
-                
-                {/* Feature 3 */}
-                <div className="bg-theme-gradient-accent/5 p-2 rounded-lg shadow-theme-sm border border-theme-accent-tertiary/10 hover-bubbly-sm transition-all">
-                  <div className="flex items-center mb-1">
-                    <div className="p-1 rounded-full vs-gradient-coral-orange flex items-center justify-center mr-2 shadow-theme-sm">
-                      <Award size={14} className="text-white" />
-                    </div>
-                    <h4 className="font-medium text-theme-accent-tertiary text-xs">7-Figure ROI</h4>
-                  </div>
-                  <p className="text-xs text-theme-secondary">Proven in 27 industries</p>
-                </div>
-              </div>
-              
-
-              {/* Process steps - more compact and colorful */}
-              <div className="bg-theme-gradient/5 rounded-lg p-2 mb-2 border border-theme-border-light">
-                <div className="flex justify-between items-center mb-1">
-                  <h4 className="text-[10px] font-medium text-theme-primary">The Process</h4>
-                  <span className="text-[9px] text-theme-tertiary bg-theme-primary/10 rounded-full px-1.5">(don't worry it takes less than 60 seconds)</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <div className="flex flex-col items-center">
-                    <div className="relative">
-                      <div className="flex items-center justify-center h-6 w-6 rounded-full bg-theme-gradient text-white text-[9px] mb-0.5 shadow-theme-sm">1</div>
-                    </div>
-                    <span className="text-theme-secondary text-[8px] text-center">Quiz<br/>Assessment</span>
-                  </div>
-                  <div className="text-theme-primary text-sm">→</div>
-                  <div className="flex flex-col items-center">
-                    <div className="flex items-center justify-center h-6 w-6 rounded-full bg-theme-gradient-secondary text-white text-[9px] mb-0.5 shadow-theme-sm">2</div>
-                    <span className="text-theme-secondary text-[8px] text-center">Personalized<br/>Solution</span>
-                  </div>
-                  <div className="text-theme-primary text-sm">→</div>
-                  <div className="flex flex-col items-center">
-                    <div className="flex items-center justify-center h-6 w-6 rounded-full bg-theme-gradient-accent text-white text-[9px] mb-0.5 shadow-theme-sm">3</div>
-                    <span className="text-theme-secondary text-[8px] text-center">Start<br/>Growing</span>
-                  </div>
-
-                </div>
-              </div>
-
-              {/* Call to action bubble */}
-              <div className="bg-theme-gradient-primary/10 rounded-full text-[9px] px-3 py-1 text-center text-theme-primary font-medium w-fit mx-auto">
-                No obligation | Personalised to your specific needs
-              </div>
-            </div>
-          )}
-          
-          {/* Contact Information Stage */}
-          {stage === 'contact' && (
-            <div className="space-y-4">
-              {/* Stage illustration */}
-              <div className="flex justify-center mb-3">
-                <div className="w-16 h-16 rounded-full bg-theme-gradient/10 flex items-center justify-center">
-                  <Mail size={32} className="text-theme-primary" />
-                </div>
-              </div>
-              
-              <div className="bg-theme-gradient-primary/5 rounded-lg p-3 mb-3">
-                <h4 className="text-theme-primary font-medium text-center mb-1 text-base">Just One More Step</h4>
-                <p className="text-theme-secondary text-center text-sm">
-                  We'll create your personalised implementation strategy and send it directly to you
-                </p>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-                {/* Left Column - About You */}
-                <div className="space-y-4">
-                  <h3 className="text-sm font-medium text-theme-primary border-b border-[var(--theme-border-light)] pb-1">About You</h3>
-                  
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-theme-primary mb-1">
-                      Your Name*
-                    </label>
-                    <input
-                      id="name"
-                      type="text"
-                      value={answers.name}
-                      onChange={(e) => handleAnswerChange('name', e.target.value)}
-                      className={`w-full rounded-lg border ${errors.name ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent shadow-theme-sm`}
-                      placeholder="Your full name"
-                    />
-                    {errors.name && (
-                      <p className="mt-1 text-red-500 dark:text-red-400 text-sm">{errors.name}</p>
-                    )}
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-theme-primary mb-1">
-                      Your Email*
-                    </label>
-                    <input
-                      id="email"
-                      type="email"
-                      value={answers.email}
-                      onChange={(e) => handleAnswerChange('email', e.target.value)}
-                      className={`w-full rounded-lg border ${errors.email ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent shadow-theme-sm`}
-                      placeholder="your.email@example.com"
-                    />
-                    {errors.email && (
-                      <p className="mt-1 text-red-500 dark:text-red-400 text-sm">{errors.email}</p>
-                    )}
-                  </div>
-                </div>
-                
-                {/* Right Column - About the Brand */}
-                <div className="space-y-4">
-                  <h3 className="text-sm font-medium text-theme-primary border-b border-[var(--theme-border-light)] pb-1">About Your Brand</h3>
-                  
-                  <div>
-                    <label htmlFor="company" className="block text-sm font-medium text-theme-primary mb-1">
-                      Company/Brand Name*
-                    </label>
-                    <input
-                      id="company"
-                      type="text"
-                      value={answers.company}
-                      onChange={(e) => handleAnswerChange('company', e.target.value)}
-                      className={`w-full rounded-lg border ${errors.company ? 'border-red-500 dark:border-red-400' : 'border-[var(--theme-border-light)]'} bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent shadow-theme-sm`}
-                      placeholder="Your company name"
-                    />
-                    {errors.company && (
-                      <p className="mt-1 text-red-500 dark:text-red-400 text-sm">{errors.company}</p>
-                    )}
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="position" className="block text-sm font-medium text-theme-primary mb-1">
-                      Your Position <span className="text-theme-tertiary">(optional)</span>
-                    </label>
-                    <input
-                      id="position"
-                      type="text"
-                      value={answers.position}
-                      onChange={(e) => handleAnswerChange('position', e.target.value)}
-                      className="w-full rounded-lg border border-[var(--theme-border-light)] bg-theme-bg-surface px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent shadow-theme-sm"
-                      placeholder="Your role in the organization"
-                    />
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-2 mt-4">
-                <CheckCircle className="h-4 w-4 text-theme-primary" />
-                <p className="text-theme-tertiary text-sm">
-                  Your information is secure and never shared with third parties
-                </p>
-              </div>
-            </div>
-          )}
-          
-          {/* Team Size Stage */}
-          {stage === 'teamSize' && (
-            <div className="space-y-4">
-              {/* Stage illustration */}
-              <div className="flex justify-center mb-3">
-                <div className="w-16 h-16 rounded-full bg-theme-gradient/10 flex items-center justify-center">
-                  <Users size={32} className="text-theme-primary" />
-                </div>
-              </div>
-              
-              <div className="bg-vs-gradient-primary-accent rounded-lg p-3 mb-3 text-white shadow-theme-md">
-                <h4 className="font-medium text-center mb-1 text-base">Your Content Team</h4>
-                <p className="text-white/80 text-center text-sm">
-                  We'll tailor our system to match your team's specific structure and size.
-                </p>
-              </div>
-              
-              <div className="flex flex-col gap-4 max-w-md mx-auto">
-                <button
-                  onClick={() => handleAnswerChange('teamSize', '1')}
-                  data-value="1"
-                  className={`teamSize-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.teamSize === '1' || selectedChoice === '1'
-                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
-                      : 'border-theme-border-light bg-theme-bg-surface'
-                  } ${isAnimatingSelection && selectedChoice !== '1' ? 'pointer-events-none' : ''}`}
-                >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
-                    <Users size={24} className="text-theme-primary" />
-                  </div>
-                  <div className="flex-grow">
-                    <h3 className="text-theme-primary font-medium">Solo Creator</h3>
-                    <p className="text-theme-secondary text-sm">Just you, a dream (and occasional freelance help)</p>
-                  </div>
-                  {answers.teamSize === '1' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
-                  )}
-                </button>
-                
-                <button
-                  onClick={() => handleAnswerChange('teamSize', '5')}
-                  data-value="5"
-                  className={`teamSize-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.teamSize === '5' || selectedChoice === '5'
-                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
-                      : 'border-theme-border-light bg-theme-bg-surface'
-                  } ${isAnimatingSelection && selectedChoice !== '5' ? 'pointer-events-none' : ''}`}
-                >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
-                    <Users size={24} className="text-theme-primary" />
-                  </div>
-                  <div className="flex-grow">
-                    <h3 className="text-theme-primary font-medium">Small Team</h3>
-                    <p className="text-theme-secondary text-sm">You lead a tight-knit team of 1-4 creatives, maybe a writer, an editor and/or an all-rounder</p>
-                  </div>
-                  {answers.teamSize === '5' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
-                  )}
-                </button>
-                
-                <button
-                  onClick={() => handleAnswerChange('teamSize', '15')}
-                  data-value="15"
-                  className={`teamSize-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.teamSize === '15' || selectedChoice === '15'
-                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
-                      : 'border-theme-border-light bg-theme-bg-surface'
-                  } ${isAnimatingSelection && selectedChoice !== '15' ? 'pointer-events-none' : ''}`}
-                >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
-                    <Users size={24} className="text-theme-primary" />
-                  </div>
-                  <div className="flex-grow">
-                    <h3 className="text-theme-primary font-medium">Growing Team</h3>
-                    <p className="text-theme-secondary text-sm">You've got a dedicated team of 5+ researchers, writers, producers, editors, strategists, and videographers</p>
-                  </div>
-                  {answers.teamSize === '15' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
-                  )}
-                </button>
-              </div>
-            </div>
-          )}
-          
-          {/* Implementation Support Stage */}
-          {stage === 'implementationSupport' && (
-            <div className="space-y-4">
-              {/* Stage illustration */}
-              <div className="flex justify-center mb-3">
-                <div className="w-16 h-16 rounded-full bg-theme-gradient/10 flex items-center justify-center">
-                  <Briefcase size={32} className="text-theme-primary" />
-                </div>
-              </div>
-              
-              <div className="bg-vs-gradient-teal rounded-lg p-3 mb-3 text-white shadow-theme-md">
-                <h4 className="font-medium text-center mb-1 text-base">How do you prefer to learn new systems?</h4>
-                <p className="text-white/80 text-center text-sm">
-                  We'll match you with the right level of support.
-                </p>
-              </div>
-              
-              <div className="flex flex-col gap-4 max-w-md mx-auto">
-                <button
-                  onClick={() => handleAnswerChange('implementationSupport', 'self_directed')}
-                  data-value="self_directed"
-                  className={`implementationSupport-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.implementationSupport === 'self_directed' || selectedChoice === 'self_directed'
-                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
-                      : 'border-theme-border-light bg-theme-bg-surface'
-                  } ${isAnimatingSelection && selectedChoice !== 'self_directed' ? 'pointer-events-none' : ''}`}
-                >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
-                    <Briefcase size={24} className="text-theme-primary" />
-                  </div>
-                  <div className="flex-grow">
-                    <h3 className="text-theme-primary font-medium">Self Driven</h3>
-                    <p className="text-theme-secondary text-sm">I'd prefer to take the course at my own pace.</p>
-                  </div>
-                  {answers.implementationSupport === 'self_directed' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
-                  )}
-                </button>
-                
-                <button
-                  onClick={() => handleAnswerChange('implementationSupport', 'guided')}
-                  data-value="guided"
-                  className={`implementationSupport-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.implementationSupport === 'guided' || selectedChoice === 'guided'
-                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
-                      : 'border-theme-border-light bg-theme-bg-surface'
-                  } ${isAnimatingSelection && selectedChoice !== 'guided' ? 'pointer-events-none' : ''}`}
-                >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
-                    <Briefcase size={24} className="text-theme-primary" />
-                  </div>
-                  <div className="flex-grow">
-                    <h3 className="text-theme-primary font-medium">Coaching & Support</h3>
-                    <p className="text-theme-secondary text-sm">I'd like guidance and coaching, but want to take the lead on implementing it myself.</p>
-                  </div>
-                  {answers.implementationSupport === 'guided' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
-                  )}
-                </button>
-                
-                <button
-                  onClick={() => handleAnswerChange('implementationSupport', 'full_service')}
-                  data-value="full_service"
-                  className={`implementationSupport-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.implementationSupport === 'full_service' || selectedChoice === 'full_service'
-                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
-                      : 'border-theme-border-light bg-theme-bg-surface'
-                  } ${isAnimatingSelection && selectedChoice !== 'full_service' ? 'pointer-events-none' : ''}`}
-                >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
-                    <Briefcase size={24} className="text-theme-primary" />
-                  </div>
-                  <div className="flex-grow">
-                    <h3 className="text-theme-primary font-medium">Help</h3>
-                    <p className="text-theme-secondary text-sm">I want dedicated experts to implement it all for me.</p>
-                  </div>
-                  {answers.implementationSupport === 'full_service' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
-                  )}
-                </button>
-              </div>
-            </div>
-          )}
-          
-          {/* Timeline Stage */}
-          {stage === 'timeline' && (
-            <div className="space-y-4">
-              {/* Stage illustration */}
-              <div className="flex justify-center mb-3">
-                <div className="w-16 h-16 rounded-full bg-theme-gradient/10 flex items-center justify-center">
-                  <Clock size={32} className="text-theme-primary" />
-                </div>
-              </div>
-              
-              <div className="bg-vs-gradient-coral-orange rounded-lg p-3 mb-3 text-white shadow-theme-md">
-                <h4 className="font-medium text-center mb-1 text-base">When do you want to see results?</h4>
-                <p className="text-white/80 text-center text-sm">
-                  We'll adjust the timeline to match your goals.
-                </p>
-              </div>
-              
-              <div className="flex flex-col gap-4 max-w-md mx-auto">
-                <button
-                  onClick={() => handleAnswerChange('timeline', 'immediate')}
-                  data-value="immediate"
-                  className={`timeline-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.timeline === 'immediate' || selectedChoice === 'immediate'
-                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
-                      : 'border-theme-border-light bg-theme-bg-surface'
-                  } ${isAnimatingSelection && selectedChoice !== 'immediate' ? 'pointer-events-none' : ''}`}
-                >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
-                    <Clock size={24} className="text-theme-primary" />
-                  </div>
-                  <div className="flex-grow">
-                    <h3 className="text-theme-primary font-medium">ASAP Growth</h3>
-                    <p className="text-theme-secondary text-sm">I'm ready to implement now and want results immediately.</p>
-                  </div>
-                  {answers.timeline === 'immediate' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
-                  )}
-                </button>
-                
-                <button
-                  onClick={() => handleAnswerChange('timeline', 'next_quarter')}
-                  data-value="next_quarter"
-                  className={`timeline-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.timeline === 'next_quarter' || selectedChoice === 'next_quarter'
-                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
-                      : 'border-theme-border-light bg-theme-bg-surface'
-                  } ${isAnimatingSelection && selectedChoice !== 'next_quarter' ? 'pointer-events-none' : ''}`}
-                >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
-                    <Clock size={24} className="text-theme-primary" />
-                  </div>
-                  <div className="flex-grow">
-                    <h3 className="text-theme-primary font-medium">Next 90 Days</h3>
-                    <p className="text-theme-secondary text-sm">I need some time to warm up, and would like to implement in the next 1-3 months</p>
-                  </div>
-                  {answers.timeline === 'next_quarter' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
-                  )}
-                </button>
-                
-                <button
-                  onClick={() => handleAnswerChange('timeline', 'exploratory')}
-                  data-value="exploratory"
-                  className={`timeline-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.timeline === 'exploratory' || selectedChoice === 'exploratory'
-                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
-                      : 'border-theme-border-light bg-theme-bg-surface'
-                  } ${isAnimatingSelection && selectedChoice !== 'exploratory' ? 'pointer-events-none' : ''}`}
-                >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
-                    <Clock size={24} className="text-theme-primary" />
-                  </div>
-                  <div className="flex-grow">
-                    <h3 className="text-theme-primary font-medium">Strategic Planning</h3>
-                    <p className="text-theme-secondary text-sm">I want a roadmap to help implement it some time this year.</p>
-                  </div>
-                  {answers.timeline === 'exploratory' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
-                  )}
-                </button>
-              </div>
-            </div>
-          )}
-          
-          {/* Content Volume Stage */}
-          {stage === 'contentVolume' && (
-            <div className="space-y-4">
-              {/* Stage illustration */}
-              <div className="flex justify-center mb-3">
-                <div className="w-16 h-16 rounded-full bg-theme-gradient/10 flex items-center justify-center">
-                  <BarChart4 size={32} className="text-theme-primary" />
-                </div>
-              </div>
-              
-              <div className="bg-vs-gradient-orange rounded-lg p-3 mb-3 text-white shadow-theme-md">
-                <h4 className="font-medium text-center mb-1 text-base">What's your content vision?</h4>
-                <p className="text-white/80 text-center text-sm">
-                  We'll adjust the framework to fit your content growth goals.
-                </p>
-              </div>
-              
-              <div className="flex flex-col gap-4 max-w-md mx-auto">
-                <button
-                  onClick={() => handleAnswerChange('contentVolume', 'low')}
-                  data-value="low"
-                  className={`contentVolume-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.contentVolume === 'low' || selectedChoice === 'low'
-                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
-                      : 'border-theme-border-light bg-theme-bg-surface'
-                  } ${isAnimatingSelection && selectedChoice !== 'low' ? 'pointer-events-none' : ''}`}
-                >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
-                    <BarChart4 size={24} className="text-theme-primary" />
-                  </div>
-                  <div className="flex-grow">
-                    <h3 className="text-theme-primary font-medium">High Impact Focus</h3>
-                    <p className="text-theme-secondary text-sm">I want a small-scale strategy to maximise ROI and conversions</p>
-                  </div>
-                  {answers.contentVolume === 'low' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
-                  )}
-                </button>
-                
-                <button
-                  onClick={() => handleAnswerChange('contentVolume', 'medium')}
-                  data-value="medium"
-                  className={`contentVolume-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.contentVolume === 'medium' || selectedChoice === 'medium'
-                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
-                      : 'border-theme-border-light bg-theme-bg-surface'
-                  } ${isAnimatingSelection && selectedChoice !== 'medium' ? 'pointer-events-none' : ''}`}
-                >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
-                    <BarChart4 size={24} className="text-theme-primary" />
-                  </div>
-                  <div className="flex-grow">
-                    <h3 className="text-theme-primary font-medium">Consistent Growth</h3>
-                    <p className="text-theme-secondary text-sm">I want an content system putting out 10-30 pieces a month.</p>
-                  </div>
-                  {answers.contentVolume === 'medium' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
-                  )}
-                </button>
-                
-                <button
-                  onClick={() => handleAnswerChange('contentVolume', 'high')}
-                  data-value="high"
-                  className={`contentVolume-option flex items-center p-4 rounded-lg border transition-all hover-bubbly-sm ${
-                    answers.contentVolume === 'high' || selectedChoice === 'high'
-                      ? 'border-theme-primary bg-theme-primary/10 shadow-theme-md' 
-                      : 'border-theme-border-light bg-theme-bg-surface'
-                  } ${isAnimatingSelection && selectedChoice !== 'high' ? 'pointer-events-none' : ''}`}
-                >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4">
-                    <BarChart4 size={24} className="text-theme-primary" />
-                  </div>
-                  <div className="flex-grow">
-                    <h3 className="text-theme-primary font-medium">Full Scale Engine</h3>
-                    <p className="text-theme-secondary text-sm">I want a comprehensive efficient content system to scale across multiple platforms.</p>
-                  </div>
-                  {answers.contentVolume === 'high' && (
-                    <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />
-                  )}
-                </button>
-              </div>
-            </div>
-          )}
-          
-          {/* Analysis Animation Stage */}
-          {stage === 'analysis' && (
-            <AnalysisAnimation onComplete={handleAnalysisAnimationComplete} />
-          )}
-          
-          {/* Analysis Breakdown Stage */}
-          {stage === 'breakdown' && analysisData && (
-            <AnalysisBreakdown 
-              answers={answers}
-              score={analysisData.score}
-              onContinue={handleBreakdownComplete}
-            />
-          )}
-          
-          {/* Recommendation Stage - Different layouts based on recommendation type */}
-          {stage === 'recommendation' && recommendation && (
-            <div className="h-auto max-h-[60vh] overflow-y-auto flex flex-col">
-              {/* Recommendation Header - More visual with badge design */}
-              <div className={`p-5 flex items-center justify-between border-b border-[var(--theme-border-light)] bg-theme-gradient 
-                ${recommendation.type === 'executive' ? 'vs-gradient-coral-orange' : 
-                 recommendation.type === 'comprehensive' ? 'vs-gradient-primary-accent' : 
-                 'vs-gradient-teal'}
-              `}>
-                <div className="flex items-center gap-4">
-                  <div className={`
-                    p-3.5 rounded-full shadow-theme-md backdrop-blur-md
-                    ${recommendation.type === 'executive' ? 'bg-white/20 text-white' : 
-                    recommendation.type === 'comprehensive' ? 'bg-white/20 text-white' : 
-                    'bg-white/20 text-white'}
-                  `}>
-                    <Award className="h-8 w-8" />
-                  </div>
-                  
-                  <div>
-                    <span className="text-sm text-white/80">Your Personalized Recommendation</span>
-                    <h3 className="font-bold text-white text-2xl leading-tight">
-                      {recommendation.type === 'executive' ? 'Executive Partnership: Accelerated Implementation' : 
-                       recommendation.type === 'comprehensive' ? 'Comprehensive Implementation: Complete Support' : 
-                       'Foundation Program: Essential Building Blocks'}
-                    </h3>
-                  </div>
-                </div>
-                
-                <div className="bg-white/20 p-3 rounded-xl backdrop-blur-md shadow-theme-md">
-                  <span className="text-sm text-white/80 block">Starting at</span>
-                  <span className="text-2xl font-bold text-white">{recommendation.pricing}</span>
-                </div>
-              </div>
-              
-              {/* Different layouts based on recommendation type */}
-              {recommendation.type === 'foundation' ? (
-                <FoundationRecommendationView 
-                  recommendation={recommendation}
-                  onUpgradeSelect={() => window.open('https://your-sales-page.com/executive', '_blank')}
-                  onPurchase={() => alert('Starting Foundation Program checkout process')} // Would implement actual checkout in production
-                  answers={answers}
-                />
-              ) : (
-                <PremiumRecommendationView
-                  recommendation={recommendation}
-                  showCalendly={recommendation.showCalendly || false}
-                  onClose={handleCalendlyClose}
-                  answers={answers}
-                />
-              )}
-            </div>
-          )}
-        </div>
+        {/* Team Size Stage */}
+        {stage === 'teamSize' && (
+          <QuestionStage 
+            title="Your Team Structure"
+            description="We'll tailor our system to match your team's specific structure and size."
+            icon={<Users size={32} className="text-theme-primary" />}
+            gradientClass="bg-vs-gradient-primary-accent"
+            options={teamSizeOptions}
+            selectedValue={answers.teamSize}
+            onSelect={(value) => handleAnswerChange('teamSize', value)}
+            isAnimating={isAnimatingSelection}
+            selectedChoice={selectedChoice}
+          />
+        )}
         
-        {/* Modal footer with navigation buttons */}
-        <div className="border-t border-[var(--theme-border-light)] p-4">
-          <div className="flex justify-between">
-            {/* Back button - only show if not on first or last stage */}
-            {stage !== 'intro' && stage !== 'recommendation' && (
-              <Button
-                onClick={goToPreviousStage}
-                variant="outline"
-                size="sm"
-              >
-                Back
-              </Button>
-            )}
-            
-            {/* Cancel button - only on first stage or recommendation */}
-            {(stage === 'intro' || stage === 'recommendation') && (
-              <Button
-                onClick={handleClose}
-                variant="ghost"
-                size="sm"
-              >
-                {stage === 'intro' ? 'Maybe later' : 'Close'}
-              </Button>
-            )}
-            
-            {/* Enhanced intro stage footer with Learn More option */}
-            {stage === 'intro' && (
-              <div className="space-x-2">
-                <Button
-                  onClick={() => window.scrollTo({ top: document.getElementById('features-section')?.offsetTop || 0, behavior: 'smooth' })}
-                  variant="outline"
-                  size="sm"
-                >
-                  See all features
-                </Button>
-                
-                <Button
-                  onClick={goToNextStage}
-
-                  variant="default"
-                  size="sm"
-                  className="flex items-center gap-1"
-
-                >
-                  Get my personalised plan
-                  <ChevronRight className="h-3.5 w-3.5" />
-                </Button>
-              </div>
-            )}
-            
-            {/* Contact stage button */}
-            {stage === 'contact' && (
-              <Button
-                onClick={goToNextStage}
-                disabled={!canProceed()}
-
-                variant={canProceed() ? "default" : "subtle"}
-                size="sm"
-                className="flex items-center gap-1"
-
-              >
-                → show my recommendation
-                <ChevronRight className="h-3.5 w-3.5" />
-              </Button>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+        {/* Implementation Support Stage */}
+        {stage === 'implementationSupport' && (
+          <QuestionStage 
+            title="How do you prefer to learn new systems?"
+            description="We'll match you with the right level of support."
+            icon={<Briefcase size={32} className="text-theme-primary" />}
+            gradientClass="bg-vs-gradient-teal"
+            options={implementationOptions}
+            selectedValue={answers.implementationSupport}
+            onSelect={(value) => handleAnswerChange('implementationSupport', value)}
+            isAnimating={isAnimatingSelection}
+            selectedChoice={selectedChoice}
+          />
+        )}
+        
+        {/* Timeline Stage */}
+        {stage === 'timeline' && (
+          <QuestionStage 
+            title="When do you want to see results?"
+            description="We'll adjust the timeline to match your goals."
+            icon={<Clock size={32} className="text-theme-primary" />}
+            gradientClass="bg-vs-gradient-coral-orange"
+            options={timelineOptions}
+            selectedValue={answers.timeline}
+            onSelect={(value) => handleAnswerChange('timeline', value)}
+            isAnimating={isAnimatingSelection}
+            selectedChoice={selectedChoice}
+          />
+        )}
+        
+        {/* Content Volume Stage */}
+        {stage === 'contentVolume' && (
+          <QuestionStage 
+            title="What's your content vision?"
+            description="We'll adjust the framework to fit your content growth goals."
+            icon={<BarChart4 size={32} className="text-theme-primary" />}
+            gradientClass="bg-vs-gradient-orange"
+            options={contentVolumeOptions}
+            selectedValue={answers.contentVolume}
+            onSelect={(value) => handleAnswerChange('contentVolume', value)}
+            isAnimating={isAnimatingSelection}
+            selectedChoice={selectedChoice}
+          />
+        )}
+        
+        {/* Contact Stage */}
+        {stage === 'contact' && (
+          <ContactStage
+            answers={answers}
+            errors={errors}
+            onChange={handleAnswerChange}
+            onNext={goToNextStage}
+            onBack={goToPreviousStage}
+            canProceed={canProceed()}
+          />
+        )}
+        
+        {/* Analysis Animation Stage */}
+        {stage === 'analysis' && (
+          <AnalysisAnimation 
+            onComplete={handleAnalysisAnimationComplete} 
+          />
+        )}
+        
+        {/* Analysis Breakdown Stage */}
+        {stage === 'breakdown' && analysisData && (
+          <AnalysisBreakdown 
+            answers={answers}
+            score={analysisData.score}
+            onContinue={handleBreakdownComplete}
+          />
+        )}
+        
+        {/* Recommendation Stage - Different layouts based on recommendation type */}
+        {stage === 'recommendation' && recommendation && (
+          recommendation.type === 'foundation' ? (
+            <FoundationRecommendation
+              recommendation={recommendation}
+              onUpgradeSelect={() => window.open('https://your-sales-page.com/executive', '_blank')}
+              onPurchase={() => alert('Starting Foundation Program checkout process')} // Would implement actual checkout in production
+              answers={answers}
+            />
+          ) : (
+            <PremiumRecommendation
+              recommendation={recommendation}
+              showCalendly={recommendation.showCalendly || false}
+              onClose={onClose}
+              answers={answers}
+            />
+          )
+        )}
+        
+        {/* Modal Footer - Not shown during analysis stages */}
+        {stage !== 'analysis' && stage !== 'breakdown' && stage !== 'recommendation' && (
+          <ModalFooter
+            stage={stage}
+            canProceed={canProceed()}
+            handleClose={onClose}
+            goToPreviousStage={goToPreviousStage}
+            goToNextStage={goToNextStage}
+            isFirstStage={stage === 'intro'}
+            isLastStage={stage === 'recommendation'}
+            nextButtonText={stage === 'contact' ? 'Show My Recommendation' : 'Continue'}
+            backButtonText="Back"
+            closeButtonText={stage === 'intro' ? 'Maybe later' : 'Close'}
+          />
+        )}
+      </ModalContainer>
+    </>
   );
 };
 

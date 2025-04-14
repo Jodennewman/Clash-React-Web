@@ -228,19 +228,19 @@
 }
 
 .border-theme-accent {
-  border: 1px solid var(--theme-accent-secondary);
+  border: 2px solid var(--theme-accent-secondary);
 }
 
 .border-theme-destructive {
-  border: 1px solid var(--accent-red);
+  border: 2px solid var(--accent-red);
 }
 
 .border-theme-error {
-  border: 1px solid var(--accent-red);
+  border: 2px solid var(--accent-red);
 }
 
 .border-theme-on-primary {
-  border: 1px solid var(--theme-primary);
+  border: 2px solid var(--theme-primary);
 }
 
 .border-theme-accent-secondary {

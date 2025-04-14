@@ -6,7 +6,6 @@ import { Book, Clock, FileText, FileCode, Layers, CheckSquare } from 'lucide-rea
 import courseUtils from "../../lib/course-utils";
 // Using courseUtils as the single source of truth instead of direct import
 import { Section } from "../ui/section";
-import { Badge } from "../ui/badge";
 
 // Define CSS animations for floating elements - VS Bubbly style
 const floatingAnimationsStyle = `
@@ -169,6 +168,7 @@ const CourseStats = () => {
 
   return (
     <Section 
+      id="course-stats"
       className="bg-theme-primary py-24 border-t border-theme-border-light relative overflow-hidden"
     >
       {/* Apply float animations via style tag */}
