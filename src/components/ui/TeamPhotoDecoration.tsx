@@ -55,6 +55,7 @@ export default function TeamPhotoDecoration({
   };
   
   // Calculate position values based on location
+  // More distance from text and content, with more spacing between images
   const getPositionStyles = (positionType: string, index: number) => {
     const baseStyles = {
       top: '10%',
@@ -63,34 +64,35 @@ export default function TeamPhotoDecoration({
       bottom: 'auto',
     };
     
+    // More padding from edges to keep images away from text
     switch (positionType) {
       case 'top-left':
         return {
           ...baseStyles,
-          top: `${5 + (index * 3)}%`,
-          left: `${5 + (index * 4)}%`,
+          top: `${8 + (index * 4)}%`,  // More spacing between images
+          left: `${8 + (index * 5)}%`, // Further from left edge
         };
       case 'top-right':
         return {
           ...baseStyles,
-          top: `${5 + (index * 3)}%`,
+          top: `${8 + (index * 4)}%`,  // More spacing between images
           left: 'auto',
-          right: `${5 + (index * 4)}%`,
+          right: `${10 + (index * 5)}%`, // Further from right edge
         };
       case 'bottom-left':
         return {
           ...baseStyles,
           top: 'auto',
-          bottom: `${5 + (index * 3)}%`,
-          left: `${5 + (index * 4)}%`,
+          bottom: `${12 + (index * 4)}%`, // Further from bottom edge
+          left: `${8 + (index * 5)}%`,    // Further from left edge
         };
       case 'bottom-right':
         return {
           ...baseStyles,
           top: 'auto',
-          bottom: `${5 + (index * 3)}%`,
+          bottom: `${12 + (index * 4)}%`, // Further from bottom edge
           left: 'auto',
-          right: `${5 + (index * 4)}%`,
+          right: `${10 + (index * 5)}%`,  // Further from right edge
         };
       default:
         return baseStyles;
@@ -121,16 +123,16 @@ export default function TeamPhotoDecoration({
         }
       });
       
-      // Add each image to the timeline
+      // Add each image to the timeline - more subtle movements
       decorationImages.forEach((img, index) => {
-        // Different effect for each image
-        const yPercent = ((index % 3) - 1) * 10;
-        const xPercent = ((index % 2) * 2 - 1) * 5;
+        // More subtle movement
+        const yPercent = ((index % 3) - 1) * 5; // Reduced vertical movement (was 10)
+        const xPercent = ((index % 2) * 2 - 1) * 3; // Reduced horizontal movement (was 5)
         
         tl.to(img, {
           yPercent,
           xPercent,
-          rotate: (index % 2 === 0 ? 2 : -2),
+          rotate: (index % 2 === 0 ? 0.8 : -0.8), // Much less rotation (was 2/-2)
           ease: "none",
         }, 0);
       });
@@ -148,8 +150,8 @@ export default function TeamPhotoDecoration({
         const pos = getPosition(index);
         const posStyles = getPositionStyles(pos, index);
         
-        // Calculate width based on image and index
-        const width = maxWidth - (index * 10);
+        // Calculate max width based on image and index
+        const width = maxWidth - (index * 8);
         
         return (
           <div
@@ -157,18 +159,18 @@ export default function TeamPhotoDecoration({
             className="absolute z-1 overflow-hidden pointer-events-none"
             style={{
               ...posStyles,
-              width: `${width}px`,
-              height: `${width}px`,
+              maxWidth: `${width}px`,
               opacity,
-              borderRadius: '45%',
-              transform: `rotate(${index % 2 === 0 ? 5 : -5}deg)`,
-              boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)',
+              borderRadius: '8px', // Much more subtle rounded corners (was 45%)
+              transform: `rotate(${index % 2 === 0 ? 1 : -1}deg)`, // Less rotation (was 5/-5)
+              boxShadow: '0 3px 10px rgba(0, 0, 0, 0.08)', // More subtle shadow
             }}
           >
             <img 
               src={img.url}
               alt="Team decoration"
-              className="w-full h-full object-cover"
+              className="w-full object-contain" // object-contain to preserve aspect ratio
+              style={{ maxHeight: `${width * 1.5}px` }} // Allow more height for proper aspect ratio
               loading="lazy"
             />
           </div>
