@@ -67,7 +67,7 @@ export const ConnectEverything: React.FC<ConnectEverythingProps> = (props) => {
   }, []);
 
   return (
-    <section ref={containerRef} className="w-[1874px] h-[3383px] px-64 py-6 bg-radial-[at_75%_-11%] from-cyan-950 to-black to-78% dark:inline-flex flex-col justify-center items-center gap-40 overflow-hidden hidden">
+    <section ref={containerRef} className="w-[1874px] h-[3383px] px-64 py-6 bg-radial-[at_75%_-11%] from-cyan-950 to-black to-78% inline-flex flex-col justify-center items-center gap-40 overflow-hidden">
       {/* Simplified background elements */}
       <div className="absolute inset-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
         <div className="absolute top-[10%] left-[5%] w-[30%] h-[1px] bg-gradient-to-r from-transparent via-sky-400 to-transparent"></div>
