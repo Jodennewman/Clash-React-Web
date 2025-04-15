@@ -14,6 +14,7 @@ import CalendlyDemo from './components/Calendly/CalendlyDemo';
 import ThemeStyleGuide from './components/ThemeStyleGuide';
 
 import ModalImplementation from './Qualification_components/modal-implementation';
+import TiaPreview from './Qualification_components/tia-preview';
 import ModuleHUDShowcase from './components/sections/ModuleHUDShowcase';
 import ThemeVisualizer from './components/Color-theme-display';
 
@@ -76,12 +77,16 @@ function App() {
               </div>
 
               <div>
-                <Link to="/style-guide" className="px-6 py-2 bg-theme-primary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                <Link to="/style-guide" className="px-6 py-2 bg-theme-primary text-white rounded-lg shadow-theme-sm hover-bubbly-sm mr-2">
                   Theme Style Guide
                 </Link>
 
-                <Link to="/qualification" className="px-6 py-2 bg-theme-gradient-primary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                <Link to="/qualification" className="px-6 py-2 bg-theme-gradient-primary text-white rounded-lg shadow-theme-sm hover-bubbly-sm mr-2">
                   Qualification Modal Demo
+                </Link>
+                
+                <Link to="/tia-qualification" className="px-6 py-2 bg-theme-accent-tertiary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                  Tia Qualification Modal
                 </Link>
               </div>
               <div>
@@ -105,6 +110,7 @@ function App() {
         <Route path="/style-guide" element={<ThemeStyleGuide />} />
 
         <Route path="/qualification" element={<ModalImplementation />} />
+        <Route path="/tia-qualification" element={<TiaPreview />} />
         <Route path="/modulehud" element={<ModuleHUDShowcase />} />
         <Route path="/theme-visualizer" element={<ThemeVisualizer />} />
         <Route path="/connect-everything" element={<ConnectEverything />} />
