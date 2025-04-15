@@ -492,10 +492,58 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
       </div>
 
 
-      {/* Stats carousel showing 4 creators at once with navigation buttons */}
+      {/* Stats carousel optimized for mobile with HUD-like appearance */}
       <div ref={statsRowRef} className="mb-6 case-study-element">
-        {/* Carousel container with navigation buttons */}
-        <div className="relative">
+        {/* Mobile view: Creator grid with more prominent UI */}
+        <div className="md:hidden">
+          <h3 className="text-theme-secondary text-sm font-medium mb-2 px-1">
+            Select Creator:
+          </h3>
+          <div className="grid grid-cols-2 gap-2">
+            {creators.map((creator, index) => (
+              <button
+                key={creator.id}
+                onClick={() => setActiveCreator(index)}
+                className={`stats-box bg-theme-gradient-card 
+                          rounded-lg p-3
+                          border border-theme-border-light
+                          shadow-theme-sm 
+                          transition-all duration-300
+                          ${activeCreator === index 
+                            ? 'ring-2 ring-[var(--theme-primary)] shadow-theme-md' 
+                            : 'hover:shadow-theme-md'}
+                          flex items-center`}
+              >
+                <div className="w-10 h-10 rounded-full overflow-hidden 
+                            border-2 border-[var(--theme-primary)]/70
+                            flex-shrink-0 mr-2">
+                  <img
+                    src={creator.avatar}
+                    alt={creator.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                <div className="flex-1">
+                  <h4 className="text-theme-primary font-medium text-sm truncate">
+                    {creator.name}
+                  </h4>
+                  <div className="flex items-center">
+                    <span className="text-theme-accent-primary font-bold text-lg">
+                      {formatLargeNumber(creator?.totals?.views || 0)}
+                    </span>
+                    <span className="text-theme-secondary text-xs ml-1">
+                      views
+                    </span>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+        
+        {/* Desktop view: Carousel with navigation */}
+        <div className="relative hidden md:block">
           {/* Left scroll button */}
           <button 
             onClick={() => scrollCarousel('left')}
@@ -518,50 +566,38 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                 key={creator.id}
                 onClick={() => setActiveCreator(index)}
                 className={`stats-box bg-theme-gradient-card 
-                          rounded-lg p-2 md:p-3
+                          rounded-lg p-3
                           border border-theme-border-light
                           shadow-theme-sm 
                           transition-all duration-300
-                          flex-shrink-0 w-[calc(50%-0.5rem)] md:w-[calc(25%-0.75rem)]
+                          flex-shrink-0 w-[calc(25%-0.75rem)]
                           snap-start
                           ${activeCreator === index 
                             ? 'translate-y-[-4px] scale-[1.02] shadow-theme-md ring-2 ring-[var(--theme-primary)]/70' 
                             : 'hover:translate-y-[-3px] hover:shadow-theme-md'}
-                          flex items-center text-left md:text-center`}
+                          flex flex-col items-center text-center`}
               >
-                <div className="w-10 h-10 rounded-full overflow-hidden 
-                            ring-2 ring-[var(--theme-primary)]/70
-                            transition-all duration-300 flex-shrink-0 md:hidden">
+                <div className="w-11 h-11 rounded-full overflow-hidden 
+                            ring-2 ring-[var(--theme-primary)]/70 mb-2
+                            transition-all duration-300 mx-auto">
                   <img
                     src={creator.avatar}
                     alt={creator.name}
                     className="w-full h-full object-cover"
                   />
                 </div>
-
-                <div className="flex-1 flex flex-col md:items-center">
-                  <div className="hidden md:block w-11 h-11 rounded-full overflow-hidden 
-                              ring-2 ring-[var(--theme-primary)]/70 mb-2
-                              transition-all duration-300 mx-auto">
-                    <img
-                      src={creator.avatar}
-                      alt={creator.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="text-theme-secondary/80 text-[10px] uppercase tracking-wider font-medium md:mt-0 md:mb-0">
-                    Views
-                  </div>
-                  <div className="text-theme-accent-primary font-bold text-2xl md:text-3xl lg:text-4xl leading-none">
-                    {formatLargeNumber(creator?.totals?.views || 0)}
-                  </div>
-                  <div className="text-theme-secondary/90 text-[8px] md:text-[10px] mt-0.5">
-                    in {getGrowthDuration(creator)} months
-                  </div>
-                  <h4 className="text-theme-primary/60 font-normal text-[8px] md:text-[9px] truncate w-full opacity-60">
-                    {creator.name}
-                  </h4>
+                <div className="text-theme-secondary/80 text-[10px] uppercase tracking-wider font-medium">
+                  Views
                 </div>
+                <div className="text-theme-accent-primary font-bold text-3xl lg:text-4xl leading-none">
+                  {formatLargeNumber(creator?.totals?.views || 0)}
+                </div>
+                <div className="text-theme-secondary/90 text-[10px] mt-0.5">
+                  in {getGrowthDuration(creator)} months
+                </div>
+                <h4 className="text-theme-primary/60 font-normal text-[9px] truncate w-full opacity-60">
+                  {creator.name}
+                </h4>
               </button>
             ))}
           </div>
@@ -582,103 +618,170 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
 
       {/* Single column layout for main content - with narrower margins */}
       <div className="flex flex-col gap-5 mb-4 max-w-[98%] mx-auto">
-        {/* Metric toggle buttons in their own row */}
-        <div className="flex flex-wrap justify-start gap-1.5 mb-1 case-study-element">
+        {/* Mobile-optimized metric toggle buttons - more touch-friendly */}
+        <div className="flex justify-center md:justify-start gap-2 mb-3 case-study-element">
           {[
-            { id: "all", label: "All Metrics", color: "text-theme-primary" },
-            { id: "views", label: "Views", color: "text-[var(--theme-primary)]" },
-            { id: "followers", label: "Followers", color: "text-[var(--theme-accent-secondary)]" },
-            { id: "interactions", label: "Interactions", color: "text-[var(--theme-accent-tertiary)]" },
+            { id: "all", label: "All Metrics", color: "text-theme-primary", icon: "📊" },
+            { id: "views", label: "Views", color: "text-[var(--theme-primary)]", icon: "👁️" },
+            { id: "followers", label: "Followers", color: "text-[var(--theme-accent-secondary)]", icon: "👥" },
+            { id: "interactions", label: "Interactions", color: "text-[var(--theme-accent-tertiary)]", icon: "💬" },
           ].map((metric) => (
             <button
               key={metric.id}
               onClick={() => setActiveMetric(metric.id)}
-              className={`px-2.5 py-0.5 rounded-full text-xs transition-all
+              className={`px-3 py-2 rounded-lg text-sm transition-all flex items-center
                         ${activeMetric === metric.id 
                           ? metric.id === "all"
-                            ? "bg-theme-gradient-primary text-white shadow-theme-glow" 
+                            ? "bg-theme-gradient-primary text-white shadow-theme-md" 
                             : metric.id === "views"
-                              ? "bg-[var(--theme-primary)] text-white shadow-theme-glow"
+                              ? "bg-[var(--theme-primary)] text-white shadow-theme-md"
                               : metric.id === "followers"
-                                ? "bg-[var(--theme-accent-secondary)] text-white shadow-theme-glow" 
-                                : "bg-[var(--theme-accent-tertiary)] text-white shadow-theme-glow"
-                          : "bg-theme-surface hover:bg-theme-surface-hover"}`}
+                                ? "bg-[var(--theme-accent-secondary)] text-white shadow-theme-md" 
+                                : "bg-[var(--theme-accent-tertiary)] text-white shadow-theme-md"
+                          : "bg-theme-surface shadow-theme-sm hover:bg-theme-surface-hover"}`}
             >
+              <span className="mr-1.5 md:hidden">{metric.icon}</span>
               {metric.label}
             </button>
           ))}
         </div>
 
-        {/* Stats row for detailed metrics - moved above the graph */}
-        <div className="grid grid-cols-3 gap-2 mb-3 case-study-element">
-          {/* Views card */}
-          <div className="bg-theme-gradient-card
-                      rounded-md p-2.5
-                      border border-theme-border-light shadow-theme-md
-                      transition-all duration-200
-                      hover:bg-theme-surface-hover
-                      overflow-hidden">
-            <div className="flex items-center">
-              <div className="w-1 h-12 bg-[var(--theme-primary)]/70 rounded-full mr-2"></div>
-              <div className="flex-1">
-                <div className="text-theme-secondary text-[10px] uppercase tracking-wider font-medium">Total Views</div>
-                <div className="text-[var(--theme-primary)] text-xl font-bold mt-1">
-                  {formatNumber(currentCreator?.totals?.views || 0)}
+        {/* Mobile-optimized stats row - HUD-like appearance */}
+        <div className="bg-theme-gradient-card border border-theme-border-light rounded-xl shadow-theme-md p-3 mb-3 case-study-element">
+          <h3 className="text-theme-secondary text-sm font-medium mb-2 hidden md:block">
+            Performance Stats:
+          </h3>
+          
+          {/* Mobile view: More condensed, HUD-like layout */}
+          <div className="md:hidden">
+            <div className="flex items-center justify-between mb-2.5">
+              <div className="text-theme-primary text-sm font-medium">
+                {currentCreator.name} Stats:
+              </div>
+              <div className="text-theme-secondary text-xs">
+                {getGrowthDuration(currentCreator)} month growth
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-3 gap-2">
+              {/* Views */}
+              <div className="bg-theme-gradient-primary/10 rounded-lg p-2 border border-theme-border-light/50">
+                <div className="flex items-center mb-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[var(--theme-primary)] mr-1.5"></div>
+                  <div className="text-theme-secondary text-xs">Views</div>
+                </div>
+                <div className="text-[var(--theme-primary)] text-base md:text-lg font-bold">
+                  {formatLargeNumber(currentCreator?.totals?.views || 0)}
+                </div>
+              </div>
+              
+              {/* Followers */}
+              <div className="bg-theme-accent-secondary/10 rounded-lg p-2 border border-theme-border-light/50">
+                <div className="flex items-center mb-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent-secondary)] mr-1.5"></div>
+                  <div className="text-theme-secondary text-xs">Followers</div>
+                </div>
+                <div className="text-[var(--theme-accent-secondary)] text-base md:text-lg font-bold">
+                  {formatLargeNumber(currentCreator?.totals?.followers || 0)}
+                </div>
+              </div>
+              
+              {/* Interactions */}
+              <div className="bg-theme-accent-tertiary/10 rounded-lg p-2 border border-theme-border-light/50">
+                <div className="flex items-center mb-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent-tertiary)] mr-1.5"></div>
+                  <div className="text-theme-secondary text-xs">Interactions</div>
+                </div>
+                <div className="text-[var(--theme-accent-tertiary)] text-base md:text-lg font-bold">
+                  {formatLargeNumber(currentCreator?.totals?.interactions || 0)}
                 </div>
               </div>
             </div>
           </div>
           
-          {/* Followers card */}
-          <div className="bg-theme-gradient-card
-                      rounded-md p-2.5
-                      border border-theme-border-light shadow-theme-md
-                      transition-all duration-200
-                      hover:bg-theme-surface-hover
-                      overflow-hidden">
-            <div className="flex items-center">
-              <div className="w-1 h-12 bg-[var(--theme-accent-secondary)]/70 rounded-full mr-2"></div>
-              <div className="flex-1">
-                <div className="text-theme-secondary text-[10px] uppercase tracking-wider font-medium">Followers</div>
-                <div className="text-[var(--theme-accent-secondary)] text-xl font-bold mt-1">
-                  {formatNumber(currentCreator?.totals?.followers || 0)}
+          {/* Desktop view: Original layout */}
+          <div className="hidden md:grid grid-cols-3 gap-4">
+            {/* Views card */}
+            <div className="bg-theme-gradient-card
+                        rounded-md p-3
+                        border border-theme-border-light shadow-theme-sm
+                        transition-all duration-200
+                        hover:bg-theme-surface-hover
+                        overflow-hidden">
+              <div className="flex items-center">
+                <div className="w-1 h-12 bg-[var(--theme-primary)]/70 rounded-full mr-2"></div>
+                <div className="flex-1">
+                  <div className="text-theme-secondary text-[10px] uppercase tracking-wider font-medium">Total Views</div>
+                  <div className="text-[var(--theme-primary)] text-xl font-bold mt-1">
+                    {formatNumber(currentCreator?.totals?.views || 0)}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          
-          {/* Interactions card */}
-          <div className="bg-theme-gradient-card
-                      rounded-md p-2.5
-                      border border-theme-border-light shadow-theme-md
-                      transition-all duration-200
-                      hover:bg-theme-surface-hover">
-            <div className="flex items-center">
-              <div className="w-1 h-12 bg-[var(--theme-accent-tertiary)]/70 rounded-full mr-2"></div>
-              <div className="flex-1">
-                <div className="text-theme-secondary text-[10px] uppercase tracking-wider font-medium">Interactions</div>
-                <div className="text-[var(--theme-accent-tertiary)] text-xl font-bold mt-1">
-                  {formatNumber(currentCreator?.totals?.interactions || 0)}
+            
+            {/* Followers card */}
+            <div className="bg-theme-gradient-card
+                        rounded-md p-3
+                        border border-theme-border-light shadow-theme-sm
+                        transition-all duration-200
+                        hover:bg-theme-surface-hover
+                        overflow-hidden">
+              <div className="flex items-center">
+                <div className="w-1 h-12 bg-[var(--theme-accent-secondary)]/70 rounded-full mr-2"></div>
+                <div className="flex-1">
+                  <div className="text-theme-secondary text-[10px] uppercase tracking-wider font-medium">Followers</div>
+                  <div className="text-[var(--theme-accent-secondary)] text-xl font-bold mt-1">
+                    {formatNumber(currentCreator?.totals?.followers || 0)}
+                  </div>
                 </div>
               </div>
-              <div className="bg-[var(--theme-accent-tertiary)]/10 p-1 rounded-full">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z" stroke="#DE6B59" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+            </div>
+            
+            {/* Interactions card */}
+            <div className="bg-theme-gradient-card
+                        rounded-md p-3
+                        border border-theme-border-light shadow-theme-sm
+                        transition-all duration-200
+                        hover:bg-theme-surface-hover">
+              <div className="flex items-center">
+                <div className="w-1 h-12 bg-[var(--theme-accent-tertiary)]/70 rounded-full mr-2"></div>
+                <div className="flex-1">
+                  <div className="text-theme-secondary text-[10px] uppercase tracking-wider font-medium">Interactions</div>
+                  <div className="text-[var(--theme-accent-tertiary)] text-xl font-bold mt-1">
+                    {formatNumber(currentCreator?.totals?.interactions || 0)}
+                  </div>
+                </div>
+                <div className="bg-[var(--theme-accent-tertiary)]/10 p-1 rounded-full">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z" stroke="#DE6B59" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
               </div>
             </div>
           </div>
         </div>
       
-        {/* Graph component - optimized for performance */}
+        {/* Graph component - HUD-like mobile optimization */}
         <div ref={chartRef} className="bg-theme-gradient-card
-                    p-3 rounded-md
+                    p-3 rounded-xl
                     border border-theme-border-light shadow-theme-md case-study-element">
-          <div className="h-[250px] md:h-[350px]"> {/* Reduced height slightly */}
+          {/* Mobile view header for graph */}
+          <div className="flex items-center justify-between mb-2 md:hidden">
+            <div className="text-theme-primary text-sm font-medium">Growth Chart</div>
+            <div className="text-theme-secondary text-xs">{activeMetric === "all" ? "All metrics" : activeMetric}</div>
+          </div>
+          
+          {/* Reduced height for mobile, HUD-like appearance */}
+          <div className="h-[200px] md:h-[350px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 data={currentCreator?.data || []}
-                margin={{ top: 5, right: 20, left: 15, bottom: 5 }}
+                margin={{ 
+                  top: 5, 
+                  right: window.innerWidth < 768 ? 5 : 20, 
+                  left: window.innerWidth < 768 ? 5 : 15, 
+                  bottom: 5 
+                }}
               >
                 <defs>
                   {/* Simplified glow effect */}
@@ -690,69 +793,111 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                     </feMerge>
                   </filter>
                 </defs>
+                
+                {/* Simplified grid for mobile */}
                 <CartesianGrid 
                   strokeDasharray="3 3" 
                   stroke="var(--theme-border-light)" 
-                  opacity={0.4} // Reduced opacity
-                  vertical={false} // Only show horizontal grid lines
+                  opacity={window.innerWidth < 768 ? 0.2 : 0.4}
+                  vertical={false}
+                  horizontal={window.innerWidth < 768 ? window.innerWidth < 400 ? false : true : true}
                 />
+                
+                {/* More compact X-axis for mobile */}
                 <XAxis 
                   dataKey="month" 
-                  className="text-theme-secondary text-xs"
+                  className="text-theme-secondary"
                   stroke="var(--theme-border-light)"
-                  tick={{ fontSize: 10 }} // Smaller font size
-                  tickLine={false} // Remove tick lines
+                  tick={{ 
+                    fontSize: window.innerWidth < 768 ? 8 : 10,
+                    fill: 'var(--theme-text-secondary)'
+                  }}
+                  tickLine={false}
+                  axisLine={window.innerWidth < 768 ? false : true}
+                  interval={window.innerWidth < 400 ? 1 : 0}
                 />
+                
+                {/* Simplified Y-axis for mobile */}
                 <YAxis
-                  className="text-theme-secondary text-xs"
+                  className="text-theme-secondary"
                   stroke="var(--theme-border-light)"
                   domain={getYAxisDomain()}
-                  tick={{ fontSize: 10 }} // Smaller font size
-                  tickLine={false} // Remove tick lines
-                  tickCount={5} // Limit tick count
+                  tick={{ 
+                    fontSize: window.innerWidth < 768 ? 8 : 10,
+                    fill: 'var(--theme-text-secondary)'
+                  }}
+                  tickLine={false}
+                  axisLine={window.innerWidth < 768 ? false : true}
+                  tickCount={window.innerWidth < 768 ? 3 : 5}
+                  hide={window.innerWidth < 400}
                 />
+                
+                {/* Tooltip remains the same */}
                 <Tooltip content={<CustomTooltip />} />
-                <Legend 
-                  iconSize={8} // Smaller icons
-                  wrapperStyle={{ fontSize: '10px', paddingTop: '5px' }} // Smaller font
-                />
+                
+                {/* Hide legend on smallest screens, simplified on mobile */}
+                {window.innerWidth > 400 && (
+                  <Legend 
+                    iconSize={window.innerWidth < 768 ? 6 : 8}
+                    wrapperStyle={{ 
+                      fontSize: window.innerWidth < 768 ? '8px' : '10px', 
+                      paddingTop: '5px'
+                    }}
+                    verticalAlign={window.innerWidth < 768 ? "top" : "bottom"}
+                  />
+                )}
+                
+                {/* Views line - simplified for mobile */}
                 {(activeMetric === "all" || activeMetric === "views") && (
                   <Line
                     type="monotone"
                     dataKey="views"
                     name="Views"
                     stroke="var(--theme-primary)"
-                    strokeWidth={2}
+                    strokeWidth={window.innerWidth < 768 ? 1.5 : 2}
                     dot={false}
-                    activeDot={{ r: 3, filter: "url(#simpleGlow)" }} // Smaller dots
-                    animationDuration={animateGraph ? 700 : 0} // Faster animation
-                    isAnimationActive={animateGraph} // Disable animation when not needed
+                    activeDot={{ 
+                      r: window.innerWidth < 768 ? 2 : 3, 
+                      filter: window.innerWidth < 400 ? undefined : "url(#simpleGlow)"
+                    }}
+                    animationDuration={animateGraph ? 500 : 0}
+                    isAnimationActive={animateGraph}
                   />
                 )}
+                
+                {/* Followers line - simplified for mobile */}
                 {(activeMetric === "all" || activeMetric === "followers") && (
                   <Line
                     type="monotone"
                     dataKey="followers"
                     name="Followers"
                     stroke="var(--theme-accent-secondary)"
-                    strokeWidth={1.5} // Thinner line
+                    strokeWidth={window.innerWidth < 768 ? 1 : 1.5}
                     dot={false}
-                    activeDot={{ r: 3, filter: "url(#simpleGlow)" }} // Smaller dots
-                    animationDuration={animateGraph ? 700 : 0} // Faster animation
-                    isAnimationActive={animateGraph} // Disable animation when not needed
+                    activeDot={{ 
+                      r: window.innerWidth < 768 ? 2 : 3, 
+                      filter: window.innerWidth < 400 ? undefined : "url(#simpleGlow)"
+                    }}
+                    animationDuration={animateGraph ? 500 : 0}
+                    isAnimationActive={animateGraph}
                   />
                 )}
+                
+                {/* Interactions line - simplified for mobile */}
                 {(activeMetric === "all" || activeMetric === "interactions") && (
                   <Line
                     type="monotone"
                     dataKey="interactions"
                     name="Interactions"
                     stroke="var(--theme-accent-tertiary)"
-                    strokeWidth={1.5} // Thinner line
+                    strokeWidth={window.innerWidth < 768 ? 1 : 1.5}
                     dot={false}
-                    activeDot={{ r: 3, filter: "url(#simpleGlow)" }} // Smaller dots
-                    animationDuration={animateGraph ? 700 : 0} // Faster animation
-                    isAnimationActive={animateGraph} // Disable animation when not needed
+                    activeDot={{ 
+                      r: window.innerWidth < 768 ? 2 : 3, 
+                      filter: window.innerWidth < 400 ? undefined : "url(#simpleGlow)"
+                    }}
+                    animationDuration={animateGraph ? 500 : 0}
+                    isAnimationActive={animateGraph}
                   />
                 )}
               </LineChart>
@@ -760,43 +905,71 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
           </div>
         </div>
         
-        {/* Creator Profile */}
-        <div className="flex flex-col md:flex-row items-center gap-3 p-3
-                  bg-theme-gradient-card
-                  rounded-md border border-theme-border-light shadow-theme-md case-study-element">
-          <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden flex-shrink-0
-                      ring-2 ring-[var(--theme-primary)]/80">
-            <img
-              src={currentCreator?.avatar || '/assets/main/Main-Logo.png'}
-              alt={currentCreator?.name || 'Creator'}
-              className="w-full h-full object-cover"
-            />
+        {/* Creator Profile - Mobile-optimized HUD-like appearance */}
+        <div className="bg-theme-gradient-card
+                  rounded-xl border border-theme-border-light shadow-theme-md case-study-element
+                  overflow-hidden">
+          {/* Mobile view: Header card with avatar and name */}
+          <div className="flex items-center p-3 border-b border-theme-border-light/50 md:hidden">
+            <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0
+                        ring-2 ring-[var(--theme-primary)]/70 mr-3">
+              <img
+                src={currentCreator?.avatar || '/assets/main/Main-Logo.png'}
+                alt={currentCreator?.name || 'Creator'}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-theme-primary text-base font-medium leading-tight">
+                {currentCreator?.name || 'Creator'}
+              </h3>
+              <div className="text-theme-secondary text-xs">
+                Creator Profile
+              </div>
+            </div>
           </div>
-
-
-          <div className="text-center md:text-left flex-1">
-            <h3 className="text-theme-primary text-lg md:text-xl font-medium mb-0.5">
-              {currentCreator?.name || 'Creator'}
-            </h3>
-            <p className="text-theme-secondary text-xs md:text-sm">
+          
+          {/* Creator description - optimized for mobile */}
+          <div className="p-3">
+            {/* Desktop view: Flex layout with larger avatar */}
+            <div className="hidden md:flex md:flex-row items-center gap-4 mb-3">
+              <div className="relative w-14 h-14 rounded-full overflow-hidden flex-shrink-0
+                          ring-2 ring-[var(--theme-primary)]/80">
+                <img
+                  src={currentCreator?.avatar || '/assets/main/Main-Logo.png'}
+                  alt={currentCreator?.name || 'Creator'}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <h3 className="text-theme-primary text-xl font-medium">
+                {currentCreator?.name || 'Creator'}
+              </h3>
+            </div>
+            
+            {/* Creator bio - with improved readability on mobile */}
+            <p className="text-theme-secondary text-xs leading-relaxed md:text-sm md:leading-relaxed">
               {currentCreator?.description || 'No description available.'}
             </p>
           </div>
         </div>
         
-        {/* CTA section - moved below the creator profile */}
-        <div className="text-center py-8 mt-6 case-study-element">
-          <p className="body-text-large font-bold text-theme-primary mb-6">
-            Want to be next on this list?
-          </p>
-          <AnimatedButton 
-            text="Start your Journey"
-            variant="accent" 
-            saturation="high"
-            size="lg"
-            onClick={props?.onCtaClick || (() => console.log('CTA clicked'))}
-            className="mx-auto"
-          />
+        {/* CTA section - Mobile-optimized with better touch targets */}
+        <div className="bg-theme-gradient-card/60
+                  rounded-xl border border-theme-border-light shadow-theme-md 
+                  p-4 md:p-6 my-4 md:my-6 case-study-element">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-theme-primary text-lg md:text-xl font-bold">
+              Want to be next on this list?
+            </p>
+            <AnimatedButton 
+              text="Start your Journey"
+              variant="accent" 
+              saturation="high"
+              size="lg"
+              onClick={props?.onCtaClick || (() => console.log('CTA clicked'))}
+              className="w-full md:w-auto py-3"
+            />
+          </div>
         </div>
       </div>
     </div>
