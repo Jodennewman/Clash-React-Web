@@ -1,0 +1,127 @@
+/*
+ * ANIMATIONS
+ * Part of the theme-aware styling system
+ * Auto-generated on 2025-04-13T10:04:27.554Z
+ */
+
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+
+/* Define keyframes */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(var(--tw-rotate, 12deg)); }
+  50% { transform: translateY(-20px) rotate(var(--tw-rotate, 12deg)); }
+}
+
+@keyframes float-medium {
+  0%, 100% { transform: translateY(0) rotate(var(--tw-rotate, -6deg)); }
+  50% { transform: translateY(-15px) rotate(var(--tw-rotate, -6deg)); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes float-gentle {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  33% { transform: translate3d(5px, -7px, 0) rotate(1deg); }
+  66% { transform: translate3d(-3px, -4px, 0) rotate(-1deg); }
+}
+
+@keyframes float-pattern {
+  0% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(10px) translateY(-10px); }
+  50% { transform: translateX(20px) translateY(0); }
+  75% { transform: translateX(10px) translateY(10px); }
+  100% { transform: translateX(0) translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ripple {
+  0% { transform: scale(0); opacity: 1; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes marquee-vertical {
+  0% { transform: translateY(0%); }
+  100% { transform: translateY(-100%); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Animation classes */
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+.animate-float-medium {
+  animation: float-medium 5s ease-in-out infinite;
+}
+
+.animate-float-fast {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float-pattern 20s linear infinite;
+}
+
+.animate-float-gentle {
+  animation: float-gentle 9s ease-in-out infinite;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-ripple {
+  animation: ripple 0.5s ease-out forwards;
+}
+
+.animate-spin-slow {
+  animation: spin 12s linear infinite;
+}
+
+.animate-marquee {
+  animation: marquee var(--duration, 30s) linear infinite;
+}
+
+.animate-marquee-vertical {
+  animation: marquee-vertical var(--duration, 30s) linear infinite;
+}
+
+/* Theme-aware floating classes */
+.opacity-theme-float {
+  opacity: var(--theme-float-opacity, 0.15);
+}
+
+.bg-theme-float-primary {
+  background-color: var(--theme-float-bg-primary, var(--theme-primary));
+}
+
+.bg-theme-float-secondary {
+  background-color: var(--theme-float-bg-secondary, var(--theme-accent-secondary));
+}
+
+.bg-theme-float-accent {
+  background-color: var(--theme-accent-tertiary, var(--accent-coral));
+}
+
+.bg-theme-radial-glow {
+  background: radial-gradient(circle, var(--theme-primary, var(--primary-orange)) 0%, transparent 70%);
+  opacity: var(--theme-glow-opacity, 0.3);
+}

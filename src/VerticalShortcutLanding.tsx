@@ -1,39 +1,34 @@
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import VSQualificationModal from './Qualification_components/qualification-modal';
 import SimpleHero from './components/hero/SimpleHero';
-import ContentOverwhelmer from './components/ContentOverwhelmer';
-import { PricingSection } from './components/sections/pricing-section.tsx';
-import { Section } from './components/ui/section';
-import { Button } from './components/ui/button';
 import { Badge } from './components/ui/badge';
-import SocialProofItem from './components/ui/social-proof-item';
-import Glow from './components/ui/glow';
-import { Item, ItemIcon, ItemTitle, ItemDescription } from './components/ui/item';
-import { Alert, AlertDescription, AlertTitle } from './components/ui/alert';
 import SafeVideoEmbed from './components/ui/video-embed';
-import VSBentoGrid from './components/sections/bento-grid/vsBentoGrid';
 import VSNavbar from './components/sections/navbar/vs-navbar';
-import CourseStats from './components/sections/course-stats';
-import ModuleBreakdownSimplified from './components/sections/module-breakdown-simplified';
-import FeaturedModules from './components/sections/featured-modules';
-import FounderTrack from './components/sections/founder-track';
-import FAQUpdated from './components/sections/faq-updated';
-import VSCarousel from './components/sections/carousel/VSCarousel';
 import TabsLeft from './components/sections/tabs/left';
 import SocialProof from './components/sections/social-proof/marquee-2-rows';
 import TestimonialCarousel from './components/ui/testimonial-carousel';
-import LeadCaptureForm from './components/ui/lead-capture-form';
-import VSApplicationFormModal from './components/form/VSApplicationFormModal';
-import { CaseStudies, VSPainPoints } from './components/sections';
-import VSBigReveal from './components/sections/VS-BigReveal';
-import VSInteractiveFeatures from './components/sections/VS-Interactive-Features';
+import SocialProofWithIntro from "@/components/sections/social-proof/SocialProofWithIntro.tsx";
+import { 
+  CaseStudies, 
+  VSPainPoints, 
+  VSBigReveal, 
+  CourseViewer, 
+  TeamSection as MeetTheTeam, 
+  FAQUpdated, 
+  PricingSimple, 
+  Customisation, 
+  BeforeAfterStats,
+  CourseStats,
+  FounderTrack,
+  ConnectEverything
+} from './components/sections';
 import { Link } from 'react-router-dom';
 import { AnimatedButton } from './components/marble-buttons/AnimatedButton';
-import { CourseViewer } from './components/sections/course-viewer';
-import MeetTheTeam from './components/sections/TeamSection'
+import CourseTimeline from './components/CourseTimeline';
+import { beforeAfterExamples } from './data/before-after-examples';
 
 // Import VS helper components for correct light/dark mode implementation
-import { VSText, VSHeading, VSGradientText } from './components/ui/vs-text';
+import { VSText, VSHeading} from './components/ui/vs-text';
 import { VSBackground, VSCard, VSSection } from './components/ui/vs-background';
 
 // Import only the icons we're using
@@ -50,6 +45,8 @@ import {
   DollarSign, 
   BriefcaseBusiness, 
   Rocket,
+  Calendar,
+  Users,
 } from 'lucide-react';
 
 // Import GSAP and plugins
@@ -60,16 +57,13 @@ import { ScrollSmoother } from 'gsap/ScrollSmoother';
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
+// Add custom CSS classes
+import './video-peek.css';
+
 // Global GSAP context - key for preventing conflicts
 let globalScrollSmoother: globalThis.ScrollSmoother | null = null;
 const globalAnimations = {};
 
-// Hero section settings
-const heroSettings = {
-  title: "800 million views, zero spent on ads",
-  subtitle: "A proven turn-key system to survive, thrive, and monetise with short-form content.",
-  badgeText: "10-Week Transformation Program"
-};
 
 // Testimonials data
 const testimonials = [
@@ -99,75 +93,7 @@ const testimonials = [
   }
 ];
 
-// Program benefits data 
-const benefits = [
-  {
-    title: "Hook Your Audience Instantly",
-    description: "Master the psychological triggers that make people stop scrolling and start watching. Our students see average engagement increases of 300% within 14 days.",
-    icon: <Zap className="h-6 w-6 text-white" />,
-    color: "#FEA35D"
-  },
-  {
-    title: "Create Content That Converts",
-    description: "Learn our proven script structures that turn passive viewers into paying customers. Stop creating content that gets views but no sales.",
-    icon: <DollarSign className="h-6 w-6 text-white" />,
-    color: "#B92234"
-  },
-  {
-    title: "Build A Content Machine",
-    description: "Transform from a one-person show to a content production powerhouse with our delegation systems. Produce more without sacrificing quality or authenticity.",
-    icon: <Repeat className="h-6 w-6 text-white" />,
-    color: "#387292"
-  },
-  {
-    title: "Never Run Out Of Ideas",
-    description: "Our content research system gives you an endless supply of proven topics your audience wants. No more staring at a blank screen wondering what to post.",
-    icon: <Lightbulb className="h-6 w-6 text-white" />,
-    color: "#154D59"
-  },
-  {
-    title: "Stand Out From The Noise",
-    description: "Develop your unique voice and content style that makes you unmistakable in your industry. Stop blending in with thousands of forgettable creators.",
-    icon: <Award className="h-6 w-6 text-white" />,
-    color: "#DE6B59"
-  },
-  {
-    title: "Scale With Systems",
-    description: "Implement our proven workflows that let you produce more content with less personal time. Our students average 5X output with 50% less effort.",
-    icon: <Rocket className="h-6 w-6 text-white" />,
-    color: "#FEAC6D"
-  }
-];
-
-// Course tracks data
-const tracks = [
-  {
-    name: "Content Creator Growth",
-    description: "For ambitious creators looking to rapidly scale from zero to millions of views and build sustainable income streams.",
-    icon: <Rocket className="h-6 w-6" />,
-    color: "#4A90E2"
-  },
-  {
-    name: "Founders Track",
-    description: "For entrepreneurs and business leaders who need to build personal brands while minimizing time investment.",
-    icon: <BriefcaseBusiness className="h-6 w-6" />,
-    color: "#FF3B30"
-  },
-  {
-    name: "Technical Skills",
-    description: "For those focused on mastering the production aspects of content creation, from filming to editing.",
-    icon: <Zap className="h-6 w-6" />,
-    color: "#8E8E93"
-  },
-  {
-    name: "Holistic Approach",
-    description: "The complete system covering strategy, production, and monetization for those who want to master it all.",
-    icon: <Flame className="h-6 w-6" />,
-    color: "#FF9500"
-  }
-];
-
-// Testimonial Carousel data
+// Testimonials data for carousel
 const carouselTestimonials = [
   {
     quote: "I was skeptical about another course, but this is different. After 10 years of posting content, I finally understand why some videos blow up while others die. Everything finally makes sense.",
@@ -192,40 +118,6 @@ const carouselTestimonials = [
     name: "Michelle Thompson",
     role: "Agency Owner",
     image: "/avatars/michelle.jpg"
-  }
-];
-
-// Learning outcomes data
-const learningOutcomes = [
-  {
-    title: "Master Hook Creation",
-    description: "Learn 15+ hook formats that immediately capture viewer attention, including the 'Impossible Question', 'False Assumption' and 'Big-Small' techniques.",
-    icon: <Zap />
-  },
-  {
-    title: "Decode Platform Algorithms",
-    description: "Understand exactly what TikTok, Instagram and YouTube algorithms prioritize, and how to craft content specifically for each platform's nuances.",
-    icon: <BarChart3 />
-  },
-  {
-    title: "Build Converting Funnels",
-    description: "Create seamless pathways that turn casual viewers into email subscribers, leads, and ultimately paying customers.",
-    icon: <ArrowRightCircle />
-  },
-  {
-    title: "Create Content at Scale",
-    description: "Implement our batch production system to create a month of content in a single day, without sacrificing quality or authenticity.",
-    icon: <Repeat />
-  },
-  {
-    title: "Leverage Data-Driven Iteration",
-    description: "Use our analytics framework to systematically improve your content performance based on real audience behavior, not guesswork.",
-    icon: <BarChart3 />
-  },
-  {
-    title: "Develop Your Unique Voice",
-    description: "Find and amplify what makes you distinctive to stand out in a crowded market and build a recognizable brand.",
-    icon: <Zap />
   }
 ];
 
@@ -316,7 +208,7 @@ const VerticalShortcutLanding = () => {
   const testimonialsRef = useRef(null);
   const ctaRef = useRef(null);
   const videoRef = useRef(null);
-  const caseStudiesRef = useRef(null);
+
 
   // Add state for qualification modal
   const [showQualificationModal, setShowQualificationModal] = useState(false);
@@ -328,7 +220,6 @@ const VerticalShortcutLanding = () => {
     const ctx = gsap.context(() => {
       // Hero section animations - centralized batch for performance
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  
       
       // Stats section - register once
       if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).statsSection && statsRef.current) {
@@ -580,337 +471,231 @@ const VerticalShortcutLanding = () => {
           darkBg="dark:bg-gradient-to-b dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]"
           className="min-h-screen overflow-hidden"
         >
-          {/* Hero Section */}
-          <SimpleHero ref={heroRef} onCtaClick={openQualificationModal} />
-
-          {/* Course Viewer - Minimalist HUD Layout */}
-          
-          
-          {/* Stats Section with Social Proof */}
-          <VSSection 
-            ref={statsRef} 
-            lightBg="bg-gradient-to-br from-white to-[var(--theme-bg-primary)]/80"
-            darkBg="dark:bg-gradient-to-br dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]"
-            className="py-20 border-t text-theme-accent/30 relative overflow-hidden"
-          >
-            {/* Light mode floating elements */}
-            <div className="absolute top-40 left-[15%] w-32 h-32 rounded-[40%] rotate-12 opacity-5 
-                           bg-[var(--theme-primary)] animate-float-slow hidden md:block dark:hidden"></div>
-            <div className="absolute bottom-60 right-[10%] w-36 h-36 rounded-[30%] -rotate-6 opacity-8 
-                           bg-[var(--theme-primary-hover)] animate-float-medium hidden md:block dark:hidden"></div>
-              
-            {/* Dark mode floating elements */}
-            <div className="absolute top-40 left-[15%] w-32 h-32 rounded-[40%] rotate-12 opacity-10 
-                           vs-btn-primary-gradient 
-                           animate-float-slow hidden md:dark:block"></div>
-            <div className="absolute bottom-60 right-[10%] w-36 h-36 rounded-[30%] -rotate-6 opacity-15
-                           vs-btn-secondary-gradient 
-                           animate-float-medium hidden md:dark:block"></div>
-              
+          {/* Section 1: Header with integrated video */}
+          <SimpleHero 
+            ref={heroRef} 
+            onCtaClick={openQualificationModal} 
+            videoUrl="https://www.youtube.com/embed/your-video-id"
+            videoRef={videoRef}
+          />
             
-          
-          {/* Video Showcase Section with Video Component */}
-          {/* 
-            NOTE: SafeVideoEmbed maintains its own styling for both light/dark modes
-            It has special animations and styling that shouldn't be overridden
-          */}
-          <div className="video-container" ref={videoRef}>
-            <SafeVideoEmbed videoUrl="https://www.youtube.com/embed/your-video-id" />
-          </div>
-          
-          {/* Case Studies Section - Shows real growth metrics */}
-          <CaseStudies />
-          <SocialProof />
+          {/* Section 2: What do we do? - Adjusted spacing for video peek */}
+          <VSSection 
+            lightBg="bg-theme-gradient"
+            darkBg="dark:bg-theme-gradient"
+            className="py-16 relative overflow-hidden mt-[-25vh] pt-[30vh]"
+          >
+            {/* Theme-aware floating elements */}
+            <div className="absolute -z-10 top-20 left-[10%] w-32 h-32 rounded-[40%] rotate-12 
+                 opacity-theme-float bg-theme-float-primary animate-float-slow"></div>
+            <div className="absolute -z-10 bottom-20 right-[15%] w-36 h-36 rounded-[35%] -rotate-6 
+                 opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium"></div>
+                 
+            <div className="container mx-auto px-4">
+              {/* Section header */}
+              <div className="text-center max-w-4xl mx-auto mb-8">
+                <VSHeading variant="h2" className="text-3xl md:text-4xl font-bold text-theme-primary mb-6">
+                  What do we do?
+                </VSHeading>
+              </div>
+              
+              {/* Copy content */}
+              <div className="text-center max-w-4xl mx-auto mb-16">
+                <p className="body-text mb-8 mx-auto max-w-[90%] md:max-w-none">
+                  We've worked with some of the biggest business creators in the world:
+                  Chris Donnelly, Charlotte Mair, James Watt, Ben Askins, Jordan Schwarzenberger, just to name a few.
+                </p>
+                <p className="body-text mb-8 mx-auto max-w-[90%] md:max-w-none">
+                  And built their content from the ground up.
+                </p>
+                <p className="body-text mb-8 mx-auto max-w-[90%] md:max-w-none">
+                  Building them over 1 Billion Views in just 2 years (we told you, we're the best)
+                </p>
+                <p className="body-text-large font-bold text-theme-primary">
+                  The numbers speak for themselves
+                </p>
+              </div>
+              
+              {/* Section 3: Case studies - click on each to see graphs and more in detail stats */}
+              <CaseStudies onCtaClick={openQualificationModal} />
+            </div>
           </VSSection>
-          <CourseStats />
+
+
+          {/* Section 4: Double marquee with our biggest videos with biggest views */}
+          <SocialProof />
           
-          {/* Pain Points Section - For founders feeling fed up */}
+          {/* Section 6: Pain Points */}
           <VSPainPoints />
           
-          {/* Big Reveal Section - The Solution */}
+          {/* Section 7: The Vertical Shortcut (big sell) */}
           <VSBigReveal />
           
-          {/* Interactive Features Section */}
-          <VSInteractiveFeatures />
+          {/* Section 8: Contents */}
+          <CourseStats />
 
-          {/* Course Introduction Section */}
-          <VSSection 
-            lightBg="bg-gradient-to-br from-[var(--theme-bg-primary)] to-[var(--theme-bg-secondary)]"
-            darkBg="dark:bg-gradient-to-br dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]"
-            className="py-24 relative overflow-hidden"
-          >
-            <div className="container mx-auto px-4">
-              <div className="text-center max-w-4xl mx-auto">
-                <VSHeading 
-                  variant="h2" 
-                  color="white" 
-                  className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8"
-                >
-                  Is making actually good short form content really that complex?
-                </VSHeading>
-                
-                <VSText color="white" className="text-xl md:text-2xl dark:text-white/80 mb-10">
-                  Well yes and no. It's simple, but there's a lot to it.
-                </VSText>
-                
-                <VSGradientText
-                  variant="h3"
-                  fromColor="--primary-orange"
-                  toColor="--accent-coral"
-                  className="text-2xl md:text-3xl font-bold mb-12"
-                >
-                  The Course Curriculum
-                </VSGradientText>
-              </div>
-            </div>
-          </VSSection>
-
+          {/* Section 9: The Course Curriculum (Using CourseViewer component) */}
           <CourseViewer />
           
-          {/* Bento Grid Section - Managed by the VSBentoGrid component */}
-          <VSBentoGrid />
+          {/* Tools & Integrations - Custom systems built for creators */}
+          <ConnectEverything />
           
-          {/* Core Benefits Section */}
-          <VSSection 
-            ref={benefitsRef} 
-            lightBg="bg-gradient-to-br from-white to-[var(--theme-bg-primary)]/80"
-            darkBg="dark:bg-gradient-to-br dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]"
-            className="benefits-section py-24 relative overflow-hidden"
-          >
-            {/* Light mode floating elements */}
-            <div className="absolute top-[15%] right-[10%] w-28 h-28 rounded-[40%] rotate-[-5deg] opacity-5 
-                           bg-[var(--theme-primary)] animate-float-slow hidden md:block dark:hidden"></div>
-            <div className="absolute bottom-[20%] left-[5%] w-32 h-32 rounded-[35%] rotate-12 opacity-8 
-                           bg-[var(--theme-accent-secondary-light)] animate-float-medium hidden md:block dark:hidden"></div>
-              
-            {/* Dark mode floating elements */}
-            <div className="absolute top-[15%] right-[10%] w-28 h-28 rounded-[40%] rotate-[-5deg] opacity-10 
-                           vs-btn-primary-gradient 
-                           animate-float-slow hidden md:dark:block"></div>
-            <div className="absolute bottom-[20%] left-[5%] w-32 h-32 rounded-[35%] rotate-12 opacity-15
-                           vs-btn-secondary-gradient 
-                           animate-float-medium hidden md:dark:block"></div>
-              
-            <div className="container mx-auto px-4">
-              <div className="text-center mb-16">
-                <Badge variant="outline" className="bg-white/5 border-[--primary-orange)]/30 mb-4 py-2 px-4">
-                  <VSText color="--primary-orange)" className="dark:text-[--primary-orange)]">
-                    What You'll Achieve
-                  </VSText>
-                </Badge>
-                <VSGradientText
-                  variant="h2"
-                  fromColor="white"
-                  toColor="rgba(255,255,255,0.7)"
-                  className="text-4xl md:text-5xl font-bold mb-6"
-                >
-                  What Makes This Different
-                </VSGradientText>
-                <VSText color="white" className="text-xl dark:text-white/70 max-w-3xl mx-auto">
-                  Vertical Shortcut isn't about generic advice. It's a complete system for creating content that stands out and drives real business results.
-                </VSText>
-              </div>
-              
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                {benefits.map((benefit, index) => (
-                  <VSCard 
-                    key={index} 
-                    className="benefit-item backdrop-blur-sm p-8 rounded-xl border border-white/10 hover:border-[--primary-orange)]/30"
-                    lightBg="bg-white/5"
-                    darkBg="dark:bg-white/5"
-                  >
-                    <div 
-                      className="w-14 h-14 rounded-full flex items-center justify-center mb-6"
-                      style={{ backgroundColor: benefit.color }}
-                    >
-                      {benefit.icon}
-                    </div>
-                    <h3 className="text-theme-custom  text-xl font-bold mb-4">
-                      {benefit.title}
-                    </h3>
-                    <p className="text-theme-custom /70">
-                      {benefit.description}
-                    </p>
-                  </VSCard>
-                ))}
-              </div>
-              
-              <div className="mt-16 text-center">
-                <AnimatedButton 
-                  text="Find Your Implementation"
-                  variant="learn" 
-                  saturation="normal"
-                  size="lg"
-                  onClick={openQualificationModal}
-                  className="w-auto"
-                />
-              </div>
-            </div>
-          </VSSection>
-          
-          {/* Use VSCarousel component */}
-          <VSCarousel />
-          
+          {/* Section 10: Week by week structure */}
+          <CourseTimeline />
+
           <MeetTheTeam />
           
-          {/* Use Cases Section with Tabs */}
+          {/* Section 11: Low view count before and afters */}
+          <BeforeAfterStats 
+            onCtaClick={openQualificationModal}
+            examples={beforeAfterExamples}
+          />
+          
+          {/* Section 12: The Founders Track */}
+          <FounderTrack onCtaClick={openQualificationModal} />
+          
+          {/* Section 13: The Team Track */}
           <TabsLeft />
           
-          <FounderTrack onCtaClick={openQualificationModal} />
-          {/* ContentOverwhelmer section - with proper animation management */}
-          <ContentOverwhelmer />
+          {/* Section 14: Testimonials slideshow */}
+          <TestimonialCarousel
+            testimonials={carouselTestimonials}
+            wrapperClassName="py-24 bg-theme-gradient"
+          />
           
-          {/* What You'll Learn Section */}
-          <VSSection 
-            lightBg="bg-[--bg-navy)]" 
-            darkBg="dark:bg-[--bg-navy)]"
-            className="py-24 border-t border-[--secondary-teal)]/30"
-          >
-            <div className="container mx-auto px-4">
-              <div className="text-center mb-16">
-                <Badge variant="outline" className="bg-white/5 border-[--primary-orange)]/30 mb-4 py-2 px-4">
-                  <VSText color="--primary-orange)" className="dark:text-[--primary-orange)]">
-                    Real-World Skills
-                  </VSText>
-                </Badge>
-                <VSGradientText
-                  variant="h2"
-                  fromColor="white"
-                  toColor="rgba(255,255,255,0.7)"
-                  className="text-4xl md:text-5xl font-bold mb-6"
-                >
-                  What You'll Learn
-                </VSGradientText>
-                <VSText color="white" className="text-xl dark:text-white/70 max-w-3xl mx-auto">
-                  Concrete, actionable skills you can implement immediately to see dramatic results in your content performance.
-                </VSText>
-              </div>
-              
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                {learningOutcomes.map((outcome, index) => (
-                  <VSCard 
-                    key={index} 
-                    className="backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-[--primary-orange)]/30"
-                    lightBg="bg-white/5"
-                    darkBg="dark:bg-white/5"
-                  >
-                    <div style={{ color: '--primary-orange)' }} className="dark:text-[--primary-orange)] mb-4">
-                      {outcome.icon}
-                    </div>
-                    <VSHeading variant="h3" color="white" className="text-xl mb-2">
-                      {outcome.title}
-                    </VSHeading>
-                    <VSText color="white" className="dark:text-white/70">
-                      {outcome.description}
-                    </VSText>
-                  </VSCard>
-                ))}
-              </div>
-            </div>
-          </VSSection>
+          {/* Section 15: Buy/Apply - Pricing Section */}
+          <PricingSimple onCtaClick={openQualificationModal} />
           
-          {/* Testimonials Full Section */}
-          <VSSection 
-            ref={testimonialsRef} 
-            lightBg="bg-[--bg-navy-dark)]" 
-            darkBg="dark:bg-[--bg-navy-dark)]"
-            className="testimonials-section py-24 border-t border-[--secondary-teal)]/30"
-          >
-            <div className="container mx-auto px-4">
-              <div className="text-center mb-16">
-                <Badge variant="outline" className="bg-white/5 border-[--primary-orange)]/30 mb-4 py-2 px-4">
-                  <VSText color="--primary-orange)" className="dark:text-[--primary-orange)]">
-                    Success Stories
-                  </VSText>
-                </Badge>
-                <VSGradientText
-                  variant="h2"
-                  fromColor="white"
-                  toColor="rgba(255,255,255,0.7)"
-                  className="text-4xl md:text-5xl font-bold mb-6"
-                >
-                  From Our Students
-                </VSGradientText>
-                <VSText color="white" className="text-xl dark:text-white/70 max-w-3xl mx-auto">
-                  Real transformations from people who applied the Vertical Shortcut system to their content.
-                </VSText>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                {testimonials.map((testimonial, index) => (
-                  <div key={index} className="testimonial-item">
-                    <SocialProofItem
-                      name={testimonial.name}
-                      username={testimonial.username}
-                      text={testimonial.text}
-                      image={testimonial.image}
-                    />
-                  </div>
-                ))}
-              </div>
-        
-            </div>
-          </VSSection>
+          {/* Section 16: Customisation */}
+          <Customisation onCtaClick={openQualificationModal} />
           
-          
-
-          {/* Key Features Section removed - now using VS-BigReveal component */}
-
-
-          
-          {/* Pricing Section */}
-          <PricingSection />
-          
-          {/* FAQ Section */}
+          {/* Section 17: FAQs */}
           <FAQUpdated />
           
-          {/* Add Founder Track section before the final CTA */}
-         
           
-          {/* Final CTA Section */}
+          
+          {/* Section 18: Final Application CTA */}
           <VSSection 
             ref={ctaRef} 
-            lightBg="bg-[--bg-navy-dark)]"
-            darkBg="dark:bg-[--bg-navy-dark)]"
-            className="py-24 border-t border-[--secondary-teal)]/30 relative overflow-hidden"
+            lightBg="bg-theme-gradient"
+            darkBg="dark:bg-theme-gradient"
+            className="py-24 relative overflow-hidden"
           >
-            <div className="absolute inset-0">
-              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[--primary-orange)]/5 to-transparent opacity-50"></div>
-              <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-[--accent-crimson)]/10 to-transparent opacity-30 blur-3xl"></div>
-            </div>
-            
+            {/* Theme-aware floating elements */}
+            <div className="absolute -z-10 top-20 left-[10%] w-32 h-32 rounded-[40%] rotate-12 
+                 opacity-theme-float bg-theme-float-primary animate-float-slow"></div>
+            <div className="absolute -z-10 bottom-20 right-[15%] w-36 h-36 rounded-[35%] -rotate-6 
+                 opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium"></div>
+                 
             <div className="container mx-auto px-4 relative z-10">
-              <div className="flex flex-col lg:flex-row gap-12 items-center">
-                <div className="lg:w-1/2 text-center lg:text-left">
-                  <Glow variant="center" />
-                  <div className="cta-badge inline-block mb-6 bg-[--primary-orange)]/10 px-6 py-3 rounded-full border border-[--primary-orange)]/30">
-                    <VSText color="--primary-orange)" className="font-semibold flex items-center gap-2 dark:text-[--primary-orange)]">
+              <div className="max-w-6xl mx-auto">
+                <div className="text-center mb-8">
+                  <Badge 
+                    variant="outline" 
+                    className="bg-theme-primary/10 border-theme-primary/30 mb-4 py-2 px-4 mx-auto"
+                  >
+                    <VSText className="font-semibold flex items-center gap-2 text-theme-primary">
                       <Clock className="h-4 w-4" /> Limited spots available for next cohort
                     </VSText>
-                  </div>
+                  </Badge>
                   
                   <VSHeading 
                     variant="h2" 
-                    color="white" 
-                    className="cta-title text-4xl md:text-5xl lg:text-6xl mb-6"
+                    className="cta-title text-4xl md:text-5xl lg:text-6xl font-bold text-theme-primary mb-6"
                   >
-                    Ready to <span className="inline-block">
-                      <VSGradientText
-                        fromColor="--primary-orange" 
-                        toColor="--accent-coral"
-                      >
-                        Transform
-                      </VSGradientText>
-                    </span> Your Content?
+                    Limited spots available for next cohort
                   </VSHeading>
                   
-                  <VSText color="white" className="cta-description text-xl dark:text-white/80 mb-10">
+                  <VSHeading 
+                    variant="h3" 
+                    className="cta-subtitle text-3xl md:text-4xl font-bold text-theme-primary mb-6"
+                  >
+                    Ready to Transform Your Content?
+                  </VSHeading>
+                  
+                  <p className="body-text mb-10 mx-auto max-w-[90%] md:max-w-3xl">
                     Join Vertical Shortcut today and get access to our complete system for creating high-converting content that drives real business results.
-                  </VSText>
+                  </p>
                 </div>
                 
-                <div className="lg:w-1/2">
-                  <LeadCaptureForm />
+                <div className="flex flex-col md:flex-row bg-theme-surface p-8 md:p-12 rounded-2xl shadow-theme-md">
+                  <div className="md:w-1/2 mb-8 md:mb-0 md:pr-8">
+                    <VSHeading variant="h3" className="text-2xl md:text-3xl font-bold text-theme-primary mb-6">
+                      Apply Now
+                    </VSHeading>
+                    <VSText className="text-lg text-theme-secondary mb-4">
+                      Fill out our quick qualification form to see if you're a good fit for our program. Once approved, we'll help you find the perfect implementation for your business.
+                    </VSText>
+                    <ul className="space-y-3 mb-6">
+                      {[
+                        "Personalized strategy",
+                        "Custom implementation plan",
+                        "1:1 coaching sessions",
+                        "Priority support"
+                      ].map((item, index) => (
+                        <li key={index} className="flex items-start">
+                          <CheckCircle className="h-5 w-5 text-theme-accent mr-2 flex-shrink-0 mt-0.5" />
+                          <VSText className="text-theme-secondary">{item}</VSText>
+                        </li>
+                      ))}
+                    </ul>
+                    <AnimatedButton 
+                      text="Get Your Plan"
+                      variant="start" 
+                      saturation="high"
+                      size="lg"
+                      onClick={openQualificationModal}
+                      className="w-full md:w-auto"
+                    />
+                  </div>
+                  
+                  <div className="md:w-1/2 md:border-l md:pl-8 border-theme-border-light">
+                    <VSHeading variant="h3" className="text-2xl md:text-3xl font-bold text-theme-primary mb-6">
+                      Next Cohort Details
+                    </VSHeading>
+                    <div className="space-y-4">
+                      <div className="flex items-start">
+                        <div className="w-10 h-10 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
+                          <Calendar className="h-5 w-5 text-theme-primary" />
+                        </div>
+                        <div>
+                          <VSText className="font-medium text-theme-primary">Start Date</VSText>
+                          <VSText className="text-theme-secondary">April 25th, 2025</VSText>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start">
+                        <div className="w-10 h-10 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
+                          <Users className="h-5 w-5 text-theme-primary" />
+                        </div>
+                        <div>
+                          <VSText className="font-medium text-theme-primary">Class Size</VSText>
+                          <VSText className="text-theme-secondary">Limited to 20 students</VSText>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start">
+                        <div className="w-10 h-10 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
+                          <Clock className="h-5 w-5 text-theme-primary" />
+                        </div>
+                        <div>
+                          <VSText className="font-medium text-theme-primary">Time Commitment</VSText>
+                          <VSText className="text-theme-secondary">4 hours per week</VSText>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <VSCard 
+                      className="mt-8 p-4 rounded-lg"
+                      lightBg="bg-theme-primary/5" 
+                      darkBg="dark:bg-theme-primary/10"
+                    >
+                      <VSText className="text-theme-accent font-medium flex items-center">
+                        <Clock className="h-4 w-4 mr-2" />
+                        Applications closing soon
+                      </VSText>
+                    </VSCard>
+                  </div>
                 </div>
               </div>
             </div>

@@ -4,9 +4,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from "@gsap/react";
 import { Book, Clock, FileText, FileCode, Layers, CheckSquare } from 'lucide-react';
 import courseUtils from "../../lib/course-utils";
-import { courseStats as courseStatsData } from "../../data/course-data"; // Backup import
+// Using courseUtils as the single source of truth instead of direct import
 import { Section } from "../ui/section";
-import { Badge } from "../ui/badge";
 
 // Define CSS animations for floating elements - VS Bubbly style
 const floatingAnimationsStyle = `
@@ -83,8 +82,8 @@ const CourseStats = () => {
   const statsRef = useRef(null);
   const [animatedCounters, setAnimatedCounters] = useState(false);
   
-  // Get stats from courseUtils, with backup from direct import if needed
-  const courseStats = courseUtils.courseStats || courseStatsData;
+  // Get stats from courseUtils as the single source of truth
+  const courseStats = courseUtils.courseStats;
   
   // Use useGSAP hook for proper animation lifecycle management
   useGSAP(() => {
@@ -169,6 +168,7 @@ const CourseStats = () => {
 
   return (
     <Section 
+      id="course-stats"
       className="bg-theme-primary py-24 border-t border-theme-border-light relative overflow-hidden"
     >
       {/* Apply float animations via style tag */}
@@ -189,14 +189,14 @@ const CourseStats = () => {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <Badge variant="section" size="xl" className="mb-4">
-            Program Overview
-          </Badge>
           <h2 className="text-theme-primary text-4xl md:text-5xl font-bold mb-6">
-            By The Numbers
+            So what's actually in it?
           </h2>
-          <p className="text-theme-secondary text-xl mb-2 max-w-3xl mx-auto">
-            Vertical Shortcut isn't just another course. It's a comprehensive system built on real-world results and years of testing.
+          <p className="body-text mb-6 mx-auto max-w-[90%] md:max-w-3xl">
+            The Vertical Shortcut is packed full of content - and don't worry its not just videos.
+          </p>
+          <p className="body-text-large font-bold text-theme-primary mb-6">
+            You'll get lifetime access to:
           </p>
         </div>
         

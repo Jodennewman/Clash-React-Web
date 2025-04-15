@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 import AnimatedLogo from '../logos/AnimatedLogo';
 import IsometricGridBackground from './IsometricPattern';
 import { AnimatedButton } from '../marble-buttons/AnimatedButton';
+import SafeVideoEmbed from '../ui/video-embed';
 
 interface SimpleHeroProps {
   onCtaClick?: () => void;
+  videoUrl?: string;
+  videoRef?: React.RefObject<HTMLDivElement>;
 }
 
 const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
-  ({ onCtaClick }, ref) => {
+  ({ onCtaClick, videoUrl, videoRef }, ref) => {
     const [logoAnimationStarted, setLogoAnimationStarted] = useState(false);
-   
     
-    
+    // Internal refs
     const heroRef = React.useRef<HTMLDivElement>(null);
+    const videoContainerRef = React.useRef<HTMLDivElement>(null);
     
 
     // Auto-start content fade-in after a shorter delay for better flow with logo animation
@@ -33,7 +40,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
 
       // First, ensure all hero content is visible even before animation
       gsap.set(".hero-content", { opacity: 1, visibility: "visible" });
-
+      
       if (logoAnimationStarted) {
         const ctx = gsap.context(() => {
           // Staggered content reveal animation with reduced stagger time
@@ -67,11 +74,56 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
               ease: "power2.out"
             }
           );
+          
+          // Create scroll-linked animation for video (if present)
+          if (videoContainerRef.current && videoUrl) {
+            // Initial setup for video position
+            gsap.set(videoContainerRef.current, {
+              y: 200, // Start below the fold
+              opacity: 0,
+              scale: 0.9
+            });
+
+            // Much simpler approach - use a class toggle
+            ScrollTrigger.create({
+              trigger: heroRef.current,
+              start: "1% top", // Start almost immediately 
+              endTrigger: document.body, // Use the entire body as end trigger
+              end: "bottom bottom", // Continue until the end of the page
+              toggleClass: {
+                targets: videoContainerRef.current,
+                className: "video-peek-visible"
+              },
+              onToggle: (self) => {
+                // When activated, animate to visible
+                if (self.isActive) {
+                  gsap.to(videoContainerRef.current, {
+                    y: -120,
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                  });
+                } else {
+                  // When deactivated, animate back to hidden
+                  gsap.to(videoContainerRef.current, {
+                    y: 200,
+                    opacity: 0,
+                    scale: 0.9,
+                    duration: 0.2,
+                    ease: "power2.in"
+                  });
+                }
+              },
+              invalidateOnRefresh: true,
+              markers: false // Set to true during development to see trigger points
+            });
+          }
         }, heroRef);
 
         return () => ctx.revert(); // Proper cleanup
       }
-    }, [logoAnimationStarted]);
+    }, [logoAnimationStarted, videoUrl]);
 
     // Add cursor influence on eyeball
     useEffect(() => {
@@ -106,7 +158,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
     return (
       <section 
         ref={ref} 
-        className="vs-section-light relative h-screen w-full shadow-theme-md"
+        className="vs-section-light relative h-[125vh] w-full shadow-theme-md overflow-hidden z-10"
       >
         <IsometricGridBackground />
         {/* Theme-aware floating elements for visual interest */}
@@ -118,6 +170,26 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                        opacity-[var(--theme-float-opacity-secondary)]
                        bg-[var(--theme-float-bg-secondary)]
                        animate-float-medium md:block"></div>
+                       
+        {/* Video container with improved positioning */}
+        <div className="absolute bottom-0 left-0 w-full flex justify-center items-center pointer-events-none z-50">
+          {videoUrl && (
+            <div 
+              ref={videoContainerRef}
+              className="video-peek-container mx-auto pointer-events-auto"
+              style={{
+                position: 'relative',
+                zIndex: 999,
+                boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+                willChange: 'transform, opacity'
+              }}
+            >
+              <div className="rounded-[var(--border-radius-lg)] overflow-hidden shadow-theme-xl border border-white/20">
+                <SafeVideoEmbed videoUrl={videoUrl} priority={true} />
+              </div>
+            </div>
+          )}
+        </div>
         {/* Grid Layout */}
         <div 
           ref={heroRef}
@@ -136,11 +208,12 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
           
           {/* Animated VS Logo */}
           <div 
-            className="flex items-center justify-center z-20
+            className="flex items-center justify-center z-20 scale-140
                       col-[1_/_5] row-[3_/_9] 
                       sm:col-[2_/_5] sm:row-[3_/_9]
                       md:col-[2_/_5] md:row-[3_/_9]
                       lg:col-[2_/_5] lg:row-[3_/_9]"
+            data-speed="0.86"
           >
             <div className="relative flex items-center justify-center
                           -translate-x-[5%] sm:translate-x-0
@@ -155,6 +228,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                 xl:w-[650px] xl:h-[650px]
                 2xl:w-[750px] 2xl:h-[750px]
                 transition-all duration-500"
+
               >
                 <AnimatedLogo 
                   className="w-full h-full object-contain" 
@@ -166,10 +240,11 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
           
           {/* Eyeball SVG positioned in grid but maintaining size */}
           <div 
-            className="relative z-0
-                      col-[1_/_4] row-[7_/_9]
-                      sm:col-[1_/_4] sm:row-[7_/_9]
-                      md:col-[1_/_4] md:row-[7_/_9]"
+            className="relative animate-float-slow z-0
+                      col-[1_/_4] row-[5_/_7]
+                      sm:col-[1_/_4] sm:row-[5_/_7]
+                      md:col-[1_/_4] md:row-[5_/_7]"
+            data-speed="0.9"
           >
             <svg
               width="679"
@@ -228,52 +303,104 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                      lg:col-[5_/_9] lg:row-[4_/_6]
                      px-4 sm:px-0 transition-all duration-500
                      max-w-[95%] sm:max-w-none"
+            data-speed="0.95"
           >
-            <div className="flex items-center">
-              <h1 className="hero-content mb-4 lg:mb-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight text-theme-primary transition-all duration-500">
-
-                <span className="font-medium text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-theme-accent-tertiary transition-all duration-500">
-
-                  Billions
+            <div className="w-max h-max flex-row items-center">
+              <h1 className="hero-content w-max h-max mb-4 lg:mb-6 text-3xl sm:text-[20] md:text-5xl lg:text-6xl xl:text-7xl leading-tight text-theme-primary transition-all duration-500">
+                <span className="font-semibold glow-theme-tertiary text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-theme-accent-tertiary transition-all duration-500" data-speed="0.95">
+                  1 Billion+
                 </span>
-                <span className="font-light"> of views,</span>
-                <span className="font-normal block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-all duration-500">
-                  zero ad spend.
+                <span className="font-light text-2xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-6xl" data-speed="0.99"> views,</span>
+                <span className="font-normal block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-all duration-500" data-speed="0.97">
+                  zero ad spend
                 </span>
               </h1>
             </div>
 
-
             {/* Subheading now attached to heading */}
             <div className="z-10">
-              <h4 className="hero-content text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-4 sm:mb-6 lg:mb-8 text-theme-primary transition-all duration-500">
-                <span>A </span>
-
-                <span className="text-theme-accent-tertiary font-bold">proven, turn-key system </span>
-
-                <span className="inline md:hidden">for short form content.</span>
-                <span className="hidden md:inline">to survive, thrive, </span>
-                <span className="hidden md:block">and monetise with short form content,</span>
-                <span className="hidden md:block">for founders.</span>
-              </h4>
+              <h3 className="hero-content body-text-large mb-4 sm:mb-6 lg:mb-8 text-theme-primary transition-all duration-500" data-speed="0.99">
+                The proven system to survive, thrive and monetise with short form content 
+                <span className="hidden md:inline"> — specifically for founders</span>.
+              </h3>
+              
+              {/* Award Badge - More subtle professional styling */}
+              <div className="hero-content award-badge absolute bottom-[15%] sm:bottom-[25%] md:bottom-[25%] lg:bottom-[25%] right-8 sm:right-12 md:right-16 lg:right-20 z-30"
+                   style={{ transform: 'translateY(0)', opacity: 1 }}>
+                <div className="group relative overflow-hidden rounded-full 
+                                shadow-md dark:shadow-lg">
+                  {/* Subtle shadow background */}
+                  <div className="absolute inset-0 bg-theme-accent-secondary opacity-80 rounded-full"></div>
+                  
+                  {/* Main badge container - cleaner design */}
+                  <div className="relative flex items-center gap-3 md:gap-4 bg-theme-accent-tertiary py-3 px-5 md:px-6 lg:px-7 rounded-full
+                                 border border-white/10">
+                    
+                    {/* Badge icon with subtle styling */}
+                    <div className="relative flex-shrink-0">
+                      {/* Subtle glow effect */}
+                      <div className="absolute inset-0 rounded-full bg-white/20 blur-[5px]"></div>
+                      {/* Circle background */}
+                      <div className="relative bg-white/20 rounded-full p-2 border border-white/30">
+                        <svg width="32" height="32" viewBox="0 0 370.04 370.04" fill="currentColor"
+                             className="text-white drop-shadow-sm">
+                          <path d="M341.668,314.412c0,0-41.071-70.588-48.438-83.248c8.382-2.557,17.311-4.815,21.021-11.221
+                            c6.183-10.674-4.823-28.184-1.933-39.625c2.977-11.775,20.551-21.964,20.551-33.933c0-11.661-18.169-25.284-21.148-36.99
+                            c-2.91-11.439,8.063-28.968,1.86-39.629c-6.203-10.662-26.864-9.786-35.369-17.97c-8.751-8.422-8.724-29.028-19.279-34.672
+                            c-10.598-5.665-27.822,5.784-39.589,3.072C207.711,17.515,197.318,0,185.167,0c-12.331,0-31.944,19.868-35.02,20.583
+                            c-11.761,2.734-29.007-8.687-39.594-2.998c-10.545,5.663-10.48,26.271-19.215,34.707c-8.491,8.199-29.153,7.361-35.337,18.035
+                            c-6.183,10.672,4.823,28.178,1.934,39.625c-2.897,11.476-21.083,23.104-21.083,36.376c0,11.97,17.618,22.127,20.613,33.896
+                            c2.911,11.439-8.062,28.966-1.859,39.631c3.377,5.805,11.039,8.188,18.691,10.479c0.893,0.267,2.582,1.266,1.438,2.933
+                            c-5.235,9.036-47.37,81.755-47.37,81.755c-3.352,5.784-0.63,10.742,6.047,11.023l32.683,1.363
+                            c6.677,0.281,15.053,5.133,18.617,10.786l17.44,27.674c3.564,5.653,9.219,5.547,12.57-0.236c0,0,48.797-84.246,48.817-84.27
+                            c0.979-1.144,1.963-0.909,2.434-0.509c5.339,4.546,12.782,9.081,18.994,9.081c6.092,0,11.733-4.269,17.313-9.03
+                            c0.454-0.387,1.559-1.18,2.367,0.466c0.013,0.026,48.756,83.811,48.756,83.811c3.36,5.776,9.016,5.874,12.569,0.214
+                            l17.391-27.707c3.554-5.657,11.921-10.528,18.598-10.819l32.68-1.424C342.315,325.152,345.028,320.187,341.668,314.412z
+                            M239.18,238.631c-36.136,21.023-79.511,18.77-112.641-2.127c-48.545-31.095-64.518-95.419-35.335-145.788
+                            c29.516-50.95,94.399-68.928,145.808-40.929c0.27,0.147,0.537,0.299,0.805,0.449c0.381,0.211,0.761,0.425,1.14,0.641
+                            c15.86,9.144,29.613,22.415,39.461,39.342C308.516,141.955,290.915,208.533,239.18,238.631z"/>
+                          <path d="M230.916,66.103c-0.15-0.087-0.302-0.168-0.452-0.254C203.002,49.955,168,48.793,138.665,65.86
+                            c-43.532,25.326-58.345,81.345-33.019,124.876c7.728,13.284,18.318,23.888,30.536,31.498c1.039,0.658,2.09,1.305,3.164,1.927
+                            c43.579,25.247,99.568,10.333,124.814-33.244C289.405,147.338,274.495,91.35,230.916,66.103z M241.818,137.344l-15.259,14.873
+                            c-4.726,4.606-7.68,13.698-6.563,20.203l3.602,21.001c1.116,6.505-2.75,9.314-8.592,6.243l-18.861-9.916
+                            c-5.842-3.071-15.401-3.071-21.243,0l-18.86,9.916c-5.842,3.071-9.709,0.262-8.593-6.243l3.602-21.001
+                            c1.116-6.505-1.838-15.597-6.564-20.203l-15.258-14.873c-4.727-4.606-3.249-9.152,3.282-10.102l21.086-3.064
+                            c6.531-0.949,14.265-6.568,17.186-12.486l9.43-19.107c2.921-5.918,7.701-5.918,10.621,0l9.431,19.107
+                            c2.921,5.918,10.654,11.537,17.186,12.486l21.086,3.064C245.067,128.192,246.544,132.738,241.818,137.344z"/>
+                        </svg>
+                      </div>
+                    </div>
+                    
+                    {/* Text with more professional styling */}
+                    <div className="text-white drop-shadow-sm">
+                      <span className="block text-sm md:text-base font-medium">From the</span>
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-xl md:text-2xl font-bold leading-none">
+                          #1
+                        </span>
+                        <span className="text-base md:text-lg font-semibold">
+                          Short Form Agency in the World
+                        </span>
+                      </div>
+                      <span className="block text-sm md:text-base">
+                        <span className="italic font-light">(we're deadly serious)</span>
+                      </span>
+                    </div>
+                  </div>
+                  
+                  {/* Enhanced shine effect on hover */}
+                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-all duration-700 ease-out"></div>
+                </div>
+              </div>
               
               {/* Animated Buttons with responsive sizes */}
               <div className="hero-content flex flex-wrap gap-2 sm:gap-3 lg:gap-4 transition-all duration-500">
                 <AnimatedButton 
-
                   text="Get Your Plan"
-
                   variant="start"
                   saturation="high"
                   size="md"
                   onClick={onCtaClick}
-                  className="w-auto text-sm sm:text-base"
-                />
-                <AnimatedButton 
-                  text="Book a Call"
-                  variant="docs"
-                  saturation="normal"
-                  size="md"
                   className="w-auto text-sm sm:text-base"
                 />
               </div>

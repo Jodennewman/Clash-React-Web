@@ -9,8 +9,8 @@ import { Link } from "../ui/link";
 
 export default function FAQ() {
   return (
-    <Section>
-      <div className="mx-auto flex max-w-container flex-col items-center gap-12">
+    <Section className="relative overflow-hidden">
+      <div className="mx-auto flex max-w-container flex-col items-center gap-12 faq-section relative">
         <h2 className="text-center text-3xl font-semibold sm:text-5xl">
           Questions and Answers
         </h2>

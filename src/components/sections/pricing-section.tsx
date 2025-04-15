@@ -17,12 +17,11 @@ import {
   pricingConfig,
   moduleCategories,
   supportFeatures,
-  quizSteps,
-  calculateCourseStats
+  quizSteps
 } from '../../data/pricing';
 
-// Import course information from course-utils for track-related data
-import { tracks } from '../../lib/course-utils';
+// Import course information from course-utils for all course data access
+import courseUtils from '../../lib/course-utils';
 
 function formatPrice(price: number): string {
   return new Intl.NumberFormat('en-GB', {
@@ -39,11 +38,11 @@ const ModulePreview = () => {
   const categoryNames = Object.keys(moduleCategories).sort();
   const midpoint = Math.ceil(categoryNames.length / 2);
   
-  // Access stats from course-utils and pricing stats as needed
-  const stats = calculateCourseStats();
+  // Access stats from course-utils as the single source of truth
+  const stats = courseUtils.courseStats;
   const totalModules = stats.totalModules || 0;
   const totalHours = stats.totalHours || 0;
-  const totalCategories = stats.totalCategories || 0;
+  const totalCategories = courseUtils.tracks.length || 0;
 
   return (
     <div className="relative overflow-hidden 
@@ -239,8 +238,9 @@ const PricingFAQ = () => {
       <div className="absolute -z-10 bottom-10 left-1/4 w-20 h-20 rounded-[30%] -rotate-6 opacity-10
                     vs-btn-secondary-gradient 
                     animate-float-medium hidden dark:block"></div>
+                    
     
-      <h3 className="text-2xl font-semibold mb-6 text-theme-custom ">Frequently Asked Questions</h3>
+      <h3 className="text-2xl font-semibold mb-6 text-theme-custom pricing-faq">Frequently Asked Questions</h3>
       <Accordion type="single" collapsible className="w-full space-y-4">
         <AccordionItem value="item-1" className="border border-white/10 dark:border-theme-border-light-lg overflow-hidden
                                               shadow-[2px_2px_8px_rgba(0,0,0,0.05)] 
@@ -456,7 +456,8 @@ export const PricingSection = () => {
   const [showQuiz, setShowQuiz] = useState(false);
   const [recommendedPlan, setRecommendedPlan] = useState<number | null>(null);
   const [showPricingSection, setShowPricingSection] = useState(true);
-  const pricingStats = calculateCourseStats();
+  // Use courseUtils instead of local calculation
+  const pricingStats = courseUtils.courseStats;
 
   // Price logic
   const calculateDisplayPrice = (tier: number) => {
@@ -521,9 +522,9 @@ export const PricingSection = () => {
     }
   };
 
-  // Get course stats with null checks
-  const totalCategories = tracks?.length || 0;
-  const totalModules = pricingStats.totalModules || 0;
+  // Get course stats from courseUtils
+  const totalCategories = courseUtils.tracks.length || 0;
+  const totalModules = courseUtils.courseStats.totalModules || 0;
 
   const getTrackAccessContent = (tierIndex: number) => {
     const plan = pricingTiers[tierIndex];
@@ -560,6 +561,7 @@ export const PricingSection = () => {
         {/* Dark mode floating elements */}
         <div className="absolute top-20 left-10 w-16 h-16 rounded-[40%] rotate-12 vs-float-element-dark-1"></div>
         <div className="absolute bottom-20 right-10 w-24 h-24 rounded-[30%] -rotate-6 vs-float-element-dark-2"></div>
+        
                       
         <div className="text-center mb-16 relative z-10">
           <Badge variant="outline" className="vs-accent-badge mb-4 py-2 px-4">

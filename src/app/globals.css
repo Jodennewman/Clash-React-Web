@@ -99,13 +99,13 @@
   --text-navy: oklch(0.28 0.0504 224.53);
   --text-navy-rgb: 4, 47, 60;
 
-  --text-navy-secondary: oklch(0.31 0.0523 223.86 / 0.92)
-  --text-navy-tertiary: oklch(0.33 0.0488 220.99 / 0.57)
+  --text-navy-secondary: oklch(0.31 0.0523 223.86 / 0.92);
+  --text-navy-tertiary: oklch(0.33 0.0488 220.99 / 0.57);
 
   --text-cream: oklch(0.98 0.0219 68.466);
   --text-cream-rgb: 255, 245, 232;
-  --text-cream-secondary: oklch(0.94 0.0256 78.92 / 0.9)
-  --text-cream-tertiary: oklch(0.88 0.0339 77.58 / 0.8)
+  --text-cream-secondary: oklch(0.94 0.0256 78.92 / 0.9);
+  --text-cream-tertiary: oklch(0.88 0.0339 77.58 / 0.8);
 
   
   /* Card colors */
@@ -130,7 +130,16 @@
   --neutral-blue-3: oklch(0.25 0.04 225);
   --neutral-blue-3-rgb: 9, 57, 83;
 
-  
+  /* Extended Module HUD Palette */
+  --hud-teal: oklch(0.49 0.05 220); /* #387292 */
+  --hud-coral: oklch(0.62 0.15 27); /* #DE6B59 */
+  --hud-navy: oklch(0.25 0.04 225); /* #122E3B */
+  --hud-red: oklch(0.48 0.21 25); /* #B92234 */
+  --hud-pink: oklch(0.75 0.12 350); /* #FA91A6 */
+  --hud-orange: oklch(0.75 0.13 57); /* #FEA35D */
+  --hud-accent-red: oklch(0.65 0.25 25); /* #FF3C54 */
+  --hud-orange-light: oklch(0.85 0.07 60); /* #FFD5B5 */
+  --hud-orange-lighter: oklch(0.85 0.08 65); /* #FFD79B */
   
   /* Chart variables */
   --color-views: var(--primary-orange);
@@ -216,7 +225,7 @@
   --theme-gradient-card-start: var(--text-cream);
   --theme-gradient-card-end: var(--bg-cream);
   --theme-primary-gradient-start: var(--primary-orange);
-  --theme-primary-gradient-end: var(--primary-orange-hover);
+--theme-primary-gradient-end: var(--primary-orange-hover);
   --theme-secondary-gradient-start: var(--secondary-teal);
   --theme-secondary-gradient-end: var(--secondary-teal-hover);
   --theme-accent-gradient-start: var(--accent-coral);
@@ -1664,11 +1673,6 @@ a:hover {
   color: var(--theme-accent-quaternary);
 }
 
-/* Theme-aware backgrounds */
-.bg-theme-primary {
-  background-color: var(--theme-bg-primary);
-}
-
 .bg-theme-secondary {
   background-color: var(--theme-bg-secondary);
 }
@@ -1925,9 +1929,6 @@ a:hover {
 }
 
 /* Theme-aware backgrounds */
-.bg-theme-primary {
-  background-color: var(--theme-bg-primary);
-}
 
 .dark .vs-logo:hover, [data-theme="dark"] .vs-logo:hover {
   box-shadow: 0 0 15px rgba(254, 163, 93, 0.3);
@@ -2291,8 +2292,18 @@ a:hover {
 /* Theme-aware enhanced cards */
 .card-theme {
   background: linear-gradient(to bottom right, 
-    var(--theme-gradient-card-start), 
-    var(--theme-gradient-card-end));
+    rgb(var(--color-white)), 
+    rgb(var(--bg-cream-darker-rgb)));
+  border-radius: var(--theme-border-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--theme-shadow-card);
+  transition: all var(--theme-transition-bounce);
+}
+
+.dark .card-theme, [data-theme="dark"] {
+  background: linear-gradient(to bottom right, 
+    rgb(var(--bg-navy-rgb)), 
+    rgb(var(--bg-navy-darker-rgb)));
   border-radius: var(--theme-border-radius-lg);
   padding: 1.5rem;
   box-shadow: var(--theme-shadow-card);
@@ -3393,8 +3404,8 @@ a:hover {
 
 /* Responsive adjustments */
 @media (max-width: 1280px) {
-  h1 { font-size: 4rem; }
-  h2 { font-size: 3rem; }
+  h1 { font-size: 5rem; }
+  h2 { font-size: 4rem; }
   h3 { font-size: 2.25rem; }
   h4 { font-size: 1.75rem; }
 }
@@ -3439,4 +3450,42 @@ a:hover {
 
 .bg-theme-gradient-overlay-right {
   background: linear-gradient(to left, var(--theme-bg-secondary) 0%, var(--theme-bg-secondary) 15%, transparent 100%);
+}
+
+/* Module glow overlay for dark mode */
+.dark-glow-overlay {
+  position: relative;
+}
+
+.dark-glow-overlay::before {
+  content: "";
+  position: absolute;
+  inset: -4px; /* Extend beyond the element's border */
+  background: radial-gradient(circle at center, 
+              rgba(255, 159, 81, 0.15), 
+              transparent 70%);
+  mix-blend-mode: screen; /* More visible effect than overlay */
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease, filter 0.3s ease;
+  filter: blur(5px);
+  z-index: 0;
+}
+
+.dark .dark-glow-overlay::before, [data-theme="dark"] .dark-glow-overlay::before {
+  opacity: 0.7;
+}
+
+.dark-glow-overlay:hover::before {
+  opacity: 0.5;
+}
+
+.dark .dark-glow-overlay:hover::before, [data-theme="dark"] .dark-glow-overlay:hover::before {
+  opacity: 1;
+  background: radial-gradient(circle at center, 
+              rgba(255, 159, 81, 0.3), 
+              rgba(53, 115, 128, 0.2), 
+              transparent 75%);
+  filter: blur(8px);
 }

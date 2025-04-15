@@ -1,99 +1,135 @@
-import { Section } from "../../ui/section";
+import React from 'react';
 import Marquee from "../../ui/marquee";
+import { viewsThumbnails } from '../../../utils/thumbnailMapper';
+import { Section } from "../../ui/section";
 
-// Create a ThumbnailItem component for the marquee
-const ThumbnailItem = ({ src, alt }: { src: string; alt: string }) => {
+interface MarqueeTwoRowsProps {
+  className?: string;
+  sectionTitle?: string;
+  sectionDescription?: string;
+}
+
+const MarqueeTwoRows: React.FC<MarqueeTwoRowsProps> = ({ 
+  sectionTitle = "You may have seen some of our work before:",
+  sectionDescription = "These are just some of the videos we've created that have gone viral, reaching hundreds of millions of views across platforms."
+}) => {
+  // Get thumbnails directly from the viewsThumbnails mapping
+  const thumbnails = Object.entries(viewsThumbnails).map(([key, src]) => ({
+    src,
+    alt: key.replace(/-/g, ' ')
+  }));
+  
+  // Split thumbnails into two roughly equal groups for the two rows (desktop) 
+  const firstRowThumbnails = thumbnails.slice(0, Math.ceil(thumbnails.length / 2));
+  const secondRowThumbnails = thumbnails.slice(Math.ceil(thumbnails.length / 2));
+  
+  // Split for 5 rows on mobile (these will be hidden on desktop)
+  const mobileRows = [];
+  const mobileRowSize = Math.ceil(thumbnails.length / 5);
+  for (let i = 0; i < 5; i++) {
+    const start = i * mobileRowSize;
+    const end = Math.min(start + mobileRowSize, thumbnails.length);
+    mobileRows.push(thumbnails.slice(start, end));
+  }
+
   return (
-    <div className="-mx-8 -my-5 overflow-hidden rounded-xl hover:scale-105 transition-transform duration-300 shadow-theme-md" style={{ transform: "scale(0.75)" }}>
-      <img 
-        src={src} 
-        alt={alt} 
-        width={320} 
-        height={180}
-        className="object-cover"
-      />
-    </div>
-  );
-};
-
-// Thumbnail paths from your webp folder
-const thumbnails = [
-  { src: "/assets/main/thumbnails-with-views-webp/JW-Hiring-Sea.webp", alt: "JW Hiring Sea" },
-  { src: "/assets/main/thumbnails-with-views-webp/JW-Socialtip-rorysutherland.webp", alt: "JW Social Tip Rory Sutherland" },
-  { src: "/assets/main/thumbnails-with-views-webp/JW-jellycat.webp", alt: "JW Jellycat" },
-  { src: "/assets/main/thumbnails-with-views-webp/JS-David D.webp", alt: "JS David D" },
-  { src: "/assets/main/thumbnails-with-views-webp/JS-sidemenenightclub.webp", alt: "JS Sidemen Nightclub" },
-  { src: "/assets/main/thumbnails-with-views-webp/JW-BrewBeers-1.webp", alt: "JW Brew Beers" },
-  { src: "/assets/main/thumbnails-with-views-webp/JC-insanecults.webp", alt: "JC Insane Cults" },
-  { src: "/assets/main/thumbnails-with-views-webp/JC-taylorswift.webp", alt: "JC Taylor Swift" },
-  { src: "/assets/main/thumbnails-with-views-webp/JC-evilcriminals.webp", alt: "JC Evil Criminals" },
-  { src: "/assets/main/thumbnails-with-views-webp/JC-deadlyfilmaccidents.webp", alt: "JC Deadly Film Accidents" },
-  { src: "/assets/main/thumbnails-with-views-webp/JC-conspiracies.webp", alt: "JC Conspiracies" },
-  { src: "/assets/main/thumbnails-with-views-webp/JC-Slime.webp", alt: "JC Slime" },
-  { src: "/assets/main/thumbnails-with-views-webp/JC-Stupid-Deaths.webp", alt: "JC Stupid Deaths" },
-  { src: "/assets/main/thumbnails-with-views-webp/CM-brat-summer.webp", alt: "CM Brat Summer" },
-  { src: "/assets/main/thumbnails-with-views-webp/CM-chappelle.webp", alt: "CM Chappelle" },
-  { src: "/assets/main/thumbnails-with-views-webp/CM-FYOU.webp", alt: "CM F You" },
-  { src: "/assets/main/thumbnails-with-views-webp/CM-Jlo.webp", alt: "CM JLo" },
-  { src: "/assets/main/thumbnails-with-views-webp/CM-Marketing.webp", alt: "CM Marketing" },
-  { src: "/assets/main/thumbnails-with-views-webp/CD-TOXIC#55.webp", alt: "CD Toxic #55" },
-  { src: "/assets/main/thumbnails-with-views-webp/CM -Successful women.webp", alt: "CM Successful Women" },
-  { src: "/assets/main/thumbnails-with-views-webp/CM-Agency Predictions.webp", alt: "CM Agency Predictions" },
-  { src: "/assets/main/thumbnails-with-views-webp/Baskins worse boss.webp", alt: "Baskins Worse Boss" },
-  { src: "/assets/main/thumbnails-with-views-webp/CD COFFEE.webp", alt: "CD Coffee" },
-  { src: "/assets/main/thumbnails-with-views-webp/CD-REGRET.webp", alt: "CD Regret" },
-  { src: "/assets/main/thumbnails-with-views-webp/BA-something.webp", alt: "BA Something" },
-  { src: "/assets/main/thumbnails-with-views-webp/BA.BOOMERSVGENZ.webp", alt: "BA Boomers vs Gen Z" },
-];
-
-// Split thumbnails into two roughly equal groups for the two rows
-const firstRowThumbnails = thumbnails.slice(0, 13);
-const secondRowThumbnails = thumbnails.slice(13);
-
-export default function SocialProof() {
-  return (
-    <Section className="w-full overflow-hidden bg-theme-bg-secondary py-24 border-t border-theme-border px-0">
+    <Section className="w-full overflow-hidden bg-theme-bg-secondary py-12 md:py-24 border-t border-theme-border px-0">
       <div className="mx-auto flex max-w-container flex-col items-center gap-4 text-center sm:gap-16">
         <div className="flex flex-col items-center gap-4 px-4 sm:gap-8">
-          <h2 className="max-w-[800px] text-3xl font-bold leading-tight sm:text-5xl sm:leading-tight text-theme-gradient">
-            Our Videos Get Millions of Views
+          <h2 className="max-w-[800px] text-3xl md:text-4xl font-bold leading-tight sm:text-6xl sm:leading-tight">
+            {sectionTitle}
           </h2>
-          <p className="text-md max-w-[700px] text-theme-secondary sm:text-xl">
-            We've created content that's reached over 800M views across platforms. Here's a small sample of our work.
+          <p className="body-text max-w-[600px] mx-auto md:max-w-none text-sm md:text-base">
+            {sectionDescription}
           </p>
         </div>
         
         {/* Full-width mask with vignette */}
         <div className="w-full max-w-full relative">
-          {/* First row scrolls left to right */}
-          <div className="relative overflow-hidden">
-            <Marquee pauseOnHover className="[--duration:60s] py-0 mb-[-36px]">
-              {firstRowThumbnails.map((item, index) => (
-                <ThumbnailItem key={`first-${index}`} src={item.src} alt={item.alt} />
-              ))}
-            </Marquee>
+          {/* Desktop layout - 2 rows, hidden on mobile */}
+          <div className="hidden md:block">
+            <div className="relative overflow-hidden mb-[-36px]">
+              <Marquee pauseOnHover className="[--duration:60s] py-0">
+                {firstRowThumbnails.map((item, index) => (
+                  <div 
+                    key={`desktop-first-${index}`} 
+                    className="-mx-8 -my-5 overflow-hidden rounded-xl hover:scale-105 transition-transform duration-300 shadow-theme-md"
+                    style={{ transform: "scale(0.75)" }}
+                  >
+                    <img 
+                      src={item.src} 
+                      alt={item.alt} 
+                      width={320} 
+                      height={180}
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
+              </Marquee>
+            </div>
+            
+            <div className="relative overflow-hidden">
+              <Marquee reverse pauseOnHover className="[--duration:60s] py-0">
+                {secondRowThumbnails.map((item, index) => (
+                  <div 
+                    key={`desktop-second-${index}`} 
+                    className="-mx-8 -my-5 overflow-hidden rounded-xl hover:scale-105 transition-transform duration-300 shadow-theme-md"
+                    style={{ transform: "scale(0.75)" }}
+                  >
+                    <img 
+                      src={item.src} 
+                      alt={item.alt} 
+                      width={320} 
+                      height={180}
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
+              </Marquee>
+            </div>
           </div>
           
-          {/* Second row scrolls right to left (reversed) */}
-          <div className="relative overflow-hidden">
-            <Marquee reverse pauseOnHover className="[--duration:70s] py-0 mt-[-36px]">
-              {secondRowThumbnails.map((item, index) => (
-                <ThumbnailItem key={`second-${index}`} src={item.src} alt={item.alt} />
-              ))}
-            </Marquee>
+          {/* Mobile layout - 5 rows, hidden on desktop */}
+          <div className="block md:hidden">
+            {mobileRows.map((rowThumbnails, rowIndex) => (
+              <div key={`mobile-row-${rowIndex}`} className="relative overflow-hidden mb-[-16px]">
+                <Marquee 
+                  reverse={rowIndex % 2 === 1} 
+                  pauseOnHover 
+                  className="[--duration:45s] py-0"
+                >
+                  {rowThumbnails.map((item, index) => (
+                    <div 
+                      key={`mobile-thumb-${rowIndex}-${index}`} 
+                      className="-mx-4 -my-2 overflow-hidden rounded-lg transition-transform duration-300 shadow-theme-sm hover:scale-105"
+                      style={{ transform: "scale(0.375)" }}
+                    >
+                      <img 
+                        src={item.src} 
+                        alt={item.alt} 
+                        width={320} 
+                        height={180}
+                        className="object-cover"
+                      />
+                    </div>
+                  ))}
+                </Marquee>
+              </div>
+            ))}
           </div>
           
           {/* Deep side vignettes that fade out thumbnails completely using theme-aware colors */}
           <div 
-            className="pointer-events-none absolute inset-y-0 left-0 w-[35%] z-10 bg-theme-gradient-overlay-left"
+            className="pointer-events-none absolute inset-y-0 left-0 w-[25%] md:w-[35%] z-10 bg-theme-gradient-overlay-left"
           ></div>
           <div 
-            className="pointer-events-none absolute inset-y-0 right-0 w-[35%] z-10 bg-theme-gradient-overlay-right"
+            className="pointer-events-none absolute inset-y-0 right-0 w-[25%] md:w-[35%] z-10 bg-theme-gradient-overlay-left"
+            style={{ transform: 'scaleX(-1)' }}
           ></div>
         </div>
       </div>
-
-      {/* Using inline styles for the vignettes */}
     </Section>
   );
-}
+};
+
+export default MarqueeTwoRows;

@@ -1,0 +1,192 @@
+/*
+ * DARK-MODE
+ * Part of the theme-aware styling system
+ * Auto-generated on 2025-04-13T10:04:27.550Z
+ */
+
+/* =================================================
+   DARK MODE THEME OVERRIDES - ENHANCED VISUAL STYLE
+   ================================================= */
+
+/* 
+ * Dark mode overrides using the data-theme attribute selector
+ * Only override the theme-aware variables that need to change
+ */
+.dark, [data-theme="dark"] {
+  /* Background colors for dark mode - rich navy colors */
+  --bg-cream: oklch(0.12 0.03 240);
+  --bg-cream-rgb: 9, 35, 47;
+  
+  /* Enhanced gradient with more richness for dark mode */
+  --bg-cream-gradient: linear-gradient(135deg, oklch(0.14 0.04 235) 0%, oklch(0.10 0.04 240) 100%);
+  --bg-cream-gradient-rgb: linear-gradient(135deg, rgb(10, 40, 55) 0%, rgb(5, 25, 35) 100%);
+  --bg-cream-darker: oklch(0.12 0.02 235);
+  --bg-cream-darker-rgb: 8, 29, 39;
+  
+  /* Card colors for dark mode with subtle gradients */
+  --card-bg-light: oklch(0.28 0.05 227);
+  --card-bg-light-rgb: 12, 67, 99;
+  --card-bg-dark: linear-gradient(145deg, oklch(0.28 0.05 227) 0%, oklch(0.22 0.05 225) 100%);
+  
+  /* Module backgrounds with gradients for dark mode */
+  --module-bg-gradient: linear-gradient(120deg, oklch(0.25 0.05 225) 0%, oklch(0.20 0.04 230) 100%);
+  --module-accent-gradient: linear-gradient(120deg, oklch(0.28 0.06 220) 0%, oklch(0.23 0.05 225) 100%);
+  
+  /* Enhanced shadows for dark mode - more depth */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.4);
+  --shadow-btn: 0 2px 6px rgba(0, 0, 0, 0.25);
+  
+  /* Subtle glow effects for dark mode */
+  --glow-accent: 0 0 20px rgba(222, 107, 89, 0.15);
+  --glow-primary: 0 0 20px rgba(254, 172, 109, 0.15);
+  --glow-blue: 0 0 20px rgba(56, 114, 146, 0.15);
+  --glow-secondary: 0 0 20px rgba(70, 135, 155, 0.15);
+  --glow-tertiary: 0 0 20px rgba(239, 98, 82, 0.15);
+  
+  /* Text colors for dark mode */
+  --text-navy: oklch(0.96 0.01 90);
+  --text-navy-rgb: 255, 245, 233;
+  --text-cream: oklch(0.99 0.001 90);
+  --text-cream-rgb: 255, 255, 255;
+  
+  /* Primary colors - brighter and more vibrant in dark mode */
+  --primary-orange-hover: oklch(0.85 0.15 55);
+  --primary-orange-hover-rgb: 255, 200, 140;
+  --primary-orange-light: oklch(0.85 0.12 60);
+  --primary-orange-light-rgb: 255, 205, 155;
+  
+  /* Secondary colors - brighter in dark mode */
+  --secondary-teal: oklch(0.55 0.08 200);
+  --secondary-teal-rgb: 70, 135, 155;
+  --secondary-teal-hover: oklch(0.60 0.09 195);
+  --secondary-teal-hover-rgb: 85, 155, 170;
+  --secondary-teal-light: oklch(0.65 0.07 195);
+  --secondary-teal-light-rgb: 95, 170, 185;
+  
+  /* UI Element colors */
+  --ui-peach-light: oklch(0.50 0.05 220);
+  --ui-peach-light-rgb: 60, 120, 150;
+  --ui-peach-dark: oklch(0.55 0.06 220);
+  --ui-peach-dark-rgb: 70, 130, 160;
+  
+  /* Grid patterns - subtle in dark mode */
+  --grid-line: rgba(255, 255, 255, 0.05);
+  --grid-dot: rgba(255, 255, 255, 0.08);
+  
+  /* Enhanced HUD Colors */
+  --hud-teal: var(--secondary-blue); /* #387292 */
+  --hud-coral: var(--accent-red); /* #DE6B59 */
+  --hud-navy: var(--secondary-blue-dark); /* #122E3B */
+  --hud-red: var(--accent-red-darker); /* #B92234 */
+  --hud-pink: var(--accent-pink-darkmode); /* #FA91A6 */
+  --hud-orange: var(--primary-orange-darkmode); /* #FEA35D */
+  --hud-accent-red: var(--accent-red-dark); /* #FF3C54 */
+  --hud-orange-light: var(--accent-yellow-darkmode); /* #FFD5B5 */
+  --hud-orange-lighter: var(--accent-peach-dark); /* #FFD79B */
+  
+  /* Theme-aware variables for dark mode */
+  
+  /* Theme text colors - dark mode */
+  --theme-text-primary: white !important;
+  --theme-text-secondary: rgba(255, 255, 255, 0.8) !important;
+  --theme-text-tertiary: rgba(255, 255, 255, 0.6) !important;
+  --theme-text-subtle: rgba(255, 255, 255, 0.4);
+  --theme-text-on-primary: white;
+  
+  /* Theme background colors - dark mode */
+  --theme-bg-primary: var(--bg-navy);
+  --theme-bg-secondary: var(--bg-navy-darker);
+  --theme-bg-surface: oklch(0.16 0.03 235) !important;
+  --theme-bg-card: var(--card-bg-light);
+  --theme-accent-coral: var(--accent-red);
+  --theme-accent-red: var(--accent-red-dark);
+  
+  /* Theme gradient variables - dark mode with rich gradients */
+  --theme-gradient-start: oklch(0.16 0.03 235) !important;
+  --theme-gradient-end: oklch(0.12 0.02 235) !important;
+  --theme-gradient-card-start: var(--card-bg-light);
+  --theme-gradient-card-end: var(--bg-navy-darker);
+  --theme-primary-gradient-start: var(--primary-orange);
+  --theme-primary-gradient-end: var(--primary-orange-hover);
+  --theme-secondary-gradient-start: var(--secondary-teal);
+  --theme-secondary-gradient-end: var(--secondary-teal-hover);
+  --theme-accent-gradient-start: var(--accent-coral);
+  --theme-accent-gradient-end: var(--accent-red);
+  --theme-bg-navy-gradient: linear-gradient(213deg, var(--theme-bg-primary) 0%, var(--theme-bg-secondary) 100%);
+  --theme-bg-cream-gradient: linear-gradient(to bottom right, var(--theme-bg-primary), var(--theme-bg-secondary));
+
+  --theme-primary: var(--primary-orange-darkmode);
+  --theme-primary-hover: var(--primary-orange-hover);
+  --theme-primary-light: var(--primary-orange-light);
+  --theme-accent-secondary: var(--secondary-blue);
+  --theme-accent-secondary-hover: var(--secondary-teal-hover);
+  --theme-accent-secondary-light: var(--secondary-teal-light);
+  --theme-accent-tertiary: var(--accent-coral);
+  --theme-accent-quaternary: var(--accent-red);
+  --theme-accent: var(--theme-accent-secondary);
+  
+  /* Theme shadows - enhanced with glows for dark mode */
+  --theme-shadow-card: var(--shadow-sm), var(--glow-blue);
+  --theme-shadow-card-hover: var(--shadow-md), var(--glow-blue);
+  --theme-shadow-sm: var(--shadow-sm), var(--glow-blue);
+  --theme-shadow-md: var(--shadow-md), var(--glow-blue);
+  --theme-shadow-lg: var(--shadow-lg), var(--glow-blue);
+  --theme-shadow-btn: var(--shadow-btn), var(--glow-primary);
+  --theme-shadow-primary: var(--shadow-sm), var(--glow-primary);
+  --theme-shadow-secondary: var(--shadow-sm), var(--glow-secondary);
+  --theme-shadow-tertiary: var(--shadow-sm), var(--glow-tertiary);
+  --theme-shadow-accent: var(--shadow-sm), var(--glow-accent);
+  --theme-shadow-btn-primary: var(--shadow-btn), var(--glow-primary);
+  --theme-shadow-btn-secondary: var(--shadow-btn), var(--glow-secondary);
+  --theme-shadow-btn-tertiary: var(--shadow-btn), var(--glow-tertiary);
+  
+  /* Theme floating elements - more visible in dark mode */
+  --theme-float-opacity: 0.2;
+  --theme-float-opacity-secondary: 0.3;
+  --theme-float-bg-primary: var(--primary-orange);
+  --theme-float-bg-secondary: var(--secondary-teal);
+  
+  /* Team section variables - dark mode */
+  --theme-team-joden: linear-gradient(to bottom, var(--bg-navy), var(--bg-navy-darker));
+  --theme-team-alex: linear-gradient(to bottom, var(--bg-navy-darker), var(--bg-navy));
+  --theme-team-tia: linear-gradient(to bottom, var(--bg-navy), var(--secondary-teal-light)/10);
+  --theme-team-aydan: linear-gradient(to bottom, var(--secondary-teal-light)/10, var(--bg-navy));
+  --theme-team-joden-accent: var(--primary-orange-light);
+  --theme-team-alex-accent: var(--secondary-teal-light);
+  --theme-team-tia-accent: var(--accent-coral);
+  --theme-team-aydan-accent: var(--accent-red-dark);
+  
+  /* Theme animation variables - slightly more pronounced in dark mode */
+  --theme-anim-distance: -5px;
+  --theme-anim-distance-sm: -3px;
+  --theme-anim-distance-md: -7px;
+  --theme-anim-scale: 1.03;
+  --theme-anim-scale-sm: 1.02;
+  --theme-anim-duration: 0.4;
+  --theme-anim-duration-med: 0.45;
+  --theme-anim-duration-slow: 0.6;
+  --theme-anim-duration-marquee: 25s;
+  
+  /* Theme border colors - subtle for dark mode */
+  --theme-border: rgba(255, 255, 255, 0.1) !important;
+  --theme-border-light: rgba(255, 255, 255, 0.05);
+  --theme-border-medium: rgba(255, 255, 255, 0.1);
+  --theme-border-primary: rgba(var(--primary-orange-rgb), 0.25);
+  
+  /* Theme grid patterns - subtle for dark mode */
+  --theme-grid-line: var(--grid-line);
+  --theme-grid-dot: var(--grid-dot);
+  --theme-grid-dot-opacity: 0.1;
+  
+  /* Theme opacity values - enhanced for dark mode */
+  --theme-overlay-opacity: 0.65;
+  --theme-glow-opacity: 0.3;
+  --theme-glow-opacity-sm: 0.15;
+  --theme-glow-opacity-lg: 0.45;
+  
+  /* Theme pattern color */
+  --theme-pattern-color: var(--primary-orange-light);
+  --theme-pattern-opacity: 0.08;
+}

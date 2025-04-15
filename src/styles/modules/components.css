@@ -1,0 +1,585 @@
+/*
+ * COMPONENTS
+ * Part of the theme-aware styling system
+ * Auto-generated on 2025-04-13T10:04:27.556Z
+ */
+
+/* ==========================================
+   COMPONENT STYLES
+   ========================================== */
+.vs-btn-primary-gradient {
+  background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
+}
+
+.vs-btn-primary-gradient-hover {
+  background: linear-gradient(to right, var(--primary-orange-light), var(--primary-orange));
+}
+
+.vs-btn-secondary-gradient {
+  background: linear-gradient(to right, var(--secondary-teal), var(--secondary-teal-hover));
+}
+
+.vs-btn-secondary-gradient-hover {
+  background: linear-gradient(to right, var(--secondary-teal-light), var(--secondary-teal));
+}
+
+.vs-btn-vibrant-gradient {
+  background: linear-gradient(to right, var(--accent-coral), var(--primary-orange));
+}
+
+.vs-btn-vibrant-gradient-hover {
+  background: linear-gradient(to right, var(--primary-orange), var(--accent-coral));
+}
+
+.vs-btn-destructive-gradient {
+  background: linear-gradient(to right, var(--accent-red), var(--accent-coral));
+}
+
+.vs-btn-destructive-gradient-hover {
+  background: linear-gradient(to right, var(--accent-coral), var(--accent-red));
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: white;
+  background-color: var(--secondary-teal);
+  border-radius: var(--border-radius-full);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-bounce);
+  box-shadow: var(--theme-shadow-btn);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.btn {
+  /* Already using theme-shadow-btn variable which includes glow in dark mode */
+}
+
+.card {
+  background: linear-gradient(to bottom right, white, rgba(var(--card-bg-light-rgb), 0.5));
+  border-radius: var(--border-radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: var(--theme-shadow-card);
+  overflow: hidden;
+  transition: all var(--transition-bounce);
+}
+
+.card {
+  background: var(--card-bg-dark);
+  /* Already using theme-shadow-card which includes proper glow */
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  color: var(--text-cream);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+.module {
+  aspect-ratio: 1;
+  border-radius: var(--border-radius-md);
+  background-color: white;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: var(--theme-shadow-sm);
+  transition: all var(--transition-bounce);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.module {
+  background: var(--module-bg-gradient);
+  /* Already using theme-shadow-sm which includes proper glow */
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.gradient-text {
+
+
+  background: linear-gradient(120deg, 
+    var(--primary-orange) 0%, 
+    var(--accent-coral) 100%);
+
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.gradient-text {
+  background: linear-gradient(120deg, 
+    var(--primary-orange-light) 0%, 
+    var(--accent-coral) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 8px rgba(254, 163, 93, 0.2));
+}
+
+.hover-bubbly {
+  transition: all var(--transition-bounce);
+}
+
+.vs-float-element-light-1 {
+  position: absolute;
+  z-index: -10;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 40%;
+  rotate: 12deg;
+  opacity: 0.05;
+  background-color: var(--primary-orange);
+  animation: float-slow 8s ease-in-out infinite;
+}
+
+.vs-float-element-light-2 {
+  position: absolute;
+  z-index: -10;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 30%;
+  rotate: -6deg;
+  opacity: 0.08;
+  background-color: var(--primary-orange-hover);
+  animation: float-medium 6s ease-in-out infinite;
+}
+
+.vs-float-element-light-1,
+.dark .vs-float-element-light-2,
+[data-theme="dark"] .vs-float-element-light-1,
+[data-theme="dark"] .vs-float-element-light-2 {
+  display: none;
+}
+
+.vs-float-element-dark-1 {
+  display: none;
+  position: absolute;
+  z-index: -10;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 40%;
+  rotate: 12deg;
+  opacity: 0.1;
+  background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
+  animation: float-slow 8s ease-in-out infinite;
+}
+
+.vs-float-element-dark-2 {
+  display: none;
+  position: absolute;
+  z-index: -10;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 30%;
+  rotate: -6deg;
+  opacity: 0.15;
+  background: linear-gradient(to right, var(--secondary-teal), var(--secondary-teal-hover));
+  animation: float-medium 6s ease-in-out infinite;
+}
+
+.vs-float-element-dark-1,
+.dark .vs-float-element-dark-2,
+[data-theme="dark"] .vs-float-element-dark-1,
+[data-theme="dark"] .vs-float-element-dark-2 {
+  display: block;
+}
+
+.vs-card-shadow {
+  box-shadow: var(--theme-shadow-sm);
+  transition: box-shadow var(--transition-normal), transform var(--transition-bounce);
+}
+
+.vs-card-shadow:hover {
+  box-shadow: var(--theme-shadow-md);
+}
+
+.vs-card-shadow, [data-theme="dark"] .vs-card-shadow {
+  box-shadow: var(--theme-shadow-sm);
+}
+
+.vs-card-shadow:hover, [data-theme="dark"] .vs-card-shadow:hover {
+  box-shadow: var(--theme-shadow-md);
+}
+
+.vs-carousel-container {
+  background: linear-gradient(to bottom, white, var(--theme-bg-primary));
+  overflow: hidden;
+}
+
+.vs-carousel-container, [data-theme="dark"] .vs-carousel-container {
+  background: linear-gradient(to bottom right, var(--theme-bg-secondary), var(--theme-bg-primary));
+  overflow: hidden;
+}
+
+.vs-carousel-slide {
+  background: linear-gradient(135deg, white, var(--theme-bg-primary)/80);
+  border: 1px solid rgba(var(--bg-cream-darker-rgb), 0.2);
+  box-shadow: var(--shadow-md);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-bounce);
+}
+
+.vs-carousel-slide, [data-theme="dark"] .vs-carousel-slide {
+  background: linear-gradient(135deg, rgba(var(--bg-navy-rgb), 0.7), rgba(var(--bg-navy-darker-rgb), 0.5));
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 15px rgba(53, 115, 128, 0.15);
+}
+
+.vs-carousel-slide:hover {
+  transform: translateY(-6px) scale(1.02) rotate(0.5deg);
+  box-shadow: var(--shadow-lg);
+}
+
+.vs-carousel-slide:hover, [data-theme="dark"] .vs-carousel-slide:hover {
+  box-shadow: 0 0 20px rgba(53, 115, 128, 0.2);
+}
+
+.vs-fade-overlay-light {
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1));
+}
+
+.vs-fade-overlay-dark {
+  background: linear-gradient(to top, rgba(var(--bg-navy-rgb), 0.9), rgba(var(--bg-navy-rgb), 0.1));
+}
+
+.vs-depth-bg-dark {
+  background: radial-gradient(circle at top left, rgba(var(--bg-navy-rgb), 0.7), rgba(var(--bg-navy-darker-rgb), 0.95));
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.vs-accent-badge {
+  background-color: rgba(var(--primary-orange-rgb), 0.1);
+  border: 1px solid rgba(var(--primary-orange-rgb), 0.2);
+  color: var(--primary-orange);
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  transition: all var(--transition-bounce);
+}
+
+.vs-accent-badge, [data-theme="dark"] .vs-accent-badge {
+  background-color: rgba(var(--primary-orange-rgb), 0.15);
+  border: 1px solid rgba(var(--primary-orange-rgb), 0.25);
+  color: var(--primary-orange-light);
+}
+
+.vs-carousel-btn {
+  background-color: rgba(var(--primary-orange-rgb), 0.1);
+  border: 1px solid rgba(var(--primary-orange-rgb), 0.2);
+  color: var(--primary-orange);
+  transition: all var(--transition-bounce);
+}
+
+.vs-carousel-btn:hover {
+  background-color: rgba(var(--primary-orange-rgb), 0.2);
+  transform: translateY(-3px) scale(1.1);
+}
+
+.vs-carousel-btn, [data-theme="dark"] .vs-carousel-btn {
+  background-color: rgba(var(--primary-orange-rgb), 0.15);
+  border: 1px solid rgba(var(--primary-orange-rgb), 0.25);
+  color: var(--primary-orange-light);
+  box-shadow: 0 0 10px rgba(var(--primary-orange-rgb), 0.1);
+}
+
+.vs-carousel-btn:hover, [data-theme="dark"] .vs-carousel-btn:hover {
+  background-color: rgba(var(--primary-orange-rgb), 0.25);
+  box-shadow: 0 0 15px rgba(var(--primary-orange-rgb), 0.2);
+}
+
+.vs-section-light {
+  background: linear-gradient(in oklab -135deg, white, var(--theme-bg-primary));
+  color: var(--text-navy);
+}
+
+.vs-section-light, [data-theme="dark"] .vs-section-light {
+
+
+  background: linear-gradient(to bottom, var(--theme-bg-primary), var(--theme-bg-secondary)); 
+
+  color: white;
+}
+
+.vs-section-dark {
+  background: linear-gradient(to bottom, var(--text-navy), black);
+  color: var(--text-cream);
+}
+
+.vs-section-dark, [data-theme="dark"] .vs-section-dark {
+  background: linear-gradient(to bottom, var(--theme-bg-secondary), black);
+  color: white;
+}
+
+.vs-slide-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
+  border-radius: 9999px;
+  transition: all var(--transition-bounce);
+}
+
+.vs-slide-btn:hover {
+  background-color: var(--primary-orange);
+  transform: scale(1.1);
+}
+
+.vs-slide-btn, [data-theme="dark"] .vs-slide-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.vs-slide-btn:hover, [data-theme="dark"] .vs-slide-btn:hover {
+  background-color: var(--primary-orange-light);
+  box-shadow: 0 0 10px rgba(var(--primary-orange-rgb), 0.3);
+}
+
+.vs-testimonial-container {
+  background: linear-gradient(135deg, white, var(--theme-bg-primary)/80);
+  border: 1px solid rgba(var(--bg-cream-darker-rgb), 0.2);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.vs-testimonial-container, [data-theme="dark"] .vs-testimonial-container {
+  background-color: rgba(var(--bg-navy-darker-rgb), 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 15px rgba(53, 115, 128, 0.15);
+}
+
+.vs-testimonial-accent {
+  background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
+  color: white;
+  border-radius: 50%;
+}
+
+.vs-testimonial-accent, [data-theme="dark"] .vs-testimonial-accent {
+  background: linear-gradient(to right, var(--primary-orange-light), var(--primary-orange));
+  box-shadow: 0 0 10px rgba(var(--primary-orange-rgb), 0.2);
+}
+
+.vs-testimonial-dot {
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: all var(--transition-normal);
+}
+
+.vs-testimonial-dot:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.vs-testimonial-dot-active {
+  background-color: var(--primary-orange);
+  width: 1rem;
+}
+
+.vs-testimonial-dot-active, [data-theme="dark"] .vs-testimonial-dot-active {
+  background-color: var(--primary-orange-light);
+  box-shadow: 0 0 5px rgba(var(--primary-orange-rgb), 0.3);
+}
+
+.vs-navbar {
+  background: transparent;
+  overflow: hidden;
+}
+
+.vs-navbar, [data-theme="dark"] .vs-navbar {
+  background: transparent;
+  overflow: hidden;
+}
+
+.vs-navbar-glass {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(var(--bg-cream-darker-rgb), 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  overflow: hidden;
+
+}
+
+.vs-navbar-glass, [data-theme="dark"] .vs-navbar-glass {
+  background: rgba(var(--bg-navy-rgb), 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  overflow: hidden;
+}
+
+.vs-logo {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  transition: all var(--transition-bounce);
+}
+
+.vs-logo-primary {
+  background-color: var(--primary-orange);
+}
+
+.vs-logo-primary, [data-theme="dark"] .vs-logo-primary {
+  background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
+  box-shadow: 0 0 10px rgba(254, 163, 93, 0.2);
+}
+
+.vs-logo:hover {
+  transform: scale(1.1) rotate(3deg);
+  box-shadow: var(--shadow-md);
+}
+
+.vs-logo:hover, [data-theme="dark"] .vs-logo:hover {
+  box-shadow: 0 0 15px rgba(254, 163, 93, 0.3);
+
+}
+
+.vs-fade-overlay-light {
+  background: linear-gradient(to top, var(--theme-bg-primary), transparent);
+}
+
+.vs-fade-overlay-dark {
+  background: linear-gradient(to top, var(--theme-bg-primary), transparent);
+}
+
+.vs-text-gradient-orange {
+  background: linear-gradient(to right, 
+    var(--primary-orange), 
+    var(--accent-coral));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.vs-text-gradient-teal {
+  background: linear-gradient(to right, 
+    var(--secondary-teal), 
+    var(--secondary-teal-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.vs-text-gradient-nav-title{
+  background: linear-gradient(to left,
+ var(--color-cyan-400),
+  oklch(52% 0.105 223.128));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.dark .vs-text-gradient-nav-title {
+  background: linear-gradient(to right, oklch(63.7% 0.237 25.331), oklch(76.9% 0.188 70.08));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  box-shadow: var(--theme-shadow-btn);
+}
+
+.vs-float-orange {
+  background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
+}
+
+.vs-float-teal {
+  background: linear-gradient(to right, var(--secondary-teal), var(--secondary-teal-hover));
+}
+
+.vs-gradient-orange {
+  background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
+}
+
+.vs-gradient-teal {
+  background: linear-gradient(to right, var(--secondary-teal), var(--secondary-teal-hover));
+}
+
+.vs-gradient-coral-red {
+  background: linear-gradient(to right, var(--accent-coral), var(--accent-red));
+}
+
+.vs-gradient-primary-accent {
+  background: linear-gradient(to right, var(--primary-orange), var(--accent-coral));
+}
+
+.vs-gradient-orange-diagonal {
+  background: linear-gradient(to bottom right, var(--primary-orange), var(--primary-orange-hover));
+}
+
+.vs-gradient-teal-diagonal {
+  background: linear-gradient(to bottom right, var(--secondary-teal), var(--secondary-teal-hover));
+}
+
+.vs-gradient-coral-diagonal {
+  background: linear-gradient(to bottom right, var(--accent-coral), var(--accent-red));
+}
+
+.vs-card-gradient-light {
+  background: linear-gradient(to bottom right, white, var(--theme-bg-primary));
+}
+
+.vs-card-gradient-dark {
+  background: linear-gradient(to bottom right, var(--theme-bg-primary), var(--theme-bg-secondary));
+}
+
+.vs-module-gradient-light {
+  background: linear-gradient(120deg, white, var(--theme-bg-primary));
+}
+
+.vs-module-gradient-dark {
+  background: linear-gradient(120deg, var(--theme-bg-primary), var(--theme-bg-secondary));
+}
+
+.vs-gradient-coral-orange {
+  background: linear-gradient(90deg, #E76662, #FEAF52);
+}
+
+.vs-gradient-navy-deep {
+  background: linear-gradient(135deg, #09232F 0%, #081825 50%, #0A2535 100%);
+}
+
+.vs-gradient-navy-ultra-deep {
+  background: linear-gradient(135deg, #030A10 0%, #051320 50%, #081825 100%);
+}
+
+.vs-gradient-navy-black {
+  background: linear-gradient(135deg, #030A10 30%, #050F18 100%);
+}
+
+.vs-gradient-fade-orange {
+  background: linear-gradient(90deg, transparent, #FEAF52, transparent);
+}
+
+.btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+.animate-float-slow {
+  animation: float-slow 8s ease-in-out infinite;
+}
+
+.animate-float-medium {
+  animation: float-medium 6s ease-in-out infinite;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+

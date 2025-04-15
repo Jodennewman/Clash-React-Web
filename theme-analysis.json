@@ -1,0 +1,909 @@
+{
+  "stats": {
+    "totalVariables": 102,
+    "totalClasses": 107,
+    "duplicateClasses": 86,
+    "importantUsage": 38,
+    "gradientDeclarations": 179,
+    "oklchGradientIssues": 3,
+    "textGradientIssues": 1,
+    "fileSize": 97089
+  },
+  "themeVars": {
+    "--theme-text-primary": [
+      "var(--text-navy) !important",
+      "white !important",
+      "white !important"
+    ],
+    "--theme-text-secondary": [
+      "oklch(28.59% 0.0413 230.7 / 0.8) !important",
+      "rgba(255, 255, 255, 0.8) !important",
+      "rgba(255, 255, 255, 0.8) !important"
+    ],
+    "--theme-text-secondary-rgb": [
+      "rgba(18, 46, 59, 0.8)"
+    ],
+    "--theme-text-tertiary": [
+      "oklch(28.59% 0.0413 230.7 / 0.6) !important",
+      "rgba(255, 255, 255, 0.6) !important",
+      "rgba(255, 255, 255, 0.6) !important"
+    ],
+    "--theme-text-tertiary-rgb": [
+      "rgba(18, 46, 59, 0.6)"
+    ],
+    "--theme-text-subtle": [
+      "oklch(28.59% 0.0413 230.7 / 0.4)",
+      "rgba(255, 255, 255, 0.4)",
+      "rgba(255, 255, 255, 0.4)"
+    ],
+    "--theme-text-subtle-rgb": [
+      "rgba(18, 46, 59, 0.4)"
+    ],
+    "--theme-text-on-primary": [
+      "white",
+      "white",
+      "white"
+    ],
+    "--theme-bg-primary": [
+      "var(--bg-cream) !important",
+      "oklch(0.16 0.03 235) !important",
+      "var(--bg-navy)"
+    ],
+    "--theme-bg-secondary": [
+      "var(--bg-cream-darker) !important",
+      "oklch(0.12 0.02 235) !important",
+      "var(--bg-navy-darker)"
+    ],
+    "--theme-bg-surface": [
+      "white !important",
+      "oklch(0.16 0.03 235) !important",
+      "oklch(0.16 0.03 235) !important"
+    ],
+    "--theme-bg-card": [
+      "white",
+      "var(--card-bg-light)",
+      "var(--card-bg-light)"
+    ],
+    "--theme-gradient-start": [
+      "var(--text-cream) !important",
+      "oklch(0.16 0.03 235) !important",
+      "oklch(0.16 0.03 235) !important"
+    ],
+    "--theme-gradient-end": [
+      "var(--bg-cream) !important",
+      "oklch(0.12 0.02 235) !important",
+      "oklch(0.12 0.02 235) !important"
+    ],
+    "--theme-gradient-card-start": [
+      "var(--text-cream)",
+      "var(--card-bg-light)",
+      "var(--card-bg-light)"
+    ],
+    "--theme-gradient-card-end": [
+      "var(--bg-cream)",
+      "var(--bg-navy-darker)",
+      "var(--bg-navy-darker)"
+    ],
+    "--theme-primary-gradient-start": [
+      "var(--primary-orange)",
+      "var(--primary-orange)",
+      "var(--primary-orange)"
+    ],
+    "--theme-primary-gradient-end": [
+      "var(--primary-orange-hover)",
+      "var(--primary-orange-hover)",
+      "var(--primary-orange-hover)"
+    ],
+    "--theme-secondary-gradient-start": [
+      "var(--secondary-teal)",
+      "var(--secondary-teal)",
+      "var(--secondary-teal)"
+    ],
+    "--theme-secondary-gradient-end": [
+      "var(--secondary-teal-hover)",
+      "var(--secondary-teal-hover)",
+      "var(--secondary-teal-hover)"
+    ],
+    "--theme-accent-gradient-start": [
+      "var(--accent-coral)",
+      "var(--accent-coral)",
+      "var(--accent-coral)"
+    ],
+    "--theme-accent-gradient-end": [
+      "var(--accent-red)",
+      "var(--accent-red)",
+      "var(--accent-red)"
+    ],
+    "--theme-bg-navy-gradient": [
+      "linear-gradient(213deg, var(--theme-bg-primary) 0%, var(--theme-bg-secondary) 100%)",
+      "linear-gradient(213deg, var(--theme-bg-primary) 0%, var(--theme-bg-secondary) 100%)",
+      "linear-gradient(213deg, var(--theme-bg-primary) 0%, var(--theme-bg-secondary) 100%)"
+    ],
+    "--theme-bg-cream-gradient": [
+      "linear-gradient(to bottom right, var(--theme-gradient-start), var(--theme-gradient-end))",
+      "linear-gradient(to bottom right, var(--theme-bg-primary), var(--theme-bg-secondary))",
+      "linear-gradient(to bottom right, var(--theme-bg-primary), var(--theme-bg-secondary))"
+    ],
+    "--theme-primary": [
+      "var(--primary-orange)",
+      "var(--primary-orange-darkmode)"
+    ],
+    "--theme-primary-hover": [
+      "var(--primary-orange-hover)",
+      "var(--primary-orange-hover)"
+    ],
+    "--theme-primary-light": [
+      "var(--primary-orange-light)",
+      "var(--primary-orange-light)"
+    ],
+    "--theme-accent-secondary": [
+      "var(--secondary-teal)",
+      "var(--secondary-blue)"
+    ],
+    "--theme-accent-secondary-hover": [
+      "var(--secondary-teal-hover)",
+      "var(--secondary-teal-hover)"
+    ],
+    "--theme-accent-secondary-light": [
+      "var(--secondary-teal-light)",
+      "var(--secondary-teal-light)"
+    ],
+    "--theme-accent-tertiary": [
+      "var(--accent-coral)",
+      "var(--accent-coral)"
+    ],
+    "--theme-accent-quaternary": [
+      "var(--accent-red)",
+      "var(--accent-red)"
+    ],
+    "--theme-accent": [
+      "var(--theme-accent-secondary)",
+      "var(--theme-accent-secondary)"
+    ],
+    "--theme-accent-coral": [
+      "var(--accent-coral)",
+      "var(--accent-red)",
+      "var(--accent-red)"
+    ],
+    "--theme-accent-red": [
+      "var(--accent-red)",
+      "var(--accent-red-dark)",
+      "var(--accent-red-dark)"
+    ],
+    "--theme-color-desktop": [
+      "var(--primary-orange)"
+    ],
+    "--theme-color-mobile": [
+      "var(--secondary-teal)"
+    ],
+    "--theme-color-views": [
+      "var(--primary-orange)"
+    ],
+    "--theme-color-followers": [
+      "var(--hud-teal)"
+    ],
+    "--theme-color-engagement": [
+      "var(--accent-red)"
+    ],
+    "--theme-color-revenue": [
+      "var(--secondary-teal)"
+    ],
+    "--theme-shadow-card": [
+      "var(--shadow-sm)",
+      "var(--shadow-sm), var(--glow-blue)"
+    ],
+    "--theme-shadow-card-hover": [
+      "var(--shadow-md)",
+      "var(--shadow-md), var(--glow-blue)"
+    ],
+    "--theme-shadow-sm": [
+      "var(--shadow-sm)",
+      "var(--shadow-sm), var(--glow-blue)"
+    ],
+    "--theme-shadow-md": [
+      "var(--shadow-md)",
+      "var(--shadow-md), var(--glow-blue)"
+    ],
+    "--theme-shadow-lg": [
+      "var(--shadow-lg)",
+      "var(--shadow-lg), var(--glow-blue)"
+    ],
+    "--theme-shadow-btn": [
+      "var(--shadow-btn)",
+      "var(--shadow-btn), var(--glow-primary)"
+    ],
+    "--theme-shadow-primary": [
+      "var(--shadow-sm)",
+      "var(--shadow-sm), var(--glow-primary)"
+    ],
+    "--theme-shadow-secondary": [
+      "var(--shadow-sm)",
+      "var(--shadow-sm), var(--glow-secondary)"
+    ],
+    "--theme-shadow-tertiary": [
+      "var(--shadow-sm)",
+      "var(--shadow-sm), var(--glow-tertiary)"
+    ],
+    "--theme-shadow-accent": [
+      "var(--shadow-sm)",
+      "var(--shadow-sm), var(--glow-accent)"
+    ],
+    "--theme-shadow-btn-primary": [
+      "var(--shadow-btn)",
+      "var(--shadow-btn), var(--glow-primary)"
+    ],
+    "--theme-shadow-btn-secondary": [
+      "var(--shadow-btn)",
+      "var(--shadow-btn), var(--glow-secondary)"
+    ],
+    "--theme-shadow-btn-tertiary": [
+      "var(--shadow-btn)",
+      "var(--shadow-btn), var(--glow-tertiary)"
+    ],
+    "--theme-float-opacity": [
+      "0.15",
+      "0.2"
+    ],
+    "--theme-float-opacity-secondary": [
+      "0.2",
+      "0.3"
+    ],
+    "--theme-float-bg-primary": [
+      "var(--primary-orange)",
+      "var(--primary-orange)"
+    ],
+    "--theme-float-bg-secondary": [
+      "var(--primary-orange-hover)",
+      "var(--secondary-teal)"
+    ],
+    "--theme-team-joden": [
+      "linear-gradient(to bottom, var(--bg-cream), var(--bg-cream-darker))",
+      "linear-gradient(to bottom, var(--bg-navy), var(--bg-navy-darker))"
+    ],
+    "--theme-team-alex": [
+      "linear-gradient(to bottom, var(--bg-cream-darker), var(--bg-cream))",
+      "linear-gradient(to bottom, var(--bg-navy-darker), var(--bg-navy))"
+    ],
+    "--theme-team-tia": [
+      "linear-gradient(to bottom, var(--bg-cream), var(--secondary-teal-light)/10)",
+      "linear-gradient(to bottom, var(--bg-navy), var(--secondary-teal-light)/10)"
+    ],
+    "--theme-team-aydan": [
+      "linear-gradient(to bottom, var(--secondary-teal-light)/10, var(--bg-cream))",
+      "linear-gradient(to bottom, var(--secondary-teal-light)/10, var(--bg-navy))"
+    ],
+    "--theme-team-joden-accent": [
+      "var(--primary-orange)",
+      "var(--primary-orange-light)"
+    ],
+    "--theme-team-alex-accent": [
+      "var(--secondary-teal)",
+      "var(--secondary-teal-light)"
+    ],
+    "--theme-team-tia-accent": [
+      "var(--accent-coral)",
+      "var(--accent-coral)"
+    ],
+    "--theme-team-aydan-accent": [
+      "var(--accent-red)",
+      "var(--accent-red-dark)"
+    ],
+    "--theme-anim-distance": [
+      "-4px",
+      "-5px"
+    ],
+    "--theme-anim-distance-sm": [
+      "-2px",
+      "-3px"
+    ],
+    "--theme-anim-distance-md": [
+      "-6px",
+      "-7px"
+    ],
+    "--theme-anim-scale": [
+      "1.02",
+      "1.03"
+    ],
+    "--theme-anim-scale-sm": [
+      "1.01",
+      "1.02"
+    ],
+    "--theme-anim-duration": [
+      "0.35",
+      "0.4"
+    ],
+    "--theme-anim-duration-slow": [
+      "0.5",
+      "0.6"
+    ],
+    "--theme-anim-duration-med": [
+      "0.4",
+      "0.45"
+    ],
+    "--theme-anim-duration-marquee": [
+      "30s",
+      "25s"
+    ],
+    "--theme-transition-normal": [
+      "var(--transition-normal)"
+    ],
+    "--theme-transition-fast": [
+      "var(--transition-fast)"
+    ],
+    "--theme-transition-bounce": [
+      "var(--transition-bounce)"
+    ],
+    "--theme-border": [
+      "rgba(0, 0, 0, 0.1) !important",
+      "rgba(255, 255, 255, 0.1) !important"
+    ],
+    "--theme-border-light": [
+      "rgba(0, 0, 0, 0.05)",
+      "rgba(255, 255, 255, 0.05)"
+    ],
+    "--theme-border-medium": [
+      "rgba(0, 0, 0, 0.1)",
+      "rgba(255, 255, 255, 0.1)"
+    ],
+    "--theme-border-primary": [
+      "rgba(var(--primary-orange-rgb), 0.2)",
+      "rgba(var(--primary-orange-rgb), 0.25)"
+    ],
+    "--theme-border-radius-md": [
+      "var(--border-radius-md)"
+    ],
+    "--theme-border-radius-lg": [
+      "var(--border-radius-lg)"
+    ],
+    "--theme-grid-line": [
+      "var(--grid-line)",
+      "var(--grid-line)"
+    ],
+    "--theme-grid-dot": [
+      "var(--grid-dot)",
+      "var(--grid-dot)"
+    ],
+    "--theme-grid-dot-opacity": [
+      "0.08",
+      "0.1"
+    ],
+    "--theme-overlay-opacity": [
+      "0.5",
+      "0.65"
+    ],
+    "--theme-glow-opacity": [
+      "0.3",
+      "0.3"
+    ],
+    "--theme-glow-opacity-sm": [
+      "0.15",
+      "0.15"
+    ],
+    "--theme-glow-opacity-lg": [
+      "0.45",
+      "0.45"
+    ],
+    "--theme-card-bg-navy": [
+      "var(--card-bg-navy)"
+    ],
+    "--theme-pattern-color": [
+      "var(--primary-orange)",
+      "var(--primary-orange-light)"
+    ],
+    "--theme-pattern-opacity": [
+      "0.05",
+      "0.08"
+    ],
+    "--theme-eyeball-outer": [
+      "white"
+    ],
+    "--theme-eyeball-iris": [
+      "var(--theme-accent-secondary)"
+    ],
+    "--theme-eyeball-pupil": [
+      "var(--bg-navy)"
+    ],
+    "--theme-var-name": [
+      "'example-value'"
+    ],
+    "--theme-radix-navigation-menu-viewport-width": [
+      "600px"
+    ],
+    "--theme-radix-navigation-menu-viewport-height": [
+      "400px"
+    ],
+    "--theme-radix-select-trigger-width": [
+      "100%"
+    ],
+    "--theme-radix-select-trigger-height": [
+      "2.5rem"
+    ]
+  },
+  "themeClasses": {
+    "text-theme-primary": [
+      "color: var(--theme-text-primary);",
+      "color: var(--theme-text-primary) !important;"
+    ],
+    "text-theme-secondary": [
+      "color: var(--theme-text-secondary);",
+      "color: var(--theme-text-secondary) !important;"
+    ],
+    "text-theme-tertiary": [
+      "color: var(--theme-text-tertiary);",
+      "color: var(--theme-text-tertiary);",
+      "color: var(--theme-text-tertiary);",
+      "color: var(--theme-text-tertiary) !important;"
+    ],
+    "text-theme-subtle": [
+      "color: var(--theme-text-subtle);"
+    ],
+    "text-theme-accent": [
+      "color: var(--theme-accent-secondary);"
+    ],
+    "text-theme-error": [
+      "color: var(--accent-red);"
+    ],
+    "text-theme-bg": [
+      "color: var(--theme-bg-primary);"
+    ],
+    "text-theme-gradient": [
+      "background: linear-gradient(to right, \n    var(--theme-primary-gradient-start), \n    var(--theme-primary-gradient-end));\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n  color: transparent;"
+    ],
+    "text-theme-custom": [
+      "/* Custom text color with dynamic theming - specific per instance */\n  color: var(--primary-orange);"
+    ],
+    "text-theme-primary-light": [
+      "color: var(--theme-primary-light);",
+      "color: var(--theme-primary-light);",
+      "color: var(--theme-primary-light);"
+    ],
+    "text-theme-on-primary": [
+      "color: white;",
+      "color: white;",
+      "color: white;"
+    ],
+    "text-theme-accent-tertiary": [
+      "color: var(--theme-accent-tertiary);",
+      "color: var(--theme-accent-tertiary);",
+      "color: var(--theme-accent-tertiary);"
+    ],
+    "text-theme-accent-secondary": [
+      "color: var(--theme-accent-secondary);",
+      "color: var(--theme-accent-secondary);",
+      "color: var(--theme-accent-secondary);"
+    ],
+    "text-theme-accent-quaternary": [
+      "color: var(--theme-accent-quaternary);",
+      "color: var(--theme-accent-quaternary);",
+      "color: var(--theme-accent-quaternary);"
+    ],
+    "bg-theme-primary": [
+      "background-color: var(--theme-bg-primary);",
+      "background-color: var(--theme-bg-primary);",
+      "background-color: var(--theme-bg-primary);",
+      "background-color: var(--theme-bg-primary) !important;"
+    ],
+    "bg-theme-secondary": [
+      "background-color: var(--theme-bg-secondary);",
+      "background-color: var(--theme-bg-secondary) !important;"
+    ],
+    "bg-theme-surface": [
+      "background-color: var(--theme-bg-surface);",
+      "background-color: var(--theme-bg-surface) !important;"
+    ],
+    "bg-theme-card": [
+      "background-color: var(--theme-bg-card);"
+    ],
+    "bg-theme-accent": [
+      "background-color: var(--theme-accent-secondary);"
+    ],
+    "bg-theme-error": [
+      "background-color: var(--accent-red);"
+    ],
+    "bg-theme-bg": [
+      "background-color: var(--theme-bg-primary);"
+    ],
+    "bg-theme-border": [
+      "background-color: var(--theme-border-light);"
+    ],
+    "bg-theme-custom": [
+      "/* Custom background with dynamic theming - specific per instance */\n  background-color: var(--primary-orange);"
+    ],
+    "bg-theme-glow": [
+      "background: radial-gradient(circle, var(--theme-primary) 0%, transparent 70%);\n  opacity: var(--theme-float-opacity);"
+    ],
+    "bg-theme-content": [
+      "background-color: var(--theme-bg-primary);\n  opacity: 0.98;",
+      "background-color: var(--theme-bg-primary);\n  opacity: 0.98;",
+      "background-color: var(--theme-bg-primary);\n  opacity: 0.98;"
+    ],
+    "bg-theme-on": [
+      "background-color: var(--theme-primary);\n  opacity: 0.95;",
+      "background-color: var(--theme-primary);\n  opacity: 0.95;",
+      "background-color: var(--theme-primary);\n  opacity: 0.95;"
+    ],
+    "bg-theme-accent-secondary": [
+      "background-color: var(--theme-accent-secondary);",
+      "background-color: var(--theme-accent-secondary);",
+      "background-color: var(--theme-accent-secondary);"
+    ],
+    "bg-theme-accent-tertiary": [
+      "background-color: var(--theme-accent-tertiary);",
+      "background-color: var(--theme-accent-tertiary);",
+      "background-color: var(--theme-accent-tertiary);"
+    ],
+    "bg-theme-accent-quaternary": [
+      "background-color: var(--theme-accent-quaternary);",
+      "background-color: var(--theme-accent-quaternary);",
+      "background-color: var(--theme-accent-quaternary);"
+    ],
+    "bg-theme-bg-primary": [
+      "background-color: var(--theme-bg-primary);",
+      "background-color: var(--theme-bg-primary);",
+      "background-color: var(--theme-bg-primary);"
+    ],
+    "bg-theme-primary-light": [
+      "background-color: var(--theme-primary-light);",
+      "background-color: var(--theme-primary-light);",
+      "background-color: var(--theme-primary-light);"
+    ],
+    "bg-theme-accent-secondary-light": [
+      "background-color: var(--theme-accent-secondary-light);",
+      "background-color: var(--theme-accent-secondary-light);",
+      "background-color: var(--theme-accent-secondary-light);"
+    ],
+    "bg-theme-primary-hover": [
+      "background-color: var(--theme-primary-hover);",
+      "background-color: var(--theme-primary-hover);",
+      "background-color: var(--theme-primary-hover);"
+    ],
+    "bg-theme-bg-light": [
+      "background-color: var(--theme-bg-surface);",
+      "background-color: var(--theme-bg-surface);",
+      "background-color: var(--theme-bg-surface);"
+    ],
+    "bg-theme-border-light": [
+      "background-color: var(--theme-border-light);",
+      "background-color: var(--theme-border-light);",
+      "background-color: var(--theme-border-light);"
+    ],
+    "bg-theme-pattern": [
+      "background-color: var(--theme-pattern-color);\n  opacity: var(--theme-pattern-opacity);"
+    ],
+    "bg-theme-pattern-light": [
+      "background-color: var(--theme-pattern-color);\n  opacity: calc(var(--theme-pattern-opacity) * 0.5);",
+      "background-color: var(--theme-pattern-color);\n  opacity: calc(var(--theme-pattern-opacity) * 0.5);"
+    ],
+    "bg-theme-pattern-dense": [
+      "background-color: var(--theme-pattern-color);\n  opacity: calc(var(--theme-pattern-opacity) * 1.5);",
+      "background-color: var(--theme-pattern-color);\n  opacity: calc(var(--theme-pattern-opacity) * 1.5);"
+    ],
+    "bg-theme-gradient": [
+      "background: linear-gradient(to bottom right, \n    var(--theme-gradient-start), \n    var(--theme-gradient-end));",
+      "background: linear-gradient(to bottom right, \n    var(--theme-gradient-start), \n    var(--theme-gradient-end));",
+      "background: linear-gradient(to bottom right, var(--theme-gradient-start), var(--theme-gradient-end));",
+      "background: linear-gradient(to bottom right, var(--theme-gradient-start), var(--theme-gradient-end));",
+      "background: linear-gradient(to bottom right, \n    var(--theme-gradient-start), \n    var(--theme-gradient-end)) !important;"
+    ],
+    "bg-theme-gradient-card": [
+      "background: linear-gradient(to bottom right, \n    var(--theme-gradient-card-start), \n    var(--theme-gradient-card-end));",
+      "background: linear-gradient(to bottom right, \n    var(--theme-gradient-card-start), \n    var(--theme-gradient-card-end));"
+    ],
+    "bg-theme-gradient-primary": [
+      "background: linear-gradient(to right, \n    var(--theme-primary-gradient-start), \n    var(--theme-primary-gradient-end));",
+      "background: linear-gradient(135deg, \n    var(--theme-primary-gradient-start), \n    var(--theme-primary-gradient-end));",
+      "background: linear-gradient(to right, \n    var(--theme-primary-gradient-start), \n    var(--theme-primary-gradient-end));",
+      "background: linear-gradient(135deg, \n    var(--theme-primary-gradient-start), \n    var(--theme-primary-gradient-end));",
+      "background: linear-gradient(135deg, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));",
+      "background: linear-gradient(135deg, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));",
+      "background: linear-gradient(to right, \n    var(--theme-primary, var(--primary-orange)), \n    var(--theme-primary-hover, var(--primary-orange-hover))) !important;",
+      "background: linear-gradient(135deg, \n    var(--theme-primary, var(--primary-orange)), \n    var(--theme-primary-hover, var(--primary-orange-hover))) !important;",
+      "background: linear-gradient(135deg, var(--theme-primary, var(--primary-orange)), var(--theme-primary-hover, var(--primary-orange-hover))) !important;"
+    ],
+    "bg-theme-gradient-secondary": [
+      "background: linear-gradient(to right, \n    var(--theme-secondary-gradient-start), \n    var(--theme-secondary-gradient-end));",
+      "background: linear-gradient(135deg, \n    var(--theme-secondary-gradient-start), \n    var(--theme-secondary-gradient-end));",
+      "background: linear-gradient(to right, \n    var(--theme-secondary-gradient-start), \n    var(--theme-secondary-gradient-end));",
+      "background: linear-gradient(135deg, \n    var(--theme-secondary-gradient-start), \n    var(--theme-secondary-gradient-end));",
+      "background: linear-gradient(to right, var(--theme-secondary-gradient-start), var(--theme-secondary-gradient-end));",
+      "background: linear-gradient(135deg, var(--theme-secondary-gradient-start), var(--theme-secondary-gradient-end));",
+      "background: linear-gradient(to right, var(--theme-secondary-gradient-start), var(--theme-secondary-gradient-end));",
+      "background: linear-gradient(135deg, var(--theme-secondary-gradient-start), var(--theme-secondary-gradient-end));",
+      "background: linear-gradient(to right, \n    var(--theme-accent-secondary, var(--secondary-teal)), \n    var(--theme-accent-secondary-hover, var(--secondary-teal-hover))) !important;",
+      "background: linear-gradient(135deg, \n    var(--theme-accent-secondary, var(--secondary-teal)), \n    var(--theme-accent-secondary-hover, var(--secondary-teal-hover))) !important;",
+      "background: linear-gradient(135deg, var(--theme-accent-secondary, var(--secondary-teal)), var(--theme-accent-secondary-hover, var(--secondary-teal-hover))) !important;"
+    ],
+    "bg-theme-gradient-accent": [
+      "background: linear-gradient(to right, \n    var(--theme-accent-gradient-start), \n    var(--theme-accent-gradient-end));",
+      "background: linear-gradient(135deg, \n    var(--theme-accent-gradient-start), \n    var(--theme-accent-gradient-end));",
+      "background: linear-gradient(to right, \n    var(--theme-accent-gradient-start), \n    var(--theme-accent-gradient-end));",
+      "background: linear-gradient(135deg, \n    var(--theme-accent-gradient-start), \n    var(--theme-accent-gradient-end));",
+      "background: linear-gradient(to right, var(--theme-accent-gradient-start), var(--theme-accent-gradient-end));",
+      "background: linear-gradient(135deg, var(--theme-accent-gradient-start), var(--theme-accent-gradient-end));",
+      "background: linear-gradient(to right, var(--theme-accent-gradient-start), var(--theme-accent-gradient-end));",
+      "background: linear-gradient(135deg, var(--theme-accent-gradient-start), var(--theme-accent-gradient-end));"
+    ],
+    "bg-theme-gradient-text": [
+      "background: linear-gradient(to right, \n    var(--theme-primary-gradient-start), \n    var(--theme-primary-gradient-end));\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n  color: transparent;",
+      "background: linear-gradient(to right, \n    var(--theme-primary-gradient-start), \n    var(--theme-primary-gradient-end));\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n  color: transparent;",
+      "filter: drop-shadow(0 0 8px rgba(254, 163, 93, 0.2));",
+      "background: linear-gradient(to right, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;",
+      "filter: drop-shadow(0 0 8px rgba(254, 163, 93, 0.2));",
+      "background: linear-gradient(to right, var(--theme-primary-gradient-start), var(--theme-primary-gradient-end));\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;",
+      "filter: drop-shadow(0 0 8px rgba(254, 163, 93, 0.2));"
+    ],
+    "border-theme-light": [
+      "border: 1px solid var(--theme-border-light);",
+      "border: 1px solid var(--theme-border-light);"
+    ],
+    "bg-theme-gradient-overlay-light": [
+      "background: linear-gradient(to bottom, transparent, var(--theme-bg-primary));",
+      "background: linear-gradient(to bottom, transparent, var(--theme-bg-primary));",
+      "background: linear-gradient(to bottom, transparent, var(--theme-bg-primary));"
+    ],
+    "border-theme-primary": [
+      "border: 1px solid var(--theme-border-primary);"
+    ],
+    "border-theme-border": [
+      "border: 1px solid var(--theme-border-light);",
+      "border-color: var(--theme-border) !important;"
+    ],
+    "border-theme-accent": [
+      "border: 1px solid var(--theme-accent-secondary);"
+    ],
+    "border-theme-destructive": [
+      "border: 1px solid var(--accent-red);"
+    ],
+    "border-theme-error": [
+      "border: 1px solid var(--accent-red);"
+    ],
+    "border-theme-on-primary": [
+      "border: 1px solid var(--theme-primary);",
+      "border: 1px solid var(--theme-primary);",
+      "border: 1px solid var(--theme-primary);"
+    ],
+    "border-theme-accent-secondary": [
+      "border: 1px solid var(--theme-accent-secondary);",
+      "border: 1px solid var(--theme-accent-secondary);",
+      "border: 1px solid var(--theme-accent-secondary);"
+    ],
+    "border-theme-border-medium": [
+      "border: 1px solid var(--theme-border-medium);",
+      "border: 1px solid var(--theme-border-medium);",
+      "border: 1px solid var(--theme-border-medium);"
+    ],
+    "border-theme-border-light": [
+      "border: 1px solid var(--theme-border-light);",
+      "border: 1px solid var(--theme-border-light);",
+      "border: 1px solid var(--theme-border-light);"
+    ],
+    "rounded-theme-md": [
+      "border-radius: var(--theme-border-radius-md);",
+      "border-radius: var(--theme-border-radius-md);"
+    ],
+    "rounded-theme-lg": [
+      "border-radius: var(--theme-border-radius-lg);",
+      "border-radius: var(--theme-border-radius-lg);"
+    ],
+    "rounded-theme-full": [
+      "border-radius: var(--border-radius-full);",
+      "border-radius: var(--border-radius-full);"
+    ],
+    "rounded-theme-sm": [
+      "border-radius: var(--border-radius-sm);",
+      "border-radius: var(--border-radius-sm);"
+    ],
+    "rounded-theme-xl": [
+      "border-radius: var(--border-radius-xl);",
+      "border-radius: var(--border-radius-xl);"
+    ],
+    "rounded-theme-2xl": [
+      "border-radius: var(--border-radius-2xl);",
+      "border-radius: var(--border-radius-2xl);"
+    ],
+    "shadow-theme-sm": [
+      "box-shadow: var(--theme-shadow-sm);",
+      "box-shadow: var(--theme-shadow-sm);",
+      "box-shadow: var(--theme-shadow-sm);"
+    ],
+    "shadow-theme-md": [
+      "box-shadow: var(--theme-shadow-md);"
+    ],
+    "shadow-theme-lg": [
+      "box-shadow: var(--theme-shadow-lg);",
+      "box-shadow: var(--theme-shadow-lg);"
+    ],
+    "shadow-theme-card": [
+      "box-shadow: var(--theme-shadow-card);",
+      "box-shadow: var(--shadow-md), var(--glow-blue);",
+      "box-shadow: var(--theme-shadow-card);",
+      "box-shadow: var(--shadow-md), var(--glow-blue);"
+    ],
+    "shadow-theme-btn": [
+      "box-shadow: var(--theme-shadow-btn);",
+      "box-shadow: var(--theme-shadow-btn);"
+    ],
+    "shadow-theme-input": [
+      "box-shadow: 0 0 0 2px var(--theme-border-primary);",
+      "box-shadow: 0 0 0 2px var(--theme-border-primary);"
+    ],
+    "shadow-theme-glow": [
+      "box-shadow: 0 0 15px rgba(var(--primary-orange-rgb), 0.15);",
+      "box-shadow: 0 0 15px rgba(var(--primary-orange-rgb), 0.15);"
+    ],
+    "shadow-theme-primary": [
+      "box-shadow: var(--theme-shadow-primary);",
+      "box-shadow: var(--theme-shadow-primary);"
+    ],
+    "shadow-theme-secondary": [
+      "box-shadow: var(--theme-shadow-secondary);",
+      "box-shadow: var(--theme-shadow-secondary);"
+    ],
+    "shadow-theme-tertiary": [
+      "box-shadow: var(--theme-shadow-tertiary);",
+      "box-shadow: var(--theme-shadow-tertiary);"
+    ],
+    "shadow-theme-accent": [
+      "box-shadow: var(--theme-shadow-accent);",
+      "box-shadow: var(--theme-shadow-accent);"
+    ],
+    "shadow-theme-btn-primary": [
+      "box-shadow: var(--theme-shadow-btn-primary);",
+      "box-shadow: var(--shadow-btn), var(--glow-primary);",
+      "box-shadow: var(--theme-shadow-btn-primary);",
+      "box-shadow: var(--shadow-btn), var(--glow-primary);"
+    ],
+    "shadow-theme-btn-secondary": [
+      "box-shadow: var(--theme-shadow-btn-secondary);",
+      "box-shadow: var(--theme-shadow-btn-secondary);"
+    ],
+    "shadow-theme-btn-tertiary": [
+      "box-shadow: var(--theme-shadow-btn-tertiary);",
+      "box-shadow: var(--theme-shadow-btn-tertiary);"
+    ],
+    "shadow-theme-btn-accent": [
+      "box-shadow: var(--shadow-btn), var(--glow-accent);",
+      "box-shadow: var(--shadow-btn), var(--glow-accent);"
+    ],
+    "shadow-theme-card-hover": [
+      "box-shadow: var(--shadow-lg), var(--glow-blue);",
+      "box-shadow: var(--shadow-lg), var(--glow-blue);"
+    ],
+    "transition-theme-fast": [
+      "transition: all var(--theme-transition-fast);",
+      "transition: all var(--theme-transition-fast);"
+    ],
+    "transition-theme-normal": [
+      "transition: all var(--theme-transition-normal);",
+      "transition: all var(--theme-transition-normal);"
+    ],
+    "transition-theme-bounce": [
+      "transition: all var(--theme-transition-bounce);",
+      "transition: all var(--theme-transition-bounce);"
+    ],
+    "transition-theme-slow": [
+      "transition: all var(--transition-slow);",
+      "transition: all var(--transition-slow);"
+    ],
+    "glow-theme-primary": [
+      "box-shadow: var(--glow-primary);",
+      "box-shadow: var(--glow-primary);"
+    ],
+    "glow-theme-secondary": [
+      "box-shadow: var(--glow-secondary);",
+      "box-shadow: var(--glow-secondary);"
+    ],
+    "glow-theme-tertiary": [
+      "box-shadow: var(--glow-tertiary);",
+      "box-shadow: var(--glow-tertiary);"
+    ],
+    "glow-theme-accent": [
+      "box-shadow: var(--glow-accent);",
+      "box-shadow: var(--glow-accent);"
+    ],
+    "glow-theme-blue": [
+      "box-shadow: var(--glow-blue);",
+      "box-shadow: none;",
+      "box-shadow: var(--glow-blue);",
+      "box-shadow: none;"
+    ],
+    "btn-theme-primary": [
+      "background: linear-gradient(to right, \n    var(--theme-primary-gradient-start), \n    var(--theme-primary-gradient-end));\n  color: white;\n  box-shadow: var(--theme-shadow-btn);\n  transition: all var(--theme-transition-bounce);",
+      "background: linear-gradient(135deg, \n    var(--theme-primary-gradient-start), \n    var(--theme-primary-gradient-end));\n  box-shadow: var(--shadow-btn), var(--glow-primary);",
+      "background: linear-gradient(to right, \n    var(--theme-primary-gradient-start), \n    var(--theme-primary-gradient-end));\n  color: white;\n  box-shadow: var(--theme-shadow-btn);\n  transition: all var(--theme-transition-bounce);",
+      "background: linear-gradient(135deg, \n    var(--theme-primary-gradient-start), \n    var(--theme-primary-gradient-end));\n  box-shadow: var(--shadow-btn), var(--glow-primary);"
+    ],
+    "btn-theme-secondary": [
+      "background: linear-gradient(to right, \n    var(--theme-secondary-gradient-start), \n    var(--theme-secondary-gradient-end));\n  color: white;\n  box-shadow: var(--theme-shadow-btn);\n  transition: all var(--theme-transition-bounce);",
+      "background: linear-gradient(135deg, \n    var(--theme-secondary-gradient-start), \n    var(--theme-secondary-gradient-end));\n  box-shadow: var(--shadow-btn), var(--glow-blue);",
+      "background: linear-gradient(to right, \n    var(--theme-secondary-gradient-start), \n    var(--theme-secondary-gradient-end));\n  color: white;\n  box-shadow: var(--theme-shadow-btn);\n  transition: all var(--theme-transition-bounce);",
+      "background: linear-gradient(135deg, \n    var(--theme-secondary-gradient-start), \n    var(--theme-secondary-gradient-end));\n  box-shadow: var(--shadow-btn), var(--glow-blue);"
+    ],
+    "grid-theme-dot": [
+      "background-image: radial-gradient(var(--theme-grid-dot) 1px, transparent 1px);\n  background-size: 20px 20px;",
+      "background-image: \n    radial-gradient(var(--theme-grid-dot) 1px, transparent 1px),\n    radial-gradient(rgba(255, 255, 255, 0.02) 2px, transparent 2px);\n  background-size: 20px 20px, 60px 60px;\n  background-position: 0 0, 10px 10px;",
+      "background-image: radial-gradient(var(--theme-grid-dot) 1px, transparent 1px);\n  background-size: 20px 20px;",
+      "background-image: \n    radial-gradient(var(--theme-grid-dot) 1px, transparent 1px),\n    radial-gradient(rgba(255, 255, 255, 0.02) 2px, transparent 2px);\n  background-size: 20px 20px, 60px 60px;\n  background-position: 0 0, 10px 10px;"
+    ],
+    "grid-theme-line": [
+      "background-image: \n    linear-gradient(to right, var(--theme-grid-line) 1px, transparent 1px),\n    linear-gradient(to bottom, var(--theme-grid-line) 1px, transparent 1px);\n  background-size: 20px 20px;",
+      "background-image: \n    linear-gradient(to right, var(--theme-grid-line) 1px, transparent 1px),\n    linear-gradient(to bottom, var(--theme-grid-line) 1px, transparent 1px),\n    linear-gradient(135deg, rgba(255, 255, 255, 0.02) 25%, transparent 25%, transparent 50%, \n      rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.02) 75%, transparent 75%, transparent);\n  background-size: 20px 20px, 20px 20px, 60px 60px;",
+      "background-image: \n    linear-gradient(to right, var(--theme-grid-line) 1px, transparent 1px),\n    linear-gradient(to bottom, var(--theme-grid-line) 1px, transparent 1px);\n  background-size: 20px 20px;",
+      "background-image: \n    linear-gradient(to right, var(--theme-grid-line) 1px, transparent 1px),\n    linear-gradient(to bottom, var(--theme-grid-line) 1px, transparent 1px),\n    linear-gradient(135deg, rgba(255, 255, 255, 0.02) 25%, transparent 25%, transparent 50%, \n      rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.02) 75%, transparent 75%, transparent);\n  background-size: 20px 20px, 20px 20px, 60px 60px;"
+    ],
+    "float-theme-element-primary": [
+      "position: absolute;\n  z-index: -10;\n  width: 5rem;\n  height: 5rem;\n  border-radius: 40%;\n  rotate: 12deg;\n  opacity: var(--theme-float-opacity);\n  background-color: var(--theme-float-bg-primary);\n  animation: float-slow 8s ease-in-out infinite;",
+      "background: linear-gradient(to right, var(--theme-primary), var(--theme-primary-hover));",
+      "position: absolute;\n  z-index: -10;\n  width: 5rem;\n  height: 5rem;\n  border-radius: 40%;\n  rotate: 12deg;\n  opacity: var(--theme-float-opacity);\n  background-color: var(--theme-float-bg-primary);\n  animation: float-slow 8s ease-in-out infinite;",
+      "background: linear-gradient(to right, var(--theme-primary), var(--theme-primary-hover));"
+    ],
+    "float-theme-element-secondary": [
+      "position: absolute;\n  z-index: -10;\n  width: 7rem;\n  height: 7rem;\n  border-radius: 30%;\n  rotate: -6deg;\n  opacity: var(--theme-float-opacity-secondary);\n  background-color: var(--theme-float-bg-secondary);\n  animation: float-medium 6s ease-in-out infinite;",
+      "background: linear-gradient(to right, var(--theme-accent-secondary), var(--theme-accent-secondary-hover));",
+      "position: absolute;\n  z-index: -10;\n  width: 7rem;\n  height: 7rem;\n  border-radius: 30%;\n  rotate: -6deg;\n  opacity: var(--theme-float-opacity-secondary);\n  background-color: var(--theme-float-bg-secondary);\n  animation: float-medium 6s ease-in-out infinite;",
+      "background: linear-gradient(to right, var(--theme-accent-secondary), var(--theme-accent-secondary-hover));"
+    ],
+    "eyeball-theme-iris": [
+      "position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  width: 60%;\n  height: 60%;\n  border-radius: 50%;\n  background-color: var(--theme-eyeball-iris);\n  overflow: hidden;",
+      "position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  width: 60%;\n  height: 60%;\n  border-radius: 50%;\n  background-color: var(--theme-eyeball-iris);\n  overflow: hidden;"
+    ],
+    "eyeball-theme-pupil": [
+      "position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  width: 40%;\n  height: 40%;\n  border-radius: 50%;\n  background-color: var(--theme-eyeball-pupil);",
+      "position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  width: 40%;\n  height: 40%;\n  border-radius: 50%;\n  background-color: var(--theme-eyeball-pupil);"
+    ],
+    "eyeball-theme-highlight": [
+      "position: absolute;\n  top: 25%;\n  left: 75%;\n  width: 20%;\n  height: 20%;\n  border-radius: 50%;\n  background-color: white;\n  opacity: 0.7;",
+      "position: absolute;\n  top: 25%;\n  left: 75%;\n  width: 20%;\n  height: 20%;\n  border-radius: 50%;\n  background-color: white;\n  opacity: 0.7;"
+    ],
+    "chart-theme-grid": [
+      "stroke: var(--chart-grid-light);\n  stroke-width: 1;\n  opacity: 0.5;",
+      "stroke: var(--chart-grid-dark);\n  opacity: 0.7;",
+      "stroke: var(--chart-grid-light);\n  stroke-width: 1;\n  opacity: 0.5;",
+      "stroke: var(--chart-grid-dark);\n  opacity: 0.7;"
+    ],
+    "chart-theme-line-views": [
+      "stroke: var(--theme-color-views);\n  stroke-width: 2;\n  fill: none;",
+      "stroke: var(--theme-color-views);\n  stroke-width: 2;\n  fill: none;"
+    ],
+    "chart-theme-line-followers": [
+      "stroke: var(--theme-color-followers);\n  stroke-width: 2;\n  fill: none;",
+      "stroke: var(--theme-color-followers);\n  stroke-width: 2;\n  fill: none;"
+    ],
+    "chart-theme-line-engagement": [
+      "stroke: var(--theme-color-engagement);\n  stroke-width: 2;\n  fill: none;",
+      "stroke: var(--theme-color-engagement);\n  stroke-width: 2;\n  fill: none;"
+    ],
+    "chart-theme-line-revenue": [
+      "stroke: var(--theme-color-revenue);\n  stroke-width: 2;\n  fill: none;",
+      "stroke: var(--theme-color-revenue);\n  stroke-width: 2;\n  fill: none;"
+    ],
+    "chart-theme-area-views": [
+      "fill: var(--theme-color-views);\n  opacity: 0.1;",
+      "fill: var(--theme-color-views);\n  opacity: 0.1;"
+    ],
+    "chart-theme-area-followers": [
+      "fill: var(--theme-color-followers);\n  opacity: 0.1;",
+      "fill: var(--theme-color-followers);\n  opacity: 0.1;"
+    ],
+    "chart-theme-area-engagement": [
+      "fill: var(--theme-color-engagement);\n  opacity: 0.1;",
+      "fill: var(--theme-color-engagement);\n  opacity: 0.1;"
+    ],
+    "chart-theme-area-revenue": [
+      "fill: var(--theme-color-revenue);\n  opacity: 0.1;",
+      "fill: var(--theme-color-revenue);\n  opacity: 0.1;"
+    ],
+    "chart-theme-tooltip": [
+      "background-color: var(--theme-bg-surface);\n  border: 1px solid var(--theme-border);\n  border-radius: var(--theme-border-radius-md);\n  padding: 0.5rem 0.75rem;\n  box-shadow: var(--theme-shadow-md);\n  font-size: 0.875rem;\n  color: var(--theme-text-primary);",
+      "box-shadow: var(--theme-shadow-md), var(--glow-blue);",
+      "background-color: var(--theme-bg-surface);\n  border: 1px solid var(--theme-border);\n  border-radius: var(--theme-border-radius-md);\n  padding: 0.5rem 0.75rem;\n  box-shadow: var(--theme-shadow-md);\n  font-size: 0.875rem;\n  color: var(--theme-text-primary);",
+      "box-shadow: var(--theme-shadow-md), var(--glow-blue);"
+    ],
+    "bg-theme-gradient-overlay-left": [
+      "background: linear-gradient(to right, var(--theme-bg-secondary) 0%, var(--theme-bg-secondary) 15%, transparent 100%);"
+    ],
+    "bg-theme-gradient-overlay-right": [
+      "background: linear-gradient(to left, var(--theme-bg-secondary) 0%, var(--theme-bg-secondary) 15%, transparent 100%);"
+    ]
+  }
+}

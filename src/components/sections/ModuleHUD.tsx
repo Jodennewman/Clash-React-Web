@@ -11,7 +11,8 @@ interface ModuleHUDProps {
 
 // Section data structure for our section types
 interface SectionData {
-  id: string;
+  id: string;        // Base ID for the section
+  uniqueId?: string; // Combination of id + displayKey for unique identification
   name: string;
   color: string;
   type: 'bigSquare' | 'normalSquare'; // Type to determine rendering
@@ -30,118 +31,177 @@ interface ModuleData {
   duration?: number; // Add duration property for module sizing
 }
 
-// Configure our main sections based on the spec in MODULE-HUD.md and matching course-data.json
-const mainSections: SectionData[] = [
+// Get sections from course utils to generate section data
+const generateMainSections = (): SectionData[] => {
+  // Get all sections from courseUtils
+  const courseUtilsSections = courseUtils.sections;
+  
+  // Map course data sections to UI section data structure
+  let sectionsData: SectionData[] = [];
+  
+  // Helper function to create uniqueId from id and displayKey
+  const createUniqueId = (id: string, displayKey?: string): string => {
+    return displayKey ? `${id}-${displayKey}` : id;
+  };
+  
+  // Function to get section name from courseUtils
+  const getSectionName = (id: string): string => {
+    const section = courseUtilsSections.find(s => s.id === id);
+    return section?.name || id;
+  };
+  
   // First BigSquare - Basic Theory/Core Concepts
-  {
+  sectionsData.push({
     id: "basic_theory",
-    name: "Basic Theory",
+    uniqueId: "basic_theory",
+    name: getSectionName("theory_basics") || "Basic Theory",
     color: "var(--hud-teal)",
     type: 'bigSquare',
     size: 'double',
     featured: true
-  },
-  // First Column - Upskillers
-  {
+  });
+  
+  // First Column - Upskillers - Using course data
+  sectionsData.push({
     id: "upskiller_authentic_research_writer",
-    name: "Research & Writing",
-    color: "var(--secondary-teal)",
+    uniqueId: "upskiller_authentic_research_writer",
+    name: getSectionName("research") || "Research & Writing",
+    color: "var(--hud-teal)",
     type: 'normalSquare',
     size: 'normal'
-  },
-  {
+  });
+  
+  sectionsData.push({
     id: "upskiller_shorts_ready_videographer",
-    name: "Shooting",
+    uniqueId: "upskiller_shorts_ready_videographer",
+    name: getSectionName("shooting") || "Shooting",
     color: "var(--hud-pink)",
     type: 'normalSquare',
     size: 'normal'
-  },
-  {
+  });
+  
+  sectionsData.push({
     id: "upskiller_vertical_video_editors",
-    name: "Editing",
+    uniqueId: "upskiller_vertical_video_editors",
+    name: getSectionName("editing") || "Editing",
     color: "var(--accent-coral)",
     type: 'normalSquare',
     size: 'normal'
-  },
+  });
+  
   // Second Column - PR/Authority & Delegation
-  {
+  sectionsData.push({
     id: "pr_authority",
-    name: "PR & Authority",
+    uniqueId: "pr_authority",
+    name: getSectionName("authority_brand") || "PR & Authority",
     color: "var(--hud-coral)",
     type: 'normalSquare',
     size: 'normal'
-  },
-  {
+  });
+  
+  // First delegation section - with unique ID
+  const delegationCol2Key = 'delegation-col2';
+  sectionsData.push({
     id: "delegation",
-    name: "Delegation",
-    color: "var(--hud-navy)",
+    uniqueId: createUniqueId("delegation", delegationCol2Key),
+    name: getSectionName("business_delegation") || "Delegation",
+    color: "var(--hud-teal)",
     type: 'normalSquare',
     size: 'normal',
-    displayKey: 'delegation-col2' // Add a display key to differentiate
-  },
+    displayKey: delegationCol2Key
+  });
+  
   // Second BigSquare - Advanced Theory
-  {
+  sectionsData.push({
     id: "advanced_theory",
-    name: "Advanced Theory",
-    color: "var(--hud-coral)",
+    uniqueId: "advanced_theory",
+    name: getSectionName("theory_advanced") || "Advanced Theory",
+    color: "var(--hud-navy)",
     type: 'bigSquare',
     size: 'double'
-  },
-  // Third Column - Business Scaling
-  {
+  });
+  
+  // Second delegation section (Team Building) - with unique ID
+  const delegationCol3Key = 'delegation-col3';
+  sectionsData.push({
     id: "delegation",
-    name: "Team Building",
-    color: "var(--hud-navy)",
+    uniqueId: createUniqueId("delegation", delegationCol3Key),
+    name: "Team Building", 
+    color: "var(--hud-teal)",
     type: 'normalSquare',
     size: 'normal',
-    displayKey: 'delegation-col3' // Add a display key to differentiate 
-  },
-  {
+    displayKey: delegationCol3Key
+  });
+  
+  sectionsData.push({
     id: "monetisation",
-    name: "Monetisation",
+    uniqueId: "monetisation",
+    name: getSectionName("monetisation") || "Monetisation",
     color: "var(--hud-orange)",
     type: 'normalSquare',
     size: 'normal'
-  },
-  {
+  });
+  
+  sectionsData.push({
     id: "conversion",
-    name: "Conversion",
-    color: "var(--secondary-teal)",
+    uniqueId: "conversion",
+    name: getSectionName("conversions") || "Conversion",
+    color: "var(--hud-teal)",
     type: 'normalSquare',
     size: 'normal'
-  },
-  // Infrastructure Products (Systems) - These will be displayed as 3 individual systems
-  // First System: Quantity and Quality Notion System 💾
-  {
+  });
+  
+  // Use courseUtils.systemDataMap to get proper system identifiers
+  const systemDataMap = courseUtils.systemDataMap;
+  
+  // Create system sections with data from courseUtils
+  // First System: Content Management Framework (Notion)
+  const notionSystemKey = 'system-notion';
+  const notionSystemData = courseUtils.getSystemData(systemDataMap['notion']);
+  sectionsData.push({
     id: "notion_system",
-    name: "Notion System 💾",
-    color: "var(--hud-navy)",
+    uniqueId: createUniqueId("notion_system", notionSystemKey),
+    name: notionSystemData?.title ? `${notionSystemData.title} ${notionSystemData.emoji || "💾"}` : "Content Management Framework 💾",
+    color: "var(--hud-teal)",
     type: 'normalSquare',
     size: 'normal',
     featured: true,
-    displayKey: 'system-notion'
-  },
-  // Second System: Home-Delivered Engine Room 🏭
-  {
+    displayKey: notionSystemKey
+  });
+  
+  // Second System: Production Automation Suite (Engine Room)
+  const engineSystemKey = 'system-engine';
+  const engineSystemData = courseUtils.getSystemData(systemDataMap['engine']);
+  sectionsData.push({
     id: "engine_room",
-    name: "Engine Room 🏭",
-    color: "var(--primary-orange)",
+    uniqueId: createUniqueId("engine_room", engineSystemKey),
+    name: engineSystemData?.title ? `${engineSystemData.title} ${engineSystemData.emoji || "🏭"}` : "Production Automation Suite 🏭",
+    color: "var(--hud-orange)",
     type: 'normalSquare',
     size: 'normal',
     featured: true,
-    displayKey: 'system-engine'
-  },
-  // Third System: Viral Video OS 🖥️
-  {
+    displayKey: engineSystemKey
+  });
+  
+  // Third System: Video Editing Ecosystem (Viral OS)
+  const viralSystemKey = 'system-viral';
+  const viralSystemData = courseUtils.getSystemData(systemDataMap['viral']);
+  sectionsData.push({
     id: "viral_os",
-    name: "Viral Video OS 🖥️",
-    color: "var(--accent-coral)", 
+    uniqueId: createUniqueId("viral_os", viralSystemKey),
+    name: viralSystemData?.title ? `${viralSystemData.title} ${viralSystemData.emoji || "🖥️"}` : "Video Editing Ecosystem 🖥️",
+    color: "var(--hud-navy)", 
     type: 'normalSquare',
     size: 'normal',
     featured: true,
-    displayKey: 'system-viral'
-  }
-];
+    displayKey: viralSystemKey
+  });
+  
+  return sectionsData;
+};
+
+// Initialize main sections with data from courseUtils
+const mainSections: SectionData[] = generateMainSections();
 
 // Square Column Component - takes an array of squares to display in a column
 interface SquareColumnProps {
@@ -156,11 +216,11 @@ const SquareColumn: React.FC<SquareColumnProps> = ({ squares, selectedSection, s
     <div className="flex flex-row md:flex-col gap-[var(--square-gap-x)] md:gap-[var(--square-gap-y)]">
       {squares.map((square) => (
         <NormalSquare 
-          key={square.id}
+          key={square.uniqueId || square.id}
           section={square}
-          isSelected={selectedSection === square.id}
+          isSelected={selectedSection === (square.uniqueId || square.id)}
           ref={(el) => { 
-            if (el) sectionRefs.current[square.id] = el;
+            if (el) sectionRefs.current[square.uniqueId || square.id] = el;
             return undefined;
           }}
         />
@@ -176,15 +236,108 @@ interface BigSquareProps {
 }
 
 const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, isSelected }, ref) => {
+  // Get a thumbnail based on section ID - using exact paths from JSON
+  const getSectionThumbnail = () => {
+    // Match section ID to appropriate thumbnail and use the courseUtils.getThumbnailPath function
+    let thumbnail = '';
+    
+    switch (section.id) {
+      case "basic_theory":
+        thumbnail = "the_algorithm";
+        break;
+      case "advanced_theory":
+        thumbnail = "advanced_metrics_analytics";
+        break;
+      default:
+        thumbnail = "big_picture";
+        break;
+    }
+    
+    // The actual thumbnails are in the renamed folder
+    return `/assets/main/DataBaseThumbnails/renamed/${thumbnail}.webp`;
+  };
+  
+  // Reference to track if component is mounted
+  const mounted = React.useRef(true);
+  
+  // Effect to set background with thumbnail
+  React.useEffect(() => {
+    // Ensure the ref exists and component is mounted
+    if (!ref || !mounted.current) return;
+    
+    // Get current element from ref (if it's available)
+    const el = ref as React.MutableRefObject<HTMLDivElement | null>;
+    if (!el.current) return;
+    
+    // Get thumbnail URL
+    const thumbnailUrl = getSectionThumbnail();
+    
+    // Create image to test loading
+    const img = new Image();
+    img.onload = () => {
+      if (!mounted.current || !el.current) return;
+      
+      // Apply background with section color overlay using stronger style application
+      el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${thumbnailUrl}')`, 'important');
+      el.current.style.setProperty('background-size', 'cover', 'important');
+      el.current.style.setProperty('background-position', 'center', 'important');
+      el.current.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
+    };
+    
+    img.onerror = () => {
+      if (!mounted.current || !el.current) return;
+      console.error(`Failed to load BigSquare thumbnail for ${section.id}: ${thumbnailUrl}`);
+      
+      // Fallback to gradient background using stronger style application
+      el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}, ${section.color}dd)`, 'important');
+      el.current.style.setProperty('background-size', 'cover', 'important');
+      el.current.style.setProperty('background-position', 'center', 'important');
+      
+      // Try default thumbnail as backup
+      const backupThumbnail = '/assets/main/DataBaseThumbnails/renamed/default.webp';
+      const backupImg = new Image();
+      
+      backupImg.onload = () => {
+        if (!mounted.current || !el.current) return;
+        // Use stronger style application for backup
+        el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${backupThumbnail}')`, 'important');
+        el.current.style.setProperty('background-size', 'cover', 'important');
+        el.current.style.setProperty('background-position', 'center', 'important');
+        el.current.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
+      };
+      
+      backupImg.src = backupThumbnail;
+    };
+    
+    // Start loading the image
+    img.src = thumbnailUrl;
+    
+    // Cleanup
+    return () => {
+      mounted.current = false;
+    };
+  }, [section, ref]);
+  
   return (
     <div 
       ref={ref}
-      data-id={section.id}
+      data-id={section.uniqueId || section.id}
+      data-base-id={section.id}
       data-display-key={section.displayKey}
-      className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
+      className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(53,115,128,0.3),_0_0_15px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.5),_0_0_20px_rgba(0,0,0,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
       style={{ 
-        backgroundColor: section.color,
+        backgroundColor: section.color, // Initial background color as fallback
         opacity: 1 
+      }}
+      onClick={(e) => {
+        e.stopPropagation(); // Prevent event bubbling
+        const moduleId = section.uniqueId || section.id;
+        // Dispatch a custom event that will be caught by handleModuleClick
+        const clickEvent = new CustomEvent('module-click', {
+          bubbles: true,
+          detail: { moduleId }
+        });
+        e.currentTarget.dispatchEvent(clickEvent);
       }}
     >
       {/* Tooltip for section name */}
@@ -193,9 +346,11 @@ const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, i
         <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
       </div>
       
-      {/* Small red circle indicator for featured modules */}
+      {/* iPhone-style notification dot */}
       {section.featured && (
-        <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
+        <div className="absolute -top-1.5 -right-1.5 w-[16px] h-[16px] bg-[#FF3B30] rounded-full shadow-[0_0_8px_rgba(255,59,48,0.4),0_0_3px_rgba(0,0,0,0.5)] border border-white/50 z-[1] flex items-center justify-center overflow-visible">
+          <span className="text-white text-[9px] font-bold">1</span>
+        </div>
       )}
     </div>
   );
@@ -208,15 +363,132 @@ interface NormalSquareProps {
 }
 
 const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ section, isSelected }, ref) => {
+  // Get a thumbnail based on section ID using direct paths
+  const getSectionThumbnail = () => {
+    // Match section ID to appropriate thumbnail 
+    let thumbnail = '';
+    
+    switch (section.id) {
+      case "upskiller_authentic_research_writer":
+        thumbnail = "research";
+        break;
+      case "upskiller_shorts_ready_videographer":
+        thumbnail = "shooting_for_short_form";
+        break;
+      case "upskiller_vertical_video_editors":
+        thumbnail = "editing";
+        break;
+      case "pr_authority":
+        thumbnail = "pr_who_are_you";
+        break;
+      case "delegation":
+        thumbnail = "team_building_delegation";
+        break;
+      case "monetisation":
+        thumbnail = "monetisation_evolving";
+        break;
+      case "conversion":
+        thumbnail = "building_your_funnel";
+        break;
+      // For system sections based on displayKey
+      default:
+        if (section.displayKey?.includes('notion')) {
+          thumbnail = "managing_comments";
+        } else if (section.displayKey?.includes('engine')) {
+          thumbnail = "content_fidelity";
+        } else if (section.displayKey?.includes('viral')) {
+          thumbnail = "editing";
+        } else {
+          thumbnail = "big_picture"; // Default fallback
+        }
+        break;
+    }
+    
+    // The actual thumbnails are in the renamed folder
+    return `/assets/main/DataBaseThumbnails/renamed/${thumbnail}.webp`;
+  };
+  
+  // Reference to track if component is mounted
+  const mounted = React.useRef(true);
+  
+  // Effect to set background with thumbnail
+  React.useEffect(() => {
+    // Ensure the ref exists and component is mounted
+    if (!ref || !mounted.current) return;
+    
+    // Get current element from ref (if it's available)
+    const el = ref as React.MutableRefObject<HTMLDivElement | null>;
+    if (!el.current) return;
+    
+    // Get thumbnail URL
+    const thumbnailUrl = getSectionThumbnail();
+    
+    // Create image to test loading
+    const img = new Image();
+    img.onload = () => {
+      if (!mounted.current || !el.current) return;
+      
+      // Apply background with section color overlay using stronger style application
+      el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${thumbnailUrl}')`, 'important');
+      el.current.style.setProperty('background-size', 'cover', 'important');
+      el.current.style.setProperty('background-position', 'center', 'important');
+      el.current.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
+    };
+    
+    img.onerror = () => {
+      if (!mounted.current || !el.current) return;
+      console.error(`Failed to load BigSquare thumbnail for ${section.id}: ${thumbnailUrl}`);
+      
+      // Fallback to gradient background using stronger style application
+      el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}, ${section.color}dd)`, 'important');
+      el.current.style.setProperty('background-size', 'cover', 'important');
+      el.current.style.setProperty('background-position', 'center', 'important');
+      
+      // Try default thumbnail as backup
+      const backupThumbnail = '/assets/main/DataBaseThumbnails/renamed/default.webp';
+      const backupImg = new Image();
+      
+      backupImg.onload = () => {
+        if (!mounted.current || !el.current) return;
+        // Use stronger style application for backup
+        el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${backupThumbnail}')`, 'important');
+        el.current.style.setProperty('background-size', 'cover', 'important');
+        el.current.style.setProperty('background-position', 'center', 'important');
+        el.current.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
+      };
+      
+      backupImg.src = backupThumbnail;
+    };
+    
+    // Start loading the image
+    img.src = thumbnailUrl;
+    
+    // Cleanup
+    return () => {
+      mounted.current = false;
+    };
+  }, [section, ref]);
+  
   return (
     <div 
       ref={ref}
-      data-id={section.id}
+      data-id={section.uniqueId || section.id}
+      data-base-id={section.id}
       data-display-key={section.displayKey}
-      className="section-module module-item w-[var(--normal-square-width)] h-[var(--normal-square-width)] rounded-xl shadow-theme-sm cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
+      className="section-module module-item dark-glow-overlay w-[var(--normal-square-width)] h-[var(--normal-square-width)] rounded-xl shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(53,115,128,0.3),_0_0_15px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.5),_0_0_20px_rgba(0,0,0,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
       style={{ 
-        backgroundColor: section.color,
+        backgroundColor: section.color, // Initial background color as fallback
         opacity: 1
+      }}
+      onClick={(e) => {
+        e.stopPropagation(); // Prevent event bubbling
+        const moduleId = section.uniqueId || section.id;
+        // Dispatch a custom event that will be caught by handleModuleClick
+        const clickEvent = new CustomEvent('module-click', {
+          bubbles: true,
+          detail: { moduleId }
+        });
+        e.currentTarget.dispatchEvent(clickEvent);
       }}
     >
       {/* Tooltip for section name */}
@@ -225,9 +497,11 @@ const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ sect
         <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
       </div>
       
-      {/* Small red circle indicator for featured modules */}
+      {/* iPhone-style notification dot */}
       {section.featured && (
-        <div className="absolute -top-2 -right-2 w-[12px] h-[12px] bg-[var(--hud-accent-red)] rounded-full shadow-theme-sm"></div>
+        <div className="absolute -top-1.5 -right-1.5 w-[14px] h-[14px] bg-[#FF3B30] rounded-full shadow-[0_0_8px_rgba(255,59,48,0.4),0_0_3px_rgba(0,0,0,0.5)] border border-white/50 z-[1] flex items-center justify-center overflow-visible">
+          <span className="text-white text-[8px] font-bold">1</span>
+        </div>
       )}
     </div>
   );
@@ -242,8 +516,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedModuleId, setSelectedModuleId] = useState<string>('');
   
-  // Calculate square dimensions for the layout
-  const normalSquareWidth = 40; // Base width in px
+  // Calculate square dimensions for the layout - increased for better visibility
+  const normalSquareWidth = 48; // Base width in px (increased from 40)
   const squareGapX = normalSquareWidth * 1.5; // Horizontal gap (1.5x width)
   const squareGapY = normalSquareWidth * 1; // Vertical gap (1x width)
   
@@ -253,10 +527,49 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   const column3 = useMemo(() => [mainSections[7], mainSections[8], mainSections[9]], []); // Third column - Business Scaling
   const systemsColumn = useMemo(() => [mainSections[10], mainSections[11], mainSections[12]], []); // Systems column - 3 products
   
-  // Get modules for the selected section
+  // Get modules for the selected section with improved performance
   const selectedSectionModules = useMemo(() => {
     if (!selectedSection) return [];
-    return courseUtils.getModulesForSection(selectedSection).map(module => ({
+    
+    // Find the section element using the unique ID
+    const sectionEl = document.querySelector(`[data-id="${selectedSection}"]`);
+    
+    // If element not found in DOM (happens during initial render), use the selectedSection directly
+    if (!sectionEl) {
+      // Parse selectedSection to extract displayKey if it contains a hyphen
+      const parts = selectedSection.split('-');
+      if (parts.length > 1) {
+        const baseId = parts[0];
+        const displayKey = parts.slice(1).join('-');
+        
+        return courseUtils.getModulesForSection(baseId, displayKey).map(module => ({
+          id: module.id,
+          title: module.title,
+          color: module.color,
+          founderMustWatch: module.founderMustWatch,
+          featured: module.featured,
+          duration: module.duration // Include duration for module sizing
+        }));
+      }
+      
+      // No hyphen, use selectedSection directly
+      return courseUtils.getModulesForSection(selectedSection).map(module => ({
+        id: module.id,
+        title: module.title,
+        color: module.color,
+        founderMustWatch: module.founderMustWatch,
+        featured: module.featured,
+        duration: module.duration // Include duration for module sizing
+      }));
+    }
+    
+    // Get both the base ID and the display key from the DOM element
+    const baseId = sectionEl?.getAttribute('data-base-id') || selectedSection;
+    const displayKey = sectionEl?.getAttribute('data-display-key') || undefined;
+    
+    // Use the base ID and displayKey to get modules
+    // This ensures proper handling of sections with the same base ID but different display contexts
+    return courseUtils.getModulesForSection(baseId, displayKey).map(module => ({
       id: module.id,
       title: module.title,
       color: module.color,
@@ -298,7 +611,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             if (block1 && block2) {
               // Create power line element
               const powerLine = document.createElement('div');
-              powerLine.className = 'power-line absolute rounded-full h-[3px] bg-white/20';
+              powerLine.className = 'power-line absolute rounded-full h-[3px] bg-theme-bg-secondary/30';
               
               // Calculate positions
               const rect1 = block1.getBoundingClientRect();
@@ -323,27 +636,12 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
               powerLine.style.height = `${end.y - start.y}px`;
               powerLine.style.transformOrigin = 'top';
               
-              // Add power ball (electricity pulse) element
-              const powerBall = document.createElement('div');
-              powerBall.className = 'power-ball absolute w-2 h-2 bg-white/80 rounded-full shadow-[0_0_5px_2px_rgba(255,255,255,0.5)]';
-              powerBall.style.top = '0';
-              powerBall.style.left = '-3px';
+              // Removed power balls for cleaner design
               
-              // Add elements to the DOM
-              powerLine.appendChild(powerBall);
+              // Add power line to DOM
               powerLinesContainer.appendChild(powerLine);
               
-              // Animate the power ball
-              gsap.fromTo(powerBall, 
-                { top: '0px' }, 
-                { 
-                  top: '100%', 
-                  duration: 1.5, 
-                  repeat: -1, 
-                  ease: 'power1.inOut',
-                  repeatDelay: 0.3
-                }
-              );
+              // Removed power ball animation for cleaner design
             }
           }
         }
@@ -359,9 +657,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         stagger: 0.3
       });
       
-      // System connector points pulsing glow
+      // System connector points subtle pulse animation
       gsap.to('.system-connector', {
-        boxShadow: '0 0 12px rgba(255,255,255,0.8)',
         scale: 1.2,
         duration: 1,
         ease: "sine.inOut",
@@ -380,7 +677,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           if (el1 && el2) {
             // Create power line element
             const powerLine = document.createElement('div');
-            powerLine.className = 'power-line absolute bg-gradient-to-b from-white/10 to-white/30';
+            powerLine.className = 'power-line absolute bg-theme-bg-secondary/30';
             
             // Get positions
             const rect1 = el1.getBoundingClientRect();
@@ -405,26 +702,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                 powerLine.style.width = '2px';
                 powerLine.style.height = `${endY - startY}px`;
                 
-                // Create power ball elements for electricity effect
-                for (let i = 0; i < 3; i++) {
-                  const powerBall = document.createElement('div');
-                  powerBall.className = `power-ball-${i} absolute w-2 h-2 bg-white/60 rounded-full shadow-[0_0_8px_rgba(255,255,255,0.5)]`;
-                  powerBall.style.left = '-3px';
-                  powerBall.style.top = '0';
-                  powerLine.appendChild(powerBall);
-                  
-                  // Animate each power ball with different timing
-                  gsap.fromTo(powerBall, 
-                    { top: '0%' },
-                    { 
-                      top: '100%', 
-                      duration: 2 + i*0.5, 
-                      delay: i * 0.6,
-                      repeat: -1, 
-                      ease: 'power2.inOut' 
-                    }
-                  );
-                }
+                // Removed power ball elements for cleaner design
                 
                 // Add the power line to the container
                 container.appendChild(powerLine);
@@ -434,22 +712,20 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         }
       });
       
-      // Animate notion system data pulse
+      // Animate notion system data pulse - more subtle
       gsap.to('.notion-pulse', {
         scale: 1.5,
         opacity: 0.3,
-        boxShadow: '0 0 10px rgba(255,255,255,0.8)',
         duration: 1.2,
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut"
       });
       
-      // Animate video pulse
+      // Animate video pulse - more subtle
       gsap.to('.video-pulse', {
         scale: 2,
         opacity: 0.6,
-        boxShadow: '0 0 12px rgba(0,200,255,0.6)',
         duration: 0.8,
         repeat: -1,
         repeatDelay: 0.5,
@@ -528,6 +804,28 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
   // Track previous selection for smoother transitions
   const [previousSection, setPreviousSection] = useState<string | null>(null);
   
+  // Set up event listener for custom module-click events
+  useEffect(() => {
+    // Add event listener for custom events
+    const handleModuleClickEvent = (e: Event) => {
+      if (e instanceof CustomEvent && e.type === 'module-click') {
+        handleModuleClick(e);
+      }
+    };
+    
+    // Add listener to container
+    if (containerRef.current) {
+      containerRef.current.addEventListener('module-click', handleModuleClickEvent);
+    }
+    
+    // Clean up
+    return () => {
+      if (containerRef.current) {
+        containerRef.current.removeEventListener('module-click', handleModuleClickEvent);
+      }
+    };
+  }, [onModuleClick]);
+  
   // Smoother animation for section expansion/collapse with sequenced transitions
   useEffect(() => {
     // Create a timeline for sequenced animations
@@ -549,10 +847,10 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     if (previousSection && previousSection !== selectedSection) {
       const prevSectionEl = sectionRefs.current[previousSection];
       if (prevSectionEl) {
-        // Find previous section data
+        // Find previous section data by uniqueId first, then fall back to other methods
         const prevSectionData = mainSections.find(s => 
-          s.id === previousSection || 
-          (s.id === previousSection.split('-')[0] && s.displayKey === previousSection.split('-')[1])
+          s.uniqueId === previousSection || 
+          s.id === previousSection
         );
         
         if (prevSectionData) {
@@ -604,30 +902,26 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     
     // If a section is selected, expand it after previous collapses
     if (selectedSection) {
-      // For system sections we need special handling because of the displayKey formatting
+      // Find the section element directly using the uniqueId stored in sectionRefs
       let sectionEl = sectionRefs.current[selectedSection];
-      
-      // If we couldn't find the section directly, it might be because it's a system section 
-      // with a special compound ID format (id-displayKey)
-      if (!sectionEl && selectedSection.includes('-system-')) {
-        const [baseId, displayKey] = selectedSection.split('-system-');
-        const fullKey = baseId + '-system-' + displayKey;
-        sectionEl = sectionRefs.current[fullKey];
-      }
       
       if (!sectionEl) return;
       
-      // Find the section data - check if it's a system section first
-      let sectionData;
-      if (selectedSection.includes('-system-')) {
-        // For system sections, we need to find by both id and displayKey
-        const [baseId, displayKey] = selectedSection.split('-system-');
-        sectionData = mainSections.find(s => 
-          s.id === baseId && s.displayKey === 'system-' + displayKey
-        );
-      } else {
-        // For regular sections
-        sectionData = mainSections.find(s => s.id === selectedSection);
+      // Find the section data using uniqueId first
+      let sectionData = mainSections.find(s => s.uniqueId === selectedSection || s.id === selectedSection);
+      
+      // If we still can't find the section data, handle special cases (like system sections)
+      if (!sectionData) {
+        const sectionDOMEl = document.querySelector(`[data-id="${selectedSection}"]`);
+        const baseId = sectionDOMEl?.getAttribute('data-base-id');
+        const displayKey = sectionDOMEl?.getAttribute('data-display-key');
+        
+        if (baseId && displayKey) {
+          // Try to find by baseId and displayKey
+          sectionData = mainSections.find(s => 
+            s.id === baseId && s.displayKey === displayKey
+          );
+        }
       }
         
       if (!sectionData) return;
@@ -696,15 +990,26 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     function createModulesGrid(sectionEl: HTMLDivElement, gridSize: number) {
       // Create modules container
       const modulesContainer = document.createElement('div');
-      modulesContainer.className = 'modules-container absolute inset-0 z-10 p-4';
+      modulesContainer.className = 'modules-container absolute inset-0 z-10 p-4 bg-gradient-to-br from-transparent to-theme-primary/15 dark:from-transparent dark:to-theme-accent/30 rounded-xl';
       
       // Get section ID from sectionEl to check if it's a system section
       const sectionId = sectionEl.getAttribute('data-id');
+      const baseId = sectionEl.getAttribute('data-base-id');
       const displayKey = sectionEl.getAttribute('data-display-key');
       const isSystemSection = displayKey && displayKey.startsWith('system-');
       
+      // Find the section data for color information
+      const sectionData = mainSections.find(s => 
+        s.uniqueId === sectionId || 
+        s.id === sectionId || 
+        (s.id === baseId && s.displayKey === displayKey)
+      );
+      
       // If this is a system section, we want to show a different layout with specific details
       if (isSystemSection) {
+        // Ensure the DOM exists
+        if (!document.body) return;
+        
         // Special layout for system sections - more detailed description
         modulesContainer.style.display = 'flex';
         modulesContainer.style.flexDirection = 'column';
@@ -729,10 +1034,13 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         const illustrationContainer = document.createElement('div');
         illustrationContainer.className = 'mt-2 mb-4 w-full flex justify-center';
         
+        // Use the systemDataMap from course-utils to ensure consistency
+        const systemDataMap = courseUtils.systemDataMap;
+        
         // Determine which system we're showing and set appropriate content
         if (displayKey === 'system-notion') {
-          // Get system data from course-utils
-          const systemData = courseUtils.getSystemData('notion_system');
+          // Get system data from course-utils with correct mapping
+          const systemData = courseUtils.getSystemData(systemDataMap['notion']);
           systemTitle = systemData?.title || 'Notion System';
           systemDescription = systemData?.description || 'Our comprehensive content organization system powered by a custom Notion database with advanced integrations.';
           systemFeatures = systemData?.features || [
@@ -774,8 +1082,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           illustrationContainer.appendChild(notionIllustration);
           
         } else if (displayKey === 'system-engine') {
-          // Get system data from course-utils
-          const systemData = courseUtils.getSystemData('engine_room');
+          // Get system data from course-utils with correct mapping using the system map
+          const systemData = courseUtils.getSystemData(systemDataMap['engine']);
           systemTitle = systemData?.title || 'Engine Room';
           systemDescription = systemData?.description || 'Our streamlined content production system that turns raw footage into professional-quality videos.';
           systemFeatures = systemData?.features || [
@@ -848,8 +1156,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           illustrationContainer.appendChild(engineIllustration);
           
         } else if (displayKey === 'system-viral') {
-          // Get system data from course-utils
-          const systemData = courseUtils.getSystemData('viral_os');
+          // Get system data from course-utils with correct mapping using the system map
+          const systemData = courseUtils.getSystemData(systemDataMap['viral']);
           systemTitle = systemData?.title || 'Video OS';
           systemDescription = systemData?.description || 'A powerful editing system with specialized templates and editing presets for high-conversion videos.';
           systemFeatures = systemData?.features || [
@@ -958,6 +1266,12 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         modulesContainer.appendChild(contentEl);
         
         // Create modal for system info when button is clicked
+        // Check if modal already exists, if so, remove it first
+        const existingModal = document.getElementById('system-modal-' + displayKey);
+        if (existingModal) {
+          document.body.removeChild(existingModal);
+        }
+        
         const modalContainer = document.createElement('div');
         modalContainer.className = 'fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300';
         modalContainer.id = 'system-modal-' + displayKey;
@@ -1024,6 +1338,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           e.stopPropagation(); // Prevent section click
           const modal = document.getElementById('system-modal-' + displayKey);
           if (modal) {
+            // Make sure modal is attached to the document body
+            if (!document.body.contains(modal)) {
+              document.body.appendChild(modal);
+            }
+            
             modal.style.opacity = '1';
             modal.style.pointerEvents = 'auto';
             
@@ -1094,11 +1413,154 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           const moduleEl = document.createElement('div');
           moduleEl.dataset.id = module.id;
           moduleEl.dataset.title = module.title; // Store full title for tooltip
-          moduleEl.className = 'module-item rounded-lg shadow-theme-sm cursor-pointer relative overflow-hidden tooltip-trigger';
+          moduleEl.className = 'module-item dark-glow-overlay rounded-lg shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_15px_rgba(53,115,128,0.3),_0_0_10px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_20px_rgba(53,115,128,0.5),_0_0_15px_rgba(0,0,0,0.3)] cursor-pointer relative overflow-hidden tooltip-trigger';
           
-          // Apply gradient background
-          const moduleColor = module.color || 'var(--theme-accent)';
-          moduleEl.style.background = `linear-gradient(135deg, ${moduleColor}, ${moduleColor}dd)`;
+          // Get section color for overlay
+          const sectionColor = sectionData?.color || module.color || 'var(--theme-accent)';
+          
+          // Implement a thumbnail caching mechanism
+          const thumbnailCache = moduleRefs.current['thumbnail-cache'] || new Map();
+          if (!moduleRefs.current['thumbnail-cache']) {
+            moduleRefs.current['thumbnail-cache'] = thumbnailCache;
+          }
+          
+          // First check the cache for this module ID
+          let thumbnailUrl = thumbnailCache.get(module.id);
+          
+          if (!thumbnailUrl) {
+            // First look for module ID-specific thumbnail, then fall back to a standard one
+            let thumbnailName;
+            
+            switch (module.id) {
+              // Use the ids from the JSON 
+              case "intro-founder-specific":
+                thumbnailName = "big_picture";
+                break;
+              case "algorithm":
+                thumbnailName = "the_algorithm";
+                break;
+              case "cardinal-sins":
+                thumbnailName = "cardinal_sins";
+                break;
+              case "hook-mastery":
+                thumbnailName = "crafting_compelling_hooks"; 
+                break;
+              case "script-fundamentals":
+                thumbnailName = "scripting_fundamentals";
+                break;
+              // Add more cases based on the JSON ids
+              default:
+                // For fallback, try to convert hyphenated IDs to underscores
+                thumbnailName = module.id.replace(/-/g, '_');
+                break;
+            }
+            
+            // Using direct path to thumbnails in renamed folder
+            thumbnailUrl = `/assets/main/DataBaseThumbnails/renamed/${thumbnailName}.webp`;
+            thumbnailCache.set(module.id, thumbnailUrl);
+          }
+          
+          // Set background color as fallback
+          moduleEl.style.backgroundColor = sectionColor; 
+          
+          // Use a module load state cache
+          const moduleLoadState = moduleRefs.current['load-state'] || new Map();
+          if (!moduleRefs.current['load-state']) {
+            moduleRefs.current['load-state'] = moduleLoadState;
+          }
+          
+          // Check if we've already tried to load this thumbnail
+          const loadState = moduleLoadState.get(module.id);
+          
+          if (loadState === 'success') {
+            // We've already successfully loaded this thumbnail before
+            moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${thumbnailUrl}')`;
+            moduleEl.style.backgroundSize = 'cover';
+            moduleEl.style.backgroundPosition = 'center';
+          } else if (loadState === 'error') {
+            // We've already tried and failed to load this thumbnail
+            moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}, ${sectionColor}dd)`;
+            
+            // Use the backup if available
+            const backupThumbnail = '../assets/main/DataBaseThumbnails/renamed/the_algorithm.webp';
+            if (moduleLoadState.get('backup-loaded') === 'success') {
+              moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${backupThumbnail}')`;
+              moduleEl.style.backgroundSize = 'cover';
+              moduleEl.style.backgroundPosition = 'center';
+            }
+          } else {
+            // First time trying to load this thumbnail
+            const img = new Image();
+            
+            // Set up onload handler
+            img.onload = () => {
+              console.log(`Thumbnail loaded for module: ${module.id}`);
+              
+              // IMPORTANT: Use !important to override any conflicting styles
+              moduleEl.style.setProperty('background-image', `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${thumbnailUrl}')`, 'important');
+              moduleEl.style.setProperty('background-size', 'cover', 'important');
+              moduleEl.style.setProperty('background-position', 'center', 'important');
+              moduleEl.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
+              
+              // Cache the successful load state
+              moduleLoadState.set(module.id, 'success');
+            };
+            
+            // Set up error handler
+            img.onerror = () => {
+              console.error(`Failed to load thumbnail for module: ${module.id} from ${thumbnailUrl}`);
+              
+              // Fallback to gradient if image fails to load
+              moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}, ${sectionColor}dd)`;
+              
+              // Cache the error state
+              moduleLoadState.set(module.id, 'error');
+              
+              // Try a different known-good thumbnail as backup
+              const backupThumbnail = '/assets/main/DataBaseThumbnails/renamed/default.webp';
+              console.log(`Using default fallback thumbnail for ${module.id}: ${backupThumbnail}`);
+              
+              if (moduleLoadState.get('backup-loaded') !== 'success') {
+                const backupImg = new Image();
+                backupImg.onload = () => {
+                  // Use !important to override any conflicting styles
+                  moduleEl.style.setProperty('background-image', `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${backupThumbnail}')`, 'important');
+                  moduleEl.style.setProperty('background-size', 'cover', 'important');
+                  moduleEl.style.setProperty('background-position', 'center', 'important');
+                  moduleEl.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
+                  
+                  // Cache that the backup loaded successfully
+                  moduleLoadState.set('backup-loaded', 'success');
+                };
+                
+                backupImg.onerror = () => {
+                  console.error(`Even default thumbnail failed to load: ${backupThumbnail}`);
+                  // Final fallback is just the gradient
+                  moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}, ${sectionColor}dd)`;
+                };
+                
+                backupImg.src = backupThumbnail;
+              } else {
+                // We already know the backup loads, so use it directly
+                // Use !important to override any conflicting styles
+                moduleEl.style.setProperty('background-image', `linear-gradient(135deg, ${sectionColor}99, ${sectionColor}cc), url('${backupThumbnail}')`, 'important');
+                moduleEl.style.setProperty('background-size', 'cover', 'important');
+                moduleEl.style.setProperty('background-position', 'center', 'important');
+                moduleEl.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
+              }
+            };
+            
+            // Start loading the image if we have a valid URL
+            if (thumbnailUrl) {
+              img.src = thumbnailUrl;
+            } else {
+              // No valid URL, use fallback gradient
+              moduleEl.style.background = `linear-gradient(135deg, ${sectionColor}, ${sectionColor}dd)`;
+              
+              // Cache the error state
+              moduleLoadState.set(module.id, 'error');
+            }
+          }
           
           // Make it square
           moduleEl.style.aspectRatio = '1/1';
@@ -1131,6 +1593,16 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             tooltipEl.style.opacity = '0';
           });
           
+          // Add click handler for this module
+          moduleEl.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent event bubbling
+            console.log(`Module clicked: ${module.id}`);
+            
+            // Handle module click
+            setSelectedModuleId(module.id);
+            setIsModalOpen(true);
+          });
+          
           // Add to container
           modulesContainer.appendChild(moduleEl);
         });
@@ -1160,15 +1632,30 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     }
   
   // Handle click events
-  const handleModuleClick = (e: React.MouseEvent) => {
-    const moduleItem = (e.target as HTMLElement).closest('.module-item');
+  const handleModuleClick = (e: React.MouseEvent | Event) => {
+    // Handle custom module-click events
+    if (e instanceof CustomEvent && e.type === 'module-click') {
+      const moduleId = e.detail?.moduleId;
+      if (moduleId && onModuleClick) {
+        console.log("Custom module click event received for:", moduleId);
+        onModuleClick(moduleId);
+      }
+      return;
+    }
+    
+    // Regular mouse event handling
+    const mouseEvent = e as React.MouseEvent;
+    const moduleItem = (mouseEvent.target as HTMLElement).closest('.module-item');
     if (!moduleItem) return;
     
-    // Get module ID and display key
+    // Get module/section data attributes
     const moduleId = moduleItem.getAttribute('data-id');
+    const baseId = moduleItem.getAttribute('data-base-id');
     const displayKey = moduleItem.getAttribute('data-display-key');
     
     if (!moduleId) return;
+    
+    console.log("Module click detected on:", moduleId, "baseId:", baseId, "displayKey:", displayKey);
     
     // Check if it's a module or section
     const isInsideModulesContainer = moduleItem.closest('.modules-container');
@@ -1182,22 +1669,13 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         onModuleClick(moduleId);
       }
     } else {
-      // Handle section click - if it has a system-specific displayKey, use that combined ID
-      let sectionIdentifier = moduleId;
+      // We're clicking on a section square - use the uniqueId (data-id) which already 
+      // incorporates both the baseId and displayKey when needed
       
-      if (displayKey) {
-        if (displayKey.startsWith('system-')) {
-          // For system blocks, we want to pass the combined ID (including the displayKey)
-          // so it can be handled properly by the parent component
-          sectionIdentifier = moduleId + '-' + displayKey;
-        } else {
-          // For other cases, just use the display key
-          sectionIdentifier = displayKey;
-        }
-      }
-      
+      // The uniqueId should already be properly formatted in the data-id attribute
+      // This ensures proper identification of sections with the same base ID but different display contexts
       if (onModuleClick) {
-        onModuleClick(sectionIdentifier);
+        onModuleClick(moduleId);
       }
     }
   };
@@ -1214,11 +1692,26 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         .tooltip-trigger:hover .tooltip-content {
           opacity: 1;
         }
+        
+        .section-module, .module-item {
+          cursor: pointer;
+          transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+          pointer-events: auto;
+        }
+        
+        .section-module:hover, .module-item:hover {
+          transform: translateY(-3px) scale(1.03);
+        }
+        
+        /* Ensure all module blocks receive clicks */
+        .modules-container .module-item {
+          z-index: 20;
+        }
       `}</style>
       
       <div 
         ref={containerRef}
-        className="w-full max-w-[900px] h-full min-h-[600px] max-h-[800px] p-6 relative overflow-visible flex items-center justify-center"
+        className="w-full max-w-[1100px] h-full min-h-[700px] max-h-[900px] p-6 relative overflow-visible flex items-center justify-center"
         onClick={handleModuleClick}
       >
         {/* Theme-aware floating elements for background decoration */}
@@ -1233,7 +1726,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
              animate-float-medium"></div>
         
         {/* Grid pattern background */}
-        <div className="absolute inset-0 -z-20 opacity-[0.15] grid-bg"></div>
+        <div className="absolute inset-0 -z-20 opacity-[0.25] grid-bg bg-gradient-to-br from-theme-primary/10 to-theme-accent/10 dark:from-theme-primary/20 dark:to-theme-accent/20"></div>
         
         {/* Main HUD Layout */}
         <div 
@@ -1307,16 +1800,30 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                 <div 
                   key={systemsColumn[0].displayKey}
                   ref={(el) => { 
-                    if (el) sectionRefs.current[systemsColumn[0].id + '-' + systemsColumn[0].displayKey] = el;
+                    if (el) sectionRefs.current[systemsColumn[0].uniqueId || (systemsColumn[0].id + '-' + systemsColumn[0].displayKey)] = el;
                     return undefined;
                   }}
-                  data-id={systemsColumn[0].id}
+                  data-id={systemsColumn[0].uniqueId || (systemsColumn[0].id + '-' + systemsColumn[0].displayKey)}
+                  data-base-id={systemsColumn[0].id}
                   data-display-key={systemsColumn[0].displayKey}
-                  className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-md cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
-                  style={{ backgroundColor: "var(--hud-navy)" }}
+                  className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_5px_10px_rgba(0,0,0,0.2)] dark:shadow-[0_0_25px_rgba(53,115,128,0.4),_0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] dark:hover:shadow-[0_0_30px_rgba(53,115,128,0.6),_0_0_20px_rgba(0,0,0,0.4)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
+                  style={{ 
+                    background: "linear-gradient(135deg, rgb(0, 36, 48), rgb(8, 29, 39))"
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent event bubbling
+                    const moduleId = systemsColumn[0].uniqueId || (systemsColumn[0].id + '-' + systemsColumn[0].displayKey);
+                    console.log("System block clicked:", moduleId);
+                    // Dispatch a custom event that will be caught by handleModuleClick
+                    const clickEvent = new CustomEvent('module-click', {
+                      bubbles: true,
+                      detail: { moduleId }
+                    });
+                    e.currentTarget.dispatchEvent(clickEvent);
+                  }}
                 >
                   {/* Power connection point */}
-                  <div className="absolute bottom-[5px] left-[50%] w-2 h-2 bg-white/60 rounded-full transform translate-x-[-50%] shadow-[0_0_8px_rgba(255,255,255,0.6)] z-10 system-connector"></div>
+                  <div className="absolute bottom-[5px] left-[50%] w-2 h-2 bg-theme-bg-secondary/60 rounded-full transform translate-x-[-50%] z-10 system-connector"></div>
                   
                   {/* Tooltip */}
                   <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
@@ -1336,8 +1843,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     
                     {/* Enhanced database representation with animation */}
                     <div className="w-full max-w-[80%] h-20 bg-white/10 rounded-lg p-2 flex flex-col justify-between system-notion-container relative">
-                      {/* Animated data pulse effect */}
-                      <div className="absolute top-[10%] right-[10%] w-1 h-1 bg-white/80 rounded-full shadow-[0_0_5px_rgba(255,255,255,0.5)] notion-pulse"></div>
+                      {/* Animated data pulse effect - more subtle */}
+                      <div className="absolute top-[10%] right-[10%] w-1 h-1 bg-theme-bg-secondary/80 rounded-full notion-pulse"></div>
                       
                       {[1, 2, 3].map(i => (
                         <div key={i} className="flex space-x-2 items-center">
@@ -1348,9 +1855,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     </div>
                   </div>
                   
-                  {/* Featured indicator with glow */}
+                  {/* iPhone-style notification dot */}
                   {systemsColumn[0].featured && (
-                    <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-[0_0_5px_rgba(255,0,0,0.3)]"></div>
+                    <div className="absolute -top-1.5 -right-1.5 w-[16px] h-[16px] bg-[#FF3B30] rounded-full shadow-[0_0_8px_rgba(255,59,48,0.4),0_0_3px_rgba(0,0,0,0.5)] border border-white/50 z-[1] flex items-center justify-center overflow-visible">
+                      <span className="text-white text-[9px] font-bold">1</span>
+                    </div>
                   )}
                 </div>
                 
@@ -1358,19 +1867,31 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                 <div 
                   key={systemsColumn[1].displayKey}
                   ref={(el) => { 
-                    if (el) sectionRefs.current[systemsColumn[1].id + '-' + systemsColumn[1].displayKey] = el;
+                    if (el) sectionRefs.current[systemsColumn[1].uniqueId || (systemsColumn[1].id + '-' + systemsColumn[1].displayKey)] = el;
                     return undefined;
                   }}
-                  data-id={systemsColumn[1].id}
+                  data-id={systemsColumn[1].uniqueId || (systemsColumn[1].id + '-' + systemsColumn[1].displayKey)}
+                  data-base-id={systemsColumn[1].id}
                   data-display-key={systemsColumn[1].displayKey}
-                  className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-md cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
+                  className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_5px_10px_rgba(0,0,0,0.2)] dark:shadow-[0_0_25px_rgba(53,115,128,0.4),_0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] dark:hover:shadow-[0_0_30px_rgba(53,115,128,0.6),_0_0_20px_rgba(0,0,0,0.4)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
                   style={{ 
                     background: "linear-gradient(135deg, var(--primary-orange), var(--hud-coral))"
                   }}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent event bubbling
+                    const moduleId = systemsColumn[1].uniqueId || (systemsColumn[1].id + '-' + systemsColumn[1].displayKey);
+                    console.log("System block clicked:", moduleId);
+                    // Dispatch a custom event that will be caught by handleModuleClick
+                    const clickEvent = new CustomEvent('module-click', {
+                      bubbles: true,
+                      detail: { moduleId }
+                    });
+                    e.currentTarget.dispatchEvent(clickEvent);
+                  }}
                 >
                   {/* Power connection points */}
-                  <div className="absolute top-[5px] left-[50%] w-2 h-2 bg-white/60 rounded-full transform translate-x-[-50%] shadow-[0_0_8px_rgba(255,255,255,0.6)] z-10 system-connector"></div>
-                  <div className="absolute bottom-[5px] left-[50%] w-2 h-2 bg-white/60 rounded-full transform translate-x-[-50%] shadow-[0_0_8px_rgba(255,255,255,0.6)] z-10 system-connector"></div>
+                  <div className="absolute top-[5px] left-[50%] w-2 h-2 bg-theme-bg-secondary/60 rounded-full transform translate-x-[-50%] z-10 system-connector"></div>
+                  <div className="absolute bottom-[5px] left-[50%] w-2 h-2 bg-theme-bg-secondary/60 rounded-full transform translate-x-[-50%] z-10 system-connector"></div>
                   
                   {/* Tooltip */}
                   <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
@@ -1404,9 +1925,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     </div>
                   </div>
                   
-                  {/* Featured indicator with glow */}
+                  {/* iPhone-style notification dot */}
                   {systemsColumn[1].featured && (
-                    <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-[0_0_5px_rgba(255,0,0,0.3)]"></div>
+                    <div className="absolute -top-1.5 -right-1.5 w-[16px] h-[16px] bg-[#FF3B30] rounded-full shadow-[0_0_8px_rgba(255,59,48,0.4),0_0_3px_rgba(0,0,0,0.5)] border border-white/50 z-[1] flex items-center justify-center overflow-visible">
+                      <span className="text-white text-[9px] font-bold">1</span>
+                    </div>
                   )}
                 </div>
                 
@@ -1414,18 +1937,30 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                 <div 
                   key={systemsColumn[2].displayKey}
                   ref={(el) => { 
-                    if (el) sectionRefs.current[systemsColumn[2].id + '-' + systemsColumn[2].displayKey] = el;
+                    if (el) sectionRefs.current[systemsColumn[2].uniqueId || (systemsColumn[2].id + '-' + systemsColumn[2].displayKey)] = el;
                     return undefined;
                   }}
-                  data-id={systemsColumn[2].id}
+                  data-id={systemsColumn[2].uniqueId || (systemsColumn[2].id + '-' + systemsColumn[2].displayKey)}
+                  data-base-id={systemsColumn[2].id}
                   data-display-key={systemsColumn[2].displayKey}
-                  className="section-module module-item w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-theme-md cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
+                  className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_5px_10px_rgba(0,0,0,0.2)] dark:shadow-[0_0_25px_rgba(53,115,128,0.4),_0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] dark:hover:shadow-[0_0_30px_rgba(53,115,128,0.6),_0_0_20px_rgba(0,0,0,0.4)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] overflow-hidden tooltip-trigger"
                   style={{ 
                     background: "linear-gradient(145deg, var(--hud-teal), #2A7590)"
                   }}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent event bubbling
+                    const moduleId = systemsColumn[2].uniqueId || (systemsColumn[2].id + '-' + systemsColumn[2].displayKey);
+                    console.log("System block clicked:", moduleId);
+                    // Dispatch a custom event that will be caught by handleModuleClick
+                    const clickEvent = new CustomEvent('module-click', {
+                      bubbles: true,
+                      detail: { moduleId }
+                    });
+                    e.currentTarget.dispatchEvent(clickEvent);
+                  }}
                 >
                   {/* Power connection point */}
-                  <div className="absolute top-[5px] left-[50%] w-2 h-2 bg-white/60 rounded-full transform translate-x-[-50%] shadow-[0_0_8px_rgba(255,255,255,0.6)] z-10 system-connector"></div>
+                  <div className="absolute top-[5px] left-[50%] w-2 h-2 bg-theme-bg-secondary/60 rounded-full transform translate-x-[-50%] z-10 system-connector"></div>
                   
                   {/* Tooltip */}
                   <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
@@ -1445,8 +1980,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     
                     {/* Enhanced timeline with playhead animation */}
                     <div className="w-full max-w-[80%] bg-black/20 h-16 rounded-lg p-2 relative system-video-container">
-                      {/* Data processing pulse effect */}
-                      <div className="absolute top-1 right-2 w-1 h-1 bg-[var(--hud-teal)]/80 rounded-full video-pulse"></div>
+                      {/* Data processing pulse effect - more subtle */}
+                      <div className="absolute top-1 right-2 w-1 h-1 bg-theme-bg-secondary/80 rounded-full video-pulse"></div>
                       
                       {/* Video track */}
                       <div className="h-3 mb-2 bg-black/30 rounded-full relative overflow-hidden">
@@ -1463,9 +1998,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                     </div>
                   </div>
                   
-                  {/* Featured indicator with glow */}
+                  {/* iPhone-style notification dot */}
                   {systemsColumn[2].featured && (
-                    <div className="absolute -top-2 -right-2 w-[15px] h-[15px] bg-[var(--hud-accent-red)] rounded-full shadow-[0_0_5px_rgba(255,0,0,0.3)]"></div>
+                    <div className="absolute -top-1.5 -right-1.5 w-[16px] h-[16px] bg-[#FF3B30] rounded-full shadow-[0_0_8px_rgba(255,59,48,0.4),0_0_3px_rgba(0,0,0,0.5)] border border-white/50 z-[1] flex items-center justify-center overflow-visible">
+                      <span className="text-white text-[9px] font-bold">1</span>
+                    </div>
                   )}
                 </div>
               </div>
@@ -1484,21 +2021,27 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
              animate-float-medium"></div>
       </div>
       
-      {/* Module modal using VSSubmoduleModal */}
+      {/* Module modal using VSSubmoduleModal with real data */}
       {selectedModuleId && (
         <VSSubmoduleModal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           moduleId={selectedModuleId}
           moduleTitle={selectedModuleId ? courseUtils.getModuleTitle(selectedModuleId) || "Module Details" : "Module Details"}
-          submodules={[
-            { id: "sub1", title: "Introduction to the Concept", duration: "5:30" },
-            { id: "sub2", title: "Core Principles", duration: "12:45", isCompleted: true },
-            { id: "sub3", title: "Advanced Techniques", duration: "18:20" },
-            { id: "sub4", title: "Practical Applications", duration: "15:10" },
-            { id: "sub5", title: "Case Studies & Examples", duration: "22:05", isLocked: true }
-          ]}
-          thumbnailUrl={selectedModuleId ? courseUtils.getThumbnailPath(courseUtils.getModuleThumbnail(selectedModuleId)) : ""}
+          submodules={courseUtils.getSubmodulesForModule(selectedModuleId).map(submodule => ({
+            id: submodule.id,
+            title: submodule.title,
+            duration: submodule.formattedDuration || `${submodule.duration}:00`,
+            subtitle: submodule.subtitle,
+            thumbnailUrl: `/assets/main/DataBaseThumbnails/renamed/${submodule.id.replace(/-/g, '_')}.webp`,
+            isCompleted: false, // Set this based on user progress when implemented
+            isLocked: false,    // Set this based on user access when implemented
+            instructor: submodule.instructor,
+            week: submodule.week,
+            difficulty: submodule.difficulty,
+            resources: submodule.resources || []
+          }))}
+          thumbnailUrl={`/assets/main/DataBaseThumbnails/renamed/${selectedModuleId.replace(/-/g, '_')}.webp`}
         />
       )}
     </div>

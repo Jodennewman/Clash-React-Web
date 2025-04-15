@@ -1,6 +1,7 @@
 import path from "path"
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { crmIntegrationHandler } from './src/api/crm-integration'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -30,6 +31,33 @@ export default defineConfig({
   },
   server: {
     sourcemapIgnoreList: false, // Ensures all sources are included in source maps
+    proxy: {
+      '/api/crm-integration': {
+        target: 'http://localhost:5173',
+        changeOrigin: true,
+        rewrite: () => '/api/crm-integration',
+        configure: (proxy, _options) => {
+          proxy.on('error', (err, _req, _res) => {
+            console.log('proxy error', err);
+          });
+        },
+        bypass: (req, res) => {
+          if (req.url === '/api/crm-integration') {
+            crmIntegrationHandler(req).then(response => {
+              response.headers.forEach((value, key) => {
+                res.setHeader(key, value);
+              });
+              response.text().then(body => {
+                res.statusCode = response.status;
+                res.end(body);
+              });
+            });
+            return true;
+          }
+          return undefined;
+        }
+      }
+    }
   },
 })
 

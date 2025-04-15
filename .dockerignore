@@ -1,0 +1,45 @@
+# .dockerignore file for optimal Docker builds
+
+# Node.js dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+out/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Version control
+.git/
+.gitignore
+
+# Environment and secrets
+.env*
+*.pem
+*.key
+*.crt
+
+# Temporary and backup files
+*.tmp
+*.bak
+*.backup
+
+# Documentation
+*.md
+README*
+
+# Specific project files
+*.DS_Store
+
+# Exclude all other files by default
+**/*
+
+# Include necessary files
+!src/**
+!package.json
+!tsconfig.json

@@ -1,0 +1,129 @@
+/*
+ * UTILITIES
+ * Part of the theme-aware styling system
+ * Auto-generated on 2025-04-13T10:04:27.557Z
+ */
+
+/* ==========================================
+   UTILITY CLASSES
+   ========================================== */
+.text-accent {
+  color: var(--accent-coral);
+}
+
+.text-accent-red {
+  color: var(--accent-red);
+}
+
+.text-primary {
+  color: var(--primary-orange);
+}
+
+.text-secondary {
+  color: var(--secondary-teal);
+}
+
+/* VS Bubbly hover utilities */
+.hover-bubbly {
+  transition: all var(--transition-bounce);
+}
+.hover-bubbly:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+.hover-bubbly-sm {
+  transition: all var(--transition-bounce);
+}
+.hover-bubbly-sm:hover {
+  transform: translateY(-2px) scale(1.01);
+}
+
+.hover-bubbly-lg {
+  transition: all var(--transition-bounce);
+}
+.hover-bubbly-lg:hover {
+  transform: translateY(-6px) scale(1.03) rotate(0.5deg);
+}
+
+/* Container and layout */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.grid-bg {
+  background-image: 
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.dark .grid-bg, [data-theme="dark"] .grid-bg {
+  background-image: 
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.02) 25%, transparent 25%, transparent 50%, 
+      rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.02) 75%, transparent 75%, transparent);
+  background-size: 20px 20px, 20px 20px, 60px 60px;
+}
+
+.dot-bg {
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.dark .dot-bg, [data-theme="dark"] .dot-bg {
+  background-image: 
+    radial-gradient(var(--grid-dot) 1px, transparent 1px),
+    radial-gradient(rgba(255, 255, 255, 0.02) 2px, transparent 2px);
+  background-size: 20px 20px, 60px 60px;
+  background-position: 0 0, 10px 10px;
+}
+
+/* GSAP Animation Support Classes */
+.filter-glow-theme {
+  filter: url(#glow);
+}
+
+/* Responsive isometric grid and patterns */
+.isometric-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  opacity: var(--theme-pattern-opacity, 0.05);
+}
+
+.dark .isometric-grid, [data-theme="dark"] .isometric-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  opacity: var(--theme-pattern-opacity, 0.05);
+}
+
+/* Additional GSAP animation utility classes */
+.pain-heading, .pain-desc {
+  transition: transform var(--transition-bounce), opacity var(--transition-normal);
+}
+
+/* Body text styles for sections */
+.body-text {
+  color: var(--theme-text-secondary);
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+.body-text-large {
+  color: var(--theme-text-secondary);
+  font-size: 1.25rem;
+  line-height: 1.75;
+}
+
+.body-text-sm {
+  color: var(--theme-text-secondary);
+  font-size: 1rem;
+  line-height: 1.625;
+}

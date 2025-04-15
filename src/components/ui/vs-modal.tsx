@@ -66,10 +66,10 @@ const VSModal: React.FC<VSModalProps> = ({
         ease: "power2.out"
       });
 
-      // Animate modal
+      // Animate modal - simplified animation that works better with scrolling
       gsap.fromTo(modalRef.current,
-        { opacity: 0, y: -animDistance * 5, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1, duration: animDuration + 0.05, ease: "back.out(1.2)" }
+        { opacity: 0, scale: 0.95 },
+        { opacity: 1, scale: 1, duration: animDuration + 0.05, ease: "back.out(1.2)" }
       );
 
       // Floating elements animation
@@ -100,12 +100,11 @@ const VSModal: React.FC<VSModalProps> = ({
       ease: "power2.in"
     });
 
-    // Animate modal
+    // Animate modal - simpler animation for closing that works better
     gsap.to(modalRef.current, {
       opacity: 0,
-      y: 20,
       scale: 0.95,
-      duration: 0.3,
+      duration: 0.2,
       ease: "power3.in",
       onComplete: onClose
     });
@@ -136,11 +135,11 @@ const VSModal: React.FC<VSModalProps> = ({
         onClick={closeOnOverlayClick ? handleClose : undefined}
       />
 
-      {/* Modal Container */}
-      <div className="fixed inset-0 flex items-center justify-center p-4">
+      {/* Modal Container - positioned in viewport */}
+      <div className="fixed inset-0 flex items-center justify-center p-4 z-[100] overflow-auto">
         <div
           ref={modalRef}
-          className={`w-full ${widthClasses[width]} relative bg-theme-gradient rounded-lg shadow-theme-md overflow-hidden opacity-0`}
+          className={`w-full ${widthClasses[width]} relative bg-theme-gradient rounded-lg shadow-theme-md overflow-hidden opacity-0 z-[110] my-auto`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Floating elements for visual interest */}

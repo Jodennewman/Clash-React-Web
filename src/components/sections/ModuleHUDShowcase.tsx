@@ -1,78 +1,32 @@
 import React, { useState } from 'react';
 import { ModuleHUD } from './ModuleHUD';
-import { Tab } from '@headlessui/react';
+import ConnectEverything from './ConnectEverything';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-
-// Define different styling variants
-interface StyleVariant {
-  id: string;
-  name: string;
-  description: string;
-  customStyles?: React.CSSProperties;
-  customClasses?: string;
-}
-
-const styleVariants: StyleVariant[] = [
-  {
-    id: 'default',
-    name: 'Default Style',
-    description: 'The current implementation with theme-aware styling',
-    customStyles: {},
-    customClasses: ''
-  },
-  {
-    id: 'enhanced-floating',
-    name: 'Enhanced Floating Elements',
-    description: 'More pronounced floating elements with additional animation effects',
-    customStyles: {},
-    customClasses: 'enhanced-floating'
-  },
-  {
-    id: 'rich-gradients',
-    name: 'Rich Gradients',
-    description: 'Enhanced gradient backgrounds for sections with more vibrant colors',
-    customStyles: {},
-    customClasses: 'rich-gradients'
-  },
-  {
-    id: 'elevated-glow',
-    name: 'Elevated Glow Effects',
-    description: 'Add subtle glow effects to elements for more depth and visual interest',
-    customStyles: {},
-    customClasses: 'elevated-glow'
-  },
-  {
-    id: 'subtle-patterns',
-    name: 'Subtle Background Patterns',
-    description: 'Add light grid or dot patterns to background for texture',
-    customStyles: {},
-    customClasses: 'subtle-patterns'
-  }
-];
+import { VSHeading } from "../ui/vs-text";
 
 const ModuleHUDShowcase: React.FC = () => {
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
-  const [selectedVariant, setSelectedVariant] = useState<string>('default');
   const containerRef = React.useRef<HTMLDivElement>(null);
 
-  // Handle module click
+  // Handle module click with enhanced debugging
   const handleModuleClick = (moduleId: string) => {
-    setSelectedSection(moduleId === selectedSection ? null : moduleId);
+    console.log(`ModuleHUD: Clicked on module/section with ID: ${moduleId}`);
+    console.log(`ModuleHUD: Current selected section: ${selectedSection}`);
+    // Toggle selection
+    const newSelection = moduleId === selectedSection ? null : moduleId;
+    console.log(`ModuleHUD: Setting new selection to: ${newSelection}`);
+    
+    // Provide visual feedback in console
+    console.log('%c ModuleHUD Click Event ', 'background: #4A90E2; color: white; padding: 2px 6px; border-radius: 4px;');
+    
+    // Apply selection
+    setSelectedSection(newSelection);
   };
 
-  // Find the current style variant
-  const currentVariant = styleVariants.find(variant => variant.id === selectedVariant) || styleVariants[0];
-
-  // GSAP animations for tab transitions and scroll-triggered animations
+  // GSAP animations for scroll-triggered animations
   useGSAP(() => {
     const ctx = gsap.context(() => {
-      // Animation for tab panels
-      gsap.fromTo('.tab-panel-content', 
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.2)" }
-      );
-      
       // Set up Intersection Observer for scroll-triggered animations
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -80,8 +34,16 @@ const ModuleHUDShowcase: React.FC = () => {
             // Run the animation sequence when the component enters the viewport
             const target = entry.target;
             
-            // Animation sequence disabled - handled in ModuleHUD component
-            // We'll only animate floating elements in container
+            // Animation for heading and text
+            gsap.fromTo('.hud-heading', 
+              { opacity: 0, y: 20 },
+              { opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.2)" }
+            );
+            
+            gsap.fromTo('.hud-text', 
+              { opacity: 0, y: 15 },
+              { opacity: 1, y: 0, duration: 0.5, delay: 0.2, ease: "power2.out" }
+            );
             
             // Animation for floating elements
             gsap.from(target.querySelectorAll(".course-float-element"), {
@@ -117,217 +79,79 @@ const ModuleHUDShowcase: React.FC = () => {
     }, containerRef);
     
     return () => ctx.revert();
-  }, [selectedVariant]);
+  }, []);
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-theme-gradient">
-      <div className="container mx-auto px-4 py-12">
-        <div className="max-w-5xl mx-auto">
-          <h1 className="text-4xl font-bold text-theme-primary mb-2 text-center">
-            Module HUD Showcase
-          </h1>
-          <p className="text-center text-theme-secondary mb-8">
-            Explore different styling variations for the ModuleHUD component
-          </p>
-
-          {/* Style Variant Selection Tabs */}
-          <div className="mb-12">
-            <Tab.Group onChange={(index) => setSelectedVariant(styleVariants[index].id)}>
-              <Tab.List className="flex p-1 space-x-1 bg-theme-bg-secondary/10 backdrop-blur-sm rounded-xl shadow-theme-sm mb-4">
-                {styleVariants.map((variant) => (
-                  <Tab
-                    key={variant.id}
-                    className={({ selected }) =>
-                      `flex-1 py-2.5 text-sm font-medium rounded-lg transition-all duration-300
-                      ${selected 
-                        ? 'bg-theme-gradient-primary text-white shadow-theme-sm' 
-                        : 'text-theme-secondary hover:bg-theme-bg-secondary/20'}`
-                    }
-                  >
-                    {variant.name}
-                  </Tab>
-                ))}
-              </Tab.List>
-              <Tab.Panels>
-                {styleVariants.map((variant) => (
-                  <Tab.Panel key={variant.id} className="tab-panel-content">
-                    <div className="p-5 bg-theme-bg-secondary/10 rounded-xl shadow-theme-sm backdrop-blur-sm">
-                      <h3 className="text-xl font-semibold text-theme-primary mb-2">
-                        {variant.name}
-                      </h3>
-                      <p className="text-theme-secondary mb-4">
-                        {variant.description}
-                      </p>
-                      
-                      {/* Custom styling notes based on variant */}
-                      <div className="bg-theme-bg-secondary/20 p-4 rounded-lg mb-6">
-                        <h4 className="text-sm font-semibold text-theme-primary mb-2">
-                          Implementation Notes:
-                        </h4>
-                        <ul className="text-sm text-theme-secondary space-y-1 list-disc pl-4">
-                          {variant.id === 'enhanced-floating' && (
-                            <>
-                              <li>Added more floating elements with varied sizes and colors</li>
-                              <li>Enhanced animation paths with subtle rotation</li>
-                              <li>Increased opacity for more visual presence</li>
-                            </>
-                          )}
-                          {variant.id === 'rich-gradients' && (
-                            <>
-                              <li>Applied richer gradient backgrounds to each section</li>
-                              <li>Added subtle color transitions on hover</li>
-                              <li>Enhanced contrast between light and dark mode gradients</li>
-                            </>
-                          )}
-                          {variant.id === 'elevated-glow' && (
-                            <>
-                              <li>Added subtle glow effects to interactive elements</li>
-                              <li>Enhanced shadows with color tinting</li>
-                              <li>Added pulsing animation to indicators</li>
-                            </>
-                          )}
-                          {variant.id === 'subtle-patterns' && (
-                            <>
-                              <li>Applied subtle grid pattern to background</li>
-                              <li>Added dot patterns with low opacity</li>
-                              <li>Enhanced texture contrast in dark mode</li>
-                            </>
-                          )}
-                          {variant.id === 'default' && (
-                            <>
-                              <li>Current implementation with theme-aware styling</li>
-                              <li>Uses CSS variables for consistent theming</li>
-                              <li>Balanced visual elements for clean interface</li>
-                            </>
-                          )}
-                        </ul>
-                      </div>
-                    </div>
-                  </Tab.Panel>
-                ))}
-              </Tab.Panels>
-            </Tab.Group>
-          </div>
-
-          {/* ModuleHUD Component with Selected Style Variant */}
-          <div 
-            className={`module-hud-container relative bg-theme-bg-secondary/5 p-8 rounded-2xl shadow-theme-md ${currentVariant.customClasses}`}
-            style={currentVariant.customStyles}
+    <div ref={containerRef} className="min-h-screen py-20 bg-theme-gradient">
+      <div className="container mx-auto px-4">
+        <div className="max-w-5xl mx-auto text-center mb-16">
+          <VSHeading 
+            variant="h2" 
+            className="hud-heading text-4xl md:text-5xl font-bold mb-6 text-theme-primary"
           >
-            {/* Theme-aware floating elements for background decoration */}
-            <div className="absolute -z-10 top-[5%] left-[8%] w-[10%] h-[10%] rounded-[40%] rotate-12 
-                 opacity-[var(--theme-float-opacity)] 
-                 bg-[var(--theme-float-bg-primary)]
-                 animate-float-slow"></div>
-                 
-            <div className="absolute -z-10 bottom-[10%] right-[5%] w-[12%] h-[12%] rounded-[30%] -rotate-6 
-                 opacity-[var(--theme-float-opacity-secondary)] 
-                 bg-[var(--theme-float-bg-secondary)]
-                 animate-float-medium"></div>
-            
-            {/* Enhanced floating elements for rich-gradients variant */}
-            {currentVariant.id === 'rich-gradients' && (
-              <>
-                <div className="absolute -z-10 top-[15%] right-[15%] w-[15%] h-[15%] rounded-[35%] rotate-45 
-                     opacity-30 bg-gradient-to-br from-[var(--theme-accent)] to-[var(--theme-accent-secondary)]
-                     animate-float-slow"></div>
-                <div className="absolute -z-10 bottom-[20%] left-[20%] w-[18%] h-[18%] rounded-[40%] -rotate-12 
-                     opacity-25 bg-gradient-to-tr from-[var(--theme-primary)] to-[var(--theme-accent)]
-                     animate-float-medium"></div>
-              </>
-            )}
-            
-            {/* Enhanced floating elements for enhanced-floating variant */}
-            {currentVariant.id === 'enhanced-floating' && (
-              <>
-                <div className="absolute -z-10 top-[30%] left-[15%] w-[8%] h-[8%] rounded-full rotate-0 
-                     opacity-40 bg-[var(--theme-accent)]
-                     animate-float-fast"></div>
-                <div className="absolute -z-10 top-[50%] right-[20%] w-[5%] h-[5%] rounded-full rotate-0 
-                     opacity-30 bg-[var(--theme-primary)]
-                     animate-float-medium"></div>
-                <div className="absolute -z-10 bottom-[15%] left-[40%] w-[6%] h-[6%] rounded-full rotate-0 
-                     opacity-35 bg-[var(--theme-accent-secondary)]
-                     animate-float-slow"></div>
-              </>
-            )}
-            
-            {/* Glow elements for elevated-glow variant */}
-            {currentVariant.id === 'elevated-glow' && (
-              <>
-                <div className="absolute -z-10 top-[20%] left-[20%] w-[30%] h-[30%] rounded-full 
-                     opacity-20 bg-transparent
-                     shadow-[0_0_100px_60px_var(--theme-accent-secondary)]"></div>
-                <div className="absolute -z-10 bottom-[10%] right-[25%] w-[25%] h-[25%] rounded-full 
-                     opacity-15 bg-transparent
-                     shadow-[0_0_80px_50px_var(--theme-primary)]"></div>
-              </>
-            )}
-            
-            {/* Pattern background for subtle-patterns variant */}
-            {currentVariant.id === 'subtle-patterns' && (
-              <div className="absolute inset-0 -z-20 opacity-[0.1]" 
-                   style={{
-                     backgroundImage: 'radial-gradient(circle, var(--theme-text-secondary) 1px, transparent 1px)',
-                     backgroundSize: '20px 20px'
-                   }}>
-              </div>
-            )}
-
-            {/* ModuleHUD component */}
-            <ModuleHUD 
-              selectedSection={selectedSection}
-              onModuleClick={handleModuleClick}
-            />
-          </div>
-
-          {/* CSS for styling variants */}
-          <style>{`
-            /* Enhanced Floating Elements */
-            .enhanced-floating .module-item {
-              transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            }
-            .enhanced-floating .module-item:hover {
-              transform: translateY(-6px) scale(1.03);
-              box-shadow: var(--theme-shadow-lg);
-            }
-            
-            /* Rich Gradients */
-            .rich-gradients .section-module {
-              background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
-            }
-            .rich-gradients .section-module:nth-child(2n) {
-              background: linear-gradient(135deg, var(--theme-accent), var(--theme-accent-secondary));
-            }
-            .rich-gradients .section-module:nth-child(3n) {
-              background: linear-gradient(135deg, var(--theme-accent-secondary), var(--theme-primary));
-            }
-            
-            /* Elevated Glow */
-            .elevated-glow .section-module {
-              box-shadow: 0 4px 20px rgba(var(--theme-primary-rgb), 0.15);
-            }
-            .elevated-glow .section-module:hover {
-              box-shadow: 0 8px 30px rgba(var(--theme-accent-rgb), 0.25);
-            }
-            
-            /* Subtle Patterns */
-            .subtle-patterns .section-module {
-              background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
-                               linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
-              background-size: 20px 20px;
-            }
-            
-            /* Animation utilities */
-            @keyframes float-fast {
-              0%, 100% { transform: translateY(0) rotate(0); }
-              50% { transform: translateY(-10px) rotate(5deg); }
-            }
-            .animate-float-fast {
-              animation: float-fast 3s ease-in-out infinite;
-            }
-          `}</style>
+            Is making actually good short form content really that complex?
+          </VSHeading>
+          
+          <p className="hud-text body-text mb-6 mx-auto max-w-[90%] md:max-w-3xl">
+            Well yes and no. It's simple, but there's a lot to it.
+          </p>
+          
+          <h3 className="hud-text text-2xl md:text-3xl font-bold mb-10 text-theme-primary">
+            The Course Curriculum
+          </h3>
         </div>
+
+        {/* ModuleHUD Component */}
+        <div className="module-hud-container relative bg-theme-bg-secondary/5 p-8 rounded-2xl shadow-theme-md">
+          {/* Theme-aware floating elements for background decoration */}
+          <div className="course-float-element absolute -z-10 top-[5%] left-[8%] w-[10%] h-[10%] rounded-[40%] rotate-12 
+               opacity-[var(--theme-float-opacity)] 
+               bg-[var(--theme-float-bg-primary)]
+               animate-float-slow"></div>
+               
+          <div className="course-float-element absolute -z-10 bottom-[10%] right-[5%] w-[12%] h-[12%] rounded-[30%] -rotate-6 
+               opacity-[var(--theme-float-opacity-secondary)] 
+               bg-[var(--theme-float-bg-secondary)]
+               animate-float-medium"></div>
+          
+          {/* Additional floating elements */}
+          <div className="course-float-element absolute -z-10 top-[30%] right-[15%] w-[8%] h-[8%] rounded-full rotate-0 
+               opacity-[0.15] bg-theme-accent
+               animate-float-slow"></div>
+          
+          <div className="course-float-element absolute -z-10 bottom-[25%] left-[25%] w-[6%] h-[6%] rounded-full rotate-0 
+               opacity-[0.2] bg-theme-primary
+               animate-float-medium"></div>
+
+          {/* ModuleHUD component */}
+          <ModuleHUD 
+            selectedSection={selectedSection}
+            onModuleClick={(moduleId) => {
+              // Ensure system block IDs are handled properly
+              if (moduleId.includes('-system-')) {
+                // For system blocks, directly pass the ID
+                setSelectedSection(moduleId === selectedSection ? null : moduleId);
+              } else {
+                // For other modules, use the standard handler
+                handleModuleClick(moduleId);
+              }
+            }}
+          />
+        </div>
+
+        {/* Connect Everything Section */}
+        <ConnectEverything />
+
+        {/* Animation utilities */}
+        <style>{`
+          @keyframes float-fast {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+          }
+          .animate-float-fast {
+            animation: float-fast 3s ease-in-out infinite;
+          }
+        `}</style>
       </div>
     </div>
   );

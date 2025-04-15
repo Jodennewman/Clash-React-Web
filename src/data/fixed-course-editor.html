@@ -276,7 +276,9 @@
       <div class="search-container">
         <input type="text" id="searchInput" class="search-input" placeholder="Search...">
       </div>
-      <div class="tree-view" id="treeView"></div>
+      <div class="tree-view" id="treeView">
+        <div id="tree-container"></div>
+      </div>
     </div>
     <div class="main-content" id="mainContent">
       <div class="stats-container">
@@ -358,6 +360,18 @@
     let courseData = null;
     let currentSelectedItem = null;
     let searchTimeout = null;
+    let currentEditPath = null;
+    
+    // Utility function to escape HTML special characters
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
     
     // Initialize the application
     function init() {
@@ -515,19 +529,87 @@
       document.getElementById('workshopCount').textContent = countWorkshop;
     }
     
-    // Render the tree view (sidebar)
+    // Render the tree view based on courseData
     function renderTreeView() {
-      console.log('Rendering tree view...');
-      treeView.innerHTML = '';
+      const treeContainer = document.getElementById('tree-container');
+      treeContainer.innerHTML = '';
       
-      // Course item
-      const courseItem = document.createElement('div');
-      courseItem.className = 'tree-item';
-      courseItem.innerHTML = `<div class="tree-item-header">${courseData.title || 'Course'}</div>`;
-      treeView.appendChild(courseItem);
+      // Create the course header
+      const courseHeader = document.createElement('div');
+      courseHeader.className = 'tree-item';
+      courseHeader.innerHTML = `
+        <div class="tree-item-header">
+          <span class="tree-icon">📚</span>
+          <span class="tree-label">${courseData.title || 'Course'}</span>
+        </div>
+      `;
+      treeContainer.appendChild(courseHeader);
       
-      // Categories, Sections, Modules, Submodules
-      if (Array.isArray(courseData.categories)) {
+      // Create the categories container
+      const categoriesContainer = document.createElement('div');
+      categoriesContainer.className = 'tree-item-children expanded';
+      treeContainer.appendChild(categoriesContainer);
+      
+      // Add the tracks section
+      if (courseData.tracks && courseData.tracks.length > 0) {
+        const tracksContainer = document.createElement('div');
+        tracksContainer.className = 'tree-item';
+        tracksContainer.innerHTML = `
+          <div class="tree-item-header">
+            <span class="tree-icon">🛤️</span>
+            <span class="tree-label">Tracks (${courseData.tracks.length})</span>
+          </div>
+        `;
+        categoriesContainer.appendChild(tracksContainer);
+        
+        const tracksItemsContainer = document.createElement('div');
+        tracksItemsContainer.className = 'tree-item-children';
+        tracksContainer.appendChild(tracksItemsContainer);
+        
+        courseData.tracks.forEach((track, tIndex) => {
+          const trackItem = document.createElement('div');
+          trackItem.className = 'tree-item';
+          trackItem.innerHTML = `
+            <div class="tree-item-header" data-id="track_${tIndex}">
+              <span class="tree-icon" style="color: ${track.color || '#888'}">${track.icon || '🔹'}</span>
+              <span class="tree-label">${track.name || `Track ${tIndex + 1}`}</span>
+            </div>
+          `;
+          tracksItemsContainer.appendChild(trackItem);
+        });
+      }
+      
+      // Add the infrastructure section
+      if (courseData.infrastructure && courseData.infrastructure.length > 0) {
+        const infraContainer = document.createElement('div');
+        infraContainer.className = 'tree-item';
+        infraContainer.innerHTML = `
+          <div class="tree-item-header">
+            <span class="tree-icon">🏗️</span>
+            <span class="tree-label">Infrastructure (${courseData.infrastructure.length})</span>
+          </div>
+        `;
+        categoriesContainer.appendChild(infraContainer);
+        
+        const infraItemsContainer = document.createElement('div');
+        infraItemsContainer.className = 'tree-item-children';
+        infraContainer.appendChild(infraItemsContainer);
+        
+        courseData.infrastructure.forEach((infra, infIndex) => {
+          const infraItem = document.createElement('div');
+          infraItem.className = 'tree-item';
+          infraItem.innerHTML = `
+            <div class="tree-item-header" data-id="infrastructure_${infIndex}">
+              <span class="tree-icon" style="color: ${infra.color || '#888'}">${infra.icon || '🔧'}</span>
+              <span class="tree-label">${infra.title || `Component ${infIndex + 1}`}</span>
+            </div>
+          `;
+          infraItemsContainer.appendChild(infraItem);
+        });
+      }
+      
+      // Render categories
+      if (courseData.categories && courseData.categories.length > 0) {
         courseData.categories.forEach((category, catIndex) => {
           const categoryItem = document.createElement('div');
           categoryItem.className = 'tree-item';
@@ -600,78 +682,47 @@
             });
           }
           categoryItem.appendChild(childrenContainer);
-          treeView.appendChild(categoryItem);
+          categoriesContainer.appendChild(categoryItem);
         });
       }
-      
-      // Tracks section
-      if (Array.isArray(courseData.tracks) && courseData.tracks.length > 0) {
-        const tracksItem = document.createElement('div');
-        tracksItem.className = 'tree-item';
-        const tracksHeader = document.createElement('div');
-        tracksHeader.className = 'tree-item-header';
-        tracksHeader.setAttribute('data-id', 'tracks');
-        const tracksLabel = document.createElement('span');
-        tracksLabel.textContent = 'Tracks';
-        tracksHeader.appendChild(tracksLabel);
-        tracksItem.appendChild(tracksHeader);
-        
-        const tracksContainer = document.createElement('div');
-        tracksContainer.className = 'tree-item-children';
-        courseData.tracks.forEach((track, tIndex) => {
-          const trackItem = document.createElement('div');
-          trackItem.className = 'tree-item';
-          const trackHeader = document.createElement('div');
-          trackHeader.className = 'tree-item-header';
-          trackHeader.setAttribute('data-id', `track_${tIndex}`);
-          const trackColor = document.createElement('div');
-          trackColor.className = 'color-indicator';
-          trackColor.style.backgroundColor = track.color || '#000000';
-          const trackName = document.createElement('span');
-          trackName.textContent = track.name || `Track ${tIndex + 1}`;
-          trackHeader.appendChild(trackColor);
-          trackHeader.appendChild(trackName);
-          trackItem.appendChild(trackHeader);
-          tracksContainer.appendChild(trackItem);
-        });
-        tracksItem.appendChild(tracksContainer);
-        treeView.appendChild(tracksItem);
-      }
-      
-      console.log('Tree view rendered successfully.');
     }
     
     // Handle clicks in the tree view
     function handleTreeViewClick(event) {
-      const header = event.target.closest('.tree-item-header');
-      if (!header) return;
-      
-      // Toggle expansion
-      const child = header.parentElement.querySelector('.tree-item-children');
-      if (child) {
-        child.classList.toggle('expanded');
+      const target = event.target.closest('.tree-item-header');
+      if (!target) return;
+
+      // Check if we should toggle a branch
+      const parent = target.parentElement;
+      const children = parent.querySelector('.tree-item-children');
+      if (children) {
+        children.classList.toggle('expanded');
+        return;
       }
-      
-      const dataId = header.getAttribute('data-id');
-      if (!dataId) return;
-      
-      // If it's a module, call the module editor
-      if (dataId.startsWith('module_')) {
-        const parts = dataId.split('_'); // Expected: module_catIndex_secIndex_modIndex
-        if (parts.length === 4) {
-          const catIndex = parseInt(parts[1], 10);
-          const secIndex = parseInt(parts[2], 10);
-          const modIndex = parseInt(parts[3], 10);
-          renderModuleEditor(catIndex, secIndex, modIndex);
-        }
-      }
-      // If it's a track, call the track editor
-      else if (dataId.startsWith('track_')) {
-        const parts = dataId.split('_'); // Expected: track_index
-        if (parts.length === 2) {
-          const tIndex = parseInt(parts[1], 10);
-          renderTrackEditor(tIndex);
-        }
+
+      // Otherwise, we should open an editor
+      const itemId = target.getAttribute('data-id');
+      if (!itemId) return;
+
+      console.log('Opening editor for:', itemId);
+      const [type, indexStr] = itemId.split('_');
+      const index = parseInt(indexStr, 10);
+
+      if (type === 'category') {
+        renderCategoryEditor(index);
+      } else if (type === 'section') {
+        const [categoryIndex, sectionIndex] = indexStr.split('-').map(n => parseInt(n, 10));
+        renderSectionEditor(categoryIndex, sectionIndex);
+      } else if (type === 'module') {
+        const [categoryIndex, sectionIndex, moduleIndex] = indexStr.split('-').map(n => parseInt(n, 10));
+        renderModuleEditor(categoryIndex, sectionIndex, moduleIndex);
+      } else if (type === 'submodule') {
+        const [categoryIndex, sectionIndex, moduleIndex, submoduleIndex] = indexStr.split('-').map(n => parseInt(n, 10));
+        renderSubmoduleEditor(categoryIndex, sectionIndex, moduleIndex, submoduleIndex);
+      } else if (type === 'track') {
+        renderTrackEditor(index);
+      } else if (type === 'infrastructure') {
+        renderInfrastructureEditor(index);
       }
     }
     
@@ -820,31 +871,89 @@
       editorContainer.querySelector('.editor-content').innerHTML = `
         <h2>Edit Track</h2>
         <div class="form-group">
-          <label>Track Name</label>
-          <input type="text" name="trackName" value="${track.name}" />
+          <label>Name</label>
+          <input type="text" name="trackName" value="${track.name || ''}" />
         </div>
         <div class="form-group">
-          <label>Icon</label>
-          <input type="text" name="trackIcon" value="${track.icon}" />
-        </div>
-        <div class="form-group">
-          <label>Color</label>
-          <input type="color" name="trackColor" value="${track.color}" />
+          <label>ID</label>
+          <input type="text" name="trackId" value="${track.id || ''}" />
         </div>
         <div class="form-group">
           <label>Description</label>
-          <textarea name="trackDescription" class="form-control">${track.description}</textarea>
+          <textarea name="trackDescription" class="form-control">${track.description || ''}</textarea>
+        </div>
+        <div class="form-group">
+          <label>Color</label>
+          <input type="color" name="trackColor" value="${track.color || '#154D59'}" />
+        </div>
+        <div class="form-group">
+          <label>Order</label>
+          <input type="number" name="trackOrder" value="${track.order || trackIndex + 1}" />
+        </div>
+        <div class="form-group">
+          <label>Icon</label>
+          <input type="text" name="trackIcon" value="${track.icon || '⚙️'}" />
+        </div>
+        <div class="form-group">
+          <label>Required</label>
+          <input type="checkbox" name="trackRequired" ${track.required ? 'checked' : ''} />
+        </div>
+        <h3>Associated Modules</h3>
+        <div id="trackModules" class="associated-modules">
+          ${displayAssociatedModules(track)}
         </div>
         <button class="save-track-button">Save Track Changes</button>
       `;
       
+      // Function to display modules associated with this track
+      function displayAssociatedModules(track) {
+        let modulesHTML = '<div class="module-list">';
+        let associatedModuleIds = track.moduleIds || [];
+        
+        // Loop through categories, sections, and modules to find modules with matching IDs
+        courseData.categories.forEach(category => {
+          if (Array.isArray(category.sections)) {
+            category.sections.forEach(section => {
+              if (Array.isArray(section.modules)) {
+                section.modules.forEach(module => {
+                  const isAssociated = associatedModuleIds.includes(module.id);
+                  modulesHTML += `
+                    <div class="module-item">
+                      <input type="checkbox" name="module_${module.id}" ${isAssociated ? 'checked' : ''} data-module-id="${module.id}" />
+                      <span>${module.title}</span>
+                      <span class="module-path">${category.title} > ${section.title}</span>
+                    </div>
+                  `;
+                });
+              }
+            });
+          }
+        });
+        modulesHTML += '</div>';
+        return modulesHTML;
+      }
+      
+      // Add event listener for the Save button
       const saveTrackBtn = editorContainer.querySelector('.save-track-button');
       saveTrackBtn.addEventListener('click', () => {
         track.name = editorContainer.querySelector('input[name="trackName"]').value;
-        track.icon = editorContainer.querySelector('input[name="trackIcon"]').value;
-        track.color = editorContainer.querySelector('input[name="trackColor"]').value;
+        track.id = editorContainer.querySelector('input[name="trackId"]').value;
         track.description = editorContainer.querySelector('textarea[name="trackDescription"]').value;
-        // Optionally save to localStorage
+        track.color = editorContainer.querySelector('input[name="trackColor"]').value;
+        track.order = parseInt(editorContainer.querySelector('input[name="trackOrder"]').value, 10) || (trackIndex + 1);
+        track.icon = editorContainer.querySelector('input[name="trackIcon"]').value;
+        track.required = editorContainer.querySelector('input[name="trackRequired"]').checked;
+        
+        // Update associated modules
+        track.moduleIds = [];
+        const moduleCheckboxes = editorContainer.querySelectorAll('#trackModules input[type="checkbox"]');
+        moduleCheckboxes.forEach(checkbox => {
+          if (checkbox.checked) {
+            track.moduleIds.push(checkbox.getAttribute('data-module-id'));
+          }
+        });
+        
+        // Save to localStorage
         localStorage.setItem('courseData', JSON.stringify(courseData));
         updateStatistics();
         renderTreeView();
@@ -852,36 +961,224 @@
       });
     }
     
-    // Handle clicks in the tree view to toggle branches or open editors
-    function handleTreeViewClick(event) {
-      const header = event.target.closest('.tree-item-header');
-      if (!header) return;
-      
-      // Toggle child expansion
-      const child = header.parentElement.querySelector('.tree-item-children');
-      if (child) {
-        child.classList.toggle('expanded');
+    function renderInfrastructureEditor(index) {
+      const infrastructure = courseData.infrastructure[index];
+      if (!infrastructure) {
+        console.error('Infrastructure not found at index:', index);
+        return;
       }
       
-      const dataId = header.getAttribute('data-id');
-      if (!dataId) return;
+      // Store the current component we're editing
+      currentEditPath = {
+        type: 'infrastructure',
+        index: index
+      };
       
-      if (dataId.startsWith('module_')) {
-        const parts = dataId.split('_'); // module_cat_sec_mod
-        if (parts.length === 4) {
-          const catIndex = parseInt(parts[1], 10);
-          const secIndex = parseInt(parts[2], 10);
-          const modIndex = parseInt(parts[3], 10);
-          renderModuleEditor(catIndex, secIndex, modIndex);
+      editorContainer.innerHTML = `
+        <h2>Edit Infrastructure Component</h2>
+        <form id="infrastructure-form">
+          <div class="form-group">
+            <label for="infra-title">Title</label>
+            <input type="text" id="infra-title" value="${escapeHtml(infrastructure.title || '')}" required>
+          </div>
+          <div class="form-group">
+            <label for="infra-id">ID</label>
+            <input type="text" id="infra-id" value="${escapeHtml(infrastructure.id || '')}" required>
+          </div>
+          <div class="form-group">
+            <label for="infra-tagline">Tagline</label>
+            <input type="text" id="infra-tagline" value="${escapeHtml(infrastructure.tagline || '')}">
+          </div>
+          <div class="form-group">
+            <label for="infra-description">Description</label>
+            <textarea id="infra-description" rows="3">${escapeHtml(infrastructure.description || '')}</textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="infra-order">Order</label>
+              <input type="number" id="infra-order" value="${infrastructure.order || 0}" min="0">
+            </div>
+            <div class="form-group">
+              <label for="infra-complexity">Complexity Level</label>
+              <select id="infra-complexity">
+                <option value="1" ${infrastructure.complexityLevel === 1 ? 'selected' : ''}>1 - Basic</option>
+                <option value="2" ${infrastructure.complexityLevel === 2 ? 'selected' : ''}>2 - Intermediate</option>
+                <option value="3" ${infrastructure.complexityLevel === 3 ? 'selected' : ''}>3 - Advanced</option>
+                <option value="4" ${infrastructure.complexityLevel === 4 ? 'selected' : ''}>4 - Expert</option>
+                <option value="5" ${infrastructure.complexityLevel === 5 ? 'selected' : ''}>5 - Master</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="infra-icon">Icon</label>
+              <input type="text" id="infra-icon" value="${escapeHtml(infrastructure.icon || '🔧')}" placeholder="Emoji or icon code">
+            </div>
+            <div class="form-group">
+              <label for="infra-color">Color</label>
+              <input type="color" id="infra-color" value="${infrastructure.color || '#154D59'}">
+            </div>
+          </div>
+          
+          <div class="form-section">
+            <h3>Features</h3>
+            <div id="features-container">
+              ${renderInfrastructureFeatures(infrastructure.features || [])}
+            </div>
+            <button type="button" id="add-feature-btn" class="btn-secondary">+ Add Feature</button>
+          </div>
+          
+          <div class="form-section">
+            <h3>Implementation Details</h3>
+            <div id="implementation-container">
+              ${renderImplementationDetails(infrastructure.implementationDetails || [])}
+            </div>
+            <button type="button" id="add-implementation-btn" class="btn-secondary">+ Add Implementation Step</button>
+          </div>
+          
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Save Changes</button>
+            <button type="button" id="delete-infra-btn" class="btn-danger">Delete Component</button>
+          </div>
+        </form>
+      `;
+      
+      // Add event listeners for the form
+      document.getElementById('infrastructure-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        saveInfrastructureChanges(index);
+      });
+      
+      // Add event listener for adding features
+      document.getElementById('add-feature-btn').addEventListener('click', function() {
+        const featuresContainer = document.getElementById('features-container');
+        const featureIndex = featuresContainer.children.length;
+        
+        const featureItem = document.createElement('div');
+        featureItem.className = 'array-item';
+        featureItem.innerHTML = `
+          <input type="text" name="feature_${featureIndex}" placeholder="Feature description" class="feature-input">
+          <button type="button" class="btn-icon remove-feature" data-index="${featureIndex}">✕</button>
+        `;
+        featuresContainer.appendChild(featureItem);
+        
+        // Add event listener for the remove button
+        featureItem.querySelector('.remove-feature').addEventListener('click', function() {
+          featuresContainer.removeChild(featureItem);
+        });
+      });
+      
+      // Add event listener for adding implementation details
+      document.getElementById('add-implementation-btn').addEventListener('click', function() {
+        const implementationContainer = document.getElementById('implementation-container');
+        const implIndex = implementationContainer.children.length;
+        
+        const implItem = document.createElement('div');
+        implItem.className = 'array-item';
+        implItem.innerHTML = `
+          <input type="text" name="implementation_${implIndex}" placeholder="Implementation step" class="implementation-input">
+          <button type="button" class="btn-icon remove-implementation" data-index="${implIndex}">✕</button>
+        `;
+        implementationContainer.appendChild(implItem);
+        
+        // Add event listener for the remove button
+        implItem.querySelector('.remove-implementation').addEventListener('click', function() {
+          implementationContainer.removeChild(implItem);
+        });
+      });
+      
+      // Add event listeners for remove buttons
+      document.querySelectorAll('.remove-feature').forEach(button => {
+        button.addEventListener('click', function() {
+          const featureItem = this.closest('.array-item');
+          featureItem.parentElement.removeChild(featureItem);
+        });
+      });
+      
+      document.querySelectorAll('.remove-implementation').forEach(button => {
+        button.addEventListener('click', function() {
+          const implItem = this.closest('.array-item');
+          implItem.parentElement.removeChild(implItem);
+        });
+      });
+      
+      // Add event listener for delete button
+      document.getElementById('delete-infra-btn').addEventListener('click', function() {
+        if (confirm('Are you sure you want to delete this infrastructure component?')) {
+          courseData.infrastructure.splice(index, 1);
+          saveToLocalStorage();
+          showNotification('Infrastructure component deleted successfully');
+          renderTreeView();
+          editorContainer.innerHTML = '';
         }
+      });
+    }
+    
+    // Helper function to render infrastructure features
+    function renderInfrastructureFeatures(features) {
+      if (!Array.isArray(features) || features.length === 0) {
+        return '<div class="empty-message">No features added yet</div>';
       }
-      else if (dataId.startsWith('track_')) {
-        const parts = dataId.split('_'); // track_index
-        if (parts.length === 2) {
-          const tIndex = parseInt(parts[1], 10);
-          renderTrackEditor(tIndex);
+      
+      return features.map((feature, index) => `
+        <div class="array-item">
+          <input type="text" name="feature_${index}" value="${escapeHtml(feature)}" class="feature-input">
+          <button type="button" class="btn-icon remove-feature" data-index="${index}">✕</button>
+        </div>
+      `).join('');
+    }
+    
+    // Helper function to render implementation details
+    function renderImplementationDetails(details) {
+      if (!Array.isArray(details) || details.length === 0) {
+        return '<div class="empty-message">No implementation details added yet</div>';
+      }
+      
+      return details.map((detail, index) => `
+        <div class="array-item">
+          <input type="text" name="implementation_${index}" value="${escapeHtml(detail)}" class="implementation-input">
+          <button type="button" class="btn-icon remove-implementation" data-index="${index}">✕</button>
+        </div>
+      `).join('');
+    }
+    
+    // Function to save infrastructure changes
+    function saveInfrastructureChanges(index) {
+      const infrastructure = courseData.infrastructure[index] || {};
+      
+      // Update basic information
+      infrastructure.title = document.getElementById('infra-title').value;
+      infrastructure.id = document.getElementById('infra-id').value;
+      infrastructure.tagline = document.getElementById('infra-tagline').value;
+      infrastructure.description = document.getElementById('infra-description').value;
+      infrastructure.order = parseInt(document.getElementById('infra-order').value, 10) || 0;
+      infrastructure.complexityLevel = parseInt(document.getElementById('infra-complexity').value, 10) || 1;
+      infrastructure.icon = document.getElementById('infra-icon').value;
+      infrastructure.color = document.getElementById('infra-color').value;
+      
+      // Update features
+      infrastructure.features = [];
+      document.querySelectorAll('.feature-input').forEach(input => {
+        if (input.value.trim()) {
+          infrastructure.features.push(input.value.trim());
         }
-      }
+      });
+      
+      // Update implementation details
+      infrastructure.implementationDetails = [];
+      document.querySelectorAll('.implementation-input').forEach(input => {
+        if (input.value.trim()) {
+          infrastructure.implementationDetails.push(input.value.trim());
+        }
+      });
+      
+      // Update the courseData
+      courseData.infrastructure[index] = infrastructure;
+      
+      // Save changes and update UI
+      saveToLocalStorage();
+      showNotification('Infrastructure component updated successfully');
+      renderTreeView();
     }
     
     // Set up global event listeners
@@ -905,6 +1202,11 @@
       showNotification('Data saved locally');
     }
     
+    // Helper function to save data to localStorage
+    function saveToLocalStorage() {
+      localStorage.setItem('courseData', JSON.stringify(courseData));
+    }
+    
     // Stub: Export data function (already defined above)
     // Already implemented in exportData()
     
@@ -921,82 +1223,6 @@
       setTimeout(() => {
         notification.classList.remove('show');
       }, 3000);
-    }
-    
-    // Update statistics based on courseData
-    function updateStatistics() {
-      let totalCategories = 0;
-      let totalSections = 0;
-      let totalModules = 0;
-      let totalSubmodules = 0;
-      let totalDuration = 0;
-      
-      let countFounderMustWatchTrue = 0;
-      let countEntrepreneurSpecificTrue = 0;
-      let countPopularTrue = 0;
-      let countFeaturedTrue = 0;
-      let countHighValueTrue = 0;
-      
-      let countPdf = 0;
-      let countWorksheets = 0;
-      let countWorkshop = 0;
-      
-      if (courseData && Array.isArray(courseData.categories)) {
-        totalCategories = courseData.categories.length;
-        courseData.categories.forEach(category => {
-          if (Array.isArray(category.sections)) {
-            totalSections += category.sections.length;
-            category.sections.forEach(section => {
-              if (Array.isArray(section.modules)) {
-                totalModules += section.modules.length;
-                section.modules.forEach(module => {
-                  if (typeof module.duration === 'number') {
-                    totalDuration += module.duration;
-                  }
-                  if (module.founderMustWatch === true) countFounderMustWatchTrue++;
-                  if (module.entrepreneurSpecific === true) countEntrepreneurSpecificTrue++;
-                  if (module.popular === true) countPopularTrue++;
-                  if (module.featured === true) countFeaturedTrue++;
-                  
-                  if (Array.isArray(module.submodules)) {
-                    totalSubmodules += module.submodules.length;
-                    module.submodules.forEach(sub => {
-                      if (typeof sub.duration === 'number') {
-                        totalDuration += sub.duration;
-                      }
-                      if (sub.highValue === true) countHighValueTrue++;
-                      if (Array.isArray(sub.resources)) {
-                        sub.resources.forEach(resource => {
-                          const res = resource.toLowerCase();
-                          if (res === 'pdf') countPdf++;
-                          else if (res === 'worksheets') countWorksheets++;
-                          else if (res === 'workshop') countWorkshop++;
-                        });
-                      }
-                    });
-                  }
-                });
-              }
-            });
-          }
-        });
-      }
-      
-      document.getElementById('totalCategories').textContent = totalCategories;
-      document.getElementById('totalSections').textContent = totalSections;
-      document.getElementById('totalModules').textContent = totalModules;
-      document.getElementById('totalSubmodules').textContent = totalSubmodules;
-      document.getElementById('totalDuration').textContent = totalDuration;
-      
-      document.getElementById('founderMustWatchTrue').textContent = countFounderMustWatchTrue;
-      document.getElementById('entrepreneurSpecificTrue').textContent = countEntrepreneurSpecificTrue;
-      document.getElementById('popularTrue').textContent = countPopularTrue;
-      document.getElementById('featuredTrue').textContent = countFeaturedTrue;
-      document.getElementById('highValueTrue').textContent = countHighValueTrue;
-      
-      document.getElementById('pdfCount').textContent = countPdf;
-      document.getElementById('worksheetsCount').textContent = countWorksheets;
-      document.getElementById('workshopCount').textContent = countWorkshop;
     }
   </script>
 </body>

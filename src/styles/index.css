@@ -1,0 +1,19 @@
+/* 
+ * THEME-AWARE STYLING SYSTEM - MODULAR VERSION
+ * Auto-generated on 2025-04-13T10:04:27.558Z
+ *
+ * This file imports all modular CSS components in the correct order.
+ * Do not modify this file manually.
+ */
+
+@import url('https://fonts.cdnfonts.com/css/neue-haas-grotesk-display-pro');
+@import "tailwindcss";
+/* Define dark mode variant using Tailwind v4 custom variant approach */
+
+@import "./modules/variables.css";
+@import "./modules/base-elements.css";
+@import "./modules/animations.css";
+@import "./modules/theme-utilities.css";
+@import "./modules/components.css";
+@import "./modules/utilities.css";
+@import "./modules/dark-mode.css";

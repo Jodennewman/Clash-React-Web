@@ -1,0 +1,74 @@
+/*
+ * BASE-ELEMENTS
+ * Part of the theme-aware styling system
+ * Auto-generated on 2025-04-13T10:04:27.553Z
+ */
+
+/* ==========================================
+   BASE HTML ELEMENTS
+   ========================================== */
+html {
+  font-family: var(--font-sans);
+  background-color: var(--theme-bg-primary);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  background: linear-gradient(to bottom right, var(--theme-gradient-start), var(--theme-gradient-end));
+  color: var(--theme-text-primary);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+h1 {
+  font-size: 5.5rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: 4.2rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 3rem;
+  font-weight: 500;
+}
+
+h4 {
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+
+h5 {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+h6 {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+p {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--theme-text-primary);
+}
+
+a {
+  color: var(--theme-primary);
+  text-decoration: none;
+  transition: color var(--theme-transition-fast);
+}
+

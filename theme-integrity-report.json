@@ -1,0 +1,1411 @@
+{
+  "timestamp": "2025-04-13T10:07:09.882Z",
+  "stats": {
+    "modules": 7,
+    "variablesDefined": 130,
+    "variablesUsed": 103,
+    "classesDefined": 106,
+    "classesReferenced": 6,
+    "totalIssues": 231
+  },
+  "issues": {
+    "missingVariables": 154,
+    "duplicateClasses": 16,
+    "unusedVariables": 60,
+    "undefinedClasses": 1
+  },
+  "details": [
+    {
+      "type": "missing-variable",
+      "name": "--tw-rotate",
+      "module": "animations.css",
+      "message": "Missing variable: --tw-rotate referenced in animations.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--tw-rotate",
+      "module": "animations.css",
+      "message": "Missing variable: --tw-rotate referenced in animations.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--font-sans",
+      "module": "base-elements.css",
+      "message": "Missing variable: --font-sans referenced in base-elements.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--font-sans",
+      "module": "base-elements.css",
+      "message": "Missing variable: --font-sans referenced in base-elements.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-transition-fast",
+      "module": "base-elements.css",
+      "message": "Missing variable: --theme-transition-fast referenced in base-elements.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "components.css",
+      "message": "Missing variable: --accent-coral referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "components.css",
+      "message": "Missing variable: --accent-coral referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-red",
+      "module": "components.css",
+      "message": "Missing variable: --accent-red referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "components.css",
+      "message": "Missing variable: --accent-coral referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "components.css",
+      "message": "Missing variable: --accent-coral referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-red",
+      "module": "components.css",
+      "message": "Missing variable: --accent-red referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--border-radius-full",
+      "module": "components.css",
+      "message": "Missing variable: --border-radius-full referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--transition-bounce",
+      "module": "components.css",
+      "message": "Missing variable: --transition-bounce referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--border-radius-lg",
+      "module": "components.css",
+      "message": "Missing variable: --border-radius-lg referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--transition-bounce",
+      "module": "components.css",
+      "message": "Missing variable: --transition-bounce referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--border-radius-md",
+      "module": "components.css",
+      "message": "Missing variable: --border-radius-md referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--transition-bounce",
+      "module": "components.css",
+      "message": "Missing variable: --transition-bounce referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "components.css",
+      "message": "Missing variable: --accent-coral referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "components.css",
+      "message": "Missing variable: --accent-coral referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--transition-bounce",
+      "module": "components.css",
+      "message": "Missing variable: --transition-bounce referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--transition-normal",
+      "module": "components.css",
+      "message": "Missing variable: --transition-normal referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--transition-bounce",
+      "module": "components.css",
+      "message": "Missing variable: --transition-bounce referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--border-radius-lg",
+      "module": "components.css",
+      "message": "Missing variable: --border-radius-lg referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--transition-bounce",
+      "module": "components.css",
+      "message": "Missing variable: --transition-bounce referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--bg-navy-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --bg-navy-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--bg-navy-darker-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --bg-navy-darker-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--bg-navy-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --bg-navy-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--bg-navy-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --bg-navy-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--bg-navy-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --bg-navy-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--bg-navy-darker-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --bg-navy-darker-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--transition-bounce",
+      "module": "components.css",
+      "message": "Missing variable: --transition-bounce referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--transition-bounce",
+      "module": "components.css",
+      "message": "Missing variable: --transition-bounce referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--transition-bounce",
+      "module": "components.css",
+      "message": "Missing variable: --transition-bounce referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--border-radius-lg",
+      "module": "components.css",
+      "message": "Missing variable: --border-radius-lg referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--bg-navy-darker-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --bg-navy-darker-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--transition-normal",
+      "module": "components.css",
+      "message": "Missing variable: --transition-normal referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--bg-navy-rgb",
+      "module": "components.css",
+      "message": "Missing variable: --bg-navy-rgb referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--transition-bounce",
+      "module": "components.css",
+      "message": "Missing variable: --transition-bounce referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "components.css",
+      "message": "Missing variable: --accent-coral referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "components.css",
+      "message": "Missing variable: --accent-coral referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-red",
+      "module": "components.css",
+      "message": "Missing variable: --accent-red referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "components.css",
+      "message": "Missing variable: --accent-coral referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "components.css",
+      "message": "Missing variable: --primary-orange referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "components.css",
+      "message": "Missing variable: --accent-coral referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-red",
+      "module": "components.css",
+      "message": "Missing variable: --accent-red referenced in components.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-red",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --accent-red referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --primary-orange referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-red",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --accent-red referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --primary-orange referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-red",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --accent-red referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-red",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --accent-red referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-border-radius-md",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --theme-border-radius-md referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-border-radius-lg",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --theme-border-radius-lg referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--border-radius-full",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --border-radius-full referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--border-radius-sm",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --border-radius-sm referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--border-radius-xl",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --border-radius-xl referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--border-radius-2xl",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --border-radius-2xl referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-transition-fast",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --theme-transition-fast referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-transition-normal",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --theme-transition-normal referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-transition-bounce",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --theme-transition-bounce referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--transition-slow",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --transition-slow referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-color-views",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --theme-color-views referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-color-followers",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --theme-color-followers referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-color-engagement",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --theme-color-engagement referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-color-revenue",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --theme-color-revenue referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-color-views",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --theme-color-views referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-color-followers",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --theme-color-followers referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-color-engagement",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --theme-color-engagement referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-color-revenue",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --theme-color-revenue referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-eyeball-iris",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --theme-eyeball-iris referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-eyeball-pupil",
+      "module": "theme-utilities.css",
+      "message": "Missing variable: --theme-eyeball-pupil referenced in theme-utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "utilities.css",
+      "message": "Missing variable: --accent-coral referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-red",
+      "module": "utilities.css",
+      "message": "Missing variable: --accent-red referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "utilities.css",
+      "message": "Missing variable: --primary-orange referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "utilities.css",
+      "message": "Missing variable: --primary-orange referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "utilities.css",
+      "message": "Missing variable: --accent-coral referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-red",
+      "module": "utilities.css",
+      "message": "Missing variable: --accent-red referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "utilities.css",
+      "message": "Missing variable: --primary-orange referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "utilities.css",
+      "message": "Missing variable: --accent-coral referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-red",
+      "module": "utilities.css",
+      "message": "Missing variable: --accent-red referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--transition-fast",
+      "module": "utilities.css",
+      "message": "Missing variable: --transition-fast referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "utilities.css",
+      "message": "Missing variable: --primary-orange referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "utilities.css",
+      "message": "Missing variable: --primary-orange referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "utilities.css",
+      "message": "Missing variable: --accent-coral referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--neutral-blue-3",
+      "module": "utilities.css",
+      "message": "Missing variable: --neutral-blue-3 referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "utilities.css",
+      "message": "Missing variable: --primary-orange referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "utilities.css",
+      "message": "Missing variable: --accent-coral referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "utilities.css",
+      "message": "Missing variable: --accent-coral referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-red",
+      "module": "utilities.css",
+      "message": "Missing variable: --accent-red referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--transition-bounce",
+      "module": "utilities.css",
+      "message": "Missing variable: --transition-bounce referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--transition-bounce",
+      "module": "utilities.css",
+      "message": "Missing variable: --transition-bounce referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--bg-navy-rgb",
+      "module": "utilities.css",
+      "message": "Missing variable: --bg-navy-rgb referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--bg-navy-darker-rgb",
+      "module": "utilities.css",
+      "message": "Missing variable: --bg-navy-darker-rgb referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "utilities.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "utilities.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "utilities.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "utilities.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "utilities.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "utilities.css",
+      "message": "Missing variable: --accent-coral referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--border-radius-lg",
+      "module": "utilities.css",
+      "message": "Missing variable: --border-radius-lg referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-coral",
+      "module": "utilities.css",
+      "message": "Missing variable: --accent-coral referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--accent-red",
+      "module": "utilities.css",
+      "message": "Missing variable: --accent-red referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--border-radius-md",
+      "module": "utilities.css",
+      "message": "Missing variable: --border-radius-md referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--bg-navy-darker-rgb",
+      "module": "utilities.css",
+      "message": "Missing variable: --bg-navy-darker-rgb referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "utilities.css",
+      "message": "Missing variable: --primary-orange referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "utilities.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange-rgb",
+      "module": "utilities.css",
+      "message": "Missing variable: --primary-orange-rgb referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--bg-navy-rgb",
+      "module": "utilities.css",
+      "message": "Missing variable: --bg-navy-rgb referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "utilities.css",
+      "message": "Missing variable: --primary-orange referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--border-radius-full",
+      "module": "utilities.css",
+      "message": "Missing variable: --border-radius-full referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--primary-orange",
+      "module": "utilities.css",
+      "message": "Missing variable: --primary-orange referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--text-dark",
+      "module": "utilities.css",
+      "message": "Missing variable: --text-dark referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--color-white",
+      "module": "utilities.css",
+      "message": "Missing variable: --color-white referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-border-radius-lg",
+      "module": "utilities.css",
+      "message": "Missing variable: --theme-border-radius-lg referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-transition-bounce",
+      "module": "utilities.css",
+      "message": "Missing variable: --theme-transition-bounce referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-border-radius-lg",
+      "module": "utilities.css",
+      "message": "Missing variable: --theme-border-radius-lg referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-eyeball-outer",
+      "module": "utilities.css",
+      "message": "Missing variable: --theme-eyeball-outer referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-border-radius-lg",
+      "module": "utilities.css",
+      "message": "Missing variable: --theme-border-radius-lg referenced in utilities.css"
+    },
+    {
+      "type": "missing-variable",
+      "name": "--theme-transition-bounce",
+      "module": "utilities.css",
+      "message": "Missing variable: --theme-transition-bounce referenced in utilities.css"
+    },
+    {
+      "type": "duplicate-class",
+      "name": "bg-theme-gradient-primary",
+      "module": "utilities.css",
+      "modules": [
+        "theme-utilities.css",
+        "utilities.css"
+      ],
+      "message": "Duplicate class: bg-theme-gradient-primary defined in multiple modules: theme-utilities.css, utilities.css"
+    },
+    {
+      "type": "duplicate-class",
+      "name": "bg-theme-gradient-secondary",
+      "module": "utilities.css",
+      "modules": [
+        "theme-utilities.css",
+        "utilities.css"
+      ],
+      "message": "Duplicate class: bg-theme-gradient-secondary defined in multiple modules: theme-utilities.css, utilities.css"
+    },
+    {
+      "type": "duplicate-class",
+      "name": "bg-theme-gradient-accent",
+      "module": "utilities.css",
+      "modules": [
+        "theme-utilities.css",
+        "utilities.css"
+      ],
+      "message": "Duplicate class: bg-theme-gradient-accent defined in multiple modules: theme-utilities.css, utilities.css"
+    },
+    {
+      "type": "duplicate-class",
+      "name": "bg-theme-gradient-text",
+      "module": "utilities.css",
+      "modules": [
+        "theme-utilities.css",
+        "utilities.css"
+      ],
+      "message": "Duplicate class: bg-theme-gradient-text defined in multiple modules: theme-utilities.css, utilities.css"
+    },
+    {
+      "type": "duplicate-class",
+      "name": "shadow-theme-btn-primary",
+      "module": "utilities.css",
+      "modules": [
+        "theme-utilities.css",
+        "utilities.css"
+      ],
+      "message": "Duplicate class: shadow-theme-btn-primary defined in multiple modules: theme-utilities.css, utilities.css"
+    },
+    {
+      "type": "duplicate-class",
+      "name": "shadow-theme-btn-accent",
+      "module": "utilities.css",
+      "modules": [
+        "theme-utilities.css",
+        "utilities.css"
+      ],
+      "message": "Duplicate class: shadow-theme-btn-accent defined in multiple modules: theme-utilities.css, utilities.css"
+    },
+    {
+      "type": "duplicate-class",
+      "name": "shadow-theme-card-hover",
+      "module": "utilities.css",
+      "modules": [
+        "theme-utilities.css",
+        "utilities.css"
+      ],
+      "message": "Duplicate class: shadow-theme-card-hover defined in multiple modules: theme-utilities.css, utilities.css"
+    },
+    {
+      "type": "duplicate-class",
+      "name": "glow-theme-blue",
+      "module": "utilities.css",
+      "modules": [
+        "theme-utilities.css",
+        "utilities.css"
+      ],
+      "message": "Duplicate class: glow-theme-blue defined in multiple modules: theme-utilities.css, utilities.css"
+    },
+    {
+      "type": "duplicate-class",
+      "name": "grid-theme-dot",
+      "module": "utilities.css",
+      "modules": [
+        "theme-utilities.css",
+        "utilities.css"
+      ],
+      "message": "Duplicate class: grid-theme-dot defined in multiple modules: theme-utilities.css, utilities.css"
+    },
+    {
+      "type": "duplicate-class",
+      "name": "grid-theme-line",
+      "module": "utilities.css",
+      "modules": [
+        "theme-utilities.css",
+        "utilities.css"
+      ],
+      "message": "Duplicate class: grid-theme-line defined in multiple modules: theme-utilities.css, utilities.css"
+    },
+    {
+      "type": "duplicate-class",
+      "name": "float-theme-element-primary",
+      "module": "utilities.css",
+      "modules": [
+        "theme-utilities.css",
+        "utilities.css"
+      ],
+      "message": "Duplicate class: float-theme-element-primary defined in multiple modules: theme-utilities.css, utilities.css"
+    },
+    {
+      "type": "duplicate-class",
+      "name": "float-theme-element-secondary",
+      "module": "utilities.css",
+      "modules": [
+        "theme-utilities.css",
+        "utilities.css"
+      ],
+      "message": "Duplicate class: float-theme-element-secondary defined in multiple modules: theme-utilities.css, utilities.css"
+    },
+    {
+      "type": "duplicate-class",
+      "name": "chart-theme-grid",
+      "module": "utilities.css",
+      "modules": [
+        "theme-utilities.css",
+        "utilities.css"
+      ],
+      "message": "Duplicate class: chart-theme-grid defined in multiple modules: theme-utilities.css, utilities.css"
+    },
+    {
+      "type": "duplicate-class",
+      "name": "chart-theme-tooltip",
+      "module": "utilities.css",
+      "modules": [
+        "theme-utilities.css",
+        "utilities.css"
+      ],
+      "message": "Duplicate class: chart-theme-tooltip defined in multiple modules: theme-utilities.css, utilities.css"
+    },
+    {
+      "type": "duplicate-class",
+      "name": "bg-theme-gradient-primary",
+      "module": "utilities.css",
+      "modules": [
+        "theme-utilities.css",
+        "utilities.css"
+      ],
+      "message": "Duplicate class: bg-theme-gradient-primary defined in multiple modules: theme-utilities.css, utilities.css"
+    },
+    {
+      "type": "duplicate-class",
+      "name": "bg-theme-gradient-secondary",
+      "module": "utilities.css",
+      "modules": [
+        "theme-utilities.css",
+        "utilities.css"
+      ],
+      "message": "Duplicate class: bg-theme-gradient-secondary defined in multiple modules: theme-utilities.css, utilities.css"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--chart-grid-light",
+      "message": "Unused variable: --chart-grid-light is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--bg-cream",
+      "message": "Unused variable: --bg-cream is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--bg-cream-rgb",
+      "message": "Unused variable: --bg-cream-rgb is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--bg-cream-gradient",
+      "message": "Unused variable: --bg-cream-gradient is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--bg-cream-gradient-rgb",
+      "message": "Unused variable: --bg-cream-gradient-rgb is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--bg-cream-darker",
+      "message": "Unused variable: --bg-cream-darker is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--card-bg-light",
+      "message": "Unused variable: --card-bg-light is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--module-accent-gradient",
+      "message": "Unused variable: --module-accent-gradient is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--text-navy-rgb",
+      "message": "Unused variable: --text-navy-rgb is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--text-cream-rgb",
+      "message": "Unused variable: --text-cream-rgb is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--primary-orange-hover-rgb",
+      "message": "Unused variable: --primary-orange-hover-rgb is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--primary-orange-light-rgb",
+      "message": "Unused variable: --primary-orange-light-rgb is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--secondary-teal-rgb",
+      "message": "Unused variable: --secondary-teal-rgb is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--secondary-teal-hover-rgb",
+      "message": "Unused variable: --secondary-teal-hover-rgb is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--secondary-teal-light-rgb",
+      "message": "Unused variable: --secondary-teal-light-rgb is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--ui-peach-light",
+      "message": "Unused variable: --ui-peach-light is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--ui-peach-light-rgb",
+      "message": "Unused variable: --ui-peach-light-rgb is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--ui-peach-dark",
+      "message": "Unused variable: --ui-peach-dark is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--ui-peach-dark-rgb",
+      "message": "Unused variable: --ui-peach-dark-rgb is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--hud-teal",
+      "message": "Unused variable: --hud-teal is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--hud-coral",
+      "message": "Unused variable: --hud-coral is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--hud-navy",
+      "message": "Unused variable: --hud-navy is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--hud-red",
+      "message": "Unused variable: --hud-red is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--hud-pink",
+      "message": "Unused variable: --hud-pink is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--hud-orange",
+      "message": "Unused variable: --hud-orange is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--hud-accent-red",
+      "message": "Unused variable: --hud-accent-red is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--hud-orange-light",
+      "message": "Unused variable: --hud-orange-light is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--hud-orange-lighter",
+      "message": "Unused variable: --hud-orange-lighter is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-text-on-primary",
+      "message": "Unused variable: --theme-text-on-primary is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-accent-coral",
+      "message": "Unused variable: --theme-accent-coral is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-accent-red",
+      "message": "Unused variable: --theme-accent-red is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-bg-navy-gradient",
+      "message": "Unused variable: --theme-bg-navy-gradient is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-bg-cream-gradient",
+      "message": "Unused variable: --theme-bg-cream-gradient is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-accent",
+      "message": "Unused variable: --theme-accent is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-shadow-card-hover",
+      "message": "Unused variable: --theme-shadow-card-hover is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-float-opacity-secondary",
+      "message": "Unused variable: --theme-float-opacity-secondary is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-float-bg-primary",
+      "message": "Unused variable: --theme-float-bg-primary is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-float-bg-secondary",
+      "message": "Unused variable: --theme-float-bg-secondary is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-team-joden",
+      "message": "Unused variable: --theme-team-joden is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-team-alex",
+      "message": "Unused variable: --theme-team-alex is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-team-tia",
+      "message": "Unused variable: --theme-team-tia is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-team-aydan",
+      "message": "Unused variable: --theme-team-aydan is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-team-joden-accent",
+      "message": "Unused variable: --theme-team-joden-accent is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-team-alex-accent",
+      "message": "Unused variable: --theme-team-alex-accent is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-team-tia-accent",
+      "message": "Unused variable: --theme-team-tia-accent is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-team-aydan-accent",
+      "message": "Unused variable: --theme-team-aydan-accent is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-anim-distance",
+      "message": "Unused variable: --theme-anim-distance is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-anim-distance-sm",
+      "message": "Unused variable: --theme-anim-distance-sm is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-anim-distance-md",
+      "message": "Unused variable: --theme-anim-distance-md is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-anim-scale",
+      "message": "Unused variable: --theme-anim-scale is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-anim-scale-sm",
+      "message": "Unused variable: --theme-anim-scale-sm is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-anim-duration",
+      "message": "Unused variable: --theme-anim-duration is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-anim-duration-med",
+      "message": "Unused variable: --theme-anim-duration-med is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-anim-duration-slow",
+      "message": "Unused variable: --theme-anim-duration-slow is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-anim-duration-marquee",
+      "message": "Unused variable: --theme-anim-duration-marquee is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-grid-dot-opacity",
+      "message": "Unused variable: --theme-grid-dot-opacity is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-overlay-opacity",
+      "message": "Unused variable: --theme-overlay-opacity is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-glow-opacity",
+      "message": "Unused variable: --theme-glow-opacity is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-glow-opacity-sm",
+      "message": "Unused variable: --theme-glow-opacity-sm is defined but never used"
+    },
+    {
+      "type": "unused-variable",
+      "name": "--theme-glow-opacity-lg",
+      "message": "Unused variable: --theme-glow-opacity-lg is defined but never used"
+    },
+    {
+      "type": "undefined-class",
+      "name": "glow-theme-primary",
+      "modules": [
+        "theme-utilities.css"
+      ],
+      "message": "Undefined class: glow-theme-primary is referenced in theme-utilities.css but never defined"
+    }
+  ]
+}

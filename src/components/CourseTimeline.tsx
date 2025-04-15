@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
-import { useGSAP } from "@gsap/react"; // Add useGSAP for proper cleanup
-import '../styles/week-by-week.css'; // Import custom styles for timeline
+import { useGSAP } from "@gsap/react";
+import '../styles/week-by-week.css';
 
 // Register the ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -21,35 +21,238 @@ interface CourseWeek {
   modules?: string[];
 }
 
-// Define module colors for each week
-interface ModuleInfo {
-  color: string;
-  title: string;
-}
+// Dropdown component for timeline items
+const TimelineDropdown: React.FC<{
+  week: CourseWeek;
+  weekColor: string;
+  isOpen: boolean;
+  toggleOpen: () => void;
+}> = ({ week, weekColor, isOpen, toggleOpen }) => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const underlineRef = useRef<HTMLDivElement>(null);
+  const arrowRef = useRef<HTMLDivElement>(null);
+  
+  // Animation for dropdown content
+  useGSAP(() => {
+    if (!contentRef.current) return;
+    
+    // Get theme variables
+    const styles = getComputedStyle(document.documentElement);
+    const animDuration = parseFloat(styles.getPropertyValue('--theme-anim-duration') || '0.35');
+    
+    const ctx = gsap.context(() => {
+      // Set initial state
+      gsap.set(contentRef.current, { 
+        height: 0,
+        opacity: 0,
+        overflow: 'hidden'
+      });
+      
+      // Toggle animation based on isOpen state
+      if (isOpen) {
+        gsap.to(contentRef.current, {
+          height: 'auto',
+          opacity: 1,
+          duration: animDuration * 1.2,
+          ease: 'power2.out'
+        });
+        
+        // Rotate arrow
+        if (arrowRef.current) {
+          gsap.to(arrowRef.current, {
+            rotation: 180,
+            duration: animDuration,
+            ease: 'back.out(1.7)'
+          });
+        }
+      } else {
+        gsap.to(contentRef.current, {
+          height: 0,
+          opacity: 0,
+          duration: animDuration,
+          ease: 'power2.in'
+        });
+        
+        // Rotate arrow back
+        if (arrowRef.current) {
+          gsap.to(arrowRef.current, {
+            rotation: 0,
+            duration: animDuration,
+            ease: 'back.in(1.7)'
+          });
+        }
+      }
+    }, dropdownRef);
+    
+    return () => ctx.revert();
+  }, [isOpen]);
+  
+  // Animation for dropdown underline
+  useGSAP(() => {
+    if (!underlineRef.current || !dropdownRef.current) return;
+    
+    const ctx = gsap.context(() => {
+      // Animate underline on hover
+      dropdownRef.current?.addEventListener('mouseenter', () => {
+        gsap.to(underlineRef.current, {
+          width: '100%',
+          opacity: 1,
+          duration: 0.3,
+          ease: 'power2.out'
+        });
+      });
+      
+      dropdownRef.current?.addEventListener('mouseleave', () => {
+        if (!isOpen) {
+          gsap.to(underlineRef.current, {
+            width: '30%',
+            opacity: 0.7,
+            duration: 0.3,
+            ease: 'power2.out'
+          });
+        }
+      });
+    }, dropdownRef);
+    
+    return () => ctx.revert();
+  }, [isOpen]);
+  
+  return (
+    <div ref={dropdownRef} className="timeline-dropdown mb-8">
+      {/* Dropdown header with VS Bubbly hover effect */}
+      <div 
+        onClick={toggleOpen}
+        className="timeline-dropdown-header flex items-center gap-3 cursor-pointer transition-all duration-300 hover-bubbly-sm"
+      >
+        {/* Week icon */}
+        {week.icon && (
+          <span className="timeline-dropdown-icon text-2xl md:text-3xl">{week.icon}</span>
+        )}
+        
+        {/* Only highlight text, no duplicate title */}
+        <div className="flex-1">
+          {/* Highlight text (shortened) - increased size by 1.5x */}
+          {week.highlight && (
+            <p className="text-theme-secondary text-lg md:text-xl lg:text-2xl pr-10">
+              {week.highlight.length > 120 ? `${week.highlight.substring(0, 120)}...` : week.highlight}
+            </p>
+          )}
+          
+          {/* Orange underline */}
+          <div 
+            ref={underlineRef}
+            className="timeline-dropdown-underline bg-theme-primary h-[3px] mt-2 rounded-full opacity-70"
+            style={{ 
+              width: isOpen ? '100%' : '30%',
+              backgroundColor: weekColor 
+            }}
+          ></div>
+        </div>
+        
+        {/* Dropdown arrow */}
+        <div 
+          ref={arrowRef}
+          className="timeline-dropdown-arrow text-theme-primary text-2xl transform transition-transform"
+        >
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="24" 
+            height="24" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+          >
+            <path d="m6 9 6 6 6-6"/>
+          </svg>
+        </div>
+      </div>
+      
+      {/* Dropdown content - collapsed by default */}
+      <div 
+        ref={contentRef}
+        className="timeline-dropdown-content overflow-hidden"
+      >
+        <div className="pt-4 px-2">
+          <div 
+            className={`content timeline-card week-${week.id.replace('week', '')}-card rounded-lg p-6 md:p-8 relative overflow-hidden bg-theme-surface shadow-theme-md border-l-[6px]`}
+            style={{ borderColor: weekColor }}
+          >
+            {/* Decorative corner */}
+            <div className="timeline-corner-accent absolute top-0 right-0 w-24 h-24 bg-theme-bg-secondary"></div>
+            
+            {/* Floating elements */}
+            <div className="timeline-float absolute -bottom-8 -left-8 w-16 h-16 rounded-[40%] rotate-12 bg-theme-float-secondary"></div>
+            <div className="timeline-float absolute top-1/3 -right-6 w-10 h-10 rounded-[38%] -rotate-12 opacity-theme-float bg-theme-float-primary animate-float-medium"></div>
+            
+            {/* Main content paragraph - increased size */}
+            <p className="text-theme-secondary relative z-10 text-xl md:text-2xl leading-relaxed">
+              {week.content}
+            </p>
+            
+            {/* Bullet points for easy scanning */}
+            {week.bullets && week.bullets.length > 0 && (
+              <ul className="week-bullets mt-4">
+                {week.bullets.map((bullet, idx) => (
+                  <li key={`${week.id}-bullet-${idx}`} className="text-theme-secondary text-lg md:text-xl leading-relaxed">
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+            )}
+            
+            {/* Founder tips */}
+            {week.founderTip && (
+              <div className="founder-tip text-theme-secondary text-lg md:text-xl italic mt-4">
+                {week.founderTip}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const CourseTimeline: React.FC = () => {
   const timelineRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<HTMLDivElement[]>([]);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const introRef = useRef<HTMLParagraphElement>(null);
-
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  
+  // Track open/closed state for dropdowns
+  const [openWeeks, setOpenWeeks] = useState<string[]>([]);
+  
+  // Toggle dropdown function
+  const toggleWeekOpen = (weekId: string) => {
+    setOpenWeeks(prev => 
+      prev.includes(weekId)
+        ? prev.filter(id => id !== weekId)
+        : [...prev, weekId]
+    );
+  };
+  
   // Define simple color themes for each week (not modules)
-  const getWeekColors = (weekId: string): string[] => {
-    const colorMap: Record<string, string[]> = {
-      'week0': ['var(--hud-teal)'],
-      'week1': ['var(--primary-orange)'],
-      'week2': ['var(--hud-coral)'],
-      'week3': ['var(--accent-coral)'],
-      'week4': ['var(--secondary-teal)'],
-      'week5': ['var(--accent-pink)'],
-      'week6': ['var(--accent-yellow)'],
-      'week7': ['var(--hud-red)'],
-      'week8': ['var(--secondary-teal-light)'],
-      'week9-10': ['var(--primary-orange-light)'],
-      'week10plus': ['var(--hud-orange)'],
+  const getWeekColors = (weekId: string): string => {
+    const colorMap: Record<string, string> = {
+      'week0': 'var(--hud-teal)',
+      'week1': 'var(--primary-orange)',
+      'week2': 'var(--hud-coral)',
+      'week3': 'var(--accent-coral)',
+      'week4': 'var(--secondary-teal)',
+      'week5': 'var(--accent-pink)',
+      'week6': 'var(--accent-yellow)',
+      'week7': 'var(--hud-red)',
+      'week8': 'var(--secondary-teal-light)',
+      'week9-10': 'var(--primary-orange-light)',
+      'week10plus': 'var(--hud-orange)',
     };
     
-    return colorMap[weekId] || ['var(--primary-orange)'];
+    return colorMap[weekId] || 'var(--primary-orange)';
   };
 
   const courseWeeks: CourseWeek[] = [
@@ -276,88 +479,83 @@ const CourseTimeline: React.FC = () => {
       }
     };
     
-    // Create timeline animations
-    const createScrollAnimations = (): void => {
-      // Setup progress bar animation
-      if (timelineRef.current) {
-        const progressBar = timelineRef.current.querySelector('.timeline-progress-bar');
+    // Create timeline line animation with enhanced scrub effect
+    const createLineAnimation = (): void => {
+      if (progressBarRef.current && timelineRef.current) {
+        gsap.fromTo(
+          progressBarRef.current,
+          { height: '0%' },
+          {
+            height: '100%',
+            ease: 'none',
+            scrollTrigger: {
+              trigger: timelineRef.current,
+              start: 'top 20%', // Start earlier to make progress more visible
+              end: 'bottom 80%',
+              scrub: 0.6, // Smoother scrub effect
+              markers: false, // Set to true for debugging scroll positions
+              pinSpacing: false // Don't add extra space
+            }
+          }
+        );
+      }
+    };
+    
+    // Animate week sections (left side)
+    const animateWeekHeaders = (): void => {
+      sectionRefs.current.forEach((section) => {
+        if (!section) return;
         
-        if (progressBar) {
+        // Animate week title text (primary now)
+        const weekTitle = section.querySelector('.week-title');
+        if (weekTitle) {
           gsap.fromTo(
-            progressBar,
-            { height: '0%' },
+            weekTitle,
             {
-              height: '100%',
-              ease: 'none',
+              opacity: 0.3,
+              x: -20
+            },
+            {
+              opacity: 1,
+              x: 0,
+              duration: animDuration * 1.2,
+              ease: 'power2.out',
               scrollTrigger: {
-                trigger: timelineRef.current,
-                start: 'top 80%',
-                end: 'bottom 20%',
-                scrub: 0.3
+                trigger: section,
+                start: 'top 85%',
+                toggleActions: 'play none none none'
               }
             }
           );
         }
-      }
-      
-      // Setup animations for each timeline item
-      sectionRefs.current.forEach((section) => {
-        if (!section) return;
         
-        // Words sliding from right animation for week titles
-        const weekTitle = section.querySelector('.week-title');
-        const weekHeading = section.querySelector('.week-heading');
-        
-        if (weekTitle) {
-          const words = weekTitle.querySelectorAll('.word');
-          if (words.length > 0) {
-            // Set initial styles
-            gsap.set(words, { 
-              opacity: 0,
-              x: '0.5em'
-            });
-            
-            // Animate
-            gsap.to(words, {
+        // Animate week number (big thin number above title)
+        const weekNumber = section.querySelector('.week-number');
+        if (weekNumber) {
+          gsap.fromTo(
+            weekNumber,
+            {
+              opacity: 0.2,
+              y: -10,
+              scale: 0.95
+            },
+            {
               opacity: 1,
-              x: 0,
-              duration: animDuration * 1.5,
+              y: 0,
+              scale: 1,
+              duration: animDuration * 1.2,
               ease: 'power2.out',
-              stagger: { amount: 0.3 },
+              delay: 0.05,
               scrollTrigger: {
                 trigger: section,
-                start: 'top 80%',
-                toggleActions: 'play none none reverse'
+                start: 'top 85%',
+                toggleActions: 'play none none none'
               }
-            });
-          }
+            }
+          );
         }
         
-        if (weekHeading) {
-          const words = weekHeading.querySelectorAll('.word');
-          if (words.length > 0) {
-            gsap.set(words, { 
-              opacity: 0,
-              x: '0.5em'
-            });
-            
-            gsap.to(words, {
-              opacity: 1,
-              x: 0,
-              duration: animDuration * 1.5,
-              ease: 'power2.out',
-              stagger: { amount: 0.3 },
-              delay: 0.2,
-              scrollTrigger: {
-                trigger: section,
-                start: 'top 75%',
-                toggleActions: 'play none none reverse'
-              }
-            });
-          }
-        }
-        
-        // Circle animation
+        // Animate timeline circle
         const circle = section.querySelector('.timeline-circle');
         if (circle) {
           gsap.fromTo(
@@ -373,92 +571,8 @@ const CourseTimeline: React.FC = () => {
               ease: 'back.out(1.7)',
               scrollTrigger: {
                 trigger: section,
-                start: 'top 75%',
-                toggleActions: 'play none none reverse'
-              }
-            }
-          );
-        }
-        
-        // Animate decorative squares that replaced modules
-        const weekSquares = section.querySelectorAll('div[class*="w-16"]');
-        if (weekSquares.length > 0) {
-          gsap.fromTo(
-            weekSquares,
-            {
-              scale: 0,
-              opacity: 0
-            },
-            {
-              scale: 1,
-              opacity: 1,
-              duration: animDuration,
-              ease: 'back.out(1.7)',
-              delay: 0.5,
-              scrollTrigger: {
-                trigger: section,
-                start: 'top 80%',
-                toggleActions: 'play none none reverse'
-              }
-            }
-          );
-          
-          // Add a subtle animation to the squares
-          weekSquares.forEach((square) => {
-            gsap.to(square, {
-              boxShadow: '0 0 15px 5px rgba(var(--primary-orange-rgb), 0.2)',
-              rotate: '135deg',
-              repeat: -1,
-              yoyo: true,
-              duration: 3 + Math.random(),
-              delay: Math.random() * 1.5
-            });
-          });
-        }
-        
-        // Content fade in animation
-        const content = section.querySelector('.content');
-        if (content) {
-          gsap.fromTo(
-            content,
-            {
-              opacity: 0,
-              y: 30
-            },
-            {
-              opacity: 1,
-              y: 0,
-              duration: animDuration * 2,
-              ease: 'power2.out',
-              delay: 0.3,
-              scrollTrigger: {
-                trigger: section,
-                start: 'top 70%',
-                toggleActions: 'play none none reverse'
-              }
-            }
-          );
-        }
-        
-        // Week separator animation
-        const separator = section.querySelector('.timeline-week-separator');
-        if (separator) {
-          gsap.fromTo(
-            separator,
-            {
-              scaleX: 0,
-              opacity: 0
-            },
-            {
-              scaleX: 1,
-              opacity: 0.2,
-              duration: animDuration * 1.5,
-              ease: 'power3.inOut',
-              delay: 0.6,
-              scrollTrigger: {
-                trigger: section,
-                start: 'top 60%',
-                toggleActions: 'play none none reverse'
+                start: 'top 85%',
+                toggleActions: 'play none none none'
               }
             }
           );
@@ -472,10 +586,10 @@ const CourseTimeline: React.FC = () => {
     // Need a small delay to ensure DOM is fully updated after splitting text
     setTimeout(() => {
       createHeaderAnimations();
-      createScrollAnimations();
+      createLineAnimation();
+      animateWeekHeaders();
     }, 100);
     
-    // Cleanup is handled automatically by useGSAP
   }, []);
 
   // Save section refs
@@ -486,49 +600,33 @@ const CourseTimeline: React.FC = () => {
   };
 
   return (
-    <section className="py-16 md:py-24 lg:py-32 timeline-groovy-bg relative overflow-visible">
+    <section className="py-12 md:py-20 timeline-groovy-bg relative overflow-visible">
       {/* Theme-aware floating elements for visual interest */}
       <div className="absolute top-20 left-10 w-24 h-24 rounded-[40%] rotate-12 
-                 opacity-[var(--theme-float-opacity)]
-                 bg-[var(--theme-float-bg-primary)]
+                 opacity-theme-float
+                 bg-theme-float-primary
                  animate-float-slow"></div>
       <div className="absolute bottom-40 right-10 w-28 h-28 rounded-[35%] -rotate-12 
-                 opacity-[var(--theme-float-opacity-secondary)]
-                 bg-[var(--theme-float-bg-secondary)]
+                 opacity-theme-float-secondary
+                 bg-theme-float-secondary
                  animate-float-medium"></div>
-      
-      {/* Enhanced floating elements for additional visual interest */}
       <div className="absolute top-1/4 right-1/4 w-32 h-32 rounded-[45%] rotate-45
                  opacity-[0.08] md:opacity-[0.1]
-                 bg-[var(--theme-primary)]
-                 animate-float-medium"></div>
-      <div className="absolute bottom-1/3 left-1/5 w-36 h-36 rounded-[38%] -rotate-12
-                 opacity-[0.09] md:opacity-[0.12]
-                 bg-[var(--theme-accent-tertiary)]
-                 animate-float-slow"></div>
-      <div className="absolute bottom-1/4 right-1/3 w-20 h-20 rounded-[30%] rotate-30
-                 opacity-[0.07] md:opacity-[0.09]
-                 bg-[var(--hud-orange)]
-                 animate-float-slow"></div>
-      <div className="absolute top-1/2 left-1/4 w-16 h-16 rounded-[50%] rotate-12
-                 opacity-[0.06] md:opacity-[0.08]
-                 bg-[var(--accent-coral)]
+                 bg-theme-primary
                  animate-float-medium"></div>
       
-      <div className="container mx-auto px-4 md:px-6 max-w-7xl relative z-10 overflow-visible">
-        <div className="max-w-5xl mx-auto text-center mb-16 md:mb-24">
+      <div className="container mx-auto px-4 md:px-6 max-w-5xl relative z-10 overflow-visible">
+        <div className="max-w-4xl mx-auto text-center mb-12 md:mb-16">
           <h2 
             ref={titleRef}
             data-text-split="true"
-            className="text-6xl md:text-7xl lg:text-8xl font-black mb-10 text-theme-primary"
-            style={{ opacity: 1 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-theme-primary"
           >
             Week by week structure
           </h2>
           <p 
             ref={introRef}
-            className="text-xl md:text-2xl lg:text-3xl text-theme-primary max-w-4xl mx-auto font-medium"
-            style={{ opacity: 1 }}
+            className="text-2xl md:text-3xl lg:text-4xl text-theme-secondary max-w-3xl mx-auto"
           >
             We know it's a lot. That's why we've broken it down into 8 weeks of structured learning to take you from short form newbie, to millions of views, in just 8 weeks.
           </p>
@@ -536,139 +634,58 @@ const CourseTimeline: React.FC = () => {
         
         <div 
           ref={timelineRef}
-          className="timeline-container relative"
+          className="timeline-container relative mt-6 md:mt-10"
         >
-          {/* Golden ratio grid for timeline positioning */}
-          <div className="absolute inset-0 grid-cols-golden-ratio">
-            {/* Timeline progress bar - positioned using golden ratio */}
+          {/* Timeline progress bar - positioned with absolute placement */}
+          <div className="absolute left-8 md:left-14 top-6 bottom-0 w-[2px] md:w-[3px] bg-theme-bg-secondary opacity-30">
             <div 
-              className="timeline-progress absolute left-[30px] md:left-[38.2%] top-0 bottom-0 w-[2px] md:w-[4px] bg-theme-bg-secondary"
-              style={{ transform: 'translateX(-50%)' }} /* Center the line */
-            >
-              <div 
-                className="progress-bar timeline-progress-bar absolute top-0 left-0 w-full origin-top h-0" 
-              ></div>
-            </div>
+              ref={progressBarRef}
+              className="timeline-progress-bar absolute top-0 left-0 w-full origin-top h-0" 
+            ></div>
           </div>
           
           {/* Timeline items */}
-          <div className="relative z-10 space-y-20 md:space-y-28 lg:space-y-36">
+          <div className="relative z-10 space-y-6 md:space-y-10">
             {courseWeeks.map((week) => (
               <div 
                 key={week.id}
                 id={week.id}
                 ref={addToRefs}
-                className="relative grid-cols-golden-ratio gap-6 md:gap-8"
-                style={{ display: 'grid' }}
+                className="timeline-week relative pl-16 md:pl-24"
               >
-                {/* Timeline week separator */}
-                <div className="timeline-week-separator"></div>
-                
-                {/* Circle marker - positioned using golden ratio with proper centering on line */}
+                {/* Circle marker on timeline */}
                 <div 
-                  className={`timeline-circle week-${week.id.replace('week', '')}-circle absolute left-[30px] md:left-[38.2%] top-0 w-16 h-16 md:w-18 md:h-18 lg:w-20 lg:h-20 rounded-full border-[4px] shadow-theme-md z-10 border-theme-surface`}
+                  className={`timeline-circle week-${week.id.replace('week', '')}-circle absolute left-8 md:left-14 top-6 w-6 h-6 md:w-8 md:h-8 rounded-full border-2 shadow-theme-sm z-10 border-theme-surface`}
                   style={{ 
                     transform: 'translate(-50%, -50%)',
-                    marginTop: '8px',
-                    opacity: 1
+                    backgroundColor: getWeekColors(week.id)
                   }}
                 ></div>
                 
-                {/* Left side (week number) - golden ratio aligned */}
-                <div className="hidden md:flex md:flex-col md:justify-start md:items-end pt-2 pr-12">
-                  <h3 
-                    data-text-split="true"
-                    className="week-title vs-text-gradient-orange font-black mb-6 tracking-tight"
-                    style={{ opacity: 1 }}
-                  >
-                    {week.week}
-                  </h3>
+                {/* Left side information (now title is primary, week number as badge above) */}
+                <div className="flex flex-col items-start mb-4">
+                  {/* Week number as big, thin font */}
+                  <span className="week-number text-theme-primary text-4xl md:text-6xl font-extralight tracking-wider mb-1 opacity-90" style={{ opacity: 1, letterSpacing: '0.05em' }}>
+                    {week.id === 'week9-10' 
+                      ? '09' 
+                      : week.id === 'week10plus' 
+                        ? '10+' 
+                        : week.week.replace('Week ', '').padStart(2, '0')}
+                  </span>
                   
-                  {/* Visual element for the week (just a decorative square) */}
-                  <div 
-                    className="w-16 h-16 rounded-lg mb-4 shadow-theme-md week-visual-element"
-                    style={{ 
-                      backgroundColor: getWeekColors(week.id)[0]
-                    }}
-                  ></div>
+                  {/* Week title (PRIMARY) - smaller size and lighter weight */}
+                  <h3 className="week-title vs-text-gradient-orange text-xl md:text-2xl font-semibold" style={{ opacity: 1 }}>
+                    {week.title}
+                  </h3>
                 </div>
                 
-                {/* Right side (content) - takes remaining space */}
-                <div className="pl-20 md:pl-6">
-                  {/* Mobile week number - only visible on small screens */}
-                  <h3 
-                    data-text-split="true"
-                    className="week-title vs-text-gradient-orange font-black mb-6 md:hidden tracking-tight"
-                    style={{ opacity: 1 }}
-                  >
-                    {week.week}
-                  </h3>
-                  
-                  {/* Mobile visual element - only visible on small screens */}
-                  <div className="md:hidden flex flex-row flex-wrap gap-3 mb-4">
-                    <div 
-                      className="w-14 h-14 rounded-lg shadow-theme-md week-visual-element"
-                      style={{ backgroundColor: getWeekColors(week.id)[0] }}
-                    ></div>
-                  </div>
-                  
-                  <h3 
-                    data-text-split="true"
-                    className="week-heading text-4xl md:text-5xl lg:text-6xl font-bold mb-5 tracking-tight text-theme-accent-tertiary flex items-center" 
-                    style={{ opacity: 1 }}
-                  >
-                    {week.icon && <span className="week-icon">{week.icon}</span>} {week.title}
-                  </h3>
-                  
-                  <div 
-                    className={`content timeline-card week-${week.id.replace('week', '')}-card rounded-lg p-7 md:p-9 lg:p-11 relative overflow-hidden bg-theme-surface shadow-theme-md border-l-[6px]`}
-                    style={{ opacity: 1 }}
-                  >
-                    
-                    {/* Decorative corner */}
-                    <div 
-                      className="timeline-corner-accent absolute top-0 right-0 w-24 h-24 bg-theme-bg-secondary"
-                    ></div>
-                    
-                    {/* Multiple floating elements for enhanced visual interest */}
-                    <div 
-                      className="timeline-float absolute -bottom-8 -left-8 w-16 h-16 rounded-[40%] rotate-12 
-                               bg-[var(--theme-float-bg-secondary)]">
-                    </div>
-                    <div 
-                      className="timeline-float absolute top-1/3 -right-6 w-10 h-10 rounded-[38%] -rotate-12 
-                               opacity-[0.15]
-                               bg-[var(--theme-float-bg-primary)]
-                               animate-float-medium">
-                    </div>
-                    
-                    {/* Highlighted key phrase */}
-                    {week.highlight && (
-                      <div className="highlight-text">{week.highlight}</div>
-                    )}
-                    
-                    {/* Main content paragraph */}
-                    <p className="text-theme-secondary relative z-10 text-lg md:text-xl lg:text-2xl leading-relaxed">
-                      {week.content}
-                    </p>
-                    
-                    {/* Bullet points for easy scanning */}
-                    {week.bullets && week.bullets.length > 0 && (
-                      <ul className="week-bullets">
-                        {week.bullets.map((bullet, idx) => (
-                          <li key={`${week.id}-bullet-${idx}`}>{bullet}</li>
-                        ))}
-                      </ul>
-                    )}
-                    
-                    {/* Founder tips */}
-                    {week.founderTip && (
-                      <div className="founder-tip">
-                        {week.founderTip}
-                      </div>
-                    )}
-                  </div>
-                </div>
+                {/* Expandable content section */}
+                <TimelineDropdown
+                  week={week}
+                  weekColor={getWeekColors(week.id)}
+                  isOpen={openWeeks.includes(week.id)}
+                  toggleOpen={() => toggleWeekOpen(week.id)}
+                />
               </div>
             ))}
           </div>
@@ -678,4 +695,4 @@ const CourseTimeline: React.FC = () => {
   );
 };
 
-export default CourseTimeline; 
+export default CourseTimeline;

@@ -1,0 +1,9 @@
+{
+  "name": "instagram-sorter",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "sort": "node sortInstagramPosts.js",
+    "generate-links": "node generateInstagramLinks.js"
+  }
+} 

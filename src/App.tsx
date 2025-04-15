@@ -9,10 +9,8 @@ import { ThemeToggle } from './components/ui/theme-toggle';
 import { DirectTest } from './components/DirectTest';
 import { DirectClassTest } from './components/DirectClassTest';
 import VSModalShowcase from './components/VSModalShowcase';
-import { VSPainPoints, VSCharts } from './components/sections';
+import { VSPainPoints, VSCharts, ConnectEverything } from './components/sections';
 import CalendlyDemo from './components/Calendly/CalendlyDemo';
-
-
 import ThemeStyleGuide from './components/ThemeStyleGuide';
 
 import ModalImplementation from './Qualification_components/modal-implementation';
@@ -45,6 +43,7 @@ function App() {
                   Go to Landing Page
                 </Link>
               </div>
+
               <div>
                 <Link to="/modals" className="px-6 py-2 bg-theme-gradient-secondary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
                   VS Modal Showcase
@@ -66,12 +65,17 @@ function App() {
                 </Link>
               </div>
               <div>
+                <Link to="/connect-everything" className="px-6 py-2 bg-gradient-to-r from-cyan-800 to-cyan-950 text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                  Connect Everything
+                </Link>
+              </div>
+              <div>
                 <Link to="/calendly" className="px-6 py-2 bg-gradient-to-r from-[var(--primary-orange)] to-[var(--accent-coral)] text-white rounded-lg">
                   Calendly Scheduling Demo
                 </Link>
               </div>
-              <div>
 
+              <div>
                 <Link to="/style-guide" className="px-6 py-2 bg-theme-primary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
                   Theme Style Guide
                 </Link>
@@ -103,6 +107,7 @@ function App() {
         <Route path="/qualification" element={<ModalImplementation />} />
         <Route path="/modulehud" element={<ModuleHUDShowcase />} />
         <Route path="/theme-visualizer" element={<ThemeVisualizer />} />
+        <Route path="/connect-everything" element={<ConnectEverything />} />
 
       </Routes>
       
