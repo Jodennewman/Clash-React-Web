@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState, useEffect } from 'react';
 
 interface VSBackgroundProps {
   children: React.ReactNode;
@@ -71,6 +71,7 @@ export const VSCard = forwardRef<HTMLElement, VSBackgroundProps & React.HTMLAttr
 
 /**
  * VS Section Component - Creates a full section with theme-aware background styling
+ * Now with responsive padding for mobile optimization
  */
 export const VSSection = forwardRef<HTMLElement, VSBackgroundProps & React.HTMLAttributes<HTMLElement>>(
   ({
@@ -79,16 +80,37 @@ export const VSSection = forwardRef<HTMLElement, VSBackgroundProps & React.HTMLA
     background = 'bg-theme-primary',
     ...props
   }, ref) => {
+    // Get device type from data attribute (passed from AnimationController)
+    const [isMobile, setIsMobile] = useState(false);
+    
+    useEffect(() => {
+      const checkIfMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+      
+      // Initial check
+      checkIfMobile();
+      
+      // Listen for resizes
+      window.addEventListener('resize', checkIfMobile);
+      return () => window.removeEventListener('resize', checkIfMobile);
+    }, []);
+    
+    // Apply appropriate padding based on device size
+    const sectionPadding = isMobile ? 'py-12 sm:py-16 md:py-20 lg:py-24' : 'py-24';
+    
     return (
       <VSBackground
         as="section"
         ref={ref}
         background={background}
-        className={`py-24 relative overflow-hidden border-t border-theme-border
+        className={`${sectionPadding} relative overflow-hidden border-t border-theme-border
                    ${className}`}
         {...props}
       >
-        {children}
+        <div className="container-mobile mx-auto">
+          {children}
+        </div>
       </VSBackground>
     );
   }

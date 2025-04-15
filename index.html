@@ -1,11 +1,33 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <script src="http://localhost:8097"></script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Vite + React + TS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <title>Vertical Shortcut - Master Short-Form Content</title>
+    <style>
+      /* Mobile viewport fixes */
+      @media (max-width: 767px) {
+        html, body {
+          overflow-x: hidden; /* Prevent horizontal scroll */
+          width: 100%; /* Ensure proper width */
+          position: relative; /* Context for absolute positioned elements */
+        }
+        
+        /* Fix iOS Safari 100vh issue */
+        .vh-fix {
+          height: 100vh; /* fallback */
+          height: -webkit-fill-available;
+          height: stretch; /* Modern browsers */
+        }
+        
+        /* Fix for any default margins causing issues */
+        body {
+          margin: 0;
+          padding: 0;
+        }
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

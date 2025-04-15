@@ -53,6 +53,7 @@ export function VSText({
 
 /**
  * VS Heading Component - Wrapper for heading elements with theme-aware styling
+ * Now with responsive sizing for mobile optimization
  */
 export function VSHeading({
   children,
@@ -60,17 +61,30 @@ export function VSHeading({
   color = 'theme-primary',
   className = '',
   darkClassName = '', // No longer needed with theme-aware approach
+  size = 'lg', // Added size prop for responsive sizing
   ...props
-}: VSTextProps) {
+}: VSTextProps & { size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' }) {
   // Choose the element type based on the variant
   const Component = variant;
   
   // Filter out non-DOM props
   const { fromColor, toColor, darkFromColor, darkToColor, gradientType, ...domProps } = props;
   
+  // Map sizes to responsive Tailwind classes
+  const sizeClasses = {
+    sm: 'text-lg sm:text-xl md:text-2xl',
+    md: 'text-xl sm:text-2xl md:text-3xl',
+    lg: 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl',
+    xl: 'text-3xl sm:text-4xl md:text-5xl lg:text-6xl',
+    '2xl': 'text-4xl sm:text-5xl md:text-6xl lg:text-7xl'
+  };
+  
+  // Get appropriate size class
+  const sizeClass = sizeClasses[size] || sizeClasses.lg;
+  
   return (
     <Component
-      className={`text-${color} font-bold ${className}`}
+      className={`text-${color} font-bold ${sizeClass} ${className}`}
       {...domProps}
     >
       {children}
