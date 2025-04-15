@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useMemo, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import courseUtils from "../../lib/course-utils";
-import { VSSubmoduleModal } from "../modals/VSSubmoduleModal";
+import { VSSubmoduleModal } from "@/components/modals";
 
 interface ModuleHUDProps {
   selectedSection?: string | null;
@@ -37,7 +37,7 @@ const generateMainSections = (): SectionData[] => {
   const courseUtilsSections = courseUtils.sections;
   
   // Map course data sections to UI section data structure
-  let sectionsData: SectionData[] = [];
+  const sectionsData: SectionData[] = [];
   
   // Helper function to create uniqueId from id and displayKey
   const createUniqueId = (id: string, displayKey?: string): string => {
@@ -229,283 +229,292 @@ const SquareColumn: React.FC<SquareColumnProps> = ({ squares, selectedSection, s
   );
 };
 
-// BigSquare Component - for double-sized squares
-interface BigSquareProps {
-  section: SectionData;
+// First, let's define proper interfaces for our props
+interface SquareProps {
+  section: SectionData;  // We already have this interface defined
   isSelected: boolean;
 }
 
-const BigSquare = React.forwardRef<HTMLDivElement, BigSquareProps>(({ section, isSelected }, ref) => {
-  // Get a thumbnail based on section ID - using exact paths from JSON
-  const getSectionThumbnail = () => {
-    // Match section ID to appropriate thumbnail and use the courseUtils.getThumbnailPath function
-    let thumbnail = '';
-    
-    switch (section.id) {
-      case "basic_theory":
-        thumbnail = "the_algorithm";
-        break;
-      case "advanced_theory":
-        thumbnail = "advanced_metrics_analytics";
-        break;
-      default:
-        thumbnail = "big_picture";
-        break;
-    }
-    
-    // The actual thumbnails are in the renamed folder
-    return `/assets/main/DataBaseThumbnails/renamed/${thumbnail}.webp`;
-  };
-  
-  // Reference to track if component is mounted
-  const mounted = React.useRef(true);
-  
-  // Effect to set background with thumbnail
-  React.useEffect(() => {
-    // Ensure the ref exists and component is mounted
-    if (!ref || !mounted.current) return;
-    
-    // Get current element from ref (if it's available)
-    const el = ref as React.MutableRefObject<HTMLDivElement | null>;
-    if (!el.current) return;
-    
-    // Get thumbnail URL
-    const thumbnailUrl = getSectionThumbnail();
-    
-    // Create image to test loading
-    const img = new Image();
-    img.onload = () => {
-      if (!mounted.current || !el.current) return;
+// Fix BigSquare component
+const BigSquare = React.forwardRef<HTMLDivElement, SquareProps>(
+  ({ section, isSelected }, ref) => {
+    // Get a thumbnail based on section ID - using exact paths from JSON
+    const getSectionThumbnail = () => {
+      // Match section ID to appropriate thumbnail and use the courseUtils.getThumbnailPath function
+      let thumbnail = '';
       
-      // Apply background with section color overlay using stronger style application
-      el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${thumbnailUrl}')`, 'important');
-      el.current.style.setProperty('background-size', 'cover', 'important');
-      el.current.style.setProperty('background-position', 'center', 'important');
-      el.current.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
+      switch (section.id) {
+        case "basic_theory":
+          thumbnail = "the_algorithm";
+          break;
+        case "advanced_theory":
+          thumbnail = "advanced_metrics_analytics";
+          break;
+        default:
+          thumbnail = "big_picture";
+          break;
+      }
+      
+      // The actual thumbnails are in the renamed folder
+      return `/assets/main/DataBaseThumbnails/renamed/${thumbnail}.webp`;
     };
     
-    img.onerror = () => {
-      if (!mounted.current || !el.current) return;
-      console.error(`Failed to load BigSquare thumbnail for ${section.id}: ${thumbnailUrl}`);
+    // Reference to track if component is mounted
+    const mounted = React.useRef(true);
+    
+    // Effect to set background with thumbnail
+    React.useEffect(() => {
+      // Ensure the ref exists and component is mounted
+      if (!ref || !mounted.current) return;
       
-      // Fallback to gradient background using stronger style application
-      el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}, ${section.color}dd)`, 'important');
-      el.current.style.setProperty('background-size', 'cover', 'important');
-      el.current.style.setProperty('background-position', 'center', 'important');
+      // Get current element from ref (if it's available)
+      const el = ref as React.RefObject<HTMLDivElement | null>;
+      if (!el.current) return;
       
-      // Try default thumbnail as backup
-      const backupThumbnail = '/assets/main/DataBaseThumbnails/renamed/default.webp';
-      const backupImg = new Image();
+      // Get thumbnail URL
+      const thumbnailUrl = getSectionThumbnail();
       
-      backupImg.onload = () => {
+      // Create image to test loading
+      const img = new Image();
+      img.onload = () => {
         if (!mounted.current || !el.current) return;
-        // Use stronger style application for backup
-        el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${backupThumbnail}')`, 'important');
+        
+        // Apply background with section color overlay using stronger style application
+        el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${thumbnailUrl}')`, 'important');
         el.current.style.setProperty('background-size', 'cover', 'important');
         el.current.style.setProperty('background-position', 'center', 'important');
         el.current.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
       };
       
-      backupImg.src = backupThumbnail;
-    };
-    
-    // Start loading the image
-    img.src = thumbnailUrl;
-    
-    // Cleanup
-    return () => {
-      mounted.current = false;
-    };
-  }, [section, ref]);
-  
-  return (
-    <div 
-      ref={ref}
-      data-id={section.uniqueId || section.id}
-      data-base-id={section.id}
-      data-display-key={section.displayKey}
-      className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(53,115,128,0.3),_0_0_15px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.5),_0_0_20px_rgba(0,0,0,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
-      style={{ 
-        backgroundColor: section.color, // Initial background color as fallback
-        opacity: 1 
-      }}
-      onClick={(e) => {
-        e.stopPropagation(); // Prevent event bubbling
-        const moduleId = section.uniqueId || section.id;
-        // Dispatch a custom event that will be caught by handleModuleClick
-        const clickEvent = new CustomEvent('module-click', {
-          bubbles: true,
-          detail: { moduleId }
-        });
-        e.currentTarget.dispatchEvent(clickEvent);
-      }}
-    >
-      {/* Tooltip for section name */}
-      <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
-        {section.name}
-        <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
-      </div>
+      img.onerror = () => {
+        if (!mounted.current || !el.current) return;
+        console.error(`Failed to load BigSquare thumbnail for ${section.id}: ${thumbnailUrl}`);
+        
+        // Fallback to gradient background using stronger style application
+        el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}, ${section.color}dd)`, 'important');
+        el.current.style.setProperty('background-size', 'cover', 'important');
+        el.current.style.setProperty('background-position', 'center', 'important');
+        
+        // Try default thumbnail as backup
+        const backupThumbnail = '/assets/main/DataBaseThumbnails/renamed/default.webp';
+        const backupImg = new Image();
+        
+        backupImg.onload = () => {
+          if (!mounted.current || !el.current) return;
+          // Use stronger style application for backup
+          el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${backupThumbnail}')`, 'important');
+          el.current.style.setProperty('background-size', 'cover', 'important');
+          el.current.style.setProperty('background-position', 'center', 'important');
+          el.current.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
+        };
+        
+        backupImg.src = backupThumbnail;
+      };
       
-      {/* iPhone-style notification dot */}
-      {section.featured && (
-        <div className="absolute -top-1.5 -right-1.5 w-[16px] h-[16px] bg-[#FF3B30] rounded-full shadow-[0_0_8px_rgba(255,59,48,0.4),0_0_3px_rgba(0,0,0,0.5)] border border-white/50 z-[1] flex items-center justify-center overflow-visible">
-          <span className="text-white text-[9px] font-bold">1</span>
-        </div>
-      )}
-    </div>
-  );
-});
-
-// NormalSquare Component - for regular-sized squares
-interface NormalSquareProps {
-  section: SectionData;
-  isSelected: boolean;
-}
-
-const NormalSquare = React.forwardRef<HTMLDivElement, NormalSquareProps>(({ section, isSelected }, ref) => {
-  // Get a thumbnail based on section ID using direct paths
-  const getSectionThumbnail = () => {
-    // Match section ID to appropriate thumbnail 
-    let thumbnail = '';
+      // Start loading the image
+      img.src = thumbnailUrl;
+      
+      // Cleanup
+      return () => {
+        mounted.current = false;
+      };
+    }, [section, ref]);
     
-    switch (section.id) {
-      case "upskiller_authentic_research_writer":
-        thumbnail = "research";
-        break;
-      case "upskiller_shorts_ready_videographer":
-        thumbnail = "shooting_for_short_form";
-        break;
-      case "upskiller_vertical_video_editors":
-        thumbnail = "editing";
-        break;
-      case "pr_authority":
-        thumbnail = "pr_who_are_you";
-        break;
-      case "delegation":
-        thumbnail = "team_building_delegation";
-        break;
-      case "monetisation":
-        thumbnail = "monetisation_evolving";
-        break;
-      case "conversion":
-        thumbnail = "building_your_funnel";
-        break;
-      // For system sections based on displayKey
-      default:
-        if (section.displayKey?.includes('notion')) {
-          thumbnail = "managing_comments";
-        } else if (section.displayKey?.includes('engine')) {
-          thumbnail = "content_fidelity";
-        } else if (section.displayKey?.includes('viral')) {
+    return (
+      <div 
+        ref={ref}
+        data-id={section.uniqueId || section.id}
+        data-base-id={section.id}
+        data-display-key={section.displayKey}
+        className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(53,115,128,0.3),_0_0_15px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.5),_0_0_20px_rgba(0,0,0,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
+        style={{ 
+          backgroundColor: section.color, // Initial background color as fallback
+          opacity: 1 
+        }}
+        onClick={(e) => {
+          e.stopPropagation(); // Prevent event bubbling
+          const moduleId = section.uniqueId || section.id;
+          // Dispatch a custom event that will be caught by handleModuleClick
+          const clickEvent = new CustomEvent('module-click', {
+            bubbles: true,
+            detail: { moduleId }
+          });
+          e.currentTarget.dispatchEvent(clickEvent);
+        }}
+      >
+        {/* Tooltip for section name */}
+        <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
+          {section.name}
+          <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
+        </div>
+        
+        {/* iPhone-style notification dot */}
+        {section.featured && (
+          <div className="absolute -top-1.5 -right-1.5 w-[16px] h-[16px] bg-[#FF3B30] rounded-full shadow-[0_0_8px_rgba(255,59,48,0.4),0_0_3px_rgba(0,0,0,0.5)] border border-white/50 z-[1] flex items-center justify-center overflow-visible">
+            <span className="text-white text-[9px] font-bold">1</span>
+          </div>
+        )}
+      </div>
+    );
+  }
+);
+
+BigSquare.displayName = 'BigSquare';  // Add display name for better debugging
+
+// Fix NormalSquare component
+const NormalSquare = React.forwardRef<HTMLDivElement, SquareProps>(
+  ({ section, isSelected }, ref) => {
+    // Get a thumbnail based on section ID using direct paths
+    const getSectionThumbnail = () => {
+      // Match section ID to appropriate thumbnail
+      let thumbnail = '';
+      
+      switch (section.id) {
+        case "upskiller_authentic_research_writer":
+          thumbnail = "research";
+          break;
+        case "upskiller_shorts_ready_videographer":
+          thumbnail = "shooting_for_short_form";
+          break;
+        case "upskiller_vertical_video_editors":
           thumbnail = "editing";
-        } else {
-          thumbnail = "big_picture"; // Default fallback
-        }
-        break;
-    }
-    
-    // The actual thumbnails are in the renamed folder
-    return `/assets/main/DataBaseThumbnails/renamed/${thumbnail}.webp`;
-  };
-  
-  // Reference to track if component is mounted
-  const mounted = React.useRef(true);
-  
-  // Effect to set background with thumbnail
-  React.useEffect(() => {
-    // Ensure the ref exists and component is mounted
-    if (!ref || !mounted.current) return;
-    
-    // Get current element from ref (if it's available)
-    const el = ref as React.MutableRefObject<HTMLDivElement | null>;
-    if (!el.current) return;
-    
-    // Get thumbnail URL
-    const thumbnailUrl = getSectionThumbnail();
-    
-    // Create image to test loading
-    const img = new Image();
-    img.onload = () => {
-      if (!mounted.current || !el.current) return;
+          break;
+        case "pr_authority":
+          thumbnail = "pr_who_are_you";
+          break;
+        case "delegation":
+          thumbnail = "team_building_delegation";
+          break;
+        case "monetisation":
+          thumbnail = "monetisation_evolving";
+          break;
+        case "conversion":
+          thumbnail = "building_your_funnel";
+          break;
+        // For system sections based on displayKey
+        default:
+          if (section.displayKey?.includes('notion')) {
+            thumbnail = "managing_comments";
+          } else if (section.displayKey?.includes('engine')) {
+            thumbnail = "content_fidelity";
+          } else if (section.displayKey?.includes('viral')) {
+            thumbnail = "editing";
+          } else {
+            thumbnail = "big_picture"; // Default fallback
+          }
+          break;
+      }
       
-      // Apply background with section color overlay using stronger style application
-      el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${thumbnailUrl}')`, 'important');
-      el.current.style.setProperty('background-size', 'cover', 'important');
-      el.current.style.setProperty('background-position', 'center', 'important');
-      el.current.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
+      // The actual thumbnails are in the renamed folder
+      return `/assets/main/DataBaseThumbnails/renamed/${thumbnail}.webp`;
     };
     
-    img.onerror = () => {
-      if (!mounted.current || !el.current) return;
-      console.error(`Failed to load BigSquare thumbnail for ${section.id}: ${thumbnailUrl}`);
-      
-      // Fallback to gradient background using stronger style application
-      el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}, ${section.color}dd)`, 'important');
-      el.current.style.setProperty('background-size', 'cover', 'important');
-      el.current.style.setProperty('background-position', 'center', 'important');
-      
-      // Try default thumbnail as backup
-      const backupThumbnail = '/assets/main/DataBaseThumbnails/renamed/default.webp';
-      const backupImg = new Image();
-      
-      backupImg.onload = () => {
+    // Reference to track if component is mounted
+    const mounted = React.useRef(true);
+    
+    // Effect to set background with thumbnail
+    React.useEffect(() => {
+      // Ensure the ref exists and component is mounted
+      if (!ref || !mounted.current) return;
+  
+      // Get current element from ref (if it's available)
+      const el = ref as React.RefObject<HTMLDivElement | null>;
+      if (!el.current) return;
+  
+      // Get thumbnail URL
+      const thumbnailUrl = getSectionThumbnail();
+  
+      // Create image to test loading
+      const img = new Image();
+      img.onload = () => {
         if (!mounted.current || !el.current) return;
-        // Use stronger style application for backup
-        el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${backupThumbnail}')`, 'important');
+  
+        // Apply background with section color overlay using stronger style application
+        el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${thumbnailUrl}')`, 'important');
         el.current.style.setProperty('background-size', 'cover', 'important');
         el.current.style.setProperty('background-position', 'center', 'important');
         el.current.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
       };
-      
-      backupImg.src = backupThumbnail;
-    };
-    
-    // Start loading the image
-    img.src = thumbnailUrl;
-    
-    // Cleanup
-    return () => {
-      mounted.current = false;
-    };
-  }, [section, ref]);
   
-  return (
-    <div 
-      ref={ref}
-      data-id={section.uniqueId || section.id}
-      data-base-id={section.id}
-      data-display-key={section.displayKey}
-      className="section-module module-item dark-glow-overlay w-[var(--normal-square-width)] h-[var(--normal-square-width)] rounded-xl shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(53,115,128,0.3),_0_0_15px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.5),_0_0_20px_rgba(0,0,0,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
-      style={{ 
-        backgroundColor: section.color, // Initial background color as fallback
-        opacity: 1
-      }}
-      onClick={(e) => {
-        e.stopPropagation(); // Prevent event bubbling
-        const moduleId = section.uniqueId || section.id;
-        // Dispatch a custom event that will be caught by handleModuleClick
-        const clickEvent = new CustomEvent('module-click', {
-          bubbles: true,
-          detail: { moduleId }
-        });
-        e.currentTarget.dispatchEvent(clickEvent);
-      }}
-    >
-      {/* Tooltip for section name */}
-      <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
-        {section.name}
-        <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
-      </div>
-      
-      {/* iPhone-style notification dot */}
-      {section.featured && (
-        <div className="absolute -top-1.5 -right-1.5 w-[14px] h-[14px] bg-[#FF3B30] rounded-full shadow-[0_0_8px_rgba(255,59,48,0.4),0_0_3px_rgba(0,0,0,0.5)] border border-white/50 z-[1] flex items-center justify-center overflow-visible">
-          <span className="text-white text-[8px] font-bold">1</span>
+      img.onerror = () => {
+        if (!mounted.current || !el.current) return;
+        console.error(`Failed to load BigSquare thumbnail for ${section.id}: ${thumbnailUrl}`);
+  
+        // Fallback to gradient background using stronger style application
+        el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}, ${section.color}dd)`, 'important');
+        el.current.style.setProperty('background-size', 'cover', 'important');
+        el.current.style.setProperty('background-position', 'center', 'important');
+  
+        // Try default thumbnail as backup
+        const backupThumbnail = '/assets/main/DataBaseThumbnails/renamed/default.webp';
+        const backupImg = new Image();
+  
+        backupImg.onload = () => {
+          if (!mounted.current || !el.current) return;
+          // Use stronger style application for backup
+          el.current.style.setProperty('background-image', `linear-gradient(135deg, ${section.color}99, ${section.color}cc), url('${backupThumbnail}')`, 'important');
+          el.current.style.setProperty('background-size', 'cover', 'important');
+          el.current.style.setProperty('background-position', 'center', 'important');
+          el.current.style.setProperty('background-blend-mode', 'soft-light, normal', 'important');
+        };
+  
+        backupImg.src = backupThumbnail;
+      };
+  
+      // Start loading the image if we have a valid URL
+      if (thumbnailUrl) {
+        img.src = thumbnailUrl;
+      } else {
+        // No valid URL, use fallback gradient
+        el.current.style.background = `linear-gradient(135deg, ${section.color}, ${section.color}dd)`;
+      }
+  
+      // Cleanup
+      return () => {
+        mounted.current = false;
+      };
+    }, [section, ref]);
+    
+    return (
+      <div 
+        ref={ref}
+        data-id={section.uniqueId || section.id}
+        data-base-id={section.id}
+        data-display-key={section.displayKey}
+        className="section-module module-item dark-glow-overlay w-[var(--normal-square-width)] h-[var(--normal-square-width)] rounded-xl shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(53,115,128,0.3),_0_0_15px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.5),_0_0_20px_rgba(0,0,0,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
+        style={{ 
+          backgroundColor: section.color, // Initial background color as fallback
+          opacity: 1
+        }}
+        onClick={(e) => {
+          e.stopPropagation(); // Prevent event bubbling
+          const moduleId = section.uniqueId || section.id;
+          // Dispatch a custom event that will be caught by handleModuleClick
+          const clickEvent = new CustomEvent('module-click', {
+            bubbles: true,
+            detail: { moduleId }
+          });
+          e.currentTarget.dispatchEvent(clickEvent);
+        }}
+      >
+        {/* Tooltip for section name */}
+        <div className="tooltip-content absolute -top-10 left-1/2 transform -translate-x-1/2 bg-theme-bg-primary text-theme-primary px-2 py-1 rounded shadow-theme-md text-xs whitespace-nowrap opacity-0 transition-opacity duration-200 pointer-events-none z-20">
+          {section.name}
+          <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-bg-primary rotate-45"></div>
         </div>
-      )}
-    </div>
-  );
-});
+        
+        {/* iPhone-style notification dot */}
+        {section.featured && (
+          <div className="absolute -top-1.5 -right-1.5 w-[14px] h-[14px] bg-[#FF3B30] rounded-full shadow-[0_0_8px_rgba(255,59,48,0.4),0_0_3px_rgba(0,0,0,0.5)] border border-white/50 z-[1] flex items-center justify-center overflow-visible">
+            <span className="text-white text-[8px] font-bold">1</span>
+          </div>
+        )}
+      </div>
+    );
+  }
+);
+
+NormalSquare.displayName = 'NormalSquare';
 
 export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleClick }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -903,7 +912,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
     // If a section is selected, expand it after previous collapses
     if (selectedSection) {
       // Find the section element directly using the uniqueId stored in sectionRefs
-      let sectionEl = sectionRefs.current[selectedSection];
+      const sectionEl = sectionRefs.current[selectedSection];
       
       if (!sectionEl) return;
       
@@ -1343,8 +1352,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
               document.body.appendChild(modal);
             }
             
-            modal.style.opacity = '1';
-            modal.style.pointerEvents = 'auto';
+            (modal as HTMLElement).style.opacity = '1';
+            (modal as HTMLElement).style.pointerEvents = 'auto';
             
             // Animate modal in
             const modalContentEl = modal.querySelector('div');
@@ -1372,8 +1381,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   duration: 0.2,
                   ease: "power3.in",
                   onComplete: () => {
-                    modal.style.opacity = '0';
-                    modal.style.pointerEvents = 'none';
+                    (modal as HTMLElement).style.opacity = '0';
+                    (modal as HTMLElement).style.pointerEvents = 'none';
                   }
                 });
               } else {
@@ -1742,7 +1751,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             "For tablet and mobile breakpoints this should be having the layout rotate 90 degrees 
             – although to avoid rotation complications, this would be better expressed through 
             flex direction changes (the outer l-r row becomes a t-b column && the tinner t-b column 
-            becomes a l-r row)" 
+            becomes an l-r row)"
           */}
           <div className="flex flex-col md:flex-row h-max items-center justify-center content-center md:items-center gap-[var(--square-gap-y)] md:gap-[var(--square-gap-x)]">
             {/* First big square (Basic Theory) */}

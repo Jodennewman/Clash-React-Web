@@ -416,15 +416,14 @@ function ExampleCard() {
 - ALWAYS use `git add .` to stage ALL modified files
 - NEVER selectively commit only some changes
 - Files modified together should be committed together
+- commit to a branch called 0415, and push to a remote with the same name
 
 ### Commit Procedure
 1. Run `git status` to check modified files
 2. Add ALL changes: `git add .`
 3. Verify all changes are staged: `git status`
 4. Commit with prefix and description:
-   - Solo Mode: `git commit -m "Solo: [description]"`
-   - Team A: `git commit -m "A: [description]"`
-   - Team B: `git commit -m "B: [description]"`
+   - [one word name of main task]: `git commit -m "Solo: [description]"`
 
 ### Commit Frequency
 - After each significant component change
@@ -451,6 +450,40 @@ useGSAP(() => {
   
   return () => ctx.revert();
 }, []);
+```
+
+### Professional GSAP Implementation
+
+All complex animations MUST use `useGSAP` and `gsap.context` for proper lifecycle management:
+
+```jsx
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+
+function AnimatedComponent() {
+  const containerRef = useRef(null);
+  
+  useGSAP(() => {
+    // Create context for proper cleanup
+    const ctx = gsap.context(() => {
+      // Animations here
+      gsap.to(".element", {
+        y: -10,
+        opacity: 1,
+        duration: 0.5,
+        stagger: 0.1
+      });
+    }, containerRef); // Scope to container
+    
+    return () => ctx.revert(); // Proper cleanup
+  }, []);
+  
+  return (
+    <div ref={containerRef}>
+      <div className="element">Animated element</div>
+    </div>
+  );
+}
 ```
 
 ## Development Commands
@@ -587,6 +620,17 @@ Use these theme-aware utility classes for consistent styling:
 - `vs-text-gradient-orange` - Orange to coral gradient text
 - `vs-text-gradient-teal` - Teal gradient text
 - `bg-theme-gradient-text` - Alternative gradient text implementation
+To create additional text classes, they must use the following syntax in css
+{
+.vs-type of gradient{
+  background: linear-gradient(to left,
+ var(--color-cyan-400),
+  oklch(52% 0.105 223.128));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
 
 ### Background Colors
 - `bg-theme-primary` - Main background color

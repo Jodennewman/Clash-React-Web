@@ -80,4 +80,4 @@ const QuestionStage: React.FC<QuestionStageProps> = ({
   );
 };
 
-export default QuestionStage;
+export default QuestionStage

@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './app/globals.css'  // Keep using globals.css for now for core variables
 
 import './styles/index.css'  // Import modular CSS structure for styling
-import './app/modulehud.css'  // Import ModuleHUD specific styles
+import './styles/modulehud.css'  // Import ModuleHUD specific styles
 import './styles/custom-text.css'  // Import custom text styles
 import App from './App'
 import { ThemeProvider } from './components/ui/theme-provider'

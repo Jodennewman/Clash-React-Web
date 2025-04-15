@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Users, Compass, Clock, BarChart4, Mail, Award, Briefcase
+import {
+  Users, Compass, Clock, BarChart4, Mail, Award, Briefcase, Sun, Moon
 } from 'lucide-react';
 
 import {
@@ -654,14 +654,21 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({
       default: return 'Qualification Journey';
     }
   };
-  
+
   // Validate if current stage can proceed
   const canProceed = () => {
     switch (stage) {
       case 'intro':
         return true;
-      case 'contact':
-        return answers.name && answers.email && answers.company;
+      case 'contact': {
+        // Need to wrap in a block when using variable declarations
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return (
+            answers.name.trim() !== '' &&
+            emailRegex.test(answers.email) &&
+            answers.company.trim() !== ''
+        );
+      }
       case 'teamSize':
         return answers.teamSize !== '';
       case 'implementationSupport':
@@ -670,11 +677,21 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({
         return answers.timeline !== '';
       case 'contentVolume':
         return answers.contentVolume !== '';
-      default:
+      case 'analysis':
         return true;
+      case 'breakdown':
+        return true;
+      case 'recommendation':
+        return recommendation !== null;
+      default: {
+        console.warn(`Unhandled stage in validation: ${stage}`);
+        return false;
+      }
     }
   };
-  
+
+
+
   // Determine current progress percentage
   const getProgress = () => {
     // Only count the active question stages (team size to contact) for progress calculation

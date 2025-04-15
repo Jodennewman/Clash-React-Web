@@ -4,18 +4,25 @@ import gsap from "gsap";
 import { getImage } from "../../utils/imageMap";
 
 interface ConnectEverythingProps {
-  // Add any props you might need here
+  className?: string;
+  id?: string;
 }
 
-export const ConnectEverything: React.FC<ConnectEverythingProps> = (props) => {
+export const ConnectEverything: React.FC<ConnectEverythingProps> = ({ className = "", id }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Use our image mapping utility to get the actual images
+
+  // Use our image mapping utility to get the actual images with proper error handling
   const appIcons = {
-    creatorHud: getImage('main', 'AppIcons', 'Hud') || '',
-    scranAr: getImage('main', 'AppIcons', 'Scran-ar') || '',
-    spitt: getImage('main', 'AppIcons', 'Scranar-prPRO extension') || ''
+    creatorHud: getImage('main', 'AppIcons', 'Hud') ?? '',
+    scranAr: getImage('main', 'AppIcons', 'Scran-ar') ?? '',
+    spitt: getImage('main', 'AppIcons', 'Scranar-prPRO extension') ?? ''
   };
+
+  // Check if any required images are missing
+  const missingImages = Object.entries(appIcons).filter(([, value]) => !value);
+  if (missingImages.length > 0) {
+    console.warn('Missing required images:', missingImages.map(([key]) => key));
+  }
 
   // Simplified GSAP animations to reduce lag
   useGSAP(() => {
@@ -30,248 +37,73 @@ export const ConnectEverything: React.FC<ConnectEverythingProps> = (props) => {
           repeat: -1,
           yoyo: true
         });
-        
-        // Simple hover effect
-        icon.addEventListener('mouseenter', () => {
-          gsap.to(icon, {
-            scale: 1.05,
-            duration: 0.3
+
+        // Simple hover effect with reduced motion preference check
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          icon.addEventListener('mouseenter', () => {
+            gsap.to(icon, {
+              scale: 1.05,
+              duration: 0.3
+            });
           });
-        });
-        
-        icon.addEventListener('mouseleave', () => {
-          gsap.to(icon, {
-            scale: 1,
-            duration: 0.3
+
+          icon.addEventListener('mouseleave', () => {
+            gsap.to(icon, {
+              scale: 1,
+              duration: 0.3
+            });
           });
-        });
-      });
-      
-      // Simplified glow effect - just one simple animation per glow
-      gsap.utils.toArray<Element>('.app-icon-glow').forEach((glow, i) => {
-        gsap.to(glow, {
-          opacity: 0.6,
-          scale: 1.1,
-          duration: 2,
-          repeat: -1,
-          yoyo: true,
-          delay: i * 0.5
-        });
+        }
       });
 
-      // No scroll triggers anymore - all animations are just looping
-      // to prevent lag from scroll-based animations
+      // Simplified glow effect with reduced motion check
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        gsap.utils.toArray<Element>('.app-icon-glow').forEach((glow, i) => {
+          gsap.to(glow, {
+            opacity: 0.6,
+            scale: 1.1,
+            duration: 2,
+            repeat: -1,
+            yoyo: true,
+            delay: i * 0.5
+          });
+        });
+      }
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={containerRef} className="w-[1874px] h-[3383px] px-64 py-6 bg-radial-[at_75%_-11%] from-cyan-950 to-black to-78% inline-flex flex-col justify-center items-center gap-40 overflow-hidden">
-      {/* Simplified background elements */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
-        <div className="absolute top-[10%] left-[5%] w-[30%] h-[1px] bg-gradient-to-r from-transparent via-sky-400 to-transparent"></div>
-        <div className="absolute top-[30%] right-[10%] w-[20%] h-[1px] bg-gradient-to-r from-transparent via-rose-300 to-transparent"></div>
-        <div className="absolute bottom-[20%] left-[15%] w-[40%] h-[1px] bg-gradient-to-r from-transparent via-purple-400 to-transparent"></div>
+    <div className="w-[1874px] h-[3383px] px-[262px] py-[25px] bg-radial-[at_75%_-11%] from-cyan-950 to-black to 78% inline-flex flex-col justify-center items-center gap-[200px] overflow-hidden">
+      <div className="size- flex flex-col justify-center items-center gap-[49px]">
+        <div className="justify-start"><span className="text-white text-[85px] font-semibold">Connect </span><span className=" text-transparent bg-clip-text bg-gradient-to-br from-orange-400 to-red-500 text-clip  text-[85px] font-semibold">Everything</span></div>
+        <div className="w-[880px] text-center justify-center text-white text-[38px] font-normal font-['Neue_Haas_Grotesk_Display_Pro']">Short-form is still a new medium, and most modern video pipelines just aren’t fit to deal with the quantity (and quality) demands of the medium.</div>
+        <div className="w-[1158px] h-[295px] min-h-[295px] text-center justify-center text-white text-[55px] font-semibold font-['Neue_Haas_Grotesk_Display_Pro']">Packaged intrinsically with the Vertical Shortcut are utilities, apps, and extensions we’ve developed in house.</div>
+        <div className="w-[880px] text-center justify-center text-white text-[38px] font-normal font-['Neue_Haas_Grotesk_Display_Pro']">Altogether implementing these made our team about 4x more efficient as an agency, while also increasing  quality</div>
       </div>
-      
-      <div className="container mx-auto px-4 md:px-8 lg:px-16 flex flex-col justify-center items-center gap-20 lg:gap-40 relative z-10">
-        {/* Header section */}
-        <div className="flex flex-col justify-start items-center gap-8 max-w-5xl text-center mt-5">
-          <div className="relative inline-block">
-            <h2 className="connect-animate text-white text-4xl md:text-5xl lg:text-7xl font-semibold relative z-10">
-              Connect Everything
-            </h2>
-            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-[120%] h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent"></div>
-          </div>
-          
-          <p className="connect-animate text-white text-xl md:text-2xl lg:text-4xl max-w-2xl lg:max-w-4xl">
-            Short-form is still a new medium, and most modern video pipelines just aren't fit to deal with the quantity (and quality) demands of the medium.
-          </p>
-          
-          <div className="connect-animate relative px-4 py-6 md:py-10 rounded-xl bg-gradient-to-br from-cyan-950/30 to-slate-900/30 backdrop-blur-sm border border-cyan-800/20">
-            <p className="text-white text-xl md:text-3xl lg:text-5xl font-semibold max-w-3xl lg:max-w-5xl">
-              Packaged intrinsically with the Vertical Shortcut are utilities, apps, and extensions we've developed in house.
-            </p>
-            <div className="absolute -top-3 -left-3 w-6 h-6 border-t-2 border-l-2 border-cyan-500"></div>
-            <div className="absolute -bottom-3 -right-3 w-6 h-6 border-b-2 border-r-2 border-cyan-500"></div>
-          </div>
-          
-          <p className="connect-animate text-white text-xl md:text-2xl lg:text-4xl max-w-2xl lg:max-w-4xl">
-            Altogether implementing these made our team about <span className="text-orange-400 font-semibold">4x more efficient</span> as an agency, while also increasing quality
-          </p>
+      <div className="w-[880px] inline-flex justify-center items-center gap-[41px] flex-wrap content-center">
+        <div className="flex-1 flex justify-center items-center gap-[123px] flex-wrap content-center">
+          <img className="size-[300px] glow-theme-secondary halftone-image max-w-none object-contain drop-shadow-2xl" src={appIcons.creatorHud} />
+          <div className="w-[453px] h-[226px] justify-start"><span className="text-sky-300 text-[64px] font-normal font-['Neue_Haas_Grotesk_Display_Pro'] leading-[57.15px]">Creator HUD</span><span className="text-background text-[64px] font-normal font-['Neue_Haas_Grotesk_Display_Pro'] leading-[57.15px]"> </span><span className="text-background text-[28px] font-normal font-['Neue_Haas_Grotesk_Display_Pro'] leading-[25px]">for Notion<br /></span><span className="text-background text-2xl font-normal font-['Neue_Haas_Grotesk_Display_Pro'] leading-snug"><br /></span><span className="text-background text-2xl font-normal font-['Neue_Haas_Grotesk_Display_Pro']">A custom-code heavy Notion Template<br />This tool works natively with Premiere Pro and<br />the data from Scran.ar to, in a single click of a button, create uniquely named timelines and populate them with the appropriate footage.<br /></span></div>
         </div>
-
-        {/* Tools section */}
-        <div className="w-full max-w-5xl flex flex-col gap-24 justify-center items-center">
-          {/* Creator HUD Tool */}
-          <div className="tool-card flex flex-col lg:flex-row gap-12 items-center">
-            <div className="relative group">
-              <div className="app-icon-glow absolute inset-0 rounded-xl bg-sky-400/10 blur-xl"></div>
-              <img 
-                className="app-icon w-64 h-64 lg:w-72 lg:h-72 rounded-xl object-cover shadow-[0px_0px_50px_0px_rgba(66,206,255,0.4)]"
-                src={appIcons.creatorHud} 
-                alt="Creator HUD" 
-              />
-              <div className="absolute -top-3 -right-3 flex h-8 items-center justify-center rounded-full bg-gradient-to-r from-sky-600 to-sky-400 px-3 text-xs text-white">
-                <span className="relative z-10">NOTION</span>
-              </div>
-              
-              {/* Tech decorators */}
-              <div className="absolute -bottom-2 -left-2 w-5 h-5 border-l-2 border-b-2 border-sky-400 opacity-70"></div>
-              <div className="absolute -top-2 -right-2 w-5 h-5 border-r-2 border-t-2 border-sky-400 opacity-70"></div>
-            </div>
-            
-            <div className="max-w-md">
-              <div className="mb-3 relative inline-block">
-                <h3 className="text-sky-300 text-3xl lg:text-6xl font-normal leading-tight">
-                  Creator HUD
-                </h3>
-                <div className="absolute -bottom-1 left-0 w-16 h-[2px] bg-sky-400/60"></div>
-              </div>
-              
-              <div className="flex items-center mb-5">
-                <div className="h-6 w-6 rounded-full bg-sky-500/20 flex items-center justify-center mr-2">
-                  <div className="h-2 w-2 rounded-full bg-sky-400"></div>
-                </div>
-                <p className="text-white/90 text-lg lg:text-2xl">for Notion</p>
-              </div>
-              
-              <p className="text-white/80 text-base lg:text-xl mt-4 leading-relaxed">
-                A custom-code heavy Notion Template. This tool works natively with Premiere Pro and
-                the data from Scran.ar to, in a single click of a button, create uniquely named timelines and populate them with the appropriate footage.
-              </p>
-              
-              <div className="mt-5 flex items-center">
-                <div className="h-2 w-2 rounded-full bg-sky-400 mr-2"></div>
-                <span className="text-sky-300/80 text-sm">Import/Export API</span>
-                <div className="h-2 w-2 rounded-full bg-sky-400 mx-2"></div>
-                <span className="text-sky-300/80 text-sm">Automation</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Scran.ar Tool */}
-          <div className="tool-card flex flex-col lg:flex-row gap-12 items-center">
-            <div className="relative group">
-              <div className="app-icon-glow absolute inset-0 rounded-xl bg-rose-400/10 blur-xl"></div>
-              <img 
-                className="app-icon w-64 h-64 lg:w-72 lg:h-72 rounded-xl object-cover shadow-[0px_0px_50px_0px_rgba(254,163,93,0.4)]" 
-                src={appIcons.scranAr}
-                alt="Scran.ar" 
-              />
-              <div className="absolute -top-3 -right-3 flex h-8 items-center justify-center rounded-full bg-gradient-to-r from-rose-600 to-orange-400 px-3 text-xs text-white">
-                <span className="relative z-10">BETA</span>
-              </div>
-              
-              {/* Tech decorators */}
-              <div className="absolute -bottom-2 -left-2 w-5 h-5 border-l-2 border-b-2 border-rose-400 opacity-70"></div>
-              <div className="absolute -top-2 -right-2 w-5 h-5 border-r-2 border-t-2 border-rose-400 opacity-70"></div>
-            </div>
-            
-            <div className="max-w-md">
-              <div className="mb-3 relative inline-block">
-                <h3 className="text-rose-200 text-3xl lg:text-6xl font-normal leading-tight">
-                  Scran.ar
-                </h3>
-                <div className="absolute -bottom-1 left-0 w-16 h-[2px] bg-rose-400/60"></div>
-              </div>
-              
-              <div className="inline-block px-2 py-1 rounded bg-rose-500/20 mb-3">
-                <p className="text-white/90 text-xs font-medium uppercase tracking-wide">Video Ingest System</p>
-              </div>
-              
-              <p className="text-white/80 text-base lg:text-xl leading-relaxed">
-                A powerful video ingest application, specifically for editing buckets of shorts, <span className="font-medium">quickly</span>.
-                <span className="block mt-4 text-sm lg:text-base opacity-90">
-                  By communicating directly with the Creator HUD, this tool knows everything about your raw footage before even you do.
-                </span>
-              </p>
-              
-              <div className="mt-5 flex items-center">
-                <div className="h-2 w-2 rounded-full bg-rose-400 mr-2"></div>
-                <span className="text-rose-200/80 text-sm">Machine Learning</span>
-                <div className="h-2 w-2 rounded-full bg-rose-400 mx-2"></div>
-                <span className="text-rose-200/80 text-sm">Fast Processing</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Spitt Tool */}
-          <div className="tool-card flex flex-col lg:flex-row gap-12 items-center">
-            <div className="relative group">
-              <div className="app-icon-glow absolute inset-0 rounded-xl bg-purple-400/10 blur-xl"></div>
-              <img 
-                className="app-icon w-64 h-64 lg:w-72 lg:h-72 rounded-xl object-cover shadow-[0px_0px_50px_0px_rgba(202,54,255,0.4)]" 
-                src={appIcons.spitt}
-                alt="Spitt" 
-              />
-              <div className="absolute -top-3 -right-3 flex h-8 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-purple-400 px-3 text-xs text-white">
-                <span className="relative z-10">EXTENSION</span>
-              </div>
-              
-              {/* Tech decorators */}
-              <div className="absolute -bottom-2 -left-2 w-5 h-5 border-l-2 border-b-2 border-purple-400 opacity-70"></div>
-              <div className="absolute -top-2 -right-2 w-5 h-5 border-r-2 border-t-2 border-purple-400 opacity-70"></div>
-            </div>
-            
-            <div className="max-w-md">
-              <div className="mb-3 relative inline-block">
-                <h3 className="text-purple-400 text-3xl lg:text-6xl font-normal leading-tight">
-                  Spitt
-                </h3>
-                <div className="absolute -bottom-1 left-0 w-16 h-[2px] bg-purple-400/60"></div>
-              </div>
-              
-              <div className="inline-block px-2 py-1 rounded bg-purple-500/20 mb-3">
-                <p className="text-white/90 text-xs font-medium uppercase tracking-wide">Premiere Pro Extension</p>
-              </div>
-              
-              <p className="text-white/80 text-base lg:text-xl leading-relaxed">
-                A Premiere Pro Extension for Scran.ar. Video editing can be cruel, whether you're the one doing it or not.
-                <span className="block mt-4">
-                  This tool works natively with Premiere Pro and the data from Scran.ar to, in a single click of a button, create uniquely named timelines and populate them with the appropriate footage.
-                </span>
-              </p>
-              
-              <div className="mt-5 flex items-center">
-                <div className="h-2 w-2 rounded-full bg-purple-400 mr-2"></div>
-                <span className="text-purple-200/80 text-sm">Auto Organization</span>
-                <div className="h-2 w-2 rounded-full bg-purple-400 mx-2"></div>
-                <span className="text-purple-200/80 text-sm">Time Saving</span>
-              </div>
-            </div>
-          </div>
+        <div className="h-[295px] flex justify-center items-center gap-[123px] flex-wrap content-center">
+          <img className="size-[300px] halftone-image max-w-none object-contain drop-shadow-2xl" src={appIcons.scranAr} />
+          <div className="justify-start"><span className="text-rose-200 text-[64px] font-normal font-['Neue_Haas_Grotesk_Display_Pro']">Scran.ar</span><span className="text-background text-[64px] font-normal font-['Neue_Haas_Grotesk_Display_Pro']"> </span><span className="text-background text-2xl font-normal font-['Neue_Haas_Grotesk_Display_Pro']">(beta)<br /></span><span className="text-background text-2xl font-normal font-['Neue_Haas_Grotesk_Display_Pro'] leading-loose">A powerful video ingest application,<br /></span><span className="text-background text-2xl font-normal font-['Neue_Haas_Grotesk_Display_Pro']">specifically for editing buckets of shorts, </span><span className="text-background text-2xl font-medium font-['Neue_Haas_Grotesk_Display_Pro']">quickly</span><span className="text-background text-[27px] font-medium font-['Neue_Haas_Grotesk_Display_Pro']">.<br /><br /></span><span className="text-background text-lg font-medium font-['Neue_Haas_Grotesk_Display_Pro']">By communicating directly with the Creator HUD,<br />this tool knows everything about your raw footage<br />before even you do.<br /></span></div>
         </div>
-
-        {/* Integration section - using original design */}
-        <div className="w-[1158px] min-h-72 text-center justify-center">
-          <p className="text-white text-4xl font-normal">
-            The best part is,<br/>
-            all of these developments are <span className="text-white text-4xl font-semibold">seamlessly integrated</span><sup className="text-3xl font-semibold">**</sup>, meaning:<br/>
-            <br/>
-          </p>
-          <p className="text-orange-400 text-6xl font-semibold">
-            They speak to each-other.<br/>
-          </p>
-          <p className="text-white text-4xl font-normal mt-8">
-            So, so much easier.<br/>
-          </p>
-          <p className="text-white text-2xl font-normal mt-4">
-            **Seams may still be present.
-          </p>
-        </div>
-
-        {/* Cohort section - using original design */}
-        <div className="w-[1074px] text-center justify-center">
-          <p className="text-white text-4xl font-normal">
-            We have custom analytics tools, video editing automators, A.I driven 'authentic performance' checkers.<br/><br/>
-            As we work towards offering more of our custom systems publicly, you, as a part of <span className="text-blue-500 text-4xl font-semibold">Vertical Shortcut Cohort α</span>, will have permanent access to the entire suite, as well as permanent updates and expansions to the course. <br/><br/>
-            You would be one of the only 12 people we would include in this alpha testing group.
-          </p>
+        <div className="size- flex justify-center items-center gap-[123px] flex-wrap content-center">
+          <img className="size-[300px] halftone-image max-w-none object-contain drop-shadow-2xl" src={appIcons.spitt} />
+          <div className="w-[453px] h-[306px] justify-start"><span className="text-purple-500 text-[64px] font-normal font-['Neue_Haas_Grotesk_Display_Pro']">Spitt.ar </span><span className="text-purple-500 text-3xl font-normal font-['Neue_Haas_Grotesk_Display_Pro']"> </span><span className="text-background text-2xl font-normal font-['Neue_Haas_Grotesk_Display_Pro']">A  Premiere Pro Extension for Scran.ar<br /><br />Video editing can be cruel, whether you’re the one doing it or not.<br /><br />This tool works natively with Premiere Pro and<br />the data from Scran.ar to, in a single click of a button, create uniquely named timelines and populate them with the appropriate footage.</span></div>
         </div>
       </div>
-    </section>
+      <div className="w-[1158px] flex flex-col justify-center items-center gap-[49px]">
+        <div className="self-stretch text-center justify-center text-white text-[38px] font-normal font-['Neue_Haas_Grotesk_Display_Pro']">The best part is,</div>
+        <div className="self-stretch text-center justify-center text-orange-400 text-[80px] font-semibold font-['Neue_Haas_Grotesk_Display_Pro']">They speak to each-other.</div>
+        <div className="w-[1074px] h-[184px] text-center justify-center"><span className="text-white text-[38px] font-normal font-['Neue_Haas_Grotesk_Display_Pro']">As we work towards offering more of our custom systems publicly, you, as a part of</span><span className="text-white text-[38px] font-semibold font-['Neue_Haas_Grotesk_Display_Pro']"> </span><span className="text-blue-500 text-[38px] font-semibold font-['Neue_Haas_Grotesk_Display_Pro']">Vertical Shortcut Cohort α</span><span className="text-white text-[38px] font-normal font-['Neue_Haas_Grotesk_Display_Pro']">, will have permanent access to the entire suite, as well as permanent updates  and expansions to the course. </span></div>
+        <div className="w-[1074px] h-[92px] text-center justify-center text-white text-[38px] font-normal font-['Neue_Haas_Grotesk_Display_Pro']">We have custom analytics tools,  video editing automators, A.I driven ‘authentic performance’ checkers.</div>
+        <div className="w-[1074px] h-[46px] text-center justify-center text-white text-[38px] font-normal font-['Neue_Haas_Grotesk_Display_Pro']">You would be one of the only 12 people we would </div>
+      </div>
+    </div>
   );
 };
 
