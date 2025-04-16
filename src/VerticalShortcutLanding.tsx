@@ -24,7 +24,8 @@ import {
 import { Link } from "react-router-dom";
 import { AnimatedButton } from "./components/marble-buttons/AnimatedButton";
 import CourseTimeline from "./components/CourseTimeline";
-import { beforeAfterExamples } from "./data/before-after-examples";
+// Removed unused import: beforeAfterExamples
+// import { beforeAfterExamples } from "./data/before-after-examples";
 
 // Import VS helper components for correct light/dark mode implementation
 import { VSText, VSHeading } from "./components/ui/vs-text";
@@ -33,17 +34,17 @@ import { VSBackground, VSCard, VSSection } from "./components/ui/vs-background";
 // Import only the icons we're using
 import {
   CheckCircle,
-  ArrowRightCircle,
+  // Removed unused import: ArrowRightCircle,
   Clock,
-  BarChart3,
-  Zap,
-  Flame,
-  Lightbulb,
-  Award,
-  Repeat,
-  DollarSign,
-  BriefcaseBusiness,
-  Rocket,
+  // Removed unused import: BarChart3,
+  // Removed unused import: Zap,
+  // Removed unused import: Flame,
+  // Removed unused import: Lightbulb,
+  // Removed unused import: Award,
+  // Removed unused import: Repeat,
+  // Removed unused import: DollarSign,
+  // Removed unused import: BriefcaseBusiness,
+  // Removed unused import: Rocket,
   Calendar,
   Users,
 } from "lucide-react";
@@ -52,44 +53,46 @@ import {
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
 // Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
 
 // Add custom CSS classes
 import "./video-peek.css";
 
-// Global GSAP context - key for preventing conflicts
+// Global GSAP context
 let globalScrollSmoother: globalThis.ScrollSmoother | null = null;
 const globalAnimations = {};
 
+// Removed unused variable: testimonials
 // Testimonials data
-const testimonials = [
-  {
-    name: "User One",
-    username: "user1",
-    text: "This is a sample text for the first user. It contains basic words and simple structure. The content is meant to take up space without using any complex terms that might trigger spell check tools.",
-    image: "/avatars/avatar1.jpg",
-  },
-  {
-    name: "User Two",
-    username: "user2",
-    text: "Here is more sample text for the second user. The words are all simple and short. This text is just here to fill the space where real content would go in a live site or app.",
-    image: "/avatars/avatar2.jpg",
-  },
-  {
-    name: "User Three",
-    username: "user3",
-    text: "Sample text for user three goes in this spot. All of these words should pass a basic spell check. The text is long enough to look like real content but has no real meaning.",
-    image: "/avatars/avatar3.jpg",
-  },
-  {
-    name: "User Four",
-    username: "user4",
-    text: "This is the last block of sample text. It uses basic words that are easy to spell. The goal is to have text that looks right in the layout but does not draw any red lines from spell check tools.",
-    image: "/avatars/avatar4.jpg",
-  },
-];
+// const testimonials = [
+//   {
+//     name: "User One",
+//     username: "user1",
+//     text: "This is a sample text for the first user. It contains basic words and simple structure. The content is meant to take up space without using any complex terms that might trigger spell check tools.",
+//     image: "/avatars/avatar1.jpg",
+//   },
+//   {
+//     name: "User Two",
+//     username: "user2",
+//     text: "Here is more sample text for the second user. The words are all simple and short. This text is just here to fill the space where real content would go in a live site or app.",
+//     image: "/avatars/avatar2.jpg",
+//   },
+//   {
+//     name: "User Three",
+//     username: "user3",
+//     text: "Sample text for user three goes in this spot. All of these words should pass a basic spell check. The text is long enough to look like real content but has no real meaning.",
+//     image: "/avatars/avatar3.jpg",
+//   },
+//   {
+//     name: "User Four",
+//     username: "user4",
+//     text: "This is the last block of sample text. It uses basic words that are easy to spell. The goal is to have text that looks right in the layout but does not draw any red lines from spell check tools.",
+//     image: "/avatars/avatar4.jpg",
+//   },
+// ];
 
 
 
@@ -138,147 +141,88 @@ function AnimationController({ children }: { children: React.ReactNode }) {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
-    // Initial check
     checkIfMobile();
-    
-    // Listen for resizes
     window.addEventListener('resize', checkIfMobile);
     return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
 
   // Initialize global GSAP context on mount with device-specific settings
   useEffect(() => {
-    // Create a central context for all GSAP animations
     const ctx = gsap.context(() => {
-      // Use GSAP matchMedia for responsive animations
-      const mm = gsap.matchMedia();
-      
-      // Mobile-specific settings (screen width < 768px)
-      mm.add("(max-width: 767px)", () => {
-        console.log("Mobile animation settings applied");
-        
-        // Initialize ScrollSmoother with mobile-optimized settings
-        if (!globalScrollSmoother) {
-          globalScrollSmoother = ScrollSmoother.create({
-            smooth: 0.4, // Reduced smoothness for mobile
-            effects: false, // Disable effects on mobile that might cause performance issues
-            wrapper: "#smooth-wrapper",
-            content: "#smooth-content",
-            normalizeScroll: false, // Better mobile performance with this off
-            ignoreMobileResize: false, // Allow mobile resize handling
-            speed: 0.8, // Slightly slower speed for smoother mobile experience
-          });
-        }
-        
-        // Return cleanup function for this media query
-        return () => {
-          // Cleanup specific to mobile if needed
-        };
-      });
-      
-      // Tablet-specific settings (screen width 768px-1023px)
-      mm.add("(min-width: 768px) and (max-width: 1023px)", () => {
-        console.log("Tablet animation settings applied");
-        
-        // Initialize ScrollSmoother with tablet-optimized settings
-        if (!globalScrollSmoother) {
-          globalScrollSmoother = ScrollSmoother.create({
-            smooth: 0.6,
-            effects: true,
-            wrapper: "#smooth-wrapper",
-            content: "#smooth-content",
-            normalizeScroll: true,
-            ignoreMobileResize: true,
-          });
-        }
-        
-        // Return cleanup function for this media query
-        return () => {
-          // Cleanup specific to tablet if needed
-        };
-      });
-      
-      // Desktop-specific settings (screen width >= 1024px)
-      mm.add("(min-width: 1024px)", () => {
-        console.log("Desktop animation settings applied");
-        
-        // Initialize ScrollSmoother with full desktop settings
-        if (!globalScrollSmoother) {
-          globalScrollSmoother = ScrollSmoother.create({
-            smooth: 0.7,
-            effects: true,
-            wrapper: "#smooth-wrapper",
-            content: "#smooth-content",
-            normalizeScroll: true,
-            ignoreMobileResize: true,
-          });
-        }
-        
-        // Return cleanup function for this media query
-        return () => {
-          // Cleanup specific to desktop if needed
-        };
-      });
+      // Use conditional settings based on isMobile state
+      const mobileSettings = {
+        smooth: 0.5, // Plan's suggested mobile smoothness
+        effects: false, // Plan suggests disabling effects
+        normalizeScroll: false, // Plan suggests false for mobile
+        ignoreMobileResize: false, // Plan suggests false for mobile
+        speed: 0.8, // Plan suggests slower speed for mobile
+        // The nested mobile object in the plan seems redundant/incorrect for ScrollSmoother.create,
+        // sticking to the primary level settings.
+      };
+
+      const desktopSettings = {
+        smooth: 0.7, // Plan's suggested desktop smoothness
+        effects: true, // Plan suggests enabling effects
+        wrapper: "#smooth-wrapper",
+        content: "#smooth-content",
+        normalizeScroll: true, // Plan suggests true for desktop
+        ignoreMobileResize: true, // Default/Recommended for desktop
+      };
+
+      if (!globalScrollSmoother) {
+         console.log(`Initializing ScrollSmoother with ${isMobile ? 'mobile' : 'desktop'} settings.`);
+        globalScrollSmoother = ScrollSmoother.create(
+          isMobile ? mobileSettings : desktopSettings
+        );
+      }
+      // Removed the gsap.matchMedia logic as we now use the isMobile state directly
+
     }, controllerRef);
 
-    // Signal to child components that GSAP is ready
     setGsapInitialized(true);
 
-    // Clean up all animations on unmount
+    // Enhanced cleanup logic from the plan
     return () => {
+      console.log("Cleaning up AnimationController context and ScrollSmoother");
       ctx.revert();
-
-      // Kill all registered scroll triggers
-      ScrollTrigger.getAll().forEach((st) => st.kill());
-
-      // Kill ScrollSmoother
+      ScrollTrigger.getAll().forEach(st => st.kill());
       if (globalScrollSmoother) {
         globalScrollSmoother.kill();
         globalScrollSmoother = null;
       }
-
-      // Clear all animations
-      Object.keys(
-        globalAnimations as Record<
-          string,
-          gsap.core.Animation | gsap.core.Animation[]
-        >,
-      ).forEach((key) => {
-        const animation =
-          globalAnimations[key as keyof typeof globalAnimations];
+      // Clear animations managed globally (if any are added later)
+      Object.keys(globalAnimations).forEach(key => {
+        const animation = globalAnimations[key as keyof typeof globalAnimations];
         if (animation) {
           if (Array.isArray(animation)) {
-            (animation as gsap.core.Animation[]).forEach(
-              (anim: gsap.core.Animation) => anim.kill(),
-            );
+            (animation as gsap.core.Animation[]).forEach(anim => anim.kill());
           } else {
             (animation as gsap.core.Animation).kill();
           }
         }
-
-        // After killing the animation, remove it from the globalAnimations object
         delete globalAnimations[key as keyof typeof globalAnimations];
       });
     };
-  }, []);
+  // Dependency array includes isMobile to re-initialize if device type changes
+  // (e.g., window resize crosses the 768px threshold)
+  }, [isMobile]);
 
   return (
     <div ref={controllerRef} className="animation-controller">
-      {/* Context provider approach - pass down the initialized state and device info */}
+      {/* Pass isMobile prop down to children */}
       {React.Children.map(children, (child) =>
         React.isValidElement(child)
           ? React.cloneElement(
               child as React.ReactElement<
-                React.PropsWithChildren<{ 
+                React.PropsWithChildren<{
                   "data-gsap-initialized"?: boolean,
-                  "data-is-mobile"?: boolean 
+                  "data-is-mobile"?: boolean // Prop name from plan
                 }>
               >,
               {
                 ...(child.props as object),
                 "data-gsap-initialized": gsapInitialized,
-                "data-is-mobile": isMobile,
+                "data-is-mobile": isMobile, // Pass the state value
               },
             )
           : child,
@@ -300,319 +244,182 @@ const VerticalShortcutLanding = () => {
   const tracksRef = useRef(null);
   const testimonialsRef = useRef(null);
   const ctaRef = useRef(null);
-  const videoRef = useRef(null);
+  // Corrected type for videoRef to allow null initial value
+  const videoRef = useRef<HTMLDivElement | null>(null);
 
   // Add state for qualification modal
   const [showQualificationModal, setShowQualificationModal] = useState(false);
   const [testMode, setTestMode] = useState(false);
 
-  // Initialize animations with dependencies on gsapInitialized
+  // Initialize animations within the component's scope
   useLayoutEffect(() => {
-    // Create a scoped GSAP context inside our component
     const ctx = gsap.context(() => {
-      // Hero section animations - centralized batch for performance
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
-      // Stats section - register once
-      if (
-        !(
-          globalAnimations as Record<
-            string,
-            gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-          >
-        ).statsSection &&
-        statsRef.current
-      ) {
-        const statsTrigger = ScrollTrigger.create({
-          trigger: statsRef.current,
-          start: "top 80%",
-          once: true,
-          id: "stats-trigger", // Use unique ID for debugging
-          onEnter: () => {
-            const statsAnimation = gsap.from(".stat-item", {
-              y: 30,
-              opacity: 0,
-              duration: 0.6,
-              stagger: 0.15,
-              ease: "power2.out",
-              clearProps: "all",
-            });
+        // **** MOVED ANIMATION LOGIC HERE ****
 
-            // Type assertion to allow dynamic property assignment
-            (
-              globalAnimations as Record<
-                string,
-                gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-              >
-            ).statsItems = statsAnimation;
-          },
-        });
+        // Note: ScrollTriggers below use `once: true`.
+        // This prevents re-running animations on scroll up/down,
+        // which is generally better for performance, especially on mobile.
 
-        // Type assertion to allow dynamic property assignment
-        (
-          globalAnimations as Record<
-            string,
-            gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-          >
-        ).statsSection = statsTrigger;
-      }
+        // Stats section - register once
+        if (
+          !(
+            globalAnimations as Record<
+              string,
+              gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
+            >
+          ).statsSection &&
+          statsRef.current
+        ) {
+          const statsTrigger = ScrollTrigger.create({
+            trigger: statsRef.current,
+            start: "top 80%",
+            once: true,
+            id: "stats-trigger",
+            onEnter: () => {
+              const statsAnimation = gsap.from(".stat-item", {
+                y: 30, opacity: 0, duration: 0.6, stagger: 0.15, ease: "power2.out", clearProps: "all",
+              });
+              (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).statsItems = statsAnimation;
+            },
+          });
+          (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).statsSection = statsTrigger;
+        }
 
-      // Benefits section - register once
-      if (
-        !(
-          globalAnimations as Record<
-            string,
-            gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-          >
-        ).benefitsSection &&
-        benefitsRef.current
-      ) {
-        const benefitsTrigger = ScrollTrigger.create({
-          trigger: benefitsRef.current,
-          start: "top 75%",
-          once: true,
-          id: "benefits-trigger",
-          onEnter: () => {
-            const benefitsAnimation = gsap.from(".benefit-item", {
-              y: 40,
-              opacity: 0,
-              duration: 0.7,
-              stagger: 0.1,
-              ease: "power2.out",
-              clearProps: "all",
-            });
+        // Benefits section - register once
+        if (
+          !(
+            globalAnimations as Record<
+              string,
+              gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
+            >
+          ).benefitsSection &&
+          benefitsRef.current
+        ) {
+          const benefitsTrigger = ScrollTrigger.create({
+            trigger: benefitsRef.current,
+            start: "top 75%",
+            once: true,
+            id: "benefits-trigger",
+            onEnter: () => {
+              const benefitsAnimation = gsap.from(".benefit-item", {
+                y: 40, opacity: 0, duration: 0.7, stagger: 0.1, ease: "power2.out", clearProps: "all",
+              });
+              (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).benefitsItems = benefitsAnimation;
+            },
+          });
+          (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).benefitsSection = benefitsTrigger;
+        }
 
-            // Type assertion to allow dynamic property assignment
-            (
-              globalAnimations as Record<
-                string,
-                gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-              >
-            ).benefitsItems = benefitsAnimation;
-          },
-        });
+        // Tracks section - register once
+        if (
+          !(
+            globalAnimations as Record<
+              string,
+              gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
+            >
+          ).tracksSection &&
+          tracksRef.current
+        ) {
+          const tracksTrigger = ScrollTrigger.create({
+            trigger: tracksRef.current,
+            start: "top 75%",
+            once: true,
+            id: "tracks-trigger",
+            onEnter: () => {
+              const tracksAnimation = gsap.from(".track-item", {
+                x: -20, opacity: 0, duration: 0.7, stagger: 0.15, ease: "power2.out", clearProps: "all",
+              });
+              (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).tracksItems = tracksAnimation;
+            },
+          });
+          (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).tracksSection = tracksTrigger;
+        }
 
-        // Type assertion to allow dynamic property assignment
-        (
-          globalAnimations as Record<
-            string,
-            gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-          >
-        ).benefitsSection = benefitsTrigger;
-      }
+        // Video section - register once
+        if (
+          !(
+            globalAnimations as Record<
+              string,
+              gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
+            >
+          ).videoSection &&
+          videoRef.current
+        ) {
+          const videoTrigger = ScrollTrigger.create({
+            trigger: videoRef.current,
+            start: "top 70%",
+            once: true,
+            id: "video-trigger",
+            onEnter: () => {
+              const videoAnimation = gsap.from(".video-container", {
+                y: 30, opacity: 0, duration: 0.8, ease: "power2.out", clearProps: "all",
+              });
+              (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).videoItem = videoAnimation;
+            },
+          });
+          (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).videoSection = videoTrigger;
+        }
 
-      // Tracks section - register once
-      if (
-        !(
-          globalAnimations as Record<
-            string,
-            gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-          >
-        ).tracksSection &&
-        tracksRef.current
-      ) {
-        const tracksTrigger = ScrollTrigger.create({
-          trigger: tracksRef.current,
-          start: "top 75%",
-          once: true,
-          id: "tracks-trigger",
-          onEnter: () => {
-            const tracksAnimation = gsap.from(".track-item", {
-              x: -20,
-              opacity: 0,
-              duration: 0.7,
-              stagger: 0.15,
-              ease: "power2.out",
-              clearProps: "all",
-            });
+        // Testimonials - register once
+        if (
+          !(
+            globalAnimations as Record<
+              string,
+              gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
+            >
+          ).testimonialsSection &&
+          testimonialsRef.current
+        ) {
+          const testimonialsTrigger = ScrollTrigger.create({
+            trigger: testimonialsRef.current,
+            start: "top 75%",
+            once: true,
+            id: "testimonials-trigger",
+            onEnter: () => {
+              const testimonialsAnimation = gsap.from(".testimonial-item", {
+                y: 30, opacity: 0, duration: 0.7, stagger: 0.2, ease: "power2.out", clearProps: "all",
+              });
+              (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).testimonialsItems = testimonialsAnimation;
+            },
+          });
+          (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).testimonialsSection = testimonialsTrigger;
+        }
 
-            // Type assertion to allow dynamic property assignment
-            (
-              globalAnimations as Record<
-                string,
-                gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-              >
-            ).tracksItems = tracksAnimation;
-          },
-        });
+        // CTA section - register once
+        if (
+          !(
+            globalAnimations as Record<
+              string,
+              gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
+            >
+          ).ctaSection &&
+          ctaRef.current
+        ) {
+          const ctaTrigger = ScrollTrigger.create({
+            trigger: ctaRef.current,
+            start: "top 80%",
+            once: true,
+            id: "cta-trigger",
+            onEnter: () => {
+              const ctaTl = gsap.timeline();
+              ctaTl
+                .from(".cta-badge", { y: 20, opacity: 0, duration: 0.6, ease: "power2.out" })
+                .from(".cta-title", { y: 30, opacity: 0, duration: 0.7, ease: "power2.out" }, "-=0.3")
+                .from(".cta-description", { y: 30, opacity: 0, duration: 0.7, ease: "power2.out" }, "-=0.4")
+                .from(".cta-button", { y: 20, opacity: 0, duration: 0.6, ease: "back.out(1.5)" }, "-=0.3");
+              (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).ctaItems = ctaTl;
+            },
+          });
+          (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).ctaSection = ctaTrigger;
+        }
 
-        // Type assertion to allow dynamic property assignment
-        (
-          globalAnimations as Record<
-            string,
-            gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-          >
-        ).tracksSection = tracksTrigger;
-      }
+    }, mainRef); // Scope animations to mainRef
 
-      // Video section - register once
-      if (
-        !(
-          globalAnimations as Record<
-            string,
-            gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-          >
-        ).videoSection &&
-        videoRef.current
-      ) {
-        const videoTrigger = ScrollTrigger.create({
-          trigger: videoRef.current,
-          start: "top 70%",
-          once: true,
-          id: "video-trigger",
-          onEnter: () => {
-            const videoAnimation = gsap.from(".video-container", {
-              y: 30,
-              opacity: 0,
-              duration: 0.8,
-              ease: "power2.out",
-              clearProps: "all",
-            });
-
-            // Type assertion to allow dynamic property assignment
-            (
-              globalAnimations as Record<
-                string,
-                gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-              >
-            ).videoItem = videoAnimation;
-          },
-        });
-
-        // Type assertion to allow dynamic property assignment
-        (
-          globalAnimations as Record<
-            string,
-            gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-          >
-        ).videoSection = videoTrigger;
-      }
-
-      // Testimonials - register once
-      if (
-        !(
-          globalAnimations as Record<
-            string,
-            gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-          >
-        ).testimonialsSection &&
-        testimonialsRef.current
-      ) {
-        const testimonialsTrigger = ScrollTrigger.create({
-          trigger: testimonialsRef.current,
-          start: "top 75%",
-          once: true,
-          id: "testimonials-trigger",
-          onEnter: () => {
-            const testimonialsAnimation = gsap.from(".testimonial-item", {
-              y: 30,
-              opacity: 0,
-              duration: 0.7,
-              stagger: 0.2,
-              ease: "power2.out",
-              clearProps: "all",
-            });
-
-            // Type assertion to allow dynamic property assignment
-            (
-              globalAnimations as Record<
-                string,
-                gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-              >
-            ).testimonialsItems = testimonialsAnimation;
-          },
-        });
-
-        // Type assertion to allow dynamic property assignment
-        (
-          globalAnimations as Record<
-            string,
-            gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-          >
-        ).testimonialsSection = testimonialsTrigger;
-      }
-
-      // CTA section - register once
-      if (
-        !(
-          globalAnimations as Record<
-            string,
-            gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-          >
-        ).ctaSection &&
-        ctaRef.current
-      ) {
-        const ctaTrigger = ScrollTrigger.create({
-          trigger: ctaRef.current,
-          start: "top 80%",
-          once: true,
-          id: "cta-trigger",
-          onEnter: () => {
-            const ctaTl = gsap.timeline();
-
-            ctaTl
-              .from(".cta-badge", {
-                y: 20,
-                opacity: 0,
-                duration: 0.6,
-                ease: "power2.out",
-              })
-              .from(
-                ".cta-title",
-                {
-                  y: 30,
-                  opacity: 0,
-                  duration: 0.7,
-                  ease: "power2.out",
-                },
-                "-=0.3",
-              )
-              .from(
-                ".cta-description",
-                {
-                  y: 30,
-                  opacity: 0,
-                  duration: 0.7,
-                  ease: "power2.out",
-                },
-                "-=0.4",
-              )
-              .from(
-                ".cta-button",
-                {
-                  y: 20,
-                  opacity: 0,
-                  duration: 0.6,
-                  ease: "back.out(1.5)",
-                },
-                "-=0.3",
-              );
-
-            // Type assertion to allow dynamic property assignment
-            (
-              globalAnimations as Record<
-                string,
-                gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-              >
-            ).ctaItems = ctaTl;
-          },
-        });
-
-        // Type assertion to allow dynamic property assignment
-        (
-          globalAnimations as Record<
-            string,
-            gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-          >
-        ).ctaSection = ctaTrigger;
-      }
-    }, mainRef);
-
-    // Cleanup
     return () => {
-      ctx.revert();
+      ctx.revert(); // Cleanup animations specific to this component
     };
-  }, []);
+  }, []); // Empty dependency array ensures this runs once on mount
 
   // Function to open the qualification modal
   const openQualificationModal = () => {
@@ -700,9 +507,7 @@ const VerticalShortcutLanding = () => {
 
           {/* Section 2: What do we do? - Adjusted spacing for video peek */}
           <VSSection
-            lightBg="bg-theme-gradient"
-            darkBg="dark:bg-theme-gradient"
-            className="py-16 relative overflow-hidden mt-[-25vh] pt-[30vh]"
+            className="py-16 relative overflow-hidden mt-[-25vh] pt-[30vh] bg-theme-gradient dark:bg-theme-gradient"
           >
             {/* Theme-aware floating elements */}
             <div
@@ -717,13 +522,13 @@ const VerticalShortcutLanding = () => {
             <div className="container mx-auto px-4">
               {/* Section header */}
               <div className="text-center max-w-4xl mx-auto mb-8">
-                <VSHeading
+                  <VSHeading
                   variant="h2"
                   className="text-3xl md:text-4xl font-bold text-theme-primary mb-6"
-                >
-                  What do we do?
-                </VSHeading>
-              </div>
+                  >
+                        What do we do?
+                  </VSHeading>
+                </div>
 
               {/* Copy content */}
               <div className="text-center max-w-4xl mx-auto mb-16">
@@ -742,7 +547,7 @@ const VerticalShortcutLanding = () => {
                 <p className="body-text-large font-bold text-theme-primary">
                   The numbers speak for themselves
                 </p>
-              </div>
+                </div>
 
               {/* Section 3: Case studies - click on each to see graphs and more in detail stats */}
               <CaseStudies onCtaClick={openQualificationModal} />
@@ -751,17 +556,16 @@ const VerticalShortcutLanding = () => {
 
           <WordRoller
               words={["You've","probably","seen","our","work","before"]}
-              sectionClassName="min-h-screen w-full max-w-7xl mx-auto"
-              colorSpace="oklch"
-              startColor={{ h: 240, s: 80, l: 60 }} // Blue
-              endColor={{ h: 290, s: 80, l: 60 }}   // Purple
+              className="min-h-screen w-full max-w-7xl mx-auto"
           />
 
           {/* Section 4: Double marquee with our biggest videos with biggest views */}
           <SocialProof />
 
           {/* Section 6: Pain Points */}
-          <VSPainPoints />
+          <div id="benefits">
+            <VSPainPoints />
+          </div>
 
           {/* Section 7: The Vertical Shortcut (big sell) */}
           <VSBigReveal />
@@ -770,7 +574,9 @@ const VerticalShortcutLanding = () => {
           <CourseStats />
 
           {/* Section 9: The Course Curriculum (Using CourseViewer component) */}
-          <CourseViewer />
+          <div id="curriculum">
+            <CourseViewer />
+          </div>
 
           {/* Tools & Integrations - Custom systems built for creators */}
           <ConnectEverything />
@@ -787,10 +593,14 @@ const VerticalShortcutLanding = () => {
           <TabsLeft />
 
           {/* Section 14: Testimonials slideshow */}
-          <TestimonialCarousel testimonials={carouselTestimonials} />
+          <div id="testimonials">
+            <TestimonialCarousel testimonials={carouselTestimonials} />
+          </div>
 
           {/* Section 15: Buy/Apply - Pricing Section */}
-          <PricingSimple onCtaClick={openQualificationModal} />
+          <div id="pricing">
+            <PricingSimple onCtaClick={openQualificationModal} />
+          </div>
 
           {/* Section 16: Customisation */}
           <Customisation onCtaClick={openQualificationModal} />
@@ -801,9 +611,7 @@ const VerticalShortcutLanding = () => {
           {/* Section 18: Final Application CTA */}
           <VSSection
             ref={ctaRef}
-            lightBg="bg-theme-gradient"
-            darkBg="dark:bg-theme-gradient"
-            className="py-24 relative overflow-hidden"
+            className="py-24 relative overflow-hidden bg-theme-gradient dark:bg-theme-gradient"
           >
             {/* Theme-aware floating elements */}
             <div
@@ -847,7 +655,7 @@ const VerticalShortcutLanding = () => {
                     system for creating high-converting content that drives real
                     business results.
                   </p>
-                </div>
+                  </div>
 
                 <div className="flex flex-col md:flex-row bg-theme-surface p-8 md:p-12 rounded-2xl shadow-theme-md">
                   <div className="md:w-1/2 mb-8 md:mb-0 md:pr-8">
@@ -898,7 +706,7 @@ const VerticalShortcutLanding = () => {
                       <div className="flex items-start">
                         <div className="w-10 h-10 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
                           <Calendar className="h-5 w-5 text-theme-primary" />
-                        </div>
+                  </div>
                         <div>
                           <VSText className="font-medium text-theme-primary">
                             Start Date
@@ -906,13 +714,13 @@ const VerticalShortcutLanding = () => {
                           <VSText className="text-theme-secondary">
                             April 25th, 2025
                           </VSText>
-                        </div>
-                      </div>
+                  </div>
+                </div>
 
                       <div className="flex items-start">
                         <div className="w-10 h-10 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
                           <Users className="h-5 w-5 text-theme-primary" />
-                        </div>
+                  </div>
                         <div>
                           <VSText className="font-medium text-theme-primary">
                             Class Size
@@ -920,13 +728,13 @@ const VerticalShortcutLanding = () => {
                           <VSText className="text-theme-secondary">
                             Limited to 20 students
                           </VSText>
-                        </div>
-                      </div>
+                  </div>
+                </div>
 
                       <div className="flex items-start">
                         <div className="w-10 h-10 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
                           <Clock className="h-5 w-5 text-theme-primary" />
-                        </div>
+                  </div>
                         <div>
                           <VSText className="font-medium text-theme-primary">
                             Time Commitment
@@ -934,14 +742,12 @@ const VerticalShortcutLanding = () => {
                           <VSText className="text-theme-secondary">
                             4 hours per week
                           </VSText>
-                        </div>
-                      </div>
-                    </div>
+                  </div>
+                </div>
+              </div>
 
                     <VSCard
-                      className="mt-8 p-4 rounded-lg"
-                      lightBg="bg-theme-primary/5"
-                      darkBg="dark:bg-theme-primary/10"
+                      className="mt-8 p-4 rounded-lg bg-theme-primary/5 dark:bg-theme-primary/10"
                     >
                       <VSText className="text-theme-accent font-medium flex items-center">
                         <Clock className="h-4 w-4 mr-2" />
@@ -988,8 +794,8 @@ const VerticalShortcutLanding = () => {
                     >
                       All rights reserved
                     </VSText>
-                  </div>
-                </div>
+              </div>
+            </div>
 
                 <div>
                   <VSHeading
@@ -1070,7 +876,7 @@ const VerticalShortcutLanding = () => {
                       </a>
                     </li>
                   </ul>
-                </div>
+                    </div>
 
                 <div>
                   <VSHeading
@@ -1148,12 +954,12 @@ const VerticalShortcutLanding = () => {
                   <ul className="space-y-3">
                     <li>
                       <a href="#" className="transition-colors">
-                        <VSText
+                  <VSText
                           color="white"
                           className="dark:text-white/60 hover:text-[--primary-orange)]"
                         >
                           Terms of Service
-                        </VSText>
+                  </VSText>
                       </a>
                     </li>
                     <li>
@@ -1271,9 +1077,9 @@ const VerticalShortcutLanding = () => {
                           <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
                         </svg>
                       </a>
-                    </div>
-                  </div>
                 </div>
+              </div>
+            </div>
               </div>
             </div>
           </VSBackground>

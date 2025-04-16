@@ -1,0 +1,26 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+rule: |
+        Follow these patterns for mobile-responsive implementations:
+        - Use the useDeviceDetection() hook for consistent device detection
+        - Implement conditional animations for mobile devices:
+          - Simplify or disable complex animations on mobile
+          - Use ScrollTrigger's "once: true" parameter for mobile 
+  animations
+          - Reduce animation complexity on mobile (fewer keyframes, less 
+  motion)
+        - Fix layout issues with proper mobile-first responsive design:
+          - Start with mobile layouts using Tailwind's mobile-first 
+  approach
+          - Use proper container-mobile classes with correct padding
+          - Never create elements that extend beyond viewport width
+        - Optimize performance on mobile:
+          - Reduce JS execution by conditionally loading animations
+          - Simplify GSAP animations for mobile devices
+          - Ensure smooth scrolling with optimized ScrollSmoother settings
+        - Implement proper touch targets (minimum 44px × 44px for 
+  interactive elements)
+        - Test all implementations on actual mobile devices

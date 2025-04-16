@@ -68,23 +68,23 @@
 /* Mobile-optimized container with better margin handling */
 .container-mobile {
   width: 100%;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 16px;
+  padding-right: 16px;
   margin-left: auto;
   margin-right: auto;
 }
 
 @media (min-width: 640px) {
   .container-mobile {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: 24px;
+    padding-right: 24px;
   }
 }
 
 @media (min-width: 768px) {
   .container-mobile {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 32px;
+    padding-right: 32px;
   }
 }
 
@@ -222,6 +222,154 @@
   .touch-target {
     min-height: 44px;
     min-width: 44px;
+  }
+}
+
+/* Tablet spacing */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .section-spacing {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  
+  .component-spacing {
+    margin-bottom: 3rem;
+  }
+}
+
+/* Desktop spacing */
+@media (min-width: 1024px) {
+  .section-spacing {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+  
+  .component-spacing {
+    margin-bottom: 4rem;
+  }
+}
+
+/* Basic utility classes */
+.center-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.shadow-theme-sm {
+  box-shadow: 0 2px 4px var(--theme-shadow-primary), 0 1px 2px var(--theme-shadow-secondary);
+}
+
+.shadow-theme-md {
+  box-shadow: 0 4px 8px var(--theme-shadow-primary), 0 2px 4px var(--theme-shadow-secondary);
+}
+
+.shadow-theme-lg {
+  box-shadow: 0 10px 20px var(--theme-shadow-primary), 0 6px 6px var(--theme-shadow-secondary);
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(to right, var(--theme-accent), var(--theme-accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+/* Hover effects */
+.hover-lift {
+  transition: transform 0.2s ease-out;
+}
+.hover-lift:hover {
+  transform: translateY(-3px);
+}
+
+.hover-shadow {
+  transition: box-shadow 0.2s ease-out;
+}
+.hover-shadow:hover {
+  box-shadow: 0 8px 16px var(--theme-shadow-primary), 0 4px 8px var(--theme-shadow-secondary);
+}
+
+/* Additions from MOBILE_OPTIMIZATION_PLAN.md - Phase 1, Step 4 & Phase 2, Step 5 */
+
+/* Mobile viewport fixes */
+@media (max-width: 767px) {
+  html, body {
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    width: 100%; /* Ensure proper width */
+    position: relative; /* Context for absolute positioned elements */
+  }
+  
+  /* Fix iOS Safari 100vh issue */
+  .vh-fix {
+    height: 100vh; /* fallback */
+    height: -webkit-fill-available;
+    height: stretch; /* Modern browsers */
+  }
+  
+  /* Fix for any default margins causing issues */
+  body {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Mobile-Optimized Container Class */
+.container-mobile {
+  width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 640px) {
+  .container-mobile {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-mobile {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+/* Responsive spacing classes */
+
+/* Mobile-optimized spacing */
+@media (max-width: 767px) {
+  .section-spacing {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  
+  .section-spacing-sm {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  .component-spacing {
+    margin-bottom: 2.5rem;
+  }
+  
+  /* Reduce excessive margins between sections */
+  .my-40 {
+    margin-top: 4rem !important;
+    margin-bottom: 4rem !important;
+  }
+  
+  /* Ensure proper touch target sizes */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 

@@ -1,0 +1,17 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- name: Animation Implementation
+      rule: |
+        For GSAP animations, follow these critical patterns:
+        - Always use useGSAP hook or useLayoutEffect with proper cleanup
+        - Create a gsap.context() for every animation block
+        - Return a cleanup function that calls context.revert()
+        - For ScrollTrigger, always include unique ID for debugging
+        - Always check for refs before initializing animations
+        - Optimize for mobile devices with conditional animations
+        - Register animations in globalAnimations for proper cleanup
+        - Use AnimationController to centralize animation management
+        - Implement device detection for conditional animation loading

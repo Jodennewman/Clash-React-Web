@@ -22,6 +22,7 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
   const navbarRef = useRef(null);
   
   // Check viewport size on mount and resize
@@ -63,7 +64,7 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
     return () => ctx.revert();
   }, [isVisible]);
 
-  // Improved scroll handling for immediate response
+  // Improved scroll handling for immediate response with section detection
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -84,6 +85,24 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
         setIsVisible(true);
       }
       
+      // Check which section is currently in view
+      const sections = ['benefits', 'curriculum', 'testimonials', 'pricing'];
+      
+      // Determine the current active section based on scroll position
+      for (const sectionId of sections) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          const rect = section.getBoundingClientRect();
+          const offset = isMobile ? 150 : 200; // Adjust offset based on device
+          
+          // If the section is in the viewport (with offset)
+          if (rect.top <= offset && rect.bottom >= offset) {
+            setActiveSection(sectionId);
+            break;
+          }
+        }
+      }
+      
       setLastScrollY(currentScrollY);
     };
 
@@ -94,9 +113,14 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
   // Smooth scroll function for nav links
   const handleNavLinkClick = (e: React.MouseEvent<HTMLAnchorElement> | React.MouseEvent<HTMLButtonElement>, targetId: string): void => {
     e.preventDefault();
+    console.log(`Navigating to section: ${targetId}`);
     const targetElement = document.getElementById(targetId);
     
     if (targetElement) {
+      console.log(`Found target element with id: ${targetId}`);
+      // Set active section for styling
+      setActiveSection(targetId);
+      
       // Use GSAP for smooth scrolling with adaptive offset based on screen size
       const offset = isMobile ? 70 : 100;
       
@@ -160,25 +184,25 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
           <nav className="hidden md:flex ml-4 lg:ml-8 gap-4 lg:gap-6">
             <button 
               onClick={(e) => handleNavLinkClick(e, "benefits")}
-              className="px-3 lg:px-6 py-2 lg:py-3 rounded-theme-lg text-theme-primary border border-theme-accent hover:bg-theme-secondary text-sm lg:text-md font-medium transition-theme-bounce duration-300"
+              className={`px-3 lg:px-6 py-2 lg:py-3 rounded-theme-lg text-theme-primary border border-theme-accent hover:bg-theme-secondary text-sm lg:text-md font-medium transition-theme-bounce duration-300 ${activeSection === "benefits" ? "bg-theme-secondary shadow-theme-btn" : ""}`}
             >
               Benefits
             </button>
             <button 
               onClick={(e) => handleNavLinkClick(e, "curriculum")}
-              className="px-3 lg:px-6 py-2 lg:py-3 rounded-theme-lg text-theme-primary border border-theme-accent hover:bg-theme-secondary/30 text-xs lg:text-sm font-medium transition-all duration-300"
+              className={`px-3 lg:px-6 py-2 lg:py-3 rounded-theme-lg text-theme-primary border border-theme-accent hover:bg-theme-secondary/30 text-xs lg:text-sm font-medium transition-all duration-300 ${activeSection === "curriculum" ? "bg-theme-secondary shadow-theme-btn" : ""}`}
             >
               Curriculum
             </button>
             <button 
               onClick={(e) => handleNavLinkClick(e, "testimonials")}
-              className="px-3 lg:px-6 py-2 lg:py-3 rounded-theme-lg text-theme-primary border border-theme-accent hover:bg-theme-secondary/30 text-xs lg:text-sm font-medium transition-all duration-[--transition-bounce]"
+              className={`px-3 lg:px-6 py-2 lg:py-3 rounded-theme-lg text-theme-primary border border-theme-accent hover:bg-theme-secondary/30 text-xs lg:text-sm font-medium transition-all duration-[--transition-bounce] ${activeSection === "testimonials" ? "bg-theme-secondary shadow-theme-btn" : ""}`}
             >
               Success Stories
             </button>
             <button 
               onClick={(e) => handleNavLinkClick(e, "pricing")}
-              className="px-3 lg:px-6 py-2 lg:py-3 rounded-theme-lg text-theme-primary border border-theme-accent hover:bg-theme-secondary text-xs lg:text-sm font-medium transition-all hover:shadow-theme-btn"
+              className={`px-3 lg:px-6 py-2 lg:py-3 rounded-theme-lg text-theme-primary border border-theme-accent hover:bg-theme-secondary text-xs lg:text-sm font-medium transition-all hover:shadow-theme-btn ${activeSection === "pricing" ? "bg-theme-secondary shadow-theme-btn" : ""}`}
             >
               Pricing
             </button>
@@ -218,7 +242,7 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
                   </div>
                   
                   <button
-                    className="text-left px-3 py-2.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce] text-sm sm:text-base"
+                    className={`text-left px-3 py-2.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce] text-sm sm:text-base ${activeSection === "benefits" ? "bg-theme-secondary/30" : ""}`}
                     onClick={(e) => {
                       handleNavLinkClick(e, "benefits");
                       closeMobileMenu();
@@ -228,7 +252,7 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
                   </button>
                   
                   <button
-                    className="text-left px-3 py-2.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce] text-sm sm:text-base"
+                    className={`text-left px-3 py-2.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce] text-sm sm:text-base ${activeSection === "curriculum" ? "bg-theme-secondary/30" : ""}`}
                     onClick={(e) => {
                       handleNavLinkClick(e, "curriculum");
                       closeMobileMenu();
@@ -238,7 +262,7 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
                   </button>
                   
                   <button
-                    className="text-left px-3 py-2.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce] text-sm sm:text-base"
+                    className={`text-left px-3 py-2.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce] text-sm sm:text-base ${activeSection === "testimonials" ? "bg-theme-secondary/30" : ""}`}
                     onClick={(e) => {
                       handleNavLinkClick(e, "testimonials");
                       closeMobileMenu();
@@ -248,7 +272,7 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
                   </button>
                   
                   <button
-                    className="text-left px-3 py-2.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce] text-sm sm:text-base"
+                    className={`text-left px-3 py-2.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce] text-sm sm:text-base ${activeSection === "pricing" ? "bg-theme-secondary/30" : ""}`}
                     onClick={(e) => {
                       handleNavLinkClick(e, "pricing");
                       closeMobileMenu();
