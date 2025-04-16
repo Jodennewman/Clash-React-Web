@@ -16,6 +16,9 @@ interface TiaModalContainerProps {
 }
 
 // This is a modified version of ModalContainer with smaller title styling
+// Create a ref to the scrollable content area that can be accessed by other components
+export const modalContentRef = React.createRef<HTMLDivElement>();
+
 const TiaModalContainer: React.FC<TiaModalContainerProps> = ({
   isOpen,
   onClose,
@@ -178,11 +181,12 @@ const TiaModalContainer: React.FC<TiaModalContainerProps> = ({
         )}
         
         {/* Modal content area */}
-        <div className="overflow-y-auto overscroll-contain -webkit-overflow-scrolling-touch px-1 md:px-0 pt-2 md:pt-2" style={{ 
+        <div ref={modalContentRef} className="overflow-y-auto overscroll-contain -webkit-overflow-scrolling-touch px-1 md:px-0 pt-2 md:pt-2" style={{ 
           maxHeight: 'calc(80vh - 120px)',
           WebkitOverflowScrolling: 'touch', // Adds momentum scrolling on iOS
           scrollbarWidth: 'thin', // Thinner scrollbar on Firefox
-          scrollbarColor: 'rgba(0,0,0,0.2) transparent' // Custom scrollbar color
+          scrollbarColor: 'rgba(0,0,0,0.2) transparent', // Custom scrollbar color
+          scrollBehavior: 'smooth' // Enable smooth scrolling within the modal
         }}>
           {children}
         </div>
