@@ -41,14 +41,14 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
   
-  // Check for hash in URL on mount and scroll to relevant section
+  // Check for hash in URL on mount AND scroll to top if no hash
   useEffect(() => {
     // Get the hash from the URL (e.g., #benefits, #pricing)
     const hash = window.location.hash.substring(1);
     
     if (hash) {
-      // Slight delay to ensure all components are mounted
-      setTimeout(() => {
+      // If hash exists, handle scrolling to the section after a delay
+      const timer = setTimeout(() => {
         const targetElement = document.getElementById(hash);
         if (targetElement) {
           console.log(`Found target section from URL hash: ${hash}`);
@@ -66,8 +66,27 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
           });
         }
       }, 500);
+      // Cleanup timer if component unmounts before timeout
+      return () => clearTimeout(timer);
+
+    } else {
+      // If NO hash exists, scroll to the top immediately
+      console.log("No hash found, scrolling to top.");
+      // Use a very short timeout to ensure it runs after initial render/browser adjustments
+      const timer = setTimeout(() => {
+         window.scrollTo(0, 0);
+         // Optionally, use GSAP for a smoother initial scroll, though instant might be preferred
+         // gsap.to(window, { duration: 0.1, scrollTo: { y: 0 } });
+      }, 10); 
+      // Cleanup timer
+      return () => clearTimeout(timer);
     }
-  }, [isMobile]);
+    // Dependency array includes isMobile to recalculate offset if needed,
+    // but the effect logic (hash check or scroll top) only needs to run once on mount.
+    // Consider removing isMobile if offset calculation isn't strictly needed here
+    // or refactoring offset calculation.
+    // For now, keeping isMobile to maintain existing hash scroll logic.
+  }, [isMobile]); 
   
   // GSAP animation for the navbar
   useGSAP(() => {

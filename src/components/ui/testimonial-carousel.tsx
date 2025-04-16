@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, TouchEvent } from 'react';
 import { useGSAP } from "@gsap/react";
 import { gsap } from 'gsap';
 import { VSBackground, VSCard } from './vs-background'; // Use theme-aware components
@@ -21,11 +21,20 @@ const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testimonials 
   const carouselRef = useRef<HTMLDivElement>(null);
   const { isMobile } = useDeviceDetection(); // Use hook
   const timeoutRef = useRef<NodeJS.Timeout | null>(null); // For auto-play
+  const touchStartX = useRef<number | null>(null); // For swipe detection
+  const touchEndX = useRef<number | null>(null); // For swipe detection
 
   // Function to go to next slide
   const goToNext = useCallback(() => {
     setActiveIndex((prevIndex) =>
       prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
+    );
+  }, [testimonials.length]);
+
+  // Function to go to previous slide
+  const goToPrev = useCallback(() => {
+    setActiveIndex((prevIndex) => 
+      prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
     );
   }, [testimonials.length]);
 
@@ -99,6 +108,50 @@ const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testimonials 
     return () => ctx.revert();
   }, [activeIndex, isMobile]); // Add isMobile dependency
 
+  // --- Swipe Handling --- 
+  const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+    touchEndX.current = null; // Reset end position on new touch
+    // Clear auto-play timeout on touch interaction (optional, good practice)
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+  };
+
+  const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
+    if (touchStartX.current === null) {
+      return;
+    }
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) {
+      return;
+    }
+
+    const threshold = 50; // Minimum swipe distance
+    const deltaX = touchEndX.current - touchStartX.current;
+
+    if (Math.abs(deltaX) > threshold) {
+      if (deltaX < 0) {
+        // Swipe Left - Go to Next
+        goToNext();
+      } else {
+        // Swipe Right - Go to Prev
+        goToPrev();
+      }
+    }
+
+    // Reset touch positions
+    touchStartX.current = null;
+    touchEndX.current = null;
+
+    // Restart auto-play after interaction (optional)
+    // startAutoPlay(); // You might want to call the effect's start function here
+  };
+  // --- End Swipe Handling ---
+
   return (
     <VSBackground 
       as="section" 
@@ -117,6 +170,9 @@ const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testimonials 
       <div 
         ref={carouselRef} 
         className={`relative ${isMobile ? 'px-4' : 'px-12'} max-w-4xl mx-auto overflow-hidden ${isMobile ? 'h-80' : 'h-64'}`} // Adjusted height for mobile
+        onTouchStart={isMobile ? handleTouchStart : undefined} // Add touch handlers only on mobile
+        onTouchMove={isMobile ? handleTouchMove : undefined}
+        onTouchEnd={isMobile ? handleTouchEnd : undefined}
       >
         {/* Carousel slides container - position relative */}
         <div className="relative w-full h-full">
@@ -136,6 +192,7 @@ const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testimonials 
                     src={testimonial.image} 
                     alt={testimonial.name}
                     className="w-12 h-12 rounded-full mr-4 border-2 border-theme-accent"
+                    loading="lazy"
                   />
                   <div>
                     <VSText size="md" color="text-theme-primary" className="font-semibold">{testimonial.name}</VSText>
