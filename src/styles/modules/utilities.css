@@ -294,25 +294,15 @@
 
 /* Additions from MOBILE_OPTIMIZATION_PLAN.md - Phase 1, Step 4 & Phase 2, Step 5 */
 
-/* Mobile viewport fixes */
+/* Mobile viewport fixes - simplified to prevent conflicts */
 @media (max-width: 767px) {
-  html, body {
-    overflow-x: hidden; /* Prevent horizontal scroll */
-    width: 100%; /* Ensure proper width */
-    position: relative; /* Context for absolute positioned elements */
-  }
+  /* No html styles here to prevent conflicts with index.html */
   
   /* Fix iOS Safari 100vh issue */
   .vh-fix {
     height: 100vh; /* fallback */
     height: -webkit-fill-available;
     height: stretch; /* Modern browsers */
-  }
-  
-  /* Fix for any default margins causing issues */
-  body {
-    margin: 0;
-    padding: 0;
   }
 }
 

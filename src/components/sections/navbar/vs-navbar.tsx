@@ -41,7 +41,7 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
   
-  // Check for hash in URL on mount AND scroll to top if no hash
+  // Check for hash in URL on mount - only scroll if hash exists
   useEffect(() => {
     // Get the hash from the URL (e.g., #benefits, #pricing)
     const hash = window.location.hash.substring(1);
@@ -68,24 +68,9 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
       }, 500);
       // Cleanup timer if component unmounts before timeout
       return () => clearTimeout(timer);
-
-    } else {
-      // If NO hash exists, scroll to the top immediately
-      console.log("No hash found, scrolling to top.");
-      // Use a very short timeout to ensure it runs after initial render/browser adjustments
-      const timer = setTimeout(() => {
-         window.scrollTo(0, 0);
-         // Optionally, use GSAP for a smoother initial scroll, though instant might be preferred
-         // gsap.to(window, { duration: 0.1, scrollTo: { y: 0 } });
-      }, 10); 
-      // Cleanup timer
-      return () => clearTimeout(timer);
     }
-    // Dependency array includes isMobile to recalculate offset if needed,
-    // but the effect logic (hash check or scroll top) only needs to run once on mount.
-    // Consider removing isMobile if offset calculation isn't strictly needed here
-    // or refactoring offset calculation.
-    // For now, keeping isMobile to maintain existing hash scroll logic.
+    // Only handle hash-based scrolling, don't force scroll to top
+    // This allows the SimpleHero to remain visible when loading the page
   }, [isMobile]); 
   
   // GSAP animation for the navbar

@@ -66,7 +66,7 @@ const MobileHero = ({
   }, []);
   
   return (
-    <div ref={heroRef} className="relative pt-28 pb-16 px-4 text-center overflow-hidden bg-gradient-to-b from-white to-[var(--theme-bg-cream-gradient)] dark:bg-gradient-to-b dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]">
+    <div ref={heroRef} className="relative pt-36 pb-16 px-4 text-center overflow-hidden bg-gradient-to-b from-white to-[var(--theme-bg-cream-gradient)] dark:bg-gradient-to-b dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]">
       <div className="max-w-screen-md mx-auto relative z-10">
         <VSHeading size="xl" className="hero-text mb-4">
           {title}
@@ -119,7 +119,7 @@ const DesktopHero = forwardRef<HTMLDivElement, Omit<SimpleHeroProps, 'ref'>>(
     }, { dependencies: [videoRef.current] });
 
     return (
-      <div ref={ref ?? heroContainerRef} className="relative pt-40 pb-20 lg:pt-48 lg:pb-64 overflow-hidden bg-gradient-to-b from-white to-[var(--theme-bg-cream-gradient)] dark:bg-gradient-to-b dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]">
+      <div ref={ref ?? heroContainerRef} className="relative pt-32 pb-20 lg:pt-40 lg:pb-64 overflow-hidden bg-gradient-to-b from-white to-[var(--theme-bg-cream-gradient)] dark:bg-gradient-to-b dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]">
         <div className="absolute -z-10 top-20 left-[10%] w-48 h-48 rounded-[40%] rotate-12 opacity-theme-float bg-theme-float-primary animate-float-slow blur-lg"></div>
         <div className="absolute -z-10 bottom-20 right-[15%] w-56 h-56 rounded-[35%] -rotate-6 opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium blur-lg"></div>
 
@@ -162,7 +162,7 @@ const DesktopHero = forwardRef<HTMLDivElement, Omit<SimpleHeroProps, 'ref'>>(
         
         <div 
            ref={videoRef}
-           className="video-container absolute bottom-[-40%] left-1/2 transform -translate-x-1/2 w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] aspect-video rounded-2xl overflow-hidden shadow-xl border-4 border-white/10 dark:border-[var(--theme-border)] z-20 bg-black"
+           className="video-container absolute bottom-[-20%] left-1/2 transform -translate-x-1/2 w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] aspect-video rounded-2xl overflow-hidden shadow-xl border-4 border-white/10 dark:border-[var(--theme-border)] z-20 bg-black"
            style={{ perspective: '1000px' }}
          >
            <div className="absolute inset-0 bg-gradient-to-br from-blue-900 to-purple-900 flex items-center justify-center">

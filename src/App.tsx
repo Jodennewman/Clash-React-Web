@@ -98,7 +98,7 @@ function App() {
             </div>
           </div>
         } />
-        <Route path="/landing" element={<VerticalShortcutLanding />} />
+        <Route path="/landing" element={<VerticalShortcutLanding key="landing-page" />} />
         <Route path="/application-form" element={<ApplicationFormWrapper />} />
         <Route path="/example" element={<VSExampleComponent />} />
         <Route path="/marble-buttons" element={<AnimatedButtonsDemo />} />
