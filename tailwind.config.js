@@ -16,6 +16,8 @@ export default {
         'float-gentle': 'float-gentle 9s ease-in-out infinite',
         'ripple': 'ripple 0.5s ease-out forwards',
         'float': 'float-pattern 20s linear infinite',
+        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+        'fact-fade': 'fact-fade 1.5s ease-in-out',
 
         'spin-slow': 'spin 12s linear infinite',
         'marquee': 'marquee var(--duration) linear infinite',
@@ -26,6 +28,21 @@ export default {
         'fadeIn': {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
+        },
+        'pulse-glow': {
+          '0%, 100%': { 
+            opacity: '0.6',
+            boxShadow: '0 0 0 0 rgba(25, 115, 148, 0.4)' 
+          },
+          '50%': { 
+            opacity: '1',
+            boxShadow: '0 0 20px 5px rgba(25, 115, 148, 0.6)' 
+          }
+        },
+        'fact-fade': {
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '10%, 90%': { opacity: '1', transform: 'translateY(0)' },
+          '100%': { opacity: '0', transform: 'translateY(-10px)' }
         },
         'float': {
           '0%, 100%': { transform: 'translateY(0)' },
