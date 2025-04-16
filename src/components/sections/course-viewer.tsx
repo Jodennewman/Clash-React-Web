@@ -7,6 +7,7 @@ import { VSGradientText, VSHeading } from '../ui/vs-text';
 import courseUtils from '../../lib/course-utils';
 import { PlayCircle, Check, Star, ChevronDown, X } from 'lucide-react';
 import { useDeviceDetection } from '../../utils/animation-utils';
+import ReactDOM from 'react-dom';
 
 interface ModuleDetails {
   id: string;
@@ -239,11 +240,16 @@ export const CourseViewer: React.FC = () => {
       
       // Animate modal based on device
       if (isMobile) {
-        // Simplified mobile modal animation
-        gsap.fromTo(modalRef.current, 
-          { opacity: 0, y: 15 }, // Less movement
-          { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" } // Faster, simpler ease
-        );
+        // Mobile: set fixed positioning and simple fade-in
+        gsap.set(modalRef.current, { 
+          position: 'fixed', 
+          top: '50%', 
+          left: '50%', 
+          xPercent: -50, 
+          yPercent: -50, 
+          width: '90%'
+        });
+        gsap.fromTo(modalRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" });
       } else {
         // Desktop modal animation (original bubbly effect)
         gsap.fromTo(modalRef.current, 
@@ -252,7 +258,7 @@ export const CourseViewer: React.FC = () => {
         );
       }
       
-      // Staggered content animation (keep simple for both for now)
+      // Staggered content animation
       if (thumbnailRef.current) {
         gsap.from(thumbnailRef.current, { opacity: 0, scale: 1.03, duration: 0.5, ease: "power2.out", delay: 0.1 });
       }
@@ -402,6 +408,19 @@ export const CourseViewer: React.FC = () => {
                   handleModuleClick(moduleId);
                 }
               }} 
+              submodules={selectedModule && selectedModule.id ? courseUtils.getSubmodulesForModule(selectedModule.id).map(submodule => ({
+                id: submodule.id,
+                title: submodule.title,
+                duration: ((submodule as any)?.formattedDuration) || `${submodule.duration}:00`,
+                subtitle: submodule.subtitle,
+                thumbnailUrl: `/assets/main/DataBaseThumbnails/renamed/${submodule.id.replace(/-/g, '_')}.webp`,
+                isCompleted: false,
+                isLocked: false,
+                instructor: submodule.instructor,
+                week: submodule.week,
+                difficulty: submodule.difficulty != null ? submodule.difficulty.toString() : '',
+                resources: submodule.resources || []
+              })) : []}
             />
           </div>
         </div>
@@ -448,10 +467,10 @@ export const CourseViewer: React.FC = () => {
       </div>
       
       {/* Module Details Modal with enhanced styling and animations */}
-      {showModal && selectedModule && (
+      {showModal && selectedModule && ReactDOM.createPortal(
         <div 
           ref={modalOverlayRef}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm bg-[var(--bg-navy)]/40"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm bg-[var(--bg-navy)]/40 modal-overlay"
           onClick={(e) => {
             if (e.target === modalOverlayRef.current) {
               closeModal();
@@ -477,9 +496,13 @@ export const CourseViewer: React.FC = () => {
                 <div className="rounded-[var(--border-radius-lg)] overflow-hidden mb-4 shadow-theme-md relative">
                   <img 
                     ref={thumbnailRef}
-                    src={courseUtils.getThumbnailPath(selectedModule.thumbnail)} 
+                    src={courseUtils.getThumbnailPath(selectedModule.thumbnail) || '/fallback-image.png'} 
                     alt={selectedModule.title}
-                    className="w-full h-full object-cover aspect-video" 
+                    className="w-full h-full object-cover aspect-video"
+                    onError={(e) => { 
+                      console.error(`Failed to load thumbnail: ${selectedModule.thumbnail}`);
+                      e.currentTarget.src = '/fallback-image.png';
+                    }}
                   />
                   {/* Gradient overlay at the bottom of thumbnail */}
                   <div className="absolute bottom-0 left-0 right-0 h-2/5 bg-gradient-to-t from-black/80 to-transparent"></div>
@@ -611,7 +634,8 @@ export const CourseViewer: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </VSSection>
   );

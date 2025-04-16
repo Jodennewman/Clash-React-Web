@@ -496,6 +496,25 @@ const VerticalShortcutLanding = () => {
         handleOpenQualificationModal,
       );
   }, []);
+  
+  // Ensure page scrolls to top when loaded
+  useEffect(() => {
+    // Scroll to top immediately after component mounts
+    window.scrollTo(0, 0);
+    
+    // Also use GSAP for a smoother scroll (as a backup)
+    const timer = setTimeout(() => {
+      if (window.scrollY > 0) {
+        gsap.to(window, { 
+          duration: 0.3, 
+          scrollTo: { y: 0 },
+          ease: "power2.out"
+        });
+      }
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <AnimationController>
@@ -531,7 +550,7 @@ const VerticalShortcutLanding = () => {
 
           {/* Section 2: What do we do? - Adjusted spacing for video peek */}
           <VSSection
-            className="py-16 relative overflow-hidden mt-[-25vh] pt-[30vh] bg-theme-gradient dark:bg-theme-gradient"
+            className="py-16 pt-28 md:pt-32 lg:pt-40 relative overflow-hidden bg-theme-gradient dark:bg-theme-gradient"
           >
             {/* Theme-aware floating elements */}
             <div

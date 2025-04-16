@@ -1,191 +1,419 @@
-import React, { forwardRef, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Badge } from '../ui/badge';
-import { Button } from '../ui/button';
-import { VSText, VSHeading } from '../ui/vs-text';
-import { PlayCircle } from 'lucide-react';
-import { useDeviceDetection } from '../../utils/animation-utils';
-import { AnimatedButton } from '../marble-buttons/AnimatedButton';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
+import AnimatedLogo from '../logos/AnimatedLogo';
+import IsometricGridBackground from './IsometricPattern';
+import { AnimatedButton } from '../marble-buttons/AnimatedButton';
+import SafeVideoEmbed from '../ui/video-embed';
 
 interface SimpleHeroProps {
-  onCtaClick: () => void;
-  videoUrl: string;
-  videoRef: React.RefObject<HTMLDivElement | null>;
-  title?: string;
-  subtitle?: string;
-  badges?: string[];
+  onCtaClick?: () => void;
+  videoUrl?: string;
+  videoRef?: React.RefObject<HTMLDivElement>;
 }
 
-const MobileHero = ({ 
-  title = "Default Mobile Title",
-  subtitle = "Default mobile subtitle explaining the value proposition.", 
-  badges = ["Badge 1", "Badge 2"],
-  onCtaClick
-}: Partial<SimpleHeroProps> & { onCtaClick: () => void }) => {
-  const heroRef = useRef(null);
-  
-  useGSAP(() => {
-    if (!heroRef.current) return;
-    const ctx = gsap.context(() => {
-      gsap.from(".hero-text", {
-        y: 20, 
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.2,
-        ease: "power2.out",
-        clearProps: "all",
-      });
-      
-      gsap.from(".hero-badge", {
-        scale: 0.8,
-        opacity: 0,
-        duration: 0.4,
-        stagger: 0.1,
-        delay: 0.6,
-        ease: "power1.out",
-        clearProps: "all",
-      });
-
-      gsap.from(".hero-cta-button", {
-          y: 15,
-          opacity: 0,
-          duration: 0.5,
-          delay: 0.8,
-          ease: "power1.out",
-          clearProps: "all",
-      });
-
-    }, heroRef);
+const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
+  ({ onCtaClick, videoUrl, videoRef }, ref) => {
+    const [logoAnimationStarted, setLogoAnimationStarted] = useState(false);
     
-    return () => ctx.revert();
-  }, []);
-  
-  return (
-    <div ref={heroRef} className="relative pt-28 pb-16 px-4 text-center overflow-hidden bg-gradient-to-b from-white to-[var(--theme-bg-cream-gradient)] dark:bg-gradient-to-b dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]">
-      <div className="max-w-screen-md mx-auto relative z-10">
-        <VSHeading size="xl" className="hero-text mb-4">
-          {title}
-        </VSHeading>
-        <VSText size="lg" color="text-theme-secondary" className="hero-text mb-8">
-          {subtitle}
-        </VSText>
-        <div className="flex flex-wrap gap-2 justify-center mb-10">
-          {badges.map((badge, index) => (
-            <Badge 
-              key={index} 
-              variant="outline"
-              className="hero-badge bg-theme-accent/10 border-theme-accent/30 text-theme-accent font-medium"
-            >
-              {badge}
-            </Badge>
-          ))}
-        </div>
-         <AnimatedButton
-            text="Apply Now & Get Your Plan"
-            variant="start" 
-            saturation="high"
-            size="lg"
-            onClick={onCtaClick}
-            className="hero-cta-button"
-         />
-      </div>
-       <div className="absolute -z-0 top-10 left-[-10%] w-32 h-32 rounded-[50%] opacity-10 dark:opacity-20 bg-theme-accent blur-2xl animate-float-slow"></div>
-       <div className="absolute -z-0 bottom-10 right-[-15%] w-40 h-40 rounded-[50%] opacity-10 dark:opacity-20 bg-theme-accent-secondary blur-2xl animate-float-medium"></div>
-    </div>
-  );
-};
+    // Internal refs
+    const heroRef = React.useRef<HTMLDivElement>(null);
+    const videoContainerRef = React.useRef<HTMLDivElement>(null);
+    
 
-const DesktopHero = forwardRef<HTMLDivElement, Omit<SimpleHeroProps, 'ref'>>(
-  ({ onCtaClick, videoRef, title, subtitle, badges }, ref) => {
-    const heroContainerRef = useRef<HTMLDivElement>(null);
-
-    useGSAP(() => {
-      if (!videoRef.current) return;
+    // Auto-start content fade-in after a shorter delay for better flow with logo animation
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setLogoAnimationStarted(true);
+      }, 300); // Reduced from 600ms to 300ms for quicker start
       
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      
+      return () => {
+        clearTimeout(timer);
+      };
+    }, []);
 
-      tl.from(".hero-badge", { y: -20, opacity: 0, stagger: 0.1, duration: 0.5 })
-        .from(".hero-title", { y: -30, opacity: 0, duration: 0.7 }, "-=0.3")
-        .from(".hero-subtitle", { y: -30, opacity: 0, duration: 0.7 }, "-=0.5")
-        .from(".hero-cta-button", { y: -20, opacity: 0, duration: 0.6 }, "-=0.5")
-        .from(".hero-video-button", { scale: 0.8, opacity: 0, duration: 0.5 }, "-=0.4")
-        .from(videoRef.current, { y: 50, opacity: 0, duration: 1, ease: "power3.inOut" }, "-=0.8");
+    // Add GSAP animation for content elements
+    useGSAP(() => {
+      if (!heroRef.current) return;
 
-    }, { dependencies: [videoRef.current] });
+      // First, ensure all hero content is visible even before animation
+      gsap.set(".hero-content", { opacity: 1, visibility: "visible" });
+      
+      if (logoAnimationStarted) {
+        const ctx = gsap.context(() => {
+          // Staggered content reveal animation with reduced stagger time
+          gsap.fromTo(".hero-content", 
+            { 
+              y: 30, 
+              opacity: 0,
+            }, 
+            { 
+              y: 0, 
+              opacity: 1,
+              duration: 0.8, 
+              stagger: 0.08, // Reduced from 0.15 to 0.08 for less staggering
+              ease: "power2.out"
+            }
+          );
+
+          // Eyeball entrance animation with reduced delay
+          gsap.fromTo("#eyeballSvg", 
+            { 
+              y: 60, // Reduced rise distance 
+              opacity: 0,
+              rotation: -2
+            }, 
+            { 
+              y: 15, // Barely peek up
+              opacity: 1,
+              rotation: 0,
+              duration: 1.2, 
+              delay: 0.15, // Reduced from 0.4 to 0.15 for more overlap
+              ease: "power2.out"
+            }
+          );
+          
+          // Create scroll-linked animation for video (if present)
+          if (videoContainerRef.current && videoUrl) {
+            // Initial setup for video position
+            gsap.set(videoContainerRef.current, {
+              y: 200, // Start below the fold
+              opacity: 0,
+              scale: 0.9
+            });
+
+            // Much simpler approach - use a class toggle
+            ScrollTrigger.create({
+              trigger: heroRef.current,
+              start: "1% top", // Start almost immediately 
+              endTrigger: document.body, // Use the entire body as end trigger
+              end: "bottom bottom", // Continue until the end of the page
+              toggleClass: {
+                targets: videoContainerRef.current,
+                className: "video-peek-visible"
+              },
+              onToggle: (self) => {
+                // When activated, animate to visible
+                if (self.isActive) {
+                  gsap.to(videoContainerRef.current, {
+                    y: -120,
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                  });
+                } else {
+                  // When deactivated, animate back to hidden
+                  gsap.to(videoContainerRef.current, {
+                    y: 200,
+                    opacity: 0,
+                    scale: 0.9,
+                    duration: 0.2,
+                    ease: "power2.in"
+                  });
+                }
+              },
+              invalidateOnRefresh: true,
+              markers: false // Set to true during development to see trigger points
+            });
+          }
+        }, heroRef);
+
+        return () => ctx.revert(); // Proper cleanup
+      }
+    }, [logoAnimationStarted, videoUrl]);
+
+    // Add cursor influence on eyeball
+    useEffect(() => {
+      const handleMouseMove = (e: MouseEvent) => {
+        if (!heroRef.current) return;
+        
+        const eyeball = document.getElementById('eyeballSvg');
+        if (!eyeball) return;
+        
+        // Calculate mouse position relative to window center
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        const mouseXPercent = (e.clientX / windowWidth - 0.5) * 2; // -1 to 1
+        const mouseYPercent = (e.clientY / windowHeight - 0.5) * 2; // -1 to 1
+        
+        // Apply subtle rotation based on mouse position
+        gsap.to(eyeball, {
+          rotation: mouseXPercent * 3, // Max 3 degree rotation based on X position
+          rotationY: mouseYPercent * 2, // Max 2 degree perspective tilt based on Y position
+          duration: 1.2, // Smooth, slower-than-cursor movement
+          ease: "power1.out"
+        });
+      };
+      
+      window.addEventListener('mousemove', handleMouseMove);
+      
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+      };
+    }, []);
 
     return (
-      <div ref={ref ?? heroContainerRef} className="relative pt-40 pb-20 lg:pt-48 lg:pb-64 overflow-hidden bg-gradient-to-b from-white to-[var(--theme-bg-cream-gradient)] dark:bg-gradient-to-b dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]">
-        <div className="absolute -z-10 top-20 left-[10%] w-48 h-48 rounded-[40%] rotate-12 opacity-theme-float bg-theme-float-primary animate-float-slow blur-lg"></div>
-        <div className="absolute -z-10 bottom-20 right-[15%] w-56 h-56 rounded-[35%] -rotate-6 opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium blur-lg"></div>
+      <section 
+        ref={ref} 
+        className="vs-section-light relative h-[125vh] w-full shadow-theme-md overflow-hidden z-10"
+      >
+        {/* Award Badge - positioned with consistent bottom-right placement using top/right */}
+        <div className="award-badge absolute top-[85vh] right-4 sm:right-6 md:right-8 lg:right-10 z-50" style={{ transform: 'translateY(0)', opacity: 1 }}>
+          <div className="group relative overflow-hidden rounded-full shadow-lg transform scale-75 sm:scale-85 md:scale-90 lg:scale-100">
+            {/* Subtle shadow background */}
+            <div className="absolute inset-0 bg-theme-accent-secondary opacity-80 rounded-full"></div>
+            
+            {/* Main badge container - cleaner design */}
+            <div className="relative flex items-center gap-2 sm:gap-3 md:gap-4 bg-theme-accent-tertiary py-2 sm:py-3 px-3 sm:px-4 md:px-6 lg:px-7 rounded-full
+                         border border-white/10">
+              
+              {/* Badge icon with subtle styling */}
+              <div className="relative flex-shrink-0">
+                {/* Subtle glow effect */}
+                <div className="absolute inset-0 rounded-full bg-white/20 blur-[5px]"></div>
+                {/* Circle background */}
+                <div className="relative bg-white/20 rounded-full p-1 sm:p-2 border border-white/30">
+                  <svg width="24" height="24" viewBox="0 0 370.04 370.04" fill="currentColor"
+                       className="text-white drop-shadow-sm w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8">
+                    <path d="M341.668,314.412c0,0-41.071-70.588-48.438-83.248c8.382-2.557,17.311-4.815,21.021-11.221
+                      c6.183-10.674-4.823-28.184-1.933-39.625c2.977-11.775,20.551-21.964,20.551-33.933c0-11.661-18.169-25.284-21.148-36.99
+                      c-2.91-11.439,8.063-28.968,1.86-39.629c-6.203-10.662-26.864-9.786-35.369-17.97c-8.751-8.422-8.724-29.028-19.279-34.672
+                      c-10.598-5.665-27.822,5.784-39.589,3.072C207.711,17.515,197.318,0,185.167,0c-12.331,0-31.944,19.868-35.02,20.583
+                      c-11.761,2.734-29.007-8.687-39.594-2.998c-10.545,5.663-10.48,26.271-19.215,34.707c-8.491,8.199-29.153,7.361-35.337,18.035
+                      c-6.183,10.672,4.823,28.178,1.934,39.625c-2.897,11.476-21.083,23.104-21.083,36.376c0,11.97,17.618,22.127,20.613,33.896
+                      c2.911,11.439-8.062,28.966-1.859,39.631c3.377,5.805,11.039,8.188,18.691,10.479c0.893,0.267,2.582,1.266,1.438,2.933
+                      c-5.235,9.036-47.37,81.755-47.37,81.755c-3.352,5.784-0.63,10.742,6.047,11.023l32.683,1.363
+                      c6.677,0.281,15.053,5.133,18.617,10.786l17.44,27.674c3.564,5.653,9.219,5.547,12.57-0.236c0,0,48.797-84.246,48.817-84.27
+                      c0.979-1.144,1.963-0.909,2.434-0.509c5.339,4.546,12.782,9.081,18.994,9.081c6.092,0,11.733-4.269,17.313-9.03
+                      c0.454-0.387,1.559-1.18,2.367,0.466c0.013,0.026,48.756,83.811,48.756,83.811c3.36,5.776,9.016,5.874,12.569,0.214
+                      l17.391-27.707c3.554-5.657,11.921-10.528,18.598-10.819l32.68-1.424C342.315,325.152,345.028,320.187,341.668,314.412z
+                      M239.18,238.631c-36.136,21.023-79.511,18.77-112.641-2.127c-48.545-31.095-64.518-95.419-35.335-145.788
+                      c29.516-50.95,94.399-68.928,145.808-40.929c0.27,0.147,0.537,0.299,0.805,0.449c0.381,0.211,0.761,0.425,1.14,0.641
+                      c15.86,9.144,29.613,22.415,39.461,39.342C308.516,141.955,290.915,208.533,239.18,238.631z"/>
+                    <path d="M230.916,66.103c-0.15-0.087-0.302-0.168-0.452-0.254C203.002,49.955,168,48.793,138.665,65.86
+                      c-43.532,25.326-58.345,81.345-33.019,124.876c7.728,13.284,18.318,23.888,30.536,31.498c1.039,0.658,2.09,1.305,3.164,1.927
+                      c43.579,25.247,99.568,10.333,124.814-33.244C289.405,147.338,274.495,91.35,230.916,66.103z M241.818,137.344l-15.259,14.873
+                      c-4.726,4.606-7.68,13.698-6.563,20.203l3.602,21.001c1.116,6.505-2.75,9.314-8.592,6.243l-18.861-9.916
+                      c-5.842-3.071-15.401-3.071-21.243,0l-18.86,9.916c-5.842,3.071-9.709,0.262-8.593-6.243l3.602-21.001
+                      c1.116-6.505-1.838-15.597-6.564-20.203l-15.258-14.873c-4.727-4.606-3.249-9.152,3.282-10.102l21.086-3.064
+                      c6.531-0.949,14.265-6.568,17.186-12.486l9.43-19.107c2.921-5.918,7.701-5.918,10.621,0l9.431,19.107
+                      c2.921,5.918,10.654,11.537,17.186,12.486l21.086,3.064C245.067,128.192,246.544,132.738,241.818,137.344z"/>
+                  </svg>
+                </div>
+              </div>
+              
+              {/* Text with more professional styling */}
+              <div className="text-white drop-shadow-sm">
+                <span className="block text-xs sm:text-sm md:text-base font-medium">From the</span>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-sm sm:text-xl md:text-2xl font-bold leading-none">
+                    #1
+                  </span>
+                  <span className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold">
+                    Short Form Agency
+                  </span>
+                </div>
+                <span className="hidden sm:block text-xs sm:text-sm md:text-base">
+                  <span className="italic font-light">(we're deadly serious)</span>
+                </span>
+              </div>
+            </div>
+            
+            {/* Enhanced shine effect on hover */}
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-all duration-700 ease-out"></div>
+          </div>
+        </div>
+        <IsometricGridBackground />
+        {/* Theme-aware floating elements for visual interest */}
+        <div className="absolute top-40 left-[15%] w-28 h-28 rounded-[40%] rotate-12
+                       opacity-[var(--theme-float-opacity)]
+                       bg-[var(--theme-float-bg-primary)]
+                       animate-float-slow md:block"></div>
+        <div className="absolute bottom-40 right-[10%] w-36 h-36 rounded-[30%] -rotate-6
+                       opacity-[var(--theme-float-opacity-secondary)]
+                       bg-[var(--theme-float-bg-secondary)]
+                       animate-float-medium md:block"></div>
+                       
+        {/* Video container with improved positioning */}
+        <div className="absolute bottom-0 left-0 w-full flex justify-center items-center pointer-events-none z-50">
+          {videoUrl && (
+            <div 
+              ref={videoContainerRef}
+              className="video-peek-container mx-auto pointer-events-auto"
+              style={{
+                position: 'relative',
+                zIndex: 999,
+                boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+                willChange: 'transform, opacity'
+              }}
+            >
+              <div className="rounded-[var(--border-radius-lg)] overflow-hidden shadow-theme-xl border border-white/20">
+                <SafeVideoEmbed videoUrl={videoUrl} priority={true} />
+              </div>
+            </div>
+          )}
+        </div>
+        {/* Grid Layout */}
+        <div 
+          ref={heroRef}
+          className="w-full h-full relative"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 1.618fr) minmax(0, 1fr) minmax(0, 1.618fr) minmax(0, 2.618fr) minmax(0, 4.237fr) minmax(0, 2.618fr) minmax(0, 1.618fr) minmax(0, 1fr) minmax(0, 1.618fr)',
+            gridTemplateRows: 'minmax(0, 1.618fr) minmax(0, 1fr) minmax(0, 1.618fr) minmax(0, 2.618fr) minmax(0, 4.237fr) minmax(0, 2.618fr) minmax(0, 1.618fr) minmax(0, 1fr) minmax(0, 1.618fr)'
+            // Removed red grid lines
+          }}
+        >
+          {/* Color blocks positioned in grid */}
+          <div style={{ gridColumn: '5 / 6', gridRow: '1 / 3' }} className="w-full h-full bg-[var(--theme-accent-secondary)] z-10" /> {/* Teal block */}
+          <div style={{ gridColumn: '6 / 8', gridRow: '1 / 4' }} className="w-full h-full bg-[var(--theme-primary)] z-10" /> {/* Orange block */}
+          <div style={{ gridColumn: '8 / 10', gridRow: '1 / 5' }} className="w-full h-full bg-[var(--theme-accent-coral)] z-10" /> {/* Red block */}
+          
+          {/* Animated VS Logo */}
+          <div 
+            className="flex items-center justify-center z-20 scale-140
+                      col-[3_/_5] row-[2_/_3]
+                      sm:col-[2_/_5] sm:row-[2_/_5]
+                      md:col-[2_/_5] md:row-[2_/_5]
+                      lg:col-[2_/_5] lg:row-[2_/_7]"
+            data-speed="0.86"
+          >
+            <div className="relative flex items-center justify-center
+                          -translate-x-[5%] sm:translate-x-0
+                          translate-y-[5%] sm:translate-y-0">
+              {/* Logo wrapper with fixed dimensions at each breakpoint */}
+              <div className="
+                relative 
+                w-[200px] h-[200px]
+                sm:w-[450px] sm:h-[450px]
+                md:w-[550px] md:h-[550px]
+                lg:w-[600px] lg:h-[600px]
+                xl:w-[650px] xl:h-[650px]
+                2xl:w-[750px] 2xl:h-[750px]
+                transition-all duration-500"
 
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="flex flex-wrap gap-3 justify-center mb-6">
-              {(badges || ["Viral Strategy", "Content Systems", "Team Delegation"]).map((badge, index) => (
-                 <Badge 
-                    key={index} 
-                    variant="outline"
-                    className="hero-badge bg-theme-accent/10 border-theme-accent/30 text-theme-accent font-medium py-1 px-3" 
-                  >
-                  {badge}
-                </Badge>
-              ))}
+              >
+                <AnimatedLogo 
+                  className="w-full h-full object-contain" 
+                  onAnimationComplete={() => {/* Keep for reference but no longer needed */}}
+                />
+              </div>
+            </div>
+          </div>
+          
+          {/* Eyeball SVG positioned in grid but maintaining size */}
+          <div 
+            className="relative animate-float-slow z-0
+                      col-[1_/_4] row-[5_/_7]
+                      sm:col-[1_/_4] sm:row-[5_/_7]
+                      md:col-[1_/_4] md:row-[5_/_7]"
+            data-speed="0.9"
+          >
+            <svg
+              width="679"
+              height="600"
+              viewBox="0 0 679 600"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              id="eyeballSvg"
+              className="
+                w-[320px] h-auto
+                sm:w-[350px] md:w-[420px] lg:w-[500px] xl:w-[567px]
+                absolute bottom-[-240px] left-0
+                translate-y-[60px] -translate-x-[30px]
+                sm:translate-y-[80px] sm:-translate-x-[40px]
+                md:translate-y-[90px] md:-translate-x-[45px]
+                lg:translate-y-[100px] lg:-translate-x-[50px]
+                opacity-0
+                transition-all duration-500
+                animate-float-gentle
+              "
+              aria-hidden="true"
+            >
+              <circle
+                cx="331.484"
+                cy="347.484"
+                r="231.656"
+                transform="rotate(-90 331.484 347.484)"
+                fill="var(--theme-eyeball-outer)"
+              />
+              <ellipse
+                cx="387.704"
+                cy="307.815"
+                rx="143.553"
+                ry="143.168"
+                transform="rotate(-90 387.704 307.815)"
+                fill="var(--theme-eyeball-iris)"
+              />
+              <path
+                d="M324.537 240.611C337.361 218.609 357.976 202.262 382.267 194.834C406.558 187.406 432.737 189.444 455.577 200.541C478.417 211.637 496.239 230.976 505.483 254.697C514.727 278.417 514.714 304.773 505.446 328.503C496.178 352.233 478.337 371.59 455.485 382.711C432.634 393.832 406.453 395.897 382.169 388.495C357.886 381.092 337.287 364.767 324.486 342.778C311.684 320.789 307.622 294.755 313.109 269.872L411.566 291.649L324.537 240.611Z"
+                fill="var(--theme-eyeball-pupil)"
+              />
+            </svg>
+          </div>
+
+          {/* VS Logo Header - Now hidden as we have the animated logo */}
+          <header style={{ gridColumn: '2 / 3', gridRow: '2 / 3' }} className="flex items-center">
+            <div className="text-5xl text-theme-primary max-sm:text-4xl opacity-0">VS</div>
+          </header>
+
+          {/* HeroHeadline with attached subheading */}
+          <div 
+            className="flex flex-col z-20 max-w-fit align-items-center items-center
+                     col-[1_/_10] row-[4_/_7]
+                     sm:col-[5_/_9] sm:row-[4_/_6]
+                     md:col-[5_/_9] md:row-[4_/_6]
+                     lg:col-[5_/_9] lg:row-[4_/_6]
+                     px-4 sm:px-0 transition-all duration-500
+                     sm:max-w-none"
+            data-speed="0.95"
+          >
+            <div className="w-max h-max max-sm:mt-10 flex-row max-sm:items-center">
+              <h1 className="hero-content text-center sm:text-left w-max h-max mb-4 lg:mb-6 sm:text-[20] md:text-5xl lg:text-6xl xl:text-7xl leading-tight text-theme-primary transition-theme-fast duration-500">
+                <span className="font-semibold glow-theme-tertiary text-6xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-theme-accent-tertiary transition-all duration-500" data-speed="0.95">
+                  1 Billion+
+                </span>
+                <span className="font-light text-5xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-6xl" data-speed="0.99"> views,</span>
+                <span className="font-normal block text-4xl sm:text-4xl sm:font-light md:text-4xl lg:text-5xl xl:text-6xl transition-all duration-500" data-speed="0.97">
+                  zero ad spend
+                </span>
+              </h1>
             </div>
 
-            <VSHeading size="2xl" className="hero-title mb-6">
-              {title || "Master Short-Form Content That Converts"}
-            </VSHeading>
-            <VSText size="xl" color="text-theme-secondary" className="hero-subtitle mb-10">
-              {subtitle || "The premium 10-week program for founders & creators to generate consistent leads and revenue using viral short-form video strategies."}
-            </VSText>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-               <AnimatedButton
-                  text="Apply Now & Get Your Plan"
-                  variant="start" 
+            {/* Subheading now attached to heading */}
+            <div className="z-10 items-center">
+              <h3 className="hero-content text-center sm:text-left body-text-large mb-4 sm:mb-6 lg:mb-8 text-theme-primary transition-all duration-500" data-speed="0.99">
+                The proven system to survive, thrive and monetise with short form content 
+                <span className="hidden md:inline"> — specifically for founders</span>.
+              </h3>
+              
+              
+              {/* Animated Buttons with responsive sizes */}
+              <div className="hero-content flex flex-wrap gap-2 sm:gap-3 lg:gap-4 transition-all duration-500">
+                <AnimatedButton 
+                  text="Get Your Plan"
+                  variant="start"
                   saturation="high"
-                  size="lg"
+                  size="md"
                   onClick={onCtaClick}
-                  className="hero-cta-button" 
-               />
-               <Button variant="outline" size="lg" className="hero-video-button bg-transparent hover:bg-theme-accent/10 border-theme-accent text-theme-accent hover:text-theme-accent group">
-                 <PlayCircle className="mr-2 h-5 w-5 transition-transform duration-300 group-hover:scale-110" /> Watch Trailer
-              </Button>
+                  className="w-auto text-sm sm:text-base"
+                />
+              </div>
+
             </div>
           </div>
         </div>
-        
-        <div 
-           ref={videoRef}
-           className="video-container absolute bottom-[-40%] left-1/2 transform -translate-x-1/2 w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] aspect-video rounded-2xl overflow-hidden shadow-xl border-4 border-white/10 dark:border-[var(--theme-border)] z-20 bg-black"
-           style={{ perspective: '1000px' }}
-         >
-           <div className="absolute inset-0 bg-gradient-to-br from-blue-900 to-purple-900 flex items-center justify-center">
-            <PlayCircle className="w-16 h-16 text-white/50" />
-           </div>
-        </div>
-      </div>
+      </section>
     );
   }
 );
-DesktopHero.displayName = 'DesktopHero';
 
-const SimpleHero = forwardRef<HTMLDivElement, SimpleHeroProps>(
-   (props, ref) => {
-     const { isMobile } = useDeviceDetection();
-  
-     return isMobile ? (
-       <MobileHero {...props} />
-     ) : (
-       <DesktopHero {...props} ref={ref} />
-     );
-   }
-);
 SimpleHero.displayName = 'SimpleHero';
 
 export default SimpleHero;

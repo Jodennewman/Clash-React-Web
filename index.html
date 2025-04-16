@@ -36,12 +36,19 @@
     <script src="https://kit.fontawesome.com/2d0c8d4b5a.js" crossorigin="anonymous" async></script>
 
     <style>
-      /* Mobile viewport fixes */
+      /* Mobile viewport fixes - simplified to prevent overlapping position:relative */
       @media (max-width: 767px) {
-        html, body {
+        html {
           overflow-x: hidden; /* Prevent horizontal scroll */
           width: 100%; /* Ensure proper width */
-          position: relative; /* Context for absolute positioned elements */
+        }
+        
+        body {
+          overflow-x: hidden;
+          width: 100%;
+          margin: 0;
+          padding: 0;
+          position: relative; /* Only set position:relative on body, not html */
         }
         
         /* Fix iOS Safari 100vh issue */
@@ -49,12 +56,6 @@
           height: 100vh; /* fallback */
           height: -webkit-fill-available;
           height: stretch; /* Modern browsers */
-        }
-        
-        /* Fix for any default margins causing issues */
-        body {
-          margin: 0;
-          padding: 0;
         }
       }
     </style>

@@ -505,10 +505,10 @@ const NormalSquare = React.forwardRef<HTMLDivElement, Omit<SquareProps, 'isSelec
 NormalSquare.displayName = 'NormalSquare';
 
 // Add type definitions for refs at the top of the file
-interface CacheMap extends Map<string, string> {}
-
 interface ModuleRefs {
   [key: string]: HTMLDivElement | null | Map<string, string>;
+  'thumbnail-cache': Map<string, string>;
+  'load-state': Map<string, string>;
 }
 
 // Add interfaces at the top of the file
@@ -524,16 +524,13 @@ interface Submodule {
   formattedDuration?: string;
 }
 
-interface ModuleRefs {
-  [key: string]: HTMLDivElement | null;
-  'thumbnail-cache': Map<string, string>;
-  'load-state': Map<string, string>;
-}
-
 export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleClick }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
-  const moduleRefs = useRef<ModuleRefs>({});
+  const moduleRefs = useRef<ModuleRefs>({
+    'thumbnail-cache': new Map<string, string>(),
+    'load-state': new Map<string, string>()
+  });
   
   // State for modal management
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -1382,7 +1379,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         });
         
         // Add close modal functionality
-        const closeBtn = document.querySelectorAll('.modal-close').forEach(closeBtn => {
+        document.querySelectorAll('.modal-close').forEach(closeBtn => {
           closeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             const modalEl = (e.target as HTMLElement).closest('[id^="system-modal-"]');
@@ -2064,7 +2061,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             isLocked: false,
             instructor: submodule.instructor,
             week: submodule.week,
-            difficulty: submodule.difficulty,
+            difficulty: submodule.difficulty != null ? submodule.difficulty.toString() : '',
             resources: submodule.resources || []
           }))}
           thumbnailUrl={`/assets/main/DataBaseThumbnails/renamed/${selectedModuleId.replace(/-/g, '_')}.webp`}
