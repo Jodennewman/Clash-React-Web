@@ -1,31 +1,29 @@
-import React, { useRef, useLayoutEffect, useEffect, useState } from "react";
+import React, { useRef, useLayoutEffect, useEffect, useState, lazy, Suspense } from "react";
 import VSQualificationModal from "./Qualification_components/qualification-modal";
 import SimpleHero from "./components/hero/SimpleHero";
 import { Badge } from "./components/ui/badge";
 // import SafeVideoEmbed from "./components/ui/video-embed";
 import VSNavbar from "./components/sections/navbar/vs-navbar";
-import TabsLeft from "./components/sections/tabs/left";
-import SocialProof from "./components/sections/social-proof/marquee-2-rows";
-import TestimonialCarousel from "./components/ui/testimonial-carousel";
-import WordRoller from "@/components/Word-Rollers/WordRoller.tsx"
-import {
-  CaseStudies,
-  VSPainPoints,
-  VSBigReveal,
-  CourseViewer,
-  TeamSection as MeetTheTeam,
-  FAQUpdated,
-  PricingSimple,
-  Customisation,
-  CourseStats,
-  FounderTrack,
-  ConnectEverything,
-} from "./components/sections";
+// import TabsLeft from "./components/sections/tabs/left";
+// import SocialProof from "./components/sections/social-proof/marquee-2-rows";
+// import TestimonialCarousel from "./components/ui/testimonial-carousel";
+// import WordRoller from "@/components/Word-Rollers/WordRoller.tsx"
+// import {
+//   CaseStudies,
+//   VSPainPoints,
+//   VSBigReveal,
+//   CourseViewer,
+//   TeamSection as MeetTheTeam,
+//   FAQUpdated,
+//   PricingSimple,
+//   Customisation,
+//   CourseStats,
+//   FounderTrack,
+//   ConnectEverything,
+// } from "./components/sections";
+// import CourseTimeline from "./components/CourseTimeline";
 import { Link } from "react-router-dom";
 import { AnimatedButton } from "./components/marble-buttons/AnimatedButton";
-import CourseTimeline from "./components/CourseTimeline";
-// Removed unused import: beforeAfterExamples
-// import { beforeAfterExamples } from "./data/before-after-examples";
 
 // Import VS helper components for correct light/dark mode implementation
 import { VSText, VSHeading } from "./components/ui/vs-text";
@@ -129,6 +127,32 @@ const carouselTestimonials = [
 ];
 
 // Features data is now in VS-BigReveal component
+
+// --- Lazy Load Section Components ---
+const LazyTabsLeft = lazy(() => import("./components/sections/tabs/left"));
+const LazySocialProof = lazy(() => import("./components/sections/social-proof/marquee-2-rows"));
+const LazyTestimonialCarousel = lazy(() => import("./components/ui/testimonial-carousel"));
+const LazyWordRoller = lazy(() => import("@/components/Word-Rollers/WordRoller.tsx"));
+const LazyCaseStudies = lazy(() => import("./components/sections").then(module => ({ default: module.CaseStudies })));
+const LazyVSPainPoints = lazy(() => import("./components/sections").then(module => ({ default: module.VSPainPoints })));
+const LazyVSBigReveal = lazy(() => import("./components/sections").then(module => ({ default: module.VSBigReveal })));
+const LazyCourseViewer = lazy(() => import("./components/sections").then(module => ({ default: module.CourseViewer })));
+const LazyMeetTheTeam = lazy(() => import("./components/sections").then(module => ({ default: module.TeamSection }))); // Assuming TeamSection is the export
+const LazyFAQUpdated = lazy(() => import("./components/sections").then(module => ({ default: module.FAQUpdated })));
+const LazyPricingSimple = lazy(() => import("./components/sections").then(module => ({ default: module.PricingSimple })));
+const LazyCustomisation = lazy(() => import("./components/sections").then(module => ({ default: module.Customisation })));
+const LazyCourseStats = lazy(() => import("./components/sections").then(module => ({ default: module.CourseStats })));
+const LazyFounderTrack = lazy(() => import("./components/sections").then(module => ({ default: module.FounderTrack })));
+const LazyConnectEverything = lazy(() => import("./components/sections").then(module => ({ default: module.ConnectEverything })));
+const LazyCourseTimeline = lazy(() => import("./components/CourseTimeline"));
+// --- End Lazy Load Section Components ---
+
+// Simple loading fallback component
+const LoadingFallback = () => (
+  <div className="min-h-[300px] flex items-center justify-center">
+    <VSText>Loading section...</VSText>
+  </div>
+);
 
 // Animation controller component with responsive optimization
 function AnimationController({ children }: { children: React.ReactNode }) {
@@ -523,8 +547,9 @@ const VerticalShortcutLanding = () => {
               {/* Section header */}
               <div className="text-center max-w-4xl mx-auto mb-8">
                   <VSHeading
-                  variant="h2"
-                  className="text-3xl md:text-4xl font-bold text-theme-primary mb-6"
+                  as="h2"
+                  size="xl"
+                  className="text-theme-primary mb-6"
                   >
                         What do we do?
                   </VSHeading>
@@ -550,63 +575,95 @@ const VerticalShortcutLanding = () => {
                 </div>
 
               {/* Section 3: Case studies - click on each to see graphs and more in detail stats */}
-              <CaseStudies onCtaClick={openQualificationModal} />
+               <Suspense fallback={<LoadingFallback />}>
+                 <LazyCaseStudies onCtaClick={openQualificationModal} />
+               </Suspense>
             </div>
           </VSSection>
 
-          <WordRoller
-              words={["You've","probably","seen","our","work","before"]}
-              className="min-h-screen w-full max-w-7xl mx-auto"
-          />
+           <Suspense fallback={<LoadingFallback />}>
+             <LazyWordRoller
+                 words={["You've","probably","seen","our","work","before"]}
+                 className="min-h-screen w-full max-w-7xl mx-auto"
+             />
+           </Suspense>
 
           {/* Section 4: Double marquee with our biggest videos with biggest views */}
-          <SocialProof />
+           <Suspense fallback={<LoadingFallback />}>
+             <LazySocialProof />
+           </Suspense>
 
           {/* Section 6: Pain Points */}
           <div id="benefits">
-            <VSPainPoints />
+             <Suspense fallback={<LoadingFallback />}>
+               <LazyVSPainPoints />
+             </Suspense>
           </div>
 
           {/* Section 7: The Vertical Shortcut (big sell) */}
-          <VSBigReveal />
+           <Suspense fallback={<LoadingFallback />}>
+             <LazyVSBigReveal />
+           </Suspense>
 
           {/* Section 8: Contents */}
-          <CourseStats />
+           <Suspense fallback={<LoadingFallback />}>
+             <LazyCourseStats />
+           </Suspense>
 
           {/* Section 9: The Course Curriculum (Using CourseViewer component) */}
           <div id="curriculum">
-            <CourseViewer />
+             <Suspense fallback={<LoadingFallback />}>
+               <LazyCourseViewer />
+             </Suspense>
           </div>
 
           {/* Tools & Integrations - Custom systems built for creators */}
-          <ConnectEverything />
+           <Suspense fallback={<LoadingFallback />}>
+             <LazyConnectEverything />
+           </Suspense>
 
           {/* Section 10: Week by week structure */}
-          <CourseTimeline />
+           <Suspense fallback={<LoadingFallback />}>
+             <LazyCourseTimeline />
+           </Suspense>
 
-          <MeetTheTeam />
+           <Suspense fallback={<LoadingFallback />}>
+             <LazyMeetTheTeam />
+           </Suspense>
 
           {/* Section 12: The Founders Track */}
-          <FounderTrack onCtaClick={openQualificationModal} />
+           <Suspense fallback={<LoadingFallback />}>
+             <LazyFounderTrack onCtaClick={openQualificationModal} />
+           </Suspense>
 
           {/* Section 13: The Team Track */}
-          <TabsLeft />
+           <Suspense fallback={<LoadingFallback />}>
+             <LazyTabsLeft />
+           </Suspense>
 
           {/* Section 14: Testimonials slideshow */}
           <div id="testimonials">
-            <TestimonialCarousel testimonials={carouselTestimonials} />
+             <Suspense fallback={<LoadingFallback />}>
+               <LazyTestimonialCarousel testimonials={carouselTestimonials} />
+             </Suspense>
           </div>
 
           {/* Section 15: Buy/Apply - Pricing Section */}
           <div id="pricing">
-            <PricingSimple onCtaClick={openQualificationModal} />
+             <Suspense fallback={<LoadingFallback />}>
+               <LazyPricingSimple onCtaClick={openQualificationModal} />
+             </Suspense>
           </div>
 
           {/* Section 16: Customisation */}
-          <Customisation onCtaClick={openQualificationModal} />
+           <Suspense fallback={<LoadingFallback />}>
+             <LazyCustomisation onCtaClick={openQualificationModal} />
+           </Suspense>
 
           {/* Section 17: FAQs */}
-          <FAQUpdated />
+           <Suspense fallback={<LoadingFallback />}>
+             <LazyFAQUpdated />
+           </Suspense>
 
           {/* Section 18: Final Application CTA */}
           <VSSection
@@ -637,15 +694,17 @@ const VerticalShortcutLanding = () => {
                   </Badge>
 
                   <VSHeading
-                    variant="h2"
-                    className="cta-title text-4xl md:text-5xl lg:text-6xl font-bold text-theme-primary mb-6"
+                    as="h2"
+                    size="2xl"
+                    className="cta-title font-bold text-theme-primary mb-6"
                   >
                     Limited spots available for next cohort
                   </VSHeading>
 
                   <VSHeading
-                    variant="h3"
-                    className="cta-subtitle text-3xl md:text-4xl font-bold text-theme-primary mb-6"
+                    as="h3"
+                    size="xl"
+                    className="cta-subtitle font-bold text-theme-primary mb-6"
                   >
                     Ready to Transform Your Content?
                   </VSHeading>
@@ -660,8 +719,9 @@ const VerticalShortcutLanding = () => {
                 <div className="flex flex-col md:flex-row bg-theme-surface p-8 md:p-12 rounded-2xl shadow-theme-md">
                   <div className="md:w-1/2 mb-8 md:mb-0 md:pr-8">
                     <VSHeading
-                      variant="h3"
-                      className="text-2xl md:text-3xl font-bold text-theme-primary mb-6"
+                      as="h3"
+                      size="lg"
+                      className="font-bold text-theme-primary mb-6"
                     >
                       Apply Now
                     </VSHeading>
@@ -697,8 +757,9 @@ const VerticalShortcutLanding = () => {
 
                   <div className="md:w-1/2 md:border-l md:pl-8 border-theme-border-light">
                     <VSHeading
-                      variant="h3"
-                      className="text-2xl md:text-3xl font-bold text-theme-primary mb-6"
+                      as="h3"
+                      size="lg"
+                      className="font-bold text-theme-primary mb-6"
                     >
                       Next Cohort Details
                     </VSHeading>
@@ -769,7 +830,8 @@ const VerticalShortcutLanding = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
                 <div className="space-y-4">
                   <VSHeading
-                    variant="h4"
+                    as="h4"
+                    size="md"
                     color="white"
                     className="text-xl mb-4"
                   >
@@ -799,7 +861,8 @@ const VerticalShortcutLanding = () => {
 
                 <div>
                   <VSHeading
-                    variant="h4"
+                    as="h4"
+                    size="sm"
                     color="white"
                     className="text-lg mb-4"
                   >
@@ -880,7 +943,8 @@ const VerticalShortcutLanding = () => {
 
                 <div>
                   <VSHeading
-                    variant="h4"
+                    as="h4"
+                    size="sm"
                     color="white"
                     className="text-lg mb-4"
                   >
@@ -945,7 +1009,8 @@ const VerticalShortcutLanding = () => {
 
                 <div>
                   <VSHeading
-                    variant="h4"
+                    as="h4"
+                    size="sm"
                     color="white"
                     className="text-lg mb-4"
                   >
@@ -986,7 +1051,8 @@ const VerticalShortcutLanding = () => {
 
                   <div className="mt-8">
                     <VSHeading
-                      variant="h4"
+                      as="h4"
+                      size="sm"
                       color="white"
                       className="text-lg mb-4"
                     >
