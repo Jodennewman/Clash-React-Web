@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface TiaContactStageProps {
   title: string;
@@ -19,6 +19,8 @@ interface TiaContactStageProps {
   mailingList: boolean;
   onMailingListChange: (checked: boolean) => void;
   onChange: (field: string, value: string) => void;
+  onBack?: () => void; // Optional back handler
+  onSubmit?: () => void; // Optional submit handler to replace the footer
 }
 
 const TiaContactStage: React.FC<TiaContactStageProps> = ({
@@ -29,13 +31,15 @@ const TiaContactStage: React.FC<TiaContactStageProps> = ({
   errors,
   mailingList,
   onMailingListChange,
-  onChange
+  onChange,
+  onBack,
+  onSubmit
 }) => {
   return (
     <div className="p-5 md:p-6">
       <div className="flex flex-col space-y-4">
         {/* Title header - empty but keeping the space for layout consistency */}
-        <div className="mb-2">
+        <div className="mb-2 flex justify-between items-center">
           <h4 className="text-theme-primary text-base font-medium"></h4>
         </div>
         
@@ -140,7 +144,29 @@ const TiaContactStage: React.FC<TiaContactStageProps> = ({
               Your information is secure and never shared with third parties
             </p>
           </div>
-          {/* No buttons here - using the modal footer instead */}
+          {/* Submit and back buttons */}
+          <div className="mt-6 flex justify-between items-center">
+            {onBack && (
+              <button 
+                onClick={onBack}
+                className="flex items-center text-theme-primary hover:text-theme-primary-hover transition-colors"
+              >
+                <ArrowLeft className="h-4 w-4 mr-1" /> Back
+              </button>
+            )}
+            
+            {onSubmit && (
+              <button
+                onClick={onSubmit}
+                className="w-full md:w-auto py-3 px-6 bg-orange-500/80 hover:bg-orange-500/90 
+                         dark:bg-amber-400/90 dark:hover:bg-amber-400 text-white 
+                         rounded-lg font-medium shadow-theme-sm hover:shadow-theme-md transition-all 
+                         flex items-center justify-center gap-2 duration-300"
+              >
+                Show my recommendation <ArrowRight className="h-4 w-4" />
+              </button>
+            )}
+          </div>
         </div>
         
         {/* Support text with tracking */}
