@@ -21,16 +21,6 @@ interface SectionData {
   displayKey?: string; // Optional key to differentiate sections with same ID but different display contexts
 }
 
-// Module data structure
-interface ModuleData {
-  id: string;
-  title: string;
-  color?: string;
-  founderMustWatch?: boolean;
-  featured?: boolean;
-  duration?: number; // Add duration property for module sizing
-}
-
 // Get sections from course utils to generate section data
 const generateMainSections = (): SectionData[] => {
   // Get all sections from courseUtils
@@ -206,11 +196,10 @@ const mainSections: SectionData[] = generateMainSections();
 // Square Column Component - takes an array of squares to display in a column
 interface SquareColumnProps {
   squares: SectionData[];
-  selectedSection?: string | null;
   sectionRefs: React.MutableRefObject<{[key: string]: HTMLDivElement | null}>;
 }
 
-const SquareColumn: React.FC<SquareColumnProps> = ({ squares, selectedSection, sectionRefs }) => {
+const SquareColumn: React.FC<SquareColumnProps> = ({ squares, sectionRefs }) => {
   return (
     // On mobile, columns become rows
     <div className="flex flex-row md:flex-col gap-[var(--square-gap-x)] md:gap-[var(--square-gap-y)]">
@@ -218,7 +207,6 @@ const SquareColumn: React.FC<SquareColumnProps> = ({ squares, selectedSection, s
         <NormalSquare 
           key={square.uniqueId || square.id}
           section={square}
-          isSelected={selectedSection === (square.uniqueId || square.id)}
           ref={(el) => { 
             if (el) sectionRefs.current[square.uniqueId || square.id] = el;
             return undefined;
@@ -236,8 +224,8 @@ interface SquareProps {
 }
 
 // Fix BigSquare component
-const BigSquare = React.forwardRef<HTMLDivElement, SquareProps>(
-  ({ section, isSelected }, ref) => {
+const BigSquare = React.forwardRef<HTMLDivElement, Omit<SquareProps, 'isSelected'>>(
+  ({ section }, ref) => {
     // Get a thumbnail based on section ID - using exact paths from JSON
     const getSectionThumbnail = () => {
       // Match section ID to appropriate thumbnail and use the courseUtils.getThumbnailPath function
@@ -362,8 +350,8 @@ const BigSquare = React.forwardRef<HTMLDivElement, SquareProps>(
 BigSquare.displayName = 'BigSquare';  // Add display name for better debugging
 
 // Fix NormalSquare component
-const NormalSquare = React.forwardRef<HTMLDivElement, SquareProps>(
-  ({ section, isSelected }, ref) => {
+const NormalSquare = React.forwardRef<HTMLDivElement, Omit<SquareProps, 'isSelected'>>(
+  ({ section }, ref) => {
     // Get a thumbnail based on section ID using direct paths
     const getSectionThumbnail = () => {
       // Match section ID to appropriate thumbnail
@@ -516,10 +504,36 @@ const NormalSquare = React.forwardRef<HTMLDivElement, SquareProps>(
 
 NormalSquare.displayName = 'NormalSquare';
 
+// Add type definitions for refs at the top of the file
+interface CacheMap extends Map<string, string> {}
+
+interface ModuleRefs {
+  [key: string]: HTMLDivElement | null | Map<string, string>;
+}
+
+// Add interfaces at the top of the file
+interface Submodule {
+  id: string;
+  title: string;
+  duration: number;
+  subtitle?: string;
+  instructor?: string;
+  week?: number;
+  difficulty?: string;
+  resources?: unknown[];
+  formattedDuration?: string;
+}
+
+interface ModuleRefs {
+  [key: string]: HTMLDivElement | null;
+  'thumbnail-cache': Map<string, string>;
+  'load-state': Map<string, string>;
+}
+
 export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleClick }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
-  const moduleRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
+  const moduleRefs = useRef<ModuleRefs>({});
   
   // State for modal management
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -1368,12 +1382,12 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
         });
         
         // Add close modal functionality
-        document.querySelectorAll('.modal-close').forEach(closeBtn => {
+        const closeBtn = document.querySelectorAll('.modal-close').forEach(closeBtn => {
           closeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            const modal = (e.target as HTMLElement).closest('[id^="system-modal-"]');
-            if (modal) {
-              // Animate modal out
+            const modalEl = (e.target as HTMLElement).closest('[id^="system-modal-"]');
+            if (modalEl) {
+              const modal = modalEl as HTMLElement;
               const modalContentEl = modal.querySelector('div');
               if (modalContentEl) {
                 gsap.to(modalContentEl, {
@@ -1381,8 +1395,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
                   duration: 0.2,
                   ease: "power3.in",
                   onComplete: () => {
-                    (modal as HTMLElement).style.opacity = '0';
-                    (modal as HTMLElement).style.pointerEvents = 'none';
+                    modal.style.opacity = '0';
+                    modal.style.pointerEvents = 'none';
                   }
                 });
               } else {
@@ -1428,7 +1442,10 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           const sectionColor = sectionData?.color || module.color || 'var(--theme-accent)';
           
           // Implement a thumbnail caching mechanism
-          const thumbnailCache = moduleRefs.current['thumbnail-cache'] || new Map();
+          const thumbnailCache = (moduleRefs.current['thumbnail-cache'] instanceof Map) 
+            ? moduleRefs.current['thumbnail-cache'] 
+            : new Map<string, string>();
+          
           if (!moduleRefs.current['thumbnail-cache']) {
             moduleRefs.current['thumbnail-cache'] = thumbnailCache;
           }
@@ -1473,7 +1490,10 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           moduleEl.style.backgroundColor = sectionColor; 
           
           // Use a module load state cache
-          const moduleLoadState = moduleRefs.current['load-state'] || new Map();
+          const moduleLoadState = (moduleRefs.current['load-state'] instanceof Map)
+            ? moduleRefs.current['load-state']
+            : new Map<string, string>();
+          
           if (!moduleRefs.current['load-state']) {
             moduleRefs.current['load-state'] = moduleLoadState;
           }
@@ -1513,6 +1533,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
               
               // Cache the successful load state
               moduleLoadState.set(module.id, 'success');
+              moduleLoadState.set('backup-loaded', 'success');
+              thumbnailCache.set(module.id, thumbnailUrl);
             };
             
             // Set up error handler
@@ -1757,7 +1779,6 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             {/* First big square (Basic Theory) */}
             <BigSquare 
               section={mainSections[0]} 
-              isSelected={selectedSection === mainSections[0].id}
               ref={(el) => { 
                 if (el) sectionRefs.current[mainSections[0].id] = el;
                 return undefined;
@@ -1767,21 +1788,18 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             {/* First column of squares (3 Upskillers) */}
             <SquareColumn 
               squares={column1}
-              selectedSection={selectedSection}
               sectionRefs={sectionRefs}
             />
             
             {/* Second column of squares (PR/Authority & Delegation) */}
             <SquareColumn 
               squares={column2}
-              selectedSection={selectedSection}
               sectionRefs={sectionRefs}
             />
             
             {/* Second big square (Advanced Theory) */}
             <BigSquare 
               section={mainSections[6]} 
-              isSelected={selectedSection === mainSections[6].id}
               ref={(el) => { 
                 if (el) sectionRefs.current[mainSections[6].id] = el;
                 return undefined;
@@ -1791,7 +1809,6 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
             {/* Third column of squares (Business Scaling) */}
             <SquareColumn 
               squares={column3}
-              selectedSection={selectedSection}
               sectionRefs={sectionRefs}
             />
             
@@ -2037,14 +2054,14 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleC
           onClose={handleCloseModal}
           moduleId={selectedModuleId}
           moduleTitle={selectedModuleId ? courseUtils.getModuleTitle(selectedModuleId) || "Module Details" : "Module Details"}
-          submodules={courseUtils.getSubmodulesForModule(selectedModuleId).map(submodule => ({
+          submodules={courseUtils.getSubmodulesForModule(selectedModuleId).map((submodule: Submodule) => ({
             id: submodule.id,
             title: submodule.title,
             duration: submodule.formattedDuration || `${submodule.duration}:00`,
             subtitle: submodule.subtitle,
             thumbnailUrl: `/assets/main/DataBaseThumbnails/renamed/${submodule.id.replace(/-/g, '_')}.webp`,
-            isCompleted: false, // Set this based on user progress when implemented
-            isLocked: false,    // Set this based on user access when implemented
+            isCompleted: false,
+            isLocked: false,
             instructor: submodule.instructor,
             week: submodule.week,
             difficulty: submodule.difficulty,
