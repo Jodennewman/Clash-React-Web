@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from './button';
-import { gsap } from 'gsap';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useGSAP } from "@gsap/react";
+import { gsap } from 'gsap';
+import { VSBackground, VSCard } from './vs-background'; // Use theme-aware components
+import { VSText, VSHeading } from './vs-text';
+import { useDeviceDetection } from '../../utils/animation-utils'; // Import device detection
 
-interface TestimonialProps {
+interface Testimonial {
   quote: string;
   name: string;
   role: string;
@@ -12,143 +13,161 @@ interface TestimonialProps {
 }
 
 interface TestimonialCarouselProps {
-  testimonials: TestimonialProps[];
+  testimonials: Testimonial[];
 }
 
-export default function TestimonialCarousel({ testimonials }: TestimonialCarouselProps) {
+const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testimonials }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const testimonialsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const { isMobile } = useDeviceDetection(); // Use hook
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null); // For auto-play
 
-  // Initialize refs array
-  useEffect(() => {
-    testimonialsRef.current = testimonialsRef.current.slice(0, testimonials.length);
+  // Function to go to next slide
+  const goToNext = useCallback(() => {
+    setActiveIndex((prevIndex) =>
+      prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
+    );
   }, [testimonials.length]);
 
-  // Handle animation when active index changes using useGSAP
+  // Auto-play functionality
+  useEffect(() => {
+    const startAutoPlay = () => {
+       // Reset timeout if it exists
+       if (timeoutRef.current) {
+         clearTimeout(timeoutRef.current);
+       }
+       // Set new timeout only on desktop
+       if (!isMobile) { 
+         timeoutRef.current = setTimeout(goToNext, 5000); // Change slide every 5 seconds
+       }
+    };
+
+    startAutoPlay();
+
+    // Cleanup timeout on unmount or when dependencies change
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [activeIndex, testimonials.length, goToNext, isMobile]); // Add isMobile dependency
+
+  // GSAP Animation for slide transitions
   useGSAP(() => {
-    // Create GSAP context for proper cleanup
+    if (!carouselRef.current) return;
+
     const ctx = gsap.context(() => {
-      if (!carouselRef.current) return;
+       const slides = carouselRef.current?.querySelectorAll('.testimonial-slide');
+       if (!slides) return;
 
-      // Animate out current testimonials
-      gsap.to(testimonialsRef.current, {
-        opacity: 0,
-        y: 20,
-        duration: 0.3,
-        stagger: 0.1,
-        onComplete: () => {
-          // Animate in new testimonials
-          gsap.fromTo(
-            testimonialsRef.current[activeIndex],
-            { opacity: 0, y: 20 },
-            { 
-              opacity: 1, 
-              y: 0, 
-              duration: 0.5,
-              ease: "power2.out"
-            }
-          );
-        }
-      });
-    }, carouselRef); // Scope to carousel container
-    
-    // The context will automatically clean up when the component unmounts or dependencies change
+       // Hide all slides initially
+       gsap.set(slides, { opacity: 0, position: 'absolute', top: 0, left: 0, width: '100%' });
+
+       // Animate the active slide
+       const activeSlide = slides[activeIndex];
+       if (activeSlide) {
+         if (isMobile) {
+           // Simple fade transition for mobile (as per plan)
+           gsap.fromTo(
+             activeSlide,
+             { opacity: 0, y: 10 }, // Start slightly lower
+             { 
+               opacity: 1, 
+               y: 0,
+               duration: 0.6, // Slightly faster
+               ease: "power2.out",
+               position: 'relative', // Make active slide relative to take space
+             }
+           );
+         } else {
+           // Desktop animation (example: fade and slight scale)
+           gsap.fromTo(
+             activeSlide,
+             { opacity: 0, scale: 0.98 },
+             { 
+               opacity: 1, 
+               scale: 1,
+               duration: 0.7,
+               ease: "power3.out",
+               position: 'relative',
+             }
+           );
+         }
+       }
+    }, carouselRef);
+
     return () => ctx.revert();
-  }, [activeIndex]); // This runs whenever activeIndex changes
-
-  const nextTestimonial = () => {
-    setActiveIndex((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const prevTestimonial = () => {
-    setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
+  }, [activeIndex, isMobile]); // Add isMobile dependency
 
   return (
-    <div ref={carouselRef} className="relative vs-testimonial-container p-8 md:p-12">
-      <div className="absolute top-0 left-0 w-full h-full">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[var(--theme-primary)]/5 to-transparent opacity-[var(--theme-float-opacity)]"></div>
-        <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-[var(--theme-accent-quaternary)]/10 to-transparent opacity-[var(--theme-float-opacity-secondary)] blur-3xl"></div>
+    <VSBackground 
+      as="section" 
+      className="py-16 md:py-24 bg-gradient-to-b from-[var(--theme-bg-alt)] to-[var(--theme-bg-primary)] dark:from-[var(--theme-bg-secondary)] dark:to-[var(--theme-bg-primary)]"
+    >
+      <div className="container-mobile mx-auto text-center">
+        <VSHeading size="xl" className="mb-4 text-theme-primary">
+          Don't Just Take Our Word For It
+        </VSHeading>
+        <VSText size="lg" color="text-theme-secondary" className="mb-12 max-w-3xl mx-auto">
+          Hear directly from founders and creators who transformed their content and business with Vertical Shortcut.
+        </VSText>
       </div>
-      
-      <div className="relative z-10">
-        {testimonials.map((testimonial, index) => (
-          <div
-            key={index}
-            ref={el => {
-              testimonialsRef.current[index] = el;
-            }}
-            className={`transition-opacity duration-300 ${index === activeIndex ? 'block' : 'hidden'}`}
-          >
-            <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
-              <div className="md:w-1/3">
-                <div className="relative">
-                  <div className="w-28 h-28 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-theme-primary shadow-theme-sm transition-all transition-theme-normal">
-                    <img 
-                      src={testimonial.image} 
-                      alt={testimonial.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-theme-gradient-primary flex items-center justify-center rounded-full text-theme-on-primary-theme-sm">
-                    "
-                  </div>
-                </div>
-              </div>
-              
-              <div className="md:w-2/3">
-                <blockquote className="text-xl md:text-2xl font-medium text-theme-primary mb-6 min-h-[150px] md:min-h-[200px] transition-colors transition-theme-normal">
-                  "{testimonial.quote}"
-                </blockquote>
-                <div className="flex items-center">
-                  <div>
-                    <div className="font-bold text-theme-primary transition-colors transition-theme-normal">{testimonial.name}</div>
-                    <div className="text-theme-secondary transition-colors transition-theme-normal">{testimonial.role}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-      
-      <div className="flex justify-center mt-8 gap-4">
-        <Button 
-          onClick={prevTestimonial} 
-          variant="ghost" 
-          size="icon" 
-          className="rounded-full border border-theme-border hover:bg-theme-accent/10 hover:border-theme-accent hover-bubbly-sm transition-all transition-theme-normal"
-        >
-          <ChevronLeft className="h-5 w-5 text-theme-primary" />
-          <span className="sr-only">Previous testimonial</span>
-        </Button>
-        
-        <div className="flex gap-2 items-center">
-          {testimonials.map((_, index) => (
-            <button
+
+      {/* Apply conditional padding and adjusted mobile height */}
+      <div 
+        ref={carouselRef} 
+        className={`relative ${isMobile ? 'px-4' : 'px-12'} max-w-4xl mx-auto overflow-hidden ${isMobile ? 'h-80' : 'h-64'}`} // Adjusted height for mobile
+      >
+        {/* Carousel slides container - position relative */}
+        <div className="relative w-full h-full">
+          {testimonials.map((testimonial, index) => (
+            <div
               key={index}
-              onClick={() => setActiveIndex(index)}
-              className={`h-2 rounded-full transition-all duration-[var(--theme-transition-normal)] ${
-                index === activeIndex 
-                  ? 'bg-theme-accent-secondary w-4' 
-                  : 'bg-theme-border w-2'
-              }`}
-              aria-label={`Go to testimonial ${index + 1}`}
-            />
+              data-index={index}
+              className={`testimonial-slide absolute inset-0 w-full h-full`} // Removed transition/opacity classes, handled by GSAP
+            >
+              {/* Use VSCard for consistent styling */}
+              <VSCard className={`flex flex-col justify-center text-left w-full h-full ${isMobile ? 'p-6' : 'p-8'} shadow-theme-lg`}> {/* Adjusted padding */}
+                <VSText size={isMobile ? 'md' : 'lg'} color="text-theme-primary" className="mb-6 italic">
+                  "{testimonial.quote}"
+                </VSText>
+                <div className="flex items-center mt-auto">
+                  <img
+                    src={testimonial.image} 
+                    alt={testimonial.name}
+                    className="w-12 h-12 rounded-full mr-4 border-2 border-theme-accent"
+                  />
+                  <div>
+                    <VSText size="md" color="text-theme-primary" className="font-semibold">{testimonial.name}</VSText>
+                    <VSText size="sm" color="text-theme-secondary">{testimonial.role}</VSText>
+                  </div>
+                </div>
+              </VSCard>
+            </div>
           ))}
         </div>
-        
-        <Button 
-          onClick={nextTestimonial} 
-          variant="ghost" 
-          size="icon" 
-          className="rounded-full border border-theme-border hover:bg-theme-accent/10 hover:border-theme-accent hover-bubbly-sm transition-all transition-theme-normal"
-        >
-          <ChevronRight className="h-5 w-5 text-theme-primary" />
-          <span className="sr-only">Next testimonial</span>
-        </Button>
       </div>
-    </div>
+      
+      {/* Mobile-optimized controls */}
+      {/* Apply conditional margin-top */}
+      <div className={`flex justify-center ${isMobile ? 'mt-4' : 'mt-8'}`}> 
+        {testimonials.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setActiveIndex(index)} // Go to specific slide on click
+            // Apply conditional size
+            className={`mx-1.5 ${isMobile ? 'w-2.5 h-2.5' : 'w-2 h-2'} rounded-full transition-colors duration-300 ${ 
+              index === activeIndex 
+                ? 'bg-theme-accent' 
+                : 'bg-theme-text-subtle hover:bg-theme-text-secondary'
+            }`}
+            aria-label={`Go to testimonial ${index + 1}`}
+            aria-current={index === activeIndex}
+          />
+        ))}
+      </div>
+    </VSBackground>
   );
-}
+};
+
+export default TestimonialCarousel;

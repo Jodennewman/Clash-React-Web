@@ -1,137 +1,110 @@
-import React from 'react';
+import React, { ElementType, HTMLAttributes } from 'react';
 
-type TextVariant = 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span' | 'div';
-
-interface VSTextProps {
-  children: React.ReactNode;
-  variant?: TextVariant;
-  color?: string;
+// Define common props for text components
+export interface VSTextProps {
+  children?: React.ReactNode;
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'; // Added more size options
+  color?: string; // Allow passing Tailwind color class like 'text-theme-primary'
   className?: string;
-  darkClassName?: string;
-  as?: React.ElementType;
-  style?: React.CSSProperties;
+  as?: ElementType; // Allow changing the root element type (e.g., p, span, h1, h2)
 }
 
-/**
- * VS Text Component - Implements theme-aware styling for text elements
- * 
- * Uses theme-aware variables that automatically update based on the current theme
- * 
- * @example
- * <VSText>Regular text with theme-aware styling</VSText>
- * <VSText color="theme-primary">Primary colored text</VSText>
- * <VSText variant="h2">Heading with correct styling</VSText>
- */
-export function VSText({
+// Base component for theme-aware text
+export const VSText = ({
   children,
-  variant = 'p',
-  color = 'theme-primary',
+  size = 'md',
+  color = 'text-theme-secondary', // Default text color
   className = '',
-  darkClassName = '', // No longer needed with theme-aware approach
-  as,
-  style = {},
+  as: Component = 'p', // Default to <p> tag
   ...props
-}: VSTextProps & React.HTMLAttributes<HTMLElement>) {
-  // Choose the element type based on the variant or the 'as' prop
-  const Component = as || variant;
+}: VSTextProps & HTMLAttributes<HTMLElement>) => {
   
-  // Filter out non-DOM props
-  const { fromColor, toColor, darkFromColor, darkToColor, gradientType, ...domProps } = props;
-  
+  // Map abstract sizes to Tailwind classes (Mobile-first approach)
+  const sizeClasses = {
+    xs: 'text-xs sm:text-sm', // Extra small
+    sm: 'text-sm sm:text-base', // Small
+    md: 'text-base sm:text-lg', // Medium (default)
+    lg: 'text-lg sm:text-xl', // Large
+    xl: 'text-xl sm:text-2xl', // Extra large
+    '2xl': 'text-2xl sm:text-3xl', // Double extra large
+  };
+
+  const sizeClass = sizeClasses[size] || sizeClasses.md;
+
   return (
-    <Component
-      className={`text-${color} ${className}`} // Use theme-aware utility class
-      style={{
-        ...style, // Support additional styles
-      }}
-      {...domProps}
+    <Component 
+      className={`${color} ${sizeClass} ${className}`}
+      {...props}
     >
       {children}
     </Component>
   );
-}
+};
 
-/**
- * VS Heading Component - Wrapper for heading elements with theme-aware styling
- * Now with responsive sizing for mobile optimization
- */
-export function VSHeading({
+// Heading component using VSText styling but defaulting to <h2>
+export const VSHeading = ({
   children,
-  variant = 'h2',
-  color = 'theme-primary',
+  size = 'lg', // Default heading size
+  color = 'text-theme-primary', // Default heading color
   className = '',
-  darkClassName = '', // No longer needed with theme-aware approach
-  size = 'lg', // Added size prop for responsive sizing
+  as: Component = 'h2', // Default to <h2> tag
   ...props
-}: VSTextProps & { size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' }) {
-  // Choose the element type based on the variant
-  const Component = variant;
-  
-  // Filter out non-DOM props
-  const { fromColor, toColor, darkFromColor, darkToColor, gradientType, ...domProps } = props;
-  
-  // Map sizes to responsive Tailwind classes
+}: VSTextProps & HTMLAttributes<HTMLElement>) => {
+
+  // Map abstract sizes to responsive Tailwind classes for headings (Mobile-first)
+  // As specified in MOBILE_OPTIMIZATION_PLAN.md Phase 2, Step 2
   const sizeClasses = {
-    sm: 'text-lg sm:text-xl md:text-2xl',
-    md: 'text-xl sm:text-2xl md:text-3xl',
-    lg: 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl',
+    xs: 'text-base sm:text-lg md:text-xl', // Added missing xs key (adjust values if needed)
+    sm: 'text-lg sm:text-xl md:text-2xl', 
+    md: 'text-xl sm:text-2xl md:text-3xl', 
+    lg: 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl', // Default 
     xl: 'text-3xl sm:text-4xl md:text-5xl lg:text-6xl',
     '2xl': 'text-4xl sm:text-5xl md:text-6xl lg:text-7xl'
   };
   
-  // Get appropriate size class
   const sizeClass = sizeClasses[size] || sizeClasses.lg;
-  
+
   return (
-    <Component
-      className={`text-${color} font-bold ${sizeClass} ${className}`}
-      {...domProps}
+    <Component 
+      className={`${color} ${sizeClass} font-bold ${className}`}
+      {...props}
     >
       {children}
     </Component>
   );
-}
+};
 
-/**
- * VS Gradient Text - Creates a gradient text effect with theme-aware styling
- */
-export function VSGradientText({
+// Optional: Specific component for gradient text if needed frequently
+export const VSGradientText = ({
   children,
-  variant = 'span',
+  size = 'lg',
   className = '',
-  gradientType = 'primary',
-  as,
-  style = {},
-  fromColor,
-  toColor,
-  darkFromColor,
-  darkToColor,
-  ...domProps
-}: VSTextProps & {
-  gradientType?: 'primary' | 'secondary' | 'accent';
-  fromColor?: string;
-  toColor?: string;
-  darkFromColor?: string;
-  darkToColor?: string;
-}) {
-  const Component = as || variant;
+  as: Component = 'span', // Default to <span>
+  ...props
+}: VSTextProps & HTMLAttributes<HTMLElement>) => {
   
-  // Use predefined theme-aware gradient classes
-  const gradientClasses = {
-    primary: 'text-theme-gradient-primary',
-    secondary: 'text-theme-gradient-secondary', 
-    accent: 'text-theme-gradient-accent'
+  // Mirroring heading sizes for gradient text
+  const sizeClasses = {
+    xs: 'text-base sm:text-lg md:text-xl', // Added missing xs key
+    sm: 'text-lg sm:text-xl md:text-2xl', 
+    md: 'text-xl sm:text-2xl md:text-3xl', 
+    lg: 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl', 
+    xl: 'text-3xl sm:text-4xl md:text-5xl lg:text-6xl',
+    '2xl': 'text-4xl sm:text-5xl md:text-6xl lg:text-7xl'
   };
   
+  const sizeClass = sizeClasses[size] || sizeClasses.lg;
+
   return (
-    <Component
-      className={`inline-block bg-clip-text text-transparent ${gradientClasses[gradientType]} ${className}`}
-      style={style}
-      {...domProps}
+    <Component 
+      className={`gradient-text ${sizeClass} font-bold ${className}`}
+      {...props}
     >
       {children}
     </Component>
   );
-}
+};
 
-export default VSText;
+VSText.displayName = 'VSText';
+VSHeading.displayName = 'VSHeading';
+VSGradientText.displayName = 'VSGradientText';

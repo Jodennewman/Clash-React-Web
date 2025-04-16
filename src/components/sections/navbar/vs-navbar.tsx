@@ -41,6 +41,34 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
   
+  // Check for hash in URL on mount and scroll to relevant section
+  useEffect(() => {
+    // Get the hash from the URL (e.g., #benefits, #pricing)
+    const hash = window.location.hash.substring(1);
+    
+    if (hash) {
+      // Slight delay to ensure all components are mounted
+      setTimeout(() => {
+        const targetElement = document.getElementById(hash);
+        if (targetElement) {
+          console.log(`Found target section from URL hash: ${hash}`);
+          setActiveSection(hash);
+          
+          // Scroll to the section
+          const offset = isMobile ? 70 : 100;
+          gsap.to(window, {
+            duration: 1.2,
+            scrollTo: {
+              y: targetElement,
+              offsetY: offset
+            },
+            ease: "power3.inOut"
+          });
+        }
+      }, 500);
+    }
+  }, [isMobile]);
+  
   // GSAP animation for the navbar
   useGSAP(() => {
     const ctx = gsap.context(() => {
@@ -211,7 +239,6 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
           <NavbarRight className="gap-1 sm:gap-2">
             <Button 
               variant="default" 
-
               className=" vs-btn-secondary-gradient py-2 sm:py-2.5 md:py-3 px-3.5 sm:px-3 md:px-4 text-md sm:text-md shadow-theme-sm glow-theme-secondary transition-theme-bounce @max-[420px]:align-right @max-[420px]:-translate-x-12 hover:shadow-theme-md "
               onClick={handleApplyClick}
             >
@@ -222,9 +249,9 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-8 shrink-0 md:hidden text-theme-primary hover:bg-theme-secondary transition-theme-bounce duration-300"
+                  className="size-10 md:hidden text-theme-primary hover:bg-theme-secondary transition-theme-bounce duration-300 shrink-0"
                 >
-                  <Menu className="size-4 sm:size-5" />
+                  <Menu className="size-5" />
                   <span className="sr-only">Toggle navigation menu</span>
                 </Button>
               </SheetTrigger>
@@ -242,7 +269,7 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
                   </div>
                   
                   <button
-                    className={`text-left px-3 py-2.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce] text-sm sm:text-base ${activeSection === "benefits" ? "bg-theme-secondary/30" : ""}`}
+                    className={`touch-target text-left px-3 py-3 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce] text-sm sm:text-base ${activeSection === "benefits" ? "bg-theme-secondary/30" : ""}`}
                     onClick={(e) => {
                       handleNavLinkClick(e, "benefits");
                       closeMobileMenu();
@@ -252,7 +279,7 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
                   </button>
                   
                   <button
-                    className={`text-left px-3 py-2.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce] text-sm sm:text-base ${activeSection === "curriculum" ? "bg-theme-secondary/30" : ""}`}
+                    className={`touch-target text-left px-3 py-3 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce] text-sm sm:text-base ${activeSection === "curriculum" ? "bg-theme-secondary/30" : ""}`}
                     onClick={(e) => {
                       handleNavLinkClick(e, "curriculum");
                       closeMobileMenu();
@@ -262,7 +289,7 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
                   </button>
                   
                   <button
-                    className={`text-left px-3 py-2.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce] text-sm sm:text-base ${activeSection === "testimonials" ? "bg-theme-secondary/30" : ""}`}
+                    className={`touch-target text-left px-3 py-3 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce] text-sm sm:text-base ${activeSection === "testimonials" ? "bg-theme-secondary/30" : ""}`}
                     onClick={(e) => {
                       handleNavLinkClick(e, "testimonials");
                       closeMobileMenu();
@@ -272,7 +299,7 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
                   </button>
                   
                   <button
-                    className={`text-left px-3 py-2.5 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce] text-sm sm:text-base ${activeSection === "pricing" ? "bg-theme-secondary/30" : ""}`}
+                    className={`touch-target text-left px-3 py-3 rounded-md text-theme-primary hover:bg-theme-secondary/30 font-medium transition-all duration-[--transition-bounce] text-sm sm:text-base ${activeSection === "pricing" ? "bg-theme-secondary/30" : ""}`}
                     onClick={(e) => {
                       handleNavLinkClick(e, "pricing");
                       closeMobileMenu();
@@ -281,8 +308,7 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
                     Pricing
                   </button>
                   <Button 
-
-                    className="mt-4 btn-theme-secondary hover:bg-theme-primary-hover text-theme-on-primary text-sm sm:text-base py-2 sm:py-2.5 shadow-theme-sm transition-all duration-[--transition-bounce] hover:translate-y-[-2px] hover:scale-[1.02] hover:shadow-theme-md"
+                    className="touch-target mt-4 btn-theme-secondary hover:bg-theme-primary-hover text-theme-on-primary text-sm sm:text-base py-3 shadow-theme-sm transition-all duration-[--transition-bounce] hover:translate-y-[-2px] hover:scale-[1.02] hover:shadow-theme-md"
                     onClick={handleApplyClick}
                   >
                     Get Your Plan
