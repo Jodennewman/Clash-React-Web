@@ -289,7 +289,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
               xmlns="http://www.w3.org/2000/svg"
               id="eyeballSvg"
               className="
-                w-[320px] h-auto
+                w-[260px] h-auto
                 sm:w-[350px] md:w-[420px] lg:w-[500px] xl:w-[567px]
                 absolute bottom-[-240px] left-0
                 translate-y-[60px] -translate-x-[30px]
@@ -386,9 +386,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                     <span className="text-theme-primary/60 mx-2">|</span>
                     <span className="text-sm sm:text-base font-medium underline-offset-4 hover:underline">Book in a call</span>
                   </a>
-                  <a href="https://calendly.com/clash-creation/15min" target="_blank" rel="noopener noreferrer" className="flex sm:hidden items-center justify-center text-theme-primary hover:text-theme-accent-tertiary transition-colors duration-300 mt-2">
-                    <span className="text-sm font-medium underline-offset-4 hover:underline">Book in a call</span>
-                  </a>
+                  {/* Mobile "Book in a call" link removed */}
                 </div>
               </div>
             </div>
