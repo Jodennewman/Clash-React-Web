@@ -50,7 +50,7 @@ const generateSitemapXml = (routes) => {
   const urlsets = routes.map(route => {
     const fullUrl = new URL(route, config.siteUrl).toString();
     const transformConfig = typeof config.transform === 'function' 
-      ? config.transform({ loc: fullUrl, lastmod: date })
+      ? config.transform(config, route)
       : { priority: '0.7', changefreq: 'weekly' };
     
     return generateUrlXml(

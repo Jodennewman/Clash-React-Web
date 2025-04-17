@@ -17,8 +17,8 @@
     "start": "vite preview",
     "prepare": "husky install",
     "generate-sitemap": "node scripts/generate-sitemap.js",
-    "validate-sitemap": "ts-node scripts/validate-sitemap.ts",
-    "validate-seo": "npm run validate-sitemap && ts-node scripts/validate-seo.ts"
+    "validate-sitemap": "NODE_OPTIONS=\"--loader ts-node/esm\" ts-node scripts/validate-sitemap.ts",
+    "validate-seo": "npm run validate-sitemap && NODE_OPTIONS=\"--loader ts-node/esm\" ts-node scripts/validate-seo.ts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

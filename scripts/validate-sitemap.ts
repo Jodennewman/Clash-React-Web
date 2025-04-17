@@ -122,3 +122,5 @@ async function validateSitemap(): Promise<ValidationResult> {
 
 // Run validation
 validateSitemap().catch(console.error); 
+
+export {}; 
