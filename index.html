@@ -36,27 +36,104 @@
     <script src="https://kit.fontawesome.com/2d0c8d4b5a.js" crossorigin="anonymous" async></script>
 
     <style>
-      /* Mobile viewport fixes - simplified to prevent overlapping position:relative */
+      /* Mobile viewport fixes and background consistency */
+      html {
+        overflow-x: hidden; /* Prevent horizontal scroll */
+        width: 100%; /* Ensure proper width */
+      }
+      
+      body {
+        overflow-x: hidden;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        position: relative; /* Only set position:relative on body, not html */
+        background-color: white; /* Light mode default */
+      }
+      
+      /* Fix dark mode margin issue by properly extending background to edges */
+      html.dark body {
+        background-color: var(--bg-navy, #081d27); /* Fallback to dark blue */
+      }
+      
+      /* Mobile-first dark mode border fix - extra aggressive for mobile browsers */
+      :root {
+        --dark-bg-color: var(--bg-navy, #081d27);
+      }
+      
+      /* Base fixing for all screen sizes */
+      html.dark {
+        background-color: var(--dark-bg-color) !important;
+        border: 0 none !important;
+        outline: 0 none !important;
+        box-shadow: none !important;
+      }
+      
+      html.dark body {
+        background-color: var(--dark-bg-color) !important;
+        border: 0 none !important;
+        outline: 0 none !important;
+        box-shadow: none !important;
+      }
+      
+      /* Mobile specific aggressive fixes */
       @media (max-width: 767px) {
-        html {
-          overflow-x: hidden; /* Prevent horizontal scroll */
-          width: 100%; /* Ensure proper width */
+        html.dark {
+          margin: 0 !important;
+          padding: 0 !important;
+          border-width: 0 !important;
+          border-color: var(--dark-bg-color) !important;
+          background-color: var(--dark-bg-color) !important;
+          min-height: 100% !important;
+          width: 100% !important;
+          overflow-x: hidden !important;
         }
         
-        body {
-          overflow-x: hidden;
-          width: 100%;
-          margin: 0;
-          padding: 0;
-          position: relative; /* Only set position:relative on body, not html */
+        html.dark body {
+          margin: 0 !important;
+          padding: 0 !important;
+          border-width: 0 !important;
+          border-color: var(--dark-bg-color) !important;
+          background-color: var(--dark-bg-color) !important;
+          min-height: 100% !important;
+          width: 100% !important;
+          overflow-x: hidden !important;
         }
         
-        /* Fix iOS Safari 100vh issue */
-        .vh-fix {
-          height: 100vh; /* fallback */
-          height: -webkit-fill-available;
-          height: stretch; /* Modern browsers */
+        /* Force full bleed on mobile */
+        html.dark #root, 
+        html.dark .site-wrapper,
+        html.dark #smooth-wrapper,
+        html.dark #smooth-content {
+          margin: 0 !important;
+          padding: 0 !important;
+          border: 0 none !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          background-color: var(--dark-bg-color) !important;
         }
+      }
+      
+      /* Extended selector for all devices */
+      html.dark #root,
+      html.dark .site-wrapper,
+      html.dark #smooth-wrapper,
+      html.dark #smooth-content,
+      html.dark > body > div,
+      html.dark > body > div > main,
+      html.dark > body > div > div,
+      html.dark > body > main {
+        border: 0 none !important;
+        border-color: var(--dark-bg-color) !important;
+        outline: 0 none !important;
+        box-shadow: none !important;
+      }
+      
+      /* Fix iOS Safari 100vh issue */
+      .vh-fix {
+        height: 100vh; /* fallback */
+        height: -webkit-fill-available;
+        height: stretch; /* Modern browsers */
       }
     </style>
   </head>

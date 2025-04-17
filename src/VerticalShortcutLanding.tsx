@@ -571,11 +571,11 @@ const VerticalShortcutLanding = () => {
         testMode={testMode}
       />
 
-      {/* Main wrapper for ScrollSmoother */}
+      {/* Main wrapper for ScrollSmoother with site-wide background */}
       <div
         id="smooth-wrapper"
         ref={mainRef}
-        className="min-h-screen overflow-hidden"
+        className="min-h-screen overflow-hidden site-wrapper"
       >
         {/* Floating Navbar stays outside the smooth content for fixed positioning */}
         <VSNavbar onApplyClick={openTiaQualificationModal} />
@@ -716,56 +716,79 @@ const VerticalShortcutLanding = () => {
           {/* Section 13: Customisation - Removed */}
 
           {/* Section 14: Limited spots available for next cohort (moved before FAQ) */}
-          <VSSection
-            ref={ctaRef}
-            className="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden bg-theme-gradient dark:bg-theme-gradient"
+          <VSSection 
+            ref={ctaRef} 
+            className="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden bg-theme-primary"
           >
-            {/* Theme-aware floating elements - optimized for mobile */}
-            <div
-              className="absolute -z-10 top-[15%] left-[5%] sm:top-20 sm:left-[10%] w-20 h-20 sm:w-32 sm:h-32 rounded-[40%] rotate-12
-                 opacity-theme-float bg-theme-float-primary animate-float-slow hidden sm:block"
-            ></div>
-            <div
-              className="absolute -z-10 bottom-[15%] right-[5%] sm:bottom-20 sm:right-[15%] w-24 h-24 sm:w-36 sm:h-36 rounded-[35%] -rotate-6
-                 opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium hidden sm:block"
-            ></div>
+            {/* Isometric Grid Pattern from VSBigReveal */}
+            <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
+              <svg 
+                className="absolute top-0 left-0 w-full h-full"
+                style={{ minWidth: '100%', minHeight: '100%', opacity: 0.25 }} 
+                xmlns="http://www.w3.org/2000/svg" 
+                preserveAspectRatio="xMidYMid slice"
+                viewBox="0 0 1000 1000"
+              >
+                <defs>
+                  <pattern 
+                    id="transformIsometricGrid"
+                    patternUnits="userSpaceOnUse" 
+                    width="141.47" 
+                    height="85.12" 
+                    patternTransform="scale(0.5) rotate(0)"
+                  >
+                    <path d="M70.99,84.98l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM64.27,81.22l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM83.71,77.28l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM51.54,73.52l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM96.44,69.58l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM38.81,65.82l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM109.17,61.88l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM26.08,58.12l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM121.9,54.17l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM13.36,50.41l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM134.63,46.47l-.35-.21,6.31-3.82.13.08.18-.11.23.14-6.49,3.93ZM.63,42.71l-.28-.17,6.54-3.96.35.21-6.36,3.85-.08-.05-.18.11ZM134.17,38.77l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM13.61,34.95l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM121.45,31.07l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM26.34,27.25l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM108.72,23.37l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM39.07,19.55l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM95.99,15.66l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM51.8,11.84l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM83.26,7.96l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM64.52,4.14l-.35-.21L70.53.08l.35.21-6.36,3.85Z" style={{fill: 'var(--theme-text-primary)', opacity: 0.5}}/>
+                    <path d="M47.57,70.9l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM60.3,63.2l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM73.03,55.5l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM85.75,47.8l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM98.48,40.09l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM111.21,32.39l-.35-.21,6.36-3.85.35.21-6.36,3.85Z" style={{fill: 'var(--theme-text-primary)', opacity: 0.5}}/>
+                    <path d="M24.23,56.78l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM36.95,49.08l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM49.68,41.37l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM62.41,33.67l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM75.14,25.97l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM87.87,18.27l-.35-.21,6.36-3.85.35.21-6.36,3.85Z" style={{fill: 'var(--theme-text-primary)', opacity: 0.5}}/>
+                    <path d="M117.22,56.76l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM104.49,49.06l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM91.76,41.36l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM79.04,33.66l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM66.31,25.95l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM53.58,18.25l-6.36-3.85.35-.21,6.36,3.85-.35.21Z" style={{fill: 'var(--theme-text-primary)', opacity: 0.5}}/>
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#transformIsometricGrid)" />
+              </svg>
+            </div>
+
+            {/* Decorative elements from VSBigReveal */}
+            <div className="absolute top-20 left-10 w-60 h-60 rounded-[40%] rotate-12 opacity-theme-float bg-theme-float-primary animate-float-slow"></div>
+            <div className="absolute bottom-40 right-10 w-80 h-80 rounded-[30%] -rotate-6 opacity-theme-float bg-theme-float-secondary animate-float-medium"></div>
+            <div className="absolute top-1/3 right-1/4 w-40 h-40 rounded-[35%] rotate-45 opacity-theme-float bg-theme-float-accent animate-float-fast"></div>
+            <div className="absolute bottom-1/4 left-1/4 w-32 h-32 rounded-full opacity-theme-float bg-theme-accent/10 animate-float-medium"></div>
+            
+            {/* VS Logo similar to VSBigReveal but positioned for this section */}
+            <div className="vs-logo-wrapper absolute top-[50px] right-[-80px] md:right-[-40px] lg:right-[20px] w-[300px] md:w-[400px] lg:w-[500px] z-0 transform-gpu pointer-events-none opacity-60">
+              <svg width="670" height="890" viewBox="0 0 670 890" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g className="vs-letters">
+                  <path d="M121.401 143.415L154.636 231.936L138.756 231.936L113.852 159.161L113.504 159.161L88.5132 231.936L72.807 231.936L105.955 143.415L121.401 143.415Z" 
+                    className="text-theme-accent" fill="currentColor" />
+                  <path d="M381.518 541.306C307.247 541.306 251.322 505.281 296.463 476.261L246.845 465.156H263.259L313.091 476.261C267.949 496.833 317.266 526.945 381.305 526.945C419.462 526.945 445.469 508.15 445.469 480.907V480.696C445.469 457.254 431.613 445.217 396.013 436.98L365.104 429.8C322.896 420.086 303.498 402.98 303.498 374.259V374.047C303.498 339.202 335.047 314.493 378.96 314.493C424.365 314.493 453.995 340.469 458.472 379.538L458.685 381.439H442.697L442.484 379.961C438.221 349.128 414.346 328.854 378.96 328.854C344.426 328.854 320.125 347.649 320.125 373.836V374.047C320.125 394.955 334.407 407.203 370.007 415.44L400.916 422.62C444.403 432.757 462.309 449.44 462.309 479.851V480.062C462.309 516.175 428.628 541.306 381.518 541.306Z" 
+                    className="text-theme-accent" fill="currentColor" />
+                </g>
+              </svg>
+            </div>
 
             <div className="container mx-auto px-4 relative z-10">
               <div className="max-w-6xl mx-auto">
-                <div className="text-center mb-6 sm:mb-8">
-                  <Badge
-                    variant="outline"
-                    className="bg-theme-primary/10 border-theme-primary/30 mb-3 sm:mb-4 py-1.5 sm:py-2 px-3 sm:px-4 mx-auto"
-                  >
-                    <VSText className="font-semibold flex items-center gap-1 sm:gap-2 text-sm sm:text-base text-theme-primary">
-                      <Clock className="h-3 w-3 sm:h-4 sm:w-4" /> Limited spots available
-                    </VSText>
-                  </Badge>
-
+                <div className="mb-6 sm:mb-8 flex flex-col items-center">
                   <VSHeading
                     as="h2"
                     size="2xl"
                     className="cta-title font-bold text-theme-primary mb-4 sm:mb-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl"
+                    style={{ textAlign: 'center' }}
                   >
-                    Limited spots available for next cohort
+                    Transform Your Content
                   </VSHeading>
 
-                  <VSHeading
-                    as="h3"
-                    size="xl"
-                    className="cta-subtitle font-bold text-theme-primary mb-4 sm:mb-6 text-xl sm:text-2xl md:text-3xl"
-                  >
-                    Ready to Transform Your Content?
-                  </VSHeading>
-
-                  <p className="body-text mb-6 sm:mb-8 md:mb-10 mx-auto w-full sm:max-w-[95%] md:max-w-3xl">
-                    Join Vertical Shortcut today and get access to our complete
-                    system for creating high-converting content that drives real
-                    business results.
-                  </p>
+                  <div className="max-w-[95%] md:max-w-2xl text-center">
+                    <p className="body-text mb-4" style={{ textAlign: 'center' }}>
+                      The vertical shortcut is designed to work for everyone. But we understand as founders and execs, you're not everyone.
+                    </p>
+                    
+                    <p className="body-text" style={{ textAlign: 'center' }}>
+                      So we'll tailor the course to you.
+                    </p>
                   </div>
+                </div>
 
-                <div className="flex flex-col md:flex-row bg-theme-surface p-8 md:p-12 rounded-2xl shadow-theme-md">
+                <div className="flex flex-col md:flex-row bg-theme-primary/5 dark:bg-theme-primary/5 p-8 md:p-12 rounded-3xl">
                   <div className="md:w-1/2 mb-8 md:mb-0 md:pr-8">
                     <VSHeading
                       as="h3"
@@ -795,11 +818,11 @@ const VerticalShortcutLanding = () => {
                       ))}
                     </ul>
                     <AnimatedButton
-                      text="Get Your Plan"
+                      text="Find Your Plan"
                       variant="start"
                       saturation="high"
                       size="lg"
-                      onClick={openQualificationModal}
+                      onClick={openTiaQualificationModal}
                       className="w-full md:w-auto"
                     />
                   </div>
@@ -808,13 +831,13 @@ const VerticalShortcutLanding = () => {
                     <VSHeading
                       as="h3"
                       size="lg"
-                      className="font-bold text-theme-primary mb-6"
+                      className="font-bold text-theme-primary mb-6 text-center"
                     >
                       Next Cohort Details
                     </VSHeading>
-                    <div className="space-y-4">
-                      <div className="flex items-start">
-                        <div className="w-10 h-10 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
+                    <div className="space-y-4 p-6 rounded-3xl bg-theme-primary/5 dark:bg-theme-primary/5">
+                      <div className="flex items-start p-3 rounded-2xl bg-theme-primary/10 dark:bg-theme-primary/10">
+                        <div className="w-10 h-10 rounded-full bg-theme-primary/20 flex items-center justify-center mr-4 flex-shrink-0">
                           <Calendar className="h-5 w-5 text-theme-primary" />
                   </div>
                         <div>
@@ -827,8 +850,8 @@ const VerticalShortcutLanding = () => {
                   </div>
                 </div>
 
-                      <div className="flex items-start">
-                        <div className="w-10 h-10 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
+                      <div className="flex items-start p-3 rounded-2xl bg-theme-primary/10 dark:bg-theme-primary/10">
+                        <div className="w-10 h-10 rounded-full bg-theme-primary/20 flex items-center justify-center mr-4 flex-shrink-0">
                           <Users className="h-5 w-5 text-theme-primary" />
                   </div>
                         <div>
@@ -841,8 +864,8 @@ const VerticalShortcutLanding = () => {
                   </div>
                 </div>
 
-                      <div className="flex items-start">
-                        <div className="w-10 h-10 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
+                      <div className="flex items-start p-3 rounded-2xl bg-theme-primary/10 dark:bg-theme-primary/10">
+                        <div className="w-10 h-10 rounded-full bg-theme-primary/20 flex items-center justify-center mr-4 flex-shrink-0">
                           <Clock className="h-5 w-5 text-theme-primary" />
                   </div>
                         <div>
@@ -857,9 +880,9 @@ const VerticalShortcutLanding = () => {
               </div>
 
                     <VSCard
-                      className="mt-8 p-4 rounded-lg bg-theme-primary/5 dark:bg-theme-primary/10"
+                      className="mt-8 p-4 rounded-3xl bg-theme-primary/5 dark:bg-theme-primary/5"
                     >
-                      <VSText className="text-theme-accent font-medium flex items-center">
+                      <VSText className="text-theme-accent font-medium flex items-center justify-center">
                         <Clock className="h-4 w-4 mr-2" />
                         Applications closing soon
                       </VSText>
@@ -878,7 +901,7 @@ const VerticalShortcutLanding = () => {
           {/* Footer */}
           <VSBackground
             as="footer"
-            className="py-10 sm:py-12 md:py-16 bg-theme-primary border-t border-[--secondary-teal)]/30"
+            className="py-10 sm:py-12 md:py-16 bg-theme-primary"
           >
             <div className="container-mobile mx-auto">
               <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 sm:gap-10 mb-8 sm:mb-12">

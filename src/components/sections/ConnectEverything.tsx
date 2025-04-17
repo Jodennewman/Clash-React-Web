@@ -35,14 +35,26 @@ export const ConnectEverything: React.FC<ConnectEverythingProps> = ({ className 
       const details = card.querySelector('.tool-details');
       const closeBtn = card.querySelector('.close-details');
       
-      // Open details
+      // Toggle details visibility when card is clicked
       card.addEventListener('click', () => {
         if (details) {
-          details.classList.remove('hidden');
-          gsap.fromTo(details, 
-            { opacity: 0, y: 10 }, 
-            { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }
-          );
+          // If already visible, hide it
+          if (!details.classList.contains('hidden')) {
+            gsap.to(details, {
+              opacity: 0,
+              y: 10,
+              duration: 0.2,
+              ease: "power2.in",
+              onComplete: () => details.classList.add('hidden')
+            });
+          } else {
+            // Show the details
+            details.classList.remove('hidden');
+            gsap.fromTo(details,
+              { opacity: 0, y: 10 },
+              { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }
+            );
+          }
         }
       });
       
@@ -52,9 +64,9 @@ export const ConnectEverything: React.FC<ConnectEverythingProps> = ({ className 
           e.stopPropagation(); // Prevent triggering card click
           if (details) {
             gsap.to(details, {
-              opacity: 0, 
-              y: 10, 
-              duration: 0.3, 
+              opacity: 0,
+              y: 10,
+              duration: 0.2,
               ease: "power2.in",
               onComplete: () => details.classList.add('hidden')
             });
@@ -168,21 +180,20 @@ export const ConnectEverything: React.FC<ConnectEverythingProps> = ({ className 
             <p className="text-[var(--theme-text-primary)] text-base md:text-lg mb-2 text-center">for Notion</p>
             <span className="text-[var(--theme-accent)] text-sm font-medium mt-2 opacity-80 group-hover:opacity-100 transition-opacity duration-300">Click for details</span>
             
-            {/* Hidden description that appears on click */}
-            <div className="tool-details hidden absolute top-0 left-0 right-0 bottom-0 bg-[var(--theme-bg-primary)] dark:bg-[var(--theme-bg-secondary)] border-2 border-[var(--theme-accent-quaternary)]/30 shadow-lg rounded-xl p-6 z-20 overflow-auto">
-              <button className="close-details absolute top-3 right-3 bg-[var(--theme-accent-quaternary)]/10 hover:bg-[var(--theme-accent-quaternary)]/20 p-1.5 rounded-full text-[var(--theme-accent-quaternary)] transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            {/* Simple popup that appears over the card */}
+            <div className="tool-details hidden absolute top-0 left-0 right-0 bottom-0 bg-white dark:bg-[var(--theme-bg-secondary)] rounded-xl p-4 z-20 overflow-auto shadow-md">
+              <button className="close-details absolute top-2 right-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 p-1 rounded-full text-gray-500 dark:text-gray-300 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
               </button>
-              <h3 className="text-[var(--theme-accent-quaternary)] text-2xl md:text-3xl font-semibold mb-4">Creator HUD</h3>
-              <p className="text-[var(--theme-text-primary)] text-base md:text-lg font-medium mb-4">for Notion</p>
-              <p className="text-[var(--theme-text-primary)] text-sm md:text-base lg:text-lg mb-4">
-                A custom Notion Template that works with Premiere Pro, and the data from our custom tools Scran.ar and Splitt to <strong>remove ALL the manual effort after filming</strong>.
+              <h3 className="text-[var(--theme-accent-quaternary)] text-lg font-semibold mb-2">Creator HUD</h3>
+              <p className="text-gray-700 dark:text-gray-300 text-sm mb-2">
+                A custom Notion Template that works with Premiere Pro to <strong>remove ALL manual effort</strong> after filming.
               </p>
-              <p className="text-[var(--theme-text-primary)] text-sm md:text-base lg:text-lg">
-                Translation: It works out which video clip matches each script, and puts it into instantly editable timelines with all the relevant data and information.
+              <p className="text-gray-700 dark:text-gray-300 text-sm">
+                It matches videos to scripts and creates editable timelines automatically.
               </p>
             </div>
           </div>
@@ -197,20 +208,19 @@ export const ConnectEverything: React.FC<ConnectEverythingProps> = ({ className 
             <p className="text-[var(--theme-text-primary)] text-base md:text-lg mb-2 text-center">(beta)</p>
             <span className="text-[var(--theme-accent)] text-sm font-medium mt-2 opacity-80 group-hover:opacity-100 transition-opacity duration-300">Click for details</span>
             
-            {/* Hidden description that appears on click */}
-            <div className="tool-details hidden absolute top-0 left-0 right-0 bottom-0 bg-[var(--theme-surface)]/95 backdrop-blur-md rounded-xl p-6 z-20 overflow-auto">
-              <button className="close-details absolute top-2 right-2 text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            {/* Simple popup that appears over the card */}
+            <div className="tool-details hidden absolute top-0 left-0 right-0 bottom-0 bg-white dark:bg-[var(--theme-bg-secondary)] rounded-xl p-4 z-20 overflow-auto shadow-md">
+              <button className="close-details absolute top-2 right-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 p-1 rounded-full text-gray-500 dark:text-gray-300 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
               </button>
-              <h3 className="text-[var(--theme-accent-tertiary)] text-2xl md:text-3xl font-normal mb-4">Scran.ar</h3>
-              <p className="text-[var(--theme-text-primary)] text-base md:text-lg mb-2">(beta)</p>
-              <p className="text-[var(--theme-text-secondary)] text-sm md:text-base lg:text-lg mb-3">
-                A powerful video ingest application, specifically for editing buckets of shorts, <strong>quickly</strong>.
+              <h3 className="text-[var(--theme-accent-tertiary)] text-lg font-semibold mb-2">Scran.ar</h3>
+              <p className="text-gray-700 dark:text-gray-300 text-sm mb-2">
+                A powerful video ingest application for editing buckets of shorts <strong>quickly</strong>.
               </p>
-              <p className="text-[var(--theme-text-secondary)] text-sm md:text-base lg:text-lg">
+              <p className="text-gray-700 dark:text-gray-300 text-sm">
                 This tool knows everything about your raw footage before even you do (not in a scary AI way).
               </p>
             </div>
@@ -226,21 +236,20 @@ export const ConnectEverything: React.FC<ConnectEverythingProps> = ({ className 
             <p className="text-[var(--theme-text-primary)] text-base md:text-lg mb-2 text-center">Premiere Pro extension</p>
             <span className="text-[var(--theme-accent)] text-sm font-medium mt-2 opacity-80 group-hover:opacity-100 transition-opacity duration-300">Click for details</span>
             
-            {/* Hidden description that appears on click */}
-            <div className="tool-details hidden absolute top-0 left-0 right-0 bottom-0 bg-[var(--theme-surface)]/95 backdrop-blur-md rounded-xl p-6 z-20 overflow-auto">
-              <button className="close-details absolute top-2 right-2 text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            {/* Simple popup that appears over the card */}
+            <div className="tool-details hidden absolute top-0 left-0 right-0 bottom-0 bg-white dark:bg-[var(--theme-bg-secondary)] rounded-xl p-4 z-20 overflow-auto shadow-md">
+              <button className="close-details absolute top-2 right-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 p-1 rounded-full text-gray-500 dark:text-gray-300 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
               </button>
-              <h3 className="text-[var(--theme-accent-secondary)] text-2xl md:text-3xl font-normal mb-4">Splitt</h3>
-              <p className="text-[var(--theme-text-primary)] text-base md:text-lg mb-2">A Premiere Pro extension for Scran.ar</p>
-              <p className="text-[var(--theme-text-secondary)] text-sm md:text-base lg:text-lg mb-3">
+              <h3 className="text-[var(--theme-accent-secondary)] text-lg font-semibold mb-2">Splitt</h3>
+              <p className="text-gray-700 dark:text-gray-300 text-sm mb-2">
                 Video editing can be cruel, whether you're the one doing it or not.
               </p>
-              <p className="text-[var(--theme-text-secondary)] text-sm md:text-base lg:text-lg">
-                This tool works natively with Premiere Pro and the data from Scran.ar to, in a single click of a button, create aptly named timelines (from your notion data) and populate them with the appropriate footage.
+              <p className="text-gray-700 dark:text-gray-300 text-sm">
+                Creates aptly named timelines from your notion data and populates them with footage in a single click.
               </p>
             </div>
           </div>

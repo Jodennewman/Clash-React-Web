@@ -597,7 +597,7 @@ const CourseTimeline: React.FC = () => {
   };
 
   return (
-    <section className="py-12 md:py-20 relative overflow-visible bg-theme-primary border-t border-theme-border-light" style={{ background: "var(--theme-bg-primary)" }}>
+    <section className="py-12 md:py-20 relative overflow-visible bg-theme-primary" style={{ background: "var(--theme-bg-primary)" }}>
       {/* Theme-aware floating elements for visual interest - same as CourseStats */}
       <div className="absolute top-20 left-10 w-24 h-24 rounded-[40%] rotate-12 
                     opacity-[var(--theme-float-opacity)]

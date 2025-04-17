@@ -1,3 +1,4 @@
+import React, { useEffect, useRef } from "react";
 import { Section } from "../ui/section";
 import {
   Accordion,
@@ -6,6 +7,8 @@ import {
   AccordionContent,
 } from "../ui/accordion-raised";
 import { courseStats, tracks, sections } from "../../lib/course-utils";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 
 // Helper function to safely access course data with proper null checks
 const courseData = {
@@ -66,13 +69,106 @@ const faqItems = [
 ];
 
 export default function FAQ() {
+  const sectionRef = useRef(null);
+  const eyeballRef = useRef(null);
+  
+  // Initialize GSAP animations
+  useGSAP(() => {
+    // Entrance animation for the eyeball
+    gsap.fromTo("#faqEyeballSvg", 
+      { 
+        y: 100,
+        opacity: 0,
+        rotation: -2
+      }, 
+      { 
+        y: -20,
+        opacity: 1,
+        rotation: 0,
+        duration: 1.2, 
+        delay: 0.15,
+        ease: "power2.out"
+      }
+    );
+    
+    // Add mouse movement effect to eyeball
+    const handleMouseMove = (e) => {
+      const eyeball = document.getElementById('faqEyeballSvg');
+      if (!eyeball) return;
+      
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      const mouseXPercent = (e.clientX / windowWidth - 0.5) * 2;
+      const mouseYPercent = (e.clientY / windowHeight - 0.5) * 2;
+      
+      gsap.to(eyeball, {
+        rotation: mouseXPercent * 3,
+        rotationY: mouseYPercent * 2,
+        duration: 1.2,
+        ease: "power1.out"
+      });
+    };
+    
+    // Add event listener for mouse movement
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    // Clean up event listener on component unmount
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+  
   return (
-    <Section>
-      <div className="mx-auto flex max-w-container flex-col items-center gap-12">
+    <Section ref={sectionRef} className="relative overflow-hidden">
+      <div className="mx-auto flex max-w-container flex-col items-center gap-12 relative">
+        {/* Eyeball SVG in top left corner */}
+        <svg
+          width="679"
+          height="600"
+          viewBox="0 0 679 600"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          id="faqEyeballSvg"
+          ref={eyeballRef}
+          className="
+            w-[150px] h-auto
+            sm:w-[180px] md:w-[220px] lg:w-[250px]
+            absolute top-[-60px] left-[-30px]
+            sm:top-[-70px] sm:left-[-40px]
+            md:top-[-80px] md:left-[-60px]
+            lg:top-[-100px] lg:left-[-80px]
+            opacity-0
+            transition-all duration-500
+            animate-float-gentle
+            z-10
+          "
+          aria-hidden="true"
+        >
+          <circle
+            cx="331.484"
+            cy="347.484"
+            r="231.656"
+            transform="rotate(-90 331.484 347.484)"
+            fill="var(--theme-eyeball-outer)"
+          />
+          <ellipse
+            cx="387.704"
+            cy="307.815"
+            rx="143.553"
+            ry="143.168"
+            transform="rotate(-90 387.704 307.815)"
+            fill="var(--theme-eyeball-iris)"
+          />
+          <path
+            d="M324.537 240.611C337.361 218.609 357.976 202.262 382.267 194.834C406.558 187.406 432.737 189.444 455.577 200.541C478.417 211.637 496.239 230.976 505.483 254.697C514.727 278.417 514.714 304.773 505.446 328.503C496.178 352.233 478.337 371.59 455.485 382.711C432.634 393.832 406.453 395.897 382.169 388.495C357.886 381.092 337.287 364.767 324.486 342.778C311.684 320.789 307.622 294.755 313.109 269.872L411.566 291.649L324.537 240.611Z"
+            fill="var(--theme-eyeball-pupil)"
+          />
+        </svg>
+      
         <h2 className="text-center text-4xl md:text-5xl font-bold text-theme-primary mb-6">
           FAQs
         </h2>
-        <h3 className="text-center text-2xl md:text-3xl text-theme-primary mb-8">
+        <h3 className="text-center text-xl md:text-2xl text-theme-primary/70 mb-8">
           And frequently given answers
         </h3>
         <Accordion type="single" collapsible className="w-full max-w-[800px]">

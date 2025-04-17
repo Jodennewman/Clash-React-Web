@@ -26,9 +26,10 @@ function App() {
   
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={
-          <div className="bg-theme-gradient min-h-screen">
+      <div className="site-wrapper">
+        <Routes>
+          <Route path="/" element={
+            <div className="bg-theme-gradient min-h-screen">
             <h1 className="text-3xl font-bold text-theme-primary text-center py-6">Style Debugging</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-4">
               <div className="border border-theme-border rounded-lg shadow-theme-sm">
@@ -146,6 +147,7 @@ function App() {
             <circle cx="12" cy="12" r="4" />
           </svg>
         </Link>
+      </div>
       </div>
     </Router>
   );

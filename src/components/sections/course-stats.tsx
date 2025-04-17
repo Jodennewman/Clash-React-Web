@@ -183,7 +183,7 @@ const CourseStats = () => {
   return (
     <Section 
       id="course-stats"
-      className="bg-theme-primary py-4 border-t border-theme-border-light relative overflow-hidden"
+      className="bg-theme-primary py-4 relative overflow-hidden"
       style={{ background: "var(--theme-bg-primary)" }}
     >
       {/* Apply float animations via style tag */}
