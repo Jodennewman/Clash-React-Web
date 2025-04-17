@@ -23,19 +23,15 @@ const MarqueeTwoRows: React.FC<MarqueeTwoRowsProps> = ({
   const firstRowThumbnails = thumbnails.slice(0, Math.ceil(thumbnails.length / 2));
   const secondRowThumbnails = thumbnails.slice(Math.ceil(thumbnails.length / 2));
   
-  // Split for 2 rows on mobile with more items per row (these will be hidden on desktop)
+  // Single row for mobile with all thumbnails
   const mobileRows = [];
-  // Spread thumbnails more evenly
-  const repeatedThumbnails = [...thumbnails, ...thumbnails].slice(0, thumbnails.length * 1.5);
-  const mobileRowSize = Math.ceil(repeatedThumbnails.length / 2); // Changed from 3 to 2 rows
-  for (let i = 0; i < 2; i++) { // Changed from 3 to 2 rows
-    const start = i * mobileRowSize;
-    const end = Math.min(start + mobileRowSize, repeatedThumbnails.length);
-    mobileRows.push(repeatedThumbnails.slice(start, end));
-  }
+  // Use all thumbnails with repetition
+  const repeatedThumbnails = [...thumbnails, ...thumbnails, ...thumbnails];
+  // Just one row for mobile
+  mobileRows.push(repeatedThumbnails);
 
   return (
-    <Section className="w-full overflow-hidden bg-theme-bg-secondary/90 py-0 sm:py-4 md:py-24 px-0 pt-2 md:pt-6 pb-2 sm:pb-8 md:pb-4 mt-0 sm:mt-[20px] md:mt-[-80px]">
+    <Section className="w-full overflow-hidden bg-theme-bg-secondary/90 py-0 sm:py-4 md:py-24 px-0 pt-4 md:pt-6 pb-4 sm:pb-8 md:pb-4 mt-0 sm:mt-[20px] md:mt-[-80px]">
       <div className="mx-auto flex max-w-container flex-col items-center gap-0 sm:gap-2 text-center md:gap-16">
         <div className="flex flex-col items-center gap-0 sm:gap-2 px-4 sm:gap-4 md:gap-8 mb-0 sm:mb-2">
           <h2 className="max-w-[800px] text-lg xs:text-xl sm:text-2xl md:text-4xl font-bold leading-tight sm:leading-tight mb-1 sm:mb-0">
@@ -94,17 +90,17 @@ const MarqueeTwoRows: React.FC<MarqueeTwoRowsProps> = ({
           {/* Mobile layout - 3 rows, hidden on desktop */}
           <div className="block md:hidden">
             {mobileRows.map((rowThumbnails, rowIndex) => (
-              <div key={`mobile-row-${rowIndex}`} className="relative overflow-hidden mb-[-100px] xs:mb-[-90px] sm:mb-[-60px]">
+              <div key={`mobile-row-${rowIndex}`} className="relative overflow-hidden mb-[-65px] xs:mb-[-70px] sm:mb-[-60px]">
                 <Marquee 
                   reverse={rowIndex % 2 === 1} 
                   pauseOnHover 
-                  className="[--duration:25s] py-0 -my-10"
+                  className="[--duration:60s] py-0 my-0"
                 >
                   {rowThumbnails.map((item, index) => (
                     <div 
                       key={`mobile-thumb-${rowIndex}-${index}`} 
-                      className="mx-[-35px] -my-0 overflow-hidden rounded-lg transition-transform duration-300 shadow-theme-sm hover:scale-105"
-                      style={{ transform: "scale(0.28)" }}
+                      className="mx-[-10px] my-0 overflow-hidden rounded-none"
+                      style={{ transform: "scale(0.5)" }}
                     >
                       <img 
                         src={item.src} 

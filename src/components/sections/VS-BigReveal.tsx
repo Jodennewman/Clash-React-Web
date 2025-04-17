@@ -148,7 +148,7 @@ const VSBigReveal = () => {
   return (
     <VSSection 
       ref={sectionRef} 
-      className="big-reveal-section pt-20 pb-16 overflow-hidden relative min-h-[800px] bg-theme-primary"
+      className="big-reveal-section pt-16 pb-12 sm:pt-20 sm:pb-16 overflow-hidden relative min-h-[600px] sm:min-h-[800px] bg-theme-primary"
     >
       <IsometricGridBackground />
       {/* Decorative elements */}
@@ -170,25 +170,25 @@ const VSBigReveal = () => {
       )}
         
       <div className="container mx-auto px-4 relative">
-        <div className="text-center md:text-left mt-[40px] mb-16 max-w-[700px] mx-auto md:mx-0 relative z-10 overflow-visible">
-          <p ref={headingRef} className="font-[200] !font-extralight mb-6 text-theme-primary text-center md:text-left lowercase tracking-wide whitespace-nowrap"
+        <div className="text-center md:text-left mt-4 sm:mt-[40px] mb-8 sm:mb-16 max-w-[700px] mx-auto md:mx-0 relative z-10 overflow-visible">
+          <p ref={headingRef} className="font-[200] !font-extralight mb-4 sm:mb-6 text-theme-primary text-center md:text-left lowercase tracking-wide"
             style={{ 
               fontWeight: 200,
-              fontSize: "clamp(3.5rem, 6vw, 8rem)"
+              fontSize: "clamp(2.5rem, 6vw, 8rem)"
             }}
           >
-            the vertical shortcut<span className="text-theme-accent">.</span>
+            the vertical<br className="sm:hidden" /> shortcut<span className="text-theme-accent">.</span>
           </p>
           
           <div ref={taglineRef} className="text-center md:text-left md:pl-12">
-            <p className="body-text mb-8 mx-auto md:mx-0 max-w-[90%] md:max-w-none">
+            <p className="body-text mb-6 sm:mb-8 mx-auto md:mx-0 max-w-[95%] md:max-w-none">
               We've combined everything we know: All the knowledge, systems and tools that we use on a daily basis to get our clients billions of views — so you can do it all yourself.
             </p>
 
             <VSGradientText
               as="h2"
               size="xl"
-              className="font-bold mb-12 mx-auto md:mx-0 max-w-[90%] md:max-w-none"
+              className="font-bold mb-8 sm:mb-12 mx-auto md:mx-0 max-w-[95%] md:max-w-none text-base sm:text-xl md:text-2xl lg:text-3xl"
             >
               The Vertical Shortcut is the proven system for content creation that's guaranteed millions of views
             </VSGradientText>

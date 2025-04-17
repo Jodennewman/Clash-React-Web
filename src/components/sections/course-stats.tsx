@@ -212,9 +212,9 @@ const CourseStats = () => {
           </p>
           
           {/* ModuleHUD integration */}
-          <div ref={moduleHudRef} className="flex justify-center items-center w-full mb-4 relative">
+          <div ref={moduleHudRef} className="flex justify-center items-center w-full mb-4 md:mb-4 relative pt-10 sm:pt-0 mt-6 sm:mt-0 pb-12 sm:pb-0">
             
-            <div className="module-hud-container relative flex flex-col items-center justify-center h-full min-h-[500px] w-full max-w-4xl mx-auto p-0">
+            <div className="module-hud-container relative flex flex-col items-center justify-center h-full min-h-[550px] sm:min-h-[500px] w-full max-w-4xl mx-auto p-0 pt-4 sm:pt-0">
               <ModuleHUD 
                 selectedSection={selectedSection}
                 onModuleClick={handleModuleClick}
@@ -232,7 +232,7 @@ const CourseStats = () => {
                   resources: submodule.resources || []
                 })) : []}
               />
-              <p className="mt-6 text-center text-lg text-theme-primary font-medium">All broken down into</p>
+              <p className="hidden sm:block mt-6 text-center text-lg text-theme-primary font-medium">All broken down into</p>
             </div>
           </div>
         </div>
