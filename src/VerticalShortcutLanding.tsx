@@ -2,7 +2,7 @@ import React, { useRef, useLayoutEffect, useEffect, useState, lazy, Suspense } f
 import VSQualificationModal from "./Qualification_components/qualification-modal";
 import TiaQualificationModal from "./Qualification_components/tia-qualification-modal";
 import SimpleHero from "./components/hero/SimpleHero";
-import IsometricGridBackground from "./components/hero/IsometricPattern";
+// import IsometricGridBackground from "./components/hero/IsometricPattern";
 import { Badge } from "./components/ui/badge";
 // import SafeVideoEmbed from "./components/ui/video-embed";
 import VSNavbar from "./components/sections/navbar/vs-navbar";
@@ -94,49 +94,15 @@ const globalAnimations = {};
 //   },
 // ];
 
-
-
-// Testimonials data for carousel
-const carouselTestimonials = [
-  {
-    quote:
-      "I was skeptical about another course, but this is different. After 10 years of posting content, I finally understand why some videos blow up while others die. Everything finally makes sense.",
-    name: "Christopher Lee",
-    role: "Business Coach",
-    image: "/avatars/chris.jpg",
-  },
-  {
-    quote:
-      "I've taken every short form course out there. None of them come close to the depth and actionable strategies in Vertical Shortcut. My first video using these principles hit 1.2M views.",
-    name: "Jennifer Martinez",
-    role: "Content Creator",
-    image: "/avatars/jennifer.jpg",
-  },
-  {
-    quote:
-      "As a founder of a SaaS company, I never thought short-form would work for our complex product. Within 8 weeks, our content was driving 40% of our new trial signups.",
-    name: "David Wilson",
-    role: "Tech Founder",
-    image: "/avatars/david.jpg",
-  },
-  {
-    quote:
-      "The delegation frameworks alone are worth 10x the investment. I went from shooting everything myself to having a team that delivers better content than I ever could alone.",
-    name: "Michelle Thompson",
-    role: "Agency Owner",
-    image: "/avatars/michelle.jpg",
-  },
-];
-
 // Features data is now in VS-BigReveal component
 
 // --- Lazy Load Section Components ---
 const LazySocialProof = lazy(() => import("./components/sections/social-proof/marquee-2-rows"));
-const LazyWordRoller = lazy(() => import("@/components/Word-Rollers/WordRoller.tsx"));
+// const LazyWordRoller = lazy(() => import("@/components/Word-Rollers/WordRoller.tsx"));
 const LazyCaseStudies = lazy(() => import("./components/sections").then(module => ({ default: module.CaseStudies })));
 const LazyVSPainPoints = lazy(() => import("./components/sections").then(module => ({ default: module.VSPainPoints })));
 const LazyVSBigReveal = lazy(() => import("./components/sections").then(module => ({ default: module.VSBigReveal })));
-const LazyCourseViewer = lazy(() => import("./components/sections").then(module => ({ default: module.CourseViewer })));
+// const LazyCourseViewer = lazy(() => import("./components/sections").then(module => ({ default: module.CourseViewer })));
 const LazyMeetTheTeam = lazy(() => import("./components/sections").then(module => ({ default: module.TeamSection }))); // Assuming TeamSection is the export
 const LazyFAQUpdated = lazy(() => import("./components/sections").then(module => ({ default: module.FAQUpdated })));
 // Removed LazyCustomisation import
@@ -177,7 +143,6 @@ function AnimationController({ children }: { children: React.ReactNode }) {
         smooth: 0.4, // Even lighter smoothness for mobile
         effects: false, // Disable effects on mobile
         normalizeScroll: false, // False for mobile
-        ignoreMobileResize: false, // False for mobile
         speed: 0.7, // Slower speed for mobile
         touchSpeed: 1.5, // Faster response to touch scrolling
         ignoreMobileResize: true, // Prevent resize on mobile keyboard
@@ -295,27 +260,96 @@ const VerticalShortcutLanding = () => {
   // Initialize animations within the component's scope
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+        // Setup data-speed attributes for parallax effect if ScrollSmoother is running
+        if (globalScrollSmoother) {
+          // Apply parallax effect to floating elements
+          document.querySelectorAll('.parallax-float').forEach((element) => {
+            const speed = element.getAttribute('data-speed') || '0.8';
+            globalScrollSmoother.effects(element, { speed: parseFloat(speed) });
+          });
+          
+          // Apply parallax effect to sections
+          document.querySelectorAll('.parallax-section').forEach((element) => {
+            const speed = element.getAttribute('data-speed') || '0.95';
+            globalScrollSmoother.effects(element, { speed: parseFloat(speed) });
+          });
+          
+          // Apply parallax effect to images and content blocks
+          document.querySelectorAll('.parallax-item').forEach((element) => {
+            const speed = element.getAttribute('data-speed') || '0.9';
+            globalScrollSmoother.effects(element, { speed: parseFloat(speed) });
+          });
+        }
 
-        // **** MOVED ANIMATION LOGIC HERE ****
+        // Hero animations
+        if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).heroSection && heroRef.current) {
+          const heroAnimation = gsap.timeline();
+          // Initial load animations are handled by the SimpleHero component
+          
+          // Add a scroll trigger for elements exiting the viewport
+          ScrollTrigger.create({
+            trigger: heroRef.current,
+            start: "top top",
+            end: "bottom top",
+            id: "hero-exit-trigger",
+            onLeave: () => {
+              gsap.to(".hero-heading, .hero-subtitle, .hero-cta", {
+                y: -50, 
+                opacity: 0, 
+                stagger: 0.1, 
+                duration: 0.6, 
+                ease: "power1.in",
+                clearProps: "all"
+              });
+            },
+            onEnterBack: () => {
+              gsap.to(".hero-heading, .hero-subtitle, .hero-cta", {
+                y: 0, 
+                opacity: 1, 
+                stagger: 0.1, 
+                duration: 0.6, 
+                ease: "power2.out",
+                clearProps: "all"
+              });
+            }
+          });
+          (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).heroSection = heroAnimation;
+        }
 
-        // Note: ScrollTriggers below use `once: true`.
-        // This prevents re-running animations on scroll up/down,
-        // which is generally better for performance, especially on mobile.
+        // What We Do section animations
+        if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).whatWeDoSection && whatWeDoRef.current) {
+          const whatWeDoTrigger = ScrollTrigger.create({
+            trigger: whatWeDoRef.current,
+            start: "top 60%",
+            id: "what-we-do-trigger",
+            onEnter: () => {
+              const whatWeDoTl = gsap.timeline();
+              whatWeDoTl
+                .from(".what-we-do-title", { y: 30, opacity: 0, duration: 0.7, ease: "power2.out" })
+                .from(".what-we-do-text-1", { y: 30, opacity: 0, duration: 0.6, ease: "power2.out" }, "-=0.3")
+                .from(".what-we-do-text-2", { y: 30, opacity: 0, duration: 0.6, ease: "power2.out" }, "-=0.3")
+                .from(".what-we-do-text-3", { y: 30, opacity: 0, duration: 0.6, ease: "power2.out" }, "-=0.3")
+                .from(".what-we-do-text-4", { y: 30, opacity: 0, duration: 0.6, ease: "power2.out" }, "-=0.3");
+            },
+            onLeaveBack: () => {
+              gsap.to(".what-we-do-title, .what-we-do-text-1, .what-we-do-text-2, .what-we-do-text-3, .what-we-do-text-4", {
+                y: 30, 
+                opacity: 0, 
+                stagger: 0.1, 
+                duration: 0.4, 
+                ease: "power1.in",
+                clearProps: "all"
+              });
+            }
+          });
+          (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).whatWeDoSection = whatWeDoTrigger;
+        }
 
-        // Stats section - register once
-        if (
-          !(
-            globalAnimations as Record<
-              string,
-              gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-            >
-          ).statsSection &&
-          statsRef.current
-        ) {
+        // Stats section - scroll-based animation
+        if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).statsSection && statsRef.current) {
           const statsTrigger = ScrollTrigger.create({
             trigger: statsRef.current,
             start: "top 80%",
-            once: true,
             id: "stats-trigger",
             onEnter: () => {
               const statsAnimation = gsap.from(".stat-item", {
@@ -323,24 +357,25 @@ const VerticalShortcutLanding = () => {
               });
               (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).statsItems = statsAnimation;
             },
+            onLeaveBack: () => {
+              gsap.to(".stat-item", {
+                y: 30, 
+                opacity: 0, 
+                stagger: 0.1, 
+                duration: 0.4, 
+                ease: "power1.in",
+                clearProps: "all"
+              });
+            }
           });
           (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).statsSection = statsTrigger;
         }
 
-        // Benefits section - register once
-        if (
-          !(
-            globalAnimations as Record<
-              string,
-              gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-            >
-          ).benefitsSection &&
-          benefitsRef.current
-        ) {
+        // Benefits section - scroll-based animation
+        if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).benefitsSection && benefitsRef.current) {
           const benefitsTrigger = ScrollTrigger.create({
             trigger: benefitsRef.current,
             start: "top 75%",
-            once: true,
             id: "benefits-trigger",
             onEnter: () => {
               const benefitsAnimation = gsap.from(".benefit-item", {
@@ -348,24 +383,25 @@ const VerticalShortcutLanding = () => {
               });
               (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).benefitsItems = benefitsAnimation;
             },
+            onLeaveBack: () => {
+              gsap.to(".benefit-item", {
+                y: 40, 
+                opacity: 0, 
+                stagger: 0.1, 
+                duration: 0.4, 
+                ease: "power1.in",
+                clearProps: "all"
+              });
+            }
           });
           (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).benefitsSection = benefitsTrigger;
         }
 
-        // Tracks section - register once
-        if (
-          !(
-            globalAnimations as Record<
-              string,
-              gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-            >
-          ).tracksSection &&
-          tracksRef.current
-        ) {
+        // Tracks section - scroll-based animation
+        if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).tracksSection && tracksRef.current) {
           const tracksTrigger = ScrollTrigger.create({
             trigger: tracksRef.current,
             start: "top 75%",
-            once: true,
             id: "tracks-trigger",
             onEnter: () => {
               const tracksAnimation = gsap.from(".track-item", {
@@ -373,49 +409,56 @@ const VerticalShortcutLanding = () => {
               });
               (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).tracksItems = tracksAnimation;
             },
+            onLeaveBack: () => {
+              gsap.to(".track-item", {
+                x: -20, 
+                opacity: 0, 
+                stagger: 0.1, 
+                duration: 0.4, 
+                ease: "power1.in",
+                clearProps: "all"
+              });
+            }
           });
           (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).tracksSection = tracksTrigger;
         }
 
-        // Video section - register once
-        if (
-          !(
-            globalAnimations as Record<
-              string,
-              gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-            >
-          ).videoSection &&
-          videoRef.current
-        ) {
+        // Video section - scroll-based animation with scale effect
+        if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).videoSection && videoRef.current) {
           const videoTrigger = ScrollTrigger.create({
             trigger: videoRef.current,
             start: "top 70%",
-            once: true,
             id: "video-trigger",
             onEnter: () => {
               const videoAnimation = gsap.from(".video-container", {
-                y: 30, opacity: 0, duration: 0.8, ease: "power2.out", clearProps: "all",
+                y: 30, 
+                scale: 0.95,
+                opacity: 0, 
+                duration: 0.8, 
+                ease: "power2.out", 
+                clearProps: "all",
               });
               (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).videoItem = videoAnimation;
             },
+            onLeaveBack: () => {
+              gsap.to(".video-container", {
+                y: 30, 
+                scale: 0.95,
+                opacity: 0, 
+                duration: 0.5, 
+                ease: "power1.in",
+                clearProps: "all"
+              });
+            }
           });
           (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).videoSection = videoTrigger;
         }
 
-        // Testimonials - register once
-        if (
-          !(
-            globalAnimations as Record<
-              string,
-              gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-            >
-          ).testimonialsSection &&
-          testimonialsRef.current
-        ) {
+        // Testimonials - scroll-based animation
+        if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).testimonialsSection && testimonialsRef.current) {
           const testimonialsTrigger = ScrollTrigger.create({
             trigger: testimonialsRef.current,
             start: "top 75%",
-            once: true,
             id: "testimonials-trigger",
             onEnter: () => {
               const testimonialsAnimation = gsap.from(".testimonial-item", {
@@ -423,37 +466,74 @@ const VerticalShortcutLanding = () => {
               });
               (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).testimonialsItems = testimonialsAnimation;
             },
+            onLeaveBack: () => {
+              gsap.to(".testimonial-item", {
+                y: 30, 
+                opacity: 0, 
+                stagger: 0.1, 
+                duration: 0.4, 
+                ease: "power1.in",
+                clearProps: "all"
+              });
+            }
           });
           (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).testimonialsSection = testimonialsTrigger;
         }
 
-        // CTA section - register once
-        if (
-          !(
-            globalAnimations as Record<
-              string,
-              gsap.core.Timeline | gsap.core.Tween | ScrollTrigger
-            >
-          ).ctaSection &&
-          ctaRef.current
-        ) {
+        // CTA section - scroll-based animation
+        if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).ctaSection && ctaRef.current) {
           const ctaTrigger = ScrollTrigger.create({
             trigger: ctaRef.current,
             start: "top 80%",
-            once: true,
             id: "cta-trigger",
             onEnter: () => {
               const ctaTl = gsap.timeline();
               ctaTl
                 .from(".cta-badge", { y: 20, opacity: 0, duration: 0.6, ease: "power2.out" })
                 .from(".cta-title", { y: 30, opacity: 0, duration: 0.7, ease: "power2.out" }, "-=0.3")
-                .from(".cta-description", { y: 30, opacity: 0, duration: 0.7, ease: "power2.out" }, "-=0.4")
+                .from(".cta-subtitle", { y: 30, opacity: 0, duration: 0.7, ease: "power2.out" }, "-=0.4")
+                .from(".cta-description", { y: 30, opacity: 0, duration: 0.7, ease: "power2.out" }, "-=0.3")
                 .from(".cta-button", { y: 20, opacity: 0, duration: 0.6, ease: "back.out(1.5)" }, "-=0.3");
               (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).ctaItems = ctaTl;
             },
+            onLeaveBack: () => {
+              gsap.to(".cta-badge, .cta-title, .cta-subtitle, .cta-description, .cta-button", {
+                y: 30, 
+                opacity: 0, 
+                stagger: 0.1, 
+                duration: 0.4, 
+                ease: "power1.in",
+                clearProps: "all"
+              });
+            }
           });
           (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).ctaSection = ctaTrigger;
         }
+
+        // Section animations for lazy-loaded components
+        ScrollTrigger.batch(".vs-section", {
+          interval: 0.1,
+          onEnter: batch => {
+            gsap.from(batch, {
+              y: 30,
+              opacity: 0,
+              duration: 0.8,
+              stagger: 0.1,
+              ease: "power2.out",
+              clearProps: "all"
+            });
+          },
+          onLeaveBack: batch => {
+            gsap.to(batch, {
+              y: 30,
+              opacity: 0,
+              duration: 0.4,
+              stagger: 0.05,
+              ease: "power1.in",
+              clearProps: "all"
+            });
+          }
+        });
 
     }, mainRef); // Scope animations to mainRef
 
@@ -593,9 +673,9 @@ const VerticalShortcutLanding = () => {
           />
           
           {/* Section 2: Video section - mobile optimized */}
-          <div className="vs-section-light pt-4 sm:pt-6 md:pt-8 pb-4 sm:pb-6 md:pb-8 relative overflow-hidden">
+          <div ref={videoRef} className="vs-section-light pt-4 sm:pt-6 md:pt-8 pb-4 sm:pb-6 md:pb-8 relative overflow-hidden parallax-section" data-speed="0.9">
             <div className="container-mobile mx-auto relative z-10">              
-              <div className="video-container rounded-xl overflow-hidden shadow-theme-md sm:shadow-theme-xl border border-theme-border-light/30 sm:border-theme-border-light/50 transform hover:scale-[1.01] sm:hover:scale-[1.02] transition-all duration-500">
+              <div className="video-container rounded-xl overflow-hidden shadow-theme-md sm:shadow-theme-xl border border-theme-border-light/30 sm:border-theme-border-light/50 transform hover:scale-[1.01] sm:hover:scale-[1.02] transition-all duration-500 parallax-item" data-speed="0.85">
                 <div className="aspect-[16/9] relative">
                   <iframe 
                     src="https://www.youtube.com/embed/your-video-id"
@@ -613,12 +693,14 @@ const VerticalShortcutLanding = () => {
           {/* Section 2: What do we do? - mobile-optimized padding */}
           <VSSection
             ref={whatWeDoRef}
-            className="pt-6 md:pt-12 lg:pt-16 pb-12 sm:pb-20 md:pb-24 lg:pb-32 relative overflow-visible bg-transparent"
+            className="pt-6 md:pt-12 lg:pt-16 pb-12 sm:pb-20 md:pb-24 lg:pb-32 relative overflow-visible bg-transparent parallax-section"
+            data-speed="0.95"
           >
             {/* Theme-aware floating elements - responsive sizing and positioning */}
             <div
               className="absolute -z-10 top-[10%] left-[5%] sm:top-20 sm:left-[10%] w-20 h-20 sm:w-32 sm:h-32 rounded-[40%] rotate-12
-                 opacity-theme-float bg-theme-float-primary animate-float-slow hidden sm:block"
+                 opacity-theme-float bg-theme-float-primary animate-float-slow hidden sm:block parallax-float"
+              data-speed="1.4"
             ></div>
             <div
               className="absolute -z-10 bottom-[15%] right-[5%] sm:bottom-20 sm:right-[15%] w-24 h-24 sm:w-36 sm:h-36 rounded-[35%] -rotate-6
@@ -626,21 +708,21 @@ const VerticalShortcutLanding = () => {
             ></div>
             
             {/* Additional abstract shapes and texture - conditionally shown based on viewport */}
-            <div className="absolute -z-10 top-[30%] right-[20%] w-40 h-40 sm:w-64 sm:h-64 rounded-full opacity-10 bg-theme-accent blur-3xl hidden md:block"></div>
-            <div className="absolute -z-10 bottom-[20%] left-[15%] w-32 h-32 sm:w-48 sm:h-48 rounded-full opacity-10 bg-theme-primary blur-3xl hidden md:block"></div>
-            <div className="absolute -z-10 top-[15%] left-[25%] w-16 h-16 sm:w-24 sm:h-24 rounded-[30%] rotate-45 opacity-5 bg-theme-secondary animate-float-slow hidden md:block"></div>
-            <div className="absolute -z-10 bottom-[40%] right-[5%] w-24 h-24 sm:w-40 sm:h-40 rotate-12 opacity-5 bg-theme-accent rounded-[60%] animate-float-medium hidden md:block"></div>
+            <div className="absolute -z-10 top-[30%] right-[20%] w-40 h-40 sm:w-64 sm:h-64 rounded-full opacity-10 bg-theme-accent blur-3xl hidden md:block parallax-float" data-speed="1.15"></div>
+            <div className="absolute -z-10 bottom-[20%] left-[15%] w-32 h-32 sm:w-48 sm:h-48 rounded-full opacity-10 bg-theme-primary blur-3xl hidden md:block parallax-float" data-speed="1.25"></div>
+            <div className="absolute -z-10 top-[15%] left-[25%] w-16 h-16 sm:w-24 sm:h-24 rounded-[30%] rotate-45 opacity-5 bg-theme-secondary animate-float-slow hidden md:block parallax-float" data-speed="1.1"></div>
+            <div className="absolute -z-10 bottom-[40%] right-[5%] w-24 h-24 sm:w-40 sm:h-40 rotate-12 opacity-5 bg-theme-accent rounded-[60%] animate-float-medium hidden md:block parallax-float" data-speed="1.35"></div>
             
             <div className="container mx-auto px-4">
               {/* Section header */}
-              <div className="text-center max-w-4xl mx-auto mb-8">
+              <div className="text-center max-w-4xl mx-auto mb-8 parallax-item" data-speed="0.95">
                   <h2 className="what-we-do-title text-red-500 dark:text-orange-400 text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
                       What do we do?
                   </h2>
                 </div>
 
               {/* Copy content - centered text layout */}
-              <div className="text-center w-full mx-auto mb-8 sm:mb-12 md:mb-16">
+              <div className="text-center w-full mx-auto mb-8 sm:mb-12 md:mb-16 parallax-item" data-speed="0.9">
                 <p className="what-we-do-text-1 body-text mb-2 sm:mb-4 mx-auto w-full text-center">
                   We make f*cking great videos.
                 </p>
@@ -723,21 +805,24 @@ const VerticalShortcutLanding = () => {
           {/* Section 15: Final Application CTA */}
           <VSSection
             ref={ctaRef}
-            className="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden bg-theme-gradient dark:bg-theme-gradient"
+            className="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden bg-theme-gradient dark:bg-theme-gradient parallax-section"
+            data-speed="0.93"
           >
             {/* Theme-aware floating elements - optimized for mobile */}
             <div
               className="absolute -z-10 top-[15%] left-[5%] sm:top-20 sm:left-[10%] w-20 h-20 sm:w-32 sm:h-32 rounded-[40%] rotate-12
-                 opacity-theme-float bg-theme-float-primary animate-float-slow hidden sm:block"
+                 opacity-theme-float bg-theme-float-primary animate-float-slow hidden sm:block parallax-float"
+              data-speed="1.25"
             ></div>
             <div
               className="absolute -z-10 bottom-[15%] right-[5%] sm:bottom-20 sm:right-[15%] w-24 h-24 sm:w-36 sm:h-36 rounded-[35%] -rotate-6
-                 opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium hidden sm:block"
+                 opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium hidden sm:block parallax-float"
+              data-speed="1.15"
             ></div>
 
             <div className="container mx-auto px-4 relative z-10">
-              <div className="max-w-6xl mx-auto">
-                <div className="text-center mb-6 sm:mb-8">
+              <div className="max-w-6xl mx-auto parallax-section" data-speed="0.92">
+                <div className="text-center mb-6 sm:mb-8 parallax-item" data-speed="0.9">
                   <Badge
                     variant="outline"
                     className="bg-theme-primary/10 border-theme-primary/30 mb-3 sm:mb-4 py-1.5 sm:py-2 px-3 sm:px-4 mx-auto"
@@ -770,7 +855,7 @@ const VerticalShortcutLanding = () => {
                   </p>
                   </div>
 
-                <div className="flex flex-col md:flex-row bg-theme-surface p-8 md:p-12 rounded-2xl shadow-theme-md">
+                <div className="flex flex-col md:flex-row bg-theme-surface p-8 md:p-12 rounded-2xl shadow-theme-md parallax-item" data-speed="0.88">
                   <div className="md:w-1/2 mb-8 md:mb-0 md:pr-8">
                     <VSHeading
                       as="h3"
