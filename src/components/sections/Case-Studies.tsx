@@ -471,7 +471,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
   return (
     <Section
       ref={(el) => mergeRefs(sectionRef, ref)(el)}
-      className="bg-transparent flex flex-col justify-start pt-0 pb-0 mb-0 relative overflow-visible"
+      className="bg-transparent flex flex-col justify-start pt-4 sm:pt-6 md:pt-0 pb-0 mb-0 relative overflow-visible"
     >
     {/* Background patterns */}
     <div className="absolute inset-0 dot-bg pointer-events-none"></div>
@@ -486,10 +486,10 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                   bg-[var(--theme-float-bg-secondary)]
                   animate-float-medium hidden md:block"></div>
 
-    <div className="container mx-auto px-4 relative z-10 flex flex-col">
-      {/* Section header - moved to top with more emphasis */}
-      <div className="text-center mb-8 md:mb-12 case-study-element -mt-16 sm:-mt-20 md:-mt-24 lg:-mt-28">
-        <h2 className="text-black dark:text-white text-5xl md:text-6xl lg:text-7xl font-bold mb-2">
+    <div className="container-mobile mx-auto relative z-10 flex flex-col">
+      {/* Section header - responsive and properly positioned */}
+      <div className="text-center mb-6 md:mb-10 case-study-element mt-0 md:-mt-16">
+        <h2 className="text-black dark:text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2">
           The numbers speak for themselves
         </h2>
       </div>
@@ -502,24 +502,24 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
           <h3 className="text-theme-secondary text-sm font-medium mb-2 px-1">
             Select Creator:
           </h3>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 xs:grid-cols-3 gap-2">
             {creators.map((creator, index) => (
               <button
                 key={creator.id}
                 onClick={() => setActiveCreator(index)}
                 className={`stats-box 
-                          rounded-lg p-3
+                          rounded-lg p-2 xs:p-3
                           border border-gray-300/30 dark:border-gray-700/30
-                          transition-all duration-300
+                          transition-all duration-200
                           ${activeCreator === index 
-                            ? 'ring-1 ring-blue-500/50 dark:ring-blue-400/50 scale-105' 
-                            : 'hover:scale-102'}
+                            ? 'ring-1 ring-blue-500/50 dark:ring-blue-400/50 bg-white/5 shadow-sm scale-[1.02]' 
+                            : 'hover:bg-white/5 active:scale-[0.98]'}
                           flex items-center relative`}
                 style={{ position: 'relative', zIndex: 30 }}
               >
-                <div className="w-10 h-10 rounded-full overflow-hidden 
+                <div className="w-8 h-8 xs:w-10 xs:h-10 rounded-full overflow-hidden 
                             border-2 border-white
-                            flex-shrink-0 mr-2 relative z-50">
+                            flex-shrink-0 mr-1.5 xs:mr-2 relative z-50">
                   <img
                     src={creator.avatar}
                     alt={creator.name}
@@ -528,15 +528,15 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                   />
                 </div>
 
-                <div className="flex-1">
-                  <h4 className="text-gray-900 dark:text-white font-medium text-sm truncate">
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-gray-900 dark:text-white font-medium text-xs xs:text-sm truncate">
                     {creator.name}
                   </h4>
                   <div className="flex items-center">
-                    <span className="text-blue-600 dark:text-blue-400 font-bold text-lg">
+                    <span className="text-blue-600 dark:text-blue-400 font-bold text-sm xs:text-base">
                       {formatLargeNumber(creator?.totals?.views || 0)}
                     </span>
-                    <span className="text-gray-600 dark:text-gray-300 text-xs ml-1">
+                    <span className="text-gray-600 dark:text-gray-300 text-[10px] xs:text-xs ml-1">
                       views
                     </span>
                   </div>
@@ -547,7 +547,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
         </div>
         
         {/* Desktop view: Carousel with navigation */}
-        <div className="">
+        <div className="hidden md:block">
           {/* Left scroll button */}
           <button 
             onClick={() => scrollCarousel('left')}
@@ -562,7 +562,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
           {/* Carousel content */}
           <div 
             ref={carouselRef} 
-            className={`${SCROLLBAR_HIDE_CLASS} flex gap-2 px-8 py-2 snap-x`}
+            className={`${SCROLLBAR_HIDE_CLASS} flex gap-2 px-8 py-2 snap-x hidden md:flex`}
             style={{ scrollBehavior: 'smooth' }}
           >
             {creators.map((creator, index) => (
@@ -611,7 +611,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
           {/* Right scroll button */}
           <button 
             onClick={() => scrollCarousel('right')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-theme-gradient-primary p-3 rounded-full shadow-theme-md text-white hover:scale-110 transition-transform duration-300 border border-white/20"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-theme-gradient-primary p-3 rounded-full shadow-theme-md text-white hover:scale-110 transition-transform duration-300 border border-white/20 hidden md:block"
             aria-label="Scroll right"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -622,8 +622,8 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
       </div>
 
 
-      {/* Single column layout for main content - with narrower margins */}
-      <div className="flex flex-col gap-5 mb-4 max-w-[98%] mx-auto">
+      {/* Single column layout for main content - mobile optimized */}
+      <div className="flex flex-col gap-3 sm:gap-4 md:gap-5 mb-4 w-full max-w-full sm:max-w-[98%] sm:mx-auto">
         {/* Mobile-optimized metric toggle buttons - more touch-friendly */}
         <div className="flex justify-center md:justify-start gap-2 mb-3 case-study-element">
           {[
@@ -769,7 +769,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
       
         {/* Graph component - HUD-like mobile optimization */}
         <div ref={chartRef} className="bg-theme-gradient-card
-                    p-3 rounded-xl
+                    p-2 xs:p-3 rounded-xl
                     border border-theme-border-light shadow-theme-md case-study-element">
           {/* Mobile view header for graph */}
           <div className="flex items-center justify-between mb-2 md:hidden">
@@ -778,14 +778,14 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
           </div>
           
           {/* Reduced height for mobile, HUD-like appearance */}
-          <div className="h-[200px] md:h-[350px]">
+          <div className="h-[180px] xs:h-[220px] sm:h-[250px] md:h-[350px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 data={currentCreator?.data || []}
                 margin={{ 
                   top: 5, 
-                  right: window.innerWidth < 768 ? 5 : 20, 
-                  left: window.innerWidth < 768 ? 5 : 15, 
+                  right: typeof window !== 'undefined' && window.innerWidth < 480 ? 2 : window.innerWidth < 768 ? 5 : 20, 
+                  left: typeof window !== 'undefined' && window.innerWidth < 480 ? 2 : window.innerWidth < 768 ? 5 : 15, 
                   bottom: 5 
                 }}
               >
@@ -804,9 +804,9 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                 <CartesianGrid 
                   strokeDasharray="3 3" 
                   stroke="var(--theme-border-light)" 
-                  opacity={window.innerWidth < 768 ? 0.2 : 0.4}
+                  opacity={typeof window !== 'undefined' && window.innerWidth < 768 ? 0.15 : 0.4}
                   vertical={false}
-                  horizontal={window.innerWidth < 768 ? window.innerWidth < 400 ? false : true : true}
+                  horizontal={typeof window !== 'undefined' && window.innerWidth < 480 ? false : true}
                 />
                 
                 {/* More compact X-axis for mobile */}
@@ -815,12 +815,12 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                   className="text-theme-secondary"
                   stroke="var(--theme-border-light)"
                   tick={{ 
-                    fontSize: window.innerWidth < 768 ? 8 : 10,
+                    fontSize: typeof window !== 'undefined' && window.innerWidth < 480 ? 7 : window.innerWidth < 768 ? 8 : 10,
                     fill: 'var(--theme-text-secondary)'
                   }}
                   tickLine={false}
-                  axisLine={window.innerWidth < 768 ? false : true}
-                  interval={window.innerWidth < 400 ? 1 : 0}
+                  axisLine={typeof window !== 'undefined' && window.innerWidth < 768 ? false : true}
+                  interval={typeof window !== 'undefined' && window.innerWidth < 480 ? 2 : window.innerWidth < 640 ? 1 : 0}
                 />
                 
                 {/* Simplified Y-axis for mobile */}
@@ -829,27 +829,27 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                   stroke="var(--theme-border-light)"
                   domain={getYAxisDomain()}
                   tick={{ 
-                    fontSize: window.innerWidth < 768 ? 8 : 10,
+                    fontSize: typeof window !== 'undefined' && window.innerWidth < 480 ? 7 : window.innerWidth < 768 ? 8 : 10,
                     fill: 'var(--theme-text-secondary)'
                   }}
                   tickLine={false}
-                  axisLine={window.innerWidth < 768 ? false : true}
-                  tickCount={window.innerWidth < 768 ? 3 : 5}
-                  hide={window.innerWidth < 400}
+                  axisLine={typeof window !== 'undefined' && window.innerWidth < 768 ? false : true}
+                  tickCount={typeof window !== 'undefined' && window.innerWidth < 480 ? 2 : window.innerWidth < 768 ? 3 : 5}
+                  hide={typeof window !== 'undefined' && window.innerWidth < 480}
                 />
                 
                 {/* Tooltip remains the same */}
                 <Tooltip content={<CustomTooltip />} />
                 
                 {/* Hide legend on smallest screens, simplified on mobile */}
-                {window.innerWidth > 400 && (
+                {typeof window !== 'undefined' && window.innerWidth > 480 && (
                   <Legend 
-                    iconSize={window.innerWidth < 768 ? 6 : 8}
+                    iconSize={typeof window !== 'undefined' && window.innerWidth < 768 ? 6 : 8}
                     wrapperStyle={{ 
-                      fontSize: window.innerWidth < 768 ? '8px' : '10px', 
+                      fontSize: typeof window !== 'undefined' && window.innerWidth < 768 ? '8px' : '10px', 
                       paddingTop: '5px'
                     }}
-                    verticalAlign={window.innerWidth < 768 ? "top" : "bottom"}
+                    verticalAlign={typeof window !== 'undefined' && window.innerWidth < 768 ? "top" : "bottom"}
                   />
                 )}
                 

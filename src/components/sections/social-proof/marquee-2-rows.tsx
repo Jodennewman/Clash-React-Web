@@ -23,23 +23,25 @@ const MarqueeTwoRows: React.FC<MarqueeTwoRowsProps> = ({
   const firstRowThumbnails = thumbnails.slice(0, Math.ceil(thumbnails.length / 2));
   const secondRowThumbnails = thumbnails.slice(Math.ceil(thumbnails.length / 2));
   
-  // Split for 5 rows on mobile (these will be hidden on desktop)
+  // Split for 3 rows on mobile with more items per row (these will be hidden on desktop)
   const mobileRows = [];
-  const mobileRowSize = Math.ceil(thumbnails.length / 5);
-  for (let i = 0; i < 5; i++) {
+  // Spread thumbnails more evenly
+  const repeatedThumbnails = [...thumbnails, ...thumbnails].slice(0, thumbnails.length * 1.5);
+  const mobileRowSize = Math.ceil(repeatedThumbnails.length / 3);
+  for (let i = 0; i < 3; i++) {
     const start = i * mobileRowSize;
-    const end = Math.min(start + mobileRowSize, thumbnails.length);
-    mobileRows.push(thumbnails.slice(start, end));
+    const end = Math.min(start + mobileRowSize, repeatedThumbnails.length);
+    mobileRows.push(repeatedThumbnails.slice(start, end));
   }
 
   return (
-    <Section className="w-full overflow-hidden bg-theme-bg-secondary/90 py-12 md:py-24 px-0 pt-6 mt-[-80px] border-t-0">
-      <div className="mx-auto flex max-w-container flex-col items-center gap-4 text-center sm:gap-16">
-        <div className="flex flex-col items-center gap-4 px-4 sm:gap-8">
-          <h2 className="max-w-[800px] text-3xl md:text-4xl font-bold leading-tight sm:text-6xl sm:leading-tight">
+    <Section className="w-full overflow-hidden bg-theme-bg-secondary/90 py-2 sm:py-4 md:py-24 px-0 pt-12 md:pt-6 pb-16 sm:pb-8 md:pb-4 mt-[50px] sm:mt-[20px] md:mt-[-80px]">
+      <div className="mx-auto flex max-w-container flex-col items-center gap-0 sm:gap-2 text-center md:gap-16">
+        <div className="flex flex-col items-center gap-2 px-4 sm:gap-4 md:gap-8">
+          <h2 className="max-w-[800px] text-lg xs:text-xl sm:text-2xl md:text-4xl font-bold leading-tight sm:leading-tight mb-0">
             {sectionTitle}
           </h2>
-          <p className="body-text max-w-[600px] mx-auto md:max-w-none text-sm md:text-base">
+          <p className="body-text max-w-[600px] mx-auto md:max-w-none text-xs sm:text-sm md:text-base mt-0">
             {sectionDescription}
           </p>
         </div>
@@ -89,20 +91,20 @@ const MarqueeTwoRows: React.FC<MarqueeTwoRowsProps> = ({
             </div>
           </div>
           
-          {/* Mobile layout - 5 rows, hidden on desktop */}
+          {/* Mobile layout - 3 rows, hidden on desktop */}
           <div className="block md:hidden">
             {mobileRows.map((rowThumbnails, rowIndex) => (
-              <div key={`mobile-row-${rowIndex}`} className="relative overflow-hidden mb-[-16px]">
+              <div key={`mobile-row-${rowIndex}`} className="relative overflow-hidden mb-[-80px] xs:mb-[-70px] sm:mb-[-60px]">
                 <Marquee 
                   reverse={rowIndex % 2 === 1} 
                   pauseOnHover 
-                  className="[--duration:45s] py-0"
+                  className="[--duration:25s] py-0 -my-6"
                 >
                   {rowThumbnails.map((item, index) => (
                     <div 
                       key={`mobile-thumb-${rowIndex}-${index}`} 
-                      className="-mx-4 -my-2 overflow-hidden rounded-lg transition-transform duration-300 shadow-theme-sm hover:scale-105"
-                      style={{ transform: "scale(0.375)" }}
+                      className="mx-[-30px] -my-0 overflow-hidden rounded-lg transition-transform duration-300 shadow-theme-sm hover:scale-105"
+                      style={{ transform: "scale(0.32)" }}
                     >
                       <img 
                         src={item.src} 
@@ -120,10 +122,10 @@ const MarqueeTwoRows: React.FC<MarqueeTwoRowsProps> = ({
           
           {/* Deep side vignettes that fade out thumbnails completely using theme-aware colors */}
           <div 
-            className="pointer-events-none absolute inset-y-0 left-0 w-[25%] md:w-[35%] z-10 bg-theme-gradient-overlay-left opacity-90"
+            className="pointer-events-none absolute inset-y-0 left-0 w-[10%] sm:w-[15%] md:w-[35%] z-10 bg-theme-gradient-overlay-left opacity-90"
           ></div>
           <div 
-            className="pointer-events-none absolute inset-y-0 right-0 w-[25%] md:w-[35%] z-10 bg-theme-gradient-overlay-left opacity-90"
+            className="pointer-events-none absolute inset-y-0 right-0 w-[10%] sm:w-[15%] md:w-[35%] z-10 bg-theme-gradient-overlay-left opacity-90"
             style={{ transform: 'scaleX(-1)' }}
           ></div>
         </div>

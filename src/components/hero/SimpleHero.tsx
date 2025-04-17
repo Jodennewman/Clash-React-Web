@@ -145,7 +145,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
     return (
       <section 
         ref={ref} 
-        className="vs-section-light relative h-[125vh] w-full shadow-theme-md overflow-hidden z-10"
+        className="vs-section-light relative h-[110vh] sm:h-[125vh] w-full shadow-theme-md overflow-hidden z-10 pt-8 sm:pt-0"
       >
         {/* Award Badge - positioned with consistent bottom-right placement using top/right */}
         <div className="award-badge absolute top-[85vh] right-4 sm:right-6 md:right-8 lg:right-10 z-50" style={{ transform: 'translateY(0)', opacity: 1 }}>
@@ -336,34 +336,35 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                      sm:col-[5_/_9] sm:row-[4_/_6] 
                      md:col-[5_/_9] md:row-[4_/_6]
                      lg:col-[5_/_9] lg:row-[4_/_6]
-                     px-4 sm:px-0 transition-all duration-500
+                     px-4 sm:px-0 transition-all duration-500 
+                     mt-10 sm:mt-0
                      sm:max-w-none sm:ml-2"
             data-speed="0.95"
           >
 
               <div className="w-full px-4 sm:px-6 md:px-6 lg:px-8 xl:px-10 pr-0 sm:pr-0 md:pr-0 lg:pr-0">
-                <div className="w-full max-w-none lg:max-w-[120%]">
+                <div className="w-full max-w-full lg:max-w-[120%] overflow-x-hidden">
                   <h1 className="hero-content text-left mb-6 text-theme-primary transition-theme-fast duration-500">
-                    <span className="inline font-semibold glow-theme-tertiary text-6xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-theme-accent-tertiary transition-all duration-500" data-speed="0.95">
+                    <span className="inline font-semibold glow-theme-tertiary text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-theme-accent-tertiary transition-all duration-500" data-speed="0.95">
                       Billions
                     </span>
-                    <span className="inline-block ml-2 sm:ml-3 lg:ml-4 font-light text-5xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-6xl" data-speed="0.99">
+                    <span className="inline-block ml-2 sm:ml-3 lg:ml-4 font-light text-4xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-6xl" data-speed="0.99">
                       of Views.
                     </span>
-                    <span className="block font-normal text-4xl sm:text-4xl sm:font-light md:text-4xl lg:text-5xl xl:text-6xl transition-all duration-500 mt-2" data-speed="0.97">
+                    <span className="block font-normal text-3xl sm:text-4xl sm:font-light md:text-4xl lg:text-5xl xl:text-6xl transition-all duration-500 mt-2" data-speed="0.97">
                       Built for Founders.
                     </span>
                   </h1>
                   
                   <div className="h-6 sm:h-8 md:h-9 lg:h-10 w-full"></div>
                   
-                  <p className="hero-content !text-xl !sm:text-2xl !md:text-3xl !lg:text-4xl mb-4 text-theme-primary !font-normal transition-theme-fast duration-500 leading-tight" style={{fontSize: "1.5rem", fontWeight: 400}} data-speed="0.99">
+                  <p className="hero-content !text-lg !sm:text-2xl !md:text-3xl !lg:text-4xl mb-4 text-theme-primary !font-normal transition-theme-fast duration-500 leading-tight" style={{fontSize: "1.15rem", fontWeight: 400}} data-speed="0.99">
                     We've used vertical video to get founders and execs just like you, billions of views — in fact we're the top-performing agency in the world at doing exactly that.
                   </p>
                   
                   <div className="h-1 sm:h-2 md:h-3 lg:h-4 w-full"></div>
                   
-                  <p className="hero-content text-left text-xs sm:text-sm md:text-base lg:text-lg mb-6 text-theme-primary/80 transition-all duration-500 pr-2 sm:pr-4 md:pr-6" style={{width: "125%", maxWidth: "125%"}} data-speed="0.99">
+                  <p className="hero-content text-left text-xs sm:text-sm md:text-base lg:text-lg mb-6 text-theme-primary/80 transition-all duration-500 pr-2 sm:pr-4 md:pr-6 w-full sm:w-[125%] max-w-full sm:max-w-[125%]" data-speed="0.99">
                     Now we've packaged everything it takes to build a brand from the ground up — not just the knowledge — but the strategy, custom programs, and infrastructure we've built, into a proven system so you can do it yourself. Zero guesswork. All results.
                   </p>
                 </div>
@@ -372,7 +373,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
               
               {/* Animated Buttons with responsive sizes - moved further down */}
               <div className="hero-content relative w-full mt-6 sm:mt-8 md:mt-10 lg:mt-12" style={{paddingLeft: 0}}>
-                <div className="absolute left-0 flex items-center gap-4" style={{transform: "translateX(32px)"}}>
+                <div className="absolute left-0 flex flex-col sm:flex-row sm:items-center gap-4" style={{transform: "translateX(32px)"}}>
                   <AnimatedButton 
                     text="Get Your Plan"
                     variant="start"
@@ -381,9 +382,12 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                     onClick={onCtaClick}
                     className="w-auto text-sm sm:text-base"
                   />
-                  <a href="https://calendly.com/clash-creation/15min" target="_blank" rel="noopener noreferrer" className="flex items-center text-theme-primary hover:text-theme-accent-tertiary transition-colors duration-300">
+                  <a href="https://calendly.com/clash-creation/15min" target="_blank" rel="noopener noreferrer" className="hidden sm:flex items-center text-theme-primary hover:text-theme-accent-tertiary transition-colors duration-300">
                     <span className="text-theme-primary/60 mx-2">|</span>
                     <span className="text-sm sm:text-base font-medium underline-offset-4 hover:underline">Book in a call</span>
+                  </a>
+                  <a href="https://calendly.com/clash-creation/15min" target="_blank" rel="noopener noreferrer" className="flex sm:hidden items-center justify-center text-theme-primary hover:text-theme-accent-tertiary transition-colors duration-300 mt-2">
+                    <span className="text-sm font-medium underline-offset-4 hover:underline">Book in a call</span>
                   </a>
                 </div>
               </div>
