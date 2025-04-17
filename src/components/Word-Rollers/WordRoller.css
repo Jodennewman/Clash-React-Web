@@ -1,0 +1,259 @@
+/* Import necessary fonts */
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+
+/* Create CSS layers for proper cascade */
+@layer normalize, base, demo, stick, effect, scrollbar, debug;
+
+/* Debug layer for visual debugging */
+@layer debug {
+  [data-debug='true'] li {
+    outline: 0.05em dashed currentColor;
+  }
+  [data-debug='true'] :is(h2, li:last-of-type) {
+    outline: 0.05em dashed canvasText;
+  }
+}
+
+/* Scrollbar styling and animation */
+@layer scrollbar {
+  @property --hue {
+    initial-value: 0;
+    syntax: '<number>';
+    inherits: false;
+  }
+  @property --chroma {
+    initial-value: 0;
+    syntax: '<number>';
+    inherits: true;
+  }
+
+  [data-sync-scrollbar='true'] {
+    scrollbar-color: oklch(var(--lightness) var(--chroma) var(--hue)) #0000;
+  }
+  
+  @supports (animation-timeline: scroll()) and (animation-range: 0% 100%) {
+    [data-sync-scrollbar='true'][data-animate='true'] {
+      timeline-scope: --list;
+      scrollbar-color: oklch(var(--lightness) var(--chroma, 0) var(--hue)) #0000;
+      animation-name: change, chroma-on, chroma-off;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+      animation-range: entry 50% exit 50%, entry 40% entry 50%,
+        exit 30% exit 40%;
+      animation-timeline: --list;
+    }
+    
+    [data-sync-scrollbar='true'][data-animate='true'] ul {
+      view-timeline: --list;
+    }
+  }
+
+  @keyframes change {
+    to {
+      --hue: var(--end);
+    }
+  }
+  @keyframes chroma-on {
+    to {
+      --chroma: 0.3;
+    }
+  }
+  @keyframes chroma-off {
+    to {
+      --chroma: 0;
+    }
+  }
+}
+
+/* Colors and animations for the text */
+@layer effect {
+  .word-roller-root {
+    --start: 0;
+    --end: 360;
+    --lightness: 65%;
+    --base-chroma: 0.3;
+  }
+  
+  [data-theme='dark'] {
+    --lightness: 75%;
+  }
+  [data-theme='light'] {
+    --lightness: 65%;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .word-roller-root {
+      --lightness: 75%;
+    }
+  }
+  
+  .word-roller-root ul {
+    --step: calc((var(--end) - var(--start)) / (var(--count) - 1));
+  }
+  
+  .word-roller-root li:not(:last-of-type) {
+    color: oklch(
+      var(--lightness) var(--base-chroma)
+        calc(var(--start) + (var(--step) * var(--i)))
+    );
+  }
+
+  @supports (animation-timeline: scroll()) and (animation-range: 0% 100%) {
+    [data-animate='true'] li {
+      opacity: 0.2;
+      animation-name: brighten;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+      animation-range: cover calc(50% - 1lh) calc(50% + 1lh);
+      animation-timeline: view();
+    }
+
+    [data-animate='true'] li:first-of-type {
+      --start-opacity: 1;
+    }
+    
+    [data-animate='true'] li:last-of-type {
+      --brightness: 1;
+      --end-opacity: 1;
+    }
+
+    @keyframes brighten {
+      0% {
+        opacity: var(--start-opacity, 0.2);
+      }
+      50% {
+        opacity: 1;
+        filter: brightness(var(--brightness, 1.2));
+      }
+      100% {
+        opacity: var(--end-opacity, 0.2);
+      }
+    }
+  }
+}
+
+/* Layout and positioning */
+@layer stick {
+  .word-roller-root section {
+    --font-level: 6;
+    display: flex;
+    line-height: 1.25;
+    width: 100%;
+    padding-left: 5rem;
+    min-height: 100vh;
+  }
+  
+  .word-roller-root section h2 {
+    position: sticky;
+    top: calc(50% - 0.5lh);
+    font-size: inherit;
+    margin: 0;
+    display: inline-block;
+    height: fit-content;
+    font-weight: 600;
+  }
+  
+  .word-roller-root ul {
+    font-weight: 600;
+    padding-inline: 0;
+    margin: 0;
+    list-style-type: none;
+    max-height: 100vh;
+    overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scroll-behavior: smooth;
+  }
+  
+  .word-roller-root ul::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  [data-snap='true'] {
+    scroll-snap-type: y proximity;
+  }
+
+  [data-snap='true'] li {
+    scroll-snap-align: center;
+  }
+
+  .word-roller-root h2,
+  .word-roller-root li:last-of-type {
+    background: linear-gradient(
+      canvasText 50%,
+      color-mix(in oklch, canvas, canvasText 25%)
+    );
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .word-roller-root li {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(5rem, 15vw, 12rem);
+    line-height: 1;
+    padding: 0;
+  }
+}
+
+/* Base typography */
+@layer base {
+  .word-roller-root {
+    width: 100%;
+    color-scheme: light dark;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .word-roller-root section {
+      padding-left: 2rem;
+    }
+    
+    .word-roller-root li {
+      font-size: clamp(2.5rem, 10vw, 8rem);
+    }
+  }
+  
+  /* Fluid typography */
+  .fluid {
+    --font-size-min: 14;
+    --font-size-max: 20;
+    --font-ratio-min: 1.1;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  /* Screen reader only class */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+} 
