@@ -32,6 +32,7 @@ const TiaModalContainer: React.FC<TiaModalContainerProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
 
+  
   // Handle animation with GSAP
   useGSAP(() => {
     if (!isOpen || !modalRef.current || !overlayRef.current) return;
@@ -120,7 +121,8 @@ const TiaModalContainer: React.FC<TiaModalContainerProps> = ({
       {/* Modal content - responsive sizing */}
       <div 
         ref={modalRef}
-        className="relative z-10 w-[95%] md:w-[90%] lg:w-[85%] max-w-4xl bg-theme-gradient-card 
+        className="relative z-10 w-[95%] md:w-[90%] lg:w-[85%] max-w-4xl
+                   bg-theme-gradient-card
                    rounded-xl shadow-theme-md opacity-0 transition-all duration-300 
                    border border-theme-border-light overflow-hidden"
         style={{ maxHeight: 'min(90vh, 800px)' }}
@@ -180,7 +182,15 @@ const TiaModalContainer: React.FC<TiaModalContainerProps> = ({
         )}
         
         {/* Modal content area */}
-        <div className="overflow-y-auto" style={{ maxHeight: 'calc(90vh - 150px)' }}>
+        <div className={`${
+          stage === 'teamSize' || stage === 'implementationSupport' || stage === 'timeline' || stage === 'contentVolume' 
+            ? 'overflow-visible' // No scrolling for quiz stages
+            : 'overflow-y-auto'
+        }`} style={{ 
+          maxHeight: stage === 'teamSize' || stage === 'implementationSupport' || stage === 'timeline' || stage === 'contentVolume'
+            ? 'none' // No height constraint for quiz stages
+            : 'calc(90vh - 150px)'
+        }}>
           {children}
         </div>
       </div>

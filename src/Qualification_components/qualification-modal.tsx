@@ -865,7 +865,7 @@ const VSQualificationModal: React.FC<VSQualificationModalProps> = ({
         {/* Implementation Support Stage */}
         {stage === 'implementationSupport' && (
           <QuestionStage 
-            title="How do you prefer to learn new systems?"
+            title="How do you best learn new systems?"
             description="We'll match you with the right level of support."
             icon={<Briefcase size={32} className="text-theme-primary" />}
             gradientClass="bg-vs-gradient-teal"

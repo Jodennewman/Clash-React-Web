@@ -59,9 +59,10 @@ const ModalFooter: React.FC<ModalFooterProps> = ({
           <Button
             onClick={goToNextStage}
             disabled={!canProceed}
-            variant={canProceed ? "default" : "subtle"}
+            variant="ghost"
             size="lg"
-            className="flex items-center gap-1 min-h-[44px] px-5 w-full sm:w-auto"
+            className={`flex items-center gap-1 min-h-[44px] px-5 w-full sm:w-auto
+                        ${canProceed ? 'bg-orange-500/80 hover:bg-orange-500/90 dark:bg-amber-400/90 dark:hover:bg-amber-400 text-white shadow-theme-sm hover:shadow-theme-md' : 'bg-theme-secondary/50 text-theme-primary'}`}
           >
             {nextButtonText}
             {!isLastStage && <ChevronRight className="h-4 w-4" />}

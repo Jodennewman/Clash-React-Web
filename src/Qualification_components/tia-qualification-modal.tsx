@@ -322,37 +322,67 @@ const TiaQualificationModal: React.FC<VSQualificationModalProps> = ({
   const processAnswers = () => {
     console.log("Processing answers to generate recommendation");
     
+    // Check if there's an upgrade request in the session storage
+    const upgradeRequest = window.sessionStorage?.getItem('upgradeToRecommendation');
+    
+    // Check if we have a forced score for reverting to original recommendation
+    const forcedScore = window.sessionStorage?.getItem('forceScore');
+    
     // Parse team size to number
     const teamSize = parseInt(answers.teamSize || '0');
     
     // Initialize score
     let score = 0;
     
-    // 1. Team size factor (1-3 points)
-    if (teamSize >= 15) score += 3;
-    else if (teamSize >= 5) score += 2;
-    else score += 1;
+    // First priority: if we have a forced score for reverting, use that
+    if (forcedScore) {
+      score = parseInt(forcedScore);
+      console.log(`Using forced score for reverting: ${score}`);
+      
+      // Clear the forced score after using it
+      if (window.sessionStorage) {
+        window.sessionStorage.removeItem('forceScore');
+        
+        // IMPORTANT: We intentionally don't modify the history here
+        // The history is already updated in handleCTAAction when processing revert
+        console.log(`Using forced score ${score} for recommendation but not modifying history`);
+      }
+    }
+    // Second priority: if upgrading to a specific tier
+    else if (upgradeRequest === 'executive') {
+      score = 10; // Ensure we get Executive recommendation
+    }
+    else if (upgradeRequest === 'comprehensive') {
+      score = 7;  // Ensure we get Comprehensive recommendation
+    }
+    else {
+      // Normal scoring process
+      // 1. Team size factor (1-3 points)
+      if (teamSize >= 15) score += 3;
+      else if (teamSize >= 5) score += 2;
+      else score += 1;
+      
+      // 2. Implementation support preference (1-3 points)
+      if (answers.implementationSupport === 'full_service') score += 3;
+      else if (answers.implementationSupport === 'guided') score += 2;
+      else if (answers.implementationSupport === 'self_directed') score += 1;
+      
+      // 3. Timeline factor (0-2 points)
+      if (answers.timeline === 'immediate') score += 2;
+      else if (answers.timeline === 'next_quarter') score += 1;
+      // 'exploratory' adds 0 points
+      
+      // 4. Content volume (0-2 points)
+      if (answers.contentVolume === 'high') score += 2;
+      else if (answers.contentVolume === 'medium') score += 1;
+      // 'low' adds 0 points
+      
+      // 5. Engagement bonus (0-1 point)
+      const isHighlyEngaged = engagement.timeSpent > 90 && engagement.questionInteractions > 8;
+      if (isHighlyEngaged) score += 1;
+    }
     
-    // 2. Implementation support preference (1-3 points)
-    if (answers.implementationSupport === 'full_service') score += 3;
-    else if (answers.implementationSupport === 'guided') score += 2;
-    else if (answers.implementationSupport === 'self_directed') score += 1;
-    
-    // 3. Timeline factor (0-2 points)
-    if (answers.timeline === 'immediate') score += 2;
-    else if (answers.timeline === 'next_quarter') score += 1;
-    // 'exploratory' adds 0 points
-    
-    // 4. Content volume (0-2 points)
-    if (answers.contentVolume === 'high') score += 2;
-    else if (answers.contentVolume === 'medium') score += 1;
-    // 'low' adds 0 points
-    
-    // 5. Engagement bonus (0-1 point)
-    const isHighlyEngaged = engagement.timeSpent > 90 && engagement.questionInteractions > 8;
-    if (isHighlyEngaged) score += 1;
-    
-    console.log(`Generated score: ${score}`);
+    console.log(`Generated score: ${score}${upgradeRequest ? ' (from upgrade request)' : ''}`);
     
     // Generate dynamic user responses for personalization
     const dynamicResponses = {
@@ -394,7 +424,7 @@ const TiaQualificationModal: React.FC<VSQualificationModalProps> = ({
           }
         ],
         testimonial: "We'll build it. You focus on growth.",
-        ctaText: 'Book your executive strategy session',
+        ctaText: '', // Removed "Book your executive strategy session" button
         ctaAction: 'book_session'
       };
     } else if (score >= 5) {
@@ -432,7 +462,7 @@ const TiaQualificationModal: React.FC<VSQualificationModalProps> = ({
           }
         ],
         testimonial: "Scaling without support = burnout. Don't do it to yourself.",
-        ctaText: 'Book your first strategy session',
+        ctaText: '', // Removed "Book your first strategy session" button
         ctaAction: 'book_session'
       };
     } else {
@@ -475,13 +505,102 @@ const TiaQualificationModal: React.FC<VSQualificationModalProps> = ({
     
     console.log(`Generated recommendation type: ${recommendationData.type}`);
     
-    // Track the recommendation event
-    trackEvent('recommendation_generated', {
-      recommendationType: recommendationData.type,
-      score: score,
-      timeSpent: engagement.timeSpent,
-      totalInteractions: engagement.questionInteractions
-    });
+    // Handle upgrade request
+    if (upgradeRequest && window.sessionStorage) {
+      console.log(`Processing upgrade request to: ${upgradeRequest}`);
+      
+      // Get current recommendation type (before upgrade)
+      const currentType = recommendation?.type || recommendationData.type;
+      console.log(`Current type (before upgrade): ${currentType}`);
+      
+      // Get recommendation history or initialize it
+      let recommendationHistory: {type: string; score: string}[] = [];
+      try {
+        const historyStr = window.sessionStorage.getItem('recommendationHistory');
+        if (historyStr) {
+          recommendationHistory = JSON.parse(historyStr);
+          console.log(`Found existing history with ${recommendationHistory.length} entries`);
+        } else {
+          console.log('No existing history found, starting new history');
+        }
+      } catch (e) {
+        console.error('Error parsing recommendation history', e);
+      }
+      
+      // Add current recommendation to history if it's not already there
+      const beforeUpgradeScore = String(
+        upgradeRequest === 'comprehensive' ? 4 : // Foundation -> Comprehensive would have been score 4
+        upgradeRequest === 'executive' && currentType === 'foundation' ? 4 : // Foundation -> Executive 
+        upgradeRequest === 'executive' && currentType === 'comprehensive' ? 7 : // Comprehensive -> Executive
+        7 // Default fallback
+      );
+      
+      console.log(`Upgrade path: ${currentType} -> ${upgradeRequest}, using score ${beforeUpgradeScore}`);
+      
+      // Only add to history if it's not the last entry or history is empty
+      if (recommendationHistory.length === 0 || 
+          recommendationHistory[recommendationHistory.length - 1].type !== currentType) {
+        
+        console.log(`Adding current type ${currentType} to history with score ${beforeUpgradeScore}`);
+        recommendationHistory.push({
+          type: currentType,
+          score: beforeUpgradeScore
+        });
+        
+        // Save updated history
+        window.sessionStorage.setItem('recommendationHistory', JSON.stringify(recommendationHistory));
+        console.log(`Updated history, now has ${recommendationHistory.length} entries`);
+      } else {
+        console.log(`Current type ${currentType} is already the last entry in history, not adding duplicate`);
+      }
+      
+      // Also add the new (upgraded) recommendation type to the history
+      // so it's properly tracked for future downgrades
+      const afterUpgradeScore = String(score);
+      recommendationHistory.push({
+        type: recommendationData.type,
+        score: afterUpgradeScore
+      });
+      
+      // Save updated history with both current and upgraded recommendation
+      window.sessionStorage.setItem('recommendationHistory', JSON.stringify(recommendationHistory));
+      console.log(`Added upgrade type ${recommendationData.type} to history with score ${afterUpgradeScore}`);
+      console.log(`History now has ${recommendationHistory.length} entries`);
+      
+      // Clear the upgrade request
+      window.sessionStorage.removeItem('upgradeToRecommendation');
+      
+      // Also track the upgrade event
+      trackEvent('recommendation_upgraded', {
+        fromRecommendationType: currentType,
+        toRecommendationType: recommendationData.type,
+        timeSpent: engagement.timeSpent
+      });
+    } else if (recommendation?.type !== recommendationData.type) {
+      // This is the first recommendation or a new one (not from upgrade flow)
+      // Track the normal recommendation event
+      trackEvent('recommendation_generated', {
+        recommendationType: recommendationData.type,
+        score: score,
+        timeSpent: engagement.timeSpent,
+        totalInteractions: engagement.questionInteractions
+      });
+      
+      // Initialize or reset recommendation history with just this recommendation
+      if (window.sessionStorage) {
+        console.log(`Initializing new recommendation history with type ${recommendationData.type}`);
+        const initialHistory = [{
+          type: recommendationData.type,
+          score: String(score)
+        }];
+        window.sessionStorage.setItem('recommendationHistory', JSON.stringify(initialHistory));
+        
+        // Clear single-value previous recommendation data since we're using history now
+        window.sessionStorage.removeItem('previousRecommendationType');
+        window.sessionStorage.removeItem('originalRecommendationScore');
+      }
+    }
+    
     
     // Set recommendation state
     setRecommendation(recommendationData);
@@ -571,9 +690,134 @@ const TiaQualificationModal: React.FC<VSQualificationModalProps> = ({
     }));
   };
   
-  // Handle CTA actions
+  // Utility method to get the current recommendation history
+  const getRecommendationHistory = (): {type: string; score: string}[] => {
+    if (!window.sessionStorage) return [];
+    
+    try {
+      const historyStr = window.sessionStorage.getItem('recommendationHistory');
+      if (historyStr) {
+        return JSON.parse(historyStr);
+      }
+    } catch (e) {
+      console.error('Error parsing recommendation history', e);
+    }
+    
+    return [];
+  };
+  
+  // Handle CTA actions including upgrades, downgrades and direct purchase
   const handleCTAAction = () => {
     if (!recommendation) return;
+    
+    console.log('handleCTAAction called with recommendation:', recommendation.type);
+    
+    // Check if we need to revert to a previous recommendation
+    const revertRequest = window.sessionStorage?.getItem('revertToOriginalRecommendation');
+    
+    if (revertRequest === 'true' && window.sessionStorage) {
+      console.log('Processing revert request - found revertToOriginalRecommendation flag');
+      
+      // Get recommendation history
+      try {
+        const historyStr = window.sessionStorage.getItem('recommendationHistory');
+        if (historyStr) {
+          console.log('Found recommendation history:', historyStr);
+          const history = JSON.parse(historyStr);
+          
+          // If we have history and are not at the first item
+          if (history.length > 1) {
+            // Get the current recommendation type
+            const currentType = recommendation?.type;
+            console.log('Current recommendation type:', currentType);
+            
+            // Find the current index in history
+            const currentIndex = history.findIndex(item => item.type === currentType);
+            console.log('Current index in history:', currentIndex);
+            
+            if (currentIndex > 0) {
+              // Get the previous recommendation
+              const previousRecommendation = history[currentIndex - 1];
+              
+              console.log('Previous recommendation:', previousRecommendation);
+              
+              // Set score to the previous value to get the previous recommendation
+              window.sessionStorage.setItem('forceScore', previousRecommendation.score);
+              console.log('Set forced score to:', previousRecommendation.score);
+              
+              // Store the current recommendation type for analytics
+              const currentRecommendationType = currentType;
+              
+              // Before processing, remove the current entry from history
+              // This ensures a clean history state when going back
+              const updatedHistory = history.slice(0, currentIndex);
+              window.sessionStorage.setItem('recommendationHistory', JSON.stringify(updatedHistory));
+              console.log('Updated history after removing current entry:', JSON.stringify(updatedHistory));
+              
+              // Track the downgrade event
+              trackEvent('recommendation_downgraded', {
+                fromRecommendationType: currentType || '',
+                toRecommendationType: previousRecommendation.type,
+                timeSpent: engagement.timeSpent
+              });
+              
+              // Clear the revert flag
+              window.sessionStorage.removeItem('revertToOriginalRecommendation');
+              
+              // Process answers again to get the previous recommendation
+              processAnswers();
+              return;
+            } else {
+              console.log('Cannot go back - already at first recommendation');
+            }
+          } else {
+            console.log('Cannot go back - history has only one entry');
+          }
+        } else {
+          console.log('No recommendation history found');
+        }
+      } catch (e) {
+        console.error('Error processing recommendation history for revert', e);
+      }
+      
+      // Fallback to original method if history approach fails
+      console.log('Falling back to original method');
+      const originalScore = window.sessionStorage.getItem('originalRecommendationScore');
+      if (originalScore) {
+        // Set score to the original value to get the original recommendation
+        window.sessionStorage.setItem('forceScore', originalScore);
+        console.log('Setting forced score to original score:', originalScore);
+        
+        // Track the downgrade event
+        const previousType = window.sessionStorage.getItem('previousRecommendationType');
+        trackEvent('recommendation_downgraded', {
+          fromRecommendationType: recommendation?.type || '',
+          toRecommendationType: previousType || '',
+          timeSpent: engagement.timeSpent
+        });
+        
+        // Clear the revert flag
+        window.sessionStorage.removeItem('revertToOriginalRecommendation');
+        
+        // Process answers again to get the original recommendation
+        processAnswers();
+        return;
+      } else {
+        console.log('No original score found - cannot revert');
+      }
+      
+      // If we get here, we couldn't process the revert request
+      // Clean up the flag to avoid repeated attempts
+      window.sessionStorage.removeItem('revertToOriginalRecommendation');
+    }
+    
+    // Check if we need to re-process for an upgrade request
+    const upgradeRequest = window.sessionStorage?.getItem('upgradeToRecommendation');
+    if (upgradeRequest) {
+      // If there's an upgrade request, reprocess the recommendation
+      processAnswers();
+      return;
+    }
     
     if (recommendation.ctaAction === 'direct_purchase') {
       // Direct purchase flow
@@ -661,7 +905,7 @@ const TiaQualificationModal: React.FC<VSQualificationModalProps> = ({
       case 'contentVolume': return 'What\'s your content growth goal?';
       case 'contact': return 'Tell us a bit about yourself';
       case 'loading': return 'Analyzing your responses';
-      case 'recommendation': return 'Your Personalised Plan';
+      case 'recommendation': return 'Your Match'; // Recommendation pages should all be "Your Match"
       default: return 'Find Your Perfect Path';
     }
   };
@@ -835,9 +1079,14 @@ const TiaQualificationModal: React.FC<VSQualificationModalProps> = ({
           <TiaTeamSizeStage 
             options={teamSizeOptions}
             selectedValue={answers.teamSize}
-            onSelect={(value) => handleAnswerChange('teamSize', value)}
+            onSelect={(value) => {
+              handleAnswerChange('teamSize', value);
+              // Auto advance after a short delay for visual feedback
+              setTimeout(() => goToNextStage(), 300);
+            }}
             isAnimating={isAnimatingSelection}
             selectedChoice={selectedChoice}
+            onBack={goToPreviousStage}
           />
         )}
         
@@ -846,9 +1095,14 @@ const TiaQualificationModal: React.FC<VSQualificationModalProps> = ({
           <TiaLearningStyleStage 
             options={implementationOptions}
             selectedValue={answers.implementationSupport}
-            onSelect={(value) => handleAnswerChange('implementationSupport', value)}
+            onSelect={(value) => {
+              handleAnswerChange('implementationSupport', value);
+              // Auto advance after a short delay for visual feedback
+              setTimeout(() => goToNextStage(), 300);
+            }}
             isAnimating={isAnimatingSelection}
             selectedChoice={selectedChoice}
+            onBack={goToPreviousStage}
           />
         )}
         
@@ -857,9 +1111,14 @@ const TiaQualificationModal: React.FC<VSQualificationModalProps> = ({
           <TiaTimelineStage 
             options={timelineOptions}
             selectedValue={answers.timeline}
-            onSelect={(value) => handleAnswerChange('timeline', value)}
+            onSelect={(value) => {
+              handleAnswerChange('timeline', value);
+              // Auto advance after a short delay for visual feedback
+              setTimeout(() => goToNextStage(), 300);
+            }}
             isAnimating={isAnimatingSelection}
             selectedChoice={selectedChoice}
+            onBack={goToPreviousStage}
           />
         )}
         
@@ -868,9 +1127,14 @@ const TiaQualificationModal: React.FC<VSQualificationModalProps> = ({
           <TiaContentVisionStage 
             options={contentVolumeOptions}
             selectedValue={answers.contentVolume}
-            onSelect={(value) => handleAnswerChange('contentVolume', value)}
+            onSelect={(value) => {
+              handleAnswerChange('contentVolume', value);
+              // Auto advance after a short delay for visual feedback
+              setTimeout(() => goToNextStage(), 300);
+            }}
             isAnimating={isAnimatingSelection}
             selectedChoice={selectedChoice}
+            onBack={goToPreviousStage}
           />
         )}
         
@@ -885,6 +1149,12 @@ const TiaQualificationModal: React.FC<VSQualificationModalProps> = ({
             mailingList={answers.mailingList as boolean}
             onMailingListChange={(checked) => handleAnswerChange('mailingList', checked)}
             onChange={handleAnswerChange}
+            onBack={goToPreviousStage}
+            onSubmit={() => {
+              if (validateFields()) {
+                goToNextStage();
+              }
+            }}
           />
         )}
         
@@ -906,7 +1176,7 @@ const TiaQualificationModal: React.FC<VSQualificationModalProps> = ({
         {/* Recommendation Stage */}
         {stage === 'recommendation' && recommendation && (
           <TiaRecommendationStage
-            title="Your Personalised Plan"
+            title="Your Match"
             recommendationTitle={recommendation.title}
             tagline={recommendation.tagline}
             price={recommendation.pricing}
@@ -928,8 +1198,8 @@ const TiaQualificationModal: React.FC<VSQualificationModalProps> = ({
           />
         )}
         
-        {/* Modal Footer - Not shown during recommendation or loading stages */}
-        {stage !== 'recommendation' && stage !== 'loading' && (
+        {/* Modal Footer - Only shown on intro stage */}
+        {stage === 'intro' && (
           <ModalFooter
             stage={stage}
             canProceed={canProceed()}
@@ -937,16 +1207,9 @@ const TiaQualificationModal: React.FC<VSQualificationModalProps> = ({
             goToPreviousStage={goToPreviousStage}
             goToNextStage={goToNextStage}
             isFirstStage={stage === 'intro'}
-            isLastStage={stage === 'recommendation'}
-            nextButtonText={
-              stage === 'contact' 
-                ? 'Show my recommendation' 
-                : stage === 'intro'
-                  ? 'Start Quiz'
-                  : 'Continue'
-            }
-            backButtonText="Back"
-            closeButtonText={stage === 'intro' ? 'Maybe later' : 'Close'}
+            isLastStage={false}
+            nextButtonText="Start Quiz"
+            closeButtonText="Maybe later"
           />
         )}
       </TiaModalContainer>
