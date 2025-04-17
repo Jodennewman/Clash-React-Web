@@ -597,16 +597,16 @@ const CourseTimeline: React.FC = () => {
   };
 
   return (
-    <section className="py-12 md:py-20 timeline-groovy-bg relative overflow-visible">
-      {/* Theme-aware floating elements for visual interest */}
+    <section className="py-12 md:py-20 relative overflow-visible bg-theme-primary border-t border-theme-border-light" style={{ background: "var(--theme-bg-primary)" }}>
+      {/* Theme-aware floating elements for visual interest - same as CourseStats */}
       <div className="absolute top-20 left-10 w-24 h-24 rounded-[40%] rotate-12 
-                 opacity-theme-float
-                 bg-theme-float-primary
-                 animate-float-slow"></div>
-      <div className="absolute bottom-40 right-10 w-28 h-28 rounded-[35%] -rotate-12 
-                 opacity-theme-float-secondary
-                 bg-theme-float-secondary
-                 animate-float-medium"></div>
+                    opacity-[var(--theme-float-opacity)]
+                    bg-[var(--theme-float-bg-primary)]
+                    animate-float-slow hidden md:block"></div>
+      <div className="absolute bottom-40 right-20 w-32 h-32 rounded-[30%] -rotate-6 
+                    opacity-[var(--theme-float-opacity)]
+                    bg-[var(--theme-float-bg-secondary)]
+                    animate-float-medium hidden md:block"></div>
       <div className="absolute top-1/4 right-1/4 w-32 h-32 rounded-[45%] rotate-45
                  opacity-[0.08] md:opacity-[0.1]
                  bg-theme-primary

@@ -715,12 +715,7 @@ const VerticalShortcutLanding = () => {
 
           {/* Section 13: Customisation - Removed */}
 
-          {/* Section 14: FAQs */}
-           <Suspense fallback={<LoadingFallback />}>
-             <LazyFAQUpdated />
-           </Suspense>
-
-          {/* Section 15: Final Application CTA */}
+          {/* Section 14: Limited spots available for next cohort (moved before FAQ) */}
           <VSSection
             ref={ctaRef}
             className="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden bg-theme-gradient dark:bg-theme-gradient"
@@ -874,6 +869,11 @@ const VerticalShortcutLanding = () => {
               </div>
             </div>
           </VSSection>
+
+          {/* Section 15: FAQs (moved after limited spots section) */}
+           <Suspense fallback={<LoadingFallback />}>
+             <LazyFAQUpdated />
+           </Suspense>
 
           {/* Footer */}
           <VSBackground
