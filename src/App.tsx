@@ -1,6 +1,6 @@
 // In your app.tsx
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import VerticalShortcutLanding from './VerticalShortcutLanding';
 import ApplicationFormWrapper from './components/form/ApplicationFormWrapper';
 import VSExampleComponent from './components/VSExampleComponent';
@@ -23,81 +23,87 @@ function App() {
   // Load theme toggle script
   // Note: Theme is now handled by the dark class on the html element
   // The theme-toggle.js script and ThemeProvider add this class
-  
+
   return (
     <Router>
       <Routes>
-        <Route path="/" element={
-          <div className="bg-theme-gradient min-h-screen">
-            <h1 className="text-3xl font-bold text-theme-primary text-center py-6">Style Debugging</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-4">
-              <div className="border border-theme-border rounded-lg shadow-theme-sm">
-                <DirectTest />
+        <Route 
+          path="/" 
+          element={<Navigate to="/landing" replace />} 
+        />
+        <Route 
+          path="/debug" 
+          element={
+            <div className="bg-theme-gradient min-h-screen">
+              <h1 className="text-3xl font-bold text-theme-primary text-center py-6">Style Debugging</h1>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-4">
+                <div className="border border-theme-border rounded-lg shadow-theme-sm">
+                  <DirectTest />
+                </div>
+                <div className="border border-theme-border rounded-lg shadow-theme-sm">
+                  <DirectClassTest />
+                </div>
               </div>
-              <div className="border border-theme-border rounded-lg shadow-theme-sm">
-                <DirectClassTest />
+              <div className="mt-8 text-center space-y-4">
+                <div>
+                  <Link to="/landing" className="px-6 py-2 bg-theme-gradient-primary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                    Go to Landing Page
+                  </Link>
+                </div>
+
+                <div>
+                  <Link to="/modals" className="px-6 py-2 bg-theme-gradient-secondary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                    VS Modal Showcase
+                  </Link>
+                </div>
+                <div>
+                  <Link to="/painpoints" className="px-6 py-2 bg-theme-accent-secondary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                    VS Pain Points Section
+                  </Link>
+                </div>
+                <div>
+                  <Link to="/charts" className="px-6 py-2 bg-theme-accent-quaternary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                    VS Charts Section
+                  </Link>
+                </div>
+                <div>
+                  <Link to="/modulehud" className="px-6 py-2 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-accent-secondary)] text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                    Module HUD Showcase
+                  </Link>
+                </div>
+                <div>
+                  <Link to="/connect-everything" className="px-6 py-2 bg-gradient-to-r from-cyan-800 to-cyan-950 text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                    Connect Everything
+                  </Link>
+                </div>
+                <div>
+                  <Link to="/calendly" className="px-6 py-2 bg-gradient-to-r from-[var(--primary-orange)] to-[var(--accent-coral)] text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                    Calendly Scheduling Demo
+                  </Link>
+                </div>
+
+                <div>
+                  <Link to="/style-guide" className="px-6 py-2 bg-theme-primary text-white rounded-lg shadow-theme-sm hover-bubbly-sm mr-2">
+                    Theme Style Guide
+                  </Link>
+
+                  <Link to="/qualification" className="px-6 py-2 bg-theme-gradient-primary text-white rounded-lg shadow-theme-sm hover-bubbly-sm mr-2">
+                    Qualification Modal Demo
+                  </Link>
+
+                  <Link to="/tia-qualification" className="px-6 py-2 bg-theme-accent-tertiary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                    Tia Qualification Modal
+                  </Link>
+                </div>
+                <div>
+                  <Link to="/theme-visualizer" className="px-6 py-2 bg-gradient-to-r from-[var(--theme-accent-tertiary)] to-[var(--theme-accent-quaternary)] text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
+                    Theme Variables Visualizer
+                  </Link>
+                </div>
               </div>
             </div>
-            <div className="mt-8 text-center space-y-4">
-              <div>
-                <Link to="/landing" className="px-6 py-2 bg-theme-gradient-primary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
-                  Go to Landing Page
-                </Link>
-              </div>
-
-              <div>
-                <Link to="/modals" className="px-6 py-2 bg-theme-gradient-secondary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
-                  VS Modal Showcase
-                </Link>
-              </div>
-              <div>
-                <Link to="/painpoints" className="px-6 py-2 bg-theme-accent-secondary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
-                  VS Pain Points Section
-                </Link>
-              </div>
-              <div>
-                <Link to="/charts" className="px-6 py-2 bg-theme-accent-quaternary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
-                  VS Charts Section
-                </Link>
-              </div>
-              <div>
-                <Link to="/modulehud" className="px-6 py-2 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-accent-secondary)] text-white rounded-lg">
-                  Module HUD Showcase
-                </Link>
-              </div>
-              <div>
-                <Link to="/connect-everything" className="px-6 py-2 bg-gradient-to-r from-cyan-800 to-cyan-950 text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
-                  Connect Everything
-                </Link>
-              </div>
-              <div>
-                <Link to="/calendly" className="px-6 py-2 bg-gradient-to-r from-[var(--primary-orange)] to-[var(--accent-coral)] text-white rounded-lg">
-                  Calendly Scheduling Demo
-                </Link>
-              </div>
-
-              <div>
-                <Link to="/style-guide" className="px-6 py-2 bg-theme-primary text-white rounded-lg shadow-theme-sm hover-bubbly-sm mr-2">
-                  Theme Style Guide
-                </Link>
-
-                <Link to="/qualification" className="px-6 py-2 bg-theme-gradient-primary text-white rounded-lg shadow-theme-sm hover-bubbly-sm mr-2">
-                  Qualification Modal Demo
-                </Link>
-                
-                <Link to="/tia-qualification" className="px-6 py-2 bg-theme-accent-tertiary text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
-                  Tia Qualification Modal
-                </Link>
-              </div>
-              <div>
-                <Link to="/theme-visualizer" className="px-6 py-2 bg-gradient-to-r from-[var(--theme-accent-tertiary)] to-[var(--theme-accent-quaternary)] text-white rounded-lg shadow-theme-sm hover-bubbly-sm">
-                  Theme Variables Visualizer
-
-                </Link>
-              </div>
-            </div>
-          </div>
-        } />
+          } 
+        />
         <Route path="/landing" element={<VerticalShortcutLanding key="landing-page" />} />
         <Route path="/application-form" element={<ApplicationFormWrapper />} />
         <Route path="/example" element={<VSExampleComponent />} />
@@ -116,7 +122,7 @@ function App() {
         <Route path="/connect-everything" element={<ConnectEverything />} />
 
       </Routes>
-      
+
       {/* Theme toggle and style guide buttons */}
       <div className="fixed bottom-4 right-4 z-50 flex space-x-2">
         <Link 
@@ -133,7 +139,7 @@ function App() {
         </Link>
         <ThemeToggle />
       </div>
-      
+
       {/* Marble buttons navigation */}
       <div className="fixed bottom-4 left-4 z-50">
         <Link 
