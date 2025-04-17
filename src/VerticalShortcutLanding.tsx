@@ -1,5 +1,6 @@
 import React, { useRef, useLayoutEffect, useEffect, useState, lazy, Suspense } from "react";
 import VSQualificationModal from "./Qualification_components/qualification-modal";
+import TiaQualificationModal from "./Qualification_components/tia-qualification-modal";
 import SimpleHero from "./components/hero/SimpleHero";
 import IsometricGridBackground from "./components/hero/IsometricPattern";
 import { Badge } from "./components/ui/badge";
@@ -288,6 +289,7 @@ const VerticalShortcutLanding = () => {
 
   // Add state for qualification modal
   const [showQualificationModal, setShowQualificationModal] = useState(false);
+  const [showTiaQualificationModal, setShowTiaQualificationModal] = useState(false);
   const [testMode, setTestMode] = useState(false);
 
   // Initialize animations within the component's scope
@@ -470,10 +472,32 @@ const VerticalShortcutLanding = () => {
       globalScrollSmoother.paused(true);
     }
   };
+  
+  // Function to open the Tia qualification modal
+  const openTiaQualificationModal = () => {
+    setShowTiaQualificationModal(true);
+    // Disable body scroll when modal is open
+    document.body.style.overflow = "hidden";
+    // Pause ScrollSmoother to prevent background page scrolling
+    if (globalScrollSmoother) {
+      globalScrollSmoother.paused(true);
+    }
+  };
 
   // Function to close the qualification modal
   const closeQualificationModal = () => {
     setShowQualificationModal(false);
+    // Re-enable body scroll when modal is closed
+    document.body.style.overflow = "auto";
+    // Resume ScrollSmoother
+    if (globalScrollSmoother) {
+      globalScrollSmoother.paused(false);
+    }
+  };
+  
+  // Function to close the Tia qualification modal
+  const closeTiaQualificationModal = () => {
+    setShowTiaQualificationModal(false);
     // Re-enable body scroll when modal is closed
     document.body.style.overflow = "auto";
     // Resume ScrollSmoother
@@ -498,7 +522,7 @@ const VerticalShortcutLanding = () => {
   // Listen for events to open the qualification modal from other components
   useEffect(() => {
     const handleOpenQualificationModal = () => {
-      openQualificationModal();
+      openTiaQualificationModal(); // Use Tia's modal instead of the original
     };
 
     window.addEventListener(
@@ -539,6 +563,13 @@ const VerticalShortcutLanding = () => {
         onClose={closeQualificationModal}
         testMode={testMode}
       />
+      
+      {/* Tia's Qualification Modal */}
+      <TiaQualificationModal
+        isOpen={showTiaQualificationModal}
+        onClose={closeTiaQualificationModal}
+        testMode={testMode}
+      />
 
       {/* Main wrapper for ScrollSmoother */}
       <div
@@ -547,7 +578,7 @@ const VerticalShortcutLanding = () => {
         className="min-h-screen overflow-hidden"
       >
         {/* Floating Navbar stays outside the smooth content for fixed positioning */}
-        <VSNavbar onApplyClick={openQualificationModal} />
+        <VSNavbar onApplyClick={openTiaQualificationModal} />
 
         {/* Smooth content container */}
         <div
@@ -558,7 +589,7 @@ const VerticalShortcutLanding = () => {
           {/* Section 1: Header */}
           <SimpleHero
             ref={heroRef}
-            onCtaClick={openQualificationModal}
+            onCtaClick={openTiaQualificationModal}
           />
           
           {/* Section 2: Video section - mobile optimized */}
@@ -678,7 +709,7 @@ const VerticalShortcutLanding = () => {
 
           {/* Section 12: The Founders Track */}
            <Suspense fallback={<LoadingFallback />}>
-             <LazyFounderTrack onCtaClick={openQualificationModal} />
+             <LazyFounderTrack onCtaClick={openTiaQualificationModal} />
            </Suspense>
 
 
