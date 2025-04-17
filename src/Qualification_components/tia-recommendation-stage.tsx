@@ -4,6 +4,7 @@ import {
   Users, Compass, Clock, BarChart4, 
   CreditCard, Mail
 } from 'lucide-react';
+import { modalContentRef } from './tia-modal-container';
 
 // Add Calendly type definition
 declare global {
@@ -140,8 +141,10 @@ const TiaRecommendationStage: React.FC<TiaRecommendationStageProps> = ({
     if (name.includes('Upgrade to Executive')) {
       console.log('Upgrade to Executive selected');
       
-      // Scroll to top of the page before changing recommendations
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Scroll the modal content to the top before changing recommendations
+      if (modalContentRef.current) {
+        modalContentRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      }
       
       // Signal to parent component that we want to upgrade to Executive
       if (window.sessionStorage) {
@@ -154,13 +157,15 @@ const TiaRecommendationStage: React.FC<TiaRecommendationStageProps> = ({
       setTimeout(() => {
         console.log('Calling onCTA for upgrade to Executive');
         onCTA();
-      }, 100);
+      }, 300); // Increased delay to allow for modal content scrolling
       return;
     } else if (name.includes('Upgrade to Comprehensive')) {
       console.log('Upgrade to Comprehensive selected');
       
-      // Scroll to top of the page before changing recommendations
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Scroll the modal content to the top before changing recommendations
+      if (modalContentRef.current) {
+        modalContentRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      }
       
       // Signal to parent component that we want to upgrade to Comprehensive
       if (window.sessionStorage) {
@@ -172,7 +177,7 @@ const TiaRecommendationStage: React.FC<TiaRecommendationStageProps> = ({
       setTimeout(() => {
         console.log('Calling onCTA for upgrade to Comprehensive');
         onCTA();
-      }, 100);
+      }, 300); // Increased delay to allow for modal content scrolling
       return;
     }
     
@@ -690,31 +695,43 @@ const TiaRecommendationStage: React.FC<TiaRecommendationStageProps> = ({
             {extras
               .filter(extra => !(recommendationTitle.includes('Foundation') && 
                                extra.name.includes('Upgrade to Comprehensive')))
-              .map((extra, i) => (
-                <div 
-                  key={i} 
-                  className={`flex justify-between items-center p-3 border rounded-lg cursor-pointer transition-all duration-[var(--theme-transition-normal)] ${
-                    selectedExtras.includes(extra.name)
-                      ? 'border-[var(--theme-primary)] bg-gradient-to-r from-[var(--theme-primary)]/20 to-[var(--theme-primary-hover)]/20'
-                      : 'border-[var(--theme-border-light)] bg-transparent hover:border-[var(--theme-primary)]/30 hover:bg-[var(--theme-primary)]/5'
-                  }`}
-                  onClick={() => toggleExtra(extra.name, extra.price)}
-                >
-                  <div className="flex items-center">
-                    <div className={`w-5 h-5 rounded-md border mr-3 flex items-center justify-center ${
-                      selectedExtras.includes(extra.name)
-                        ? 'border-[var(--theme-primary)] bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-primary-hover)]'
-                        : 'border-[var(--theme-border-light)]'
-                    }`}>
-                      {selectedExtras.includes(extra.name) && (
-                        <Check className="h-3.5 w-3.5 text-white" />
-                      )}
+              .map((extra, i) => {
+                const isExecutiveUpgrade = extra.name.includes('Upgrade to Executive');
+                
+                return (
+                  <div 
+                    key={i} 
+                    className={`flex justify-between items-center p-3 border rounded-lg cursor-pointer transition-all duration-[var(--theme-transition-normal)] ${
+                      isExecutiveUpgrade 
+                        ? 'border-orange-500 bg-gradient-to-r from-orange-500 to-amber-500 shadow-[0_0_15px_rgba(249,115,22,0.5)] hover:shadow-[0_0_20px_rgba(249,115,22,0.7)]'
+                        : selectedExtras.includes(extra.name)
+                          ? 'border-[var(--theme-primary)] bg-gradient-to-r from-[var(--theme-primary)]/20 to-[var(--theme-primary-hover)]/20'
+                          : 'border-[var(--theme-border-light)] bg-gradient-to-r from-[var(--theme-primary)]/20 to-[var(--theme-primary-hover)]/20 hover:border-[var(--theme-primary)]/30 hover:bg-[var(--theme-primary)]/30'
+                    }`}
+                    onClick={() => toggleExtra(extra.name, extra.price)}
+                  >
+                    <div className="flex items-center">
+                      <div className={`w-5 h-5 rounded-md border mr-3 flex items-center justify-center ${
+                        isExecutiveUpgrade
+                          ? 'border-white bg-white'
+                          : selectedExtras.includes(extra.name)
+                            ? 'border-[var(--theme-primary)] bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-primary-hover)]'
+                            : 'border-[var(--theme-border-light)]'
+                      }`}>
+                        {selectedExtras.includes(extra.name) && (
+                          <Check className={`h-3.5 w-3.5 ${isExecutiveUpgrade ? 'text-orange-500' : 'text-white'}`} />
+                        )}
+                      </div>
+                      <span className={isExecutiveUpgrade ? 'text-white font-bold' : 'text-theme-secondary'}>
+                        {extra.name}
+                      </span>
                     </div>
-                    <span className="text-theme-secondary">{extra.name}</span>
+                    <span className={isExecutiveUpgrade ? 'text-white font-bold' : 'text-theme-primary font-medium'}>
+                      {extra.price}
+                    </span>
                   </div>
-                  <span className="text-theme-primary font-medium">{extra.price}</span>
-                </div>
-              ))}
+                );
+              })}
           </div>
         </div>
         
@@ -722,7 +739,13 @@ const TiaRecommendationStage: React.FC<TiaRecommendationStageProps> = ({
         <div className="flex justify-center w-full">
           {recommendationTitle.includes('Foundation') ? (
             <button
-              onClick={() => setShowPurchasePage(true)}
+              onClick={() => {
+                // Scroll the modal content to the top before showing purchase page
+                if (modalContentRef.current) {
+                  modalContentRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+                setTimeout(() => setShowPurchasePage(true), 300);
+              }}
               className="py-4 px-8 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-primary-hover)]
                        text-white rounded-lg font-medium shadow-[var(--shadow-btn)]
                        hover:shadow-[var(--theme-shadow-btn-primary)]
@@ -734,7 +757,13 @@ const TiaRecommendationStage: React.FC<TiaRecommendationStageProps> = ({
             </button>
           ) : (
             <button
-              onClick={() => setShowCalendly(true)}
+              onClick={() => {
+                // Scroll the modal content to the top before showing Calendly
+                if (modalContentRef.current) {
+                  modalContentRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+                setTimeout(() => setShowCalendly(true), 300);
+              }}
               className="py-4 px-8 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-primary-hover)]
                        text-white rounded-lg font-medium shadow-[var(--shadow-btn)]
                        hover:shadow-[var(--theme-shadow-btn-primary)]

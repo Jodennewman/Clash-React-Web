@@ -46,7 +46,7 @@ const TiaContactStage: React.FC<TiaContactStageProps> = ({
         {/* Header without box */}
         <div>
           <div className="flex items-center mb-4">
-            <h5 className="text-theme-primary font-medium">{formTitle}</h5>
+            <h5 className="text-theme-primary font-medium text-[25px] leading-tight break-normal">{formTitle}</h5>
           </div>
           
           {/* Form fields in consistent grid */}
@@ -158,12 +158,12 @@ const TiaContactStage: React.FC<TiaContactStageProps> = ({
             {onSubmit && (
               <button
                 onClick={onSubmit}
-                className="w-full md:w-auto py-3 px-6 bg-orange-500/80 hover:bg-orange-500/90 
-                         dark:bg-amber-400/90 dark:hover:bg-amber-400 text-white 
+                className="w-auto py-2 px-4 bg-orange-500/80 hover:bg-orange-500/90 
+                         dark:bg-amber-400/90 dark:hover:bg-amber-400 text-white text-sm
                          rounded-lg font-medium shadow-theme-sm hover:shadow-theme-md transition-all 
-                         flex items-center justify-center gap-2 duration-300"
+                         flex items-center justify-center gap-1 duration-300"
               >
-                Show my recommendation <ArrowRight className="h-4 w-4" />
+                Show my recommendation <ArrowRight className="h-3 w-3" />
               </button>
             )}
           </div>
@@ -171,7 +171,7 @@ const TiaContactStage: React.FC<TiaContactStageProps> = ({
         
         {/* Support text with tracking */}
         <div className="p-2">
-          <p className="text-theme-primary text-center text-xl md:text-2xl font-medium tracking-wide">
+          <p className="text-theme-primary text-center text-[25px] font-medium tracking-wide leading-tight break-normal">
             {supportingText}
           </p>
         </div>

@@ -215,7 +215,7 @@ export default function TeamParallaxSection() {
       <div className="team-section-container relative" ref={containerRef}>
       
       {/* Header section */}
-      <section className="team-section-heading text-center py-16 min-h-screen flex flex-col justify-center bg-[var(--theme-bg-primary)]">
+      <section className="team-section-heading text-center pt-0 pb-6 min-h-[50vh] flex flex-col justify-center bg-[var(--theme-bg-primary)]">
         {/* Floating background elements */}
         <div className="absolute top-20 left-1/4 w-20 h-20 rounded-[40%] rotate-12 opacity-5
                      bg-[var(--theme-float-bg-primary)] floating-element hidden md:block dark:hidden"></div>
@@ -233,7 +233,7 @@ export default function TeamParallaxSection() {
         <h2 className="intro-heading text-[var(--theme-text-primary)] text-4xl md:text-5xl font-bold mb-4 relative z-10">
           So who are we?
         </h2>
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-5xl mx-auto px-1">
           <h3 className="intro-heading text-[var(--theme-text-primary)] text-2xl md:text-3xl font-medium mb-4 relative z-10">
             Why trust us?
           </h3>
@@ -241,9 +241,6 @@ export default function TeamParallaxSection() {
             We're not just a guy in a room. We're a team of creatives, who just happen to be f*cking great at making content. 
             It's why we're the number one short form agency in the world, and luckily for you we specialise in getting founders like yourself, millions of views.
           </p>
-          <h3 className="intro-heading text-[var(--theme-text-primary)] text-2xl md:text-3xl font-bold mt-6 mb-4 relative z-10">
-            Meet the team
-          </h3>
         </div>
       </section>
       

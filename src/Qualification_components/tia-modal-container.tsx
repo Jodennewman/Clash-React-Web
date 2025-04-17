@@ -16,6 +16,9 @@ interface TiaModalContainerProps {
 }
 
 // This is a modified version of ModalContainer with smaller title styling
+// Create a ref to the scrollable content area that can be accessed by other components
+export const modalContentRef = React.createRef<HTMLDivElement>();
+
 const TiaModalContainer: React.FC<TiaModalContainerProps> = ({
   isOpen,
   onClose,
@@ -121,7 +124,7 @@ const TiaModalContainer: React.FC<TiaModalContainerProps> = ({
       {/* Modal content - responsive sizing */}
       <div 
         ref={modalRef}
-        className="relative z-10 w-[95%] md:w-[90%] lg:w-[85%] max-w-4xl
+        className="relative z-10 w-[98%] md:w-[90%] lg:w-[85%] max-w-4xl
                    bg-theme-gradient-card
                    rounded-xl shadow-theme-md opacity-0 transition-all duration-300 
                    border border-theme-border-light overflow-hidden"
@@ -136,32 +139,28 @@ const TiaModalContainer: React.FC<TiaModalContainerProps> = ({
         <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[var(--theme-primary)]/10 to-transparent opacity-[var(--theme-glow-opacity)] pointer-events-none rounded-t-xl"></div>
         
         {/* Modal header - Modified with smaller title and conditional border */}
-        <div className={`flex items-center justify-between p-4 md:p-5 ${stage !== 'teamSize' && stage !== 'implementationSupport' && stage !== 'timeline' && stage !== 'contentVolume' && stage !== 'contact' && stage !== 'loading' && stage !== 'recommendation' ? 'border-b border-[var(--theme-border-light)]' : ''}`}>
-          <div className="flex items-center gap-3">
-            <div className="p-1.5 rounded-full bg-theme-primary/10 text-theme-primary">
-              {stageIcon}
+        <div className={`flex items-center justify-between p-5 md:p-6 ${stage !== 'teamSize' && stage !== 'implementationSupport' && stage !== 'timeline' && stage !== 'contentVolume' && stage !== 'contact' && stage !== 'loading' && stage !== 'recommendation' ? 'border-b border-[var(--theme-border-light)]' : ''}`}>
+          <div className="flex items-center gap-5 md:gap-5 flex-1 min-w-0">
+            <div className="p-2 md:p-2 rounded-full bg-theme-primary/10 text-theme-primary">
+              <span className="block w-7 h-7 md:w-7 md:h-7">
+                {stageIcon}
+              </span>
             </div>
-            {/* Custom styling for specific stage titles */}
-            {stage === 'intro' || stage === 'teamSize' || stage === 'implementationSupport' || stage === 'timeline' || stage === 'contentVolume' || stage === 'contact' || stage === 'loading' || stage === 'recommendation' ? (
-              <h3 className="text-sm font-medium text-theme-primary">
-                {stageTitle}
-              </h3>
-            ) : (
-              <h2 className="text-base sm:text-lg font-medium text-theme-primary">
-                {stageTitle}
-              </h2>
-            )}
+            {/* Custom styling for specific stage titles - no truncation */}
+            <span className="text-[35px] md:text-[35px] font-bold text-theme-primary leading-tight w-full break-normal">
+              {stageTitle}
+            </span>
           </div>
           
           <Button
             onClick={handleClose}
             variant="ghost"
             size="icon"
-            className="h-9 w-9 rounded-full text-theme-tertiary hover:text-theme-primary 
-                     hover:bg-theme-primary/10 transition-colors"
+            className="h-12 w-12 md:h-12 md:w-12 rounded-full text-theme-tertiary hover:text-theme-primary 
+                     hover:bg-theme-primary/10 active:bg-theme-primary/20 transition-colors"
             aria-label="Close modal"
           >
-            <X className="h-5 w-5" />
+            <X className="h-7 w-7 md:h-7 md:w-7" />
           </Button>
         </div>
         
@@ -182,14 +181,12 @@ const TiaModalContainer: React.FC<TiaModalContainerProps> = ({
         )}
         
         {/* Modal content area */}
-        <div className={`${
-          stage === 'teamSize' || stage === 'implementationSupport' || stage === 'timeline' || stage === 'contentVolume' 
-            ? 'overflow-visible' // No scrolling for quiz stages
-            : 'overflow-y-auto'
-        }`} style={{ 
-          maxHeight: stage === 'teamSize' || stage === 'implementationSupport' || stage === 'timeline' || stage === 'contentVolume'
-            ? 'none' // No height constraint for quiz stages
-            : 'calc(90vh - 150px)'
+        <div ref={modalContentRef} className="overflow-y-auto overscroll-contain -webkit-overflow-scrolling-touch px-1 md:px-0 pt-2 md:pt-2" style={{ 
+          maxHeight: 'calc(80vh - 120px)',
+          WebkitOverflowScrolling: 'touch', // Adds momentum scrolling on iOS
+          scrollbarWidth: 'thin', // Thinner scrollbar on Firefox
+          scrollbarColor: 'rgba(0,0,0,0.2) transparent', // Custom scrollbar color
+          scrollBehavior: 'smooth' // Enable smooth scrolling within the modal
         }}>
           {children}
         </div>

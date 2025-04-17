@@ -61,7 +61,7 @@ const TiaIntroStage: React.FC<TiaIntroStageProps> = ({
                 {index < processSteps.length - 1 && (
                   <>
                     <div className="hidden sm:block text-theme-primary text-2xl">→</div>
-                    <div className="block sm:hidden text-theme-primary text-2xl rotate-90 my-2">↓</div>
+                    <div className="block sm:hidden text-theme-primary text-2xl my-2">↓</div>
                   </>
                 )}
               </React.Fragment>

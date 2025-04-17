@@ -21,18 +21,18 @@ const Customisation: React.FC<CustomisationProps> = ({ onCtaClick }) => {
     },
     {
       icon: <Calendar className="h-5 w-5" />,
-      title: "Extended Support",
-      description: "Additional coaching sessions beyond the standard program"
+      title: "Implementation Workshop",
+      description: "Hands-on session to help you set up systems and workflows"
     },
     {
       icon: <BookOpen className="h-5 w-5" />,
-      title: "Industry Adaptation",
-      description: "Custom modules tailored to your specific industry requirements"
+      title: "Custom Modules",
+      description: "Additional content specific to your industry or business model"
     },
     {
       icon: <Zap className="h-5 w-5" />,
-      title: "Done-For-You Setup",
-      description: "Let our team set up your content system and initial content batch"
+      title: "Accelerated Timeline",
+      description: "Fast-track implementation with dedicated support"
     }
   ];
 
@@ -77,24 +77,22 @@ const Customisation: React.FC<CustomisationProps> = ({ onCtaClick }) => {
           <VSCard 
             className="p-8 md:p-12 rounded-xl shadow-theme-md mb-10 overflow-hidden relative"
             lightBg="bg-theme-surface"
-            darkBg="dark:bg-theme-surface"
           >
-            {/* Add background pattern */}
-            <div className="absolute -z-10 inset-0 opacity-5 bg-theme-pattern"></div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid gap-8 md:grid-cols-2">
               {customOptions.map((option, index) => (
-                <div key={index} className="flex gap-4 items-start group">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center bg-theme-gradient-primary text-white shadow-theme-sm flex-shrink-0">
-                    {option.icon}
+                <div key={index} className="flex gap-4">
+                  <div className="shrink-0 w-12 h-12 flex items-center justify-center bg-theme-gradient-button rounded-xl">
+                    <div className="text-theme-on-primary">
+                      {option.icon}
+                    </div>
                   </div>
                   <div>
-                    <VSHeading variant="h4" className="text-lg font-bold text-theme-primary mb-2 group-hover:text-theme-accent transition-colors">
+                    <h3 className="text-lg md:text-xl font-semibold text-theme-primary mb-2">
                       {option.title}
-                    </VSHeading>
-                    <VSText className="text-theme-secondary">
+                    </h3>
+                    <p className="text-theme-secondary">
                       {option.description}
-                    </VSText>
+                    </p>
                   </div>
                 </div>
               ))}
@@ -132,18 +130,19 @@ const Customisation: React.FC<CustomisationProps> = ({ onCtaClick }) => {
             </div>
           </VSCard>
           
-          <VSCard 
-            className="p-6 md:p-8 rounded-xl shadow-theme-sm text-center"
-            lightBg="bg-theme-primary/5" 
-            darkBg="dark:bg-theme-primary/10"
-          >
-            <VSText className="text-theme-secondary mb-3">
-              Have specific questions about customisation options?
-            </VSText>
-            <VSText className="text-theme-primary font-medium">
-              Schedule a call with our team to discuss your unique requirements.
-            </VSText>
-          </VSCard>
+          <div className="text-center mt-16">
+            <p className="text-theme-secondary mb-6">
+              Not sure what you need? Book a call and we'll help you figure it out.
+            </p>
+            <AnimatedButton 
+              text="Book a 15-min chat"
+              variant="start" 
+              saturation="medium"
+              size="lg"
+              onClick={onCtaClick}
+              className="mx-auto"
+            />
+          </div>
         </div>
       </div>
     </VSSection>

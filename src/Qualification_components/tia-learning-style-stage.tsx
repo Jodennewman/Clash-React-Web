@@ -30,7 +30,7 @@ const TiaLearningStyleStage: React.FC<TiaLearningStyleStageProps> = ({
       <div className="flex flex-col space-y-3">
         {/* Header without box - more compact */}
         <div className="pb-1">
-          <p className="text-theme-primary text-left text-lg md:text-xl font-medium tracking-wide">
+          <p className="text-theme-primary text-left text-[25px] font-medium tracking-wide leading-tight break-normal">
             We'll match you with the right level of support to accelerate your results
           </p>
         </div>
@@ -47,12 +47,12 @@ const TiaLearningStyleStage: React.FC<TiaLearningStyleStageProps> = ({
                           ? 'border-theme-primary bg-orange-500/30 dark:bg-amber-400/40' 
                           : 'border-theme-border-light bg-transparent hover:border-theme-primary/30 hover:bg-theme-primary/5'
                         }
-                        min-h-[60px]`}
+                        min-h-[100px]`}
               aria-selected={selectedValue === option.value}
             >
               <div className="flex-grow text-left">
-                <h5 className="text-theme-primary font-medium">{option.label}</h5>
-                <p className="text-theme-secondary text-xs leading-tight">{option.description}</p>
+                <h5 className="text-theme-primary font-medium text-[25px] leading-tight break-normal">{option.label}</h5>
+                <p className="text-theme-secondary text-base leading-tight mt-1">{option.description}</p>
               </div>
               {selectedValue === option.value && (
                 <CheckCircle className="h-5 w-5 text-theme-primary ml-3 flex-shrink-0" />

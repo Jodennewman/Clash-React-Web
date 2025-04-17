@@ -1,6 +1,8 @@
 import React, { useRef, useLayoutEffect, useEffect, useState, lazy, Suspense } from "react";
 import VSQualificationModal from "./Qualification_components/qualification-modal";
+import TiaQualificationModal from "./Qualification_components/tia-qualification-modal";
 import SimpleHero from "./components/hero/SimpleHero";
+import IsometricGridBackground from "./components/hero/IsometricPattern";
 import { Badge } from "./components/ui/badge";
 // import SafeVideoEmbed from "./components/ui/video-embed";
 import VSNavbar from "./components/sections/navbar/vs-navbar";
@@ -129,9 +131,7 @@ const carouselTestimonials = [
 // Features data is now in VS-BigReveal component
 
 // --- Lazy Load Section Components ---
-const LazyTabsLeft = lazy(() => import("./components/sections/tabs/left"));
 const LazySocialProof = lazy(() => import("./components/sections/social-proof/marquee-2-rows"));
-const LazyTestimonialCarousel = lazy(() => import("./components/ui/testimonial-carousel"));
 const LazyWordRoller = lazy(() => import("@/components/Word-Rollers/WordRoller.tsx"));
 const LazyCaseStudies = lazy(() => import("./components/sections").then(module => ({ default: module.CaseStudies })));
 const LazyVSPainPoints = lazy(() => import("./components/sections").then(module => ({ default: module.VSPainPoints })));
@@ -139,8 +139,7 @@ const LazyVSBigReveal = lazy(() => import("./components/sections").then(module =
 const LazyCourseViewer = lazy(() => import("./components/sections").then(module => ({ default: module.CourseViewer })));
 const LazyMeetTheTeam = lazy(() => import("./components/sections").then(module => ({ default: module.TeamSection }))); // Assuming TeamSection is the export
 const LazyFAQUpdated = lazy(() => import("./components/sections").then(module => ({ default: module.FAQUpdated })));
-const LazyPricingSimple = lazy(() => import("./components/sections").then(module => ({ default: module.PricingSimple })));
-const LazyCustomisation = lazy(() => import("./components/sections").then(module => ({ default: module.Customisation })));
+// Removed LazyCustomisation import
 const LazyCourseStats = lazy(() => import("./components/sections").then(module => ({ default: module.CourseStats })));
 const LazyFounderTrack = lazy(() => import("./components/sections").then(module => ({ default: module.FounderTrack })));
 const LazyConnectEverything = lazy(() => import("./components/sections").then(module => ({ default: module.ConnectEverything })));
@@ -175,13 +174,14 @@ function AnimationController({ children }: { children: React.ReactNode }) {
     const ctx = gsap.context(() => {
       // Use conditional settings based on isMobile state
       const mobileSettings = {
-        smooth: 0.5, // Plan's suggested mobile smoothness
-        effects: false, // Plan suggests disabling effects
-        normalizeScroll: false, // Plan suggests false for mobile
-        ignoreMobileResize: false, // Plan suggests false for mobile
-        speed: 0.8, // Plan suggests slower speed for mobile
-        // The nested mobile object in the plan seems redundant/incorrect for ScrollSmoother.create,
-        // sticking to the primary level settings.
+        smooth: 0.4, // Even lighter smoothness for mobile
+        effects: false, // Disable effects on mobile
+        normalizeScroll: false, // False for mobile
+        ignoreMobileResize: false, // False for mobile
+        speed: 0.7, // Slower speed for mobile
+        touchSpeed: 1.5, // Faster response to touch scrolling
+        ignoreMobileResize: true, // Prevent resize on mobile keyboard
+        preventDefault: false, // Better compatibility with native scrolling
       };
 
       const desktopSettings = {
@@ -196,15 +196,23 @@ function AnimationController({ children }: { children: React.ReactNode }) {
       if (!globalScrollSmoother) {
          console.log(`Initializing ScrollSmoother with ${isMobile ? 'mobile' : 'desktop'} settings.`);
         
-        // Add initial scroll position explicitly
-        const settings = isMobile ? 
-          { ...mobileSettings, scrollTop: 0 } : 
-          { ...desktopSettings, scrollTop: 0 };
-        
-        globalScrollSmoother = ScrollSmoother.create(settings);
-        
-        // Force scroll to top immediately after creation
-        globalScrollSmoother.scrollTop(0);
+        if (isMobile && window.innerWidth < 480) {
+          // For very small screens, disable ScrollSmoother completely
+          console.log('Small mobile device detected - disabling ScrollSmoother for better performance');
+          
+          // Just ensure proper scroll to top
+          window.scrollTo(0, 0);
+        } else {
+          // Add initial scroll position explicitly
+          const settings = isMobile ? 
+            { ...mobileSettings, scrollTop: 0 } : 
+            { ...desktopSettings, scrollTop: 0 };
+          
+          globalScrollSmoother = ScrollSmoother.create(settings);
+          
+          // Force scroll to top immediately after creation
+          globalScrollSmoother.scrollTop(0);
+        }
       }
       // Removed the gsap.matchMedia logic as we now use the isMobile state directly
 
@@ -275,11 +283,13 @@ const VerticalShortcutLanding = () => {
   const tracksRef = useRef(null);
   const testimonialsRef = useRef(null);
   const ctaRef = useRef(null);
+  const whatWeDoRef = useRef(null);
   // Corrected type for videoRef to allow null initial value
   const videoRef = useRef<HTMLDivElement | null>(null);
 
   // Add state for qualification modal
   const [showQualificationModal, setShowQualificationModal] = useState(false);
+  const [showTiaQualificationModal, setShowTiaQualificationModal] = useState(false);
   const [testMode, setTestMode] = useState(false);
 
   // Initialize animations within the component's scope
@@ -462,10 +472,32 @@ const VerticalShortcutLanding = () => {
       globalScrollSmoother.paused(true);
     }
   };
+  
+  // Function to open the Tia qualification modal
+  const openTiaQualificationModal = () => {
+    setShowTiaQualificationModal(true);
+    // Disable body scroll when modal is open
+    document.body.style.overflow = "hidden";
+    // Pause ScrollSmoother to prevent background page scrolling
+    if (globalScrollSmoother) {
+      globalScrollSmoother.paused(true);
+    }
+  };
 
   // Function to close the qualification modal
   const closeQualificationModal = () => {
     setShowQualificationModal(false);
+    // Re-enable body scroll when modal is closed
+    document.body.style.overflow = "auto";
+    // Resume ScrollSmoother
+    if (globalScrollSmoother) {
+      globalScrollSmoother.paused(false);
+    }
+  };
+  
+  // Function to close the Tia qualification modal
+  const closeTiaQualificationModal = () => {
+    setShowTiaQualificationModal(false);
     // Re-enable body scroll when modal is closed
     document.body.style.overflow = "auto";
     // Resume ScrollSmoother
@@ -490,7 +522,7 @@ const VerticalShortcutLanding = () => {
   // Listen for events to open the qualification modal from other components
   useEffect(() => {
     const handleOpenQualificationModal = () => {
-      openQualificationModal();
+      openTiaQualificationModal(); // Use Tia's modal instead of the original
     };
 
     window.addEventListener(
@@ -531,6 +563,13 @@ const VerticalShortcutLanding = () => {
         onClose={closeQualificationModal}
         testMode={testMode}
       />
+      
+      {/* Tia's Qualification Modal */}
+      <TiaQualificationModal
+        isOpen={showTiaQualificationModal}
+        onClose={closeTiaQualificationModal}
+        testMode={testMode}
+      />
 
       {/* Main wrapper for ScrollSmoother */}
       <div
@@ -539,7 +578,7 @@ const VerticalShortcutLanding = () => {
         className="min-h-screen overflow-hidden"
       >
         {/* Floating Navbar stays outside the smooth content for fixed positioning */}
-        <VSNavbar onApplyClick={openQualificationModal} />
+        <VSNavbar onApplyClick={openTiaQualificationModal} />
 
         {/* Smooth content container */}
         <div
@@ -547,72 +586,89 @@ const VerticalShortcutLanding = () => {
           ref={contentRef}
           className="min-h-screen overflow-hidden bg-gradient-to-b from-white to-[var(--theme-bg-cream-gradient)] dark:bg-gradient-to-b dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]"
         >
-          {/* Section 1: Header with integrated video */}
+          {/* Section 1: Header */}
           <SimpleHero
             ref={heroRef}
-            onCtaClick={openQualificationModal}
-            videoUrl="https://www.youtube.com/embed/your-video-id"
-            videoRef={videoRef as React.RefObject<HTMLDivElement>}
+            onCtaClick={openTiaQualificationModal}
           />
-
-          {/* Section 2: What do we do? - Adjusted spacing for video peek */}
+          
+          {/* Section 2: Video section - mobile optimized */}
+          <div className="vs-section-light pt-4 sm:pt-6 md:pt-8 pb-4 sm:pb-6 md:pb-8 relative overflow-hidden">
+            <div className="container-mobile mx-auto relative z-10">              
+              <div className="video-container rounded-xl overflow-hidden shadow-theme-md sm:shadow-theme-xl border border-theme-border-light/30 sm:border-theme-border-light/50 transform hover:scale-[1.01] sm:hover:scale-[1.02] transition-all duration-500">
+                <div className="aspect-[16/9] relative">
+                  <iframe 
+                    src="https://www.youtube.com/embed/your-video-id"
+                    className="absolute inset-0 w-full h-full"
+                    title="Vertical Shortcut Introduction"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Section 2: What do we do? - mobile-optimized padding */}
           <VSSection
-            className="py-16 pt-28 md:pt-32 lg:pt-40 relative overflow-hidden bg-theme-gradient dark:bg-theme-gradient"
+            ref={whatWeDoRef}
+            className="pt-6 md:pt-12 lg:pt-16 pb-12 sm:pb-20 md:pb-24 lg:pb-32 relative overflow-visible bg-transparent"
           >
-            {/* Theme-aware floating elements */}
+            {/* Theme-aware floating elements - responsive sizing and positioning */}
             <div
-              className="absolute -z-10 top-20 left-[10%] w-32 h-32 rounded-[40%] rotate-12
-                 opacity-theme-float bg-theme-float-primary animate-float-slow"
+              className="absolute -z-10 top-[10%] left-[5%] sm:top-20 sm:left-[10%] w-20 h-20 sm:w-32 sm:h-32 rounded-[40%] rotate-12
+                 opacity-theme-float bg-theme-float-primary animate-float-slow hidden sm:block"
             ></div>
             <div
-              className="absolute -z-10 bottom-20 right-[15%] w-36 h-36 rounded-[35%] -rotate-6
-                 opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium"
+              className="absolute -z-10 bottom-[15%] right-[5%] sm:bottom-20 sm:right-[15%] w-24 h-24 sm:w-36 sm:h-36 rounded-[35%] -rotate-6
+                 opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium hidden sm:block"
             ></div>
-
+            
+            {/* Additional abstract shapes and texture - conditionally shown based on viewport */}
+            <div className="absolute -z-10 top-[30%] right-[20%] w-40 h-40 sm:w-64 sm:h-64 rounded-full opacity-10 bg-theme-accent blur-3xl hidden md:block"></div>
+            <div className="absolute -z-10 bottom-[20%] left-[15%] w-32 h-32 sm:w-48 sm:h-48 rounded-full opacity-10 bg-theme-primary blur-3xl hidden md:block"></div>
+            <div className="absolute -z-10 top-[15%] left-[25%] w-16 h-16 sm:w-24 sm:h-24 rounded-[30%] rotate-45 opacity-5 bg-theme-secondary animate-float-slow hidden md:block"></div>
+            <div className="absolute -z-10 bottom-[40%] right-[5%] w-24 h-24 sm:w-40 sm:h-40 rotate-12 opacity-5 bg-theme-accent rounded-[60%] animate-float-medium hidden md:block"></div>
+            
             <div className="container mx-auto px-4">
               {/* Section header */}
               <div className="text-center max-w-4xl mx-auto mb-8">
-                  <VSHeading
-                  as="h2"
-                  size="xl"
-                  className="text-theme-primary mb-6"
-                  >
-                        What do we do?
-                  </VSHeading>
+                  <h2 className="what-we-do-title text-red-500 dark:text-orange-400 text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                      What do we do?
+                  </h2>
                 </div>
 
-              {/* Copy content */}
-              <div className="text-center max-w-4xl mx-auto mb-16">
-                <p className="body-text mb-8 mx-auto max-w-[90%] md:max-w-none">
+              {/* Copy content - centered text layout */}
+              <div className="text-center w-full mx-auto mb-8 sm:mb-12 md:mb-16">
+                <p className="what-we-do-text-1 body-text mb-2 sm:mb-4 mx-auto w-full text-center">
+                  We make f*cking great videos.
+                </p>
+                <p className="what-we-do-text-2 text-sm sm:text-base md:text-base lg:text-lg text-theme-primary/80 italic mb-2 sm:mb-4 mx-auto w-full text-center">
+                  For founders and execs, specifically.
+                </p>
+                <p className="what-we-do-text-3 body-text mb-4 sm:mb-6 md:mb-8 mx-auto w-full text-center">
                   We've worked with some of the biggest business creators in the
                   world: Chris Donnelly, Charlotte Mair, James Watt, Ben Askins,
-                  Jordan Schwarzenberger, just to name a few.
+                  Jordan Schwarzenberger... just to name a few.
                 </p>
-                <p className="body-text mb-8 mx-auto max-w-[90%] md:max-w-none">
-                  And built their content from the ground up.
-                </p>
-                <p className="body-text mb-8 mx-auto max-w-[90%] md:max-w-none">
-                  Building them over 1 Billion Views in just 2 years (we told
+                <p className="what-we-do-text-4 body-text mb-2 sm:mb-24 md:mb-40 lg:mb-48 mx-auto w-full text-center">
+                  Building them over <span className="font-bold">1 Billion Views</span> in just 2 years (we told
                   you, we're the best)
                 </p>
-                <p className="body-text-large font-bold text-theme-primary">
-                  The numbers speak for themselves
-                </p>
                 </div>
+                
+                {/* Desktop-only spacer */}
+                <div className="hidden md:block h-20 lg:h-24"></div>
 
               {/* Section 3: Case studies - click on each to see graphs and more in detail stats */}
-               <Suspense fallback={<LoadingFallback />}>
-                 <LazyCaseStudies onCtaClick={openQualificationModal} />
-               </Suspense>
+               <div className="mb-0 md:mb-[-120px]">
+                 <Suspense fallback={<LoadingFallback />}>
+                   <LazyCaseStudies onCtaClick={openQualificationModal} />
+                 </Suspense>
+               </div>
             </div>
           </VSSection>
-
-           <Suspense fallback={<LoadingFallback />}>
-             <LazyWordRoller
-                 words={["You've","probably","seen","our","work","before"]}
-                 className="min-h-screen w-full max-w-7xl mx-auto"
-             />
-           </Suspense>
 
           {/* Section 4: Double marquee with our biggest videos with biggest views */}
            <Suspense fallback={<LoadingFallback />}>
@@ -636,21 +692,15 @@ const VerticalShortcutLanding = () => {
              <LazyCourseStats />
            </Suspense>
 
-          {/* Section 9: The Course Curriculum (Using CourseViewer component) */}
-          <div id="curriculum">
-             <Suspense fallback={<LoadingFallback />}>
-               <LazyCourseViewer />
-             </Suspense>
-          </div>
-
-          {/* Tools & Integrations - Custom systems built for creators */}
-           <Suspense fallback={<LoadingFallback />}>
-             <LazyConnectEverything />
-           </Suspense>
 
           {/* Section 10: Week by week structure */}
            <Suspense fallback={<LoadingFallback />}>
              <LazyCourseTimeline />
+           </Suspense>
+
+          {/* Tools & Integrations - Custom systems built for creators */}
+           <Suspense fallback={<LoadingFallback />}>
+             <LazyConnectEverything />
            </Suspense>
 
            <Suspense fallback={<LoadingFallback />}>
@@ -659,70 +709,48 @@ const VerticalShortcutLanding = () => {
 
           {/* Section 12: The Founders Track */}
            <Suspense fallback={<LoadingFallback />}>
-             <LazyFounderTrack onCtaClick={openQualificationModal} />
+             <LazyFounderTrack onCtaClick={openTiaQualificationModal} />
            </Suspense>
 
-          {/* Section 13: The Team Track */}
-           <Suspense fallback={<LoadingFallback />}>
-             <LazyTabsLeft />
-           </Suspense>
 
-          {/* Section 14: Testimonials slideshow */}
-          <div id="testimonials">
-             <Suspense fallback={<LoadingFallback />}>
-               <LazyTestimonialCarousel testimonials={carouselTestimonials} />
-             </Suspense>
-          </div>
+          {/* Section 13: Customisation - Removed */}
 
-          {/* Section 15: Buy/Apply - Pricing Section */}
-          <div id="pricing">
-             <Suspense fallback={<LoadingFallback />}>
-               <LazyPricingSimple onCtaClick={openQualificationModal} />
-             </Suspense>
-          </div>
-
-          {/* Section 16: Customisation */}
-           <Suspense fallback={<LoadingFallback />}>
-             <LazyCustomisation onCtaClick={openQualificationModal} />
-           </Suspense>
-
-          {/* Section 17: FAQs */}
+          {/* Section 14: FAQs */}
            <Suspense fallback={<LoadingFallback />}>
              <LazyFAQUpdated />
            </Suspense>
 
-          {/* Section 18: Final Application CTA */}
+          {/* Section 15: Final Application CTA */}
           <VSSection
             ref={ctaRef}
-            className="py-24 relative overflow-hidden bg-theme-gradient dark:bg-theme-gradient"
+            className="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden bg-theme-gradient dark:bg-theme-gradient"
           >
-            {/* Theme-aware floating elements */}
+            {/* Theme-aware floating elements - optimized for mobile */}
             <div
-              className="absolute -z-10 top-20 left-[10%] w-32 h-32 rounded-[40%] rotate-12
-                 opacity-theme-float bg-theme-float-primary animate-float-slow"
+              className="absolute -z-10 top-[15%] left-[5%] sm:top-20 sm:left-[10%] w-20 h-20 sm:w-32 sm:h-32 rounded-[40%] rotate-12
+                 opacity-theme-float bg-theme-float-primary animate-float-slow hidden sm:block"
             ></div>
             <div
-              className="absolute -z-10 bottom-20 right-[15%] w-36 h-36 rounded-[35%] -rotate-6
-                 opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium"
+              className="absolute -z-10 bottom-[15%] right-[5%] sm:bottom-20 sm:right-[15%] w-24 h-24 sm:w-36 sm:h-36 rounded-[35%] -rotate-6
+                 opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium hidden sm:block"
             ></div>
 
             <div className="container mx-auto px-4 relative z-10">
               <div className="max-w-6xl mx-auto">
-                <div className="text-center mb-8">
+                <div className="text-center mb-6 sm:mb-8">
                   <Badge
                     variant="outline"
-                    className="bg-theme-primary/10 border-theme-primary/30 mb-4 py-2 px-4 mx-auto"
+                    className="bg-theme-primary/10 border-theme-primary/30 mb-3 sm:mb-4 py-1.5 sm:py-2 px-3 sm:px-4 mx-auto"
                   >
-                    <VSText className="font-semibold flex items-center gap-2 text-theme-primary">
-                      <Clock className="h-4 w-4" /> Limited spots available for
-                      next cohort
+                    <VSText className="font-semibold flex items-center gap-1 sm:gap-2 text-sm sm:text-base text-theme-primary">
+                      <Clock className="h-3 w-3 sm:h-4 sm:w-4" /> Limited spots available
                     </VSText>
                   </Badge>
 
                   <VSHeading
                     as="h2"
                     size="2xl"
-                    className="cta-title font-bold text-theme-primary mb-6"
+                    className="cta-title font-bold text-theme-primary mb-4 sm:mb-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl"
                   >
                     Limited spots available for next cohort
                   </VSHeading>
@@ -730,12 +758,12 @@ const VerticalShortcutLanding = () => {
                   <VSHeading
                     as="h3"
                     size="xl"
-                    className="cta-subtitle font-bold text-theme-primary mb-6"
+                    className="cta-subtitle font-bold text-theme-primary mb-4 sm:mb-6 text-xl sm:text-2xl md:text-3xl"
                   >
                     Ready to Transform Your Content?
                   </VSHeading>
 
-                  <p className="body-text mb-10 mx-auto max-w-[90%] md:max-w-3xl">
+                  <p className="body-text mb-6 sm:mb-8 md:mb-10 mx-auto w-full sm:max-w-[95%] md:max-w-3xl">
                     Join Vertical Shortcut today and get access to our complete
                     system for creating high-converting content that drives real
                     business results.
@@ -850,10 +878,10 @@ const VerticalShortcutLanding = () => {
           {/* Footer */}
           <VSBackground
             as="footer"
-            className="py-16 bg-theme-primary border-t border-[--secondary-teal)]/30"
+            className="py-10 sm:py-12 md:py-16 bg-theme-primary border-t border-[--secondary-teal)]/30"
           >
-            <div className="container mx-auto px-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            <div className="container-mobile mx-auto">
+              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 sm:gap-10 mb-8 sm:mb-12">
                 <div className="space-y-4">
                   <VSHeading
                     as="h4"
@@ -1087,36 +1115,38 @@ const VerticalShortcutLanding = () => {
                     <div className="flex gap-4">
                       <a
                         href="#"
-                        className="text-theme-custom/60 hover:text-[--primary-orange)] /60 dark:hover:text-[--primary-orange)] transition-colors"
+                        className="text-theme-custom/60 hover:text-[--primary-orange)] /60 dark:hover:text-[--primary-orange)] transition-colors touch-target"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
+                          width="22"
+                          height="22"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
                           strokeWidth="2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
+                          className="w-5 h-5 sm:w-6 sm:h-6"
                         >
                           <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                         </svg>
                       </a>
                       <a
                         href="#"
-                        className="text-theme-custom/60 hover:text-[--primary-orange)] /60 dark:hover:text-[--primary-orange)] transition-colors"
+                        className="text-theme-custom/60 hover:text-[--primary-orange)] /60 dark:hover:text-[--primary-orange)] transition-colors touch-target"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
+                          width="22"
+                          height="22"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
                           strokeWidth="2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
+                          className="w-5 h-5 sm:w-6 sm:h-6"
                         >
                           <rect
                             x="2"
@@ -1132,18 +1162,19 @@ const VerticalShortcutLanding = () => {
                       </a>
                       <a
                         href="#"
-                        className="text-theme-custom/60 hover:text-[--primary-orange)] /60 dark:hover:text-[--primary-orange)] transition-colors"
+                        className="text-theme-custom/60 hover:text-[--primary-orange)] /60 dark:hover:text-[--primary-orange)] transition-colors touch-target"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
+                          width="22" 
+                          height="22"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
                           strokeWidth="2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
+                          className="w-5 h-5 sm:w-6 sm:h-6"
                         >
                           <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
                           <rect x="2" y="9" width="4" height="12"></rect>
@@ -1152,18 +1183,19 @@ const VerticalShortcutLanding = () => {
                       </a>
                       <a
                         href="#"
-                        className="text-theme-custom/60 hover:text-[--primary-orange)] /60 dark:hover:text-[--primary-orange)] transition-colors"
+                        className="text-theme-custom/60 hover:text-[--primary-orange)] /60 dark:hover:text-[--primary-orange)] transition-colors touch-target"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
+                          width="22"
+                          height="22"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
                           strokeWidth="2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
+                          className="w-5 h-5 sm:w-6 sm:h-6"
                         >
                           <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
                           <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>

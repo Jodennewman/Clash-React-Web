@@ -48,14 +48,14 @@ type ScrollTriggerInstance = ReturnType<typeof ScrollTrigger.create>;
 const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ? 
   courseUtils.getCreators().map(creator => ({
     ...creator,
-    // Ensure avatar paths are correct by prepending public path if needed
-    avatar: creator.avatar.startsWith('/') ? creator.avatar : `/assets/main/Clients-webp-300px/${creator.avatar}`
+    // Ensure avatar paths are correct
+    avatar: creator.avatar.startsWith('/') ? creator.avatar : `src/assets/main/Clients-webp-300px/${creator.avatar}`
   })) : 
   [
     {
       id: 1,
       name: "Chris Donnelly",
-      avatar: "/assets/main/Clients-webp-300px/Chris_Donnelly.webp",
+      avatar: "src/assets/main/Clients-webp-300px/Chris_Donnelly.webp",
       description: "Chris Donnelly is the founder of luxury digital marketing agency Verb, the cofounder of Lottie, a tech startup for social care, plus an investor, author, speaker and creator. He is now the founder of the creator accelerator, and host of the Wake Up podcast.\nWe started working with Chris in 2022, and grew his TikTok and Instagram accounts from 1k to 1m followers, in just under 2 years, amassing over 250 million views. His account focusses on business, management, leadership and investment.",
       data: [
         { month: "Mar", views: 5500, followers: 2253, interactions: 840 },
@@ -70,7 +70,7 @@ const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ?
     {
       id: 2,
       name: "Charlotte Mair",
-      avatar: "/assets/main/Clients-webp-300px/Charlotte_mair.webp",
+      avatar: "src/assets/main/Clients-webp-300px/Charlotte_mair.webp",
       description: "Charlotte Mair is the Founder and Managing Director of award winning culture and communications agency, The Fitting Room, a cultural forecaster, speaker, and brand strategist.\nWe started working with Charlotte in October of 2024, and in just 6 months she's built 170k followers across her TikTok and YouTube, and amassed 28 million views. Her account focusses on all things marketing, pop culture and business.",
       data: [
         { month: "Oct", views: 30800, followers: 594, interactions: 347 },
@@ -85,7 +85,7 @@ const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ?
     {
       id: 3,
       name: "James Watt",
-      avatar: "/assets/main/Clients-webp-300px/James_Watt.webp",
+      avatar: "src/assets/main/Clients-webp-300px/James_Watt.webp",
       description: "James Watt is the co-founder and captain of BrewDog the biggest independent beer company on the planet. He's also a best-selling author, investor, North Atlantic captain and the founder of Social Tip, the platform that makes 'anyone an influencer'. \nWe started working with James at the end of 2024 and together grew an audience of 15k followers and 20 million views in just 2 months on TikTok alone. His account focusses on business, beer and lobster fishing (of course).",
       data: [
         { month: "Oct", views: 0, followers: 0, interactions: 0 },
@@ -98,7 +98,7 @@ const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ?
     {
       id: 4,
       name: "Ben Askins",
-      avatar: "/assets/main/Clients-webp-300px/Ben_Askins.webp",
+      avatar: "src/assets/main/Clients-webp-300px/Ben_Askins.webp",
       description: "Ben Askins is the co-founder of Gaia, a green tech company that helps businesses hit environmental targets efficiently. He alsoo co-founded Verb Brands alongside Chris Donnelly.\nWe started working with Ben in 2022, and grew his audience to 1 million followers across TikTok and Instagram, hitting an insane 387 million views in under 7 months. His account focusses on business, management and genZ.",
       data: [
         { month: "Feb", views: 7263, followers: 104, interactions: 197 },
@@ -117,7 +117,7 @@ const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ?
     {
       id: 5,
       name: "Joden Clash",
-      avatar: "/assets/main/Clients-webp-300px/Joden_Clash.webp",
+      avatar: "src/assets/main/Clients-webp-300px/Joden_Clash.webp",
       description: "Joden Newman is the Founder and Creative Director of Clash Creation. In early 2024 he decided to apply the vertical shortcut techniques to his own content, and grew himself 110 million views and 1 million followers across all platforms in just 3 months. His account focusses on current events, true crime and film.",
       data: [
         { month: "Feb", views: 90000, followers: 8322, interactions: 12678 },
@@ -133,7 +133,7 @@ const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ?
     {
       id: 6,
       name: "Jordan Schwarz",
-      avatar: "/assets/main/Clients-webp-300px/Jordan_Schwarzenberger.webp",
+      avatar: "src/assets/main/Clients-webp-300px/Jordan2.webp",
       description: "Jordan Schwarzenberger is the co-founder Arcade Media, author, creative and the manager of The Sidemen: the UK's biggest creator empire. \nWe started working with Jordan towards the end of 2024 and together grew his TikTok and Instagram to 39 million views and 15k followers in just 3 months. His account focusses on GenZ, the creator economy, and pop culture.",
       data: [
         { month: "Oct", views: 0, followers: 14562+5344, interactions: 0 },
@@ -265,7 +265,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
   const currentCreator = creators?.[activeCreator] || {
     name: 'Sample Creator',
     description: 'Example creator profile. No creators found in data.',
-    avatar: '/assets/main/Main-Logo.png',
+    avatar: 'src/assets/main/Logo@2x.webp',
     data: [],
     totals: { views: 0, followers: 0, interactions: 0 },
     id: 0
@@ -381,12 +381,15 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
         // Special animation for the stats row with staggered entry
         const statsBoxes = document.querySelectorAll(".stats-box");
         if (statsBoxes.length > 0 && statsRowRef.current) {
-          const statsAnimation = gsap.from(statsBoxes, {
-            y: 15, // Reduced movement
-            opacity: 0,
-            stagger: 0.04, // Reduced stagger
-            duration: 0.5, // Shorter duration
-            ease: "power2.out", // Simpler easing
+          // Immediately set all statsBoxes to be visible first
+        gsap.set(statsBoxes, { opacity: 1 });
+        
+        const statsAnimation = gsap.from(statsBoxes, {
+            y: 5, // Minimal movement
+            opacity: 0.7, // Start more visible
+            stagger: 0.02, // Faster stagger
+            duration: 0.3, // Shorter duration
+            ease: "power1.out", // Simpler easing
             scrollTrigger: {
               trigger: statsRowRef.current,
               start: "top 85%",
@@ -468,10 +471,10 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
   return (
     <Section
       ref={(el) => mergeRefs(sectionRef, ref)(el)}
-      className="bg-theme-primary min-h-screen flex flex-col justify-center py-20 relative overflow-hidden border-t border-theme-border-light"
+      className="bg-transparent flex flex-col justify-start pt-4 sm:pt-6 md:pt-0 pb-0 mb-0 relative overflow-visible"
     >
     {/* Background patterns */}
-    <div className="absolute inset-0 dot-bg opacity-[var(--theme-pattern-opacity)] pointer-events-none"></div>
+    <div className="absolute inset-0 dot-bg pointer-events-none"></div>
     
     {/* Theme-aware floating elements */}
     <div className="absolute top-40 left-[10%] w-40 h-40 rounded-[40%] rotate-12 
@@ -483,56 +486,57 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                   bg-[var(--theme-float-bg-secondary)]
                   animate-float-medium hidden md:block"></div>
 
-    <div className="container mx-auto px-4 relative z-10 flex flex-col">
-      {/* Section header */}
-      <div className="text-center mb-6 md:mb-8 case-study-element">
-        <h2 className="text-theme-primary text-4xl md:text-5xl font-bold mb-4">
-          Creator Case Studies
+    <div className="container-mobile mx-auto relative z-10 flex flex-col">
+      {/* Section header - responsive and properly positioned */}
+      <div className="text-center mb-6 md:mb-10 case-study-element mt-0 md:-mt-16">
+        <h2 className="text-black dark:text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2">
+          The numbers speak for themselves
         </h2>
       </div>
 
 
       {/* Stats carousel optimized for mobile with HUD-like appearance */}
-      <div ref={statsRowRef} className="mb-6 case-study-element">
+      <div ref={statsRowRef} className="mb-6 case-study-element relative z-20">
         {/* Mobile view: Creator grid with more prominent UI */}
         <div className="md:hidden">
           <h3 className="text-theme-secondary text-sm font-medium mb-2 px-1">
             Select Creator:
           </h3>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 xs:grid-cols-3 gap-2">
             {creators.map((creator, index) => (
               <button
                 key={creator.id}
                 onClick={() => setActiveCreator(index)}
-                className={`stats-box bg-theme-gradient-card 
-                          rounded-lg p-3
-                          border border-theme-border-light
-                          shadow-theme-sm 
-                          transition-all duration-300
+                className={`stats-box 
+                          rounded-lg p-2 xs:p-3
+                          border border-gray-300/30 dark:border-gray-700/30
+                          transition-all duration-200
                           ${activeCreator === index 
-                            ? 'ring-2 ring-[var(--theme-primary)] shadow-theme-md' 
-                            : 'hover:shadow-theme-md'}
-                          flex items-center`}
+                            ? 'ring-1 ring-blue-500/50 dark:ring-blue-400/50 bg-white/5 shadow-sm scale-[1.02]' 
+                            : 'hover:bg-white/5 active:scale-[0.98]'}
+                          flex items-center relative`}
+                style={{ position: 'relative', zIndex: 30 }}
               >
-                <div className="w-10 h-10 rounded-full overflow-hidden 
-                            border-2 border-[var(--theme-primary)]/70
-                            flex-shrink-0 mr-2">
+                <div className="w-8 h-8 xs:w-10 xs:h-10 rounded-full overflow-hidden 
+                            border-2 border-white
+                            flex-shrink-0 mr-1.5 xs:mr-2 relative z-50">
                   <img
                     src={creator.avatar}
                     alt={creator.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full"
+                    style={{ position: 'relative', zIndex: 100 }}
                   />
                 </div>
 
-                <div className="flex-1">
-                  <h4 className="text-theme-primary font-medium text-sm truncate">
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-gray-900 dark:text-white font-medium text-xs xs:text-sm truncate">
                     {creator.name}
                   </h4>
                   <div className="flex items-center">
-                    <span className="text-theme-accent-primary font-bold text-lg">
+                    <span className="text-blue-600 dark:text-blue-400 font-bold text-sm xs:text-base">
                       {formatLargeNumber(creator?.totals?.views || 0)}
                     </span>
-                    <span className="text-theme-secondary text-xs ml-1">
+                    <span className="text-gray-600 dark:text-gray-300 text-[10px] xs:text-xs ml-1">
                       views
                     </span>
                   </div>
@@ -543,7 +547,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
         </div>
         
         {/* Desktop view: Carousel with navigation */}
-        <div className="relative hidden md:block">
+        <div className="hidden md:block">
           {/* Left scroll button */}
           <button 
             onClick={() => scrollCarousel('left')}
@@ -558,7 +562,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
           {/* Carousel content */}
           <div 
             ref={carouselRef} 
-            className={`${SCROLLBAR_HIDE_CLASS} flex gap-2 px-8 py-2 snap-x`}
+            className={`${SCROLLBAR_HIDE_CLASS} flex gap-2 px-8 py-2 snap-x hidden md:flex`}
             style={{ scrollBehavior: 'smooth' }}
           >
             {creators.map((creator, index) => (
@@ -576,14 +580,16 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                             ? 'translate-y-[-4px] scale-[1.02] shadow-theme-md ring-2 ring-[var(--theme-primary)]/70' 
                             : 'hover:translate-y-[-3px] hover:shadow-theme-md'}
                           flex flex-col items-center text-center`}
+                style={{ position: 'relative', zIndex: 0 }}
               >
                 <div className="w-11 h-11 rounded-full overflow-hidden 
-                            ring-2 ring-[var(--theme-primary)]/70 mb-2
-                            transition-all duration-300 mx-auto">
+                            ring-2 ring-white mb-2
+                            transition-all duration-300 mx-auto relative z-50">
                   <img
                     src={creator.avatar}
                     alt={creator.name}
                     className="w-full h-full object-cover"
+                    style={{ position: 'relative', zIndex: 100 }}
                   />
                 </div>
                 <div className="text-theme-secondary/80 text-[10px] uppercase tracking-wider font-medium">
@@ -605,7 +611,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
           {/* Right scroll button */}
           <button 
             onClick={() => scrollCarousel('right')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-theme-gradient-primary p-3 rounded-full shadow-theme-md text-white hover:scale-110 transition-transform duration-300 border border-white/20"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-theme-gradient-primary p-3 rounded-full shadow-theme-md text-white hover:scale-110 transition-transform duration-300 border border-white/20 hidden md:block"
             aria-label="Scroll right"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -616,8 +622,8 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
       </div>
 
 
-      {/* Single column layout for main content - with narrower margins */}
-      <div className="flex flex-col gap-5 mb-4 max-w-[98%] mx-auto">
+      {/* Single column layout for main content - mobile optimized */}
+      <div className="flex flex-col gap-3 sm:gap-4 md:gap-5 mb-4 w-full max-w-full sm:max-w-[98%] sm:mx-auto">
         {/* Mobile-optimized metric toggle buttons - more touch-friendly */}
         <div className="flex justify-center md:justify-start gap-2 mb-3 case-study-element">
           {[
@@ -763,7 +769,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
       
         {/* Graph component - HUD-like mobile optimization */}
         <div ref={chartRef} className="bg-theme-gradient-card
-                    p-3 rounded-xl
+                    p-2 xs:p-3 rounded-xl
                     border border-theme-border-light shadow-theme-md case-study-element">
           {/* Mobile view header for graph */}
           <div className="flex items-center justify-between mb-2 md:hidden">
@@ -772,14 +778,14 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
           </div>
           
           {/* Reduced height for mobile, HUD-like appearance */}
-          <div className="h-[200px] md:h-[350px]">
+          <div className="h-[180px] xs:h-[220px] sm:h-[250px] md:h-[350px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 data={currentCreator?.data || []}
                 margin={{ 
                   top: 5, 
-                  right: window.innerWidth < 768 ? 5 : 20, 
-                  left: window.innerWidth < 768 ? 5 : 15, 
+                  right: typeof window !== 'undefined' && window.innerWidth < 480 ? 2 : window.innerWidth < 768 ? 5 : 20, 
+                  left: typeof window !== 'undefined' && window.innerWidth < 480 ? 2 : window.innerWidth < 768 ? 5 : 15, 
                   bottom: 5 
                 }}
               >
@@ -798,9 +804,9 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                 <CartesianGrid 
                   strokeDasharray="3 3" 
                   stroke="var(--theme-border-light)" 
-                  opacity={window.innerWidth < 768 ? 0.2 : 0.4}
+                  opacity={typeof window !== 'undefined' && window.innerWidth < 768 ? 0.15 : 0.4}
                   vertical={false}
-                  horizontal={window.innerWidth < 768 ? window.innerWidth < 400 ? false : true : true}
+                  horizontal={typeof window !== 'undefined' && window.innerWidth < 480 ? false : true}
                 />
                 
                 {/* More compact X-axis for mobile */}
@@ -809,12 +815,12 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                   className="text-theme-secondary"
                   stroke="var(--theme-border-light)"
                   tick={{ 
-                    fontSize: window.innerWidth < 768 ? 8 : 10,
+                    fontSize: typeof window !== 'undefined' && window.innerWidth < 480 ? 7 : window.innerWidth < 768 ? 8 : 10,
                     fill: 'var(--theme-text-secondary)'
                   }}
                   tickLine={false}
-                  axisLine={window.innerWidth < 768 ? false : true}
-                  interval={window.innerWidth < 400 ? 1 : 0}
+                  axisLine={typeof window !== 'undefined' && window.innerWidth < 768 ? false : true}
+                  interval={typeof window !== 'undefined' && window.innerWidth < 480 ? 2 : window.innerWidth < 640 ? 1 : 0}
                 />
                 
                 {/* Simplified Y-axis for mobile */}
@@ -823,27 +829,27 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                   stroke="var(--theme-border-light)"
                   domain={getYAxisDomain()}
                   tick={{ 
-                    fontSize: window.innerWidth < 768 ? 8 : 10,
+                    fontSize: typeof window !== 'undefined' && window.innerWidth < 480 ? 7 : window.innerWidth < 768 ? 8 : 10,
                     fill: 'var(--theme-text-secondary)'
                   }}
                   tickLine={false}
-                  axisLine={window.innerWidth < 768 ? false : true}
-                  tickCount={window.innerWidth < 768 ? 3 : 5}
-                  hide={window.innerWidth < 400}
+                  axisLine={typeof window !== 'undefined' && window.innerWidth < 768 ? false : true}
+                  tickCount={typeof window !== 'undefined' && window.innerWidth < 480 ? 2 : window.innerWidth < 768 ? 3 : 5}
+                  hide={typeof window !== 'undefined' && window.innerWidth < 480}
                 />
                 
                 {/* Tooltip remains the same */}
                 <Tooltip content={<CustomTooltip />} />
                 
                 {/* Hide legend on smallest screens, simplified on mobile */}
-                {window.innerWidth > 400 && (
+                {typeof window !== 'undefined' && window.innerWidth > 480 && (
                   <Legend 
-                    iconSize={window.innerWidth < 768 ? 6 : 8}
+                    iconSize={typeof window !== 'undefined' && window.innerWidth < 768 ? 6 : 8}
                     wrapperStyle={{ 
-                      fontSize: window.innerWidth < 768 ? '8px' : '10px', 
+                      fontSize: typeof window !== 'undefined' && window.innerWidth < 768 ? '8px' : '10px', 
                       paddingTop: '5px'
                     }}
-                    verticalAlign={window.innerWidth < 768 ? "top" : "bottom"}
+                    verticalAlign={typeof window !== 'undefined' && window.innerWidth < 768 ? "top" : "bottom"}
                   />
                 )}
                 
@@ -912,11 +918,15 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
           {/* Mobile view: Header card with avatar and name */}
           <div className="flex items-center p-3 border-b border-theme-border-light/50 md:hidden">
             <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0
-                        ring-2 ring-[var(--theme-primary)]/70 mr-3">
+                        ring-2 ring-white mr-3 relative z-50">
               <img
-                src={currentCreator?.avatar || '/assets/main/Main-Logo.png'}
+                src={currentCreator?.avatar || '/src/assets/main/Logo@2x.webp'}
                 alt={currentCreator?.name || 'Creator'}
                 className="w-full h-full object-cover"
+                style={{ 
+                  position: 'relative', 
+                  zIndex: 100
+                }}
               />
             </div>
             <div className="flex-1">
@@ -934,11 +944,15 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
             {/* Desktop view: Flex layout with larger avatar */}
             <div className="hidden md:flex md:flex-row items-center gap-4 mb-3">
               <div className="relative w-14 h-14 rounded-full overflow-hidden flex-shrink-0
-                          ring-2 ring-[var(--theme-primary)]/80">
+                          ring-2 ring-white relative z-50">
                 <img
-                  src={currentCreator?.avatar || '/assets/main/Main-Logo.png'}
+                  src={currentCreator?.avatar || '/src/assets/main/Logo@2x.webp'}
                   alt={currentCreator?.name || 'Creator'}
                   className="w-full h-full object-cover"
+                  style={{ 
+                    position: 'relative', 
+                    zIndex: 50
+                  }}
                 />
               </div>
               <h3 className="text-theme-primary text-xl font-medium">
@@ -953,34 +967,10 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
           </div>
         </div>
         
-        {/* CTA section - Mobile-optimized with better touch targets */}
-        <div className="bg-theme-gradient-card/60
-                  rounded-xl border border-theme-border-light shadow-theme-md 
-                  p-4 md:p-6 my-4 md:my-6 case-study-element">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-theme-primary text-lg md:text-xl font-bold">
-              Want to be next on this list?
-            </p>
-            <AnimatedButton 
-              text="Start your Journey"
-              variant="accent" 
-              saturation="high"
-              size="lg"
-              onClick={props?.onCtaClick || (() => console.log('CTA clicked'))}
-              className="w-full md:w-auto py-3"
-            />
-          </div>
-        </div>
       </div>
     </div>
     
-    {/* Bottom decorative effects - theme aware */}
-    <div className="absolute bottom-0 left-0 right-0 h-20 
-                 bg-gradient-to-t from-[var(--theme-bg-secondary)]/10 to-transparent 
-                 opacity-[var(--theme-overlay-opacity)] pointer-events-none"></div>
-    <div className="absolute bottom-0 left-0 right-0 h-40 
-                 bg-gradient-to-t from-[var(--theme-primary)]/5 to-transparent 
-                 opacity-[var(--theme-glow-opacity)] pointer-events-none"></div>
+    {/* No bottom spacing or decorative effects */}
     </Section>
   );
 });

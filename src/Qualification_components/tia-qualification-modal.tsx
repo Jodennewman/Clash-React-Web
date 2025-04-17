@@ -900,7 +900,7 @@ const TiaQualificationModal: React.FC<VSQualificationModalProps> = ({
     switch (stage) {
       case 'intro': return 'Billions of Views. Built for You.';
       case 'teamSize': return 'How Big is your Content Team?';
-      case 'implementationSupport': return 'How do you prefer to learn new systems?';
+      case 'implementationSupport': return 'How much support do you want?';
       case 'timeline': return 'When do you want to see results?';
       case 'contentVolume': return 'What\'s your content growth goal?';
       case 'contact': return 'Tell us a bit about yourself';

@@ -61,22 +61,38 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
             }
           );
 
-          // Eyeball entrance animation with reduced delay
+          // Eyeball entrance animation with reduced delay and higher position
           gsap.fromTo("#eyeballSvg", 
             { 
-              y: 60, // Reduced rise distance 
+              y: 100, // Starting position lower 
               opacity: 0,
               rotation: -2
             }, 
             { 
-              y: 15, // Barely peek up
+              y: -20, // Position higher to ensure visibility when scrolling
               opacity: 1,
               rotation: 0,
               duration: 1.2, 
-              delay: 0.15, // Reduced from 0.4 to 0.15 for more overlap
+              delay: 0.15,
               ease: "power2.out"
             }
           );
+          
+          // Add scroll trigger to keep eyeball visible when scrolling to next section
+          ScrollTrigger.create({
+            trigger: "#smooth-content",
+            start: "top top",
+            endTrigger: ".video-container",
+            end: "top 20%",
+            onUpdate: (self) => {
+              const progress = self.progress;
+              gsap.to("#eyeballSvg", {
+                y: -20 + (progress * -30), // Move up slightly as user scrolls down
+                duration: 0.1,
+                overwrite: "auto"
+              });
+            }
+          });
           
           // Create scroll-linked animation for video (if present)
           if (videoContainerRef.current && videoUrl) {
@@ -88,39 +104,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
             });
 
             // Much simpler approach - use a class toggle
-            ScrollTrigger.create({
-              trigger: heroRef.current,
-              start: "1% top", // Start almost immediately 
-              endTrigger: document.body, // Use the entire body as end trigger
-              end: "bottom bottom", // Continue until the end of the page
-              toggleClass: {
-                targets: videoContainerRef.current,
-                className: "video-peek-visible"
-              },
-              onToggle: (self) => {
-                // When activated, animate to visible
-                if (self.isActive) {
-                  gsap.to(videoContainerRef.current, {
-                    y: -120,
-                    opacity: 1,
-                    scale: 1,
-                    duration: 0.3,
-                    ease: "power2.out"
-                  });
-                } else {
-                  // When deactivated, animate back to hidden
-                  gsap.to(videoContainerRef.current, {
-                    y: 200,
-                    opacity: 0,
-                    scale: 0.9,
-                    duration: 0.2,
-                    ease: "power2.in"
-                  });
-                }
-              },
-              invalidateOnRefresh: true,
-              markers: false // Set to true during development to see trigger points
-            });
+            // Video popup functionality completely removed
           }
         }, heroRef);
 
@@ -161,16 +145,16 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
     return (
       <section 
         ref={ref} 
-        className="vs-section-light relative h-[125vh] w-full shadow-theme-md overflow-hidden z-10"
+        className="vs-section-light relative h-[110vh] sm:h-[125vh] w-full shadow-theme-md overflow-hidden z-10 pt-8 sm:pt-0"
       >
         {/* Award Badge - positioned with consistent bottom-right placement using top/right */}
         <div className="award-badge absolute top-[85vh] right-4 sm:right-6 md:right-8 lg:right-10 z-50" style={{ transform: 'translateY(0)', opacity: 1 }}>
-          <div className="group relative overflow-hidden rounded-full shadow-lg transform scale-75 sm:scale-85 md:scale-90 lg:scale-100">
+          <div className="group relative overflow-hidden rounded-full shadow-lg transform scale-[0.85] sm:scale-85 md:scale-90 lg:scale-100">
             {/* Subtle shadow background */}
             <div className="absolute inset-0 bg-theme-accent-secondary opacity-80 rounded-full"></div>
             
             {/* Main badge container - cleaner design */}
-            <div className="relative flex items-center gap-2 sm:gap-3 md:gap-4 bg-theme-accent-tertiary py-2 sm:py-3 px-3 sm:px-4 md:px-6 lg:px-7 rounded-full
+            <div className="relative flex items-center gap-2 sm:gap-3 md:gap-4 bg-theme-accent-tertiary py-3 sm:py-3 px-4 sm:px-4 md:px-6 lg:px-7 rounded-full
                          border border-white/10">
               
               {/* Badge icon with subtle styling */}
@@ -180,7 +164,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                 {/* Circle background */}
                 <div className="relative bg-white/20 rounded-full p-1 sm:p-2 border border-white/30">
                   <svg width="24" height="24" viewBox="0 0 370.04 370.04" fill="currentColor"
-                       className="text-white drop-shadow-sm w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8">
+                       className="text-white drop-shadow-sm w-6 h-6 sm:w-6 sm:h-6 md:w-8 md:h-8">
                     <path d="M341.668,314.412c0,0-41.071-70.588-48.438-83.248c8.382-2.557,17.311-4.815,21.021-11.221
                       c6.183-10.674-4.823-28.184-1.933-39.625c2.977-11.775,20.551-21.964,20.551-33.933c0-11.661-18.169-25.284-21.148-36.99
                       c-2.91-11.439,8.063-28.968,1.86-39.629c-6.203-10.662-26.864-9.786-35.369-17.97c-8.751-8.422-8.724-29.028-19.279-34.672
@@ -210,12 +194,12 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
               
               {/* Text with more professional styling */}
               <div className="text-white drop-shadow-sm">
-                <span className="block text-xs sm:text-sm md:text-base font-medium">From the</span>
+                <span className="block text-sm sm:text-sm md:text-base font-medium">From the</span>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-sm sm:text-xl md:text-2xl font-bold leading-none">
+                  <span className="text-base sm:text-xl md:text-2xl font-bold leading-none">
                     #1
                   </span>
-                  <span className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold">
+                  <span className="text-sm sm:text-sm md:text-base lg:text-lg font-semibold">
                     Short Form Agency
                   </span>
                 </div>
@@ -240,25 +224,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                        bg-[var(--theme-float-bg-secondary)]
                        animate-float-medium md:block"></div>
                        
-        {/* Video container with improved positioning */}
-        <div className="absolute bottom-0 left-0 w-full flex justify-center items-center pointer-events-none z-50">
-          {videoUrl && (
-            <div 
-              ref={videoContainerRef}
-              className="video-peek-container mx-auto pointer-events-auto"
-              style={{
-                position: 'relative',
-                zIndex: 999,
-                boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
-                willChange: 'transform, opacity'
-              }}
-            >
-              <div className="rounded-[var(--border-radius-lg)] overflow-hidden shadow-theme-xl border border-white/20">
-                <SafeVideoEmbed videoUrl={videoUrl} priority={true} />
-              </div>
-            </div>
-          )}
-        </div>
+        {/* Video container - REMOVED as it's now a static section below */}
         {/* Grid Layout */}
         <div 
           ref={heroRef}
@@ -323,7 +289,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
               xmlns="http://www.w3.org/2000/svg"
               id="eyeballSvg"
               className="
-                w-[320px] h-auto
+                w-[260px] h-auto
                 sm:w-[350px] md:w-[420px] lg:w-[500px] xl:w-[567px]
                 absolute bottom-[-240px] left-0
                 translate-y-[60px] -translate-x-[30px]
@@ -365,50 +331,67 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
 
           {/* HeroHeadline with attached subheading */}
           <div 
-            className="flex flex-col z-20 max-w-fit align-items-center items-center
+            className="flex flex-col z-20 align-items-center items-center
                      col-[1_/_10] row-[4_/_7]
-                     sm:col-[5_/_9] sm:row-[4_/_6]
+                     sm:col-[5_/_9] sm:row-[4_/_6] 
                      md:col-[5_/_9] md:row-[4_/_6]
                      lg:col-[5_/_9] lg:row-[4_/_6]
-                     px-4 sm:px-0 transition-all duration-500
-                     sm:max-w-none"
+                     px-4 sm:px-0 transition-all duration-500 
+                     mt-10 sm:mt-0
+                     w-full sm:w-auto md:w-auto lg:w-auto
+                     sm:ml-2"
             data-speed="0.95"
           >
-            <div className="w-max h-max max-sm:mt-10 flex-row max-sm:items-center">
-              <h1 className="hero-content text-center sm:text-left w-max h-max mb-4 lg:mb-6 sm:text-[20] md:text-5xl lg:text-6xl xl:text-7xl leading-tight text-theme-primary transition-theme-fast duration-500">
-                <span className="font-semibold glow-theme-tertiary text-6xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-theme-accent-tertiary transition-all duration-500" data-speed="0.95">
-                  1 Billion+
-                </span>
-                <span className="font-light text-5xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-6xl" data-speed="0.99"> views,</span>
-                <span className="font-normal block text-4xl sm:text-4xl sm:font-light md:text-4xl lg:text-5xl xl:text-6xl transition-all duration-500" data-speed="0.97">
-                  zero ad spend
-                </span>
-              </h1>
-            </div>
 
-            {/* Subheading now attached to heading */}
-            <div className="z-10 items-center">
-              <h3 className="hero-content text-center sm:text-left body-text-large mb-4 sm:mb-6 lg:mb-8 text-theme-primary transition-all duration-500" data-speed="0.99">
-                The proven system to survive, thrive and monetise with short form content 
-                <span className="hidden md:inline"> — specifically for founders</span>.
-              </h3>
-              
-              
-              {/* Animated Buttons with responsive sizes */}
-              <div className="hero-content flex flex-wrap gap-2 sm:gap-3 lg:gap-4 transition-all duration-500">
-                <AnimatedButton 
-                  text="Get Your Plan"
-                  variant="start"
-                  saturation="high"
-                  size="md"
-                  onClick={onCtaClick}
-                  className="w-auto text-sm sm:text-base"
-                />
+              <div className="w-full px-4 sm:px-6 md:px-6 lg:px-8 xl:px-10">
+                <div className="w-full overflow-visible">
+                  <h1 className="hero-content text-left mb-6 text-theme-primary transition-theme-fast duration-500">
+                    <span className="inline font-semibold glow-theme-tertiary text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-theme-accent-tertiary transition-all duration-500" data-speed="0.95">
+                      Billions
+                    </span>
+                    <span className="inline-block ml-2 sm:ml-3 lg:ml-4 font-light text-4xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-6xl" data-speed="0.99">
+                      of Views.
+                    </span>
+                    <span className="block font-normal text-3xl sm:text-4xl sm:font-light md:text-4xl lg:text-5xl xl:text-6xl transition-all duration-500 mt-2" data-speed="0.97">
+                      Built for Founders.
+                    </span>
+                  </h1>
+                  
+                  <div className="h-6 sm:h-8 md:h-9 lg:h-10 w-full"></div>
+                  
+                  <p className="hero-content text-lg sm:text-2xl md:text-3xl lg:text-4xl mb-4 text-theme-primary font-normal transition-theme-fast duration-500 leading-tight" style={{fontWeight: 400}} data-speed="0.99">
+                    We've used vertical video to get founders and execs just like you, billions of views — in fact we're the top-performing agency in the world at doing exactly that.
+                  </p>
+                  
+                  <div className="h-1 sm:h-2 md:h-3 lg:h-4 w-full"></div>
+                  
+                  <p className="hero-content text-left text-xs sm:text-sm md:text-base lg:text-lg mb-6 text-theme-primary/80 transition-all duration-500 w-full max-w-full" data-speed="0.99">
+                    Now we've packaged everything it takes to build a brand from the ground up — not just the knowledge — but the strategy, custom programs, and infrastructure we've built, into a proven system so you can do it yourself. Zero guesswork. All results.
+                  </p>
+                </div>
               </div>
-
+              
+              
+              {/* Animated Buttons with responsive sizes - moved further down and made larger */}
+              <div className="hero-content relative w-full mt-12 sm:mt-14 md:mt-16 lg:mt-20" style={{paddingLeft: 0}}>
+                <div className="absolute left-0 flex flex-col sm:flex-row sm:items-center gap-6" style={{transform: "translateX(32px)"}}>
+                  <AnimatedButton 
+                    text="Get Your Plan"
+                    variant="start"
+                    saturation="high"
+                    size="lg"
+                    onClick={onCtaClick}
+                    className="w-auto text-base sm:text-lg md:text-xl"
+                  />
+                  <a href="https://calendly.com/clash-creation/15min" target="_blank" rel="noopener noreferrer" className="hidden sm:flex items-center text-theme-primary hover:text-theme-accent-tertiary transition-colors duration-300">
+                    <span className="text-theme-primary/60 mx-2">|</span>
+                    <span className="text-base sm:text-lg md:text-xl font-medium underline-offset-4 hover:underline">Book in a call</span>
+                  </a>
+                  {/* Mobile "Book in a call" link removed */}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
       </section>
     );
   }
