@@ -149,12 +149,12 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
       >
         {/* Award Badge - positioned with consistent bottom-right placement using top/right */}
         <div className="award-badge absolute top-[85vh] right-4 sm:right-6 md:right-8 lg:right-10 z-50" style={{ transform: 'translateY(0)', opacity: 1 }}>
-          <div className="group relative overflow-hidden rounded-full shadow-lg transform scale-75 sm:scale-85 md:scale-90 lg:scale-100">
+          <div className="group relative overflow-hidden rounded-full shadow-lg transform scale-[0.85] sm:scale-85 md:scale-90 lg:scale-100">
             {/* Subtle shadow background */}
             <div className="absolute inset-0 bg-theme-accent-secondary opacity-80 rounded-full"></div>
             
             {/* Main badge container - cleaner design */}
-            <div className="relative flex items-center gap-2 sm:gap-3 md:gap-4 bg-theme-accent-tertiary py-2 sm:py-3 px-3 sm:px-4 md:px-6 lg:px-7 rounded-full
+            <div className="relative flex items-center gap-2 sm:gap-3 md:gap-4 bg-theme-accent-tertiary py-3 sm:py-3 px-4 sm:px-4 md:px-6 lg:px-7 rounded-full
                          border border-white/10">
               
               {/* Badge icon with subtle styling */}
@@ -164,7 +164,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                 {/* Circle background */}
                 <div className="relative bg-white/20 rounded-full p-1 sm:p-2 border border-white/30">
                   <svg width="24" height="24" viewBox="0 0 370.04 370.04" fill="currentColor"
-                       className="text-white drop-shadow-sm w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8">
+                       className="text-white drop-shadow-sm w-6 h-6 sm:w-6 sm:h-6 md:w-8 md:h-8">
                     <path d="M341.668,314.412c0,0-41.071-70.588-48.438-83.248c8.382-2.557,17.311-4.815,21.021-11.221
                       c6.183-10.674-4.823-28.184-1.933-39.625c2.977-11.775,20.551-21.964,20.551-33.933c0-11.661-18.169-25.284-21.148-36.99
                       c-2.91-11.439,8.063-28.968,1.86-39.629c-6.203-10.662-26.864-9.786-35.369-17.97c-8.751-8.422-8.724-29.028-19.279-34.672
@@ -194,12 +194,12 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
               
               {/* Text with more professional styling */}
               <div className="text-white drop-shadow-sm">
-                <span className="block text-xs sm:text-sm md:text-base font-medium">From the</span>
+                <span className="block text-sm sm:text-sm md:text-base font-medium">From the</span>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-sm sm:text-xl md:text-2xl font-bold leading-none">
+                  <span className="text-base sm:text-xl md:text-2xl font-bold leading-none">
                     #1
                   </span>
-                  <span className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold">
+                  <span className="text-sm sm:text-sm md:text-base lg:text-lg font-semibold">
                     Short Form Agency
                   </span>
                 </div>
