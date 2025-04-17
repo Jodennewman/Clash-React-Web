@@ -20,11 +20,11 @@
      ========================================== */
   
   /* Background colors */
-  --bg-cream: oklch(0.95 0.0319 59.91);
+  --bg-cream: oklch(0.967 0.019 51.977);
   --bg-cream-rgb: 255, 234, 219;
   --bg-cream-gradient: linear-gradient(45deg, oklch(0.92 0.0537 55.3) 0%, oklch(0.98 0.0143 55.9302) 100%);
   --bg-cream-gradient-rgb: linear-gradient(45deg, rgb(255, 220, 195) 0%, rgb(255, 246, 239) 100%);
-  --bg-cream-darker: oklch(0.89 0.0905 59.15);
+  --bg-cream-darker: oklch(0.922 0.055 67.054);
   --bg-cream-darker-rgb: 255, 240, 229;
   --bg-overlay: linear-gradient(218deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.63) 100%);
   
@@ -37,7 +37,7 @@
   --bg-navy-darker-rgb: 8, 29, 39;
   
   /* Primary palette */
-  --primary-orange: oklch(0.8 0.1629 53.91);
+  --primary-orange: oklch(0.766 0.171 61.118);
   --primary-orange-rgb: 255, 159, 81;
   --primary-orange-hover: oklch(0.76 0.1929 53.91);
   --primary-orange-hover-rgb: 255, 136, 1;
@@ -47,86 +47,76 @@
   --primary-orange-darkmode-rgb: 255, 168, 98;
   
   /* Secondary palette */
-  --secondary-teal: oklch(0.52 0.0854 209);
+  --secondary-teal: oklch(0.513 0.086 208.747);
   --secondary-teal-rgb: 53, 115, 128;
-  --secondary-teal-hover: oklch(0.52 0.1114 205.89);
+  --secondary-teal-hover: oklch(0.567 0.097 207.653);
   --secondary-teal-hover-rgb: 0, 121, 134;
-  --secondary-teal-light: oklch(0.67 0.0749 208.46);
+  --secondary-teal-light: oklch(0.698 0.09 210.357);
   --secondary-teal-light-rgb: 89, 162, 174;
-  --secondary-blue: oklch(0.52 0.0947 228.93);
+  --secondary-blue: oklch(0.55 0.107 230.285);
   --secondary-blue-rgb: 25, 115, 148;
-  --secondary-blue-hover: oklch(0.59 0.1147 228.93);
+  --secondary-blue-hover: oklch(0.66 0.125 228.066);
   --secondary-blue-hover-rgb: 8, 137, 179;
-  --secondary-blue-light: oklch(0.67 0.0797 228.93);
+  --secondary-blue-light: oklch(0.757 0.122 230.373);
   --secondary-blue-light-rgb: 94, 159, 188;
-  --secondary-blue-dark: oklch(0.40 0.1047 228.93);
+  --secondary-blue-dark: oklch(0.333 0.072 236.165);
   --secondary-blue-dark-rgb: 0, 80, 116;
 
   /* Accent colors */
-  --accent-coral: oklch(0.67 0.177 29.22);
+  --accent-coral: oklch(0.682 0.195 29.545);
   --accent-coral-rgb: 239, 98, 82;
-  --accent-coral-glow: oklch(0.67 0.177 29.22);
-  --accent-red: oklch(0.53 0.2166 21.08);
+  --accent-coral-glow: oklch(0.731 0.165 26.666);
+  --accent-red: oklch(0.574 0.232 23.115);
   --accent-red-rgb: 202, 0, 46;
-  --accent-red-dark: oklch(0.46 0.1993 18.08);
+  --accent-red-dark: oklch(0.434 0.174 19.592);
   --accent-red-dark-rgb: 172, 0, 42;
-  --accent-yellow: oklch(0.9 0.1044 74.26);
+  --accent-yellow: oklch(0.849 0.138 77.604);
   --accent-yellow-rgb: 255, 212, 142;
-  --accent-yellow-darkmode: oklch(0.85 0.1708 79.09);
+  --accent-yellow-darkmode: oklch(0.833 0.17 81.669);
   --accent-yellow-darkmode-rgb: 255, 190, 32;
-  --accent-pink: oklch(0.78 0.1571 8.01);
+  --accent-pink: oklch(0.695 0.202 9.973);
   --accent-pink-rgb: 255, 138, 165;
-  --accent-pink-darkmode: oklch(0.67 0.2172 12.34);
+  --accent-pink-darkmode: oklch(0.648 0.241 16.052);
   --accent-pink-darkmode-rgb: 254, 72, 113;
   
   /* Text colors */
-  --text-navy: oklch(0.28 0.0504 224.53);
+  --text-navy: oklch(0.212 0.037 213.438);
   --text-navy-rgb: 4, 47, 60;
-  --text-navy-secondary: oklch(0.31 0.0523 223.86 / 0.92);
-  --text-navy-tertiary: oklch(0.33 0.0488 220.99 / 0.57);
-  --text-cream: oklch(0.98 0.0219 68.466);
+  --text-navy-secondary: oklch(0.251 0.044 215.249);
+  --text-navy-tertiary: oklch(0.266 0.047 215.7);
+  --text-cream: oklch(0.987 0.01 72);
   --text-cream-rgb: 255, 245, 232;
-  --text-cream-secondary: oklch(0.94 0.0256 78.92 / 0.9);
-  --text-cream-tertiary: oklch(0.88 0.0339 77.58 / 0.8);
+  --text-cream-secondary: oklch(0.968 0.023 69.605);
+  --text-cream-tertiary: oklch(0.947 0.042 74.159);
   
   /* Card colors */
-  --card-bg-light: oklch(0.94 0.0488 55.91);
+  --card-bg-light: oklch(0.721 0.173 27.546);
   --card-bg-light-rgb: 255, 226, 203;
-  --card-bg-navy: oklch(0.34 0.0909 233.82);
+  --card-bg-navy: oklch(0.224 0.044 229.585);
   --card-bg-navy-rgb: 0, 61, 94;
-  --card-bg-dark: oklch(0.24 0.0473 225.22);
+  --card-bg-dark: oklch(0.211 0.04 224.686);
   --card-bg-dark-rgb: 0, 36, 48;
   
   /* UI Element colors */
-  --ui-peach-light: oklch(0.9 0.0744 55.41);
+  --ui-peach-light: oklch(0.846 0.084 27.085);
   --ui-peach-light-rgb: 255, 211, 177;
-  --ui-peach-dark: oklch(0.82 0.110263 54.8141);
+  --ui-peach-dark: oklch(0.76 0.137 28.767);
   --ui-peach-dark-rgb: 252, 177, 126;
   
   /* Neutral shades */
-  --neutral-blue-1: oklch(0.49 0.05 220);
+  --neutral-blue-1: oklch(0.461 0.063 223.06);
   --neutral-blue-1-rgb: 56, 114, 146;
-  --neutral-blue-2: oklch(0.42 0.07 215);
+  --neutral-blue-2: oklch(0.422 0.072 216.47);
   --neutral-blue-2-rgb: 35, 91, 119;
-  --neutral-blue-3: oklch(0.25 0.04 225);
+  --neutral-blue-3: oklch(0.239 0.04 223.436);
   --neutral-blue-3-rgb: 9, 57, 83;
 
-  /* Extended Module HUD Palette */
-  --hud-teal: oklch(0.49 0.05 220); /* #387292 */
-  --hud-coral: oklch(0.62 0.15 27); /* #DE6B59 */
-  --hud-navy: oklch(0.25 0.04 225); /* #122E3B */
-  --hud-red: oklch(0.48 0.21 25); /* #B92234 */
-  --hud-pink: oklch(0.75 0.12 350); /* #FA91A6 */
-  --hud-orange: oklch(0.75 0.13 57); /* #FEA35D */
-  --hud-accent-red: oklch(0.65 0.25 25); /* #FF3C54 */
-  --hud-orange-light: oklch(0.85 0.07 60); /* #FFD5B5 */
-  --hud-orange-lighter: oklch(0.85 0.08 65); /* #FFD79B */
   
   /* Chart variables */
-  --color-views: var(--primary-orange);
-  --color-followers: var(--hud-teal);
-  --color-engagement: var(--accent-red);
-  --color-revenue: var(--secondary-teal);
+  --color-views: oklch(0.539 0.216 19.321);
+  --color-followers: #b04a24;
+  --color-engagement: #ff9100;
+  --color-revenue: var(--secondary-teal-light);
   --color-conversion: var(--accent-red);
   
   /* Common */
@@ -174,10 +164,10 @@
      ========================================== */
   
   /* Theme text colors */
-  --theme-text-primary: var(--text-navy) !important;
-  --theme-text-secondary: oklch(28.59% 0.0413 230.7 / 0.8) !important;
+  --theme-text-primary: var(--text-navy);
+  --theme-text-secondary: var(--text-navy-secondary);
   --theme-text-secondary-rgb: rgba(18, 46, 59, 0.8);
-  --theme-text-tertiary: oklch(28.59% 0.0413 230.7 / 0.6) !important;
+  --theme-text-tertiary: var(--text-navy-tertiary) !important;
   --theme-text-tertiary-rgb: rgba(18, 46, 59, 0.6);
   --theme-text-subtle: oklch(28.59% 0.0413 230.7 / 0.4);
   --theme-text-subtle-rgb: rgba(18, 46, 59, 0.4);

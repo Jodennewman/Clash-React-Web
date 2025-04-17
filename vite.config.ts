@@ -2,18 +2,24 @@ import path from "path"
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { crmIntegrationHandler } from './src/api/crm-integration'
+import schemaPlugin from './vite-schema-plugin'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    react(), 
+    react(),
+    schemaPlugin(), // Add schema injection plugin
   ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json']
-  },
+      },
+      getTotalDuration: (data: any[]) => {
+        if (!data) return 0;
+        return data.reduce((acc, item) => acc + item.duration, 0);
+      },
   css: {
     modules: false,
   },

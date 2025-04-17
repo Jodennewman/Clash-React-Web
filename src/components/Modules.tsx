@@ -55,16 +55,16 @@ const categoryColors: CategoryColors = {
 
 const modulesByCategory: ModulesByCategory = {
   "Theory Basics": [
-    { title: "Starting an account", thumbnail: "./assets/main/Course Teaching images/Account Layout0.webp", difficulty: "Beginner" as const },
-    { title: "Naming your account", thumbnail: "./assets/main/Course Teaching images/Account Layout0.webp", difficulty: "Beginner" as const },
-    { title: "Creating a bio", thumbnail: "./assets/main/Course Teaching images/Account Layout0.webp", difficulty: "Beginner" as const },
-    { title: "Managing highlights", thumbnail: "./assets/main/Course Teaching images/Account Layout0.webp", difficulty: "Intermediate" as const },
-    { title: "Developing your Linkspace", thumbnail: "./assets/main/Course Teaching images/Account Layout0.webp", difficulty: "Intermediate" as const },
-    { title: "Using Pinned Videos", thumbnail: "./assets/main/Course Teaching images/Account Layout0.webp", difficulty: "Beginner" as const },
-    { title: "The Frame", thumbnail: "./assets/main/Course Teaching images/Account Layout0.webp", difficulty: "Beginner" as const },
-    { title: "Safe Zones & Clutter", thumbnail: "./assets/main/Course Teaching images/Account Layout0.webp", difficulty: "Intermediate" as const },
-    { title: "Visual Hierarchy", thumbnail: "./assets/main/Course Teaching images/Account Layout0.webp", difficulty: "Advanced" as const },
-    { title: "Movement & Contrast", thumbnail: "./assets/main/Course Teaching images/Account Layout0.webp", difficulty: "Advanced" as const }
+    { title: "Starting an account", thumbnail: courseUtils.getThumbnailPath('account_setup'), difficulty: "Beginner" as const },
+    { title: "Naming your account", thumbnail: courseUtils.getThumbnailPath('account_naming'), difficulty: "Beginner" as const },
+    { title: "Creating a bio", thumbnail: courseUtils.getThumbnailPath('account_bio'), difficulty: "Beginner" as const },
+    { title: "Managing highlights", thumbnail: courseUtils.getThumbnailPath('account_highlights'), difficulty: "Intermediate" as const },
+    { title: "Developing your Linkspace", thumbnail: courseUtils.getThumbnailPath('account_linkspace'), difficulty: "Intermediate" as const },
+    { title: "Using Pinned Videos", thumbnail: courseUtils.getThumbnailPath('account_pinned'), difficulty: "Beginner" as const },
+    { title: "The Frame", thumbnail: courseUtils.getThumbnailPath('account_frame'), difficulty: "Beginner" as const },
+    { title: "Safe Zones & Clutter", thumbnail: courseUtils.getThumbnailPath('account_safezones'), difficulty: "Intermediate" as const },
+    { title: "Visual Hierarchy", thumbnail: courseUtils.getThumbnailPath('account_hierarchy'), difficulty: "Advanced" as const },
+    { title: "Movement & Contrast", thumbnail: courseUtils.getThumbnailPath('account_contrast'), difficulty: "Advanced" as const }
   ],
   "Cardinal Principles": [
     { title: "Cardinal Sins", thumbnail: "/vite.svg", difficulty: "Beginner" as const },

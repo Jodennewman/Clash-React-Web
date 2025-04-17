@@ -494,6 +494,15 @@
   box-shadow: var(--theme-shadow-btn);
 }
 
+.dark .vs-text-gradient-purple {
+  background: linear-gradient(to right, oklch(0.728 0.234 324.85), oklch(0.587 0.291 306.283));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  box-shadow: var(--theme-shadow-btn);
+}
+
 .vs-float-orange {
   background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
 }

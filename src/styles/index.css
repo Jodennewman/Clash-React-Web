@@ -16,4 +16,11 @@
 @import "./modules/theme-utilities.css";
 @import "./modules/components.css";
 @import "./modules/utilities.css";
+
+@import "./direct-colors.css";
+
+@import "./custom-text.css";
+
 @import "./modules/dark-mode.css";
+
+@import "./modulehud.css";

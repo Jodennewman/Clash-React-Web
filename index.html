@@ -1,11 +1,64 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <script src="http://localhost:8097"></script>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Vite + React + TS</title>
+    <link rel="icon" type="image/svg+xml" href="/vs-logo-icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <title>Vertical Shortcut</title>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Vertical Shortcut | Master Short-Form Content" />
+    <meta property="og:description" content="The premium 10-week program for founders and creators to generate consistent leads and revenue with short-form video." />
+    <meta property="og:image" content="/vs-og-image.png" />
+    <meta property="og:url" content="https://verticalshortcut.com" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Vertical Shortcut | Master Short-Form Content" />
+    <meta name="twitter:description" content="Unlock the secrets to viral short-form video and drive real business results. Join the premium 10-week program." />
+    <meta name="twitter:image" content="/vs-twitter-card.png" />
+
+    <!-- Additional SEO Meta Tags -->
+    <meta name="description" content="Vertical Shortcut is the ultimate program for mastering short-form video content creation for business growth. Learn viral strategies, delegation, and monetization." />
+    <meta name="keywords" content="short-form video, content creation, viral video, social media marketing, lead generation, business growth, creator economy, video marketing" />
+    <meta name="author" content="Clash Creation" />
+
+    <!-- Preconnect to critical origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Asynchronously load Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/2d0c8d4b5a.js" crossorigin="anonymous" async></script>
+
+    <style>
+      /* Mobile viewport fixes - simplified to prevent overlapping position:relative */
+      @media (max-width: 767px) {
+        html {
+          overflow-x: hidden; /* Prevent horizontal scroll */
+          width: 100%; /* Ensure proper width */
+        }
+        
+        body {
+          overflow-x: hidden;
+          width: 100%;
+          margin: 0;
+          padding: 0;
+          position: relative; /* Only set position:relative on body, not html */
+        }
+        
+        /* Fix iOS Safari 100vh issue */
+        .vh-fix {
+          height: 100vh; /* fallback */
+          height: -webkit-fill-available;
+          height: stretch; /* Modern browsers */
+        }
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

@@ -1,0 +1,51 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Follow these steps for every interaction:
+
+## 1. User Identification:
+	- You are interacting with a developer identified as default_user
+	- If default_user is not explicitly identified, attempt to do so based on repository activity or conversation context
+
+## 2. Memory Retrieval:
+	-  Begin each session with “Loading memory…”
+	-  Retrieve relevant information from your knowledge graph memory, including:
+	-  Files previously explored
+	-  Key components and their purposes
+	-  Past user questions, interests, or confusion
+	-  Architecture-level insights already covered
+
+## 3. Codebase Memory (what to store over time):
+
+While interacting with the developer, watch for and store any new information in these categories:
+
+### a: Code Concepts
+	-  Purpose and function of files or modules (e.g., index.ts initializes the server)
+	-  High-level architectural decisions (e.g., uses a knowledge graph for memory)
+	-  Definitions of key terms (e.g., what an entity, relation, or observation means)
+
+### b: Developer Behavior
+	-  What parts of the codebase they’ve explored
+	-  Common areas of confusion or frequently revisited files
+	-  Coding or documentation preferences (e.g., prefers TypeScript, prefers file-by-file breakdowns)
+
+### c: Preferences and Goals
+	-  Whether they’re trying to build, debug, contribute, or document
+	-  Whether they prefer high-level summaries or deep dives
+	-  Their current learning goal (e.g., “understand how relations are stored”)
+
+### d: File + Function Indexing
+	-  Track and label which files, endpoints, and major functions have been reviewed
+	-  Store metadata like: last reviewed, questions asked, clarifications made
+
+## 4. Memory Update Rules:
+
+### If any new knowledge is gained:
+	-  Create entities for files, endpoints, functions, or domain concepts (e.g., create_relations, memory server)
+	-  Link them with relations like is_part_of, calls, initializes, stores, or relates_to
+	-  Attach observations as atomic facts like:
+	-  "create_entities skips existing entity names"
+	-  "Dockerfile sets up persistent volume at /app/dist"
+	-  "index.ts starts memory server"

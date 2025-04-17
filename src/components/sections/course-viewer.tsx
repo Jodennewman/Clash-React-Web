@@ -2,11 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ModuleHUD } from './ModuleHUD';
-import { Badge } from '../ui/badge';
 import { VSSection } from '../ui/vs-background';
 import { VSGradientText, VSHeading } from '../ui/vs-text';
-import courseUtils from '../../lib/course-utils';
+import courseUtils, { Submodule as CourseSubmodule } from '../../lib/course-utils';
 import { PlayCircle, Check, Star, ChevronDown, X } from 'lucide-react';
+import { useDeviceDetection } from '../../utils/animation-utils';
+import ReactDOM from 'react-dom';
 
 interface ModuleDetails {
   id: string;
@@ -25,16 +26,7 @@ export const CourseViewer: React.FC = () => {
   const modalRef = useRef<HTMLDivElement>(null);
   const modalOverlayRef = useRef<HTMLDivElement>(null);
   const thumbnailRef = useRef<HTMLImageElement>(null);
-  
-  // Get computed theme variables for animation
-  const getThemeVariables = () => {
-    const styles = getComputedStyle(document.documentElement);
-    return {
-      animDuration: parseFloat(styles.getPropertyValue('--theme-anim-duration') || '0.35'),
-      animScale: parseFloat(styles.getPropertyValue('--theme-anim-scale') || '1.02'),
-      bgHover: styles.getPropertyValue('--theme-bg-hover') || 'rgba(0,0,0,0.05)'
-    };
-  };
+  const { isMobile } = useDeviceDetection();
   
   useGSAP(() => {
     const ctx = gsap.context(() => {
@@ -234,75 +226,76 @@ export const CourseViewer: React.FC = () => {
     }
   };
   
-  // Modal event handlers
+  // Modal event handlers with conditional animations
   const openModal = () => {
     setShowModal(true);
     setSelectedSubmodule(-1);
     
     if (modalRef.current && modalOverlayRef.current) {
-      // Animate overlay with proper theme-aware approach
       gsap.to(modalOverlayRef.current, {
         opacity: 1,
         duration: 0.3,
         ease: "power2.out"
       });
       
-      // Animate modal with VS Bubbly style
-      gsap.fromTo(modalRef.current, 
-        { opacity: 0, y: 20, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.7)" }
-      );
-      
-      // Animate content elements with staggered timing
-      if (thumbnailRef.current) {
-        gsap.from(thumbnailRef.current, {
-          opacity: 0,
-          scale: 1.05,
-          duration: 0.6,
-          ease: "power2.out",
-          delay: 0.1
+      // Animate modal based on device
+      if (isMobile) {
+        // Mobile: set fixed positioning and simple fade-in
+        gsap.set(modalRef.current, { 
+          position: 'fixed', 
+          top: '50%', 
+          left: '50%', 
+          xPercent: -50, 
+          yPercent: -50, 
+          width: '90%'
         });
+        gsap.fromTo(modalRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" });
+      } else {
+        // Desktop modal animation (original bubbly effect)
+        gsap.fromTo(modalRef.current, 
+          { opacity: 0, y: 20, scale: 0.95 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.7)" }
+        );
       }
       
-      gsap.from(".modal-content-item", {
-        opacity: 0,
-        y: 15,
-        duration: 0.5,
-        stagger: 0.08,
-        ease: "back.out(1.2)",
-        delay: 0.2
-      });
-      
-      // Animate floating elements
-      gsap.to(".modal-float-element", {
-        y: -10,
-        duration: 3,
-        ease: "sine.inOut",
-        repeat: -1,
-        yoyo: true,
-        stagger: 0.4
-      });
+      // Staggered content animation
+      if (thumbnailRef.current) {
+        gsap.from(thumbnailRef.current, { opacity: 0, scale: 1.03, duration: 0.5, ease: "power2.out", delay: 0.1 });
+      }
+      gsap.from(".modal-content-item", { opacity: 0, y: 12, duration: 0.4, stagger: 0.06, ease: "power2.out", delay: 0.15 });
+      gsap.to(".modal-float-element", { y: -8, duration: 3, ease: "sine.inOut", repeat: -1, yoyo: true, stagger: 0.4 });
     }
   };
   
   const closeModal = () => {
     if (modalRef.current && modalOverlayRef.current) {
-      // Animate overlay
       gsap.to(modalOverlayRef.current, {
         opacity: 0,
         duration: 0.3,
         ease: "power2.in",
       });
       
-      // Animate modal with proper VS Bubbly style
-      gsap.to(modalRef.current, {
-        opacity: 0,
-        y: 20,
-        scale: 0.95,
-        duration: 0.3,
-        ease: "power3.in",
-        onComplete: () => setShowModal(false)
-      });
+      // Animate modal close based on device
+      if (isMobile) {
+         // Simplified mobile modal close animation
+         gsap.to(modalRef.current, {
+           opacity: 0,
+           y: 15,
+           duration: 0.3,
+           ease: "power2.in",
+           onComplete: () => setShowModal(false)
+         });
+      } else {
+         // Desktop modal close animation (original)
+         gsap.to(modalRef.current, {
+           opacity: 0,
+           y: 20,
+           scale: 0.95,
+           duration: 0.3,
+           ease: "power3.in",
+           onComplete: () => setShowModal(false)
+         });
+      }
     } else {
       setShowModal(false);
     }
@@ -354,11 +347,12 @@ export const CourseViewer: React.FC = () => {
       {/* Grid background pattern for subtle texture */}
       <div className="absolute inset-0 -z-20 opacity-[0.07] grid-bg"></div>
       
-      <div className="container mx-auto px-4">
+      <div className="container-mobile mx-auto px-4">
         <div className="text-center mb-12">
           <VSHeading 
-            variant="h2" 
-            className="text-4xl md:text-5xl font-bold mb-6 text-theme-primary"
+            as="h2" 
+            size="xl"
+            className="font-bold mb-6 text-theme-primary"
           >
             Is making actually good short form content really that complex?
           </VSHeading>
@@ -368,10 +362,9 @@ export const CourseViewer: React.FC = () => {
           </p>
           
           <VSGradientText
-            variant="h3"
-            fromColor="var(--theme-primary)"
-            toColor="var(--theme-accent-secondary)"
-            className="text-2xl md:text-3xl font-bold mb-12"
+            as="h3"
+            size="lg"
+            className="font-bold mb-12"
           >
             The Course Curriculum
           </VSGradientText>
@@ -391,21 +384,13 @@ export const CourseViewer: React.FC = () => {
             <ModuleHUD 
               selectedSection={selectedSection}
               onModuleClick={(moduleId) => {
-                // Check if it's a system block
                 if (moduleId.includes('-system-')) {
-                  // This is a system block with special animation handlers
-                  // Pass it directly to ModuleHUD without intercepting
-                  // We just need to update which section is selected
-                  const baseSectionId = moduleId.split('-')[0];
                   if (selectedSection !== moduleId) {
                     setSelectedSection(moduleId);
                   } else {
                     setSelectedSection(null);
                   }
-                }
-                // Check if it's a section ID or a displayKey
-                else if (moduleId.includes('-col') || moduleId.includes('-systems')) {
-                  // This is a displayKey - extract the base section ID
+                } else if (moduleId.includes('-col') || moduleId.includes('-systems')) {
                   const baseSectionId = moduleId.split('-')[0];
                   handleSectionClick(baseSectionId);
                 } else if (moduleId.includes('section') || 
@@ -418,13 +403,24 @@ export const CourseViewer: React.FC = () => {
                            moduleId === 'delegation' ||
                            moduleId === 'monetisation' ||
                            moduleId === 'conversion') {
-                  // This is a section - toggle selection
                   handleSectionClick(moduleId);
                 } else {
-                  // This is a module - show modal
                   handleModuleClick(moduleId);
                 }
               }} 
+              submodules={selectedModule && selectedModule.id ? courseUtils.getSubmodulesForModule(selectedModule.id).map((submodule: CourseSubmodule) => ({
+                id: submodule.id,
+                title: submodule.title,
+                duration: submodule.formattedDuration || `${submodule.duration}:00`,
+                subtitle: submodule.subtitle,
+                thumbnailUrl: courseUtils.getThumbnailPath(courseUtils.getModuleThumbnail(submodule.id)),
+                isCompleted: false,
+                isLocked: false,
+                instructor: submodule.instructor,
+                week: submodule.week,
+                difficulty: ['Beginner', 'Intermediate', 'Advanced'][submodule.difficulty] || 'Intermediate',
+                resources: submodule.resources || []
+              })) : []}
             />
           </div>
         </div>
@@ -471,10 +467,10 @@ export const CourseViewer: React.FC = () => {
       </div>
       
       {/* Module Details Modal with enhanced styling and animations */}
-      {showModal && selectedModule && (
+      {showModal && selectedModule && ReactDOM.createPortal(
         <div 
           ref={modalOverlayRef}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm bg-[var(--bg-navy)]/40"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm bg-[var(--bg-navy)]/40 modal-overlay"
           onClick={(e) => {
             if (e.target === modalOverlayRef.current) {
               closeModal();
@@ -500,9 +496,13 @@ export const CourseViewer: React.FC = () => {
                 <div className="rounded-[var(--border-radius-lg)] overflow-hidden mb-4 shadow-theme-md relative">
                   <img 
                     ref={thumbnailRef}
-                    src={courseUtils.getThumbnailPath(selectedModule.thumbnail)} 
+                    src={courseUtils.getThumbnailPath(selectedModule.thumbnail) || '/fallback-image.png'} 
                     alt={selectedModule.title}
-                    className="w-full h-full object-cover aspect-video" 
+                    className="w-full h-full object-cover aspect-video"
+                    onError={(e) => { 
+                      console.error(`Failed to load thumbnail: ${selectedModule.thumbnail}`);
+                      e.currentTarget.src = '/fallback-image.png';
+                    }}
                   />
                   {/* Gradient overlay at the bottom of thumbnail */}
                   <div className="absolute bottom-0 left-0 right-0 h-2/5 bg-gradient-to-t from-black/80 to-transparent"></div>
@@ -634,7 +634,8 @@ export const CourseViewer: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </VSSection>
   );

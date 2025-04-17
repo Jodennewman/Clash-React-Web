@@ -1,11 +1,12 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, ElementType, HTMLAttributes, useEffect, useState } from 'react';
 
-interface VSBackgroundProps {
-  children: React.ReactNode;
-  background?: string; // Theme-aware background
+// Define the props for VSBackground component
+export interface VSBackgroundProps {
+  as?: ElementType; // Allow changing the root element type (e.g., div, section, footer)
+  children?: React.ReactNode;
   className?: string;
-  as?: React.ElementType;
-  ref?: React.Ref<HTMLElement>;
+  // background prop is illustrative; specific background classes should be passed via className
+  // background?: string; 
 }
 
 /**
@@ -17,81 +18,89 @@ interface VSBackgroundProps {
  * <VSBackground>Content with proper background</VSBackground>
  * <VSBackground background="bg-theme-secondary">Card with theme-aware bg</VSBackground>
  */
-export const VSBackground = forwardRef<HTMLElement, VSBackgroundProps & React.HTMLAttributes<HTMLElement>>(
-  ({
-    children,
-    background = 'bg-theme-primary',
-    className = '',
-    as = 'div',
-    ...props
-  }, ref) => {
-    const Component = as;
-    
-    // Filter out non-DOM props before passing to the component
-    const { lightBg, darkBg, ...domProps } = props;
-    
-    return (
-      <Component
-        ref={ref}
-        className={`${background} ${className}`}
-        {...domProps}>
+export const VSBackground = forwardRef<
+  HTMLElement, 
+  VSBackgroundProps & HTMLAttributes<HTMLElement>
+>(({ 
+  as: Component = 'div', 
+  children,
+  className = '',
+  ...props 
+}, ref) => {
+  return (
+    <Component
+      ref={ref}
+      className={`${className}`}
+      {...props}
+    >
+      {children}
+    </Component>
+  );
+});
+
+/**
+ * VS Section Component - Creates a full section with theme-aware background styling
+ * Now with responsive padding for mobile optimization
+ */
+export const VSSection = forwardRef<
+  HTMLElement, 
+  VSBackgroundProps & HTMLAttributes<HTMLElement>
+>(({ 
+  children, 
+  className = '', 
+  ...props 
+}, ref) => {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+  
+  return (
+    <VSBackground
+      as="section"
+      ref={ref}
+      className={`${isMobile ? 'py-12' : 'py-24'} relative overflow-hidden border-t border-[var(--theme-border)] ${className}`}
+      {...props}
+    >
+      <div className="container-mobile mx-auto">
         {children}
-      </Component>
-    );
-  }
-);
+      </div>
+    </VSBackground>
+  );
+});
 
 /**
  * VS Card Component - Theme-aware card with consistent styling across light/dark modes
  */
-export const VSCard = forwardRef<HTMLElement, VSBackgroundProps & React.HTMLAttributes<HTMLElement>>(
-  ({
-    children,
-    className = '',
-    background = 'bg-theme-gradient',
-    ...props
-  }, ref) => {
-    return (
-      <VSBackground
-        ref={ref}
-        background={background}
-        className={`rounded-[var(--theme-border-radius-lg)] p-6 
-                   border border-theme-border
-                   shadow-theme-md
-                   transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]
-                   hover:translate-y-[-4px] hover:scale-[1.02] hover:shadow-theme-lg
-                   ${className}`}
-        {...props}
-      >
-        {children}
-      </VSBackground>
-    );
-  }
-);
+export const VSCard = forwardRef<
+  HTMLElement, 
+  VSBackgroundProps & HTMLAttributes<HTMLElement>
+>(({ 
+  children, 
+  className = '', 
+  ...props 
+}, ref) => {
+  return (
+    <VSBackground
+      ref={ref}
+      className={`${className}`}
+      {...props}
+    >
+      {children}
+    </VSBackground>
+  );
+});
 
-/**
- * VS Section Component - Creates a full section with theme-aware background styling
- */
-export const VSSection = forwardRef<HTMLElement, VSBackgroundProps & React.HTMLAttributes<HTMLElement>>(
-  ({
-    children,
-    className = '',
-    background = 'bg-theme-primary',
-    ...props
-  }, ref) => {
-    return (
-      <VSBackground
-        as="section"
-        ref={ref}
-        background={background}
-        className={`py-24 relative overflow-hidden border-t border-theme-border
-                   ${className}`}
-        {...props}
-      >
-        {children}
-      </VSBackground>
-    );
-  }
-);
+VSCard.displayName = 'VSCard';
+VSSection.displayName = 'VSSection';
+VSBackground.displayName = 'VSBackground';
 
-export default VSBackground;
+// Note: Typically only the base component or all components would be exported as default.
+// Exporting individual components is more common.
+// export default VSBackground; // Consider removing if not needed

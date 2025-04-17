@@ -3,10 +3,12 @@ import { createRoot } from 'react-dom/client'
 import './app/globals.css'  // Keep using globals.css for now for core variables
 
 import './styles/index.css'  // Import modular CSS structure for styling
-import './app/modulehud.css'  // Import ModuleHUD specific styles
+import './styles/modulehud.css'  // Import ModuleHUD specific styles
 import './styles/custom-text.css'  // Import custom text styles
 import App from './App'
 import { ThemeProvider } from './components/ui/theme-provider'
+import { monitorWebVitals } from './utils/web-vitals-monitor'
+import { optimizeImages } from './utils/image-optimizer'
 
 // Import and initialize GSAP for global use and setup
 import { gsap } from 'gsap';
@@ -28,6 +30,12 @@ import { addPublicImage } from './utils/imageMap';
 // Register images and thumbnails
 registerThumbnails();
 registerWithImageMapper(addPublicImage);
+
+// Initialize performance monitoring and optimization
+if (import.meta.env.PROD) {
+  monitorWebVitals();
+}
+optimizeImages();
 
 // Create root and render app
 createRoot(document.getElementById('root')!).render(

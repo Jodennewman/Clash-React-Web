@@ -1,0 +1,20 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- name: Image Mapping Implementation
+      rule: |
+        The project uses a sophisticated image mapping system with these 
+  core patterns:
+        - Import images via [thumbnailMapper.js](mdc:src/utils/thumbnailMapper.js) which integrates with 
+  imageMap.js
+        - NEVER use direct image paths - always use the mapping functions:
+          - getThumbnailPath() for module thumbnails
+          - getAvatarPath() for creator/instructor avatars
+          - getSubmoduleThumbnail() for submodule thumbnails
+          - getViewsThumbnail() for testimonial images
+        - The system caches results for performance
+        - Implement proper fallback strategies for missing images
+        - Use thumbnailMapper's registration system for explicit imports
+        - Images should be webp format in the correct directories

@@ -20,342 +20,28 @@
      ========================================== */
   
   /* Background colors */
-  --bg-cream: oklch(0.95 0.0319 59.91);
   --bg-cream-rgb: 255, 234, 219;
 
+  --text-dark: oklch(0.152 0.029 225.882);
 
   --bg-cream-gradient: linear-gradient(45deg, oklch(0.92 0.0537 55.3) 0%, oklch(0.98 0.0143 55.9302) 100%);
   --bg-cream-gradient-rgb: linear-gradient(45deg, rgb(255, 220, 195) 0%, rgb(255, 246, 239) 100%);
 
 
-  --bg-cream-darker: oklch(0.89 0.0905 59.15);
   --bg-cream-darker-rgb: 255, 240, 229;
   --bg-overlay: linear-gradient(in oklch 218deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.63) 100%);
   
   /* Navy backgrounds - defined in light mode for reference */
   --bg-navy: oklch(0.24 0.0473 225.22);
   --bg-navy-rgb: 0, 36, 48;
-  --bg-navy-gradient: linear-gradient(in oklch 213deg, oklch(0.15 0.0317 226.83) 0%, oklch(0.24 0.0473 225.22) 100%);
-  --bg-navy-gradient-rgb: linear-gradient(in oklch 213deg, rgba(9, 35, 47, 1) 0%, rgba(8, 29, 39, 1) 100%);
-  --bg-navy-darker: oklch(0.15 0.0317 226.83);
   --bg-navy-darker-rgb: 8, 29, 39;
-  
+
   /* Navy backgrounds - defined in light mode for reference */
-  --bg-navy: oklch(0.24 0.0473 225.22);
-  --bg-navy-rgb: 0, 36, 48;
-  --bg-navy-gradient: linear-gradient(213deg, oklch(0.15 0.0317 226.83) 0%, oklch(0.24 0.0473 225.22) 100%);
-  --bg-navy-gradient-rgb: linear-gradient(213deg, rgba(9, 35, 47, 1) 0%, rgba(8, 29, 39, 1) 100%);
   --bg-navy-darker: oklch(0.15 0.0317 226.83);
-  --bg-navy-darker-rgb: 8, 29, 39;
-  
+  --bg-navy-gradient-rgb: linear-gradient(213deg, rgba(9, 35, 47, 1) 0%, rgba(8, 29, 39, 1) 100%);
+  --bg-navy-gradient: linear-gradient(213deg, oklch(0.15 0.0317 226.83) 0%, oklch(0.24 0.0473 225.22) 100%);
   /* Primary palette */
-  --primary-orange: oklch(0.8 0.1629 53.91);
-  --primary-orange-rgb: 255, 159, 81;
-  --primary-orange-hover: oklch(0.76 0.1929 53.91);
-  --primary-orange-hover-rgb: 255, 136, 1;
-  --primary-orange-light: oklch(0.84 0.1312 60);
-  --primary-orange-light-rgb: 255, 183, 111;
-  --primary-orange-darkmode: oklch(0.82 0.1475 54.41);
-  --primary-orange-darkmode-rgb: 255, 168, 98;
-  
-  /* Secondary palette */
-  --secondary-teal: oklch(0.52 0.0854 209);
-  --secondary-teal-rgb: 53, 115, 128;
-  --secondary-teal-hover: oklch(0.52 0.1114 205.89);
-  --secondary-teal-hover-rgb: 0, 121, 134;
-  --secondary-teal-light: oklch(0.67 0.0749 208.46);
-  --secondary-teal-light-rgb: 89, 162, 174;
 
-
-
-  --secondary-blue: oklch(0.52 0.0947 228.93);
-  --secondary-blue-rgb: 25, 115, 148;
-  --secondary-blue-hover: oklch(0.59 0.1147 228.93);
-  --secondary-blue-hover-rgb: 8, 137, 179;
-  --secondary-blue-light: oklch(0.67 0.0797 228.93);
-  --secondary-blue-light-rgb: 94, 159, 188;
-  --secondary-blue-dark: oklch(0.40 0.1047 228.93);
-  --secondary-blue-dark-rgb: 0, 80, 116;
-
-
-  /* Accent colors */
-  --accent-coral: oklch(0.67 0.177 29.22);
-  --accent-coral-rgb: 239, 98, 82;
-  --accent-coral-glow: oklch(0.67 0.177 29.22);
-  --accent-red: oklch(0.53 0.2166 21.08);
-  --accent-red-rgb: 202, 0, 46;
-  --accent-red-dark: oklch(0.46 0.1993 18.08);
-  --accent-red-dark-rgb: 172, 0, 42;
-  --accent-yellow: oklch(0.9 0.1044 74.26);
-  --accent-yellow-rgb: 255, 212, 142;
-  --accent-yellow-darkmode: oklch(0.85 0.1708 79.09);
-  --accent-yellow-darkmode-rgb: 255, 190, 32;
-  --accent-pink: oklch(0.78 0.1571 8.01);
-  --accent-pink-rgb: 255, 138, 165;
-  --accent-pink-darkmode: oklch(0.67 0.2172 12.34);
-  --accent-pink-darkmode-rgb: 254, 72, 113;
-  
-  /* Text colors */
-  --text-navy: oklch(0.28 0.0504 224.53);
-  --text-navy-rgb: 4, 47, 60;
-
-  --text-navy-secondary: oklch(0.31 0.0523 223.86 / 0.92);
-  --text-navy-tertiary: oklch(0.33 0.0488 220.99 / 0.57);
-
-  --text-cream: oklch(0.98 0.0219 68.466);
-  --text-cream-rgb: 255, 245, 232;
-  --text-cream-secondary: oklch(0.94 0.0256 78.92 / 0.9);
-  --text-cream-tertiary: oklch(0.88 0.0339 77.58 / 0.8);
-
-  
-  /* Card colors */
-  --card-bg-light: oklch(0.94 0.0488 55.91);
-  --card-bg-light-rgb: 255, 226, 203;
-  --card-bg-navy: oklch(0.34 0.0909 233.82);
-  --card-bg-navy-rgb: 0, 61, 94;
-  --card-bg-dark: oklch(0.24 0.0473 225.22);
-  --card-bg-dark-rgb: 0, 36, 48;
-  
-  /* UI Element colors */
-  --ui-peach-light: oklch(0.9 0.0744 55.41);
-  --ui-peach-light-rgb: 255, 211, 177;
-  --ui-peach-dark: oklch(0.82 0.110263 54.8141);
-  --ui-peach-dark-rgb: 252, 177, 126;
-  
-  /* Neutral shades */
-  --neutral-blue-1: oklch(0.49 0.05 220);
-  --neutral-blue-1-rgb: 56, 114, 146;
-  --neutral-blue-2: oklch(0.42 0.07 215);
-  --neutral-blue-2-rgb: 35, 91, 119;
-  --neutral-blue-3: oklch(0.25 0.04 225);
-  --neutral-blue-3-rgb: 9, 57, 83;
-
-  /* Extended Module HUD Palette */
-  --hud-teal: oklch(0.49 0.05 220); /* #387292 */
-  --hud-coral: oklch(0.62 0.15 27); /* #DE6B59 */
-  --hud-navy: oklch(0.25 0.04 225); /* #122E3B */
-  --hud-red: oklch(0.48 0.21 25); /* #B92234 */
-  --hud-pink: oklch(0.75 0.12 350); /* #FA91A6 */
-  --hud-orange: oklch(0.75 0.13 57); /* #FEA35D */
-  --hud-accent-red: oklch(0.65 0.25 25); /* #FF3C54 */
-  --hud-orange-light: oklch(0.85 0.07 60); /* #FFD5B5 */
-  --hud-orange-lighter: oklch(0.85 0.08 65); /* #FFD79B */
-  
-  /* Chart variables */
-  --color-views: var(--primary-orange);
-  --color-followers: var(--hud-teal);
-  --color-engagement: var(--accent-red);
-  --color-revenue: var(--secondary-teal);
-  --color-conversion: var(--accent-red);
-  
-  /* Common */
-  --border-radius-sm: 0.5rem; /* 8px */
-  --border-radius-md: 0.75rem; /* 12px */
-  --border-radius-lg: 1rem; /* 16px */
-  --border-radius-xl: 1.5rem; /* 24px */
-  --border-radius-2xl: 2rem; /* 32px */
-  --border-radius-full: 9999px;
-  
-  /* Typography */
-  --font-sans: 'Neue Haas Grotesk Display Pro', sans-serif;
-  
-  /* Box Shadows - Light Mode */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
-  --shadow-btn: 0 2px 6px rgba(0, 0, 0, 0.15);
-  
-  /* Glow effects - Light Mode (subtle or none) */
-  --glow-accent: none;
-  --glow-primary: none;
-  --glow-blue: none;
-  --glow-secondary: none;
-  --glow-tertiary: none;
-  
-  /* Grid - Light Mode */
-
-  --grid-line: oklch(28.59% 0.0413 230.7 / 0.05);
-  --grid-line-rgb: rgba(18, 46, 59, 0.05);
-  --grid-dot: oklch(28.59% 0.0413 230.7 / 0.08);
-
-  --grid-dot-rgb: rgba(18, 46, 59, 0.08);
-
-  
-  /* Transitions */
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-bounce: 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  
-  /* Module backgrounds */
-  --module-bg-gradient: linear-gradient(to bottom right, white, var(--bg-cream));
-  --module-accent-gradient: linear-gradient(to bottom right, var(--bg-cream), var(--bg-cream-darker));
-  
-  /* ==========================================
-     THEME-AWARE VARIABLES - LIGHT MODE DEFAULTS
-     ========================================== */
-  
-  /* 
-   * These theme-aware variables are the single source of truth.
-   * They automatically update when the theme changes.
-   */
-  
-  /* Theme text colors */
-  --theme-text-primary: var(--text-navy) !important;
-
-  --theme-text-secondary: oklch(28.59% 0.0413 230.7 / 0.8) !important;
-  --theme-text-secondary-rgb: rgba(18, 46, 59, 0.8);
-  --theme-text-tertiary: oklch(28.59% 0.0413 230.7 / 0.6) !important;
-  --theme-text-tertiary-rgb: rgba(18, 46, 59, 0.6);
-  --theme-text-subtle: oklch(28.59% 0.0413 230.7 / 0.4);
-  --theme-text-subtle-rgb: rgba(18, 46, 59, 0.4);
-
-
-  --theme-text-on-primary: white;
-  
-  /* Theme background colors */
-  --theme-bg-primary: var(--bg-cream) !important;
-  --theme-bg-secondary: var(--bg-cream-darker) !important;
-  --theme-bg-surface: white !important;
-  --theme-bg-card: white;
-  
-  /* Theme gradient variables */
-  --theme-gradient-start: var(--text-cream) !important;
-  --theme-gradient-end: var(--bg-cream) !important;
-  --theme-gradient-card-start: var(--text-cream);
-  --theme-gradient-card-end: var(--bg-cream);
-  --theme-primary-gradient-start: var(--primary-orange);
---theme-primary-gradient-end: var(--primary-orange-hover);
-  --theme-secondary-gradient-start: var(--secondary-teal);
-  --theme-secondary-gradient-end: var(--secondary-teal-hover);
-  --theme-accent-gradient-start: var(--accent-coral);
-  --theme-accent-gradient-end: var(--accent-red);
-  --theme-bg-navy-gradient: linear-gradient(213deg, var(--theme-bg-primary) 0%, var(--theme-bg-secondary) 100%);
-  --theme-bg-cream-gradient: linear-gradient(to bottom right, var(--theme-gradient-start), var(--theme-gradient-end));
-  
-  /* Extended Module HUD Palette */
-
-  --hud-teal: var(--secondary-teal); /* #387292 */
-  --hud-coral: var(--accent-coral); /* #DE6B59 */
-  --hud-navy: var(--secondary-blue); /* #122E3B */
-
-  --hud-red: var(--accent-red); /* #B92234 */
-  --hud-pink: var(--accent-pink); /* #FA91A6 */
-  --hud-orange: var(--primary-orange); /* #FEA35D */
-  --hud-accent-red: var(--accent-red-dark); /* #FF3C54 */
-  --hud-orange-light: var(--accent-yellow); /* #FFD5B5 */
-  --hud-orange-lighter: var(--accent-peach-light); /* #FFD79B */
-
-  /* Theme accent colors */
-  --theme-primary: var(--primary-orange);
-  --theme-primary-hover: var(--primary-orange-hover);
-  --theme-primary-light: var(--primary-orange-light);
-  --theme-accent-secondary: var(--secondary-teal);
-  --theme-accent-secondary-hover: var(--secondary-teal-hover);
-  --theme-accent-secondary-light: var(--secondary-teal-light);
-  --theme-accent-tertiary: var(--accent-coral);
-  --theme-accent-quaternary: var(--accent-red);
-  --theme-accent: var(--theme-accent-secondary);
-
-  --theme-accent-coral: var(--accent-coral);
-  --theme-accent-red: var(--accent-red);
-
-  --theme-color-desktop: var(--primary-orange);
-  --theme-color-mobile: var(--secondary-teal);
-  --theme-color-views: var(--primary-orange);
-  --theme-color-followers: var(--hud-teal);
-  --theme-color-engagement: var(--accent-red);
-  --theme-color-revenue: var(--secondary-teal);
-  
-  /* Theme shadows */
-  --theme-shadow-card: var(--shadow-sm);
-  --theme-shadow-card-hover: var(--shadow-md);
-  --theme-shadow-sm: var(--shadow-sm);
-  --theme-shadow-md: var(--shadow-md);
-  --theme-shadow-lg: var(--shadow-lg);
-  --theme-shadow-btn: var(--shadow-btn);
-  --theme-shadow-primary: var(--shadow-sm);
-  --theme-shadow-secondary: var(--shadow-sm);
-  --theme-shadow-tertiary: var(--shadow-sm);
-  --theme-shadow-accent: var(--shadow-sm);
-  --theme-shadow-btn-primary: var(--shadow-btn);
-  --theme-shadow-btn-secondary: var(--shadow-btn);
-  --theme-shadow-btn-tertiary: var(--shadow-btn);
-  
-  /* Theme floating elements */
-  --theme-float-opacity: 0.15;
-  --theme-float-opacity-secondary: 0.2;
-  --theme-float-bg-primary: var(--primary-orange);
-  --theme-float-bg-secondary: var(--primary-orange-hover);
-  
-  /* Team section variables */
-  --theme-team-joden: linear-gradient(to bottom, var(--bg-cream), var(--bg-cream-darker));
-  --theme-team-alex: linear-gradient(to bottom, var(--bg-cream-darker), var(--bg-cream));
-  --theme-team-tia: linear-gradient(to bottom, var(--bg-cream), var(--secondary-teal-light)/10);
-  --theme-team-aydan: linear-gradient(to bottom, var(--secondary-teal-light)/10, var(--bg-cream));
-  --theme-team-joden-accent: var(--primary-orange);
-  --theme-team-alex-accent: var(--secondary-teal);
-  --theme-team-tia-accent: var(--accent-coral);
-  --theme-team-aydan-accent: var(--accent-red);
-  
-  /* Theme animation variables */
-  --theme-anim-distance: -4px;
-  --theme-anim-distance-sm: -2px;
-  --theme-anim-distance-md: -6px;
-  --theme-anim-scale: 1.02;
-  --theme-anim-scale-sm: 1.01;
-  --theme-anim-duration: 0.35;
-  --theme-anim-duration-slow: 0.5;
-  --theme-anim-duration-med: 0.4;
-  --theme-anim-duration-marquee: 30s;
-  --theme-transition-normal: var(--transition-normal);
-  --theme-transition-fast: var(--transition-fast);
-  --theme-transition-bounce: var(--transition-bounce);
-  
-  /* Theme border colors */
-  --theme-border: rgba(0, 0, 0, 0.1) !important;
-  --theme-border-light: rgba(0, 0, 0, 0.05);
-  --theme-border-medium: rgba(0, 0, 0, 0.1);
-  --theme-border-primary: rgba(var(--primary-orange-rgb), 0.2);
-  
-  /* Theme border radius */
-  --theme-border-radius-md: var(--border-radius-md);
-  --theme-border-radius-lg: var(--border-radius-lg);
-  
-  /* Theme grid patterns */
-  --theme-grid-line: var(--grid-line);
-  --theme-grid-dot: var(--grid-dot);
-  --theme-grid-dot-opacity: 0.08;
-  
-  /* Theme opacity values */
-  --theme-overlay-opacity: 0.5;
-  --theme-glow-opacity: 0.3;
-  --theme-glow-opacity-sm: 0.15;
-  --theme-glow-opacity-lg: 0.45;
-  
-  /* Theme card styles */
-  --theme-card-bg-navy: var(--card-bg-navy);
-
-  
-  /* Pattern variables */
-  --theme-pattern-color: var(--primary-orange);
-  --theme-pattern-opacity: 0.05;
-  
-  /* Eyeball component variables */
-  --theme-eyeball-outer: white;
-  --theme-eyeball-iris: var(--theme-accent-secondary);
-  --theme-eyeball-pupil: var(--bg-navy);
-  
-  /* Radix UI components */
-  --theme-var-name: 'example-value';
-  --theme-radix-navigation-menu-viewport-width: 600px;
-  --theme-radix-navigation-menu-viewport-height: 400px;
-  --theme-radix-select-trigger-width: 100%;
-  --theme-radix-select-trigger-height: 2.5rem;
-  
-  /* Reset for common variables */
-  --gap: 1rem;
-  --tw-rotate: 0;  
 }
 
 /* =================================================
@@ -369,71 +55,10 @@
 .dark, [data-theme="dark"] {
 
   /* Background colors for dark mode - rich navy colors */
-  --bg-cream: oklch(0.12 0.03 240);
-  --bg-cream-rgb: 9, 35, 47;
-  
-  /* Enhanced gradient with more richness for dark mode */
-  --bg-cream-gradient: linear-gradient(135deg, oklch(0.14 0.04 235) 0%, oklch(0.10 0.04 240) 100%);
-  --bg-cream-gradient-rgb: linear-gradient(135deg, rgb(10, 40, 55) 0%, rgb(5, 25, 35) 100%);
-  --bg-cream-darker: oklch(0.12 0.02 235);
-  --bg-cream-darker-rgb: 8, 29, 39;
-  
-  /* Card colors for dark mode with subtle gradients */
-  --card-bg-light: oklch(0.28 0.05 227);
-  --card-bg-light-rgb: 12, 67, 99;
-  --card-bg-dark: linear-gradient(145deg, oklch(0.28 0.05 227) 0%, oklch(0.22 0.05 225) 100%);
-  
-  /* Module backgrounds with gradients for dark mode */
-  --module-bg-gradient: linear-gradient(120deg, oklch(0.25 0.05 225) 0%, oklch(0.20 0.04 230) 100%);
-  --module-accent-gradient: linear-gradient(120deg, oklch(0.28 0.06 220) 0%, oklch(0.23 0.05 225) 100%);
-  
-  /* Enhanced shadows for dark mode - more depth */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.4);
-  --shadow-btn: 0 2px 6px rgba(0, 0, 0, 0.25);
-  
-  /* Subtle glow effects for dark mode */
-  --glow-accent: 0 0 20px rgba(222, 107, 89, 0.15);
-  --glow-primary: 0 0 20px rgba(254, 172, 109, 0.15);
-  --glow-blue: 0 0 20px rgba(56, 114, 146, 0.15);
-  --glow-secondary: 0 0 20px rgba(70, 135, 155, 0.15);
-  --glow-tertiary: 0 0 20px rgba(239, 98, 82, 0.15);
-  
-  /* Text colors for dark mode */
-  --text-navy: oklch(0.96 0.01 90);
-  --text-navy-rgb: 255, 245, 233;
-  --text-cream: oklch(0.99 0.001 90);
-  --text-cream-rgb: 255, 255, 255;
-  
-  
-  /* Primary colors - brighter and more vibrant in dark mode */
 
-  --primary-orange-hover: oklch(0.85 0.15 55);
-  --primary-orange-hover-rgb: 255, 200, 140;
-  --primary-orange-light: oklch(0.85 0.12 60);
-  --primary-orange-light-rgb: 255, 205, 155;
-  
-  /* Secondary colors - brighter in dark mode */
-  --secondary-teal: oklch(0.55 0.08 200);
-  --secondary-teal-rgb: 70, 135, 155;
-  --secondary-teal-hover: oklch(0.60 0.09 195);
-  --secondary-teal-hover-rgb: 85, 155, 170;
-  --secondary-teal-light: oklch(0.65 0.07 195);
-  --secondary-teal-light-rgb: 95, 170, 185;
-  
-  /* UI Element colors */
-  --ui-peach-light: oklch(0.50 0.05 220);
-  --ui-peach-light-rgb: 60, 120, 150;
-  --ui-peach-dark: oklch(0.55 0.06 220);
-  --ui-peach-dark-rgb: 70, 130, 160;
-  
-  /* Grid patterns - subtle in dark mode */
-  --grid-line: rgba(255, 255, 255, 0.05);
-  --grid-dot: rgba(255, 255, 255, 0.08);
-  
+
   /* Enhanced HUD Colors */
-  --hud-teal: oklch(0.55 0.07 220);
+  --hud-teal: oklch(0.521 0.076 221.015);
   --hud-coral: oklch(0.70 0.16 27);
   --hud-navy: oklch(0.22 0.04 225);
   --hud-red: oklch(0.55 0.23 25);
@@ -442,7 +67,7 @@
   --hud-accent-red: oklch(0.70 0.25 25);
   --hud-orange-light: oklch(0.85 0.08 60);
   --hud-orange-lighter: oklch(0.87 0.09 65);
-  
+
   /* Theme-aware variables for dark mode */
   
   /* Theme text colors - dark mode */
@@ -453,28 +78,6 @@
   --theme-text-on-primary: white;
   
   /* Theme background colors - dark mode */
-  --theme-bg-primary: oklch(0.16 0.03 235) !important;
-  --theme-bg-secondary: oklch(0.12 0.02 235) !important;
-  --theme-bg-surface: oklch(0.16 0.03 235) !important;
-  --theme-bg-card: var(--card-bg-light);
-  --theme-accent-coral: var(--accent-red);
-  --theme-accent-red: var(--accent-red-dark);
-  
-  /* Theme gradient variables - dark mode with rich gradients */
-  --theme-gradient-start: oklch(0.16 0.03 235) !important;
-  --theme-gradient-end: oklch(0.12 0.02 235) !important;
-  --theme-gradient-card-start: var(--card-bg-light);
-  --theme-gradient-card-end: var(--bg-navy-darker);
-  --theme-primary-gradient-start: var(--primary-orange);
-  --theme-primary-gradient-end: var(--primary-orange-hover);
-  --theme-secondary-gradient-start: var(--secondary-teal);
-  --theme-secondary-gradient-end: var(--secondary-teal-hover);
-  --theme-accent-gradient-start: var(--accent-coral);
-  --theme-accent-gradient-end: var(--accent-red);
-  --theme-bg-navy-gradient: linear-gradient(213deg, var(--theme-bg-primary) 0%, var(--theme-bg-secondary) 100%);
-  --theme-bg-cream-gradient: linear-gradient(to bottom right, var(--theme-bg-primary), var(--theme-bg-secondary));
-
-
   
   /* Module backgrounds with gradients for dark mode */
   --module-bg-gradient: linear-gradient(120deg, oklch(0.25 0.05 225) 0%, oklch(0.20 0.04 230) 100%);
@@ -490,157 +93,19 @@
   --glow-accent: 0 0 20px rgba(222, 107, 89, 0.15);
   --glow-primary: 0 0 30px rgba(254, 172, 109, 0.15);
   --glow-blue: 0 0 20px rgba(56, 114, 146, 0.15);
-  --glow-secondary: 0 0 20px rgba(15, 157, 200, 0.15);
+  --glow-secondary: 0 0 20px rgba(15, 157, 200, 0.3);
   --glow-tertiary: 0 0 20px rgba(239, 98, 82, 0.15);
   
   /* Text colors for dark mode */
-  --text-navy: oklch(0.96 0.01 90);
-  --text-navy-rgb: 255, 245, 233;
-  --text-cream: oklch(0.99 0.001 90);
-  --text-cream-rgb: 255, 255, 255;
-  
   
   /* Primary colors - brighter and more vibrant in dark mode */
 
-  --primary-orange-hover: oklch(0.85 0.15 55);
   --primary-orange-hover-rgb: 255, 200, 140;
-  --primary-orange-light: oklch(0.85 0.12 60);
   --primary-orange-light-rgb: 255, 205, 155;
   
   /* Secondary colors - brighter in dark mode */
-  --secondary-teal: oklch(0.55 0.08 200);
   --secondary-teal-rgb: 70, 135, 155;
-  --secondary-teal-hover: oklch(0.60 0.09 195);
   --secondary-teal-hover-rgb: 85, 155, 170;
-  --secondary-teal-light: oklch(0.65 0.07 195);
-  --secondary-teal-light-rgb: 95, 170, 185;
-  
-  /* UI Element colors */
-  --ui-peach-light: oklch(0.50 0.05 220);
-  --ui-peach-light-rgb: 60, 120, 150;
-  --ui-peach-dark: oklch(0.55 0.06 220);
-  --ui-peach-dark-rgb: 70, 130, 160;
-  
-  /* Grid patterns - subtle in dark mode */
-  --grid-line: rgba(255, 255, 255, 0.05);
-  --grid-dot: rgba(255, 255, 255, 0.08);
-  
-  /* Enhanced HUD Colors */
-  --hud-teal: var(--secondary-blue); /* #387292 */
-  --hud-coral: var(--accent-red); /* #DE6B59 */
-  --hud-navy: var(--secondary-blue-dark); /* #122E3B */
-  --hud-red: var(--accent-red-darker); /* #B92234 */
-  --hud-pink: var(--accent-pink-darkmode); /* #FA91A6 */
-  --hud-orange: var(--primary-orange-darkmode); /* #FEA35D */
-  --hud-accent-red: var(--accent-red-dark); /* #FF3C54 */
-  --hud-orange-light: var(--accent-yellow-darkmode); /* #FFD5B5 */
-  --hud-orange-lighter: var(--accent-peach-dark); /* #FFD79B */
-  
-  /* Theme-aware variables for dark mode */
-  
-  /* Theme text colors - dark mode */
-  --theme-text-primary: white !important;
-  --theme-text-secondary: rgba(255, 255, 255, 0.8) !important;
-  --theme-text-tertiary: rgba(255, 255, 255, 0.6) !important;
-  --theme-text-subtle: rgba(255, 255, 255, 0.4);
-  --theme-text-on-primary: white;
-  
-  /* Theme background colors - dark mode */
-  --theme-bg-primary: var(--bg-navy);
-  --theme-bg-secondary: var(--bg-navy-darker);
-  --theme-bg-surface: oklch(0.16 0.03 235) !important;
-  --theme-bg-card: var(--card-bg-light);
-  --theme-accent-coral: var(--accent-red);
-  --theme-accent-red: var(--accent-red-dark);
-  
-  /* Theme gradient variables - dark mode with rich gradients */
-  --theme-gradient-start: oklch(0.16 0.03 235) !important;
-  --theme-gradient-end: oklch(0.12 0.02 235) !important;
-  --theme-gradient-card-start: var(--card-bg-light);
-  --theme-gradient-card-end: var(--bg-navy-darker);
-  --theme-primary-gradient-start: var(--primary-orange);
-  --theme-primary-gradient-end: var(--primary-orange-hover);
-  --theme-secondary-gradient-start: var(--secondary-teal);
-  --theme-secondary-gradient-end: var(--secondary-teal-hover);
-  --theme-accent-gradient-start: var(--accent-coral);
-  --theme-accent-gradient-end: var(--accent-red);
-  --theme-bg-navy-gradient: linear-gradient(213deg, var(--theme-bg-primary) 0%, var(--theme-bg-secondary) 100%);
-  --theme-bg-cream-gradient: linear-gradient(to bottom right, var(--theme-bg-primary), var(--theme-bg-secondary));
-
-  --theme-primary: var(--primary-orange-darkmode);
-  --theme-primary-hover: var(--primary-orange-hover);
-  --theme-primary-light: var(--primary-orange-light);
-  --theme-accent-secondary: var(--secondary-blue);
-  --theme-accent-secondary-hover: var(--secondary-teal-hover);
-  --theme-accent-secondary-light: var(--secondary-teal-light);
-  --theme-accent-tertiary: var(--accent-coral);
-  --theme-accent-quaternary: var(--accent-red);
-  --theme-accent: var(--theme-accent-secondary);
-  
-  /* Theme shadows - enhanced with glows for dark mode */
-  --theme-shadow-card: var(--shadow-sm), var(--glow-blue);
-  --theme-shadow-card-hover: var(--shadow-md), var(--glow-blue);
-  --theme-shadow-sm: var(--shadow-sm), var(--glow-blue);
-  --theme-shadow-md: var(--shadow-md), var(--glow-blue);
-  --theme-shadow-lg: var(--shadow-lg), var(--glow-blue);
-  --theme-shadow-btn: var(--shadow-btn), var(--glow-primary);
-  --theme-shadow-primary: var(--shadow-sm), var(--glow-primary);
-  --theme-shadow-secondary: var(--shadow-sm), var(--glow-secondary);
-  --theme-shadow-tertiary: var(--shadow-sm), var(--glow-tertiary);
-  --theme-shadow-accent: var(--shadow-sm), var(--glow-accent);
-  --theme-shadow-btn-primary: var(--shadow-btn), var(--glow-primary);
-  --theme-shadow-btn-secondary: var(--shadow-btn), var(--glow-secondary);
-  --theme-shadow-btn-tertiary: var(--shadow-btn), var(--glow-tertiary);
-  
-  /* Theme floating elements - more visible in dark mode */
-  --theme-float-opacity: 0.2;
-  --theme-float-opacity-secondary: 0.3;
-  --theme-float-bg-primary: var(--primary-orange);
-  --theme-float-bg-secondary: var(--secondary-teal);
-  
-  /* Team section variables - dark mode */
-  --theme-team-joden: linear-gradient(to bottom, var(--bg-navy), var(--bg-navy-darker));
-  --theme-team-alex: linear-gradient(to bottom, var(--bg-navy-darker), var(--bg-navy));
-  --theme-team-tia: linear-gradient(to bottom, var(--bg-navy), var(--secondary-teal-light)/10);
-  --theme-team-aydan: linear-gradient(to bottom, var(--secondary-teal-light)/10, var(--bg-navy));
-  --theme-team-joden-accent: var(--primary-orange-light);
-  --theme-team-alex-accent: var(--secondary-teal-light);
-  --theme-team-tia-accent: var(--accent-coral);
-  --theme-team-aydan-accent: var(--accent-red-dark);
-  
-  /* Theme animation variables - slightly more pronounced in dark mode */
-  --theme-anim-distance: -5px;
-  --theme-anim-distance-sm: -3px;
-  --theme-anim-distance-md: -7px;
-  --theme-anim-scale: 1.03;
-  --theme-anim-scale-sm: 1.02;
-  --theme-anim-duration: 0.4;
-  --theme-anim-duration-med: 0.45;
-  --theme-anim-duration-slow: 0.6;
-  --theme-anim-duration-marquee: 25s;
-  
-  /* Theme border colors - subtle for dark mode */
-  --theme-border: rgba(255, 255, 255, 0.1) !important;
-  --theme-border-light: rgba(255, 255, 255, 0.05);
-  --theme-border-medium: rgba(255, 255, 255, 0.1);
-  --theme-border-primary: rgba(var(--primary-orange-rgb), 0.25);
-  
-  /* Theme grid patterns - subtle for dark mode */
-  --theme-grid-line: var(--grid-line);
-  --theme-grid-dot: var(--grid-dot);
-  --theme-grid-dot-opacity: 0.1;
-  
-  /* Theme opacity values - enhanced for dark mode */
-  --theme-overlay-opacity: 0.65;
-  --theme-glow-opacity: 0.3;
-  --theme-glow-opacity-sm: 0.15;
-  --theme-glow-opacity-lg: 0.45;
-  
-  /* Theme pattern color */
-  --theme-pattern-color: var(--primary-orange-light);
-  --theme-pattern-opacity: 0.08;
-  
-
 }
 
 /* Button gradients */
@@ -681,7 +146,7 @@
    ================================================= */
 
 html {
-  font-family: var(--font-sans);
+  font-family: var(--font-sans), serif;
   background-color: var(--theme-bg-primary);
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
@@ -691,7 +156,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: var(--font-sans);
+  font-family: var(--font-sans), serif;
   background: linear-gradient(to bottom right, var(--theme-gradient-start), var(--theme-gradient-end));
   color: var(--theme-text-primary);
   min-height: 100vh;
@@ -811,24 +276,6 @@ a:hover {
   background-position: 0 0, 10px 10px;
 }
 
-/* Buttons */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 400;
-  color: white;
-  background-color: var(--secondary-teal);
-  border-radius: var(--border-radius-full);
-  border: none;
-  cursor: pointer;
-  transition: all var(--transition-bounce);
-  box-shadow: var(--theme-shadow-btn);
-  text-transform: none;
-  letter-spacing: 0;
-}
 
 .btn:hover {
   background-color: var(--secondary-teal-hover);
@@ -1222,32 +669,6 @@ a:hover {
 [data-theme="dark"] .vs-float-element-light-1,
 [data-theme="dark"] .vs-float-element-light-2 {
   display: none;
-}
-
-.vs-float-element-dark-1 {
-  display: none;
-  position: absolute;
-  z-index: -10;
-  width: 5rem;
-  height: 5rem;
-  border-radius: 40%;
-  rotate: 12deg;
-  opacity: 0.1;
-  background: linear-gradient(to right, var(--primary-orange), var(--primary-orange-hover));
-  animation: float-slow 8s ease-in-out infinite;
-}
-
-.vs-float-element-dark-2 {
-  display: none;
-  position: absolute;
-  z-index: -10;
-  width: 7rem;
-  height: 7rem;
-  border-radius: 30%;
-  rotate: -6deg;
-  opacity: 0.15;
-  background: linear-gradient(to right, var(--secondary-teal), var(--secondary-teal-hover));
-  animation: float-medium 6s ease-in-out infinite;
 }
 
 .dark .vs-float-element-dark-1,

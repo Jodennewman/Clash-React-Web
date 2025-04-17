@@ -1,0 +1,23 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+    - name: Component Structure
+      rule: |
+        Follow these patterns for component implementation:
+        - Use functional components with hooks, not class components
+        - Implement TypeScript interfaces for component props
+        - Use the forwardRef pattern for components that need ref 
+  forwarding
+        - Follow the established component structure:
+          - Import statements grouped by type
+          - Component props interface
+          - useState/useRef declarations
+          - useEffect/useLayoutEffect hooks for side effects
+          - Conditional rendering functions
+          - Main JSX return
+        - Use the VS component wrappers for theme-aware styling:
+          - VSBackground, VSCard, VSSection for containers
+          - VSText, VSHeading, VSGradientText for text
+          - VSButton, VSIconButton for buttons

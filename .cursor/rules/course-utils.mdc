@@ -1,0 +1,20 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+ - name: Course Utils and Data Access
+      rule: |
+        Follow these patterns when working with course data:
+        - Use the centralized course-utils.ts for all data access
+        - Access course data through utility functions rather than direct 
+  imports
+        - All data should be dynamically calculated from course-data.json
+        - Implement proper caching with Maps for expensive operations
+        - Utilize the hierarchy of courseData → categories → sections → 
+  modules → submodules
+        - Use getThumbnailPath, getAvatarPath, getSubmoduleThumbnail, and 
+  getModuleThumbnail for image references
+        - Check for null data at every step with optional chaining
+        - Use courseStats for dynamic course statistics (totalModules, 
+  totalHours, etc.)

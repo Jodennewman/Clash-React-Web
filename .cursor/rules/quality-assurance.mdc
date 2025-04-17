@@ -1,0 +1,19 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+ rule: |
+        Implement robust error handling and performance optimizations:
+        - Always check for null/undefined with optional chaining
+        - Implement proper error boundaries for component-level error 
+  handling
+        - Use memoization via useMemo and useCallback for expensive 
+  operations
+        - Implement browser and device detection for optimal experiences
+        - Follow the progressive enhancement strategy for all features
+        - Keep performance in mind, especially for mobile devices
+        - Ensure proper cleanup for event listeners, animations, and 
+  effects
+        - Use lazy loading for components and assets where appropriate
+        - Always verify implementations on both mobile and desktop
