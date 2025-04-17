@@ -125,10 +125,7 @@ const TimelineDropdown: React.FC<{
         onClick={toggleOpen}
         className="timeline-dropdown-header flex items-center gap-3 cursor-pointer transition-all duration-300 hover-bubbly-sm"
       >
-        {/* Week icon */}
-        {week.icon && (
-          <span className="timeline-dropdown-icon text-2xl md:text-3xl">{week.icon}</span>
-        )}
+        {/* Week icon - emojis removed */}
         
         {/* Only highlight text, no duplicate title */}
         <div className="flex-1">

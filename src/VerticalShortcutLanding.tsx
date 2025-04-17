@@ -130,9 +130,7 @@ const carouselTestimonials = [
 // Features data is now in VS-BigReveal component
 
 // --- Lazy Load Section Components ---
-const LazyTabsLeft = lazy(() => import("./components/sections/tabs/left"));
 const LazySocialProof = lazy(() => import("./components/sections/social-proof/marquee-2-rows"));
-const LazyTestimonialCarousel = lazy(() => import("./components/ui/testimonial-carousel"));
 const LazyWordRoller = lazy(() => import("@/components/Word-Rollers/WordRoller.tsx"));
 const LazyCaseStudies = lazy(() => import("./components/sections").then(module => ({ default: module.CaseStudies })));
 const LazyVSPainPoints = lazy(() => import("./components/sections").then(module => ({ default: module.VSPainPoints })));
@@ -140,7 +138,6 @@ const LazyVSBigReveal = lazy(() => import("./components/sections").then(module =
 const LazyCourseViewer = lazy(() => import("./components/sections").then(module => ({ default: module.CourseViewer })));
 const LazyMeetTheTeam = lazy(() => import("./components/sections").then(module => ({ default: module.TeamSection }))); // Assuming TeamSection is the export
 const LazyFAQUpdated = lazy(() => import("./components/sections").then(module => ({ default: module.FAQUpdated })));
-const LazyPricingSimple = lazy(() => import("./components/sections").then(module => ({ default: module.PricingSimple })));
 const LazyCustomisation = lazy(() => import("./components/sections").then(module => ({ default: module.Customisation })));
 const LazyCourseStats = lazy(() => import("./components/sections").then(module => ({ default: module.CourseStats })));
 const LazyFounderTrack = lazy(() => import("./components/sections").then(module => ({ default: module.FounderTrack })));
@@ -276,6 +273,7 @@ const VerticalShortcutLanding = () => {
   const tracksRef = useRef(null);
   const testimonialsRef = useRef(null);
   const ctaRef = useRef(null);
+  const whatWeDoRef = useRef(null);
   // Corrected type for videoRef to allow null initial value
   const videoRef = useRef<HTMLDivElement | null>(null);
 
@@ -573,6 +571,7 @@ const VerticalShortcutLanding = () => {
           
           {/* Section 2: What do we do? - increased bottom padding to accommodate overlapping title */}
           <VSSection
+            ref={whatWeDoRef}
             className="pt-8 md:pt-12 lg:pt-16 pb-20 sm:pb-24 md:pb-28 lg:pb-32 relative overflow-visible bg-transparent"
           >
             {/* Theme-aware floating elements - enhanced with more abstract shapes */}
@@ -594,34 +593,39 @@ const VerticalShortcutLanding = () => {
             <div className="container mx-auto px-4">
               {/* Section header */}
               <div className="text-center max-w-4xl mx-auto mb-8">
-                  <h2 className="text-red-500 dark:text-orange-400 text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                  <h2 className="what-we-do-title text-red-500 dark:text-orange-400 text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
                       What do we do?
                   </h2>
                 </div>
 
               {/* Copy content - removed box styling */}
               <div className="text-center max-w-4xl lg:max-w-6xl xl:max-w-7xl mx-auto mb-16">
-                <p className="body-text mb-4 mx-auto max-w-[90%] md:max-w-none lg:max-w-[90%] xl:max-w-[95%]">
+                <p className="what-we-do-text-1 body-text mb-4 mx-auto max-w-[90%] md:max-w-none lg:max-w-[90%] xl:max-w-[95%]">
                   We make f*cking great videos.
                 </p>
-                <p className="text-sm sm:text-base md:text-base lg:text-lg text-theme-primary/80 italic mb-4 mx-auto max-w-[90%] md:max-w-none lg:max-w-[90%] xl:max-w-[95%]">
+                <p className="what-we-do-text-2 text-sm sm:text-base md:text-base lg:text-lg text-theme-primary/80 italic mb-4 mx-auto max-w-[90%] md:max-w-none lg:max-w-[90%] xl:max-w-[95%]">
                   For founders and execs, specifically.
                 </p>
-                <p className="body-text mb-8 mx-auto max-w-[90%] md:max-w-none lg:max-w-[90%] xl:max-w-[95%]">
+                <p className="what-we-do-text-3 body-text mb-8 mx-auto max-w-[90%] md:max-w-none lg:max-w-[90%] xl:max-w-[95%]">
                   We've worked with some of the biggest business creators in the
                   world: Chris Donnelly, Charlotte Mair, James Watt, Ben Askins,
                   Jordan Schwarzenberger... just to name a few.
                 </p>
-                <p className="body-text mb-0 mx-auto max-w-[90%] md:max-w-none lg:max-w-[90%] xl:max-w-[95%]">
+                <p className="what-we-do-text-4 body-text mb-4 mx-auto max-w-[90%] md:max-w-none lg:max-w-[90%] xl:max-w-[95%]">
                   Building them over <span className="font-bold">1 Billion Views</span> in just 2 years (we told
                   you, we're the best)
+                </p>
+                <p className="what-we-do-text-5 body-text mb-0 mx-auto max-w-[90%] md:max-w-none lg:max-w-[90%] xl:max-w-[95%] font-bold text-lg md:text-xl lg:text-2xl text-theme-accent">
+                  The numbers speak for themselves
                 </p>
                 </div>
 
               {/* Section 3: Case studies - click on each to see graphs and more in detail stats */}
-               <Suspense fallback={<LoadingFallback />}>
-                 <LazyCaseStudies onCtaClick={openQualificationModal} />
-               </Suspense>
+               <div className="mb-[-120px]">
+                 <Suspense fallback={<LoadingFallback />}>
+                   <LazyCaseStudies onCtaClick={openQualificationModal} />
+                 </Suspense>
+               </div>
             </div>
           </VSSection>
 
@@ -647,21 +651,15 @@ const VerticalShortcutLanding = () => {
              <LazyCourseStats />
            </Suspense>
 
-          {/* Section 9: The Course Curriculum (Using CourseViewer component) */}
-          <div id="curriculum">
-             <Suspense fallback={<LoadingFallback />}>
-               <LazyCourseViewer />
-             </Suspense>
-          </div>
-
-          {/* Tools & Integrations - Custom systems built for creators */}
-           <Suspense fallback={<LoadingFallback />}>
-             <LazyConnectEverything />
-           </Suspense>
 
           {/* Section 10: Week by week structure */}
            <Suspense fallback={<LoadingFallback />}>
              <LazyCourseTimeline />
+           </Suspense>
+
+          {/* Tools & Integrations - Custom systems built for creators */}
+           <Suspense fallback={<LoadingFallback />}>
+             <LazyConnectEverything />
            </Suspense>
 
            <Suspense fallback={<LoadingFallback />}>
@@ -673,36 +671,18 @@ const VerticalShortcutLanding = () => {
              <LazyFounderTrack onCtaClick={openQualificationModal} />
            </Suspense>
 
-          {/* Section 13: The Team Track */}
-           <Suspense fallback={<LoadingFallback />}>
-             <LazyTabsLeft />
-           </Suspense>
 
-          {/* Section 14: Testimonials slideshow */}
-          <div id="testimonials">
-             <Suspense fallback={<LoadingFallback />}>
-               <LazyTestimonialCarousel testimonials={carouselTestimonials} />
-             </Suspense>
-          </div>
-
-          {/* Section 15: Buy/Apply - Pricing Section */}
-          <div id="pricing">
-             <Suspense fallback={<LoadingFallback />}>
-               <LazyPricingSimple onCtaClick={openQualificationModal} />
-             </Suspense>
-          </div>
-
-          {/* Section 16: Customisation */}
+          {/* Section 13: Customisation */}
            <Suspense fallback={<LoadingFallback />}>
              <LazyCustomisation onCtaClick={openQualificationModal} />
            </Suspense>
 
-          {/* Section 17: FAQs */}
+          {/* Section 14: FAQs */}
            <Suspense fallback={<LoadingFallback />}>
              <LazyFAQUpdated />
            </Suspense>
 
-          {/* Section 18: Final Application CTA */}
+          {/* Section 15: Final Application CTA */}
           <VSSection
             ref={ctaRef}
             className="py-24 relative overflow-hidden bg-theme-gradient dark:bg-theme-gradient"

@@ -471,7 +471,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
   return (
     <Section
       ref={(el) => mergeRefs(sectionRef, ref)(el)}
-      className="bg-transparent min-h-screen flex flex-col justify-start pt-0 pb-0 relative overflow-visible"
+      className="bg-transparent flex flex-col justify-start pt-0 pb-0 mb-0 relative overflow-visible"
     >
     {/* Background patterns */}
     <div className="absolute inset-0 dot-bg pointer-events-none"></div>

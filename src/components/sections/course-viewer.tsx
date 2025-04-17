@@ -357,21 +357,21 @@ export const CourseViewer: React.FC = () => {
             Is making actually good short form content really that complex?
           </VSHeading>
           
-          <p className="body-text mb-6 mx-auto max-w-[90%] md:max-w-3xl">
+          <p style={{ textAlign: 'center', margin: '0 auto 3rem' }} className="body-text mx-auto max-w-[90%] md:max-w-3xl">
             Well yes and no. It's simple, but there's a lot to it.
           </p>
           
           <VSGradientText
             as="h3"
             size="lg"
-            className="font-bold mb-12"
+            className="font-bold mb-2 text-left md:pl-12"
           >
             The Course Curriculum
           </VSGradientText>
         </div>
         
         {/* ModuleHUD container with theme-aware styling and proper centering */}
-        <div className="flex justify-center items-center w-full my-16 md:my-24 relative">
+        <div className="flex justify-center items-center w-full mt-2 md:mt-4 mb-8 md:mb-12 relative">
           {/* Theme-aware floating elements for visual interest */}
           <div className="course-float-element absolute -z-10 top-20 left-[15%] w-32 h-32 rounded-[40%] rotate-12 
                opacity-[var(--theme-float-opacity)] 

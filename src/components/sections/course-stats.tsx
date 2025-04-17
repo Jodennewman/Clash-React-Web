@@ -6,6 +6,7 @@ import { Book, Clock, FileText, FileCode, Layers, CheckSquare } from 'lucide-rea
 import courseUtils from "../../lib/course-utils";
 // Using courseUtils as the single source of truth instead of direct import
 import { Section } from "../ui/section";
+import { ModuleHUD } from './ModuleHUD';
 
 // Define CSS animations for floating elements - VS Bubbly style
 const floatingAnimationsStyle = `
@@ -80,7 +81,20 @@ const statItems = [
 
 const CourseStats = () => {
   const statsRef = useRef(null);
+  const moduleHudRef = useRef(null);
   const [animatedCounters, setAnimatedCounters] = useState(false);
+  
+  // State for ModuleHUD
+  const [selectedSection, setSelectedSection] = useState<string | null>(null);
+  
+  // Handler for module clicks
+  const handleModuleClick = (moduleId: string) => {
+    if (selectedSection === moduleId) {
+      setSelectedSection(null);
+    } else {
+      setSelectedSection(moduleId);
+    }
+  };
   
   // Get stats from courseUtils as the single source of truth
   const courseStats = courseUtils.courseStats;
@@ -169,13 +183,11 @@ const CourseStats = () => {
   return (
     <Section 
       id="course-stats"
-      className="bg-theme-primary py-24 border-t border-theme-border-light relative overflow-hidden"
+      className="bg-theme-primary py-4 border-t border-theme-border-light relative overflow-hidden"
+      style={{ background: "var(--theme-bg-primary)" }}
     >
       {/* Apply float animations via style tag */}
       <style dangerouslySetInnerHTML={{ __html: floatingAnimationsStyle }} />
-      
-      {/* Add subtle background pattern for visual interest */}
-      <div className="absolute inset-0 dot-bg opacity-[var(--theme-pattern-opacity)] pointer-events-none"></div>
       
       {/* Theme-aware floating elements */}
       <div className="absolute top-20 left-10 w-24 h-24 rounded-[40%] rotate-12 
@@ -188,16 +200,41 @@ const CourseStats = () => {
                     animate-float-medium hidden md:block"></div>
       
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-theme-primary text-4xl md:text-5xl font-bold mb-6">
+        <div className="text-center mb-6">
+          <h2 className="text-theme-primary text-4xl md:text-5xl font-bold mb-3 mt-0">
             So what's actually in it?
           </h2>
-          <p className="body-text mb-6 mx-auto max-w-[90%] md:max-w-3xl">
+          <p style={{ textAlign: 'center', margin: '0 auto 1.5rem', maxWidth: '95%' }} className="body-text w-full whitespace-nowrap">
             The Vertical Shortcut is packed full of content - and don't worry its not just videos.
           </p>
           <p className="body-text-large font-bold text-theme-primary mb-6">
             You'll get lifetime access to:
           </p>
+          
+          {/* ModuleHUD integration */}
+          <div ref={moduleHudRef} className="flex justify-center items-center w-full mb-4 relative">
+            
+            <div className="module-hud-container relative flex flex-col items-center justify-center h-full min-h-[500px] w-full max-w-4xl mx-auto p-0">
+              <ModuleHUD 
+                selectedSection={selectedSection}
+                onModuleClick={handleModuleClick}
+                submodules={selectedSection ? courseUtils.getSubmodulesForModule(selectedSection).map(submodule => ({
+                  id: submodule.id,
+                  title: submodule.title,
+                  duration: submodule.formattedDuration || `${submodule.duration}:00`,
+                  subtitle: submodule.subtitle,
+                  thumbnailUrl: courseUtils.getThumbnailPath(courseUtils.getModuleThumbnail(submodule.id)),
+                  isCompleted: false,
+                  isLocked: false,
+                  instructor: submodule.instructor,
+                  week: submodule.week,
+                  difficulty: ['Beginner', 'Intermediate', 'Advanced'][submodule.difficulty] || 'Intermediate',
+                  resources: submodule.resources || []
+                })) : []}
+              />
+              <p className="mt-6 text-center text-lg text-theme-primary font-medium">All broken down into</p>
+            </div>
+          </div>
         </div>
         
         <div ref={statsRef} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 max-w-6xl mx-auto">
@@ -244,15 +281,7 @@ const CourseStats = () => {
         </div>
       </div>
       
-      {/* Theme-aware decorative elements at the bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 
-                    bg-theme-gradient-overlay-light
-                    opacity-[var(--theme-overlay-opacity)] pointer-events-none"></div>
-      
-      {/* Subtle glow at bottom - theme-aware */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 
-                    bg-theme-primary/5
-                    opacity-[var(--theme-glow-opacity)] pointer-events-none"></div>
+      {/* Decorative elements removed to reduce padding */}
     </Section>
   );
 };

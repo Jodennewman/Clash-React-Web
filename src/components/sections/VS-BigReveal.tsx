@@ -148,7 +148,7 @@ const VSBigReveal = () => {
   return (
     <VSSection 
       ref={sectionRef} 
-      className="big-reveal-section pt-20 pb-32 overflow-hidden relative min-h-[1000px] bg-theme-primary"
+      className="big-reveal-section pt-20 pb-16 overflow-hidden relative min-h-[800px] bg-theme-primary"
     >
       <IsometricGridBackground />
       {/* Decorative elements */}
@@ -170,7 +170,7 @@ const VSBigReveal = () => {
       )}
         
       <div className="container mx-auto px-4 relative">
-        <div className="text-center md:text-left mt-[250px] mb-16 max-w-[700px] mx-auto md:mx-0 relative z-10 overflow-visible">
+        <div className="text-center md:text-left mt-[40px] mb-16 max-w-[700px] mx-auto md:mx-0 relative z-10 overflow-visible">
           <p ref={headingRef} className="font-[200] !font-extralight mb-6 text-theme-primary text-center md:text-left lowercase tracking-wide whitespace-nowrap"
             style={{ 
               fontWeight: 200,
@@ -220,29 +220,27 @@ const VSBigReveal = () => {
           </div>
           
           <div className="program-details">
-            <VSCard
-              className="bg-theme-surface p-10 rounded-xl shadow-theme-md border border-theme-border-light overflow-hidden transform transition-all duration-300 hover:shadow-theme-lg hover:translate-y-[-4px]"
-            >
-              <VSHeading as="h3" size="lg" color="theme-primary" className="font-bold mb-10 text-center">
+            <div className="bg-transparent p-4 rounded-xl overflow-hidden transform transition-all duration-300">
+              <VSHeading as="h3" size="md" color="theme-primary" className="font-bold mb-4 text-center">
                 Program Details
               </VSHeading>
               
-              <div className="space-y-10 mb-10">
+              <div className="space-y-4 mb-6">
                 {programDetails.map((detail, index) => (
-                  <div key={index} className="flex flex-col items-center justify-center p-3 border border-theme-accent rounded-theme-md card-theme text-center text-[20px] font-bold">
-                    <div className="mb-4">
-                      <VSText color="theme-secondary" className="text-lg uppercase tracking-wider font-semibold m4">
+                  <div key={index} className="flex flex-col items-center justify-center p-2 border border-theme-accent/60 rounded-lg text-center text-[16px] font-medium bg-theme-surface/20">
+                    <div className="mb-1">
+                      <VSText color="theme-secondary" className="text-xs uppercase tracking-wider font-extrabold">
                         {detail.label}
                       </VSText>
                     </div>
                     {detail.highlight ? (
-                      <div className="inline-block px-6 py-3 rounded-full bg-theme-accent/10 m4 ">
-                        <VSText color="theme-accent" className="text-2xl font-bold">
+                      <div className="inline-block px-3 py-1 rounded-full bg-theme-accent/20">
+                        <VSText color="theme-accent" className="text-base font-extrabold">
                           {detail.value}
                         </VSText>
                       </div>
                     ) : (
-                      <VSText color="theme-primary" className="text-2xl font-bold">
+                      <VSText color="theme-primary" className="text-base font-extrabold">
                         {detail.value}
                       </VSText>
                     )}
@@ -250,13 +248,13 @@ const VSBigReveal = () => {
                 ))}
               </div>
               
-              <div className="cta-button mt-12">
-                <button className="bg-theme-gradient-primary text-white w-full py-5 rounded-lg flex items-center justify-center gap-3 font-bold text-xl shadow-theme-md hover-bubbly">
+              <div className="cta-button mt-4">
+                <button className="bg-theme-gradient-primary text-white w-full py-3 rounded-lg flex items-center justify-center gap-2 font-bold text-base shadow-theme-sm hover-bubbly">
                   <span>Get your Plan</span>
-                  <ArrowRightCircle className="h-7 w-7" />
+                  <ArrowRightCircle className="h-5 w-5" />
                 </button>
               </div>
-            </VSCard>
+            </div>
           </div>
         </div>
       </div>
