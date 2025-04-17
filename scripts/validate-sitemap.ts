@@ -86,11 +86,17 @@ async function validateSitemap(): Promise<ValidationResult> {
 
         result.validUrls++;
       } catch (urlError) {
-        result.errors.push(`Error processing URL ${url.loc}: ${urlError.message}`);
+        const errorMessage = urlError instanceof Error 
+          ? urlError.message 
+          : String(urlError);
+        result.errors.push(`Error processing URL ${url.loc}: ${errorMessage}`);
       }
     }
   } catch (sitemapError) {
-    result.errors.push(`Error processing sitemap: ${sitemapError.message}`);
+    const errorMessage = sitemapError instanceof Error 
+      ? sitemapError.message 
+      : String(sitemapError);
+    result.errors.push(`Error processing sitemap: ${errorMessage}`);
   }
 
   // Generate report
