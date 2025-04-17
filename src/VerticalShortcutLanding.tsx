@@ -1,6 +1,7 @@
 import React, { useRef, useLayoutEffect, useEffect, useState, lazy, Suspense } from "react";
 import VSQualificationModal from "./Qualification_components/qualification-modal";
 import SimpleHero from "./components/hero/SimpleHero";
+import IsometricGridBackground from "./components/hero/IsometricPattern";
 import { Badge } from "./components/ui/badge";
 // import SafeVideoEmbed from "./components/ui/video-embed";
 import VSNavbar from "./components/sections/navbar/vs-navbar";
@@ -547,19 +548,34 @@ const VerticalShortcutLanding = () => {
           ref={contentRef}
           className="min-h-screen overflow-hidden bg-gradient-to-b from-white to-[var(--theme-bg-cream-gradient)] dark:bg-gradient-to-b dark:from-[var(--theme-bg-primary)] dark:to-[var(--theme-bg-secondary)]"
         >
-          {/* Section 1: Header with integrated video */}
+          {/* Section 1: Header */}
           <SimpleHero
             ref={heroRef}
             onCtaClick={openQualificationModal}
-            videoUrl="https://www.youtube.com/embed/your-video-id"
-            videoRef={videoRef as React.RefObject<HTMLDivElement>}
           />
-
-          {/* Section 2: What do we do? - Adjusted spacing for video peek */}
+          
+          {/* Section 2: Video section - no overlap with hero, removed gradient/grid */}
+          <div className="vs-section-light pt-8 pb-8 relative overflow-hidden">
+            <div className="container mx-auto px-4 relative z-10">              
+              <div className="video-container rounded-xl overflow-hidden shadow-theme-xl border border-theme-border-light/50 transform hover:scale-[1.02] transition-all duration-500">
+                <div className="aspect-[16/9] relative">
+                  <iframe 
+                    src="https://www.youtube.com/embed/your-video-id"
+                    className="absolute inset-0 w-full h-full"
+                    title="Vertical Shortcut Introduction"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Section 2: What do we do? - increased bottom padding to accommodate overlapping title */}
           <VSSection
-            className="py-16 pt-28 md:pt-32 lg:pt-40 relative overflow-hidden bg-theme-gradient dark:bg-theme-gradient"
+            className="pt-8 md:pt-12 lg:pt-16 pb-20 sm:pb-24 md:pb-28 lg:pb-32 relative overflow-visible bg-transparent"
           >
-            {/* Theme-aware floating elements */}
+            {/* Theme-aware floating elements - enhanced with more abstract shapes */}
             <div
               className="absolute -z-10 top-20 left-[10%] w-32 h-32 rounded-[40%] rotate-12
                  opacity-theme-float bg-theme-float-primary animate-float-slow"
@@ -568,35 +584,37 @@ const VerticalShortcutLanding = () => {
               className="absolute -z-10 bottom-20 right-[15%] w-36 h-36 rounded-[35%] -rotate-6
                  opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium"
             ></div>
-
+            
+            {/* Additional abstract shapes and texture */}
+            <div className="absolute -z-10 top-[30%] right-[20%] w-64 h-64 rounded-full opacity-10 bg-theme-accent blur-3xl"></div>
+            <div className="absolute -z-10 bottom-[20%] left-[15%] w-48 h-48 rounded-full opacity-10 bg-theme-primary blur-3xl"></div>
+            <div className="absolute -z-10 top-[15%] left-[25%] w-24 h-24 rounded-[30%] rotate-45 opacity-5 bg-theme-secondary animate-float-slow"></div>
+            <div className="absolute -z-10 bottom-[40%] right-[5%] w-40 h-40 rotate-12 opacity-5 bg-theme-accent rounded-[60%] animate-float-medium"></div>
+            
             <div className="container mx-auto px-4">
               {/* Section header */}
               <div className="text-center max-w-4xl mx-auto mb-8">
-                  <VSHeading
-                  as="h2"
-                  size="xl"
-                  className="text-theme-primary mb-6"
-                  >
-                        What do we do?
-                  </VSHeading>
+                  <h2 className="text-red-500 dark:text-orange-400 text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                      What do we do?
+                  </h2>
                 </div>
 
-              {/* Copy content */}
-              <div className="text-center max-w-4xl mx-auto mb-16">
-                <p className="body-text mb-8 mx-auto max-w-[90%] md:max-w-none">
+              {/* Copy content - removed box styling */}
+              <div className="text-center max-w-4xl lg:max-w-6xl xl:max-w-7xl mx-auto mb-16">
+                <p className="body-text mb-4 mx-auto max-w-[90%] md:max-w-none lg:max-w-[90%] xl:max-w-[95%]">
+                  We make f*cking great videos.
+                </p>
+                <p className="text-sm sm:text-base md:text-base lg:text-lg text-theme-primary/80 italic mb-4 mx-auto max-w-[90%] md:max-w-none lg:max-w-[90%] xl:max-w-[95%]">
+                  For founders and execs, specifically.
+                </p>
+                <p className="body-text mb-8 mx-auto max-w-[90%] md:max-w-none lg:max-w-[90%] xl:max-w-[95%]">
                   We've worked with some of the biggest business creators in the
                   world: Chris Donnelly, Charlotte Mair, James Watt, Ben Askins,
-                  Jordan Schwarzenberger, just to name a few.
+                  Jordan Schwarzenberger... just to name a few.
                 </p>
-                <p className="body-text mb-8 mx-auto max-w-[90%] md:max-w-none">
-                  And built their content from the ground up.
-                </p>
-                <p className="body-text mb-8 mx-auto max-w-[90%] md:max-w-none">
-                  Building them over 1 Billion Views in just 2 years (we told
+                <p className="body-text mb-0 mx-auto max-w-[90%] md:max-w-none lg:max-w-[90%] xl:max-w-[95%]">
+                  Building them over <span className="font-bold">1 Billion Views</span> in just 2 years (we told
                   you, we're the best)
-                </p>
-                <p className="body-text-large font-bold text-theme-primary">
-                  The numbers speak for themselves
                 </p>
                 </div>
 

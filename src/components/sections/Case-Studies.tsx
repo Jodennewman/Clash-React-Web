@@ -468,7 +468,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
   return (
     <Section
       ref={(el) => mergeRefs(sectionRef, ref)(el)}
-      className="bg-theme-primary min-h-screen flex flex-col justify-center py-20 relative overflow-hidden border-t border-theme-border-light"
+      className="bg-transparent min-h-screen flex flex-col justify-start pt-0 pb-12 relative overflow-visible"
     >
     {/* Background patterns */}
     <div className="absolute inset-0 dot-bg opacity-[var(--theme-pattern-opacity)] pointer-events-none"></div>
@@ -484,16 +484,16 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                   animate-float-medium hidden md:block"></div>
 
     <div className="container mx-auto px-4 relative z-10 flex flex-col">
-      {/* Section header */}
-      <div className="text-center mb-6 md:mb-8 case-study-element">
-        <h2 className="text-theme-primary text-4xl md:text-5xl font-bold mb-4">
-          Creator Case Studies
+      {/* Section header - moved to top with more emphasis */}
+      <div className="text-center mb-8 md:mb-12 case-study-element -mt-16 sm:-mt-20 md:-mt-24 lg:-mt-28">
+        <h2 className="text-black dark:text-white text-5xl md:text-6xl lg:text-7xl font-bold mb-2">
+          The numbers speak for themselves
         </h2>
       </div>
 
 
       {/* Stats carousel optimized for mobile with HUD-like appearance */}
-      <div ref={statsRowRef} className="mb-6 case-study-element">
+      <div ref={statsRowRef} className="mb-6 case-study-element relative z-20">
         {/* Mobile view: Creator grid with more prominent UI */}
         <div className="md:hidden">
           <h3 className="text-theme-secondary text-sm font-medium mb-2 px-1">
@@ -504,15 +504,15 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
               <button
                 key={creator.id}
                 onClick={() => setActiveCreator(index)}
-                className={`stats-box bg-theme-gradient-card 
+                className={`stats-box 
                           rounded-lg p-3
-                          border border-theme-border-light
-                          shadow-theme-sm 
+                          border border-gray-300/30 dark:border-gray-700/30
+                          z-30
                           transition-all duration-300
                           ${activeCreator === index 
-                            ? 'ring-2 ring-[var(--theme-primary)] shadow-theme-md' 
-                            : 'hover:shadow-theme-md'}
-                          flex items-center`}
+                            ? 'ring-1 ring-blue-500/50 dark:ring-blue-400/50 scale-105' 
+                            : 'hover:scale-102'}
+                          flex items-center relative`}
               >
                 <div className="w-10 h-10 rounded-full overflow-hidden 
                             border-2 border-[var(--theme-primary)]/70
@@ -525,14 +525,14 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                 </div>
 
                 <div className="flex-1">
-                  <h4 className="text-theme-primary font-medium text-sm truncate">
+                  <h4 className="text-gray-900 dark:text-white font-medium text-sm truncate">
                     {creator.name}
                   </h4>
                   <div className="flex items-center">
-                    <span className="text-theme-accent-primary font-bold text-lg">
+                    <span className="text-blue-600 dark:text-blue-400 font-bold text-lg">
                       {formatLargeNumber(creator?.totals?.views || 0)}
                     </span>
-                    <span className="text-theme-secondary text-xs ml-1">
+                    <span className="text-gray-600 dark:text-gray-300 text-xs ml-1">
                       views
                     </span>
                   </div>

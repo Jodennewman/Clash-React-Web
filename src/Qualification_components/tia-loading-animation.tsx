@@ -23,7 +23,7 @@ const TiaLoadingAnimation: React.FC<TiaLoadingAnimationProps> = ({
   const [isDarkMode, setIsDarkMode] = useState(false);
   
   // Refs for animation handling
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const startTimeRef = useRef<number>(0);
   
