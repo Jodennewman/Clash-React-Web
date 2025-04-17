@@ -3,7 +3,6 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import courseUtils from "../../lib/course-utils";
 import { VSSubmoduleModal } from "@/components/modals";
-course;
 interface ModuleHUDProps {
   selectedSection?: string | null;
   onModuleClick?: (moduleId: string) => void;
@@ -12,7 +11,6 @@ interface ModuleHUDProps {
 // Section data structure for our section types
 interface SectionData {
   id: string; // Base ID for the section
-  uniqueId?: string; // Combination of id + displayKey for unique identification
   name: string;
   color: string;
   type: "bigSquare" | "normalSquare"; // Type to determine rendering
@@ -39,11 +37,6 @@ const generateMainSections = (): SectionData[] => {
   // Map course data sections to UI section data structure
   const sectionsData: SectionData[] = [];
 
-  // Helper function to create uniqueId from id and displayKey
-  const createUniqueId = (id: string, displayKey?: string): string => {
-    return displayKey ? `${id}-${displayKey}` : id;
-  };
-
   // Function to get section name from courseUtils
   const getSectionName = (id: string): string => {
     const section = courseUtilsSections.find((s) => s.id === id);
@@ -53,7 +46,6 @@ const generateMainSections = (): SectionData[] => {
   // First BigSquare - Basic Theory/Core Concepts
   sectionsData.push({
     id: "basic_theory",
-    uniqueId: "basic_theory",
     name: getSectionName("theory_basics") || "Basic Theory",
     color: "var(--hud-teal)",
     type: "bigSquare",
@@ -64,7 +56,6 @@ const generateMainSections = (): SectionData[] => {
   // First Column - Upskillers - Using course data
   sectionsData.push({
     id: "upskiller_authentic_research_writer",
-    uniqueId: "upskiller_authentic_research_writer",
     name: getSectionName("research") || "Research & Writing",
     color: "var(--hud-teal)",
     type: "normalSquare",
@@ -73,7 +64,6 @@ const generateMainSections = (): SectionData[] => {
 
   sectionsData.push({
     id: "upskiller_shorts_ready_videographer",
-    uniqueId: "upskiller_shorts_ready_videographer",
     name: getSectionName("shooting") || "Shooting",
     color: "var(--hud-pink)",
     type: "normalSquare",
@@ -82,7 +72,6 @@ const generateMainSections = (): SectionData[] => {
 
   sectionsData.push({
     id: "upskiller_vertical_video_editors",
-    uniqueId: "upskiller_vertical_video_editors",
     name: getSectionName("editing") || "Editing",
     color: "var(--accent-coral)",
     type: "normalSquare",
@@ -92,7 +81,6 @@ const generateMainSections = (): SectionData[] => {
   // Second Column - PR/Authority & Delegation
   sectionsData.push({
     id: "pr_authority",
-    uniqueId: "pr_authority",
     name: getSectionName("authority_brand") || "PR & Authority",
     color: "var(--hud-coral)",
     type: "normalSquare",
@@ -103,7 +91,6 @@ const generateMainSections = (): SectionData[] => {
   const delegationCol2Key = "delegation-col2";
   sectionsData.push({
     id: "delegation",
-    uniqueId: createUniqueId("delegation", delegationCol2Key),
     name: getSectionName("business_delegation") || "Delegation",
     color: "var(--hud-teal)",
     type: "normalSquare",
@@ -114,28 +101,14 @@ const generateMainSections = (): SectionData[] => {
   // Second BigSquare - Advanced Theory
   sectionsData.push({
     id: "advanced_theory",
-    uniqueId: "advanced_theory",
     name: getSectionName("theory_advanced") || "Advanced Theory",
     color: "var(--hud-navy)",
     type: "bigSquare",
     size: "double",
   });
 
-  // Second delegation section (Team Building) - with unique ID
-  const delegationCol3Key = "delegation-col3";
-  sectionsData.push({
-    id: "delegation",
-    uniqueId: createUniqueId("delegation", delegationCol3Key),
-    name: "Team Building",
-    color: "var(--hud-teal)",
-    type: "normalSquare",
-    size: "normal",
-    displayKey: delegationCol3Key,
-  });
-
   sectionsData.push({
     id: "monetisation",
-    uniqueId: "monetisation",
     name: getSectionName("monetisation") || "Monetisation",
     color: "var(--hud-orange)",
     type: "normalSquare",
@@ -144,7 +117,6 @@ const generateMainSections = (): SectionData[] => {
 
   sectionsData.push({
     id: "conversion",
-    uniqueId: "conversion",
     name: getSectionName("conversions") || "Conversion",
     color: "var(--hud-teal)",
     type: "normalSquare",
@@ -160,7 +132,6 @@ const generateMainSections = (): SectionData[] => {
   const notionSystemData = courseUtils.getSystemData(systemDataMap["notion"]);
   sectionsData.push({
     id: "notion_system",
-    uniqueId: createUniqueId("notion_system", notionSystemKey),
     name: notionSystemData?.title
       ? `${notionSystemData.title} ${notionSystemData.emoji || "💾"}`
       : "Content Management Framework 💾",
@@ -176,7 +147,6 @@ const generateMainSections = (): SectionData[] => {
   const engineSystemData = courseUtils.getSystemData(systemDataMap["engine"]);
   sectionsData.push({
     id: "engine_room",
-    uniqueId: createUniqueId("engine_room", engineSystemKey),
     name: engineSystemData?.title
       ? `${engineSystemData.title} ${engineSystemData.emoji || "🏭"}`
       : "Production Automation Suite 🏭",
@@ -192,7 +162,6 @@ const generateMainSections = (): SectionData[] => {
   const viralSystemData = courseUtils.getSystemData(systemDataMap["viral"]);
   sectionsData.push({
     id: "viral_os",
-    uniqueId: createUniqueId("viral_os", viralSystemKey),
     name: viralSystemData?.title
       ? `${viralSystemData.title} ${viralSystemData.emoji || "🖥️"}`
       : "Video Editing Ecosystem 🖥️",
@@ -226,11 +195,23 @@ const SquareColumn: React.FC<SquareColumnProps> = ({
     <div className="flex flex-row md:flex-col gap-[var(--square-gap-x)] md:gap-[var(--square-gap-y)]">
       {squares.map((square) => (
         <NormalSquare
-          key={square.uniqueId || square.id}
+          key={
+            square.displayKey ? `${square.id}-${square.displayKey}` : square.id
+          }
           section={square}
-          isSelected={selectedSection === (square.uniqueId || square.id)}
+          isSelected={
+            selectedSection ===
+            (square.displayKey
+              ? `${square.id}-${square.displayKey}`
+              : square.id)
+          }
           ref={(el) => {
-            if (el) sectionRefs.current[square.uniqueId || square.id] = el;
+            if (el)
+              sectionRefs.current[
+                square.displayKey
+                  ? `${square.id}-${square.displayKey}`
+                  : square.id
+              ] = el;
             return undefined;
           }}
         />
@@ -247,7 +228,7 @@ interface SquareProps {
 
 // Fix BigSquare component
 const BigSquare = React.forwardRef<HTMLDivElement, SquareProps>(
-  ({ section, isSelected }, ref) => {
+  ({ section }, ref) => {
     // Get a thumbnail based on section ID - using exact paths from JSON
     const getSectionThumbnail = () => {
       // Match section ID to appropriate thumbnail and use the courseUtils.getThumbnailPath function
@@ -368,7 +349,11 @@ const BigSquare = React.forwardRef<HTMLDivElement, SquareProps>(
     return (
       <div
         ref={ref}
-        data-id={section.uniqueId || section.id}
+        data-id={
+          section.displayKey
+            ? section.id + "-" + section.displayKey
+            : section.id
+        }
         data-base-id={section.id}
         data-display-key={section.displayKey}
         className="section-module module-item dark-glow-overlay w-[calc(var(--normal-square-width)*2)] h-[calc(var(--normal-square-width)*2)] rounded-xl shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(53,115,128,0.3),_0_0_15px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.5),_0_0_20px_rgba(0,0,0,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
@@ -378,7 +363,9 @@ const BigSquare = React.forwardRef<HTMLDivElement, SquareProps>(
         }}
         onClick={(e) => {
           e.stopPropagation(); // Prevent event bubbling
-          const moduleId = section.uniqueId || section.id;
+          const moduleId = section.displayKey
+            ? section.id + "-" + section.displayKey
+            : section.id;
           // Dispatch a custom event that will be caught by handleModuleClick
           const clickEvent = new CustomEvent("module-click", {
             bubbles: true,
@@ -408,7 +395,7 @@ BigSquare.displayName = "BigSquare"; // Add display name for better debugging
 
 // Fix NormalSquare component
 const NormalSquare = React.forwardRef<HTMLDivElement, SquareProps>(
-  ({ section, isSelected }, ref) => {
+  ({ section }, ref) => {
     // Get a thumbnail based on section ID using direct paths
     const getSectionThumbnail = () => {
       // Match section ID to appropriate thumbnail
@@ -558,7 +545,11 @@ const NormalSquare = React.forwardRef<HTMLDivElement, SquareProps>(
     return (
       <div
         ref={ref}
-        data-id={section.uniqueId || section.id}
+        data-id={
+          section.displayKey
+            ? section.id + "-" + section.displayKey
+            : section.id
+        }
         data-base-id={section.id}
         data-display-key={section.displayKey}
         className="section-module module-item dark-glow-overlay w-[var(--normal-square-width)] h-[var(--normal-square-width)] rounded-xl shadow-[0_4px_8px_rgba(0,0,0,0.15)] dark:shadow-[0_0_20px_rgba(53,115,128,0.3),_0_0_15px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_25px_rgba(53,115,128,0.5),_0_0_20px_rgba(0,0,0,0.3)] cursor-pointer relative transition-all duration-[var(--theme-transition-bounce)] tooltip-trigger"
@@ -568,7 +559,9 @@ const NormalSquare = React.forwardRef<HTMLDivElement, SquareProps>(
         }}
         onClick={(e) => {
           e.stopPropagation(); // Prevent event bubbling
-          const moduleId = section.uniqueId || section.id;
+          const moduleId = section.displayKey
+            ? section.id + "-" + section.displayKey
+            : section.id;
           // Dispatch a custom event that will be caught by handleModuleClick
           const clickEvent = new CustomEvent("module-click", {
             bubbles: true,
@@ -602,7 +595,12 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-  const moduleRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
+  // Dedicated caches for thumbnails and their load states to avoid type conflicts
+  const thumbnailCacheRef = useRef<Map<string, string>>(new Map());
+  const loadStateRef = useRef<Map<string, "success" | "error" | "loading">>(
+    new Map(),
+  );
 
   // State for modal management
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -623,10 +621,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
     () => [mainSections[7], mainSections[8], mainSections[9]],
     [],
   ); // Third column - Business Scaling
+  // Systems column - last three sections in mainSections (Notion, Engine, Viral)
   const systemsColumn = useMemo(
-    () => [mainSections[10], mainSections[11], mainSections[12]],
+    () => [mainSections[9], mainSections[10], mainSections[11]].filter(Boolean),
     [],
-  ); // Systems column - 3 products
+  );
 
   // Get modules for the selected section with improved performance
   const selectedSectionModules = useMemo(() => {
@@ -974,9 +973,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
     if (previousSection && previousSection !== selectedSection) {
       const prevSectionEl = sectionRefs.current[previousSection];
       if (prevSectionEl) {
-        // Find previous section data by uniqueId first, then fall back to other methods
+        // Find previous section data by id and displayKey combination, then fall back to id
         const prevSectionData = mainSections.find(
-          (s) => s.uniqueId === previousSection || s.id === previousSection,
+          (s) =>
+            (s.displayKey ? s.id + "-" + s.displayKey : s.id) ===
+              previousSection || s.id === previousSection,
         );
 
         if (prevSectionData) {
@@ -1051,14 +1052,16 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
 
     // If a section is selected, expand it after previous collapses
     if (selectedSection) {
-      // Find the section element directly using the uniqueId stored in sectionRefs
+      // Find the section element directly using the section ID stored in sectionRefs
       const sectionEl = sectionRefs.current[selectedSection];
 
       if (!sectionEl) return;
 
-      // Find the section data using uniqueId first
+      // Find the section data using id and displayKey combination, then fall back to id
       let sectionData = mainSections.find(
-        (s) => s.uniqueId === selectedSection || s.id === selectedSection,
+        (s) =>
+          (s.displayKey ? s.id + "-" + s.displayKey : s.id) ===
+            selectedSection || s.id === selectedSection,
       );
 
       // If we still can't find the section data, handle special cases (like system sections)
@@ -1167,7 +1170,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
     // Find the section data for color information
     const sectionData = mainSections.find(
       (s) =>
-        s.uniqueId === sectionId ||
+        (s.displayKey ? s.id + "-" + s.displayKey : s.id) === sectionId ||
         s.id === sectionId ||
         (s.id === baseId && s.displayKey === displayKey),
     );
@@ -1581,7 +1584,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
           const modal = (e.target as HTMLElement).closest(
             '[id^="system-modal-"]',
           );
-          if (modal) {
+          if (modal && modal instanceof HTMLElement) {
             // Animate modal out
             const modalContentEl = modal.querySelector("div");
             if (modalContentEl) {
@@ -1590,8 +1593,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
                 duration: 0.2,
                 ease: "power3.in",
                 onComplete: () => {
-                  (modal as HTMLElement).style.opacity = "0";
-                  (modal as HTMLElement).style.pointerEvents = "none";
+                  modal.style.opacity = "0";
+                  modal.style.pointerEvents = "none";
                 },
               });
             } else {
@@ -1637,12 +1640,8 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
         const sectionColor =
           sectionData?.color || module.color || "var(--theme-accent)";
 
-        // Implement a thumbnail caching mechanism
-        const thumbnailCache =
-          moduleRefs.current["thumbnail-cache"] || new Map();
-        if (!moduleRefs.current["thumbnail-cache"]) {
-          moduleRefs.current["thumbnail-cache"] = thumbnailCache;
-        }
+        // Implement a thumbnail caching mechanism using the dedicated ref
+        const thumbnailCache = thumbnailCacheRef.current;
 
         // First check the cache for this module ID
         let thumbnailUrl = thumbnailCache.get(module.id);
@@ -1684,10 +1683,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
         moduleEl.style.backgroundColor = sectionColor;
 
         // Use a module load state cache
-        const moduleLoadState = moduleRefs.current["load-state"] || new Map();
-        if (!moduleRefs.current["load-state"]) {
-          moduleRefs.current["load-state"] = moduleLoadState;
-        }
+        const moduleLoadState = loadStateRef.current;
 
         // Check if we've already tried to load this thumbnail
         const loadState = moduleLoadState.get(module.id);
@@ -1957,10 +1953,10 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
         onModuleClick(moduleId);
       }
     } else {
-      // We're clicking on a section square - use the uniqueId (data-id) which already
+      // We're clicking on a section square - use the data-id which already
       // incorporates both the baseId and displayKey when needed
 
-      // The uniqueId should already be properly formatted in the data-id attribute
+      // The section ID should already be properly formatted in the data-id attribute
       // This ensures proper identification of sections with the same base ID but different display contexts
       if (onModuleClick) {
         onModuleClick(moduleId);
@@ -2004,15 +2000,15 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
       >
         {/* Theme-aware floating elements for background decoration */}
         <div
-          className="absolute -z-10 top-[5%] left-[8%] w-[20%] h-[20%] max-w-[100px] max-h-[100px] rounded-[40%] rotate-12 
-             opacity-[var(--theme-float-opacity)] 
+          className="absolute -z-10 top-[5%] left-[8%] w-[20%] h-[20%] max-w-[100px] max-h-[100px] rounded-[40%] rotate-12
+             opacity-[var(--theme-float-opacity)]
              bg-[var(--theme-float-bg-primary)]
              animate-float-slow"
         ></div>
 
         <div
-          className="absolute -z-10 bottom-[10%] right-[5%] w-[22%] h-[22%] max-w-[120px] max-h-[120px] rounded-[30%] -rotate-6 
-             opacity-[var(--theme-float-opacity-secondary)] 
+          className="absolute -z-10 bottom-[10%] right-[5%] w-[22%] h-[22%] max-w-[120px] max-h-[120px] rounded-[30%] -rotate-6
+             opacity-[var(--theme-float-opacity-secondary)]
              bg-[var(--theme-float-bg-secondary)]
              animate-float-medium"
         ></div>
@@ -2031,11 +2027,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
             } as React.CSSProperties
           }
         >
-          {/* 
+          {/*
             For tablet and mobile breakpoints, the layout rotates 90 degrees as per spec:
-            "For tablet and mobile breakpoints this should be having the layout rotate 90 degrees 
-            – although to avoid rotation complications, this would be better expressed through 
-            flex direction changes (the outer l-r row becomes a t-b column && the tinner t-b column 
+            "For tablet and mobile breakpoints this should be having the layout rotate 90 degrees
+            – although to avoid rotation complications, this would be better expressed through
+            flex direction changes (the outer l-r row becomes a t-b column && the tinner t-b column
             becomes an l-r row)"
           */}
           <div className="flex flex-col md:flex-row h-max items-center justify-center content-center md:items-center gap-[var(--square-gap-y)] md:gap-[var(--square-gap-x)]">
@@ -2096,15 +2092,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
                   ref={(el) => {
                     if (el)
                       sectionRefs.current[
-                        systemsColumn[0].uniqueId ||
-                          systemsColumn[0].id +
-                            "-" +
-                            systemsColumn[0].displayKey
+                        systemsColumn[0].id + "-" + systemsColumn[0].displayKey
                       ] = el;
                     return undefined;
                   }}
                   data-id={
-                    systemsColumn[0].uniqueId ||
                     systemsColumn[0].id + "-" + systemsColumn[0].displayKey
                   }
                   data-base-id={systemsColumn[0].id}
@@ -2117,7 +2109,6 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
                   onClick={(e) => {
                     e.stopPropagation(); // Prevent event bubbling
                     const moduleId =
-                      systemsColumn[0].uniqueId ||
                       systemsColumn[0].id + "-" + systemsColumn[0].displayKey;
                     console.log("System block clicked:", moduleId);
                     // Dispatch a custom event that will be caught by handleModuleClick
@@ -2178,15 +2169,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
                   ref={(el) => {
                     if (el)
                       sectionRefs.current[
-                        systemsColumn[1].uniqueId ||
-                          systemsColumn[1].id +
-                            "-" +
-                            systemsColumn[1].displayKey
+                        systemsColumn[1].id + "-" + systemsColumn[1].displayKey
                       ] = el;
                     return undefined;
                   }}
                   data-id={
-                    systemsColumn[1].uniqueId ||
                     systemsColumn[1].id + "-" + systemsColumn[1].displayKey
                   }
                   data-base-id={systemsColumn[1].id}
@@ -2199,7 +2186,6 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
                   onClick={(e) => {
                     e.stopPropagation(); // Prevent event bubbling
                     const moduleId =
-                      systemsColumn[1].uniqueId ||
                       systemsColumn[1].id + "-" + systemsColumn[1].displayKey;
                     console.log("System block clicked:", moduleId);
                     // Dispatch a custom event that will be caught by handleModuleClick
@@ -2263,15 +2249,11 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
                   ref={(el) => {
                     if (el)
                       sectionRefs.current[
-                        systemsColumn[2].uniqueId ||
-                          systemsColumn[2].id +
-                            "-" +
-                            systemsColumn[2].displayKey
+                        systemsColumn[2].id + "-" + systemsColumn[2].displayKey
                       ] = el;
                     return undefined;
                   }}
                   data-id={
-                    systemsColumn[2].uniqueId ||
                     systemsColumn[2].id + "-" + systemsColumn[2].displayKey
                   }
                   data-base-id={systemsColumn[2].id}
@@ -2284,7 +2266,6 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
                   onClick={(e) => {
                     e.stopPropagation(); // Prevent event bubbling
                     const moduleId =
-                      systemsColumn[2].uniqueId ||
                       systemsColumn[2].id + "-" + systemsColumn[2].displayKey;
                     console.log("System block clicked:", moduleId);
                     // Dispatch a custom event that will be caught by handleModuleClick
@@ -2351,14 +2332,14 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
 
         {/* Theme-aware floating elements for visual interest */}
         <div
-          className="absolute -z-10 top-20 left-[15%] w-32 h-32 rounded-[40%] rotate-12 
-             opacity-[var(--theme-float-opacity)] 
+          className="absolute -z-10 top-20 left-[15%] w-32 h-32 rounded-[40%] rotate-12
+             opacity-[var(--theme-float-opacity)]
              bg-[var(--theme-float-bg-primary)]
              animate-float-slow"
         ></div>
         <div
-          className="absolute -z-10 bottom-20 right-[15%] w-36 h-36 rounded-[35%] -rotate-6 
-             opacity-[var(--theme-float-opacity-secondary)] 
+          className="absolute -z-10 bottom-20 right-[15%] w-36 h-36 rounded-[35%] -rotate-6
+             opacity-[var(--theme-float-opacity-secondary)]
              bg-[var(--theme-float-bg-secondary)]
              animate-float-medium"
         ></div>
@@ -2388,7 +2369,7 @@ export const ModuleHUD: React.FC<ModuleHUDProps> = ({
               isLocked: false, // Set this based on user access when implemented
               instructor: submodule.instructor,
               week: submodule.week,
-              difficulty: submodule.difficulty,
+              difficulty: submodule.difficulty?.toString() ?? "0",
               resources: submodule.resources || [],
             }))}
           thumbnailUrl={`/assets/main/DataBaseThumbnails/renamed/${selectedModuleId.replace(/-/g, "_")}.webp`}

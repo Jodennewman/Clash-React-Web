@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { XCircle } from 'lucide-react';
@@ -126,7 +127,8 @@ const VSModal: React.FC<VSModalProps> = ({
 
   if (!isOpen) return null;
 
-  return (
+  // Modal JSX content
+  const modalContent = (
     <div ref={containerRef} className="fixed inset-0 z-50 overflow-y-auto">
       {/* Backdrop/Overlay */}
       <div
@@ -181,6 +183,8 @@ const VSModal: React.FC<VSModalProps> = ({
       </div>
     </div>
   );
+
+  return ReactDOM.createPortal(modalContent, document.body);
 };
 
 export { VSModal };
