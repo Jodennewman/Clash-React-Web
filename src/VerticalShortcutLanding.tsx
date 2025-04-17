@@ -625,13 +625,6 @@ const VerticalShortcutLanding = () => {
             </div>
           </VSSection>
 
-           <Suspense fallback={<LoadingFallback />}>
-             <LazyWordRoller
-                 words={["You've","probably","seen","our","work","before"]}
-                 className="min-h-screen w-full max-w-7xl mx-auto"
-             />
-           </Suspense>
-
           {/* Section 4: Double marquee with our biggest videos with biggest views */}
            <Suspense fallback={<LoadingFallback />}>
              <LazySocialProof />

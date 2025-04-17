@@ -33,7 +33,7 @@ const MarqueeTwoRows: React.FC<MarqueeTwoRowsProps> = ({
   }
 
   return (
-    <Section className="w-full overflow-hidden bg-theme-bg-secondary py-12 md:py-24 border-t border-theme-border px-0">
+    <Section className="w-full overflow-hidden bg-theme-bg-secondary/90 py-12 md:py-24 px-0 -mt-20 pt-32 border-t-0">
       <div className="mx-auto flex max-w-container flex-col items-center gap-4 text-center sm:gap-16">
         <div className="flex flex-col items-center gap-4 px-4 sm:gap-8">
           <h2 className="max-w-[800px] text-3xl md:text-4xl font-bold leading-tight sm:text-6xl sm:leading-tight">
@@ -120,10 +120,10 @@ const MarqueeTwoRows: React.FC<MarqueeTwoRowsProps> = ({
           
           {/* Deep side vignettes that fade out thumbnails completely using theme-aware colors */}
           <div 
-            className="pointer-events-none absolute inset-y-0 left-0 w-[25%] md:w-[35%] z-10 bg-theme-gradient-overlay-left"
+            className="pointer-events-none absolute inset-y-0 left-0 w-[25%] md:w-[35%] z-10 bg-theme-gradient-overlay-left opacity-90"
           ></div>
           <div 
-            className="pointer-events-none absolute inset-y-0 right-0 w-[25%] md:w-[35%] z-10 bg-theme-gradient-overlay-left"
+            className="pointer-events-none absolute inset-y-0 right-0 w-[25%] md:w-[35%] z-10 bg-theme-gradient-overlay-left opacity-90"
             style={{ transform: 'scaleX(-1)' }}
           ></div>
         </div>

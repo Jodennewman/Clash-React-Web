@@ -48,14 +48,14 @@ type ScrollTriggerInstance = ReturnType<typeof ScrollTrigger.create>;
 const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ? 
   courseUtils.getCreators().map(creator => ({
     ...creator,
-    // Ensure avatar paths are correct by prepending public path if needed
-    avatar: creator.avatar.startsWith('/') ? creator.avatar : `/assets/main/Clients-webp-300px/${creator.avatar}`
+    // Ensure avatar paths are correct
+    avatar: creator.avatar.startsWith('/') ? creator.avatar : `src/assets/main/Clients-webp-300px/${creator.avatar}`
   })) : 
   [
     {
       id: 1,
       name: "Chris Donnelly",
-      avatar: "/assets/main/Clients-webp-300px/Chris_Donnelly.webp",
+      avatar: "src/assets/main/Clients-webp-300px/Chris_Donnelly.webp",
       description: "Chris Donnelly is the founder of luxury digital marketing agency Verb, the cofounder of Lottie, a tech startup for social care, plus an investor, author, speaker and creator. He is now the founder of the creator accelerator, and host of the Wake Up podcast.\nWe started working with Chris in 2022, and grew his TikTok and Instagram accounts from 1k to 1m followers, in just under 2 years, amassing over 250 million views. His account focusses on business, management, leadership and investment.",
       data: [
         { month: "Mar", views: 5500, followers: 2253, interactions: 840 },
@@ -70,7 +70,7 @@ const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ?
     {
       id: 2,
       name: "Charlotte Mair",
-      avatar: "/assets/main/Clients-webp-300px/Charlotte_mair.webp",
+      avatar: "src/assets/main/Clients-webp-300px/Charlotte_mair.webp",
       description: "Charlotte Mair is the Founder and Managing Director of award winning culture and communications agency, The Fitting Room, a cultural forecaster, speaker, and brand strategist.\nWe started working with Charlotte in October of 2024, and in just 6 months she's built 170k followers across her TikTok and YouTube, and amassed 28 million views. Her account focusses on all things marketing, pop culture and business.",
       data: [
         { month: "Oct", views: 30800, followers: 594, interactions: 347 },
@@ -85,7 +85,7 @@ const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ?
     {
       id: 3,
       name: "James Watt",
-      avatar: "/assets/main/Clients-webp-300px/James_Watt.webp",
+      avatar: "src/assets/main/Clients-webp-300px/James_Watt.webp",
       description: "James Watt is the co-founder and captain of BrewDog the biggest independent beer company on the planet. He's also a best-selling author, investor, North Atlantic captain and the founder of Social Tip, the platform that makes 'anyone an influencer'. \nWe started working with James at the end of 2024 and together grew an audience of 15k followers and 20 million views in just 2 months on TikTok alone. His account focusses on business, beer and lobster fishing (of course).",
       data: [
         { month: "Oct", views: 0, followers: 0, interactions: 0 },
@@ -98,7 +98,7 @@ const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ?
     {
       id: 4,
       name: "Ben Askins",
-      avatar: "/assets/main/Clients-webp-300px/Ben_Askins.webp",
+      avatar: "src/assets/main/Clients-webp-300px/Ben_Askins.webp",
       description: "Ben Askins is the co-founder of Gaia, a green tech company that helps businesses hit environmental targets efficiently. He alsoo co-founded Verb Brands alongside Chris Donnelly.\nWe started working with Ben in 2022, and grew his audience to 1 million followers across TikTok and Instagram, hitting an insane 387 million views in under 7 months. His account focusses on business, management and genZ.",
       data: [
         { month: "Feb", views: 7263, followers: 104, interactions: 197 },
@@ -117,7 +117,7 @@ const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ?
     {
       id: 5,
       name: "Joden Clash",
-      avatar: "/assets/main/Clients-webp-300px/Joden_Clash.webp",
+      avatar: "src/assets/main/Clients-webp-300px/Joden_Clash.webp",
       description: "Joden Newman is the Founder and Creative Director of Clash Creation. In early 2024 he decided to apply the vertical shortcut techniques to his own content, and grew himself 110 million views and 1 million followers across all platforms in just 3 months. His account focusses on current events, true crime and film.",
       data: [
         { month: "Feb", views: 90000, followers: 8322, interactions: 12678 },
@@ -133,7 +133,7 @@ const creators: EnhancedCreator[] = courseUtils.getCreators().length > 0 ?
     {
       id: 6,
       name: "Jordan Schwarz",
-      avatar: "/assets/main/Clients-webp-300px/Jordan_Schwarzenberger.webp",
+      avatar: "src/assets/main/Clients-webp-300px/Jordan2.webp",
       description: "Jordan Schwarzenberger is the co-founder Arcade Media, author, creative and the manager of The Sidemen: the UK's biggest creator empire. \nWe started working with Jordan towards the end of 2024 and together grew his TikTok and Instagram to 39 million views and 15k followers in just 3 months. His account focusses on GenZ, the creator economy, and pop culture.",
       data: [
         { month: "Oct", views: 0, followers: 14562+5344, interactions: 0 },
@@ -265,7 +265,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
   const currentCreator = creators?.[activeCreator] || {
     name: 'Sample Creator',
     description: 'Example creator profile. No creators found in data.',
-    avatar: '/assets/main/Main-Logo.png',
+    avatar: 'src/assets/main/Logo@2x.webp',
     data: [],
     totals: { views: 0, followers: 0, interactions: 0 },
     id: 0
@@ -381,12 +381,15 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
         // Special animation for the stats row with staggered entry
         const statsBoxes = document.querySelectorAll(".stats-box");
         if (statsBoxes.length > 0 && statsRowRef.current) {
-          const statsAnimation = gsap.from(statsBoxes, {
-            y: 15, // Reduced movement
-            opacity: 0,
-            stagger: 0.04, // Reduced stagger
-            duration: 0.5, // Shorter duration
-            ease: "power2.out", // Simpler easing
+          // Immediately set all statsBoxes to be visible first
+        gsap.set(statsBoxes, { opacity: 1 });
+        
+        const statsAnimation = gsap.from(statsBoxes, {
+            y: 5, // Minimal movement
+            opacity: 0.7, // Start more visible
+            stagger: 0.02, // Faster stagger
+            duration: 0.3, // Shorter duration
+            ease: "power1.out", // Simpler easing
             scrollTrigger: {
               trigger: statsRowRef.current,
               start: "top 85%",
@@ -468,10 +471,10 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
   return (
     <Section
       ref={(el) => mergeRefs(sectionRef, ref)(el)}
-      className="bg-transparent min-h-screen flex flex-col justify-start pt-0 pb-12 relative overflow-visible"
+      className="bg-transparent min-h-screen flex flex-col justify-start pt-0 pb-0 relative overflow-visible"
     >
     {/* Background patterns */}
-    <div className="absolute inset-0 dot-bg opacity-[var(--theme-pattern-opacity)] pointer-events-none"></div>
+    <div className="absolute inset-0 dot-bg pointer-events-none"></div>
     
     {/* Theme-aware floating elements */}
     <div className="absolute top-40 left-[10%] w-40 h-40 rounded-[40%] rotate-12 
@@ -507,20 +510,21 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                 className={`stats-box 
                           rounded-lg p-3
                           border border-gray-300/30 dark:border-gray-700/30
-                          z-30
                           transition-all duration-300
                           ${activeCreator === index 
                             ? 'ring-1 ring-blue-500/50 dark:ring-blue-400/50 scale-105' 
                             : 'hover:scale-102'}
                           flex items-center relative`}
+                style={{ position: 'relative', zIndex: 30 }}
               >
                 <div className="w-10 h-10 rounded-full overflow-hidden 
-                            border-2 border-[var(--theme-primary)]/70
-                            flex-shrink-0 mr-2">
+                            border-2 border-white
+                            flex-shrink-0 mr-2 relative z-50">
                   <img
                     src={creator.avatar}
                     alt={creator.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full"
+                    style={{ position: 'relative', zIndex: 100 }}
                   />
                 </div>
 
@@ -543,7 +547,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
         </div>
         
         {/* Desktop view: Carousel with navigation */}
-        <div className="relative hidden md:block">
+        <div className="">
           {/* Left scroll button */}
           <button 
             onClick={() => scrollCarousel('left')}
@@ -576,14 +580,16 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                             ? 'translate-y-[-4px] scale-[1.02] shadow-theme-md ring-2 ring-[var(--theme-primary)]/70' 
                             : 'hover:translate-y-[-3px] hover:shadow-theme-md'}
                           flex flex-col items-center text-center`}
+                style={{ position: 'relative', zIndex: 0 }}
               >
                 <div className="w-11 h-11 rounded-full overflow-hidden 
-                            ring-2 ring-[var(--theme-primary)]/70 mb-2
-                            transition-all duration-300 mx-auto">
+                            ring-2 ring-white mb-2
+                            transition-all duration-300 mx-auto relative z-50">
                   <img
                     src={creator.avatar}
                     alt={creator.name}
                     className="w-full h-full object-cover"
+                    style={{ position: 'relative', zIndex: 100 }}
                   />
                 </div>
                 <div className="text-theme-secondary/80 text-[10px] uppercase tracking-wider font-medium">
@@ -912,11 +918,15 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
           {/* Mobile view: Header card with avatar and name */}
           <div className="flex items-center p-3 border-b border-theme-border-light/50 md:hidden">
             <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0
-                        ring-2 ring-[var(--theme-primary)]/70 mr-3">
+                        ring-2 ring-white mr-3 relative z-50">
               <img
-                src={currentCreator?.avatar || '/assets/main/Main-Logo.png'}
+                src={currentCreator?.avatar || '/src/assets/main/Logo@2x.webp'}
                 alt={currentCreator?.name || 'Creator'}
                 className="w-full h-full object-cover"
+                style={{ 
+                  position: 'relative', 
+                  zIndex: 100
+                }}
               />
             </div>
             <div className="flex-1">
@@ -934,11 +944,15 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
             {/* Desktop view: Flex layout with larger avatar */}
             <div className="hidden md:flex md:flex-row items-center gap-4 mb-3">
               <div className="relative w-14 h-14 rounded-full overflow-hidden flex-shrink-0
-                          ring-2 ring-[var(--theme-primary)]/80">
+                          ring-2 ring-white relative z-50">
                 <img
-                  src={currentCreator?.avatar || '/assets/main/Main-Logo.png'}
+                  src={currentCreator?.avatar || '/src/assets/main/Logo@2x.webp'}
                   alt={currentCreator?.name || 'Creator'}
                   className="w-full h-full object-cover"
+                  style={{ 
+                    position: 'relative', 
+                    zIndex: 50
+                  }}
                 />
               </div>
               <h3 className="text-theme-primary text-xl font-medium">
@@ -953,34 +967,10 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
           </div>
         </div>
         
-        {/* CTA section - Mobile-optimized with better touch targets */}
-        <div className="bg-theme-gradient-card/60
-                  rounded-xl border border-theme-border-light shadow-theme-md 
-                  p-4 md:p-6 my-4 md:my-6 case-study-element">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-theme-primary text-lg md:text-xl font-bold">
-              Want to be next on this list?
-            </p>
-            <AnimatedButton 
-              text="Start your Journey"
-              variant="accent" 
-              saturation="high"
-              size="lg"
-              onClick={props?.onCtaClick || (() => console.log('CTA clicked'))}
-              className="w-full md:w-auto py-3"
-            />
-          </div>
-        </div>
       </div>
     </div>
     
-    {/* Bottom decorative effects - theme aware */}
-    <div className="absolute bottom-0 left-0 right-0 h-20 
-                 bg-gradient-to-t from-[var(--theme-bg-secondary)]/10 to-transparent 
-                 opacity-[var(--theme-overlay-opacity)] pointer-events-none"></div>
-    <div className="absolute bottom-0 left-0 right-0 h-40 
-                 bg-gradient-to-t from-[var(--theme-primary)]/5 to-transparent 
-                 opacity-[var(--theme-glow-opacity)] pointer-events-none"></div>
+    {/* No bottom spacing or decorative effects */}
     </Section>
   );
 });
