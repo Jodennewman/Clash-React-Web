@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && npm run generate-sitemap",
+    "build": "npm run validate-seo && vite build && npm run generate-sitemap",
     "build:strict": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -16,7 +16,9 @@
     "typecheck": "tsc --noEmit",
     "start": "vite preview",
     "prepare": "husky install",
-    "generate-sitemap": "node scripts/generate-sitemap.js"
+    "generate-sitemap": "node scripts/generate-sitemap.js",
+    "validate-sitemap": "ts-node scripts/validate-sitemap.ts",
+    "validate-seo": "npm run validate-sitemap && ts-node scripts/validate-seo.ts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -45,6 +47,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.5.2",
+    "fast-xml-parser": "^4.5.3",
     "framer-motion": "^12.4.10",
     "glob": "^11.0.1",
     "gsap": "npm:@gsap/shockingly@^3.12.7",
@@ -53,6 +56,7 @@
     "lucide-react": "^0.479.0",
     "matter-js": "^0.20.0",
     "next-themes": "^0.4.4",
+    "node-fetch": "^3.3.2",
     "pixi.js": "^8.8.1",
     "radix-ui": "^1.1.3",
     "react": "^19.0.0",

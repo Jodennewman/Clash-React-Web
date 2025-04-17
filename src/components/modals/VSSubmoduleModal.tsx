@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
 import { VSModal } from '../ui/vs-modal';
 import { Play, CheckCircle, Lock } from 'lucide-react';
+import courseUtils, { Submodule as CourseSubmodule } from '../../lib/course-utils';
 
 interface VSSubmoduleModalProps {
   isOpen: boolean;
   onClose: () => void;
   moduleId: string;
   moduleTitle: string;
-  submodules: Submodule[];
+  submodules: Array<{
+    id: string;
+    title: string;
+    duration: string;
+    subtitle?: string;
+    thumbnailUrl: string;
+    isCompleted?: boolean;
+    isLocked?: boolean;
+    instructor?: string;
+    week?: number;
+    difficulty: string;
+    resources?: unknown[];
+  }>;
   thumbnailUrl: string;
-}
-
-interface Submodule {
-  id: string;
-  title: string;
-  duration: string;
-  isCompleted?: boolean;
-  isLocked?: boolean;
 }
 
 /**
@@ -63,6 +68,17 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
     console.log(`Playing submodule: ${submoduleId}`);
   };
 
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = e.target as HTMLImageElement;
+    target.src = courseUtils.getThumbnailPath('default');
+    
+    // Also update background image if it exists
+    const parentDiv = target.closest('.modal-content');
+    if (parentDiv instanceof HTMLElement) {
+      parentDiv.style.backgroundImage = `url(${courseUtils.getThumbnailPath('default')})`;
+    }
+  };
+
   return (
     <VSModal
       isOpen={isOpen}
@@ -95,18 +111,7 @@ const VSSubmoduleModal: React.FC<VSSubmoduleModalProps> = ({
                 src={thumbnailUrl}
                 alt={moduleTitle}
                 className="hidden" // Hide actual img element
-                onError={(e) => {
-                  // If image fails to load, set a fallback
-                  console.error(`Failed to load thumbnail for module: ${moduleId}`);
-                  const target = e.target as HTMLImageElement;
-                  // Try a direct public path as fallback
-                  target.src = "/assets/main/DataBaseThumbnails/renamed/default.webp";
-                  // Update parent div background
-                  const parentDiv = target.parentElement as HTMLDivElement;
-                  if (parentDiv) {
-                    parentDiv.style.backgroundImage = `url(/assets/main/DataBaseThumbnails/renamed/default.webp)`;
-                  }
-                }}
+                onError={handleImageError}
               />
             </div>
             

@@ -7,6 +7,19 @@ import { VSSubmoduleModal } from "@/components/modals";
 interface ModuleHUDProps {
   selectedSection?: string | null;
   onModuleClick?: (moduleId: string) => void;
+  submodules?: Array<{
+    id: string;
+    title: string;
+    duration: string;
+    subtitle?: string;
+    thumbnailUrl: string;
+    isCompleted?: boolean;
+    isLocked?: boolean;
+    instructor?: string;
+    week?: number;
+    difficulty: string;
+    resources?: unknown[];
+  }>;
 }
 
 // Section data structure for our section types
@@ -226,25 +239,25 @@ interface SquareProps {
 // Fix BigSquare component
 const BigSquare = React.forwardRef<HTMLDivElement, Omit<SquareProps, 'isSelected'>>(
   ({ section }, ref) => {
-    // Get a thumbnail based on section ID - using exact paths from JSON
+    // Get a thumbnail based on section ID using courseUtils
     const getSectionThumbnail = () => {
-      // Match section ID to appropriate thumbnail and use the courseUtils.getThumbnailPath function
-      let thumbnail = '';
+      // Match section ID to appropriate thumbnail using courseUtils
+      let thumbnailId = '';
       
       switch (section.id) {
         case "basic_theory":
-          thumbnail = "the_algorithm";
+          thumbnailId = "the_algorithm";
           break;
         case "advanced_theory":
-          thumbnail = "advanced_metrics_analytics";
+          thumbnailId = "advanced_metrics_analytics";
           break;
         default:
-          thumbnail = "big_picture";
+          thumbnailId = "big_picture";
           break;
       }
       
-      // The actual thumbnails are in the renamed folder
-      return `/assets/main/DataBaseThumbnails/renamed/${thumbnail}.webp`;
+      // Use courseUtils to get the proper thumbnail path
+      return courseUtils.getThumbnailPath(courseUtils.getModuleThumbnail(thumbnailId));
     };
     
     // Reference to track if component is mounted
@@ -352,49 +365,47 @@ BigSquare.displayName = 'BigSquare';  // Add display name for better debugging
 // Fix NormalSquare component
 const NormalSquare = React.forwardRef<HTMLDivElement, Omit<SquareProps, 'isSelected'>>(
   ({ section }, ref) => {
-    // Get a thumbnail based on section ID using direct paths
+    // Get a thumbnail based on section ID using courseUtils
     const getSectionThumbnail = () => {
-      // Match section ID to appropriate thumbnail
-      let thumbnail = '';
+      // Match section ID to appropriate thumbnail using courseUtils
+      let thumbnailId = '';
       
-      switch (section.id) {
-        case "upskiller_authentic_research_writer":
-          thumbnail = "research";
-          break;
-        case "upskiller_shorts_ready_videographer":
-          thumbnail = "shooting_for_short_form";
-          break;
-        case "upskiller_vertical_video_editors":
-          thumbnail = "editing";
-          break;
-        case "pr_authority":
-          thumbnail = "pr_who_are_you";
-          break;
-        case "delegation":
-          thumbnail = "team_building_delegation";
-          break;
-        case "monetisation":
-          thumbnail = "monetisation_evolving";
-          break;
-        case "conversion":
-          thumbnail = "building_your_funnel";
-          break;
-        // For system sections based on displayKey
-        default:
-          if (section.displayKey?.includes('notion')) {
-            thumbnail = "managing_comments";
-          } else if (section.displayKey?.includes('engine')) {
-            thumbnail = "content_fidelity";
-          } else if (section.displayKey?.includes('viral')) {
-            thumbnail = "editing";
-          } else {
-            thumbnail = "big_picture"; // Default fallback
-          }
-          break;
+      // Handle system blocks first
+      if (section.id.includes('system')) {
+        // For system blocks, use their specific IDs
+        thumbnailId = section.id;
+      } else {
+        // For regular sections, map to appropriate thumbnails
+        switch (section.id) {
+          case "upskiller_authentic_research_writer":
+            thumbnailId = "research_writing";
+            break;
+          case "upskiller_shorts_ready_videographer":
+            thumbnailId = "shooting_basics";
+            break;
+          case "upskiller_vertical_video_editors":
+            thumbnailId = "editing_basics";
+            break;
+          case "pr_authority":
+            thumbnailId = "authority_brand";
+            break;
+          case "delegation":
+            thumbnailId = "delegation_basics";
+            break;
+          case "monetisation":
+            thumbnailId = "monetisation";
+            break;
+          case "conversion":
+            thumbnailId = "conversion_basics";
+            break;
+          default:
+            thumbnailId = "default";
+            break;
+        }
       }
       
-      // The actual thumbnails are in the renamed folder
-      return `/assets/main/DataBaseThumbnails/renamed/${thumbnail}.webp`;
+      // Use courseUtils to get the proper thumbnail path
+      return courseUtils.getThumbnailPath(courseUtils.getModuleThumbnail(thumbnailId));
     };
     
     // Reference to track if component is mounted
@@ -524,7 +535,7 @@ interface Submodule {
   formattedDuration?: string;
 }
 
-export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleClick }) => {
+export const ModuleHUD: React.FC<ModuleHUDProps> = ({ selectedSection, onModuleClick, submodules }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
   const moduleRefs = useRef<ModuleRefs>({

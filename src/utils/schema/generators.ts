@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import courseData from '../../../course-data.json';
 import {
   CourseSchema,
@@ -10,13 +11,15 @@ import {
 } from './types';
 
 // Assert the type of courseData
-const typedCourseData = courseData as CourseData;
+const typedCourseData = (courseData as CourseData) || ({} as CourseData);
+
+const safeCategories = Array.isArray((typedCourseData as any).categories) ? (typedCourseData as any).categories : [];
 
 // Calculate total duration in minutes
 const getTotalDuration = () => {
-  return typedCourseData.categories.reduce((catTotal, category) => {
-    return catTotal + category.sections.reduce((sectionTotal, section) => {
-      return sectionTotal + section.modules.reduce((moduleTotal, module) => {
+  return safeCategories.reduce((catTotal: number, category: any) => {
+    return catTotal + (category.sections || []).reduce((sectionTotal: number, section: any) => {
+      return sectionTotal + (section.modules || []).reduce((moduleTotal: number, module: any) => {
         return moduleTotal + (module.duration || 0);
       }, 0);
     }, 0);
@@ -25,9 +28,9 @@ const getTotalDuration = () => {
 
 // Get all module titles for teaches array
 const getAllModuleTitles = () => {
-  return typedCourseData.categories.flatMap(category =>
-    category.sections.flatMap(section =>
-      section.modules.map(module => module.title)
+  return safeCategories.flatMap((category: any) =>
+    (category.sections || []).flatMap((section: any) =>
+      (section.modules || []).map((module: any) => module.title)
     )
   );
 };
@@ -159,10 +162,10 @@ export function VideoObjectsJsonLd(): string {
     "logo": "https://verticalshortcut.com/logo.png"
   };
 
-  const videos: VideoObjectSchema[] = typedCourseData.categories.flatMap(category =>
-    category.sections.flatMap(section =>
-      section.modules.flatMap(module =>
-        module.submodules.map(submodule => ({
+  const videos: VideoObjectSchema[] = safeCategories.flatMap((category: any) =>
+    (category.sections || []).flatMap((section: any) =>
+      (section.modules || []).flatMap((module: any) =>
+        (module.submodules || []).map((submodule: any) => ({
           "@context": "https://schema.org",
           "@type": "VideoObject",
           "name": submodule.title,
@@ -183,10 +186,10 @@ export function VideoObjectsJsonLd(): string {
   );
 
   // Create a playlist for each module
-  const playlists: VideoPlaylistSchema[] = typedCourseData.categories.flatMap(category =>
-    category.sections.flatMap(section =>
-      section.modules.map(module => {
-        const moduleVideos: Partial<VideoObjectSchema>[] = module.submodules.map(submodule => ({
+  const playlists: VideoPlaylistSchema[] = safeCategories.flatMap((category: any) =>
+    (category.sections || []).flatMap((section: any) =>
+      (section.modules || []).map((module: any) => {
+        const moduleVideos: Partial<VideoObjectSchema>[] = (module.submodules || []).map((submodule: any) => ({
           "@context": "https://schema.org" as const,
           "@type": "VideoObject" as const,
           "name": submodule.title,
@@ -210,4 +213,4 @@ export function VideoObjectsJsonLd(): string {
   );
 
   return JSON.stringify([...videos, ...playlists]);
-} 
+}

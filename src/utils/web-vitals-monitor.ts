@@ -39,4 +39,4 @@ export function monitorWebVitals(): void {
 }
 
 // This export makes TypeScript treat this file as a module
-export {}; 
+export {};

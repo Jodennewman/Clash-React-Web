@@ -8,15 +8,13 @@ import { findImageByBasename } from '@/utils/importImages';
 export interface Submodule {
   id: string;
   title: string;
-  subtitle: string;
   duration: number;
+  formattedDuration?: string;
+  subtitle?: string;
+  instructor?: string;
+  week?: number;
   difficulty: number;
-  resources: string[];
-  highValue: boolean;
-  week: number;
-  instructor: string;
-  thumbnail?: string; // Added thumbnail property for submodules
-  key?: string; // Optional key for React rendering
+  resources?: unknown[];
 }
 
 // Types for creator/case study data

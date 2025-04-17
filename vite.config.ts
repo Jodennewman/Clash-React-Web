@@ -15,7 +15,11 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json']
-  },
+      },
+      getTotalDuration: (data: any[]) => {
+        if (!data) return 0;
+        return data.reduce((acc, item) => acc + item.duration, 0);
+      },
   css: {
     modules: false,
   },

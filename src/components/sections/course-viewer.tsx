@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { ModuleHUD } from './ModuleHUD';
 import { VSSection } from '../ui/vs-background';
 import { VSGradientText, VSHeading } from '../ui/vs-text';
-import courseUtils from '../../lib/course-utils';
+import courseUtils, { Submodule as CourseSubmodule } from '../../lib/course-utils';
 import { PlayCircle, Check, Star, ChevronDown, X } from 'lucide-react';
 import { useDeviceDetection } from '../../utils/animation-utils';
 import ReactDOM from 'react-dom';
@@ -408,17 +408,17 @@ export const CourseViewer: React.FC = () => {
                   handleModuleClick(moduleId);
                 }
               }} 
-              submodules={selectedModule && selectedModule.id ? courseUtils.getSubmodulesForModule(selectedModule.id).map(submodule => ({
+              submodules={selectedModule && selectedModule.id ? courseUtils.getSubmodulesForModule(selectedModule.id).map((submodule: CourseSubmodule) => ({
                 id: submodule.id,
                 title: submodule.title,
-                duration: ((submodule as any)?.formattedDuration) || `${submodule.duration}:00`,
+                duration: submodule.formattedDuration || `${submodule.duration}:00`,
                 subtitle: submodule.subtitle,
-                thumbnailUrl: `/assets/main/DataBaseThumbnails/renamed/${submodule.id.replace(/-/g, '_')}.webp`,
+                thumbnailUrl: courseUtils.getThumbnailPath(courseUtils.getModuleThumbnail(submodule.id)),
                 isCompleted: false,
                 isLocked: false,
                 instructor: submodule.instructor,
                 week: submodule.week,
-                difficulty: submodule.difficulty != null ? submodule.difficulty.toString() : '',
+                difficulty: ['Beginner', 'Intermediate', 'Advanced'][submodule.difficulty] || 'Intermediate',
                 resources: submodule.resources || []
               })) : []}
             />

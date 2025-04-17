@@ -178,4 +178,4 @@ export interface CourseReference extends SchemaBase {
   "@type": "Course";
   name: string;
   url: string;
-} 
+}
