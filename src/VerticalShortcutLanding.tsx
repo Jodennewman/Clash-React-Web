@@ -138,7 +138,7 @@ const LazyVSBigReveal = lazy(() => import("./components/sections").then(module =
 const LazyCourseViewer = lazy(() => import("./components/sections").then(module => ({ default: module.CourseViewer })));
 const LazyMeetTheTeam = lazy(() => import("./components/sections").then(module => ({ default: module.TeamSection }))); // Assuming TeamSection is the export
 const LazyFAQUpdated = lazy(() => import("./components/sections").then(module => ({ default: module.FAQUpdated })));
-const LazyCustomisation = lazy(() => import("./components/sections").then(module => ({ default: module.Customisation })));
+// Removed LazyCustomisation import
 const LazyCourseStats = lazy(() => import("./components/sections").then(module => ({ default: module.CourseStats })));
 const LazyFounderTrack = lazy(() => import("./components/sections").then(module => ({ default: module.FounderTrack })));
 const LazyConnectEverything = lazy(() => import("./components/sections").then(module => ({ default: module.ConnectEverything })));
@@ -672,10 +672,7 @@ const VerticalShortcutLanding = () => {
            </Suspense>
 
 
-          {/* Section 13: Customisation */}
-           <Suspense fallback={<LoadingFallback />}>
-             <LazyCustomisation onCtaClick={openQualificationModal} />
-           </Suspense>
+          {/* Section 13: Customisation - Removed */}
 
           {/* Section 14: FAQs */}
            <Suspense fallback={<LoadingFallback />}>
