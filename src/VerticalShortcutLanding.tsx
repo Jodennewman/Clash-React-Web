@@ -195,9 +195,16 @@ function AnimationController({ children }: { children: React.ReactNode }) {
 
       if (!globalScrollSmoother) {
          console.log(`Initializing ScrollSmoother with ${isMobile ? 'mobile' : 'desktop'} settings.`);
-        globalScrollSmoother = ScrollSmoother.create(
-          isMobile ? mobileSettings : desktopSettings
-        );
+        
+        // Add initial scroll position explicitly
+        const settings = isMobile ? 
+          { ...mobileSettings, scrollTop: 0 } : 
+          { ...desktopSettings, scrollTop: 0 };
+        
+        globalScrollSmoother = ScrollSmoother.create(settings);
+        
+        // Force scroll to top immediately after creation
+        globalScrollSmoother.scrollTop(0);
       }
       // Removed the gsap.matchMedia logic as we now use the isMobile state directly
 
@@ -545,7 +552,7 @@ const VerticalShortcutLanding = () => {
             ref={heroRef}
             onCtaClick={openQualificationModal}
             videoUrl="https://www.youtube.com/embed/your-video-id"
-            videoRef={videoRef}
+            videoRef={videoRef as React.RefObject<HTMLDivElement>}
           />
 
           {/* Section 2: What do we do? - Adjusted spacing for video peek */}
