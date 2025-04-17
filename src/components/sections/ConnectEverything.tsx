@@ -118,9 +118,9 @@ export const ConnectEverything: React.FC<ConnectEverythingProps> = ({ className 
       <div className="w-full max-w-5xl flex flex-col md:flex-row flex-wrap justify-center items-center gap-8 md:gap-12 relative z-10">
         {/* Creator HUD */}
         <div className="flex flex-col md:flex-row justify-center items-center gap-3 md:gap-4 w-full bg-[var(--theme-surface)]/20 backdrop-blur-sm rounded-xl p-3 shadow-[var(--theme-shadow-sm)]">
-          <div className="relative">
+          <div className="relative flex items-center justify-center w-64 h-64 md:w-72 md:h-72">
             <div className="absolute inset-0 bg-[var(--theme-radial-glow)] opacity-50 blur-md rounded-full"></div>
-            <img className="app-icon w-48 h-48 md:w-64 md:h-64 object-contain drop-shadow-xl relative z-10" src={appIcons.creatorHud} alt="Creator HUD" />
+            <img className="app-icon w-48 h-48 md:w-64 md:h-64 object-contain drop-shadow-xl relative z-10 md:p-2" src={appIcons.creatorHud} alt="Creator HUD" />
           </div>
           <div className="text-center md:text-left">
             <h3 className="text-[var(--theme-accent-quaternary)] text-3xl md:text-4xl lg:text-5xl font-normal mb-1">Creator HUD</h3>
@@ -135,9 +135,9 @@ export const ConnectEverything: React.FC<ConnectEverythingProps> = ({ className 
         
         {/* Scran.ar */}
         <div className="flex flex-col md:flex-row justify-center items-center gap-3 md:gap-4 w-full bg-[var(--theme-surface)]/20 backdrop-blur-sm rounded-xl p-3 shadow-[var(--theme-shadow-sm)]">
-          <div className="relative">
+          <div className="relative flex items-center justify-center w-64 h-64 md:w-72 md:h-72">
             <div className="absolute inset-0 bg-[var(--theme-radial-glow)] opacity-50 blur-md rounded-full"></div>
-            <img className="app-icon w-48 h-48 md:w-64 md:h-64 object-contain drop-shadow-xl relative z-10" src={appIcons.scranAr} alt="Scran.ar" />
+            <img className="app-icon w-48 h-48 md:w-64 md:h-64 object-contain drop-shadow-xl relative z-10 md:p-2" src={appIcons.scranAr} alt="Scran.ar" />
           </div>
           <div className="text-center md:text-left">
             <h3 className="text-[var(--theme-accent-tertiary)] text-3xl md:text-4xl lg:text-5xl font-normal mb-1">Scran.ar</h3>
@@ -151,9 +151,9 @@ export const ConnectEverything: React.FC<ConnectEverythingProps> = ({ className 
         
         {/* Spitt.ar */}
         <div className="flex flex-col md:flex-row justify-center items-center gap-3 md:gap-4 w-full bg-[var(--theme-surface)]/20 backdrop-blur-sm rounded-xl p-3 shadow-[var(--theme-shadow-sm)]">
-          <div className="relative">
+          <div className="relative flex items-center justify-center w-64 h-64 md:w-72 md:h-72">
             <div className="absolute inset-0 bg-[var(--theme-radial-glow)] opacity-50 blur-md rounded-full"></div>
-            <img className="app-icon w-48 h-48 md:w-64 md:h-64 object-contain drop-shadow-xl relative z-10" src={appIcons.spitt} alt="Spitt.ar" />
+            <img className="app-icon w-48 h-48 md:w-64 md:h-64 object-contain drop-shadow-xl relative z-10 md:p-2" src={appIcons.spitt} alt="Spitt.ar" />
           </div>
           <div className="text-center md:text-left">
             <h3 className="text-[var(--theme-accent-secondary)] text-3xl md:text-4xl lg:text-5xl font-normal mb-1">Spitt.ar</h3>
