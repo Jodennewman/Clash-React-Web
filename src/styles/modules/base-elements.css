@@ -72,3 +72,34 @@ a {
   transition: color var(--theme-transition-fast);
 }
 
+/* Responsive Header Sizes (Aligned with Tailwind Breakpoints) */
+/* lg: Screens < 1024px */
+@media (max-width: 1024px) {
+  h1 { font-size: 4.5rem; }
+  h2 { font-size: 3.5rem; }
+  h3 { font-size: 2.5rem; }
+  h4 { font-size: 1.8rem; }
+  h5 { font-size: 1.4rem; }
+  h6 { font-size: 1.15rem; }
+}
+
+/* md: Screens < 768px */
+@media (max-width: 768px) {
+  h1 { font-size: 3.5rem; line-height: 1.1; }
+  h2 { font-size: 2.8rem; }
+  h3 { font-size: 2.2rem; }
+  h4 { font-size: 1.7rem; }
+  h5 { font-size: 1.3rem; }
+  h6 { font-size: 1.1rem; }
+}
+
+/* sm: Screens < 640px */
+@media (max-width: 640px) {
+  h1 { font-size: 2.8rem; line-height: 1.1; }
+  h2 { font-size: 2.2rem; }
+  h3 { font-size: 1.8rem; }
+  h4 { font-size: 1.5rem; }
+  h5 { font-size: 1.2rem; }
+  h6 { font-size: 1.05rem; }
+}
+
