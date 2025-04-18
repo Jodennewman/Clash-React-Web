@@ -8,7 +8,7 @@
    BASE HTML ELEMENTS
    ========================================== */
 html {
-  font-family: var(--font-sans);
+  font-family: var(--font-sans), sans-serif;
   background-color: var(--theme-bg-primary);
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
@@ -18,7 +18,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: var(--font-sans);
+  font-family: var(--font-sans), sans-serif;
   background: linear-gradient(to bottom right, var(--theme-gradient-start), var(--theme-gradient-end));
   color: var(--theme-text-primary);
   min-height: 100vh;

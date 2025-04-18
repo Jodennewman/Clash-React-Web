@@ -1721,7 +1721,7 @@ a:hover {
   transition: all var(--theme-transition-bounce);
 }
 
-.dark .card-theme, [data-theme="dark"] {
+.dark .card-theme, [data-theme="dark"] .card-theme {
   background: linear-gradient(to bottom right, 
     rgb(var(--bg-navy-rgb)), 
     rgb(var(--bg-navy-darker-rgb)));
