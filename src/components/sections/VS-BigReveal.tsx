@@ -185,20 +185,17 @@ const VSBigReveal = ({ onApplyClick }: VSBigRevealProps) => {
         
       <div className="container mx-auto px-4 relative">
         <div className="text-center md:text-left mt-4 sm:mt-[40px] mb-8 sm:mb-16 max-w-[700px] mx-auto md:mx-0 relative z-10 overflow-visible">
-          <p ref={headingRef} className="font-[200] !font-extralight mb-4 sm:mb-6 text-theme-primary text-center md:text-left lowercase tracking-wide"
+          <p ref={headingRef} className="font-[200] !font-extralight mb-4 sm:mb-6 text-theme-primary text-center md:text-left lowercase tracking-wide md:pl-12"
             style={{ 
               fontWeight: 200,
-              fontSize: "clamp(2.5rem, 6vw, 8rem)"
+              fontSize: "clamp(2rem, 5vw, 8rem)",
+              whiteSpace: "nowrap"
             }}
           >
-            the vertical<br className="sm:hidden" /> shortcut<span className="text-theme-accent">.</span>
+            the vertical shortcut<span className="text-theme-accent">.</span>
           </p>
           
           <div ref={taglineRef} className="text-center md:text-left md:pl-12">
-            <p className="body-text mb-6 sm:mb-8 mx-auto md:mx-0 max-w-[95%] md:max-w-none">
-              We've combined everything we know: All the knowledge, systems and tools that we use on a daily basis to get our clients billions of views — so you can do it all yourself.
-            </p>
-
             <VSGradientText
               as="h2"
               size="xl"
@@ -206,6 +203,10 @@ const VSBigReveal = ({ onApplyClick }: VSBigRevealProps) => {
             >
               The Vertical Shortcut is the proven system for content creation that's guaranteed millions of views
             </VSGradientText>
+            
+            <p className="body-text mb-6 sm:mb-8 mx-auto md:mx-0 max-w-[95%] md:max-w-none">
+              We've combined everything we know: All the knowledge, systems and tools that we use on a daily basis to get our clients billions of views — so you can do it all yourself.
+            </p>
             
             <p className="body-text mb-6 sm:mb-8 mx-auto md:mx-0 max-w-[95%] md:max-w-none">
               Built with founders and execs in mind.

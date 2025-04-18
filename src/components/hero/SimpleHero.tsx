@@ -60,6 +60,24 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
               ease: "power2.out"
             }
           );
+          
+          // Add text animation for hero headline elements
+          gsap.fromTo(".hero-text-animate", 
+            {
+              y: 25,
+              opacity: 0,
+              scale: 0.97
+            },
+            {
+              y: 0,
+              opacity: 1,
+              scale: 1,
+              duration: 0.7,
+              stagger: 0.08,
+              ease: "power2.out",
+              delay: 0.2
+            }
+          );
 
           // Eyeball entrance animation with reduced delay and higher position
           gsap.fromTo("#eyeballSvg", 
@@ -147,8 +165,8 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
         ref={ref} 
         className="vs-section-light relative h-[110vh] sm:h-[125vh] w-full shadow-theme-md overflow-hidden z-10 pt-8 sm:pt-0"
       >
-        {/* Award Badge - positioned with consistent bottom-right placement using top/right */}
-        <div className="award-badge absolute top-[85vh] right-4 sm:right-6 md:right-8 lg:right-10 z-50" style={{ transform: 'translateY(0)', opacity: 1 }}>
+        {/* Award Badge - positioned in bottom right corner */}
+        <div className="award-badge absolute bottom-6 sm:bottom-8 md:bottom-10 lg:bottom-12 right-4 sm:right-6 md:right-8 lg:right-10 z-50" style={{ transform: 'translateY(0)', opacity: 1 }}>
           <div className="group relative overflow-hidden rounded-full shadow-lg transform scale-[0.85] sm:scale-85 md:scale-90 lg:scale-100">
             {/* Subtle shadow background */}
             <div className="absolute inset-0 bg-theme-accent-secondary opacity-80 rounded-full"></div>
@@ -346,35 +364,39 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
               <div className="w-full px-4 sm:px-6 md:px-6 lg:px-8 xl:px-10">
                 <div className="w-full overflow-visible">
                   <h1 className="hero-content text-left mb-6 text-theme-primary transition-theme-fast duration-500">
-                    <span className="inline font-semibold glow-theme-tertiary text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-theme-accent-tertiary transition-all duration-500" data-speed="0.95">
+                    <span className="hero-text-animate inline font-semibold glow-theme-tertiary text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-theme-accent-tertiary transition-all duration-500" data-speed="0.95">
                       Billions
                     </span>
-                    <span className="inline-block ml-2 sm:ml-3 lg:ml-4 font-light text-4xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-6xl" data-speed="0.99">
+                    <span className="hero-text-animate inline-block ml-2 sm:ml-3 lg:ml-4 font-light text-4xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-6xl" data-speed="0.99">
                       of Views.
                     </span>
-                    <span className="block font-normal text-3xl sm:text-4xl sm:font-light md:text-4xl lg:text-5xl xl:text-6xl transition-all duration-500 mt-2" data-speed="0.97">
+                    <span className="hero-text-animate block font-normal text-3xl sm:text-4xl sm:font-light md:text-4xl lg:text-5xl xl:text-6xl transition-all duration-500 mt-2" data-speed="0.97">
                       Built for Founders.
                     </span>
                   </h1>
                   
                   <div className="h-6 sm:h-8 md:h-9 lg:h-10 w-full"></div>
                   
-                  <p className="hero-content text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-4 text-theme-primary font-normal transition-theme-fast duration-500 leading-tight" style={{fontWeight: 400}} data-speed="0.99">
+                  <p className="hero-text-animate hero-claim mb-6 text-theme-primary text-left" 
+                     style={{
+                       fontSize: "clamp(1.5rem, 2.5vw, 2.25rem)", 
+                       fontWeight: 300, 
+                       lineHeight: 1.4,
+                       maxWidth: "100%",
+                       marginBottom: "1.5rem",
+                       paddingRight: "1rem",
+                       width: "100%"
+                     }} 
+                     data-speed="0.99">
                     We've used vertical video to get founders and execs just like you, billions of views — in fact we're the top-performing agency in the world at doing exactly that.
-                  </p>
-                  
-                  <div className="h-1 sm:h-2 md:h-3 lg:h-4 w-full"></div>
-
-                  <p className="hero-content text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-4 text-theme-primary font-normal transition-theme-fast duration-500 leading-tight" style={{fontWeight: 400}} data-speed="0.99">
-                    And now, you can do it yourself.
                   </p>
                   
                 </div>
               </div>
               
               
-              {/* Animated Buttons with responsive sizes - moved further down and made larger */}
-              <div className="hero-content relative w-full mt-12 sm:mt-14 md:mt-16 lg:mt-20" style={{paddingLeft: 0}}>
+              {/* Animated Buttons with responsive sizes - moved up */}
+              <div className="hero-content relative w-full mt-8 sm:mt-10 md:mt-12 lg:mt-16" style={{paddingLeft: 0}}>
                 <div className="absolute left-0 flex flex-col sm:flex-row sm:items-center gap-6" style={{transform: "translateX(32px)"}}>
                   <AnimatedButton 
                     text="Get Your Plan"

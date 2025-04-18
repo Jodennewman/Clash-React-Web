@@ -150,16 +150,16 @@ export const ConnectEverything: React.FC<ConnectEverythingProps> = ({ className 
           <span className="text-[var(--theme-text-primary)] text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold">Connect </span>
           <span className="text-transparent bg-clip-text bg-gradient-to-br from-[var(--theme-accent)] to-[var(--theme-accent-secondary)] text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold">Everything</span>
         </div>
-        <div className="text-center text-[var(--theme-text-primary)] text-lg md:text-xl lg:text-xl font-normal">
+        <div className="text-center text-[var(--theme-text-primary)] text-lg md:text-xl lg:text-2xl">
           <span className="text-[var(--theme-accent-secondary)] font-semibold">The first problem with content creation</span> is knowing what content to make (and how to make it) - which of course, our course solves.
         </div>
-        <div className="text-center text-[var(--theme-text-primary)] text-lg md:text-xl lg:text-xl font-normal">
-          <span className="text-[var(--theme-accent-secondary)] font-semibold">The second problem with content creation</span> is managing to keep your content going out, every single. day. for years - in an efficient way that doesn't drain your team's energy, and your bank account.
+        <div className="text-center text-[var(--theme-text-primary)] text-lg md:text-xl lg:text-2xl">
+          <span className="text-[var(--theme-accent-secondary)] font-semibold">The second problem with content creation</span> is managing to keep your content going out, every single. day. for years. In an efficient way that doesn't drain your team's energy, and your bank account.
         </div>
-        <div className="text-center text-[var(--theme-text-primary)] text-lg md:text-xl font-normal">
+        <div className="text-center text-[var(--theme-text-primary)] text-lg md:text-xl lg:text-2xl">
           It was the main problem we've struggled with an agency. So we solved it.
         </div>
-        <div className="text-center text-[var(--theme-text-primary)] text-lg md:text-xl font-normal max-w-3xl">
+        <div className="text-center text-[var(--theme-text-primary)] text-lg md:text-xl lg:text-2xl">
           The Vertical Shortcut includes our <span className="font-semibold">custom in house-solution</span>: the utilities, apps and extensions, needed to run an efficient content machine. These tools made our team 4x more efficient, and increased the quality of our output too.
         </div>
         <div className="text-center text-[var(--theme-accent)] text-xl md:text-2xl font-semibold">
@@ -267,16 +267,10 @@ export const ConnectEverything: React.FC<ConnectEverythingProps> = ({ className 
           All 'busy work' is eliminated.
         </div>
         <div className="text-center text-[var(--theme-text-primary)] text-lg md:text-xl lg:text-2xl">
-          <span className="font-semibold">Plus we've got more in the works:</span> Custom analytics tools, video editing automators, AI driven 'authentic performance' checkers… and more
+          <span className="font-semibold">And we've got more in the works:</span> Custom analytics tools, video editing automators, AI driven 'authentic performance' checkers… and more
         </div>
         <div className="text-center text-[var(--theme-text-primary)] text-lg md:text-xl lg:text-2xl">
           As part of <span className="font-semibold">Vertical Shortcut alpha</span>, you will have permanent access to the entire code suite, as well as early access to all the updates and expansions we make to the course, when we're happy to offer these publicly.
-        </div>
-        <div className="text-center text-[var(--theme-text-primary)] text-lg md:text-xl lg:text-2xl">
-          Trust us, this will save you HOURS.
-        </div>
-        <div className="text-center text-[var(--theme-text-primary)] text-lg md:text-xl lg:text-2xl">
-          (And don't worry if you're a code newbie, the Creator HUD, Scran.ar and Splitt are incredibly easy to install, use and run — but we'll chuck in some free tech support if you want a hand)
         </div>
       </div>
       

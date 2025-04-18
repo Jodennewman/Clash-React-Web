@@ -217,7 +217,7 @@ const VSPainPoints = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-6 md:gap-y-20 items-center">
               <div className="md:text-right order-1 md:order-1">
                 <VSHeading size="xl" className="pain-heading text-white font-bold">
-                  So. You're bored of failing content<span className="text-theme-accent text-5xl">.</span>
+                  If you're bored of failing content<span className="text-theme-accent text-5xl">.</span>
                 </VSHeading>
               </div>
             </div>
@@ -276,7 +276,7 @@ const VSPainPoints = () => {
           
           <div className="component-spacing text-center mt-32 mb-16">
             <VSHeading size="xl" className="pain-heading text-theme-primary font-bold mb-24">
-              If that sounds familiar, we've got the solution<span className="text-theme-accent text-5xl">.</span>
+              We've got the solution<span className="text-theme-accent text-5xl">.</span>
             </VSHeading>
           </div>
         </div>

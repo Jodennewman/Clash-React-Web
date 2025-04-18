@@ -232,7 +232,7 @@ const CourseStats = () => {
                   resources: submodule.resources || []
                 })) : []}
               />
-              <p className="hidden sm:block mt-6 text-center text-lg text-theme-primary font-medium">All broken down into</p>
+              <p className="body-text-large font-bold text-theme-primary mb-6">All broken down into</p>
             </div>
           </div>
         </div>

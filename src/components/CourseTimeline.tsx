@@ -599,7 +599,7 @@ const CourseTimeline: React.FC = () => {
                     bg-[var(--theme-float-bg-secondary)]
                     animate-float-medium hidden md:block"></div>
       
-      <div className="container mx-auto px-4 md:px-6 max-w-5xl relative z-10 overflow-visible">
+      <div className="w-full max-w-[750px] mx-auto px-4 md:px-8 relative z-10 overflow-visible">
         <div className="max-w-4xl mx-auto text-center mb-4 md:mb-6">
           <h2 
             ref={titleRef}
@@ -629,7 +629,7 @@ const CourseTimeline: React.FC = () => {
           </div>
           
           {/* Timeline items */}
-          <div className="relative z-10 space-y-2 md:space-y-3">
+          <div className="relative z-10 space-y-2 md:space-y-3 max-w-[650px] mx-auto">
             {courseWeeks.map((week) => (
               <div 
                 key={week.id}

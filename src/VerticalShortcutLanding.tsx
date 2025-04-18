@@ -634,17 +634,17 @@ const VerticalShortcutLanding = () => {
             <div className="container mx-auto px-4">
               {/* Section header */}
               <div className="text-center max-w-4xl mx-auto mb-8">
-                  <h2 className="what-we-do-title text-red-500 dark:text-orange-400 text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                  <h2 className="what-we-do-title text-theme-accent text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
                       What do we do?
                   </h2>
                 </div>
 
               {/* Copy content - centered text layout */}
               <div className="text-center w-full mx-auto mb-8 sm:mb-12 md:mb-16">
-                <p className="what-we-do-text-1 body-text mb-2 sm:mb-4 mx-auto w-full text-center">
+                <p className="what-we-do-text-1 emphasized-text mb-2 sm:mb-4 mx-auto w-full text-center">
                   We make f*cking great videos.
                 </p>
-                <p className="what-we-do-text-2 text-sm sm:text-base md:text-base lg:text-lg text-theme-primary/80 italic mb-2 sm:mb-4 mx-auto w-full text-center">
+                <p className="what-we-do-text-2 body-text text-theme-primary/80 italic mb-2 sm:mb-4 mx-auto w-full text-center">
                   For founders and execs, specifically.
                 </p>
                 <p className="what-we-do-text-3 body-text mb-4 sm:mb-6 md:mb-8 mx-auto w-full text-center">
@@ -676,13 +676,13 @@ const VerticalShortcutLanding = () => {
            </Suspense>
 
           {/* Section 5: Short intro text before pain points */}
-          <div className="bg-theme-primary py-16 md:py-20">
+          <div className="bg-theme-primary pt-16 pb-8 md:pt-20 md:pb-10">
             <div className="container-mobile mx-auto px-4">
               <div className="max-w-4xl mx-auto text-center">
-                <p className="text-theme-primary text-2xl md:text-3xl lg:text-4xl font-medium leading-relaxed">
-                  So, we've decided to take everything it takes to build a brand from the ground up — not just the knowledge — but the strategy, custom programs, and infrastructure we've built, into a proven system so you can do it yourself. 
+                <p className="emphasized-text text-theme-primary leading-relaxed" style={{ fontWeight: 350 }}>
+                  So, we've decided to take everything it takes to build a brand from the ground up — not just the knowledge — but the strategy, custom programs, and infrastructure we've built, into a proven system so you can do it yourself.
                 </p>
-                <p className="text-theme-accent text-3xl md:text-4xl lg:text-5xl font-bold mt-6 md:mt-8">
+                <p className="hero-statement text-theme-accent mt-6 md:mt-8">
                   Zero guesswork. All results.
                 </p>
               </div>
@@ -732,7 +732,7 @@ const VerticalShortcutLanding = () => {
           {/* Section 14: Limited spots available for next cohort (moved before FAQ) */}
           <VSSection 
             ref={ctaRef} 
-            className="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden bg-theme-primary"
+            className="pt-12 pb-8 sm:pt-16 sm:pb-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-16 relative overflow-hidden bg-theme-primary"
           >
             {/* Isometric Grid Pattern from VSBigReveal */}
             <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
@@ -780,12 +780,12 @@ const VerticalShortcutLanding = () => {
             </div>
 
             <div className="container mx-auto px-4 relative z-10">
-              <div className="max-w-6xl mx-auto">
-                <div className="mb-6 sm:mb-8 flex flex-col items-center">
+              <div className="max-w-6xl mx-auto pt-4 sm:pt-0">
+                <div className="mb-4 sm:mb-6 flex flex-col items-center">
                   <VSHeading
                     as="h2"
                     size="2xl"
-                    className="cta-title font-bold text-theme-primary mb-4 sm:mb-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl"
+                    className="cta-title font-bold text-theme-accent mb-3 sm:mb-5 text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
                     style={{ textAlign: 'center' }}
                   >
                     Transform Your Content
@@ -813,7 +813,7 @@ const VerticalShortcutLanding = () => {
                     </VSHeading>
                     <VSText className="text-lg text-theme-secondary mb-4">
                       Fill out our quick qualification form to see if you're a
-                      good fit for our program. Once approved, we'll help you
+                      good fit for our program — and which progam best suits you and your team. Once approved, we'll hop on a call to help you
                       find the perfect implementation for your business.
                     </VSText>
                     <ul className="space-y-3 mb-6">

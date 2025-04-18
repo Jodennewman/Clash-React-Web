@@ -68,7 +68,7 @@ const faqItems = [
   }
 ];
 
-export default function FAQ() {
+export default function FAQUpdated() {
   const sectionRef = useRef(null);
   const eyeballRef = useRef(null);
   
@@ -119,8 +119,8 @@ export default function FAQ() {
   }, []);
   
   return (
-    <Section ref={sectionRef} className="relative overflow-hidden">
-      <div className="mx-auto flex max-w-container flex-col items-center gap-12 relative">
+    <Section ref={sectionRef} className="relative overflow-hidden pt-6 sm:pt-8 md:pt-12">
+      <div className="mx-auto flex max-w-container flex-col items-center gap-6 relative">
         {/* Eyeball SVG in top left corner */}
         <svg
           width="679"
@@ -131,16 +131,16 @@ export default function FAQ() {
           id="faqEyeballSvg"
           ref={eyeballRef}
           className="
-            w-[150px] h-auto
-            sm:w-[180px] md:w-[220px] lg:w-[250px]
-            absolute top-[-60px] left-[-30px]
-            sm:top-[-70px] sm:left-[-40px]
-            md:top-[-80px] md:left-[-60px]
-            lg:top-[-100px] lg:left-[-80px]
+            w-[140px] h-auto
+            sm:w-[170px] md:w-[205px] lg:w-[235px]
+            absolute top-[0px] left-[-30px]
+            sm:top-[10px] sm:left-[-40px]
+            md:top-[20px] md:left-[-60px]
+            lg:top-[30px] lg:left-[-80px]
             opacity-0
             transition-all duration-500
             animate-float-gentle
-            z-10
+            z-100
           "
           aria-hidden="true"
         >
@@ -165,12 +165,12 @@ export default function FAQ() {
           />
         </svg>
       
-        <h2 className="text-center text-4xl md:text-5xl font-bold text-theme-primary mb-6">
+        <h2 className="text-center text-4xl md:text-5xl font-bold text-theme-primary mb-2 -mt-2">
           FAQs
         </h2>
-        <h3 className="text-center text-xl md:text-2xl text-theme-primary/70 mb-8">
+        <p className="text-center text-xs md:text-sm text-theme-accent/70 italic mb-4 -mt-1">
           And frequently given answers
-        </h3>
+        </p>
         <Accordion type="single" collapsible className="w-full max-w-[800px]">
           {faqItems.map((item, index) => (
             <AccordionItem key={`item-${index + 1}`} value={`item-${index + 1}`}>

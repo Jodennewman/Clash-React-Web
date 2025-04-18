@@ -19,6 +19,45 @@
   }
 }
 
+/* Large emphasized text for special sections */
+.emphasized-text {
+  font-size: 1.5rem; /* text-2xl */
+  line-height: 1.75; /* leading-relaxed */
+  font-weight: 600; /* font-semibold */
+  color: var(--theme-text-primary);
+}
+
+@media (min-width: 768px) {
+  .emphasized-text {
+    font-size: 1.875rem; /* md:text-3xl */
+  }
+}
+
+@media (min-width: 1024px) {
+  .emphasized-text {
+    font-size: 2.25rem; /* lg:text-4xl */
+  }
+}
+
+/* Extra large text for hero statements */
+.hero-statement {
+  font-size: 2rem; /* text-4xl */
+  line-height: 1.25; /* leading-tight */
+  font-weight: 700; /* font-bold */
+}
+
+@media (min-width: 768px) {
+  .hero-statement {
+    font-size: 2.5rem; /* md:text-5xl */
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-statement {
+    font-size: 3rem; /* lg:text-6xl */
+  }
+}
+
 .body-text-sm {
   font-size: 1rem; /* text-base */
   line-height: 1.75; /* leading-relaxed */

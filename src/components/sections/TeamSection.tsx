@@ -237,7 +237,7 @@ export default function TeamParallaxSection() {
           <h3 className="intro-heading text-[var(--theme-text-primary)] text-2xl md:text-3xl font-medium mb-4 relative z-10">
             Why trust us?
           </h3>
-          <p className="intro-text text-[var(--theme-text-secondary)] text-lg md:text-xl mb-6 relative z-10">
+          <p className="intro-text text-[var(--theme-text-secondary)] text-lg md:text-xl lg:text-xl mb-6 relative z-10">
             We're not just a guy in a room. We're a team of creatives, who just happen to be f*cking great at making content. 
             It's why we're the number one short form agency in the world, and luckily for you we specialise in getting founders like yourself, millions of views.
           </p>

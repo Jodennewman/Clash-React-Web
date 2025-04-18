@@ -163,7 +163,7 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
   }, []);
 
   return (
-    <Section className="pt-24 pb-12 md:pb-16 lg:pb-20 bg-theme-gradient overflow-hidden relative" ref={containerRef}>
+    <Section className="pt-24 pb-12 md:pb-16 lg:pb-20 bg-theme-gradient overflow-hidden relative after:hidden" ref={containerRef}>
       {/* Floating decorative elements */}
       <div className="absolute -z-10 w-20 h-20 rounded-[40%] rotate-12 top-20 left-[10%] 
                      opacity-theme-float bg-theme-float-primary floating-element"></div>
