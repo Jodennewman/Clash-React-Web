@@ -476,7 +476,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
     {/* Background patterns */}
     <div className="absolute inset-0 dot-bg pointer-events-none"></div>
     
-    {/* Theme-aware floating elements */}
+    {/* Theme-aware floating elements - hidden on mobile */}
     <div className="absolute top-40 left-[10%] w-40 h-40 rounded-[40%] rotate-12 
                   opacity-[var(--theme-float-opacity)]
                   bg-[var(--theme-float-bg-primary)]
@@ -488,8 +488,8 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
 
     <div className="container-mobile mx-auto relative z-10 flex flex-col">
       {/* Section header - responsive and properly positioned */}
-      <div className="text-center mb-6 md:mb-10 case-study-element mt-0 md:-mt-16">
-        <h2 className="text-black dark:text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2">
+      <div className="text-center mb-4 md:mb-10 case-study-element mt-0 md:-mt-16">
+        <h2 className="text-black dark:text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2">
           The numbers speak for themselves
         </h2>
       </div>
@@ -623,31 +623,31 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
 
 
       {/* Creator Profile Hub - Prominent top section */}
-      <div className="flex flex-col gap-3 sm:gap-4 md:gap-5 mb-6 w-full max-w-full sm:max-w-[98%] sm:mx-auto case-study-element">
+      <div className="flex flex-col gap-3 sm:gap-4 md:gap-5 mb-4 sm:mb-6 w-full max-w-full sm:max-w-[98%] sm:mx-auto case-study-element">
         {/* Active Creator Dashboard - Always visible at top */}
         <div className="bg-theme-gradient-card rounded-xl border border-theme-border-light shadow-theme-lg overflow-hidden transition-all duration-300 transform">
           {/* Creator Header with Navigation */}
-          <div className="flex items-center justify-between p-3 sm:p-4 border-b border-theme-border-light/50 bg-theme-surface relative">
+          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between p-3 sm:p-4 border-b border-theme-border-light/50 bg-theme-surface relative">
             {/* Creator Info */}
-            <div className="flex items-center">
-              <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden flex-shrink-0
-                        ring-2 ring-[var(--theme-primary)] mr-4 relative z-50 shadow-lg">
+            <div className="flex items-center w-full sm:w-auto">
+              <div className="relative w-14 h-14 sm:w-20 sm:h-20 rounded-full overflow-hidden flex-shrink-0
+                        ring-2 ring-[var(--theme-primary)] mr-3 sm:mr-4 relative z-50 shadow-lg">
                 <img
                   src={currentCreator?.avatar || '/src/assets/main/Logo@2x.webp'}
                   alt={currentCreator?.name || 'Creator'}
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-0.5">
-                  <h2 className="text-theme-primary text-xl sm:text-2xl md:text-3xl font-semibold leading-tight">
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 mb-0.5">
+                  <h2 className="text-theme-primary text-lg sm:text-2xl md:text-3xl font-semibold leading-tight truncate">
                     {currentCreator?.name || 'Creator'}
                   </h2>
-                  <div className="bg-[var(--theme-primary)]/10 text-[var(--theme-primary)] text-xs px-2 py-0.5 rounded-full font-medium">
+                  <div className="bg-[var(--theme-primary)]/10 text-[var(--theme-primary)] text-xs px-2 py-0.5 rounded-full font-medium whitespace-nowrap">
                     Case Study
                   </div>
                 </div>
-                <div className="flex items-center gap-3 text-sm text-theme-secondary">
+                <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-theme-secondary">
                   <div className="flex items-center gap-1">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M12 7V12L15 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -666,7 +666,7 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
             </div>
             
             {/* Quick Stats Pills */}
-            <div className="hidden sm:flex items-center gap-2">
+            <div className="hidden sm:flex items-center gap-2 mt-2 sm:mt-0">
               <div className="bg-[var(--theme-primary)]/10 text-[var(--theme-primary)] px-3 py-1.5 rounded-lg text-sm font-semibold">
                 {formatLargeNumber(currentCreator?.totals?.views || 0)} Views
               </div>
@@ -677,21 +677,21 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
           </div>
           
           {/* Bio and Quick Stats */}
-          <div className="p-3 sm:p-4 md:p-5 grid md:grid-cols-[1fr_auto] gap-4">
+          <div className="p-2 sm:p-4 md:p-5 grid md:grid-cols-[1fr_auto] gap-3 sm:gap-4">
             {/* Bio Section */}
-            <div className="bg-theme-surface/30 rounded-lg p-3 sm:p-4 border border-theme-border-light/30">
-              <h3 className="text-theme-primary text-sm font-medium mb-2">About</h3>
-              <p className="text-theme-secondary text-xs leading-relaxed sm:text-sm sm:leading-relaxed">
+            <div className="bg-theme-surface/30 rounded-lg p-2 sm:p-4 border border-theme-border-light/30">
+              <h3 className="text-theme-primary text-sm font-medium mb-1 sm:mb-2">About</h3>
+              <p className="text-theme-secondary text-xs leading-relaxed sm:text-sm sm:leading-relaxed line-clamp-4 sm:line-clamp-none">
                 {currentCreator?.description || 'No description available.'}
               </p>
             </div>
             
             {/* Quick Stats Row - Mobile Only */}
             <div className="flex md:hidden gap-2">
-              <div className="bg-[var(--theme-primary)]/10 text-[var(--theme-primary)] flex-1 rounded-lg p-2 text-center text-sm font-semibold">
+              <div className="bg-[var(--theme-primary)]/10 text-[var(--theme-primary)] flex-1 rounded-lg p-2 text-center text-xs sm:text-sm font-semibold">
                 {formatLargeNumber(currentCreator?.totals?.views || 0)} Views
               </div>
-              <div className="bg-[var(--theme-accent-secondary)]/10 text-[var(--theme-accent-secondary)] flex-1 rounded-lg p-2 text-center text-sm font-semibold">
+              <div className="bg-[var(--theme-accent-secondary)]/10 text-[var(--theme-accent-secondary)] flex-1 rounded-lg p-2 text-center text-xs sm:text-sm font-semibold">
                 {formatLargeNumber(currentCreator?.totals?.followers || 0)} Followers
               </div>
             </div>
@@ -796,18 +796,19 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
           </div>
           
           {/* Creator Tabs - Visible on All Devices */}
-          <div className="bg-theme-surface/50 border-t border-theme-border-light/30 px-3 sm:px-4 pt-2">
+          <div className="bg-theme-surface/50 border-t border-theme-border-light/30 px-2 sm:px-4 pt-1 sm:pt-2">
             <div className="flex gap-1 sm:gap-2 overflow-x-auto scrollbar-hide">
               {[
-                { id: "all", label: "All Metrics", color: "text-theme-primary", icon: "📊" },
-                { id: "views", label: "Views", color: "text-[var(--theme-primary)]", icon: "👁️" },
-                { id: "followers", label: "Followers", color: "text-[var(--theme-accent-secondary)]", icon: "👥" },
-                { id: "interactions", label: "Interactions", color: "text-[var(--theme-accent-tertiary)]", icon: "💬" },
+                { id: "all", label: "All Metrics", mobileLabel: "All", color: "text-theme-primary", icon: "📊" },
+                { id: "views", label: "Views", mobileLabel: "Views", color: "text-[var(--theme-primary)]", icon: "👁️" },
+                { id: "followers", label: "Followers", mobileLabel: "Followers", color: "text-[var(--theme-accent-secondary)]", icon: "👥" },
+                { id: "interactions", label: "Interactions", mobileLabel: "Engagements", color: "text-[var(--theme-accent-tertiary)]", icon: "💬" },
               ].map((metric) => (
                 <button
                   key={metric.id}
                   onClick={() => setActiveMetric(metric.id)}
-                  className={`px-3 py-2 rounded-t-lg text-sm transition-all flex items-center
+                  className={`px-2 sm:px-3 py-1.5 sm:py-2 rounded-t-lg text-xs sm:text-sm transition-all flex items-center whitespace-nowrap
+                            touch-target min-h-[44px] min-w-[44px]
                             ${activeMetric === metric.id 
                               ? metric.id === "all"
                                 ? "bg-theme-gradient-primary text-white shadow-theme-sm border-b-2 border-white" 
@@ -818,8 +819,9 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                                     : "bg-[var(--theme-accent-tertiary)] text-white shadow-theme-sm border-b-2 border-white"
                               : "bg-transparent hover:bg-theme-surface"}`}
                 >
-                  <span className="mr-1.5">{metric.icon}</span>
-                  {metric.label}
+                  <span className="mr-1 sm:mr-1.5">{metric.icon}</span>
+                  <span className="hidden xs:inline">{metric.label}</span>
+                  <span className="xs:hidden">{metric.mobileLabel}</span>
                 </button>
               ))}
             </div>
@@ -828,106 +830,9 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
         
         {/* Creator Growth Data */}
         <div className="grid md:grid-cols-3 gap-3 sm:gap-4">
-          {/* Animated Growth Stats - Visible on Mobile Only */}
-          <div className="md:hidden bg-theme-gradient-card rounded-xl border border-theme-border-light shadow-theme-md p-3 case-study-element">
-            <h3 className="text-theme-secondary text-sm font-medium mb-2">Growth Results</h3>
-            <div className="flex flex-col gap-2">
-              {/* Views Counter */}
-              <div className="flex items-center gap-2">
-                <div className="w-1.5 h-9 bg-[var(--theme-primary)]/70 rounded-full"></div>
-                <div>
-                  <div className="text-[var(--theme-primary)] text-lg font-bold">
-                    <span className="animate-count-up-mobile" 
-                          data-value={currentCreator?.totals?.views || 0} 
-                          data-duration="1500"
-                          key={`mobile-views-${activeCreator}`} // Key changes force re-render when creator changes
-                          ref={(el) => {
-                            if (el) {
-                              // Reset initialization state when creator changes
-                              el.removeAttribute('data-initialized');
-                              
-                              if (!el.getAttribute('data-initialized')) {
-                                el.setAttribute('data-initialized', 'true');
-                                const value = currentCreator?.totals?.views || 0;
-                                const duration = 1500;
-                                
-                                let startTimestamp: number | null = null;
-                                const step = (timestamp: number) => {
-                                  if (!startTimestamp) startTimestamp = timestamp;
-                                  const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                                  const currentValue = Math.floor(progress * value);
-                                  el.textContent = formatLargeNumber(currentValue);
-                                  
-                                  if (progress < 1) {
-                                    window.requestAnimationFrame(step);
-                                  } else {
-                                    // Final value with proper formatting
-                                    el.textContent = formatLargeNumber(value);
-                                  }
-                                };
-                                
-                                window.requestAnimationFrame(step);
-                              }
-                            }
-                          }}>
-                      0
-                    </span> Views
-                  </div>
-                  <div className="text-theme-secondary text-xs">
-                    in just <span className="font-semibold">{getGrowthDuration(currentCreator)}</span> months
-                  </div>
-                </div>
-              </div>
-              
-              {/* Followers Counter */}
-              <div className="flex items-center gap-2">
-                <div className="w-1.5 h-9 bg-[var(--theme-accent-secondary)]/70 rounded-full"></div>
-                <div>
-                  <div className="text-[var(--theme-accent-secondary)] text-lg font-bold">
-                    <span className="animate-count-up-mobile" 
-                          data-value={currentCreator?.totals?.followers || 0} 
-                          data-duration="1200"
-                          key={`mobile-followers-${activeCreator}`} // Key changes force re-render when creator changes
-                          ref={(el) => {
-                            if (el) {
-                              // Reset initialization state when creator changes
-                              el.removeAttribute('data-initialized');
-                              
-                              if (!el.getAttribute('data-initialized')) {
-                                el.setAttribute('data-initialized', 'true');
-                                const value = currentCreator?.totals?.followers || 0;
-                                const duration = 1200;
-                                
-                                let startTimestamp: number | null = null;
-                                const step = (timestamp: number) => {
-                                  if (!startTimestamp) startTimestamp = timestamp;
-                                  const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                                  const currentValue = Math.floor(progress * value);
-                                  el.textContent = formatLargeNumber(currentValue);
-                                  
-                                  if (progress < 1) {
-                                    window.requestAnimationFrame(step);
-                                  } else {
-                                    // Final value with proper formatting
-                                    el.textContent = formatLargeNumber(value);
-                                  }
-                                };
-                                
-                                window.requestAnimationFrame(step);
-                              }
-                            }
-                          }}>
-                      0
-                    </span> Followers
-                  </div>
-                  <div className="text-theme-secondary text-xs">across all platforms</div>
-                </div>
-              </div>
-            </div>
-          </div>
           
           {/* Detailed Stats Cards */}
-          <div className="col-span-3 grid grid-cols-3 gap-3 case-study-element">
+          <div className="col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-3 case-study-element">
             {/* Views Stats Card */}
             <div className="bg-theme-gradient-card rounded-xl border border-theme-border-light shadow-theme-md p-3 overflow-hidden">
               <div className="flex items-center">
@@ -995,24 +900,24 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                   "bg-[var(--theme-accent-tertiary)]"
                 }`}></div>
                 <h3 className="text-theme-primary text-base sm:text-lg font-medium">
-                  {currentCreator.name}'s Growth Chart
+                  Growth Chart
                 </h3>
               </div>
               
-              <div className="text-theme-secondary text-xs sm:text-sm">
+              <div className="hidden sm:block text-theme-secondary text-xs sm:text-sm">
                 {activeMetric === "all" ? "All Metrics" : activeMetric.charAt(0).toUpperCase() + activeMetric.slice(1)}
                 {" • "}{getGrowthDuration(currentCreator)} Month Growth
               </div>
             </div>
             
-            <div className="h-[280px] sm:h-[320px] md:h-[400px]">
+            <div className="h-[240px] sm:h-[320px] md:h-[400px]">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart
                   data={currentCreator?.data || []}
                   margin={{ 
                     top: 5, 
-                    right: typeof window !== 'undefined' && window.innerWidth < 480 ? 2 : window.innerWidth < 768 ? 5 : 20, 
-                    left: typeof window !== 'undefined' && window.innerWidth < 480 ? 2 : window.innerWidth < 768 ? 5 : 15, 
+                    right: typeof window !== 'undefined' && window.innerWidth < 480 ? 0 : window.innerWidth < 768 ? 5 : 20, 
+                    left: typeof window !== 'undefined' && window.innerWidth < 480 ? 0 : window.innerWidth < 768 ? 5 : 15, 
                     bottom: 5 
                   }}
                 >
@@ -1042,27 +947,38 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                     className="text-theme-secondary"
                     stroke="var(--theme-border-light)"
                     tick={{ 
-                      fontSize: typeof window !== 'undefined' && window.innerWidth < 480 ? 7 : window.innerWidth < 768 ? 8 : 10,
-                      fill: 'var(--theme-text-secondary)'
+                      fontSize: typeof window !== 'undefined' && window.innerWidth < 480 ? 10 : window.innerWidth < 768 ? 10 : 12,
+                      fill: 'var(--theme-text-primary)',
+                      fontWeight: window.innerWidth < 480 ? 'bold' : 'normal'
                     }}
                     tickLine={false}
-                    axisLine={typeof window !== 'undefined' && window.innerWidth < 768 ? false : true}
-                    interval={typeof window !== 'undefined' && window.innerWidth < 480 ? 2 : window.innerWidth < 640 ? 1 : 0}
+                    axisLine={true}
+                    interval={typeof window !== 'undefined' && window.innerWidth < 480 ? 1 : window.innerWidth < 640 ? 0 : 0}
                   />
                   
-                  {/* Simplified Y-axis for mobile */}
+                  {/* Enhanced Y-axis for mobile readability */}
                   <YAxis
                     className="text-theme-secondary"
                     stroke="var(--theme-border-light)"
                     domain={getYAxisDomain()}
                     tick={{ 
-                      fontSize: typeof window !== 'undefined' && window.innerWidth < 480 ? 7 : window.innerWidth < 768 ? 8 : 10,
-                      fill: 'var(--theme-text-secondary)'
+                      fontSize: typeof window !== 'undefined' && window.innerWidth < 480 ? 11 : window.innerWidth < 768 ? 12 : 12,
+                      fill: 'var(--theme-primary)',
+                      fontWeight: 'bold'
                     }}
-                    tickLine={false}
-                    axisLine={typeof window !== 'undefined' && window.innerWidth < 768 ? false : true}
-                    tickCount={typeof window !== 'undefined' && window.innerWidth < 480 ? 2 : window.innerWidth < 768 ? 3 : 5}
-                    hide={typeof window !== 'undefined' && window.innerWidth < 480}
+                    tickLine={true}
+                    axisLine={true}
+                    tickCount={typeof window !== 'undefined' && window.innerWidth < 480 ? 4 : window.innerWidth < 768 ? 4 : 5}
+                    width={window.innerWidth < 480 ? 60 : undefined}
+                    tickFormatter={(value) => {
+                      // Format numbers to be more readable on mobile (e.g., 1M instead of 1000000)
+                      if (value >= 1000000) {
+                        return `${(value / 1000000).toFixed(0)}M`;
+                      } else if (value >= 1000) {
+                        return `${(value / 1000).toFixed(0)}K`;
+                      }
+                      return value;
+                    }}
                   />
                   
                   {/* Tooltip remains the same */}
@@ -1080,54 +996,60 @@ const CaseStudies = React.forwardRef<HTMLElement, CaseStudiesProps>((props, ref)
                     />
                   )}
                   
-                  {/* Views line - simplified for mobile */}
+                  {/* Views line - better visibility for mobile */}
                   {(activeMetric === "all" || activeMetric === "views") && (
                     <Line
                       type="monotone"
                       dataKey="views"
                       name="Views"
                       stroke="var(--theme-primary)"
-                      strokeWidth={window.innerWidth < 768 ? 1.5 : 2}
-                      dot={false}
+                      strokeWidth={window.innerWidth < 768 ? 2.5 : 2}
+                      dot={window.innerWidth < 480 ? { r: 3, strokeWidth: 1, fill: "var(--theme-primary)" } : false}
                       activeDot={{ 
-                        r: window.innerWidth < 768 ? 2 : 3, 
-                        filter: window.innerWidth < 400 ? undefined : "url(#simpleGlow)"
+                        r: window.innerWidth < 768 ? 4 : 3, 
+                        strokeWidth: 2,
+                        fill: "var(--theme-primary)",
+                        filter: "url(#simpleGlow)"
                       }}
                       animationDuration={animateGraph ? 500 : 0}
                       isAnimationActive={animateGraph}
                     />
                   )}
                   
-                  {/* Followers line - simplified for mobile */}
+                  {/* Followers line - better visibility for mobile */}
                   {(activeMetric === "all" || activeMetric === "followers") && (
                     <Line
                       type="monotone"
                       dataKey="followers"
                       name="Followers"
                       stroke="var(--theme-accent-secondary)"
-                      strokeWidth={window.innerWidth < 768 ? 1 : 1.5}
-                      dot={false}
+                      strokeWidth={window.innerWidth < 768 ? 2 : 1.5}
+                      dot={window.innerWidth < 480 ? { r: 2, strokeWidth: 1, fill: "var(--theme-accent-secondary)" } : false}
                       activeDot={{ 
-                        r: window.innerWidth < 768 ? 2 : 3, 
-                        filter: window.innerWidth < 400 ? undefined : "url(#simpleGlow)"
+                        r: window.innerWidth < 768 ? 4 : 3, 
+                        strokeWidth: 2,
+                        fill: "var(--theme-accent-secondary)",
+                        filter: "url(#simpleGlow)"
                       }}
                       animationDuration={animateGraph ? 500 : 0}
                       isAnimationActive={animateGraph}
                     />
                   )}
                   
-                  {/* Interactions line - simplified for mobile */}
+                  {/* Interactions line - better visibility for mobile */}
                   {(activeMetric === "all" || activeMetric === "interactions") && (
                     <Line
                       type="monotone"
                       dataKey="interactions"
                       name="Interactions"
                       stroke="var(--theme-accent-tertiary)"
-                      strokeWidth={window.innerWidth < 768 ? 1 : 1.5}
-                      dot={false}
+                      strokeWidth={window.innerWidth < 768 ? 2 : 1.5}
+                      dot={window.innerWidth < 480 ? { r: 2, strokeWidth: 1, fill: "var(--theme-accent-tertiary)" } : false}
                       activeDot={{ 
-                        r: window.innerWidth < 768 ? 2 : 3, 
-                        filter: window.innerWidth < 400 ? undefined : "url(#simpleGlow)"
+                        r: window.innerWidth < 768 ? 4 : 3, 
+                        strokeWidth: 2,
+                        fill: "var(--theme-accent-tertiary)",
+                        filter: "url(#simpleGlow)"
                       }}
                       animationDuration={animateGraph ? 500 : 0}
                       isAnimationActive={animateGraph}
