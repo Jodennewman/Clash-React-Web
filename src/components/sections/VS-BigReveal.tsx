@@ -271,13 +271,9 @@ const VSBigReveal = ({ onApplyClick }: VSBigRevealProps) => {
               <div className="cta-button mt-4">
                 <button 
                   className="bg-theme-gradient-primary text-white w-full py-3 rounded-lg flex items-center justify-center gap-2 font-bold text-base shadow-theme-sm hover-bubbly"
-                  onClick={() => {
-                    // Dispatch event to open the tia qualification modal
-                    const event = new CustomEvent('openTiaQualificationModal');
-                    window.dispatchEvent(event);
-                  }}
+                  onClick={onApplyClick}
                 >
-                  <span>Get your Plan</span>
+                  <span>Get Your Plan</span>
                   <ArrowRightCircle className="h-5 w-5" />
                 </button>
               </div>

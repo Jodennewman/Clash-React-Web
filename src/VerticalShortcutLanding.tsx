@@ -698,7 +698,7 @@ const VerticalShortcutLanding = () => {
 
           {/* Section 7: The Vertical Shortcut (big sell) */}
            <Suspense fallback={<LoadingFallback />}>
-             <LazyVSBigReveal />
+             <LazyVSBigReveal onApplyClick={openTiaQualificationModal} />
            </Suspense>
 
           {/* Section 8: Contents */}
