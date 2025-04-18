@@ -194,18 +194,18 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
   return (
     <header 
       ref={navbarRef}
-      className="fixed top-0 w-full z-50 px-2 sm:px-4 md:px-6 py-2 sm:py-3 transition-all duration-300"
+      className="fixed top-0 w-full z-50 @max-[768px]:px-1 px-2 sm:px-4 md:px-6 py-2 sm:py-3 transition-all duration-300"
     >
-      <div className="max-w-[1400px] bg-theme-primary sm:bg-theme-primary backdrop-blur-sm sm:backdrop-blur-md border border-theme-accent sm:border-theme-accent relative mx-auto rounded-theme-xl sm:rounded-theme-2xl p-1.5 sm:p-2 py-1.5 sm:py-2.5 px-3 sm:px-4 md:px-6 shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border-x-4">
+      <div className="max-w-[1400px] bg-theme-primary sm:bg-theme-primary backdrop-blur-sm sm:backdrop-blur-md border border-theme-accent sm:border-theme-accent relative mx-auto rounded-theme-xl sm:rounded-theme-2xl p-1 sm:p-2 py-1 sm:py-2.5 @max-[768px]:px-1 px-3 sm:px-4 md:px-6 shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden @max-[768px]:flex @max-[768px]:justify-between">
         <NavbarComponent className="py-1 sm:py-1">
-          <NavbarLeft className="gap-2 sm:gap-3">
+          <NavbarLeft className="gap-2 sm:gap-3 @max-[768px]:pl-0 @max-[768px]:-ml-12">
             <img 
               src="/Clash-Logo-One-Line-Light-for-Dark.png" 
               alt="Clash Creation" 
               className="h-6 hidden sm:h-7 md:h-8"
             />
-            <div className="w-70 h-15 sm:w-70 sm:h-10 md:w-70 md:h-10 sm:bg-theme-primary flex items-center justify-center @max-[420px]:ml-0 @max-[420px]:w-50 ">
-              <span className="text-theme-secondary vs-text-gradient-nav-title text-theme-shadow-md text-3xl font-[350] sm:text-3xl ml-5 @max-[420px]:ml-1 @max-[420px]:text-[1.4rem] @max-[420px]:w-50 @max-[420px]:-translate-x-5">the vertical shortcut.</span>
+            <div className="w-70 h-15 sm:w-70 sm:h-10 md:w-70 md:h-10 sm:bg-theme-primary flex items-center @max-[768px]:justify-start justify-center @max-[768px]:ml-0 @max-[768px]:w-full @max-[768px]:-translate-x-10">
+              <span className="text-theme-secondary vs-text-gradient-nav-title text-theme-shadow-md text-2xl font-[350] sm:text-3xl ml-5 @max-[768px]:ml-0 @max-[768px]:text-base @max-[768px]:w-full">the vertical shortcut.</span>
             </div>
             <span className="text-theme-primary ml-1 sm:ml-2 font-medium text-sm sm:text-base hidden xs:inline-block">
               <span className="hidden sm:inline">Vertical</span>
@@ -240,22 +240,22 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
             </button>
           </nav>
           
-          <NavbarRight className="gap-1 sm:gap-2">
+          <NavbarRight className="gap-1 sm:gap-2 @max-[768px]:pr-0 @max-[768px]:-mr-2 @max-[768px]:ml-auto @max-[768px]:translate-x-10">
             <Button 
               variant="default" 
-              className=" vs-btn-secondary-gradient py-2 sm:py-2.5 md:py-3 px-3.5 sm:px-3 md:px-4 text-md sm:text-md shadow-theme-sm glow-theme-secondary transition-theme-bounce @max-[420px]:align-right @max-[420px]:-translate-x-12 hover:shadow-theme-md "
+              className="vs-btn-secondary-gradient py-1 sm:py-2.5 md:py-3 px-2 sm:px-3 md:px-4 @max-[768px]:text-xs text-md sm:text-md shadow-theme-sm glow-theme-secondary transition-theme-bounce hover:shadow-theme-md @max-[768px]:w-auto"
               onClick={handleApplyClick}
             >
-              Get Your Plan
+              <span className="@max-[768px]:text-xs @max-[768px]:whitespace-nowrap">Get Plan</span>
             </Button>
             <Sheet>
               <SheetTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-10 md:hidden text-theme-primary hover:bg-theme-secondary transition-theme-bounce duration-300 shrink-0"
+                  className="size-8 md:hidden text-theme-primary hover:bg-theme-secondary transition-theme-bounce duration-300 shrink-0 @max-[768px]:p-1"
                 >
-                  <Menu className="size-5" />
+                  <Menu className="size-4" />
                   <span className="sr-only">Toggle navigation menu</span>
                 </Button>
               </SheetTrigger>

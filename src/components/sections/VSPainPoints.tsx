@@ -119,13 +119,8 @@ const VSPainPoints = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-6 md:gap-y-20 items-center">
               <div className="md:text-right order-1 md:order-1">
                 <VSHeading size="xl" className="pain-heading text-white font-bold">
-                  Your're bored of failing content<span className="text-theme-accent text-5xl">.</span>
+                  So. You're bored of failing content<span className="text-theme-accent text-5xl">.</span>
                 </VSHeading>
-              </div>
-              <div className="order-2 md:order-2">
-                <VSText size="md" className="pain-desc text-white">  
-                  You've tried everything to make content that performs, but nothing seems to work consistently. Your views remain low and engagement is minimal despite your best efforts.
-                </VSText>
               </div>
             </div>
           </div>
@@ -133,15 +128,10 @@ const VSPainPoints = () => {
           
           <div className="component-spacing mb-60">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-6 md:gap-y-20 items-center">
-              <div className="order-1 md:order-2">
+              <div className="md:col-start-2 md:text-left order-1 md:order-1">
                 <VSHeading size="xl" className="pain-heading text-white font-bold">
                   You're sick of inconsistent freelancers<span className="text-theme-accent text-5xl">.</span>
                 </VSHeading>
-              </div>
-              <div className="order-2 md:order-1">
-                <VSText size="md" className="pain-desc text-white">
-                  Constantly chasing freelancers, dealing with missed deadlines, and watching quality fluctuate with every deliverable is wasting your time and resources.
-                </VSText>
               </div>
             </div>
           </div>
@@ -153,25 +143,15 @@ const VSPainPoints = () => {
                   Your social team is stressed (and so are you)<span className="text-theme-accent text-5xl">.</span>
                 </VSHeading>
               </div>
-              <div className="order-2 md:order-2">
-                <VSText size="md" className="pain-desc text-white">
-                  The constant pressure to produce content while meeting all your other responsibilities is creating burnout for everyone involved.
-                </VSText>
-              </div>
             </div>
           </div>
           
           <div className="component-spacing mb-60">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-6 md:gap-y-20 items-center">
-              <div className="order-1 md:order-2">
+              <div className="md:col-start-2 md:text-left order-1 md:order-1">
                 <VSHeading size="xl" className="pain-heading text-white font-bold">
                   You're struggling to keep posting every. single. day<span className="text-theme-accent text-5xl">.</span>
                 </VSHeading>
-              </div>
-              <div className="order-2 md:order-1">
-                <VSText size="md" className="pain-desc text-white">
-                  The relentless content calendar is exhausting, and you're running out of ideas that actually resonate with your audience.
-                </VSText>
               </div>
             </div>
           </div>
@@ -183,32 +163,22 @@ const VSPainPoints = () => {
                   You want more inbound leads<span className="text-theme-accent text-5xl">.</span>
                 </VSHeading>
               </div>
-              <div className="order-2 md:order-2">
-                <VSText size="md" className="pain-desc text-white">
-                  You've got the product, the business, the vision. But your dream clients don't even know you exist. You're craving inbound leads from people who <strong>already</strong> see you as the authority in your space.
-                </VSText>
-              </div>
             </div>
           </div>
           
           <div className="component-spacing mb-60">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-6 md:gap-y-20 items-center">
-              <div className="order-1 md:order-2">
+              <div className="md:col-start-2 md:text-left order-1 md:order-1">
                 <VSHeading size="xl" className="pain-heading text-white font-bold">
-                  You want your content to represent YOU<span className="text-theme-accent text-5xl">.</span>
+                  And you want your content to represent YOU<span className="text-theme-accent text-5xl">.</span>
                 </VSHeading>
-              </div>
-              <div className="order-2 md:order-1">
-                <VSText size="md" className="pain-desc text-white">
-                  Without spending hours of your precious time personally creating each piece of content.
-                </VSText>
               </div>
             </div>
           </div>
           
           <div className="component-spacing text-center mt-32 mb-16">
             <VSHeading size="xl" className="pain-heading text-theme-primary font-bold mb-24">
-              If that's you, we've got the solution<span className="text-theme-accent text-5xl">.</span>
+              If that sounds familiar, we've got the solution<span className="text-theme-accent text-5xl">.</span>
             </VSHeading>
           </div>
         </div>

@@ -364,10 +364,11 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                   </p>
                   
                   <div className="h-1 sm:h-2 md:h-3 lg:h-4 w-full"></div>
-                  
-                  <p className="hero-content text-left text-xs sm:text-sm md:text-base lg:text-lg mb-6 text-theme-primary/80 transition-all duration-500 w-full max-w-full" data-speed="0.99">
-                    Now we've packaged everything it takes to build a brand from the ground up — not just the knowledge — but the strategy, custom programs, and infrastructure we've built, into a proven system so you can do it yourself. Zero guesswork. All results.
+
+                  <p className="hero-content text-lg sm:text-2xl md:text-3xl lg:text-4xl mb-4 text-theme-primary font-normal transition-theme-fast duration-500 leading-tight" style={{fontWeight: 400}} data-speed="0.99">
+                    And now, you can do it yourself.
                   </p>
+                  
                 </div>
               </div>
               
