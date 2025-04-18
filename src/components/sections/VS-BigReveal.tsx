@@ -17,7 +17,7 @@ const programDetails = [
   { label: "Duration", value: "8 Weeks (ish)" },
   { label: "Commitment", value: "4 Hours a week" },
   { label: "Format", value: "Online + Live Sessions" },
-  { label: "Next Cohort", value: "25th April, 2025", highlight: true },
+  { label: "Next Cohort", value: "25th March, 2025", highlight: true },
   { label: "Class Size", value: "limited to 20 students" }
 ];
 
@@ -30,22 +30,36 @@ const keyFeatures = [
   },
   { 
     title: "All the tools you need", 
-    description: "Everything you need to create short form: from basic theory, to advanced editing and monetisation. Taught through hundreds of video modules, PDFs and workshops.",
+    description: "Everything you need to create short form: from basic theory, to advanced editing and monetisation. Taught through hundreds of video modules, PDFs and workshops. No bullsh*t templates or hack sheets.",
+    icon: <CheckCircle className="h-5 w-5 text-theme-accent" />
+  },
+  { 
+    title: "Everything you need to run a creative team", 
+    description: "Knowing who to hire, where to hire them, and how to train them can seem impossible. And then trusting them to run your brand? … we know how hard it is. That's why we've included everything we've learnt on training, delegating, hiring and managing creative teams to manage short form content for founders and execs.",
     icon: <CheckCircle className="h-5 w-5 text-theme-accent" />
   },
   { 
     title: "Weekly live coaching", 
-    description: "You'll have direct access to our team of experts — who've generated over 1 billion views — on calls with some of the best founders in the world, offering you personalised feedback and advice on your content.",
+    description: "You'll have direct access to our team of experts — who've generated over 1 billion views — on weekly live coaching calls with you and some of the best founders and executives in the world, offering you personalised feedback and advice on your content.",
     icon: <CheckCircle className="h-5 w-5 text-theme-accent" />
   },
   { 
     title: "Private community access", 
-    description: "Plus you'll get access to our exclusive community of founders also wanting to grow on short form, who can help with collaboration, feedback, and accountability. (Plus its a great networking opportunity, CEOs we see you)",
+    description: "You'll get access to our exclusive community of founders and executives also wanting to grow on short form, who can help with collaboration, feedback, and accountability. (Plus its a great networking opportunity, schmoozers we see you)",
+    icon: <CheckCircle className="h-5 w-5 text-theme-accent" />
+  },
+  { 
+    title: "Our Custom in-house infrastructure", 
+    description: "Plus custom in-house tools: CreatorHUD, Scran.ar and Splitt.ar, needed to run an efficient content machine. These tools made our team 4x more efficient, and increased the quality of our output too. And you're getting them for free.",
     icon: <CheckCircle className="h-5 w-5 text-theme-accent" />
   }
 ];
 
-const VSBigReveal = () => {
+interface VSBigRevealProps {
+  onApplyClick?: () => void;
+}
+
+const VSBigReveal = ({ onApplyClick }: VSBigRevealProps) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const taglineRef = useRef<HTMLDivElement>(null);
@@ -188,40 +202,46 @@ const VSBigReveal = () => {
             <VSGradientText
               as="h2"
               size="xl"
-              className="font-bold mb-8 sm:mb-12 mx-auto md:mx-0 max-w-[95%] md:max-w-none text-base sm:text-xl md:text-2xl lg:text-3xl"
+              className="font-bold mb-4 sm:mb-6 mx-auto md:mx-0 max-w-[95%] md:max-w-none text-base sm:text-xl md:text-2xl lg:text-3xl"
             >
               The Vertical Shortcut is the proven system for content creation that's guaranteed millions of views
             </VSGradientText>
+            
+            <p className="body-text mb-6 sm:mb-8 mx-auto md:mx-0 max-w-[95%] md:max-w-none">
+              Built with founders and execs in mind.
+            </p>
           </div>
         </div>
         
         <div ref={detailsRef} className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto px-4 md:px-6 lg:px-4">
-          <div className="feature-card bg-theme-surface/60 p-6 md:p-0 rounded-xl md:rounded-none shadow-theme-sm md:shadow-none">
-            <VSHeading as="h3" size="md" color="text-theme-primary" className="text-center md:hidden font-bold mb-8">
+          <div className="feature-card bg-theme-surface/60 p-4 md:p-0 rounded-xl md:rounded-none shadow-theme-sm md:shadow-none">
+            <VSHeading as="h3" size="sm" color="text-theme-primary" className="text-center md:hidden font-bold mb-4 text-base">
               Key Features
             </VSHeading>
-            <ul className="feature-list space-y-12 md:space-y-8">
+            <div className="max-h-[450px] md:max-h-none overflow-y-auto pr-2 pb-2 custom-scrollbar">
+              <ul className="feature-list space-y-6 md:space-y-4">
               {keyFeatures.map((feature, index) => (
-                <li key={index} className="feature-item flex flex-col md:flex-row items-center md:items-start gap-4 text-center md:text-left">
-                  <div className="mt-0 md:mt-1 flex-shrink-0 mb-4 md:mb-0 transform scale-150 md:scale-100">
+                <li key={index} className="feature-item flex flex-col md:flex-row items-center md:items-start gap-3 text-center md:text-left">
+                  <div className="mt-0 md:mt-1 flex-shrink-0 mb-3 md:mb-0 transform scale-125 md:scale-100">
                     {feature.icon}
                   </div>
                   <div className="w-full">
-                    <VSHeading as="h3" size="sm" color="text-theme-primary" className="font-bold mb-3">
+                    <VSHeading as="h3" size="xs" color="text-theme-primary" className="font-bold mb-2 text-sm md:text-base">
                       {feature.title}
                     </VSHeading>
-                    <p className="body-text-sm max-w-[95%] mx-auto md:mx-0">
+                    <p className="text-xs md:text-sm max-w-[95%] mx-auto md:mx-0 leading-relaxed">
                       {feature.description}
                     </p>
                   </div>
                 </li>
               ))}
-            </ul>
+              </ul>
+            </div>
           </div>
           
           <div className="program-details">
             <div className="bg-transparent p-4 rounded-xl overflow-hidden transform transition-all duration-300">
-              <VSHeading as="h3" size="md" color="theme-primary" className="font-bold mb-4 text-center">
+              <VSHeading as="h3" size="sm" color="theme-primary" className="font-bold mb-4 text-center text-base">
                 Program Details
               </VSHeading>
               
@@ -249,7 +269,14 @@ const VSBigReveal = () => {
               </div>
               
               <div className="cta-button mt-4">
-                <button className="bg-theme-gradient-primary text-white w-full py-3 rounded-lg flex items-center justify-center gap-2 font-bold text-base shadow-theme-sm hover-bubbly">
+                <button 
+                  className="bg-theme-gradient-primary text-white w-full py-3 rounded-lg flex items-center justify-center gap-2 font-bold text-base shadow-theme-sm hover-bubbly"
+                  onClick={() => {
+                    // Dispatch event to open the tia qualification modal
+                    const event = new CustomEvent('openTiaQualificationModal');
+                    window.dispatchEvent(event);
+                  }}
+                >
                   <span>Get your Plan</span>
                   <ArrowRightCircle className="h-5 w-5" />
                 </button>

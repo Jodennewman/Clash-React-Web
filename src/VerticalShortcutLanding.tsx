@@ -675,6 +675,20 @@ const VerticalShortcutLanding = () => {
              <LazySocialProof />
            </Suspense>
 
+          {/* Section 5: Short intro text before pain points */}
+          <div className="bg-theme-primary py-16 md:py-20">
+            <div className="container-mobile mx-auto px-4">
+              <div className="max-w-4xl mx-auto text-center">
+                <p className="text-theme-primary text-2xl md:text-3xl lg:text-4xl font-medium leading-relaxed">
+                  So, we've decided to take everything it takes to build a brand from the ground up — not just the knowledge — but the strategy, custom programs, and infrastructure we've built, into a proven system so you can do it yourself. 
+                </p>
+                <p className="text-theme-accent text-3xl md:text-4xl lg:text-5xl font-bold mt-6 md:mt-8">
+                  Zero guesswork. All results.
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Section 6: Pain Points */}
           <div id="benefits">
              <Suspense fallback={<LoadingFallback />}>

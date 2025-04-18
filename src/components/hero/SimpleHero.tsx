@@ -359,13 +359,13 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
                   
                   <div className="h-6 sm:h-8 md:h-9 lg:h-10 w-full"></div>
                   
-                  <p className="hero-content text-lg sm:text-2xl md:text-3xl lg:text-4xl mb-4 text-theme-primary font-normal transition-theme-fast duration-500 leading-tight" style={{fontWeight: 400}} data-speed="0.99">
+                  <p className="hero-content text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-4 text-theme-primary font-normal transition-theme-fast duration-500 leading-tight" style={{fontWeight: 400}} data-speed="0.99">
                     We've used vertical video to get founders and execs just like you, billions of views — in fact we're the top-performing agency in the world at doing exactly that.
                   </p>
                   
                   <div className="h-1 sm:h-2 md:h-3 lg:h-4 w-full"></div>
 
-                  <p className="hero-content text-lg sm:text-2xl md:text-3xl lg:text-4xl mb-4 text-theme-primary font-normal transition-theme-fast duration-500 leading-tight" style={{fontWeight: 400}} data-speed="0.99">
+                  <p className="hero-content text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-4 text-theme-primary font-normal transition-theme-fast duration-500 leading-tight" style={{fontWeight: 400}} data-speed="0.99">
                     And now, you can do it yourself.
                   </p>
                   
