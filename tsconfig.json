@@ -1,16 +1,19 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "strict": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
@@ -23,20 +26,12 @@
     }
   },
   "include": [
-    "src/App.tsx", 
-    "src/main.tsx", 
-    "src/components/ComingSoon.tsx",
-    "src/components/isometricGrid.tsx",
-    "src/components/isometricCube.tsx",
-    "src/VerticalShortcutLanding.tsx",
-    "src/components/form/**/*"
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
-    "src/components/Modules.tsx",
-    "src/components/ContentOverwhelmer.tsx",
-    "src/components/hero/**/*",
-    "src/components/moduleDirectoryDropdown.tsx",
-    "src/components/PricingTest.tsx"
-  ],
-  "references": [{ "path": "./tsconfig.node.json" }]
+    "node_modules"
+  ]
 }

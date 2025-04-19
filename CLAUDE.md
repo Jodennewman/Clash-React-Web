@@ -19,7 +19,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Types**: Always use proper TypeScript types, avoid `any`
 - **Theme Styling**: Always use theme-aware utility classes and variables (never raw colors) unless explicity told to do so.
 - **CSS**: Use theme utility classes like `text-theme-primary`, `bg-theme-gradient`
-- **Layout** For layout use Tailwind v4 inline styles, be wary of components that modify text – it may be better to use <div> than <p> for body copy if the style seems in appropriate.
+- **Layout** For layout use Tailwind v4 inline styles, be wary of components that modify text – it may be better to use <div> than <p> for body copy if the style seems in appropriate.
 - **Components**: Follow theme-aware design principles for all components
 
 ## Required Git Workflow
@@ -106,7 +106,7 @@ function AnimatedComponent() {
 After stating your plan, NEVER deviate from it without permission. It's better to do nothing than to implement something contrary to your stated plan.
 
 ##Top Priority
-Optimising the website and all of it's components for mobile deployment WITHOUT affecting functionality of any of the core website – and making sure new implementations fit with and do not ruin mobile optimisation.
+Optimising the website and all of it's components for mobile deployment WITHOUT affecting functionality of any of the core website – and making sure new implementations fit with and do not ruin mobile optimisation.
 This should be done through inline tailwind styles first, then, if necessary, through a seperate 'mobile delivery' CSS breakpoint.
 And finally, the nuclear option, developing seperate components that display after certain breakpoint conditions are met.
 
@@ -117,4 +117,83 @@ Guidance for this provided here: MOBILE_OPTIMIZATION_PLAN.md
 ## Other Priorities
 Component refactoring to match copy in Website-Copy-Guidance.md and ensure all components use course-utils.tsx for data and image mapping for images.
 
-Making sure the landing page ALWAYS loads in from the top, currently it loads in and automatically scrolls down slightly – this cannot happen.
+Making sure the landing page ALWAYS loads in from the top, currently it loads in and automatically scrolls down slightly – this cannot happen.
+
+# Next.js Migration Project - Team Coordination
+
+## Project Overview
+
+We're migrating this project from Vite to Next.js. The migration has been divided into two parallel workstreams to maximize efficiency while preventing conflicts. Some foundation work has already been completed:
+
+- Updated package.json (removed Vitest, updated project name)
+- Created basic Next.js project structure (app directory)
+- Created root layout.tsx with metadata 
+- Created page.tsx with client component wrapper
+- Updated tsconfig.json for Next.js
+- Created next.config.js
+- Updated vercel.json
+
+## Team Structure
+
+The remaining migration work is split between two models:
+
+### Model A: Structure & Organization
+- Static files management (moving to /public)
+- API routes conversion
+- Vite cleanup
+- Environment configuration
+- Directory structure setup
+- Deployment configuration
+
+### Model B: Components & Routing
+- GSAP initialization component
+- Image utilities for Next.js
+- Page components creation
+- Navigation updates
+- GSAP animation fixes
+- Image component optimization
+- Client-side code fixes
+
+## Important Rules
+
+1. **Stay in your lane**: Only work on tasks assigned to your model
+2. **Do not modify files** that the other model is responsible for
+3. **Document any issues** or conflicts you encounter
+4. **Ask for clarification** if you're unsure about a task or file ownership
+5. **Check in regularly** with progress updates
+
+## Getting Started
+
+Please identify which model you are (A or B):
+
+If you're **Model A**:
+- Review MIGRATION_PLAN_MODEL_A.md for detailed task instructions
+- Start with moving static files to /public
+- Focus on infrastructure and server-side aspects
+
+If you're **Model B**:
+- Review MIGRATION_PLAN_MODEL_B.md for detailed task instructions
+- Start with creating the GSAP initialization component
+- Focus on client components and routing
+
+## Key Files to Check
+
+For **Model A**:
+- vite.config.ts (to understand what needs to be removed)
+- src/api/* (to understand API routes to convert)
+- .env (to understand environment variables to migrate)
+- vercel.json (already updated, but may need further changes)
+
+For **Model B**:
+- src/router.tsx (to understand routes to convert)
+- src components using GSAP (to update animations)
+- src components using images (to convert to Next.js Image)
+- components with client-side code (to add 'use client' directives)
+
+## Coordination
+
+For a full overview of the migration strategy, please review:
+- MIGRATION_SUMMARY.md (overview of the parallel approach)
+- NEXT_MIGRATION_PLAN_DETAILED.md (comprehensive migration plan)
+
+Are you Model A or Model B? Please confirm so I can provide more specific guidance.

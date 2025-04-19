@@ -1,0 +1,51 @@
+{
+  "mcpServers": {
+    "dataforseo": {
+      "command": "node",
+      "args": [
+        "/Users/jodennewman/Documents/Code/mcpServers/dataforseo-mcp-server/dist/index.js"
+      ],
+      "env": {
+        "DATAFORSEO_LOGIN": "joden@clashcreation.com",
+        "DATAFORSEO_PASSWORD": "6844054a3d99775f"
+      }
+    },
+    "vercel-tools": {
+      "command": "node",
+      "args": [
+        "/Users/jodennewman/Documents/Code/mcpServers/vercel-mcp-server/dist/index.js"
+      ],
+      "env": {
+        "VERCEL_ACCESS_TOKEN": "bEKeCfCHIhIxneWgXXDr0yS4"
+      }
+    },
+    "@21st-dev/magic": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@21st-dev/magic@latest",
+        "API_KEY=\"your-api-key\""
+      ]
+    },
+    "gmail": {
+      "command": "npx",
+      "args": [
+        "@gongrzhe/server-gmail-autoauth-mcp"
+      ]
+    },
+    "jetbrains": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@jetbrains/mcp-proxy"
+      ]
+    },
+    "meta-mcp-server": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "meta-mcp-server"
+      ]
+    }
+  }
+}
