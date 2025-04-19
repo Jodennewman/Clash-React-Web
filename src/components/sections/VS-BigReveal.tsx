@@ -385,7 +385,7 @@ const VSBigReveal = ({ onApplyClick }: VSBigRevealProps) => {
                   </div>
                   
                   {/* CTA Button integrated inside modules section - moved up significantly */}
-                  <div className="cta-button mt-4">
+                  <div className="cta-button mt-2">
                     <button 
                       className="bg-theme-gradient-primary text-white w-full py-4 rounded-lg flex items-center justify-center gap-3 font-bold text-lg shadow-theme-md hover-bubbly transform hover:scale-[1.02] transition-all duration-300"
                       onClick={onApplyClick}
