@@ -27,12 +27,11 @@
       ]
     }
   ],
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ],
   "images": {
     "sizes": [640, 750, 828, 1080, 1200, 1920],
     "domains": ["verticalshortcut.com"],
     "minimumCacheTTL": 31536000
-  }
+  },
+  "buildCommand": "npm run build",
+  "framework": "nextjs"
 } 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-8e5fa2c1-7c19-41a2-ba1a-735a798e61d5" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="160.38" height="160.38" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 160.38 160.38">
+  <defs>
+    <style>
+      .uuid-e1ba3481-e2d7-4923-a04f-8b8ea5bd915e {
+        fill: url(#uuid-03cd2e3e-3025-4d1e-92f9-8061e2412233);
+      }
+    </style>
+    <radialGradient id="uuid-03cd2e3e-3025-4d1e-92f9-8061e2412233" cx="120.72" cy="19.25" fx="120.72" fy="19.25" r="153.56" gradientUnits="userSpaceOnUse">
+      <stop offset=".02" stop-color="#6db9e7"/>
+      <stop offset=".14" stop-color="#6ab2e2"/>
+      <stop offset=".3" stop-color="#62a1d6"/>
+      <stop offset=".49" stop-color="#5585c2"/>
+      <stop offset=".63" stop-color="#4a6cb0"/>
+      <stop offset=".73" stop-color="#3f659e"/>
+      <stop offset=".91" stop-color="#245572"/>
+      <stop offset=".98" stop-color="#194f61"/>
+    </radialGradient>
+  </defs>
+  <g id="uuid-0bfd2fd1-d801-4766-bada-f32419877edb" data-name="Layer 1">
+    <circle class="uuid-e1ba3481-e2d7-4923-a04f-8b8ea5bd915e" cx="80.19" cy="80.19" r="80.19"/>
+  </g>
+</svg>
