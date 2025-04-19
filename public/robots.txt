@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: https://verticalshortcut.com
-
-# Sitemaps
-Sitemap: https://verticalshortcut.com/sitemap.xml

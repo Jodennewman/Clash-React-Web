@@ -63,7 +63,13 @@ export default defineConfig({
           return undefined;
         }
       }
-    }
+    },
+    // Add SPA history fallback
+    historyApiFallback: true,
+  },
+  preview: {
+    // Add SPA history fallback for preview server as well
+    historyApiFallback: true,
   },
 })
 

@@ -22,3 +22,17 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment variables and secrets
+.env
+
+# Runtime files
+.vite-pid
+.bs-pid
+public
+
+# Auth files
+.npmrc
+
+# Editor config
+.cursor
