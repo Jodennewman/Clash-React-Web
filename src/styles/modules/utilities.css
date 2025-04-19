@@ -306,6 +306,20 @@
   }
 }
 
+/* Site-wide background fix for dark/light mode consistency */
+.site-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  /* Light mode background */
+  background-color: white;
+}
+
+.dark .site-wrapper,
+[data-theme="dark"] .site-wrapper {
+  /* Dark mode background */
+  background-color: var(--bg-navy, #081d27);
+}
+
 /* Mobile-Optimized Container Class */
 .container-mobile {
   width: 100%;

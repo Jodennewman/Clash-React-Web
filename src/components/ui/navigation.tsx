@@ -54,11 +54,42 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 export default function Navigation() {
+  React.useEffect(() => {
+    // Initialize GSAP animations
+    const animateNav = () => {
+      if (typeof window !== "undefined" && window.gsap) {
+        const gsap = window.gsap;
+        
+        // Animate navigation items
+        gsap.fromTo(
+          ".nav-item-animate",
+          { 
+            y: -15, 
+            opacity: 0 
+          },
+          { 
+            y: 0, 
+            opacity: 1,
+            duration: 0.6,
+            stagger: 0.05,
+            ease: "power2.out",
+            delay: 0.6 
+          }
+        );
+      }
+    };
+    
+    // Run animation after the component mounts
+    animateNav();
+    
+    // Clean up function not needed for this simple animation
+  }, []);
+
   return (
     <NavigationMenu className="hidden md:flex">
       <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+        <NavigationMenuItem className="nav-item-animate">
+          <NavigationMenuTrigger>Benefits</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">
@@ -90,8 +121,8 @@ export default function Navigation() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+        <NavigationMenuItem className="nav-item-animate">
+          <NavigationMenuTrigger>Curriculum</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
               {components.map((component) => (
@@ -106,10 +137,42 @@ export default function Navigation() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>
+        <NavigationMenuItem className="nav-item-animate">
+          <NavigationMenuTrigger>Success Stories</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+              {components.map((component) => (
+                <ListItem
+                  key={component.title}
+                  title={component.title}
+                  href="/"
+                >
+                  {component.description}
+                </ListItem>
+              ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem className="nav-item-animate">
+          <NavigationMenuTrigger>Pricing</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+              {components.map((component) => (
+                <ListItem
+                  key={component.title}
+                  title={component.title}
+                  href="/"
+                >
+                  {component.description}
+                </ListItem>
+              ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem className="nav-item-animate">
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
             <Link href="/">
-              Documentation
+              Get Your Plan
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>

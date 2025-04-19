@@ -125,7 +125,7 @@
 /* Week number gradient text fix */
 .week-title {
   opacity: 0; /* Start hidden for animation */
-  font-weight: 900 !important; /* Extra bold */
+  font-weight: 700 !important; /* Bold weight */
 }
 
 /* Make split text words visible for the week title */
@@ -142,20 +142,20 @@
   letter-spacing: -0.03em !important;
 }
 
-/* Reasonable text sizes for week numbers */
+/* Moderate text sizes for week titles */
 .week-title {
-  font-size: 2.5rem !important;
+  font-size: 1.25rem !important; /* Moderate size on mobile */
 }
 
 @media (min-width: 768px) {
   .week-title {
-    font-size: 3.5rem !important;
+    font-size: 1.5rem !important; /* Medium size on tablet */
   }
 }
 
 @media (min-width: 1024px) {
   .week-title {
-    font-size: 4.5rem !important;
+    font-size: 1.75rem !important; /* Larger but not too large on desktop */
   }
 }
 

@@ -183,7 +183,7 @@ const CourseStats = () => {
   return (
     <Section 
       id="course-stats"
-      className="bg-theme-primary py-4 border-t border-theme-border-light relative overflow-hidden"
+      className="bg-theme-primary py-4 relative overflow-hidden"
       style={{ background: "var(--theme-bg-primary)" }}
     >
       {/* Apply float animations via style tag */}
@@ -232,7 +232,7 @@ const CourseStats = () => {
                   resources: submodule.resources || []
                 })) : []}
               />
-              <p className="hidden sm:block mt-6 text-center text-lg text-theme-primary font-medium">All broken down into</p>
+              <p className="body-text-large font-bold text-theme-primary mb-6">All broken down into</p>
             </div>
           </div>
         </div>

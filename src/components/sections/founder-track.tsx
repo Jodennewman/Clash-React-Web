@@ -163,7 +163,7 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
   }, []);
 
   return (
-    <Section className="py-24 bg-theme-gradient overflow-hidden relative" ref={containerRef}>
+    <Section className="pt-24 pb-12 md:pb-16 lg:pb-20 bg-theme-gradient overflow-hidden relative after:hidden" ref={containerRef}>
       {/* Floating decorative elements */}
       <div className="absolute -z-10 w-20 h-20 rounded-[40%] rotate-12 top-20 left-[10%] 
                      opacity-theme-float bg-theme-float-primary floating-element"></div>
@@ -211,19 +211,11 @@ const FounderTrack: React.FC<FounderTrackProps> = ({ onCtaClick }) => {
               </ul>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex justify-start">
               <AnimatedButton 
-                text="Find Your Implementation"
+                text="Get Your Plan"
                 variant="start"
                 saturation="high"
-                size="lg"
-                onClick={onCtaClick}
-                className="w-auto"
-              />
-              <AnimatedButton 
-                text="Schedule a Call"
-                variant="docs"
-                saturation="normal"
                 size="lg"
                 onClick={onCtaClick}
                 className="w-auto"

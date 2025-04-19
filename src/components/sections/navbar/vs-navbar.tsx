@@ -194,68 +194,88 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
   return (
     <header 
       ref={navbarRef}
-      className="fixed top-0 w-full z-50 px-2 sm:px-4 md:px-6 py-2 sm:py-3 transition-all duration-300"
+      className="fixed top-0 w-full z-50 px-0 sm:px-4 md:px-6 py-2 sm:py-3 transition-all duration-300"
     >
-      <div className="max-w-[1400px] bg-theme-primary sm:bg-theme-primary backdrop-blur-sm sm:backdrop-blur-md border border-theme-accent sm:border-theme-accent relative mx-auto rounded-theme-xl sm:rounded-theme-2xl p-1.5 sm:p-2 py-1.5 sm:py-2.5 px-3 sm:px-4 md:px-6 shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border-x-4">
-        <NavbarComponent className="py-1 sm:py-1">
-          <NavbarLeft className="gap-2 sm:gap-3">
-            <img 
-              src="/Clash-Logo-One-Line-Light-for-Dark.png" 
-              alt="Clash Creation" 
-              className="h-6 hidden sm:h-7 md:h-8"
-            />
-            <div className="w-70 h-15 sm:w-70 sm:h-10 md:w-70 md:h-10 sm:bg-theme-primary flex items-center justify-center @max-[420px]:ml-0 @max-[420px]:w-50 ">
-              <span className="text-theme-secondary vs-text-gradient-nav-title text-theme-shadow-md text-3xl font-[350] sm:text-3xl ml-5 @max-[420px]:ml-1 @max-[420px]:text-[1.4rem] @max-[420px]:w-50 @max-[420px]:-translate-x-5">the vertical shortcut.</span>
-            </div>
-            <span className="text-theme-primary ml-1 sm:ml-2 font-medium text-sm sm:text-base hidden xs:inline-block">
-              <span className="hidden sm:inline">Vertical</span>
-              <span className="inline sm:hidden">V.</span> Shortcut
-            </span>
-          </NavbarLeft>
+      <div className="max-w-[1400px] bg-theme-primary sm:bg-theme-primary backdrop-blur-sm sm:backdrop-blur-md border border-theme-accent sm:border-theme-accent relative mx-auto rounded-theme-xl sm:rounded-theme-2xl p-0 sm:p-2 py-1 sm:py-2.5 px-0 sm:px-4 md:px-6 shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
+        {/* Desktop navbar */}
+        <div className="hidden sm:block">
+          <NavbarComponent className="py-1">
+            <NavbarLeft className="gap-2 sm:gap-3">
+              <img 
+                src="/Clash-Logo-One-Line-Light-for-Dark.png" 
+                alt="Clash Creation" 
+                className="h-7 md:h-8"
+              />
+              <div className="w-70 h-10 md:h-10 bg-theme-primary flex items-center justify-center">
+                <span className="text-theme-secondary vs-text-gradient-nav-title text-theme-shadow-md text-3xl font-[350] ml-5">the vertical shortcut.</span>
+              </div>
+              <span className="text-theme-primary ml-2 font-medium text-base">
+                <span className="sm:inline">Vertical</span> Shortcut
+              </span>
+            </NavbarLeft>
+            
+            <nav className="hidden md:flex ml-4 lg:ml-8 gap-4 lg:gap-6">
+              <button 
+                onClick={(e) => handleNavLinkClick(e, "benefits")}
+                className={`px-3 lg:px-6 py-2 lg:py-3 rounded-theme-lg text-theme-primary border border-theme-accent hover:bg-theme-secondary text-sm lg:text-md font-medium transition-theme-bounce duration-300 ${activeSection === "benefits" ? "bg-theme-secondary shadow-theme-btn" : ""}`}
+              >
+                Benefits
+              </button>
+              <button 
+                onClick={(e) => handleNavLinkClick(e, "curriculum")}
+                className={`px-3 lg:px-6 py-2 lg:py-3 rounded-theme-lg text-theme-primary border border-theme-accent hover:bg-theme-secondary/30 text-xs lg:text-sm font-medium transition-all duration-300 ${activeSection === "curriculum" ? "bg-theme-secondary shadow-theme-btn" : ""}`}
+              >
+                Curriculum
+              </button>
+              <button 
+                onClick={(e) => handleNavLinkClick(e, "testimonials")}
+                className={`px-3 lg:px-6 py-2 lg:py-3 rounded-theme-lg text-theme-primary border border-theme-accent hover:bg-theme-secondary/30 text-xs lg:text-sm font-medium transition-all duration-[--transition-bounce] ${activeSection === "testimonials" ? "bg-theme-secondary shadow-theme-btn" : ""}`}
+              >
+                Success Stories
+              </button>
+              <button 
+                onClick={(e) => handleNavLinkClick(e, "pricing")}
+                className={`px-3 lg:px-6 py-2 lg:py-3 rounded-theme-lg text-theme-primary border border-theme-accent hover:bg-theme-secondary text-xs lg:text-sm font-medium transition-all hover:shadow-theme-btn ${activeSection === "pricing" ? "bg-theme-secondary shadow-theme-btn" : ""}`}
+              >
+                Pricing
+              </button>
+            </nav>
+            
+            <NavbarRight className="gap-2">
+              <Button 
+                variant="default" 
+                className="vs-btn-secondary-gradient py-2.5 md:py-3 px-3 md:px-4 text-md shadow-theme-sm glow-theme-secondary transition-theme-bounce hover:shadow-theme-md"
+                onClick={handleApplyClick}
+              >
+                Get Your Plan
+              </Button>
+            </NavbarRight>
+          </NavbarComponent>
+        </div>
+        
+        {/* Mobile navbar - completely separate implementation */}
+        <div className="flex sm:hidden justify-between items-center w-full px-2 py-1">
+          <div className="flex items-center">
+            <span className="text-theme-secondary vs-text-gradient-nav-title text-theme-shadow-md text-base font-[350] -ml-1">the vertical shortcut.</span>
+          </div>
           
-          <nav className="hidden md:flex ml-4 lg:ml-8 gap-4 lg:gap-6">
-            <button 
-              onClick={(e) => handleNavLinkClick(e, "benefits")}
-              className={`px-3 lg:px-6 py-2 lg:py-3 rounded-theme-lg text-theme-primary border border-theme-accent hover:bg-theme-secondary text-sm lg:text-md font-medium transition-theme-bounce duration-300 ${activeSection === "benefits" ? "bg-theme-secondary shadow-theme-btn" : ""}`}
-            >
-              Benefits
-            </button>
-            <button 
-              onClick={(e) => handleNavLinkClick(e, "curriculum")}
-              className={`px-3 lg:px-6 py-2 lg:py-3 rounded-theme-lg text-theme-primary border border-theme-accent hover:bg-theme-secondary/30 text-xs lg:text-sm font-medium transition-all duration-300 ${activeSection === "curriculum" ? "bg-theme-secondary shadow-theme-btn" : ""}`}
-            >
-              Curriculum
-            </button>
-            <button 
-              onClick={(e) => handleNavLinkClick(e, "testimonials")}
-              className={`px-3 lg:px-6 py-2 lg:py-3 rounded-theme-lg text-theme-primary border border-theme-accent hover:bg-theme-secondary/30 text-xs lg:text-sm font-medium transition-all duration-[--transition-bounce] ${activeSection === "testimonials" ? "bg-theme-secondary shadow-theme-btn" : ""}`}
-            >
-              Success Stories
-            </button>
-            <button 
-              onClick={(e) => handleNavLinkClick(e, "pricing")}
-              className={`px-3 lg:px-6 py-2 lg:py-3 rounded-theme-lg text-theme-primary border border-theme-accent hover:bg-theme-secondary text-xs lg:text-sm font-medium transition-all hover:shadow-theme-btn ${activeSection === "pricing" ? "bg-theme-secondary shadow-theme-btn" : ""}`}
-            >
-              Pricing
-            </button>
-          </nav>
-          
-          <NavbarRight className="gap-1 sm:gap-2">
+          <div className="flex items-center gap-1">
             <Button 
               variant="default" 
-              className=" vs-btn-secondary-gradient py-2 sm:py-2.5 md:py-3 px-3.5 sm:px-3 md:px-4 text-md sm:text-md shadow-theme-sm glow-theme-secondary transition-theme-bounce @max-[420px]:align-right @max-[420px]:-translate-x-12 hover:shadow-theme-md "
+              className="vs-btn-secondary-gradient py-1 px-2 text-xs shadow-theme-sm transition-theme-bounce"
               onClick={handleApplyClick}
             >
-              Get Your Plan
+              <span className="text-xs whitespace-nowrap">Get Plan</span>
             </Button>
+            
             <Sheet>
               <SheetTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-10 md:hidden text-theme-primary hover:bg-theme-secondary transition-theme-bounce duration-300 shrink-0"
+                  className="size-8 text-theme-primary hover:bg-theme-secondary transition-theme-bounce duration-300 shrink-0 p-1"
                 >
-                  <Menu className="size-5" />
+                  <Menu className="size-4" />
                   <span className="sr-only">Toggle navigation menu</span>
                 </Button>
               </SheetTrigger>
@@ -320,8 +340,8 @@ export default function VSNavbar({ onApplyClick }: VSNavbarProps = {}) {
                 </nav>
               </SheetContent>
             </Sheet>
-          </NavbarRight>
-        </NavbarComponent>
+          </div>
+        </div>
       </div>
     </header>
   );

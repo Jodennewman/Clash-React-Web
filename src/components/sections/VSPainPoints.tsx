@@ -12,6 +12,7 @@ gsap.registerPlugin(ScrollTrigger);
 const VSPainPoints = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
+  const floatingPathRef = useRef<SVGPathElement>(null);
   const { isMobile } = useDeviceDetection(); // Use the hook
   
   useGSAP(() => {
@@ -47,6 +48,67 @@ const VSPainPoints = () => {
           const drawLength = pathLength * progress;
           gsap.set(path, { strokeDashoffset: pathLength - drawLength });
         }
+      });
+    }
+
+    // Handle floating shapes animation
+    if (floatingPathRef.current) {
+      const floatingPath = floatingPathRef.current;
+      const floatingPathLength = floatingPath.getTotalLength();
+      
+      // Make the path itself invisible
+      gsap.set(floatingPath, { autoAlpha: 0 });
+      
+      // Animate the floating blobs along the path
+      const floatingBlobs = section.querySelectorAll('.floating-blob');
+      
+      floatingBlobs.forEach((blob, index) => {
+        // Position blobs at various points along the path with offsets
+        const initialOffset = index * 0.25; // Distribute blobs along path
+        
+        ScrollTrigger.create({
+          trigger: section,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.5,
+          id: `floating-blob-${index}`,
+          onUpdate: (self) => {
+            // Calculate adjusted progress with offset
+            let progress = self.progress + initialOffset;
+            if (progress > 1) progress -= 1; // Loop back to beginning
+            
+            // Get position along the path
+            const point = floatingPath.getPointAtLength(floatingPathLength * progress);
+            
+            // Apply position to blob
+            gsap.set(blob, {
+              x: point.x,
+              y: point.y,
+              opacity: 0.2 + (Math.sin(progress * Math.PI) * 0.15) // Subtle opacity variation
+            });
+          }
+        });
+        
+        // Add subtle scale animation independent of scroll
+        gsap.to(blob, {
+          scale: "random(0.8, 1.2)",
+          duration: "random(3, 5)",
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+      });
+      
+      // Add subtle rotation to stars
+      const stars = section.querySelectorAll('.floating-star');
+      stars.forEach((star) => {
+        gsap.to(star, {
+          rotation: "random(-30, 30)",
+          duration: "random(4, 7)",
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
       });
     }
 
@@ -97,6 +159,42 @@ const VSPainPoints = () => {
         <div className="absolute top-40 left-20 w-24 h-24 rounded-[40%] rotate-12 opacity-[var(--theme-float-opacity)] bg-[var(--theme-float-bg-primary)] animate-float-slow -z-10"></div>
         <div className="absolute bottom-60 right-10 w-32 h-32 rounded-[30%] -rotate-6 opacity-[var(--theme-float-opacity)] bg-[var(--theme-float-bg-secondary)] animate-float-medium -z-10"></div>
         
+        {/* Centered floating shapes that follow an invisible path */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          {/* Invisible path for floating shapes to follow - centered vertically */}
+          <svg viewBox="0 0 1000 1200" width="100%" height="100%" 
+              preserveAspectRatio="none"
+              xmlns="http://www.w3.org/2000/svg" className="absolute inset-0">
+            <path 
+              ref={floatingPathRef}
+              d="M 500 50 
+                 C 500 50 450 100 500 150 
+                 C 550 200 500 250 450 300
+                 C 400 350 500 400 550 450
+                 C 600 500 500 550 450 600
+                 C 400 650 500 700 550 750
+                 C 600 800 500 850 450 900
+                 C 400 950 500 1000 550 1050
+                 C 600 1100 500 1150 500 1150"
+              fill="none" 
+              stroke="transparent"
+              strokeWidth="0"/>
+          </svg>
+          
+          {/* Floating blobs that will follow the path - larger and more visible */}
+          <div className="floating-blob absolute rounded-full bg-theme-accent w-8 h-8 opacity-25"></div>
+          <div className="floating-blob absolute rounded-full bg-theme-accent w-12 h-12 opacity-20"></div>
+          <div className="floating-blob absolute rounded-full bg-theme-accent w-10 h-10 opacity-15"></div>
+          <div className="floating-blob absolute rounded-full bg-theme-accent w-6 h-6 opacity-30"></div>
+          
+          {/* Fixed decorative elements - centered more */}
+          <div className="floating-star absolute w-3 h-3 bg-theme-accent rotate-45 opacity-30" style={{top: '15%', left: '45%'}}></div>
+          <div className="floating-star absolute w-3 h-3 bg-theme-accent rotate-45 opacity-30" style={{top: '35%', left: '55%'}}></div>
+          <div className="floating-star absolute w-3 h-3 bg-theme-accent rotate-45 opacity-30" style={{top: '65%', left: '48%'}}></div>
+          <div className="floating-star absolute w-3 h-3 bg-theme-accent rotate-45 opacity-30" style={{top: '80%', left: '52%'}}></div>
+        </div>
+        
+        {/* Original path animation */}
         <div className="absolute inset-0 z-0 pointer-events-none">
            <svg viewBox="1345.446 -15.854 414.893 1193.282" width="100%" height="100%" 
                 preserveAspectRatio="none"
@@ -119,13 +217,8 @@ const VSPainPoints = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-6 md:gap-y-20 items-center">
               <div className="md:text-right order-1 md:order-1">
                 <VSHeading size="xl" className="pain-heading text-white font-bold">
-                  Your're bored of failing content<span className="text-theme-accent text-5xl">.</span>
+                  If you're bored of failing content<span className="text-theme-accent text-5xl">.</span>
                 </VSHeading>
-              </div>
-              <div className="order-2 md:order-2">
-                <VSText size="md" className="pain-desc text-white">  
-                  You've tried everything to make content that performs, but nothing seems to work consistently. Your views remain low and engagement is minimal despite your best efforts.
-                </VSText>
               </div>
             </div>
           </div>
@@ -133,15 +226,10 @@ const VSPainPoints = () => {
           
           <div className="component-spacing mb-60">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-6 md:gap-y-20 items-center">
-              <div className="order-1 md:order-2">
+              <div className="md:col-start-2 md:text-left order-1 md:order-1">
                 <VSHeading size="xl" className="pain-heading text-white font-bold">
                   You're sick of inconsistent freelancers<span className="text-theme-accent text-5xl">.</span>
                 </VSHeading>
-              </div>
-              <div className="order-2 md:order-1">
-                <VSText size="md" className="pain-desc text-white">
-                  Constantly chasing freelancers, dealing with missed deadlines, and watching quality fluctuate with every deliverable is wasting your time and resources.
-                </VSText>
               </div>
             </div>
           </div>
@@ -153,25 +241,15 @@ const VSPainPoints = () => {
                   Your social team is stressed (and so are you)<span className="text-theme-accent text-5xl">.</span>
                 </VSHeading>
               </div>
-              <div className="order-2 md:order-2">
-                <VSText size="md" className="pain-desc text-white">
-                  The constant pressure to produce content while meeting all your other responsibilities is creating burnout for everyone involved.
-                </VSText>
-              </div>
             </div>
           </div>
           
           <div className="component-spacing mb-60">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-6 md:gap-y-20 items-center">
-              <div className="order-1 md:order-2">
+              <div className="md:col-start-2 md:text-left order-1 md:order-1">
                 <VSHeading size="xl" className="pain-heading text-white font-bold">
                   You're struggling to keep posting every. single. day<span className="text-theme-accent text-5xl">.</span>
                 </VSHeading>
-              </div>
-              <div className="order-2 md:order-1">
-                <VSText size="md" className="pain-desc text-white">
-                  The relentless content calendar is exhausting, and you're running out of ideas that actually resonate with your audience.
-                </VSText>
               </div>
             </div>
           </div>
@@ -183,32 +261,22 @@ const VSPainPoints = () => {
                   You want more inbound leads<span className="text-theme-accent text-5xl">.</span>
                 </VSHeading>
               </div>
-              <div className="order-2 md:order-2">
-                <VSText size="md" className="pain-desc text-white">
-                  You've got the product, the business, the vision. But your dream clients don't even know you exist. You're craving inbound leads from people who <strong>already</strong> see you as the authority in your space.
-                </VSText>
-              </div>
             </div>
           </div>
           
           <div className="component-spacing mb-60">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-6 md:gap-y-20 items-center">
-              <div className="order-1 md:order-2">
+              <div className="md:col-start-2 md:text-left order-1 md:order-1">
                 <VSHeading size="xl" className="pain-heading text-white font-bold">
-                  You want your content to represent YOU<span className="text-theme-accent text-5xl">.</span>
+                  And you want your content to represent YOU<span className="text-theme-accent text-5xl">.</span>
                 </VSHeading>
-              </div>
-              <div className="order-2 md:order-1">
-                <VSText size="md" className="pain-desc text-white">
-                  Without spending hours of your precious time personally creating each piece of content.
-                </VSText>
               </div>
             </div>
           </div>
           
           <div className="component-spacing text-center mt-32 mb-16">
             <VSHeading size="xl" className="pain-heading text-theme-primary font-bold mb-24">
-              If that's you, we've got the solution<span className="text-theme-accent text-5xl">.</span>
+              We've got the solution<span className="text-theme-accent text-5xl">.</span>
             </VSHeading>
           </div>
         </div>

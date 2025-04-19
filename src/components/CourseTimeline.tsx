@@ -54,7 +54,7 @@ const TimelineDropdown: React.FC<{
         gsap.to(contentRef.current, {
           height: 'auto',
           opacity: 1,
-          duration: animDuration * 1.2,
+          duration: animDuration * 1.0,
           ease: 'power2.out'
         });
         
@@ -70,7 +70,7 @@ const TimelineDropdown: React.FC<{
         gsap.to(contentRef.current, {
           height: 0,
           opacity: 0,
-          duration: animDuration,
+          duration: animDuration * 0.8,
           ease: 'power2.in'
         });
         
@@ -119,27 +119,25 @@ const TimelineDropdown: React.FC<{
   }, [isOpen]);
   
   return (
-    <div ref={dropdownRef} className="timeline-dropdown mb-8">
+    <div ref={dropdownRef} className="timeline-dropdown mb-2">
       {/* Dropdown header with VS Bubbly hover effect */}
       <div 
         onClick={toggleOpen}
         className="timeline-dropdown-header flex items-center gap-3 cursor-pointer transition-all duration-300 hover-bubbly-sm"
       >
-        {/* Week icon - emojis removed */}
-        
-        {/* Only highlight text, no duplicate title */}
+        {/* Only highlight text */}
         <div className="flex-1">
-          {/* Highlight text (shortened) - increased size by 1.5x */}
+          {/* Highlight text (not truncated) */}
           {week.highlight && (
-            <p className="text-theme-secondary text-lg md:text-xl lg:text-2xl pr-10">
-              {week.highlight.length > 120 ? `${week.highlight.substring(0, 120)}...` : week.highlight}
+            <p className="text-theme-secondary text-sm md:text-base pr-8">
+              {week.highlight}
             </p>
           )}
           
           {/* Orange underline */}
           <div 
             ref={underlineRef}
-            className="timeline-dropdown-underline bg-theme-primary h-[3px] mt-2 rounded-full opacity-70"
+            className="timeline-dropdown-underline bg-theme-primary h-[2px] mt-1 rounded-full opacity-70"
             style={{ 
               width: isOpen ? '100%' : '30%',
               backgroundColor: weekColor 
@@ -150,12 +148,12 @@ const TimelineDropdown: React.FC<{
         {/* Dropdown arrow */}
         <div 
           ref={arrowRef}
-          className="timeline-dropdown-arrow text-theme-primary text-2xl transform transition-transform"
+          className="timeline-dropdown-arrow text-theme-primary text-xl transform transition-transform"
         >
           <svg 
             xmlns="http://www.w3.org/2000/svg" 
-            width="24" 
-            height="24" 
+            width="20" 
+            height="20" 
             viewBox="0 0 24 24" 
             fill="none" 
             stroke="currentColor" 
@@ -173,28 +171,21 @@ const TimelineDropdown: React.FC<{
         ref={contentRef}
         className="timeline-dropdown-content overflow-hidden"
       >
-        <div className="pt-4 px-2">
+        <div className="pt-2 px-2">
           <div 
-            className={`content timeline-card week-${week.id.replace('week', '')}-card rounded-lg p-6 md:p-8 relative overflow-hidden bg-theme-surface shadow-theme-md border-l-[6px]`}
+            className={`content timeline-card week-${week.id.replace('week', '')}-card rounded-lg p-4 md:p-6 relative overflow-hidden bg-theme-surface shadow-theme-md border-l-[4px]`}
             style={{ borderColor: weekColor }}
           >
-            {/* Decorative corner */}
-            <div className="timeline-corner-accent absolute top-0 right-0 w-24 h-24 bg-theme-bg-secondary"></div>
-            
-            {/* Floating elements */}
-            <div className="timeline-float absolute -bottom-8 -left-8 w-16 h-16 rounded-[40%] rotate-12 bg-theme-float-secondary"></div>
-            <div className="timeline-float absolute top-1/3 -right-6 w-10 h-10 rounded-[38%] -rotate-12 opacity-theme-float bg-theme-float-primary animate-float-medium"></div>
-            
-            {/* Main content paragraph - increased size */}
-            <p className="text-theme-secondary relative z-10 text-xl md:text-2xl leading-relaxed">
-              {week.content}
+            {/* Main content paragraph - not truncated */}
+            <p className="text-theme-secondary relative z-10 text-base md:text-lg leading-normal">
+              {week.content.split('\n\n')}
             </p>
             
-            {/* Bullet points for easy scanning */}
+            {/* Bullet points for easy scanning - show all */}
             {week.bullets && week.bullets.length > 0 && (
-              <ul className="week-bullets mt-4">
+              <ul className="week-bullets mt-2 pl-4">
                 {week.bullets.map((bullet, idx) => (
-                  <li key={`${week.id}-bullet-${idx}`} className="text-theme-secondary text-lg md:text-xl leading-relaxed">
+                  <li key={`${week.id}-bullet-${idx}`} className="text-theme-secondary text-sm md:text-base leading-normal list-disc">
                     {bullet}
                   </li>
                 ))}
@@ -203,7 +194,7 @@ const TimelineDropdown: React.FC<{
             
             {/* Founder tips */}
             {week.founderTip && (
-              <div className="founder-tip text-theme-secondary text-lg md:text-xl italic mt-4">
+              <div className="founder-tip text-theme-secondary text-sm md:text-base italic mt-2">
                 {week.founderTip}
               </div>
             )}
@@ -259,7 +250,7 @@ const CourseTimeline: React.FC = () => {
       title: 'For the Nerds',
       icon: '🧠',
       highlight: 'Immediate access to the exclusive founder community and all upskiller sections for your team.',
-      content: 'Once your application has gone though you\'ll have immediate access to our first week of content: that\'s the basic theory plus all three upskiller sections for your team, AND immediate access to our exclusive founder community. We\'d recommend you start watching the content as soon as you get access (or getting your team to watch it and summarise it), so you can feel smarter than everyone else in the first group call.',
+      content: `Once your application has gone through you’ll have immediate access to our first week of content: The basic theory PLUS all three upskiller sections for your team.\n\nAND immediate access to our exclusive founder community*\n\nWe’d recommend you start watching the content as soon as you get access (or getting your team to watch it and summarise it), so you can feel smarter than everyone else in the first group call.`,
       bullets: [
         'Get a head start with the basic theory content',
         'Access upskiller sections for your team',
@@ -597,41 +588,37 @@ const CourseTimeline: React.FC = () => {
   };
 
   return (
-    <section className="py-12 md:py-20 timeline-groovy-bg relative overflow-visible">
-      {/* Theme-aware floating elements for visual interest */}
-      <div className="absolute top-20 left-10 w-24 h-24 rounded-[40%] rotate-12 
-                 opacity-theme-float
-                 bg-theme-float-primary
-                 animate-float-slow"></div>
-      <div className="absolute bottom-40 right-10 w-28 h-28 rounded-[35%] -rotate-12 
-                 opacity-theme-float-secondary
-                 bg-theme-float-secondary
-                 animate-float-medium"></div>
-      <div className="absolute top-1/4 right-1/4 w-32 h-32 rounded-[45%] rotate-45
-                 opacity-[0.08] md:opacity-[0.1]
-                 bg-theme-primary
-                 animate-float-medium"></div>
+    <section id="curriculum" className="py-8 md:py-12 relative overflow-visible bg-theme-primary" style={{ background: "var(--theme-bg-primary)" }}>
+      {/* Theme-aware floating elements for visual interest - same as CourseStats */}
+      <div className="absolute top-20 left-10 w-16 h-16 rounded-[40%] rotate-12 
+                    opacity-[var(--theme-float-opacity)]
+                    bg-[var(--theme-float-bg-primary)]
+                    animate-float-slow hidden md:block"></div>
+      <div className="absolute bottom-20 right-10 w-24 h-24 rounded-[30%] -rotate-6 
+                    opacity-[var(--theme-float-opacity)]
+                    bg-[var(--theme-float-bg-secondary)]
+                    animate-float-medium hidden md:block"></div>
       
-      <div className="container mx-auto px-4 md:px-6 max-w-5xl relative z-10 overflow-visible">
-        <div className="max-w-4xl mx-auto text-center mb-12 md:mb-16">
+      <div className="w-full max-w-[750px] mx-auto px-4 md:px-8 relative z-10 overflow-visible">
+        <div className="max-w-4xl mx-auto text-center mb-4 md:mb-6">
           <h2 
             ref={titleRef}
             data-text-split="true"
-            className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-theme-primary"
+            className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 text-theme-primary"
           >
             Week by week structure
           </h2>
           <p 
             ref={introRef}
-            className="text-2xl md:text-3xl lg:text-4xl text-theme-secondary max-w-3xl mx-auto"
+            className="text-lg md:text-xl lg:text-2xl text-theme-secondary max-w-3xl mx-auto"
           >
-            We know it's a lot. That's why we've broken it down into 8 weeks of structured learning to take you from short form newbie, to millions of views, in just 8 weeks.
+            From short form newbie to millions of views in just 8 weeks.
           </p>
         </div>
         
         <div 
           ref={timelineRef}
-          className="timeline-container relative mt-6 md:mt-10"
+          className="timeline-container relative mt-4 md:mt-6"
         >
           {/* Timeline progress bar - positioned with absolute placement */}
           <div className="absolute left-8 md:left-14 top-6 bottom-0 w-[2px] md:w-[3px] bg-theme-bg-secondary opacity-30">
@@ -642,17 +629,17 @@ const CourseTimeline: React.FC = () => {
           </div>
           
           {/* Timeline items */}
-          <div className="relative z-10 space-y-6 md:space-y-10">
+          <div className="relative z-10 space-y-2 md:space-y-3 max-w-[650px] mx-auto">
             {courseWeeks.map((week) => (
               <div 
                 key={week.id}
                 id={week.id}
                 ref={addToRefs}
-                className="timeline-week relative pl-16 md:pl-24"
+                className="timeline-week relative pl-12 md:pl-20"
               >
                 {/* Circle marker on timeline */}
                 <div 
-                  className={`timeline-circle week-${week.id.replace('week', '')}-circle absolute left-8 md:left-14 top-6 w-6 h-6 md:w-8 md:h-8 rounded-full border-2 shadow-theme-sm z-10 border-theme-surface`}
+                  className={`timeline-circle week-${week.id.replace('week', '')}-circle absolute left-8 md:left-14 top-6 w-5 h-5 md:w-6 md:h-6 rounded-full border-2 shadow-theme-sm z-10 border-theme-surface`}
                   style={{ 
                     transform: 'translate(-50%, -50%)',
                     backgroundColor: getWeekColors(week.id)
@@ -660,9 +647,9 @@ const CourseTimeline: React.FC = () => {
                 ></div>
                 
                 {/* Left side information (now title is primary, week number as badge above) */}
-                <div className="flex flex-col items-start mb-4">
+                <div className="flex flex-col items-start mb-1">
                   {/* Week number as big, thin font */}
-                  <span className="week-number text-theme-primary text-4xl md:text-6xl font-extralight tracking-wider mb-1 opacity-90" style={{ opacity: 1, letterSpacing: '0.05em' }}>
+                  <span className="week-number text-theme-primary text-lg md:text-xl font-extralight tracking-wider mb-0 opacity-90" style={{ opacity: 1, letterSpacing: '0.05em' }}>
                     {week.id === 'week9-10' 
                       ? '09' 
                       : week.id === 'week10plus' 
@@ -670,8 +657,8 @@ const CourseTimeline: React.FC = () => {
                         : week.week.replace('Week ', '').padStart(2, '0')}
                   </span>
                   
-                  {/* Week title (PRIMARY) - smaller size and lighter weight */}
-                  <h3 className="week-title vs-text-gradient-orange text-xl md:text-2xl font-semibold" style={{ opacity: 1 }}>
+                  {/* Week title (PRIMARY) - much smaller size */}
+                  <h3 className="week-title vs-text-gradient-orange text-xs md:text-sm font-normal" style={{ opacity: 1 }}>
                     {week.title}
                   </h3>
                 </div>

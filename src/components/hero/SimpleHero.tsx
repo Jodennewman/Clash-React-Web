@@ -60,6 +60,24 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
               ease: "power2.out"
             }
           );
+          
+          // Add text animation for hero headline elements
+          gsap.fromTo(".hero-text-animate", 
+            {
+              y: 25,
+              opacity: 0,
+              scale: 0.97
+            },
+            {
+              y: 0,
+              opacity: 1,
+              scale: 1,
+              duration: 0.7,
+              stagger: 0.08,
+              ease: "power2.out",
+              delay: 0.2
+            }
+          );
 
           // Eyeball entrance animation with reduced delay and higher position
           gsap.fromTo("#eyeballSvg", 
@@ -145,11 +163,11 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
     return (
       <section 
         ref={ref} 
-        className="vs-section-light relative h-[110vh] sm:h-[125vh] w-full shadow-theme-md overflow-hidden z-10 pt-8 sm:pt-0"
+        className="vs-section-light relative h-[70vh] sm:h-[125vh] w-full shadow-theme-md overflow-hidden z-10 pt-6 sm:pt-0 pb-0"
       >
-        {/* Award Badge - positioned with consistent bottom-right placement using top/right */}
-        <div className="award-badge absolute top-[85vh] right-4 sm:right-6 md:right-8 lg:right-10 z-50" style={{ transform: 'translateY(0)', opacity: 1 }}>
-          <div className="group relative overflow-hidden rounded-full shadow-lg transform scale-[0.85] sm:scale-85 md:scale-90 lg:scale-100">
+        {/* Award Badge - positioned in bottom right corner */}
+        <div className="award-badge absolute bottom-6 right-4 sm:bottom-8 md:bottom-10 lg:bottom-12 sm:right-6 md:right-8 lg:right-10 z-50" style={{ transform: 'translateY(0)', opacity: 1 }}>
+          <div className="group relative overflow-hidden rounded-full shadow-lg transform scale-[0.75] sm:scale-85 md:scale-90 lg:scale-100">
             {/* Subtle shadow background */}
             <div className="absolute inset-0 bg-theme-accent-secondary opacity-80 rounded-full"></div>
             
@@ -256,7 +274,7 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
               {/* Logo wrapper with fixed dimensions at each breakpoint */}
               <div className="
                 relative 
-                w-[200px] h-[200px]
+                w-[150px] h-[150px]
                 sm:w-[450px] sm:h-[450px]
                 md:w-[550px] md:h-[550px]
                 lg:w-[600px] lg:h-[600px]
@@ -289,16 +307,17 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
               xmlns="http://www.w3.org/2000/svg"
               id="eyeballSvg"
               className="
-                w-[260px] h-auto
+                w-[180px] h-auto
                 sm:w-[350px] md:w-[420px] lg:w-[500px] xl:w-[567px]
-                absolute bottom-[-240px] left-0
-                translate-y-[60px] -translate-x-[30px]
-                sm:translate-y-[80px] sm:-translate-x-[40px]
-                md:translate-y-[90px] md:-translate-x-[45px]
-                lg:translate-y-[100px] lg:-translate-x-[50px]
-                opacity-0
+                absolute 
+                bottom-[0px] left-[5%]
+                sm:bottom-[-20vh] sm:left-[10%]
+                md:bottom-[-25vh] md:left-[5%]
+                lg:bottom-[-30vh] lg:left-[5%]
+                opacity-100 sm:opacity-100
                 transition-all duration-500
                 animate-float-gentle
+                z-20
               "
               aria-hidden="true"
             >
@@ -343,51 +362,62 @@ const SimpleHero = React.forwardRef<HTMLDivElement, SimpleHeroProps>(
             data-speed="0.95"
           >
 
-              <div className="w-full px-4 sm:px-6 md:px-6 lg:px-8 xl:px-10">
-                <div className="w-full overflow-visible">
+              <div className="w-full px-4 sm:px-6 md:px-6 lg:px-8 xl:px-10 pt-6 sm:pt-0">
+                <div className="w-full overflow-visible pl-4 sm:pl-0">
                   <h1 className="hero-content text-left mb-6 text-theme-primary transition-theme-fast duration-500">
-                    <span className="inline font-semibold glow-theme-tertiary text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-theme-accent-tertiary transition-all duration-500" data-speed="0.95">
-                      Billions
-                    </span>
-                    <span className="inline-block ml-2 sm:ml-3 lg:ml-4 font-light text-4xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-6xl" data-speed="0.99">
-                      of Views.
-                    </span>
-                    <span className="block font-normal text-3xl sm:text-4xl sm:font-light md:text-4xl lg:text-5xl xl:text-6xl transition-all duration-500 mt-2" data-speed="0.97">
+                    <div className="whitespace-nowrap">
+                      <span className="hero-text-animate inline font-semibold glow-theme-tertiary text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-theme-accent-tertiary transition-all duration-500" data-speed="0.95">
+                        Billions
+                      </span>
+                      <span className="hero-text-animate inline-block ml-2 sm:ml-3 lg:ml-4 font-light text-3xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-6xl" data-speed="0.99">
+                        of Views.
+                      </span>
+                    </div>
+                    <span className="hero-text-animate block font-normal text-2xl sm:text-4xl sm:font-light md:text-4xl lg:text-5xl xl:text-6xl transition-all duration-500 mt-2" data-speed="0.97">
                       Built for Founders.
                     </span>
                   </h1>
                   
-                  <div className="h-6 sm:h-8 md:h-9 lg:h-10 w-full"></div>
+                  <div className="h-2 sm:h-8 md:h-9 lg:h-10 w-full"></div>
                   
-                  <p className="hero-content text-lg sm:text-2xl md:text-3xl lg:text-4xl mb-4 text-theme-primary font-normal transition-theme-fast duration-500 leading-tight" style={{fontWeight: 400}} data-speed="0.99">
+                  <p className="hero-text-animate hero-claim mb-2 sm:mb-6 text-theme-primary text-left" 
+                     style={{
+                       fontSize: "clamp(1rem, 2vw, 2.25rem)", 
+                       fontWeight: 300, 
+                       lineHeight: 1.4,
+                       maxWidth: "100%",
+                       marginBottom: "0.5rem",
+                       paddingRight: "1rem",
+                       width: "100%"
+                     }} 
+                     data-speed="0.99">
                     We've used vertical video to get founders and execs just like you, billions of views — in fact we're the top-performing agency in the world at doing exactly that.
                   </p>
                   
-                  <div className="h-1 sm:h-2 md:h-3 lg:h-4 w-full"></div>
-                  
-                  <p className="hero-content text-left text-xs sm:text-sm md:text-base lg:text-lg mb-6 text-theme-primary/80 transition-all duration-500 w-full max-w-full" data-speed="0.99">
-                    Now we've packaged everything it takes to build a brand from the ground up — not just the knowledge — but the strategy, custom programs, and infrastructure we've built, into a proven system so you can do it yourself. Zero guesswork. All results.
-                  </p>
                 </div>
               </div>
               
               
-              {/* Animated Buttons with responsive sizes - moved further down and made larger */}
-              <div className="hero-content relative w-full mt-12 sm:mt-14 md:mt-16 lg:mt-20" style={{paddingLeft: 0}}>
-                <div className="absolute left-0 flex flex-col sm:flex-row sm:items-center gap-6" style={{transform: "translateX(32px)"}}>
+              {/* Animated Buttons with responsive sizes - moved up */}
+              <div className="hero-content relative w-full mt-4 sm:mt-10 md:mt-12 lg:mt-16" style={{paddingLeft: 0}}>
+                <div className="absolute left-0 flex flex-row items-center gap-2 sm:gap-4 mobile-button-container" 
+                  style={{
+                    transform: "translateX(20px) translateY(-14px)", 
+                    transformOrigin: "left center"
+                  }}>
                   <AnimatedButton 
                     text="Get Your Plan"
                     variant="start"
                     saturation="high"
-                    size="lg"
+                    size="sm"
                     onClick={onCtaClick}
-                    className="w-auto text-base sm:text-lg md:text-xl"
+                    className="w-auto text-sm sm:text-base md:text-lg lg:text-xl scale-90 sm:scale-100"
                   />
-                  <a href="https://calendly.com/clash-creation/15min" target="_blank" rel="noopener noreferrer" className="hidden sm:flex items-center text-theme-primary hover:text-theme-accent-tertiary transition-colors duration-300">
-                    <span className="text-theme-primary/60 mx-2">|</span>
-                    <span className="text-base sm:text-lg md:text-xl font-medium underline-offset-4 hover:underline">Book in a call</span>
+                  <a href="https://calendly.com/clash-creation/15min" target="_blank" rel="noopener noreferrer" className="flex items-center text-theme-primary hover:text-theme-accent-tertiary transition-colors duration-300 whitespace-nowrap">
+                    <span className="text-theme-primary/60 mx-1 sm:mx-2">|</span>
+                    <span className="text-[12px] sm:text-base md:text-lg lg:text-xl font-medium underline-offset-4 hover:underline">Book in a call</span>
                   </a>
-                  {/* Mobile "Book in a call" link removed */}
+                  {/* Mobile "Book in a call" link re-added */}
                 </div>
               </div>
             </div>

@@ -267,13 +267,13 @@ const VerticalShortcutLanding = () => {
             const speed = element.getAttribute('data-speed') || '0.8';
             globalScrollSmoother.effects(element, { speed: parseFloat(speed) });
           });
-          
+
           // Apply parallax effect to sections
           document.querySelectorAll('.parallax-section').forEach((element) => {
             const speed = element.getAttribute('data-speed') || '0.95';
             globalScrollSmoother.effects(element, { speed: parseFloat(speed) });
           });
-          
+
           // Apply parallax effect to images and content blocks
           document.querySelectorAll('.parallax-item').forEach((element) => {
             const speed = element.getAttribute('data-speed') || '0.9';
@@ -285,7 +285,7 @@ const VerticalShortcutLanding = () => {
         if (!(globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).heroSection && heroRef.current) {
           const heroAnimation = gsap.timeline();
           // Initial load animations are handled by the SimpleHero component
-          
+
           // Add a scroll trigger for elements exiting the viewport
           ScrollTrigger.create({
             trigger: heroRef.current,
@@ -294,20 +294,20 @@ const VerticalShortcutLanding = () => {
             id: "hero-exit-trigger",
             onLeave: () => {
               gsap.to(".hero-heading, .hero-subtitle, .hero-cta", {
-                y: -50, 
-                opacity: 0, 
-                stagger: 0.1, 
-                duration: 0.6, 
+                y: -50,
+                opacity: 0,
+                stagger: 0.1,
+                duration: 0.6,
                 ease: "power1.in",
                 clearProps: "all"
               });
             },
             onEnterBack: () => {
               gsap.to(".hero-heading, .hero-subtitle, .hero-cta", {
-                y: 0, 
-                opacity: 1, 
-                stagger: 0.1, 
-                duration: 0.6, 
+                y: 0,
+                opacity: 1,
+                stagger: 0.1,
+                duration: 0.6,
                 ease: "power2.out",
                 clearProps: "all"
               });
@@ -333,10 +333,10 @@ const VerticalShortcutLanding = () => {
             },
             onLeaveBack: () => {
               gsap.to(".what-we-do-title, .what-we-do-text-1, .what-we-do-text-2, .what-we-do-text-3, .what-we-do-text-4", {
-                y: 30, 
-                opacity: 0, 
-                stagger: 0.1, 
-                duration: 0.4, 
+                y: 30,
+                opacity: 0,
+                stagger: 0.1,
+                duration: 0.4,
                 ease: "power1.in",
                 clearProps: "all"
               });
@@ -359,10 +359,10 @@ const VerticalShortcutLanding = () => {
             },
             onLeaveBack: () => {
               gsap.to(".stat-item", {
-                y: 30, 
-                opacity: 0, 
-                stagger: 0.1, 
-                duration: 0.4, 
+                y: 30,
+                opacity: 0,
+                stagger: 0.1,
+                duration: 0.4,
                 ease: "power1.in",
                 clearProps: "all"
               });
@@ -385,10 +385,10 @@ const VerticalShortcutLanding = () => {
             },
             onLeaveBack: () => {
               gsap.to(".benefit-item", {
-                y: 40, 
-                opacity: 0, 
-                stagger: 0.1, 
-                duration: 0.4, 
+                y: 40,
+                opacity: 0,
+                stagger: 0.1,
+                duration: 0.4,
                 ease: "power1.in",
                 clearProps: "all"
               });
@@ -411,10 +411,10 @@ const VerticalShortcutLanding = () => {
             },
             onLeaveBack: () => {
               gsap.to(".track-item", {
-                x: -20, 
-                opacity: 0, 
-                stagger: 0.1, 
-                duration: 0.4, 
+                x: -20,
+                opacity: 0,
+                stagger: 0.1,
+                duration: 0.4,
                 ease: "power1.in",
                 clearProps: "all"
               });
@@ -431,21 +431,21 @@ const VerticalShortcutLanding = () => {
             id: "video-trigger",
             onEnter: () => {
               const videoAnimation = gsap.from(".video-container", {
-                y: 30, 
+                y: 30,
                 scale: 0.95,
-                opacity: 0, 
-                duration: 0.8, 
-                ease: "power2.out", 
+                opacity: 0,
+                duration: 0.8,
+                ease: "power2.out",
                 clearProps: "all",
               });
               (globalAnimations as Record<string, gsap.core.Timeline | gsap.core.Tween | ScrollTrigger>).videoItem = videoAnimation;
             },
             onLeaveBack: () => {
               gsap.to(".video-container", {
-                y: 30, 
+                y: 30,
                 scale: 0.95,
-                opacity: 0, 
-                duration: 0.5, 
+                opacity: 0,
+                duration: 0.5,
                 ease: "power1.in",
                 clearProps: "all"
               });
@@ -468,10 +468,10 @@ const VerticalShortcutLanding = () => {
             },
             onLeaveBack: () => {
               gsap.to(".testimonial-item", {
-                y: 30, 
-                opacity: 0, 
-                stagger: 0.1, 
-                duration: 0.4, 
+                y: 30,
+                opacity: 0,
+                stagger: 0.1,
+                duration: 0.4,
                 ease: "power1.in",
                 clearProps: "all"
               });
@@ -498,10 +498,10 @@ const VerticalShortcutLanding = () => {
             },
             onLeaveBack: () => {
               gsap.to(".cta-badge, .cta-title, .cta-subtitle, .cta-description, .cta-button", {
-                y: 30, 
-                opacity: 0, 
-                stagger: 0.1, 
-                duration: 0.4, 
+                y: 30,
+                opacity: 0,
+                stagger: 0.1,
+                duration: 0.4,
                 ease: "power1.in",
                 clearProps: "all"
               });
@@ -651,11 +651,11 @@ const VerticalShortcutLanding = () => {
         testMode={testMode}
       />
 
-      {/* Main wrapper for ScrollSmoother */}
+      {/* Main wrapper for ScrollSmoother with site-wide background */}
       <div
         id="smooth-wrapper"
         ref={mainRef}
-        className="min-h-screen overflow-hidden"
+        className="min-h-screen overflow-hidden site-wrapper"
       >
         {/* Floating Navbar stays outside the smooth content for fixed positioning */}
         <VSNavbar onApplyClick={openTiaQualificationModal} />
@@ -716,17 +716,17 @@ const VerticalShortcutLanding = () => {
             <div className="container mx-auto px-4">
               {/* Section header */}
               <div className="text-center max-w-4xl mx-auto mb-8 parallax-item" data-speed="0.95">
-                  <h2 className="what-we-do-title text-red-500 dark:text-orange-400 text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                  <h2 className="what-we-do-title text-theme-accent text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
                       What do we do?
                   </h2>
                 </div>
 
               {/* Copy content - centered text layout */}
               <div className="text-center w-full mx-auto mb-8 sm:mb-12 md:mb-16 parallax-item" data-speed="0.9">
-                <p className="what-we-do-text-1 body-text mb-2 sm:mb-4 mx-auto w-full text-center">
+                <p className="what-we-do-text-1 emphasized-text mb-2 sm:mb-4 mx-auto w-full text-center">
                   We make f*cking great videos.
                 </p>
-                <p className="what-we-do-text-2 text-sm sm:text-base md:text-base lg:text-lg text-theme-primary/80 italic mb-2 sm:mb-4 mx-auto w-full text-center">
+                <p className="what-we-do-text-2 body-text text-theme-primary/80 italic mb-2 sm:mb-4 mx-auto w-full text-center">
                   For founders and execs, specifically.
                 </p>
                 <p className="what-we-do-text-3 body-text mb-4 sm:mb-6 md:mb-8 mx-auto w-full text-center">
@@ -757,6 +757,20 @@ const VerticalShortcutLanding = () => {
              <LazySocialProof />
            </Suspense>
 
+          {/* Section 5: Short intro text before pain points */}
+          <div className="bg-theme-primary pt-16 pb-8 md:pt-20 md:pb-10">
+            <div className="container-mobile mx-auto px-4">
+              <div className="max-w-4xl mx-auto text-center">
+                <p className="emphasized-text text-theme-primary leading-relaxed" style={{ fontWeight: 350 }}>
+                  So, we've decided to take everything it takes to build a brand from the ground up — not just the knowledge — but the strategy, custom programs, and infrastructure we've built, into a proven system so you can do it yourself.
+                </p>
+                <p className="hero-statement text-theme-accent mt-6 md:mt-8">
+                  Zero guesswork. All results.
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Section 6: Pain Points */}
           <div id="benefits">
              <Suspense fallback={<LoadingFallback />}>
@@ -766,7 +780,7 @@ const VerticalShortcutLanding = () => {
 
           {/* Section 7: The Vertical Shortcut (big sell) */}
            <Suspense fallback={<LoadingFallback />}>
-             <LazyVSBigReveal />
+             <LazyVSBigReveal onApplyClick={openTiaQualificationModal} />
            </Suspense>
 
           {/* Section 8: Contents */}
@@ -797,65 +811,69 @@ const VerticalShortcutLanding = () => {
 
           {/* Section 13: Customisation - Removed */}
 
-          {/* Section 14: FAQs */}
-           <Suspense fallback={<LoadingFallback />}>
-             <LazyFAQUpdated />
-           </Suspense>
-
-          {/* Section 15: Final Application CTA */}
+          {/* Section 14: Limited spots available for next cohort (moved before FAQ) */}
           <VSSection
             ref={ctaRef}
-            className="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden bg-theme-gradient dark:bg-theme-gradient parallax-section"
-            data-speed="0.93"
+            className="pt-12 pb-8 sm:pt-16 sm:pb-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-16 relative overflow-hidden bg-theme-primary"
           >
-            {/* Theme-aware floating elements - optimized for mobile */}
-            <div
-              className="absolute -z-10 top-[15%] left-[5%] sm:top-20 sm:left-[10%] w-20 h-20 sm:w-32 sm:h-32 rounded-[40%] rotate-12
-                 opacity-theme-float bg-theme-float-primary animate-float-slow hidden sm:block parallax-float"
-              data-speed="1.25"
-            ></div>
-            <div
-              className="absolute -z-10 bottom-[15%] right-[5%] sm:bottom-20 sm:right-[15%] w-24 h-24 sm:w-36 sm:h-36 rounded-[35%] -rotate-6
-                 opacity-theme-float-secondary bg-theme-float-secondary animate-float-medium hidden sm:block parallax-float"
-              data-speed="1.15"
-            ></div>
+            {/* Isometric Grid Pattern from VSBigReveal */}
+            <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
+              <svg
+                className="absolute top-0 left-0 w-full h-full"
+                style={{ minWidth: '100%', minHeight: '100%', opacity: 0.25 }}
+                xmlns="http://www.w3.org/2000/svg"
+                preserveAspectRatio="xMidYMid slice"
+                viewBox="0 0 1000 1000"
+              >
+                <defs>
+                  <pattern
+                    id="transformIsometricGrid"
+                    patternUnits="userSpaceOnUse"
+                    width="141.47"
+                    height="85.12"
+                    patternTransform="scale(0.5) rotate(0)"
+                  >
+                    <path d="M70.99,84.98l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM64.27,81.22l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM83.71,77.28l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM51.54,73.52l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM96.44,69.58l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM38.81,65.82l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM109.17,61.88l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM26.08,58.12l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM121.9,54.17l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM13.36,50.41l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM134.63,46.47l-.35-.21,6.31-3.82.13.08.18-.11.23.14-6.49,3.93ZM.63,42.71l-.28-.17,6.54-3.96.35.21-6.36,3.85-.08-.05-.18.11ZM134.17,38.77l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM13.61,34.95l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM121.45,31.07l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM26.34,27.25l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM108.72,23.37l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM39.07,19.55l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM95.99,15.66l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM51.8,11.84l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM83.26,7.96l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM64.52,4.14l-.35-.21L70.53.08l.35.21-6.36,3.85Z" style={{fill: 'var(--theme-text-primary)', opacity: 0.5}}/>
+                    <path d="M47.57,70.9l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM60.3,63.2l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM73.03,55.5l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM85.75,47.8l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM98.48,40.09l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM111.21,32.39l-.35-.21,6.36-3.85.35.21-6.36,3.85Z" style={{fill: 'var(--theme-text-primary)', opacity: 0.5}}/>
+                    <path d="M24.23,56.78l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM36.95,49.08l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM49.68,41.37l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM62.41,33.67l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM75.14,25.97l-.35-.21,6.36-3.85.35.21-6.36,3.85ZM87.87,18.27l-.35-.21,6.36-3.85.35.21-6.36,3.85Z" style={{fill: 'var(--theme-text-primary)', opacity: 0.5}}/>
+                    <path d="M117.22,56.76l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM104.49,49.06l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM91.76,41.36l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM79.04,33.66l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM66.31,25.95l-6.36-3.85.35-.21,6.36,3.85-.35.21ZM53.58,18.25l-6.36-3.85.35-.21,6.36,3.85-.35.21Z" style={{fill: 'var(--theme-text-primary)', opacity: 0.5}}/>
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#transformIsometricGrid)" />
+              </svg>
+            </div>
+
+            {/* Decorative elements from VSBigReveal */}
+            <div className="absolute top-20 left-10 w-60 h-60 rounded-[40%] rotate-12 opacity-theme-float bg-theme-float-primary animate-float-slow"></div>
+            <div className="absolute bottom-40 right-10 w-80 h-80 rounded-[30%] -rotate-6 opacity-theme-float bg-theme-float-secondary animate-float-medium"></div>
+            <div className="absolute top-1/3 right-1/4 w-40 h-40 rounded-[35%] rotate-45 opacity-theme-float bg-theme-float-accent animate-float-fast"></div>
+            <div className="absolute bottom-1/4 left-1/4 w-32 h-32 rounded-full opacity-theme-float bg-theme-accent/10 animate-float-medium"></div>
+
 
             <div className="container mx-auto px-4 relative z-10">
-              <div className="max-w-6xl mx-auto parallax-section" data-speed="0.92">
-                <div className="text-center mb-6 sm:mb-8 parallax-item" data-speed="0.9">
-                  <Badge
-                    variant="outline"
-                    className="bg-theme-primary/10 border-theme-primary/30 mb-3 sm:mb-4 py-1.5 sm:py-2 px-3 sm:px-4 mx-auto"
-                  >
-                    <VSText className="font-semibold flex items-center gap-1 sm:gap-2 text-sm sm:text-base text-theme-primary">
-                      <Clock className="h-3 w-3 sm:h-4 sm:w-4" /> Limited spots available
-                    </VSText>
-                  </Badge>
-
+              <div className="max-w-6xl mx-auto pt-4 sm:pt-0">
+                <div className="mb-4 sm:mb-6 flex flex-col items-center">
                   <VSHeading
                     as="h2"
                     size="2xl"
-                    className="cta-title font-bold text-theme-primary mb-4 sm:mb-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl"
+                    className="cta-title font-bold text-theme-accent mb-3 sm:mb-5 text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
+                    style={{ textAlign: 'center' }}
                   >
-                    Limited spots available for next cohort
+                    Transform Your Content
                   </VSHeading>
 
-                  <VSHeading
-                    as="h3"
-                    size="xl"
-                    className="cta-subtitle font-bold text-theme-primary mb-4 sm:mb-6 text-xl sm:text-2xl md:text-3xl"
-                  >
-                    Ready to Transform Your Content?
-                  </VSHeading>
+                  <div className="max-w-[95%] md:max-w-2xl text-center">
+                    <p className="body-text mb-4" style={{ textAlign: 'center' }}>
+                      The vertical shortcut is designed to work for everyone. But we understand as founders and execs, you're not everyone.
+                    </p>
 
-                  <p className="body-text mb-6 sm:mb-8 md:mb-10 mx-auto w-full sm:max-w-[95%] md:max-w-3xl">
-                    Join Vertical Shortcut today and get access to our complete
-                    system for creating high-converting content that drives real
-                    business results.
-                  </p>
+                    <p className="body-text" style={{ textAlign: 'center' }}>
+                      So we'll tailor the course to you.
+                    </p>
                   </div>
+                </div>
 
-                <div className="flex flex-col md:flex-row bg-theme-surface p-8 md:p-12 rounded-2xl shadow-theme-md parallax-item" data-speed="0.88">
+                <div className="flex flex-col md:flex-row bg-theme-primary/10 dark:bg-theme-primary/10 p-8 md:p-12 rounded-3xl border border-theme-border-light/30 shadow-theme-md parallax-item" data-speed="0.88">
                   <div className="md:w-1/2 mb-8 md:mb-0 md:pr-8">
                     <VSHeading
                       as="h3"
@@ -866,7 +884,7 @@ const VerticalShortcutLanding = () => {
                     </VSHeading>
                     <VSText className="text-lg text-theme-secondary mb-4">
                       Fill out our quick qualification form to see if you're a
-                      good fit for our program. Once approved, we'll help you
+                      good fit for our program — and which progam best suits you and your team. Once approved, we'll hop on a call to help you
                       find the perfect implementation for your business.
                     </VSText>
                     <ul className="space-y-3 mb-6">
@@ -885,72 +903,72 @@ const VerticalShortcutLanding = () => {
                       ))}
                     </ul>
                     <AnimatedButton
-                      text="Get Your Plan"
+                      text="Find Your Plan"
                       variant="start"
                       saturation="high"
                       size="lg"
-                      onClick={openQualificationModal}
+                      onClick={openTiaQualificationModal}
                       className="w-full md:w-auto"
                     />
                   </div>
 
-                  <div className="md:w-1/2 md:border-l md:pl-8 border-theme-border-light">
+                  <div className="md:w-1/2 md:border-l md:pl-8 border-theme-border-light/50">
                     <VSHeading
                       as="h3"
                       size="lg"
-                      className="font-bold text-theme-primary mb-6"
+                      className="font-bold text-theme-primary mb-6 text-center"
                     >
                       Next Cohort Details
                     </VSHeading>
-                    <div className="space-y-4">
-                      <div className="flex items-start">
-                        <div className="w-10 h-10 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
-                          <Calendar className="h-5 w-5 text-theme-primary" />
-                  </div>
+                    <div className="space-y-4 p-6 rounded-3xl bg-theme-bg-light/40 dark:bg-theme-primary/20 border border-theme-border-light/30 shadow-theme-sm">
+                      <div className="flex items-start p-4 rounded-2xl bg-theme-primary/10 dark:bg-theme-primary/10 hover:bg-theme-primary/15 dark:hover:bg-theme-primary/25 transition-colors border border-theme-border-light/20">
+                        <div className="w-12 h-12 rounded-full bg-theme-primary/20 flex items-center justify-center mr-4 flex-shrink-0 shadow-theme-sm">
+                          <Calendar className="h-6 w-6 text-theme-primary" />
+                        </div>
                         <div>
-                          <VSText className="font-medium text-theme-primary">
+                          <VSText className="font-medium text-theme-primary text-lg">
                             Start Date
                           </VSText>
                           <VSText className="text-theme-secondary">
                             April 25th, 2025
                           </VSText>
-                  </div>
-                </div>
+                        </div>
+                      </div>
 
-                      <div className="flex items-start">
-                        <div className="w-10 h-10 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
-                          <Users className="h-5 w-5 text-theme-primary" />
-                  </div>
+                      <div className="flex items-start p-4 rounded-2xl bg-theme-primary/10 dark:bg-theme-primary/10 hover:bg-theme-primary/15 dark:hover:bg-theme-primary/25 transition-colors border border-theme-border-light/20">
+                        <div className="w-12 h-12 rounded-full bg-theme-primary/20 flex items-center justify-center mr-4 flex-shrink-0 shadow-theme-sm">
+                          <Users className="h-6 w-6 text-theme-primary" />
+                        </div>
                         <div>
-                          <VSText className="font-medium text-theme-primary">
+                          <VSText className="font-medium text-theme-primary text-lg">
                             Class Size
                           </VSText>
                           <VSText className="text-theme-secondary">
                             Limited to 20 students
                           </VSText>
-                  </div>
-                </div>
+                        </div>
+                      </div>
 
-                      <div className="flex items-start">
-                        <div className="w-10 h-10 rounded-full bg-theme-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
-                          <Clock className="h-5 w-5 text-theme-primary" />
-                  </div>
+                      <div className="flex items-start p-4 rounded-2xl bg-theme-primary/10 dark:bg-theme-primary/10 hover:bg-theme-primary/15 dark:hover:bg-theme-primary/25 transition-colors border border-theme-border-light/20">
+                        <div className="w-12 h-12 rounded-full bg-theme-primary/20 flex items-center justify-center mr-4 flex-shrink-0 shadow-theme-sm">
+                          <Clock className="h-6 w-6 text-theme-primary" />
+                        </div>
                         <div>
-                          <VSText className="font-medium text-theme-primary">
+                          <VSText className="font-medium text-theme-primary text-lg">
                             Time Commitment
                           </VSText>
                           <VSText className="text-theme-secondary">
                             4 hours per week
                           </VSText>
-                  </div>
-                </div>
-              </div>
+                        </div>
+                      </div>
+                    </div>
 
                     <VSCard
-                      className="mt-8 p-4 rounded-lg bg-theme-primary/5 dark:bg-theme-primary/10"
+                      className="mt-8 p-4 rounded-3xl bg-theme-accent/10 dark:bg-theme-accent/10 border border-theme-accent/20 shadow-theme-sm"
                     >
-                      <VSText className="text-theme-accent font-medium flex items-center">
-                        <Clock className="h-4 w-4 mr-2" />
+                      <VSText className="text-theme-accent font-medium flex items-center justify-center">
+                        <Clock className="h-5 w-5 mr-2" />
                         Applications closing soon
                       </VSText>
                     </VSCard>
@@ -960,10 +978,15 @@ const VerticalShortcutLanding = () => {
             </div>
           </VSSection>
 
+          {/* Section 15: FAQs (moved after limited spots section) */}
+           <Suspense fallback={<LoadingFallback />}>
+             <LazyFAQUpdated />
+           </Suspense>
+
           {/* Footer */}
           <VSBackground
             as="footer"
-            className="py-10 sm:py-12 md:py-16 bg-theme-primary border-t border-[--secondary-teal)]/30"
+            className="py-10 sm:py-12 md:py-16 bg-theme-primary"
           >
             <div className="container-mobile mx-auto">
               <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 sm:gap-10 mb-8 sm:mb-12">

@@ -1,3 +1,4 @@
+import React, { useEffect, useRef } from "react";
 import { Section } from "../ui/section";
 import {
   Accordion,
@@ -6,6 +7,8 @@ import {
   AccordionContent,
 } from "../ui/accordion-raised";
 import { courseStats, tracks, sections } from "../../lib/course-utils";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 
 // Helper function to safely access course data with proper null checks
 const courseData = {
@@ -65,27 +68,124 @@ const faqItems = [
   }
 ];
 
-export default function FAQ() {
+export default function FAQUpdated() {
+  const sectionRef = useRef(null);
+  const eyeballRef = useRef(null);
+  
+  // Initialize GSAP animations
+  useGSAP(() => {
+    // Entrance animation for the eyeball
+    gsap.fromTo("#faqEyeballSvg", 
+      { 
+        y: 100,
+        opacity: 0,
+        rotation: -2
+      }, 
+      { 
+        y: -20,
+        opacity: 1,
+        rotation: 0,
+        duration: 1.2, 
+        delay: 0.15,
+        ease: "power2.out"
+      }
+    );
+    
+    // Add mouse movement effect to eyeball
+    const handleMouseMove = (e) => {
+      const eyeball = document.getElementById('faqEyeballSvg');
+      if (!eyeball) return;
+      
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      const mouseXPercent = (e.clientX / windowWidth - 0.5) * 2;
+      const mouseYPercent = (e.clientY / windowHeight - 0.5) * 2;
+      
+      gsap.to(eyeball, {
+        rotation: mouseXPercent * 3,
+        rotationY: mouseYPercent * 2,
+        duration: 1.2,
+        ease: "power1.out"
+      });
+    };
+    
+    // Add event listener for mouse movement
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    // Clean up event listener on component unmount
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+  
   return (
-    <Section>
-      <div className="mx-auto flex max-w-container flex-col items-center gap-12">
-        <h2 className="text-center text-4xl md:text-5xl font-bold text-theme-primary mb-6">
-          FAQs
-        </h2>
-        <h3 className="text-center text-2xl md:text-3xl text-theme-primary mb-8">
-          And frequently given answers
-        </h3>
-        <Accordion type="single" collapsible className="w-full max-w-[800px]">
+    <Section ref={sectionRef} className="relative overflow-hidden py-8 md:py-12 bg-theme-primary">
+      {/* Eyeball SVG positioned outside the content container */}
+      <svg
+        width="679"
+        height="600"
+        viewBox="0 0 679 600"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        id="faqEyeballSvg"
+        ref={eyeballRef}
+        className="
+          w-[140px] h-auto
+          sm:w-[170px] md:w-[205px] lg:w-[235px]
+          absolute top-[-15px] left-[5%]
+          sm:top-[-10px] sm:left-[3%]
+          md:top-[0px] md:left-[2%]
+          lg:top-[10px] lg:left-[5%]
+          opacity-0
+          transition-all duration-500
+          animate-float-gentle
+          z-10
+        "
+        aria-hidden="true"
+      >
+          <circle
+            cx="331.484"
+            cy="347.484"
+            r="231.656"
+            transform="rotate(-90 331.484 347.484)"
+            fill="var(--theme-eyeball-outer)"
+          />
+          <ellipse
+            cx="387.704"
+            cy="307.815"
+            rx="143.553"
+            ry="143.168"
+            transform="rotate(-90 387.704 307.815)"
+            fill="var(--theme-eyeball-iris)"
+          />
+          <path
+            d="M324.537 240.611C337.361 218.609 357.976 202.262 382.267 194.834C406.558 187.406 432.737 189.444 455.577 200.541C478.417 211.637 496.239 230.976 505.483 254.697C514.727 278.417 514.714 304.773 505.446 328.503C496.178 352.233 478.337 371.59 455.485 382.711C432.634 393.832 406.453 395.897 382.169 388.495C357.886 381.092 337.287 364.767 324.486 342.778C311.684 320.789 307.622 294.755 313.109 269.872L411.566 291.649L324.537 240.611Z"
+            fill="var(--theme-eyeball-pupil)"
+          />
+        </svg>
+        
+      {/* Main content container */}
+      <div className="w-full max-w-[750px] mx-auto px-4 md:px-8 relative z-20">
+        <div className="max-w-4xl mx-auto text-center mb-4 md:mb-6">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 text-theme-primary">
+            FAQs
+          </h2>
+          <p className="text-lg md:text-xl lg:text-2xl text-theme-secondary max-w-3xl mx-auto">
+            And frequently given answers
+          </p>
+        </div>
+        
+        <Accordion type="single" collapsible className="w-full max-w-[650px] mx-auto mt-4 md:mt-6 space-y-2 md:space-y-3">
           {faqItems.map((item, index) => (
             <AccordionItem key={`item-${index + 1}`} value={`item-${index + 1}`}>
-              <AccordionTrigger>
+              <AccordionTrigger className="text-sm md:text-base font-medium">
                 {item.question}
               </AccordionTrigger>
               <AccordionContent>
                 {item.answer.map((paragraph, pIndex) => (
                   <p 
                     key={pIndex} 
-                    className={`body-text-sm mb-4 max-w-[640px] text-balance ${pIndex < item.answer.length - 1 ? 'mb-4' : ''}`}
+                    className={`text-theme-secondary text-sm md:text-base leading-normal ${pIndex < item.answer.length - 1 ? 'mb-4' : ''}`}
                   >
                     {paragraph}
                   </p>

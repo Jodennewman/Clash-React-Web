@@ -267,7 +267,7 @@ export default function TeamParallaxSection() {
             <h3 className="intro-heading text-[var(--theme-text-primary)] text-2xl md:text-3xl font-medium mb-4 relative z-10">
               Why trust us?
             </h3>
-            <p className="intro-text text-[var(--theme-text-secondary)] text-lg md:text-xl mb-6 relative z-10">
+            <p className="intro-text text-[var(--theme-text-secondary)] text-lg md:text-xl lg:text-xl mb-6 relative z-10">
               We're not just a guy in a room. We're a team of creatives, who
               just happen to be f*cking great at making content. It's why we're
               the number one short form agency in the world, and luckily for you
@@ -368,16 +368,16 @@ export default function TeamParallaxSection() {
                       />
                     </div>
 
-                    {/* Quote overlay */}
+                    {/* Quote overlay with improved readability */}
                     <div
-                      className={`member-quote absolute z-30 ${
+                      className={`member-quote absolute z-40 ${
                         index % 2 === 0
                           ? "bottom-10 right-6 lg:bottom-12 lg:right-8"
                           : "bottom-10 left-6 lg:bottom-12 lg:left-8"
                       } max-w-[85%] lg:max-w-[65%]`}
                     >
-                      <div className="bg-[var(--theme-bg-card)] bg-opacity-90 backdrop-blur-md p-6 rounded-lg shadow-[var(--theme-shadow-md)] border border-[var(--theme-border-light)]">
-                        <p className="text-[var(--theme-text-primary)] italic text-base">
+                      <div className="bg-[var(--theme-bg-card)] bg-opacity-95 backdrop-blur-lg p-5 md:p-6 rounded-xl shadow-[var(--theme-shadow-md)] border-2 border-[var(--theme-accent)]/20">
+                        <p className="text-[var(--theme-text-primary)] italic text-base font-medium">
                           {member.quote}
                         </p>
                       </div>
@@ -386,51 +386,51 @@ export default function TeamParallaxSection() {
                 </div>
                 {/* Gradient overlay for halftone transition */}
 
-                {/* Content - has z-index of 30, higher than all images */}
+                {/* Content - with improved readability */}
 
-                <div
-                  className={`member-content space-y-6 ${index % 2 === 1 ? "lg:order-1" : ""} relative z-30`}
+              <div className={`member-content space-y-6 ${index % 2 === 1 ? 'lg:order-1' : ''} relative z-30`}>
+                {/* Content card with background color matching the team member's halftone image */}
+                <div className={`
+                  ${index === 0 ? 'bg-gradient-to-br from-indigo-500/10 to-blue-500/10' : 
+                    index === 1 ? 'bg-gradient-to-br from-amber-500/10 to-orange-500/10' : 
+                    index === 2 ? 'bg-gradient-to-br from-rose-500/10 to-pink-500/10' : 
+                    'bg-gradient-to-br from-emerald-500/10 to-teal-500/10'} 
+                  bg-[var(--theme-bg-card)]/90 backdrop-blur-md p-6 md:p-8 rounded-xl shadow-[var(--theme-shadow-md)] 
+                  border-2 border-[var(--theme-border-light)]`}
                 >
-                  <h3 className="text-[var(--theme-text-primary)] text-4xl font-bold">
-                    {member.name}
-                  </h3>
-                  <p className="text-[var(--theme-primary)] text-xl font-medium">
+                  <h3 className="text-[var(--theme-text-primary)] text-4xl font-bold">{member.name}</h3>
+                  <p className={`
+                    ${index === 0 ? 'text-indigo-500 dark:text-indigo-400' : 
+                      index === 1 ? 'text-amber-500 dark:text-amber-400' : 
+                      index === 2 ? 'text-rose-500 dark:text-rose-400' : 
+                      'text-emerald-500 dark:text-emerald-400'} 
+                    text-xl font-medium mb-4`}
+                  >
                     {member.title}
                   </p>
                   <div className="space-y-6">
-                    <p className="text-[var(--theme-text-secondary)] text-lg leading-relaxed">
-                      {member.bio}
-                    </p>
+                    <p className="text-[var(--theme-text-secondary)] text-lg leading-relaxed">{member.bio}</p>
                     {member.beliefs && (
-                      <p className="text-[var(--theme-text-secondary)] text-lg leading-relaxed">
-                        {member.beliefs}
-                      </p>
+                      <p className="text-[var(--theme-text-secondary)] text-lg leading-relaxed">{member.beliefs}</p>
                     )}
 
                     <div className="pt-4 space-y-5">
-                      <div className="member-detail rounded-lg bg-[var(--theme-bg-surface)]/30 backdrop-blur-sm p-4 border border-[var(--theme-border-light)]">
-                        <span className="text-[var(--theme-text-primary)] font-medium block mb-1">
-                          likes:
-                        </span>
-                        <span className="text-[var(--theme-text-secondary)]">
-                          {member.likes}
-                        </span>
+                      <div className="member-detail rounded-lg bg-[var(--theme-bg-surface)]/70 backdrop-blur-sm p-4 border border-[var(--theme-border-light)]">
+                        <span className="text-[var(--theme-text-primary)] font-medium block mb-1">likes:</span>
+                        <span className="text-[var(--theme-text-secondary)]">{member.likes}</span>
                       </div>
-                      <div className="member-detail rounded-lg bg-[var(--theme-bg-surface)]/30 backdrop-blur-sm p-4 border border-[var(--theme-border-light)]">
-                        <span className="text-[var(--theme-text-primary)] font-medium block mb-1">
-                          dislikes:
-                        </span>
-                        <span className="text-[var(--theme-text-secondary)]">
-                          {member.dislikes}
-                        </span>
+                      <div className="member-detail rounded-lg bg-[var(--theme-bg-surface)]/70 backdrop-blur-sm p-4 border border-[var(--theme-border-light)]">
+                        <span className="text-[var(--theme-text-primary)] font-medium block mb-1">dislikes:</span>
+                        <span className="text-[var(--theme-text-secondary)]">{member.dislikes}</span>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </section>
-        ))}
+          </div>
+        </section>
+      ))}
       </div>
     </>
   );
