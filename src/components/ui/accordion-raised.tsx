@@ -31,14 +31,14 @@ function AccordionTrigger({
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          "text-md bg-theme-primary/5 dark:bg-theme-primary/5 mb-3 flex flex-1 items-center justify-between rounded-lg px-4 py-4 text-left font-medium text-theme-primary transition-all hover-bubbly-sm [&[data-state=open]_svg]:rotate-45",
+          "bg-theme-primary/5 dark:bg-theme-primary/5 mb-2 flex flex-1 items-center justify-between rounded-lg px-4 py-3 text-left text-theme-primary transition-all hover-bubbly-sm shadow-theme-sm [&[data-state=open]_svg]:rotate-45 border border-theme-border-light/20",
           className,
         )}
         {...props}
       >
         {children}
-        <div className="icon bg-theme-primary/30 rounded-full p-2">
-          <PlusIcon className="text-theme-secondary size-4 shrink-0 transition-transform duration-200" />
+        <div className="icon bg-theme-primary/20 rounded-full p-1.5 shadow-theme-xs">
+          <PlusIcon className="text-theme-primary size-3.5 shrink-0 transition-transform duration-200" />
         </div>
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
@@ -53,10 +53,10 @@ function AccordionContent({
   return (
     <AccordionPrimitive.Content
       data-slot="accordion-content"
-      className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm"
+      className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden"
       {...props}
     >
-      <div className={cn("px-4 pt-0 pb-5", className)}>{children}</div>
+      <div className={cn("px-4 pt-1 pb-4 mb-2 bg-theme-primary/5 dark:bg-theme-primary/5 rounded-b-lg border-x border-b border-theme-border-light/20", className)}>{children}</div>
     </AccordionPrimitive.Content>
   );
 }

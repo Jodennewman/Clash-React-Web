@@ -2,12 +2,13 @@ import React, { useRef } from 'react';
 import { useGSAP } from "@gsap/react";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { CheckCircle, ArrowRightCircle } from 'lucide-react';
+import { CheckCircle, ArrowRightCircle, Zap } from 'lucide-react';
 import AnimatedLogo from '../../components/logos/AnimatedLogo';
 import IsometricGridBackground from '../hero/IsometricPattern';
 import { VSText, VSHeading, VSGradientText } from '../ui/vs-text';
 import { VSCard, VSSection } from '../ui/vs-background';
 import { useDeviceDetection } from '../../utils/animation-utils';
+import courseUtils from "../../lib/course-utils";
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -20,6 +21,7 @@ const programDetails = [
   { label: "Next Cohort", value: "25th March, 2025", highlight: true },
   { label: "Class Size", value: "limited to 20 students" }
 ];
+
 
 // Key features data from the copy
 const keyFeatures = [
@@ -98,9 +100,9 @@ const VSBigReveal = ({ onApplyClick }: VSBigRevealProps) => {
         });
         
         // Simple fade-in for program details (as a group)
-        gsap.from(".program-details", {
+        gsap.from(".program-details-header, .program-details", {
            y: 25, opacity: 0, duration: 0.7, delay: 0.1, ease: "power2.out",
-           scrollTrigger: { trigger: detailsRef.current, start: "top 75%", once: true, id: 'reveal-details-mobile' }
+           scrollTrigger: { trigger: ".feature-list", start: "bottom 75%", once: true, id: 'reveal-details-mobile' }
         });
         
         // Simple fade-in for individual feature items
@@ -108,11 +110,23 @@ const VSBigReveal = ({ onApplyClick }: VSBigRevealProps) => {
            y: 15, opacity: 0, duration: 0.5, stagger: 0.15, ease: "power1.out",
            scrollTrigger: { trigger: ".feature-list", start: "top 85%", once: true, id: 'reveal-items-mobile' }
         });
+        
+        // Simple fade-in for founder modules container
+        gsap.from(".founder-modules", {
+           y: 20, opacity: 0, duration: 0.6, ease: "power2.out",
+           scrollTrigger: { trigger: ".program-details", start: "bottom 70%", once: true, id: 'reveal-modules-mobile' }
+        });
+        
+        // Simple fade-in for module items with stagger (horizontal for mobile)
+        gsap.from(".module-item", {
+           x: 30, opacity: 0, duration: 0.5, stagger: 0.1, ease: "power1.out",
+           scrollTrigger: { trigger: ".founder-modules-list", start: "top 85%", once: true, id: 'reveal-module-items-mobile' }
+        });
 
         // Simple fade-in for CTA button
         gsap.from(".cta-button", {
            y: 10, opacity: 0, duration: 0.6, ease: "power2.out",
-           scrollTrigger: { trigger: ".program-details", start: "top 80%", once: true, id: 'reveal-cta-mobile' }
+           scrollTrigger: { trigger: ".feature-list", start: "bottom 80%", once: true, id: 'reveal-cta-mobile' }
         });
         
         // NOTE: Large logo animation is disabled on mobile for performance.
@@ -137,7 +151,7 @@ const VSBigReveal = ({ onApplyClick }: VSBigRevealProps) => {
         // Card and feature details timeline
         const tl = gsap.timeline({ scrollTrigger: { trigger: detailsRef.current, start: "top 70%", toggleActions: "play none none reverse", id: 'reveal-details-desktop' } });
         tl.from(".feature-card", { y: 30, opacity: 0, duration: 0.7, stagger: 0.15, ease: "power2.out" });
-        tl.from(".program-details", { y: 20, opacity: 0, duration: 0.5, ease: "power2.out" }, "-=0.4");
+        tl.from(".program-details-header, .program-details", { y: 20, opacity: 0, duration: 0.5, ease: "power2.out" }, "-=0.4");
         
         // Feature item animations
         gsap.from(".feature-item", {
@@ -145,9 +159,21 @@ const VSBigReveal = ({ onApplyClick }: VSBigRevealProps) => {
           y: parseFloat(animDistance) * -5, opacity: 0, duration: 0.6, stagger: 0.1, ease: "power2.out"
         });
         
+        // Founder modules animation
+        gsap.from(".founder-modules", {
+          scrollTrigger: { trigger: ".program-details", start: "bottom 60%", toggleActions: "play none none reverse", id: 'reveal-modules-desktop' },
+          y: 20, opacity: 0, duration: 0.7, ease: "power2.out"
+        });
+
+        // Module items staggered animation (horizontal stagger for cards)
+        gsap.from(".module-item", {
+          scrollTrigger: { trigger: ".founder-modules-list", start: "top 80%", toggleActions: "play none none reverse", id: 'reveal-module-items-desktop' },
+          x: 30, opacity: 0, duration: 0.5, stagger: 0.1, ease: "power2.out"
+        });
+        
         // CTA button animation
         gsap.from(".cta-button", {
-          scrollTrigger: { trigger: ".program-details", start: "top 70%", toggleActions: "play none none reverse", id: 'reveal-cta-desktop' },
+          scrollTrigger: { trigger: ".feature-list", start: "bottom 70%", toggleActions: "play none none reverse", id: 'reveal-cta-desktop' },
           scale: 0.9, y: 15, opacity: 0, duration: 0.7, ease: "back.out(1.7)"
         });
       }
@@ -215,6 +241,7 @@ const VSBigReveal = ({ onApplyClick }: VSBigRevealProps) => {
         </div>
         
         <div ref={detailsRef} className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto px-4 md:px-6 lg:px-4">
+          {/* First column - Features list */}
           <div className="feature-card bg-theme-surface/60 p-4 md:p-0 rounded-xl md:rounded-none shadow-theme-sm md:shadow-none">
             <VSHeading as="h3" size="sm" color="text-theme-primary" className="text-center md:hidden font-bold mb-4 text-base">
               Key Features
@@ -240,43 +267,134 @@ const VSBigReveal = ({ onApplyClick }: VSBigRevealProps) => {
             </div>
           </div>
           
-          <div className="program-details">
-            <div className="bg-transparent p-4 rounded-xl overflow-hidden transform transition-all duration-300">
-              <VSHeading as="h3" size="sm" color="theme-primary" className="font-bold mb-4 text-center text-base">
-                Program Details
-              </VSHeading>
+          {/* Second column - Content at bottom with button */}
+          <div className="relative h-full flex flex-col justify-between pt-0 pb-0">
+            {/* Course Details - Top section */}
+            <div>
+              <div className="program-details-header bg-transparent rounded-xl overflow-hidden transform transition-all duration-300">
+                <VSHeading as="h3" size="sm" color="theme-primary" className="font-bold mb-3 text-center text-base">
+                  Course Details
+                </VSHeading>
+              </div>
               
-              <div className="space-y-4 mb-6">
+              {/* Program Details Boxes in a container - dramatically taller/more vertical */}
+              <div className="program-details space-y-5 mb-5">
                 {programDetails.map((detail, index) => (
-                  <div key={index} className="flex flex-col items-center justify-center p-2 border border-theme-accent/60 rounded-lg text-center text-[16px] font-medium bg-theme-surface/20">
-                    <div className="mb-1">
-                      <VSText color="theme-secondary" className="text-xs uppercase tracking-wider font-extrabold">
+                  <div key={index} className="relative flex flex-col items-center border-2 border-theme-accent/40 rounded-xl overflow-hidden shadow-md bg-theme-surface/30 pt-10 pb-6 px-3">
+                    {/* Label as top banner */}
+                    <div className="absolute top-0 left-0 right-0 bg-theme-accent/15 py-2 mb-4 flex items-center justify-center">
+                      <VSText color="theme-secondary" className="text-xs uppercase tracking-wider font-extrabold px-1">
                         {detail.label}
                       </VSText>
                     </div>
-                    {detail.highlight ? (
-                      <div className="inline-block px-3 py-1 rounded-full bg-theme-accent/20">
-                        <VSText color="theme-accent" className="text-base font-extrabold">
+                    
+                    {/* Value with more vertical height */}
+                    <div className="mt-2 py-3 w-full flex items-center justify-center">
+                      {detail.highlight ? (
+                        <div className="inline-block px-4 py-2 rounded-full bg-theme-accent/20">
+                          <VSText color="theme-accent" className="text-lg font-extrabold">
+                            {detail.value}
+                          </VSText>
+                        </div>
+                      ) : (
+                        <VSText color="theme-primary" className="text-lg leading-relaxed font-extrabold">
                           {detail.value}
                         </VSText>
-                      </div>
-                    ) : (
-                      <VSText color="theme-primary" className="text-base font-extrabold">
-                        {detail.value}
-                      </VSText>
-                    )}
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
-              
-              <div className="cta-button mt-4">
-                <button 
-                  className="bg-theme-gradient-primary text-white w-full py-3 rounded-lg flex items-center justify-center gap-2 font-bold text-base shadow-theme-sm hover-bubbly"
-                  onClick={onApplyClick}
-                >
-                  <span>Get Your Plan</span>
-                  <ArrowRightCircle className="h-5 w-5" />
-                </button>
+            </div>
+            
+            {/* Some of Our Favourites - Horizontal scroll carousel */}
+            <div className="favorite-modules mb-1">
+              <div className="bg-theme-surface/60 p-3 rounded-xl shadow-theme-sm mb-0">
+                <div className="flex items-center gap-2 mb-3">
+                  <Zap className="w-5 h-5 text-theme-accent" />
+                  <VSHeading as="h3" size="sm" color="theme-primary" className="font-bold text-base">
+                    Some of Our Favourites
+                  </VSHeading>
+                </div>
+                
+                <div className="founder-modules-carousel relative">
+                  {/* Horizontal scrolling container with increased height */}
+                  <div className="overflow-x-auto overflow-y-hidden pb-4 -mx-4 px-4">
+                    <div className="flex space-x-3 snap-x snap-mandatory founder-modules-list">
+                      {/* Static modules with taller vertical cards - no reliance on courseUtils */}
+                      {[
+                        { 
+                          title: "Authority and Brand",
+                          subtitle: "Building your personal brand as an authority in your industry",
+                          image: "/public/assets/main/DataBaseThumbnails/pr_who_are_you.webp",
+                          duration: 30
+                        },
+                        { 
+                          title: "Repurposing from LinkedIn",
+                          subtitle: "Transform your LinkedIn content into engaging vertical video",
+                          image: "/public/assets/main/DataBaseThumbnails/repurposing.webp",
+                          duration: 25
+                        },
+                        { 
+                          title: "Monetisation Strategies",
+                          subtitle: "Advanced tactics to drive revenue from your content",
+                          image: "/public/assets/main/DataBaseThumbnails/monetisation_evolving.webp",
+                          duration: 35
+                        }
+                      ].map((module, index) => (
+                        <div key={index} className="module-item flex-shrink-0 snap-start w-[140px] rounded-lg bg-theme-surface/70 hover:bg-theme-surface/90 transition-all duration-300 border border-theme-accent/20 hover:border-theme-accent/50 overflow-hidden">
+                          {/* Larger thumbnail image at top */}
+                          <div className="module-image w-full h-[120px] overflow-hidden">
+                            <img 
+                              src={module.image} 
+                              alt={module.title} 
+                              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                              onError={(e) => {
+                                e.currentTarget.src = "/public/assets/main/DataBaseThumbnails/default.webp";
+                              }} 
+                            />
+                          </div>
+                          
+                          {/* Content below image */}
+                          <div className="p-3">
+                            <p className="text-xs font-bold text-theme-primary mb-2 line-clamp-2 min-h-[36px]">
+                              {module.title}
+                            </p>
+                            <p className="text-[10px] text-theme-secondary leading-tight line-clamp-3 mb-3 min-h-[36px]">
+                              {module.subtitle}
+                            </p>
+                            <div className="flex flex-col space-y-2">
+                              <div className="px-2 py-1 w-full text-center rounded-full text-[9px] bg-theme-accent/20 text-theme-accent font-medium">
+                                Popular Module
+                              </div>
+                              <div className="flex items-center justify-center text-[9px] text-theme-secondary">
+                                <span>{module.duration} min</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Scroll indicator dots */}
+                  <div className="flex justify-center mt-2 space-x-1">
+                    <div className="w-1.5 h-1.5 rounded-full bg-theme-accent"></div>
+                    <div className="w-1.5 h-1.5 rounded-full bg-theme-accent/30"></div>
+                    <div className="w-1.5 h-1.5 rounded-full bg-theme-accent/30"></div>
+                  </div>
+                  
+                  {/* CTA Button integrated inside modules section - moved up significantly */}
+                  <div className="cta-button mt-4">
+                    <button 
+                      className="bg-theme-gradient-primary text-white w-full py-4 rounded-lg flex items-center justify-center gap-3 font-bold text-lg shadow-theme-md hover-bubbly transform hover:scale-[1.02] transition-all duration-300"
+                      onClick={onApplyClick}
+                    >
+                      <span>Get Your Plan</span>
+                      <ArrowRightCircle className="h-6 w-6" />
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -171,84 +171,114 @@ export const ConnectEverything: React.FC<ConnectEverythingProps> = ({ className 
       <div className="w-full max-w-5xl flex flex-col justify-center items-center gap-8 md:gap-12 relative z-10">
         <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           {/* Creator HUD */}
-          <div className="tool-card flex flex-col items-center bg-[var(--theme-surface)]/20 backdrop-blur-sm rounded-xl p-6 shadow-[var(--theme-shadow-sm)] hover:shadow-[var(--theme-shadow-md)] transition-all duration-300 cursor-pointer group">
+          <div className="tool-card flex flex-col items-center bg-[var(--theme-surface)]/20 backdrop-blur-sm rounded-xl p-6 shadow-[var(--theme-shadow-sm)] hover:shadow-[var(--theme-shadow-lg)] border border-transparent hover:border-[var(--theme-accent)]/30 transform transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer group hover:scale-[1.05] hover:-translate-y-2">
             <div className="relative flex items-center justify-center w-36 h-36 md:w-40 md:h-40">
-              <div className="absolute inset-0 bg-[var(--theme-radial-glow)] opacity-50 blur-md rounded-full"></div>
-              <img className="app-icon w-28 h-28 md:w-32 md:h-32 object-contain drop-shadow-xl relative z-10 transition-transform duration-300 group-hover:scale-110" src={appIcons.creatorHud} alt="Creator HUD" />
+              <div className="absolute inset-0 bg-[var(--theme-radial-glow)] opacity-50 blur-md rounded-full group-hover:opacity-80 group-hover:blur-xl transition-all duration-500"></div>
+              <div className="absolute inset-0 bg-[var(--theme-accent)]/10 opacity-0 group-hover:opacity-40 rounded-full blur-2xl transform scale-0 group-hover:scale-150 transition-all duration-700 ease-out"></div>
+              <img className="app-icon w-28 h-28 md:w-32 md:h-32 object-contain drop-shadow-xl relative z-10 transition-transform duration-500 ease-out group-hover:scale-[1.15]" src={appIcons.creatorHud} alt="Creator HUD" />
             </div>
             <h3 className="text-[var(--theme-accent-quaternary)] text-2xl md:text-3xl font-normal mt-4 mb-1 text-center">Creator HUD</h3>
             <p className="text-[var(--theme-text-primary)] text-base md:text-lg mb-2 text-center">for Notion</p>
-            <span className="text-[var(--theme-accent)] text-sm font-medium mt-2 opacity-80 group-hover:opacity-100 transition-opacity duration-300">Click for details</span>
+            <span className="text-[var(--theme-accent)] text-sm font-semibold mt-2 opacity-70 group-hover:opacity-100 transition-all duration-300 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 group-hover:animate-pulse">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="m12 8 4 4-4 4"></path>
+                <path d="m8 12h8"></path>
+              </svg>
+              Click for details
+            </span>
             
-            {/* Simple popup that appears over the card */}
-            <div className="tool-details hidden absolute top-0 left-0 right-0 bottom-0 bg-white dark:bg-[var(--theme-bg-secondary)] rounded-xl p-4 z-20 overflow-auto shadow-md">
-              <button className="close-details absolute top-2 right-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 p-1 rounded-full text-gray-500 dark:text-gray-300 transition-colors">
+            {/* Enhanced popup that appears over the card */}
+            <div className="tool-details hidden absolute top-0 left-0 right-0 bottom-0 bg-white/95 dark:bg-[var(--theme-bg-secondary)]/95 backdrop-blur-sm rounded-xl p-6 z-20 overflow-auto shadow-xl border border-[var(--theme-accent)]/30">
+              <button className="close-details absolute top-3 right-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 p-2 rounded-full text-gray-500 dark:text-gray-300 transition-colors hover:rotate-90 duration-300 hover:scale-110">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
               </button>
-              <h3 className="text-[var(--theme-accent-quaternary)] text-lg font-semibold mb-2">Creator HUD</h3>
-              <p className="text-gray-700 dark:text-gray-300 text-sm mb-2">
+              <div className="bg-[var(--theme-accent)]/10 -mx-6 -mt-6 mb-4 px-6 py-4 border-b border-[var(--theme-accent)]/20">
+                <h3 className="text-[var(--theme-accent-quaternary)] text-xl font-semibold">Creator HUD</h3>
+              </div>
+              <p className="text-[var(--theme-text-primary)] text-base mb-3">
                 A custom Notion Template that works with Premiere Pro to <strong>remove ALL manual effort</strong> after filming.
               </p>
-              <p className="text-gray-700 dark:text-gray-300 text-sm">
+              <p className="text-[var(--theme-text-primary)] text-base">
                 It matches videos to scripts and creates editable timelines automatically.
               </p>
             </div>
           </div>
           
           {/* Scran.ar */}
-          <div className="tool-card flex flex-col items-center bg-[var(--theme-surface)]/20 backdrop-blur-sm rounded-xl p-6 shadow-[var(--theme-shadow-sm)] hover:shadow-[var(--theme-shadow-md)] transition-all duration-300 cursor-pointer group">
+          <div className="tool-card flex flex-col items-center bg-[var(--theme-surface)]/20 backdrop-blur-sm rounded-xl p-6 shadow-[var(--theme-shadow-sm)] hover:shadow-[var(--theme-shadow-lg)] border border-transparent hover:border-[var(--theme-accent)]/30 transform transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer group hover:scale-[1.05] hover:-translate-y-2">
             <div className="relative flex items-center justify-center w-36 h-36 md:w-40 md:h-40">
-              <div className="absolute inset-0 bg-[var(--theme-radial-glow)] opacity-50 blur-md rounded-full"></div>
-              <img className="app-icon w-28 h-28 md:w-32 md:h-32 object-contain drop-shadow-xl relative z-10 transition-transform duration-300 group-hover:scale-110" src={appIcons.scranAr} alt="Scran.ar" />
+              <div className="absolute inset-0 bg-[var(--theme-radial-glow)] opacity-50 blur-md rounded-full group-hover:opacity-80 group-hover:blur-xl transition-all duration-500"></div>
+              <div className="absolute inset-0 bg-[var(--theme-accent)]/10 opacity-0 group-hover:opacity-40 rounded-full blur-2xl transform scale-0 group-hover:scale-150 transition-all duration-700 ease-out"></div>
+              <img className="app-icon w-28 h-28 md:w-32 md:h-32 object-contain drop-shadow-xl relative z-10 transition-transform duration-500 ease-out group-hover:scale-[1.15]" src={appIcons.scranAr} alt="Scran.ar" />
             </div>
             <h3 className="text-[var(--theme-accent-tertiary)] text-2xl md:text-3xl font-normal mt-4 mb-1 text-center">Scran.ar</h3>
             <p className="text-[var(--theme-text-primary)] text-base md:text-lg mb-2 text-center">(beta)</p>
-            <span className="text-[var(--theme-accent)] text-sm font-medium mt-2 opacity-80 group-hover:opacity-100 transition-opacity duration-300">Click for details</span>
+            <span className="text-[var(--theme-accent)] text-sm font-semibold mt-2 opacity-70 group-hover:opacity-100 transition-all duration-300 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 group-hover:animate-pulse">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="m12 8 4 4-4 4"></path>
+                <path d="m8 12h8"></path>
+              </svg>
+              Click for details
+            </span>
             
-            {/* Simple popup that appears over the card */}
-            <div className="tool-details hidden absolute top-0 left-0 right-0 bottom-0 bg-white dark:bg-[var(--theme-bg-secondary)] rounded-xl p-4 z-20 overflow-auto shadow-md">
-              <button className="close-details absolute top-2 right-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 p-1 rounded-full text-gray-500 dark:text-gray-300 transition-colors">
+            {/* Enhanced popup that appears over the card */}
+            <div className="tool-details hidden absolute top-0 left-0 right-0 bottom-0 bg-white/95 dark:bg-[var(--theme-bg-secondary)]/95 backdrop-blur-sm rounded-xl p-6 z-20 overflow-auto shadow-xl border border-[var(--theme-accent)]/30">
+              <button className="close-details absolute top-3 right-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 p-2 rounded-full text-gray-500 dark:text-gray-300 transition-colors hover:rotate-90 duration-300 hover:scale-110">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
               </button>
-              <h3 className="text-[var(--theme-accent-tertiary)] text-lg font-semibold mb-2">Scran.ar</h3>
-              <p className="text-gray-700 dark:text-gray-300 text-sm mb-2">
+              <div className="bg-[var(--theme-accent)]/10 -mx-6 -mt-6 mb-4 px-6 py-4 border-b border-[var(--theme-accent)]/20">
+                <h3 className="text-[var(--theme-accent-tertiary)] text-xl font-semibold">Scran.ar</h3>
+              </div>
+              <p className="text-[var(--theme-text-primary)] text-base mb-3">
                 A powerful video ingest application for editing buckets of shorts <strong>quickly</strong>.
               </p>
-              <p className="text-gray-700 dark:text-gray-300 text-sm">
+              <p className="text-[var(--theme-text-primary)] text-base">
                 This tool knows everything about your raw footage before even you do (not in a scary AI way).
               </p>
             </div>
           </div>
           
           {/* Splitt */}
-          <div className="tool-card flex flex-col items-center bg-[var(--theme-surface)]/20 backdrop-blur-sm rounded-xl p-6 shadow-[var(--theme-shadow-sm)] hover:shadow-[var(--theme-shadow-md)] transition-all duration-300 cursor-pointer group">
+          <div className="tool-card flex flex-col items-center bg-[var(--theme-surface)]/20 backdrop-blur-sm rounded-xl p-6 shadow-[var(--theme-shadow-sm)] hover:shadow-[var(--theme-shadow-lg)] border border-transparent hover:border-[var(--theme-accent)]/30 transform transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer group hover:scale-[1.05] hover:-translate-y-2">
             <div className="relative flex items-center justify-center w-36 h-36 md:w-40 md:h-40">
-              <div className="absolute inset-0 bg-[var(--theme-radial-glow)] opacity-50 blur-md rounded-full"></div>
-              <img className="app-icon w-28 h-28 md:w-32 md:h-32 object-contain drop-shadow-xl relative z-10 transition-transform duration-300 group-hover:scale-110" src={appIcons.spitt} alt="Splitt" />
+              <div className="absolute inset-0 bg-[var(--theme-radial-glow)] opacity-50 blur-md rounded-full group-hover:opacity-80 group-hover:blur-xl transition-all duration-500"></div>
+              <div className="absolute inset-0 bg-[var(--theme-accent)]/10 opacity-0 group-hover:opacity-40 rounded-full blur-2xl transform scale-0 group-hover:scale-150 transition-all duration-700 ease-out"></div>
+              <img className="app-icon w-28 h-28 md:w-32 md:h-32 object-contain drop-shadow-xl relative z-10 transition-transform duration-500 ease-out group-hover:scale-[1.15]" src={appIcons.spitt} alt="Splitt" />
             </div>
             <h3 className="text-[var(--theme-accent-secondary)] text-2xl md:text-3xl font-normal mt-4 mb-1 text-center">Splitt</h3>
             <p className="text-[var(--theme-text-primary)] text-base md:text-lg mb-2 text-center">Premiere Pro extension</p>
-            <span className="text-[var(--theme-accent)] text-sm font-medium mt-2 opacity-80 group-hover:opacity-100 transition-opacity duration-300">Click for details</span>
+            <span className="text-[var(--theme-accent)] text-sm font-semibold mt-2 opacity-70 group-hover:opacity-100 transition-all duration-300 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 group-hover:animate-pulse">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="m12 8 4 4-4 4"></path>
+                <path d="m8 12h8"></path>
+              </svg>
+              Click for details
+            </span>
             
-            {/* Simple popup that appears over the card */}
-            <div className="tool-details hidden absolute top-0 left-0 right-0 bottom-0 bg-white dark:bg-[var(--theme-bg-secondary)] rounded-xl p-4 z-20 overflow-auto shadow-md">
-              <button className="close-details absolute top-2 right-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 p-1 rounded-full text-gray-500 dark:text-gray-300 transition-colors">
+            {/* Enhanced popup that appears over the card */}
+            <div className="tool-details hidden absolute top-0 left-0 right-0 bottom-0 bg-white/95 dark:bg-[var(--theme-bg-secondary)]/95 backdrop-blur-sm rounded-xl p-6 z-20 overflow-auto shadow-xl border border-[var(--theme-accent)]/30">
+              <button className="close-details absolute top-3 right-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 p-2 rounded-full text-gray-500 dark:text-gray-300 transition-colors hover:rotate-90 duration-300 hover:scale-110">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
               </button>
-              <h3 className="text-[var(--theme-accent-secondary)] text-lg font-semibold mb-2">Splitt</h3>
-              <p className="text-gray-700 dark:text-gray-300 text-sm mb-2">
+              <div className="bg-[var(--theme-accent)]/10 -mx-6 -mt-6 mb-4 px-6 py-4 border-b border-[var(--theme-accent)]/20">
+                <h3 className="text-[var(--theme-accent-secondary)] text-xl font-semibold">Splitt</h3>
+              </div>
+              <p className="text-[var(--theme-text-primary)] text-base mb-3">
                 Video editing can be cruel, whether you're the one doing it or not.
               </p>
-              <p className="text-gray-700 dark:text-gray-300 text-sm">
+              <p className="text-[var(--theme-text-primary)] text-base">
                 Creates aptly named timelines from your notion data and populates them with footage in a single click.
               </p>
             </div>

@@ -119,31 +119,30 @@ export default function FAQUpdated() {
   }, []);
   
   return (
-    <Section ref={sectionRef} className="relative overflow-hidden pt-6 sm:pt-8 md:pt-12">
-      <div className="mx-auto flex max-w-container flex-col items-center gap-6 relative">
-        {/* Eyeball SVG in top left corner */}
-        <svg
-          width="679"
-          height="600"
-          viewBox="0 0 679 600"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          id="faqEyeballSvg"
-          ref={eyeballRef}
-          className="
-            w-[140px] h-auto
-            sm:w-[170px] md:w-[205px] lg:w-[235px]
-            absolute top-[0px] left-[-30px]
-            sm:top-[10px] sm:left-[-40px]
-            md:top-[20px] md:left-[-60px]
-            lg:top-[30px] lg:left-[-80px]
-            opacity-0
-            transition-all duration-500
-            animate-float-gentle
-            z-100
-          "
-          aria-hidden="true"
-        >
+    <Section ref={sectionRef} className="relative overflow-hidden py-8 md:py-12 bg-theme-primary">
+      {/* Eyeball SVG positioned outside the content container */}
+      <svg
+        width="679"
+        height="600"
+        viewBox="0 0 679 600"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        id="faqEyeballSvg"
+        ref={eyeballRef}
+        className="
+          w-[140px] h-auto
+          sm:w-[170px] md:w-[205px] lg:w-[235px]
+          absolute top-[-15px] left-[5%]
+          sm:top-[-10px] sm:left-[3%]
+          md:top-[0px] md:left-[2%]
+          lg:top-[10px] lg:left-[5%]
+          opacity-0
+          transition-all duration-500
+          animate-float-gentle
+          z-10
+        "
+        aria-hidden="true"
+      >
           <circle
             cx="331.484"
             cy="347.484"
@@ -164,24 +163,29 @@ export default function FAQUpdated() {
             fill="var(--theme-eyeball-pupil)"
           />
         </svg>
-      
-        <h2 className="text-center text-4xl md:text-5xl font-bold text-theme-primary mb-2 -mt-2">
-          FAQs
-        </h2>
-        <p className="text-center text-xs md:text-sm text-theme-accent/70 italic mb-4 -mt-1">
-          And frequently given answers
-        </p>
-        <Accordion type="single" collapsible className="w-full max-w-[800px]">
+        
+      {/* Main content container */}
+      <div className="w-full max-w-[750px] mx-auto px-4 md:px-8 relative z-20">
+        <div className="max-w-4xl mx-auto text-center mb-4 md:mb-6">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 text-theme-primary">
+            FAQs
+          </h2>
+          <p className="text-lg md:text-xl lg:text-2xl text-theme-secondary max-w-3xl mx-auto">
+            And frequently given answers
+          </p>
+        </div>
+        
+        <Accordion type="single" collapsible className="w-full max-w-[650px] mx-auto mt-4 md:mt-6 space-y-2 md:space-y-3">
           {faqItems.map((item, index) => (
             <AccordionItem key={`item-${index + 1}`} value={`item-${index + 1}`}>
-              <AccordionTrigger>
+              <AccordionTrigger className="text-sm md:text-base font-medium">
                 {item.question}
               </AccordionTrigger>
               <AccordionContent>
                 {item.answer.map((paragraph, pIndex) => (
                   <p 
                     key={pIndex} 
-                    className={`body-text-sm mb-4 max-w-[640px] text-balance ${pIndex < item.answer.length - 1 ? 'mb-4' : ''}`}
+                    className={`text-theme-secondary text-sm md:text-base leading-normal ${pIndex < item.answer.length - 1 ? 'mb-4' : ''}`}
                   >
                     {paragraph}
                   </p>

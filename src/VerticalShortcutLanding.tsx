@@ -767,17 +767,6 @@ const VerticalShortcutLanding = () => {
             <div className="absolute top-1/3 right-1/4 w-40 h-40 rounded-[35%] rotate-45 opacity-theme-float bg-theme-float-accent animate-float-fast"></div>
             <div className="absolute bottom-1/4 left-1/4 w-32 h-32 rounded-full opacity-theme-float bg-theme-accent/10 animate-float-medium"></div>
             
-            {/* VS Logo similar to VSBigReveal but positioned for this section */}
-            <div className="vs-logo-wrapper absolute top-[50px] right-[-80px] md:right-[-40px] lg:right-[20px] w-[300px] md:w-[400px] lg:w-[500px] z-0 transform-gpu pointer-events-none opacity-60">
-              <svg width="670" height="890" viewBox="0 0 670 890" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g className="vs-letters">
-                  <path d="M121.401 143.415L154.636 231.936L138.756 231.936L113.852 159.161L113.504 159.161L88.5132 231.936L72.807 231.936L105.955 143.415L121.401 143.415Z" 
-                    className="text-theme-accent" fill="currentColor" />
-                  <path d="M381.518 541.306C307.247 541.306 251.322 505.281 296.463 476.261L246.845 465.156H263.259L313.091 476.261C267.949 496.833 317.266 526.945 381.305 526.945C419.462 526.945 445.469 508.15 445.469 480.907V480.696C445.469 457.254 431.613 445.217 396.013 436.98L365.104 429.8C322.896 420.086 303.498 402.98 303.498 374.259V374.047C303.498 339.202 335.047 314.493 378.96 314.493C424.365 314.493 453.995 340.469 458.472 379.538L458.685 381.439H442.697L442.484 379.961C438.221 349.128 414.346 328.854 378.96 328.854C344.426 328.854 320.125 347.649 320.125 373.836V374.047C320.125 394.955 334.407 407.203 370.007 415.44L400.916 422.62C444.403 432.757 462.309 449.44 462.309 479.851V480.062C462.309 516.175 428.628 541.306 381.518 541.306Z" 
-                    className="text-theme-accent" fill="currentColor" />
-                </g>
-              </svg>
-            </div>
 
             <div className="container mx-auto px-4 relative z-10">
               <div className="max-w-6xl mx-auto pt-4 sm:pt-0">
@@ -802,7 +791,7 @@ const VerticalShortcutLanding = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col md:flex-row bg-theme-primary/5 dark:bg-theme-primary/5 p-8 md:p-12 rounded-3xl">
+                <div className="flex flex-col md:flex-row bg-theme-primary/10 dark:bg-theme-primary/10 p-8 md:p-12 rounded-3xl border border-theme-border-light/30 shadow-theme-md">
                   <div className="md:w-1/2 mb-8 md:mb-0 md:pr-8">
                     <VSHeading
                       as="h3"
@@ -841,7 +830,7 @@ const VerticalShortcutLanding = () => {
                     />
                   </div>
 
-                  <div className="md:w-1/2 md:border-l md:pl-8 border-theme-border-light">
+                  <div className="md:w-1/2 md:border-l md:pl-8 border-theme-border-light/50">
                     <VSHeading
                       as="h3"
                       size="lg"
@@ -849,55 +838,55 @@ const VerticalShortcutLanding = () => {
                     >
                       Next Cohort Details
                     </VSHeading>
-                    <div className="space-y-4 p-6 rounded-3xl bg-theme-primary/5 dark:bg-theme-primary/5">
-                      <div className="flex items-start p-3 rounded-2xl bg-theme-primary/10 dark:bg-theme-primary/10">
-                        <div className="w-10 h-10 rounded-full bg-theme-primary/20 flex items-center justify-center mr-4 flex-shrink-0">
-                          <Calendar className="h-5 w-5 text-theme-primary" />
-                  </div>
+                    <div className="space-y-4 p-6 rounded-3xl bg-theme-bg-light/40 dark:bg-theme-primary/20 border border-theme-border-light/30 shadow-theme-sm">
+                      <div className="flex items-start p-4 rounded-2xl bg-theme-primary/10 dark:bg-theme-primary/10 hover:bg-theme-primary/15 dark:hover:bg-theme-primary/25 transition-colors border border-theme-border-light/20">
+                        <div className="w-12 h-12 rounded-full bg-theme-primary/20 flex items-center justify-center mr-4 flex-shrink-0 shadow-theme-sm">
+                          <Calendar className="h-6 w-6 text-theme-primary" />
+                        </div>
                         <div>
-                          <VSText className="font-medium text-theme-primary">
+                          <VSText className="font-medium text-theme-primary text-lg">
                             Start Date
                           </VSText>
                           <VSText className="text-theme-secondary">
                             April 25th, 2025
                           </VSText>
-                  </div>
-                </div>
+                        </div>
+                      </div>
 
-                      <div className="flex items-start p-3 rounded-2xl bg-theme-primary/10 dark:bg-theme-primary/10">
-                        <div className="w-10 h-10 rounded-full bg-theme-primary/20 flex items-center justify-center mr-4 flex-shrink-0">
-                          <Users className="h-5 w-5 text-theme-primary" />
-                  </div>
+                      <div className="flex items-start p-4 rounded-2xl bg-theme-primary/10 dark:bg-theme-primary/10 hover:bg-theme-primary/15 dark:hover:bg-theme-primary/25 transition-colors border border-theme-border-light/20">
+                        <div className="w-12 h-12 rounded-full bg-theme-primary/20 flex items-center justify-center mr-4 flex-shrink-0 shadow-theme-sm">
+                          <Users className="h-6 w-6 text-theme-primary" />
+                        </div>
                         <div>
-                          <VSText className="font-medium text-theme-primary">
+                          <VSText className="font-medium text-theme-primary text-lg">
                             Class Size
                           </VSText>
                           <VSText className="text-theme-secondary">
                             Limited to 20 students
                           </VSText>
-                  </div>
-                </div>
+                        </div>
+                      </div>
 
-                      <div className="flex items-start p-3 rounded-2xl bg-theme-primary/10 dark:bg-theme-primary/10">
-                        <div className="w-10 h-10 rounded-full bg-theme-primary/20 flex items-center justify-center mr-4 flex-shrink-0">
-                          <Clock className="h-5 w-5 text-theme-primary" />
-                  </div>
+                      <div className="flex items-start p-4 rounded-2xl bg-theme-primary/10 dark:bg-theme-primary/10 hover:bg-theme-primary/15 dark:hover:bg-theme-primary/25 transition-colors border border-theme-border-light/20">
+                        <div className="w-12 h-12 rounded-full bg-theme-primary/20 flex items-center justify-center mr-4 flex-shrink-0 shadow-theme-sm">
+                          <Clock className="h-6 w-6 text-theme-primary" />
+                        </div>
                         <div>
-                          <VSText className="font-medium text-theme-primary">
+                          <VSText className="font-medium text-theme-primary text-lg">
                             Time Commitment
                           </VSText>
                           <VSText className="text-theme-secondary">
                             4 hours per week
                           </VSText>
-                  </div>
-                </div>
-              </div>
+                        </div>
+                      </div>
+                    </div>
 
                     <VSCard
-                      className="mt-8 p-4 rounded-3xl bg-theme-primary/5 dark:bg-theme-primary/5"
+                      className="mt-8 p-4 rounded-3xl bg-theme-accent/10 dark:bg-theme-accent/10 border border-theme-accent/20 shadow-theme-sm"
                     >
                       <VSText className="text-theme-accent font-medium flex items-center justify-center">
-                        <Clock className="h-4 w-4 mr-2" />
+                        <Clock className="h-5 w-5 mr-2" />
                         Applications closing soon
                       </VSText>
                     </VSCard>
